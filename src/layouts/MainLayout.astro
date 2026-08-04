@@ -1,13 +1,12 @@
 ---
 import { Image, getImage } from "astro:assets";
-import Bg from "../assets/bg.png";
 import bgConfig from "../assets/bg.json";
 import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
 import { BRAND_NAME, BRAND_TEXT, brandProfile, fontStack, iconVersion, usesGoogleFonts } from "../lib/brandProfile";
 import { canonicalFor } from "../lib/schema";
-import Navbar from "../components/NavbarCyber.astro";
-import Footer from "../components/FooterCyber.astro";
+import Navbar from "../components/NavbarStyle4Black.astro";
+import Footer from "../components/FooterStyle3.astro";
 
 // Only banner1 is ever rendered, so only banner1 is imported.
 //
@@ -35,8 +34,8 @@ const mainBannerPath = bannerPaths.find((path) => path.endsWith(".webp")) ?? ban
 const mainBanner = bannerImages[mainBannerPath].default;
 
 const {
-  title = "WINSIAM88 รีวิวเว็บหลัก คาสิโน 13 ค่าย มาตราฐานสากล ฝากถอนออโต้",
-  description = "รีวิว WINSIAM88 เว็บหลักรวมสล็อต คาสิโน กีฬา และเกมกว่า 13 ค่าย ใช้กระเป๋าเดียว ฝากถอนออโต้ พร้อมตรวจโปรโมชั่น ระบบสมาชิก และทางเข้าก่อนใช้งาน ครบจากจุดเดียว",
+  title = "UFA24K คาสิโนมือถือ ฝากถอนปลอดภัย ทีมงานแนะนำ 24 ชม.",
+  description = "UFA24K บริการเกมคาสิโนออนไลน์ เข้าระบบเล่นง่ายบนมือถือ ฝากถอนออโต้ปลอดภัย รองรับสล็อต บาคาร่า และคาสิโนสด ใช้งานง่าย ทีมงานดูแลให้คำแนะนำตลอดการเดิมพัน",
   robots = "index, follow",
 } = Astro.props;
 
@@ -73,6 +72,17 @@ const ImageOg = ogRendered.src;
 // which fails the build with "Expected ) but found $$render".)
 const bgMode = (bgConfig as { mode?: string }).mode ?? "image";
 const bgCss = bgMode === "color" ? `background-color:${(bgConfig as { color?: string }).color};` : bgMode === "gradient" ? `background-image:${(bgConfig as { css?: string }).css};` : null;
+
+// Glob'd, not a static `import Bg from "../assets/bg.png"`, for the same reason
+// banner1 is glob'd (see the comment above bannerImages): a static import is an
+// EMITTED file whether or not anything renders it. When bgMode is "color" or
+// "gradient" the <Image> branch below never runs, so a leftover bg.png from a
+// previous brand's asset drop must not be forced into the bundle just because
+// this file's name is referenced somewhere. Glob only matches files that exist
+// on disk, so once a stale bg.png is deleted there is nothing left to emit.
+const bgImages = import.meta.glob<{ default: ImageMetadata }>("../assets/bg.{png,webp,jpg,jpeg}", { eager: true });
+const bgPaths = Object.keys(bgImages);
+const Bg = bgPaths.length > 0 ? bgImages[bgPaths[0]].default : null;
 
 // canonicalFor() is the same function every JSON-LD URL goes through, so the
 // canonical and the structured data cannot drift apart (see src/lib/schema.ts).
@@ -143,7 +153,7 @@ const profile = brandProfile(Astro.site);
 
           {block === "appmeta" && (
             <Fragment>
-              {profile.showAppTitle && <meta name="apple-mobile-web-app-title" content="winsiam88" />}
+              {profile.showAppTitle && <meta name="apple-mobile-web-app-title" content="ufa24k" />}
               <link rel="manifest" href="/site.webmanifest" />
             </Fragment>
           )}
@@ -185,7 +195,7 @@ const profile = brandProfile(Astro.site);
         background-attachment: fixed;
         background-repeat: no-repeat;
         margin: 0;
-        background-color: #0a1207;
+        background-color: #0a0603;
         font-weight: 400;
         font-family: var(--font-sans) !important;
       }
@@ -197,6 +207,7 @@ const profile = brandProfile(Astro.site);
       bgCss ? (
         <div class="fixed inset-0 -z-50 h-full w-full bg-cover bg-center" style={bgCss} />
       ) : (
+        Bg && (
         <Image
           src={Bg}
           alt=""
@@ -209,12 +220,13 @@ const profile = brandProfile(Astro.site);
           quality="low"
           decoding="async"
         />
+        )
       )
     }
 
     <Navbar />
 
-    <div class="mb-2.5 flex w-full items-center justify-center">
+    <div class="mb-2 flex w-full items-center justify-center">
       {/* The LCP element. sizes must describe how wide it is DRAWN, and it is
           drawn full-bleed at every breakpoint — the old "(max-width: 768px)
           412px" claimed 412 px on mobile, so a DPR-2 phone needed 824 and the
@@ -227,7 +239,7 @@ const profile = brandProfile(Astro.site);
           benefit here, since the image is already fetchpriority="high". */}
       <Image
         src={mainBanner}
-        alt="แบนเนอร์ WINSIAM88 เว็บพนันระดับพรีเมียม ฝากออโต้ด้วยระบบทันสมัย รวมสล็อต คาสิโนสด บาคาร่า และเกมยอดนิยมในเว็บเดียว สมัครง่าย ระบบเสถียร ฝากถอนอัตโนมัติ ดูแลตลอด 24 ชั่วโมง"
+        alt="แบนเนอร์ UFA24K คาสิโนมือถือ ฝากถอนออโต้ปลอดภัย รวมคาสิโนสด บาคาร่า สล็อต และกีฬาในเว็บเดียว สมัครง่าย ระบบเสถียร ทีมงานดูแลลูกค้าตลอด 24 ชั่วโมง"
         loading="eager"
         fetchpriority="high"
         widths={[412, 640, 828, 1024, 1280, 1600, 1900]}

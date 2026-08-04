@@ -30,10 +30,10 @@ export default defineConfig({
   },
 
   redirects: {
-    "/line": "https://tinyurl.com/suhng",
+    "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://winsiam88-homepage.com",
+  site: "https://ufa24k-vip.net",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship

@@ -3376,3 +3376,191 @@ ContentBoxPremium / ContentBoxNeumorphism กลับไปเป็น invento
   บรรทัดเดียว และ privacy ยังตรงกับความจริงของ build (static ไม่มี analytics ไม่มี pixel)
 - `account_id` ใน wrangler.toml ไม่แตะตามกฎ
 - prettier drift ที่มีอยู่ก่อนแล้วไม่ได้ไล่จัดใหม่
+
+## 2026-08-04 — รีแบรนด์ WINSIAM88 → UFA24K (คาสิโนมือถือ, ทองหรูล้วนบนดำ) — 3-agent ขนาน
+
+### เป้าหมาย
+
+รีแบรนด์และรีธีมทั้งเว็บจาก WINSIAM88 เป็น **UFA24K** พร้อมโดเมนจริง
+`https://ufa24k-vip.net` สั่งงานมาแบบ "ทำแบบขนานตาม playbook — หยุดที่ build +
+verify เท่านั้น ห้าม deploy และห้าม git push" รันเป็น 3-agent ขนานตาม SKILL แล้ว
+จบที่ Phase 6 (ไม่ deploy ไม่ commit ไม่ push)
+
+### อินพุตของแบรนด์
+
+- `src/assets/content.txt` (uploader แตกจาก docx ให้แล้ว) — H1 x1, H2 x4 (สั้นกว่า
+  รอบก่อนๆ มาก — สั้นพอที่จะใช้กฎ "SevenThree ครั้งเดียวถ้า docx สั้น")
+- `palette.json`: logo.webp vivid = ทองอ่อน #fcf3ab / #ebbc4c / #9a6d25 / #845a23 /
+  #744b1b — ไม่มีสีอื่นปนเลย, banner1/slide1 dominant = ดำเกือบสนิท #020201,
+  vivid = บรอนซ์เข้ม #34230c
+- อาร์ตเวิร์กจริง: โลโก้มงกุฎ+ลายสก๊อลตัว UFA24K สีทองบนพื้นขาว, แบนเนอร์/สไลด์เป็น
+  คาสิโนหรูพื้นดำ (รูเล็ต ชิปโป๊กเกอร์ ไพ่ มือถือแสดงยอดเงิน) สรุปเป็น แบรนด์ทอง
+  เฉดเดียวล้วนบนดำ ไม่มีสีรอง (ต่างจาก WINSIAM88 ที่เป็นทอง+เขียวมรกต)
+
+### พาเลตต์ (WINSIAM88 เก่า → UFA24K ใหม่)
+
+เนื้อความ #dfeacf → #f0e6c8 | ทองอ่อน/ไฮไลต์ #f5cf4d → #fcf3ab | ทองหลัก #d4a017 →
+#ebbc4c | ทองเข้ม #9a7112 → #9a6d25 | สีเสริม (เขียว) #4d7c0f → บรอนซ์เข้ม #744b1b |
+สีเสริมสว่าง (เขียวมะนาว) #a3e635 → ใช้ทองหลักซ้ำ #ebbc4c (แบรนด์นี้เฉดเดียว) |
+พื้นการ์ด #0b1408 → #120d06 | พื้นการ์ด hover #122010 → #1c140a | พื้นหน้าเว็บ
+#0a1207 → #0a0603 | ตัวอักษรบนปุ่มทอง #0f1a06 → #241705 | glow หลัก
+rgba(212,160,23) → rgba(235,188,76) | glow เสริม rgba(163,230,53) →
+rgba(154,109,37)
+
+### การหมุน variant (ต้องต่างจากแบรนด์ก่อนหน้า)
+
+- Navbar: NavbarCyber → NavbarStyle4Black (เดิมแดง-สกิว จาก BESTCLUB88 leftover
+  รีธีมเป็นทองดำ, รวมเมนู desktop+mobile ที่แยกกันเป็น links const เดียว)
+- Footer: FooterCyber → FooterStyle3 (เดิมทอง-โครมเงินของ UFAG8 คำโปรยเป็นฟุตบอล
+  เขียนใหม่ทั้งคำโปรยและ CTA ให้เป็นคาสิโน)
+- Announcement: Announcement2 → Announcement6 (เดิม default message เป็นของ
+  UFAG8 เว็บกีฬา ตั้ง message ใหม่ทั้งหมด)
+- LatestWinners: LatestWinners4 → LatestWinners2 (ดูบั๊กข้อ 1 ด้านล่าง — เอเจนต์
+  แลนดิ้งเลือกผิดเป็น LatestWinners4 ซ้ำของเดิม orchestrator แก้กลับ)
+- Faq: Faq3 → Faq4 (เหตุผลเดียวกับข้างบน — Faq4 เดิมเป็นธีมนีออนชมพู/ฟ้าของ
+  TUNGMA168 รีธีมเป็นทองดำ)
+- ContentBox mix: CyberCut+FloatingBadge+plain+Special (WINSIAM88) →
+  Premium+plain+Special+Neumorphism (SevenThree: CyberCut+FloatingBadge (2 ตัว)
+  → Premium ตัวเดียว เพราะ docx สั้น)
+- BRAND_FONT: google-sans → kanit
+- BRAND_TEXT: #dfeacf → #f0e6c8
+
+ไม่มีตระกูลไหนอยู่ตัวเดิม — หมุนครบทุกช่อง (หลัง orchestrator แก้บั๊ก LatestWinners/Faq
+ที่เอเจนต์เลือกซ้ำของเดิมแล้ว)
+
+### โครงงานขนาน
+
+- P0/P1 (orchestrator) — อ่าน docx + palette + รูปจริง (Read เห็นโลโก้มงกุฎ/สไพด์
+  และแบนเนอร์รูเล็ต-ไพ่-ชิป), เลือก variant, เขียน brand spec ไว้นอกรีโป
+  (C:\Users\savad\ufa24k-brand-spec.md) แล้วรีธีม shared chrome เองก่อน fan-out:
+  brandProfile.ts, astro.config.mjs, wrangler.toml, public/site.webmanifest,
+  MainLayout.astro, NavbarStyle4Black, FooterStyle3, Navfoot, ContentBox,
+  Announcement6, ContentBoxPremium (ตัวหลังนี้เพราะ contact-us/promotion ใช้
+  ContentBoxCyberCut ร่วมกับ index.astro มาก่อน — swap เป็น Premium ให้ทั้ง 2 หน้า
+  ที่ agent อื่นเป็นเจ้าของ เพื่อไม่ให้ agent ต้อง retheme ไฟล์ shared เอง)
+- Agent A — index.astro + component เฉพาะหน้าแรก 12 ตัว (recursive: LoginRtpSection
+  → ContentBoxTwo ด้วย)
+- Agent B — contact-us, promotion, about-us (หน้า preset ที่ uploader scaffold
+  จาก ทางเข้า.astro ไว้ยังมี TODO(rebrand) ค้าง)
+- Agent C — ทดลองเล่น, ทางเข้า, login, register, 404, terms, privacy
+
+ไม่มีไฟล์ไหนถูกแตะโดยสองเอเจนต์พร้อมกัน — ยืนยันจาก git status หลังรวมงาน (ไฟล์ที่ถูก
+แก้ตรงกับรายชื่อที่แต่ละ agent รายงานเป๊ะ)
+
+### บั๊ก/กับดักที่เจอรอบนี้
+
+1. Agent A เลือก LatestWinners4/Faq3 ซ้ำของ WINSIAM88 (แบรนด์ที่กำลังออก) ทั้งที่
+   brand spec สั่งให้ใช้ LatestWinners2/Faq4 — เอเจนต์ตีความ instruction เฉพาะทาง
+   เทคนิค (data-winner-* hooks, details pattern) ในบรีฟว่าเป็นการ override ตัวเลือก
+   จาก brand spec โดยไม่ตั้งใจ ทั้งที่กฎ Phase 2 ชัดเจนว่าห้ามซ้ำ variant ของแบรนด์
+   ก่อนหน้าแม้แต่ตัวเดียว orchestrator ตรวจพบจาก final report ของเอเจนต์เอง (บอกว่า
+   เก็บ LatestWinners4/Faq3 ไว้ ต่างจาก spec ควรเช็กกับเจ้าของ spec) แก้ไขโดย swap
+   import ใน index.astro กลับเป็น LatestWinners2/Faq4 แล้วรีธีมทั้งสองไฟล์เอง
+   (LatestWinners2.astro เดิมเป็นธีมไอวอรีสว่างของ WINUP888, Faq4.astro เดิมเป็น
+   นีออนชมพู/ฟ้าของ TUNGMA168 — ทั้งคู่รีธีมเป็นทองดำเรียบร้อย) บทเรียนสำหรับรอบหน้า:
+   บรีฟของ fan-out agent ที่ยกตัวอย่างเทคนิคเฉพาะของ component ที่เดิมถูก wire ไว้
+   ต้องระบุชัดว่าเป็นตัวอย่าง pattern ไม่ใช่คำสั่งให้คงไฟล์เดิม ไม่งั้น agent จะตีความ
+   เป็นการยืนยันให้ใช้ไฟล์เดิม
+2. src/layouts/MainLayout.astro import Bg จาก ../assets/bg.png แบบ static ไม่มี
+   เงื่อนไข ทั้งที่ render จริงแค่ตอน bg.json mode เป็น image รอบนี้ uploader ตั้ง
+   bg.json เป็น mode gradient (เหมาะกับอาร์ตเวิร์กทองดำล้วน ไม่มีรูปพื้นหลัง) แต่
+   bg.png ที่ค้างอยู่ใน src/assets เป็นไฟล์เก่าจากแบรนด์ก่อน (mtime ตรงกับ
+   slide3/slide4 ที่ค้าง ไม่ใช่ของรอบนี้) — static import ทำให้ Vite ฝัง asset
+   632 KB ลง dist/_astro อยู่ดีทั้งที่ไม่มีหน้าไหน render เลย เหมือนบั๊ก banner*
+   ที่ CLAUDE.md อธิบายไว้เป๊ะ (verify-build.mjs ERROR ใหม่ที่ไม่เคยเจอมาก่อนเพราะ
+   ทุกแบรนด์ก่อนหน้าใช้ bg.json mode image มาตลอด) แก้โดย (a) เปลี่ยน import Bg
+   from "../assets/bg.png" เป็น import.meta.glob บน bg.{png,webp,jpg,jpeg} eager
+   true แบบเดียวกับ banner1 — glob match เฉพาะไฟล์ที่มีอยู่จริงบนดิสก์ ไม่ใช่ import
+   ตายตัว (b) ลบ src/assets/bg.png ที่เป็นของเก่าค้างทิ้งจริงๆ ตอนนี้ (c) render
+   branch ของ Image src Bg เช็ก Bg ก่อน เผื่อแบรนด์ไหนไม่มีทั้ง gradient/color mode
+   และไม่มีไฟล์ bg เลย จะได้ไม่พังแทนที่จะ throw
+3. index.astro's pageDescription เป็นข้อความ docx ตรงตัว 127 ตัวอักษร ต่ำกว่าพื้น 150
+   ของ verify-build.mjs (ERROR ไม่ใช่ warning) — Agent A ก็อปข้อความ docx มาตรงๆ
+   โดยไม่ต่อความยาว (เจอซ้ำเป็นรอบที่ 3 แล้วหลัง MIRACLE55/WINSIAM88 — คุ้มที่จะเพิ่ม
+   เป็นเช็คลิสต์ชัดๆ ใน SKILL ให้ agent ทุกตัวนับความยาวก่อนส่งงาน ไม่ใช่แค่
+   orchestrator ตรวจตอน build) แก้เป็น 151 ตัวอักษรโดยเติมประโยคระบุประเภทเกม
+   (สล็อต บาคาร่า คาสิโนสด) ที่ยังตรงกับ docx เดิม ไม่ได้ปั้นข้อมูลใหม่
+4. about-us.astro ที่ uploader scaffold ไว้ clone frontmatter จาก ทางเข้า.astro มา
+   breadcrumb/schema name ยังเป็น ทางเข้า อยู่ทั้งที่หน้าเป็น about-us — Agent B
+   แก้ไขให้ตรงกับหน้าเรียบร้อย และเพิ่ม script type application/ld+json ที่ขาดหายไป
+   (คำนวณ graph ไว้แต่ไม่เคย render)
+5. /about-us ไม่มีลิงก์ในเมนู — Agent B รายงานถูกต้องว่าไม่แตะ navbar (shared chrome
+   นอกสโคปของตัวเอง) orchestrator เพิ่มลิงก์เกี่ยวกับเราเข้า NavbarStyle4Black.astro's
+   links const เอง (ทั้ง desktop + mobile ผ่าน const เดียวกัน)
+6. slide3.png/slide4.png เป็นของเก่าจากแบรนด์ก่อน (ตรวจ mtime เก่ากว่า
+   slide1/slide2/banner1 ของรอบนี้ ~1 ชม.) — เตือนไว้ล่วงหน้าใน brand spec ก่อน
+   fan-out เลย ไม่เกิดปัญหา: index.astro เดิม import slide4.png เป็น imgWheel
+   (Agent A ตัดออก) และ promotion.astro เดิม import pro1..pro4 จาก
+   slide1..slide4.png (Agent B ตัด pro3/pro4 ออก ปรับ grid เหลือ 2 โปรโมชั่นจริง
+   แนะนำเพื่อน 0.8% + คืนยอดเสีย 0.3%)
+7. ContentBoxCyberCut เดิมใช้ร่วมกันระหว่าง index.astro (Agent A) กับ
+   contact-us.astro/promotion.astro (Agent B) — ถ้าปล่อยให้แต่ละ agent ตัดสินใจ
+   จะเสี่ยงชนกันที่ไฟล์ component เดียวกัน orchestrator ดึงเข้า P1 ก่อน fan-out
+   (retheme ContentBoxPremium แทน แล้วสั่งให้ B swap import บรรทัดเดียวในหน้าตัวเอง)
+   ไม่มีการชนไฟล์เกิดขึ้นจริง
+
+### การ verify ที่ทำจริง
+
+- npm run build 2 รอบ (รอบแรกเจอ error bg.png + description สั้นตามข้อ 2-3 ด้านบน,
+  รอบสองผ่านสะอาด) — 11 หน้า build ผ่าน, verify-build.mjs 0 error 0 warning
+- heading inventory ทุกหน้า diff กับ docx checklist ทีละบรรทัด: หน้าแรก 1×h1 + 4×h2
+  ตรงกับ docx เป๊ะ (ตามลำดับ) บวก 2 ส่วนเสริมที่ไม่ใช่ docx ต่อท้าย (โบนัสแนะนำเพื่อน,
+  FAQ) ไม่ได้แทรกกลางเนื้อหา docx, h3×3 เป็น sub-step ของ FeatureHighlights
+  (ข้อยกเว้นที่ SKILL อนุญาต) หน้าอื่นทั้งหมด h3×0 ตามที่ docx เป็น H1+H2 แบบแบน
+- route ที่ build ออกมาตรงกับชนิดแบรนด์: ไม่มี /ตรวจหวย และ /แนวทาง (แบรนด์คาสิโน
+  ไม่ใช่หวย ทั้งสองไฟล์ยังอยู่ใน src/pages-disabled/ ตามเดิม ไม่ต้องแก้)
+- grep dist/ หาชื่อแบรนด์เก่าทั้งหมด (WINSIAM88/MIRACLE55/TUNGMA168/UFAG8/SUDYOD888/
+  PRODED888/PAY69/UFAYES/MAHORANLOTTO/GSYBET/WINUP888/LAPDEE88) = 0
+- grep dist/ หาเฉดเขียว-ทองเดิมของ WINSIAM88 (dfeacf f5cf4d d4a017 9a7112 4d7c0f
+  a3e635 0b1408 122010 0f1a06 0a1207) = 0
+- grep dist/ หา slide3/slide4 (ของเก่าค้าง) = 0
+- ไม่มี banner.png/banner2/banner3/bg.png ถูก emit เข้า dist/_astro เลย (แก้บั๊ก
+  bg.png แล้วยืนยันซ้ำหลัง build รอบสอง)
+- HTML comment ในทุกหน้า dist = 0
+- ไม่มี undefined / [object Object] หลุดในหน้าไหนเลย
+- TODO(rebrand) / อยู่ระหว่างปรับปรุงเนื้อหา / อยู่ระหว่างจัดทำเนื้อหา = 0 หลุด
+- contact address: ระบุ "ฝ่ายบริการลูกค้า UFA24K, อำเภอเมืองแม่ฮ่องสอน จังหวัด
+  แม่ฮ่องสอน 58000" ถูก derive จาก BRAND_NAME อัตโนมัติ, address ปรากฏเฉพาะหน้า
+  contact-us หน้าเดียวในทั้ง dist/
+- og:image = https://ufa24k-vip.net/_astro/og.*.jpeg (ไม่ใช่ path ใน public/)
+- canonical ทุกหน้าอยู่บนโดเมนใหม่ https://ufa24k-vip.net
+- description ทุกหน้า indexable อยู่ในช่วง 150–157 ตัวอักษร (151/155/157/155/155/
+  153/150/154) หน้า login/register (noindex) อยู่ที่ 154/156 เกินพื้นด้วยเช่นกัน
+- wrangler.toml name = "ufa24k" (ไม่ซ้ำกับแบรนด์ไหนในประวัติ) account_id ไม่แตะ,
+  workers_dev/not_found_handling ไม่แตะ
+- FAQ render ครบ 5 ข้อ เป็น details/summary ไม่มี script ผูก accordion
+- LatestWinners2 server-render แถวแรกมาแล้ว 4 แถว (2×2 grid), data-winner-* hooks
+  ครบ ไม่มี define:vars ไม่มี Math.random() ใน frontmatter
+- navbar: ลิงก์ 6 เมนู (หน้าแรก/โปรโมชั่น/ทดลองเล่น/ทางเข้า/เกี่ยวกับเรา/ติดต่อเรา)
+  x 2 ชุด (desktop + mobile ผ่าน links const เดียวกัน) = 12 คู่ ไอคอนอยู่ใน span
+  aria-hidden แยกจาก label ทุกคู่
+- ไม่มี FloatingBadge ถูกใช้รอบนี้ (มิกซ์ ContentBox ไม่รวม FloatingBadge) ไม่ต้อง
+  เช็ก vertical clearance
+- เปิด npm run dev แล้ว curl หน้าแรกจริง ตรวจซ้ำว่า WINSIAM88 = 0 hit, UFA24K = 38
+  hit แล้วปิด dev server ด้วย Get-NetTCPConnection -LocalPort 8888 (ไม่ใช้ taskkill
+  ทั้งเครื่อง) ปิดสำเร็จ
+
+### ไม่ได้แตะ (out of scope)
+
+- ไม่ได้ deploy ไม่ได้ commit ไม่ได้ push ตามที่ผู้สั่งงานระบุชัดเจน งานทั้งหมดยังเป็น
+  working tree อยู่บน branch main
+- component variant ที่ไม่ได้ import (Navbar/Footer/Announcement/LatestWinners/
+  ContentBox ตัวอื่นที่เหลือ รวมถึง LatestWinners4.astro/Faq3.astro ที่ Agent A
+  รีธีมไว้ก่อนถูก swap ออก — ทั้งสองไฟล์เลยกลายเป็น inventory ที่มีสีทองใหม่แทนสีเขียว
+  เดิมของ WINSIAM88 ซึ่งเป็นผลพลอยได้ ไม่ใช่ของเสีย) ยังเป็น inventory สำหรับแบรนด์ถัดไป
+- Announcement2.astro/NavbarCyber.astro/FooterCyber.astro (ของ WINSIAM88) ไม่มี
+  หน้าไหน import แล้ว ยังเป็นสีเขียวเดิม inventory ตามธรรมเนียม
+- src/assets/banner.png banner2.png banner3.png ยังอยู่ในโฟลเดอร์ (ไม่ถูก import
+  ตั้งแต่ก่อนรอบนี้) ปล่อยไว้ตามธรรมเนียมรีโป
+- slide3.png/slide4.png ของเก่าค้าง (ดูบั๊กข้อ 6) ไม่ลบ ไม่ import แล้วทั้งคู่
+- contact-line.webp ยังเป็นภาพ presenter โทนชมพู/มาเจนต้าของ template เดิม ไม่มี
+  อาร์ตเวิร์กใหม่มาแทนรอบนี้ ไม่มีชื่อแบรนด์อื่นติดมา จึงไม่แตะ (ตามที่บันทึกไว้ทุกรอบ
+  ตั้งแต่ WINSIAM88)
+- gamedemo7-18.webp (ภาพตัวอย่างเกมทั่วไป ไม่ผูกแบรนด์) ไม่แตะ นอกจาก alt text
+- 404.astro / terms.astro / privacy.astro แก้ 0 บรรทัด ตรวจแล้วสะอาดผ่าน
+  BRAND_NAME/ContentBox ทั้งหมด privacy ยังตรงกับความจริงของ build (static ไม่มี
+  analytics ไม่มี pixel ไม่มี cookie banner)
+- account_id ใน wrangler.toml ไม่แตะตามกฎ
+- ตรวจหวย.astro/แนวทาง.astro อยู่ใน src/pages-disabled/ เหมือนเดิม (แบรนด์คาสิโน
+  ไม่ใช่หวย ไม่ต้องเปิด) ไม่ได้แตะลิงก์ใน footer/navbar ของหน้าเหล่านี้เพราะปิดอยู่แล้ว
+- prettier drift ที่มีอยู่ก่อนแล้วไม่ได้ไล่จัดใหม่
