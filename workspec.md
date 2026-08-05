@@ -3564,3 +3564,147 @@ rgba(154,109,37)
 - ตรวจหวย.astro/แนวทาง.astro อยู่ใน src/pages-disabled/ เหมือนเดิม (แบรนด์คาสิโน
   ไม่ใช่หวย ไม่ต้องเปิด) ไม่ได้แตะลิงก์ใน footer/navbar ของหน้าเหล่านี้เพราะปิดอยู่แล้ว
 - prettier drift ที่มีอยู่ก่อนแล้วไม่ได้ไล่จัดใหม่
+
+## 2026-08-05 — Rebrand: UFA24K → JOJO789 (parallel, 3-agent playbook)
+
+โจทย์: "rebrand and retheme to JOJO789 then real url is https://jojo-789.net
+ทำแบบขนานตาม playbook — หยุดที่ build + verify เท่านั้น ห้าม deploy และห้าม git
+push" (fired จาก tools/rebrand-uploader, ไม่มีใครเฝ้าหน้าจอ) รันตาม
+.claude/skills/rebrand-site/SKILL.md โหมด parallel เต็มรูปแบบ: orchestrator ทำ
+Phase 1 + P1 (shared chrome) เอง แล้ว fan-out เป็น 3 agent (A=index.astro,
+B=contact-us/login/register/promotion, C=privacy/terms/ทดลองเล่น/ทางเข้า/404)
+
+### Docx section inventory (src/assets/content.txt)
+Title/meta (1 บรรทัด) + H1 (1) + H2 x4 — flat, ไม่มี H3 ในต้นฉบับ นอกจาก H2#6
+ที่มี sub-list 3 ขั้นตอนซึ่งเข้าเงื่อนไขข้อยกเว้น FeatureHighlights ของ SKILL.md
+ครบทั้ง 5 หัวข้อ (H1+H2x4) ปรากฏใน index.astro ตามลำดับเดิม เนื้อหาเต็มไม่สรุปย่อ
+บวก 2 ส่วนเสริมนอก docx ต่อท้าย (โบนัสแนะนำเพื่อน SevenThree block, FAQ) ไม่แทรก
+กลางเนื้อหา docx
+
+### Family variant picks (before to after)
+- Font: kanit to google-sans
+- Navbar: NavbarStyle4Black (UFA24K, gold) to NavbarStyle7 (เดิมเป็นของ
+  CASHOT123 สีแดง/อำพัน — รีธีมเต็มเป็นทอง-ดำ JOJO789 ทั้งไฟล์ เพิ่มไอคอนเมนู
+  desktop ที่ไม่เคยมีมาก่อนด้วย aria-hidden span แยกจาก label)
+- Footer: FooterStyle3 (UFA24K) to FooterPremium (เดิมของ MIRACLE55 โทนทอง/
+  บรอนซ์ — รีธีมเป็นสีทองของ JOJO789 ตาม hex table ด้านล่าง)
+- Announcement: คงไว้ที่ Announcement6 (P1-shared ใช้ร่วม 6 หน้า) — เหตุผลที่
+  ไม่หมุน: ไฟล์นี้ผูกกับทุกหน้าพร้อมกัน การเปลี่ยนตัวแปรเป็นการตัดสินใจระดับ P1
+  ที่จะขยายสโคปงาน orchestrator เกินจำเป็นรอบนี้ (ตาม escape hatch ใน Phase 2
+  ที่ให้บันทึกเหตุผลเมื่อ reuse ตัวเดิม) — รีธีมสี + ข้อความ + badge "UFA24K" to
+  "JOJO789" ในไฟล์เดิมแทน
+- LatestWinners: LatestWinners2 to LatestWinnersPremium (Agent A รีธีมเต็ม
+  hue+ชื่อแบรนด์ที่ hardcode อยู่ใน JSX)
+- Faq: Faq4 to Faq3 (Agent A เขียนคำถามใหม่ 5 ข้อเฉพาะ JOJO789)
+- ContentBox mix: เดิม Premium-heavy (Premium x3 ใช้ร่วม index/contact-us/
+  promotion + plain + Special + Neumorphism + SevenThreePremium x1) to รอบนี้
+  ContentBoxPremium ยังอยู่ในไฟล์ P1-shared (contact-us.astro, promotion.astro
+  ยังใช้อยู่) แต่ index.astro เปลี่ยนมาใช้ CyberCut + FloatingBadge + plain +
+  Special + SevenThreeCyberCut x1 แทน (ไม่ใช้ Premium/Neumorphism อีกในหน้าแรก)
+
+### ไฟล์ที่แก้ (จัดกลุ่ม)
+**P1 shared chrome (orchestrator แก้เอง ก่อน fan-out):**
+- src/layouts/MainLayout.astro (import Navbar/Footer ใหม่, apple-mobile-web-
+  app-title เปลี่ยนจาก hardcode "ufa24k" เป็น {iconVersion}, banner alt text,
+  title/description default, bg color hex)
+- src/components/NavbarStyle7.astro, FooterPremium.astro (full rewrite —
+  ลบสีแดง/บรอนซ์เดิม ใส่ table hex ใหม่ + ชื่อแบรนด์)
+- src/components/Navfoot.astro, ContentBox.astro, ContentBoxPremium.astro,
+  Announcement6.astro (hex table swap; Announcement6 เพิ่มข้อความ+ชื่อแบรนด์)
+- src/lib/brandProfile.ts (BRAND_FONT/BRAND_NAME/BRAND_TEXT)
+- astro.config.mjs (site), wrangler.toml (name)
+- public/site.webmanifest (name/short_name/theme_color/background_color —
+  ไฟล์นี้ไม่มี agent ไหนเป็นเจ้าของโดยตรง หลุดจาก build รอบแรกเป็น error
+  UFA24K + hex เก่า orchestrator แก้เองหลัง build แรก)
+
+**Agent A (index.astro + recursive):** index.astro, ContentBoxCyberCut,
+ContentBoxFloatingBadge, ContentBoxSpecial, ContentBoxSevenThreeCyberCut,
+FeatureHighlights, GameRankingBoard, ReviewCardSumo2, SmoothCarousel,
+LatestWinnersPremium, Faq3
+
+**Agent B:** contact-us.astro, login.astro, register.astro, promotion.astro
+(promotion.astro: slide3/4 stale-import บั๊กที่คาดไว้ล่วงหน้าไม่พบจริง — ไฟล์
+ใช้ slide1/slide2 อยู่แล้วตั้งแต่ต้น ไม่ต้องแก้)
+
+**Agent C:** ทดลองเล่น.astro, ทางเข้า.astro (full sweep) — privacy.astro,
+terms.astro, 404.astro ตรวจแล้วสะอาด (brand-neutral โดย design ผ่าน
+BRAND_NAME + ContentBox ใช้ร่วม) แก้ 0 บรรทัดตามที่คาดไว้
+
+**Preset page decision:** src/pages/about-us.astro มีเนื้อหาเต็มของ UFA24K
+เดิม (ไม่ใช่ TODO scaffold) และไม่มีสัญญาณว่ารอบนี้ operator ขอเปิดใช้ —
+orchestrator ย้ายไป src/pages-disabled/about-us.astro ตามกฎ preset-page
+ไม่ต้องแก้ navbar/footer link เพราะทั้ง NavbarStyle7 และ FooterPremium (ตัวที่
+เลือกใช้รอบนี้) ไม่เคยมีลิงก์ /about-us อยู่แล้วตั้งแต่ต้น (มีแต่ NavbarStyle4Black
+เดิมที่ตอนนี้เป็น inventory)
+
+### Hex swap table ที่ใช้ (บันทึกไว้ให้รอบถัดไปไม่ชนกัน)
+#ebbc4c to #fced0b, #9a6d25 to #b38f00, #fcf3ab to #fff6b0, #f0e6c8 to
+#f4ecc9, #c9bda0 to #cfc199, #8b7f66 to #93876c, #0a0603 to #0c0900,
+#1c140a to #171200, #120d06 to #100c00, #241705 to #201800, #744b1b to
+#6b5300, #160f06 to #120e00 (+ rgba ของ #ebbc4c to rgba ของ #fced0b เก็บ
+alpha เดิม) NavbarStyle7/FooterPremium มีจานสีเดิมของแบรนด์อื่น (CASHOT123
+แดง, MIRACLE55 บรอนซ์) — map ไปที่ table เดียวกันนี้ทั้งคู่ ไม่ผสมสีเดิมของมัน
+เข้ากับ UFA24K
+
+### บั๊กที่เจอระหว่าง build และวิธีแก้
+1. wrangler.toml name="jojo789" (ตาม SKILL.md ข้อความที่บอกว่า derive จากชื่อ
+   แบรนด์) ตกไม่ผ่าน verify-build.mjs — script derive ชื่อที่คาดจาก โดเมน จริง
+   (SITE.hostname.split(/[-.]/)[0]) ไม่ใช่จากชื่อแบรนด์ — jojo-789.net คาดว่า
+   เป็น "jojo" ไม่ใช่ "jojo789" แก้เป็น name = "jojo" ตามที่ script ต้องการ
+   (นี่คือ authoritative check ตัวจริง ให้ยึดตามนี้ถ้าขัดกับคำอธิบายทั่วไปใน
+   SKILL.md)
+2. meta description ของ index.astro (JOJO789 เกมสล็อตออโต้เว็บตรง...) 129
+   ตัวอักษร ต่ำกว่าเกณฑ์ 150-160 — ต่อประโยคเพิ่ม "เล่นได้ทั้งมือถือและ
+   คอมพิวเตอร์" ได้ 160 ตัวอักษรพอดี
+3. public/site.webmanifest ค้าง UFA24K + hex เก่า (#ebbc4c/#0a0603) — ไม่มี
+   agent ไหนเป็นเจ้าของไฟล์นี้ในสโคปที่แจก เพราะไม่ใช่ src/pages หรือ
+   src/components orchestrator แก้เองหลัง build แรกเจอ (ไม่ใช่ error จาก
+   verify-build.mjs แต่เจอจาก grep dist/ เอง — verify script ไม่เช็คไฟล์นี้)
+
+### การ verify ที่ทำจริง
+- npm run build 3 รอบ (รอบแรกเจอ error wrangler name + description สั้น,
+  รอบสองผ่าน verify-build.mjs สะอาดแต่ยังไม่ได้เช็ค grep เอง, รอบสามหลังแก้
+  site.webmanifest ยืนยันซ้ำ) — 11 หน้า build ผ่าน, verify-build.mjs 0 error
+  0 warning ทั้งสองรอบหลัง
+- route ที่ build ออกมาตรงกับชนิดแบรนด์: ไม่มี /ตรวจหวย และ /แนวทาง (แบรนด์
+  สล็อต ไม่ใช่หวย ทั้งสองไฟล์ยังอยู่ใน src/pages-disabled/)
+- heading inventory ทุกหน้า diff กับ docx checklist: index.html 1xh1 + 6xh2
+  (4 จาก docx ตามลำดับ + 2 ส่วนเสริมต่อท้าย) + h3x8 (FeatureHighlights 3 ข้อ +
+  card titles อื่นที่ยกเว้นตาม SKILL.md) หน้าอื่นทั้งหมด h3x0 ตรงกับ docx ที่เป็น
+  H1+H2 แบบแบน
+- grep dist/ หา UFA24K = 0 hit (หลังแก้ site.webmanifest)
+- grep dist/ หา hex เก่าทั้ง 11 ค่าในตาราง = 0 hit
+- grep dist/ หา CASHOT123/MIRACLE55 (ของ NavbarStyle7/FooterPremium เดิม) = 0
+- HTML comment ใน dist/index.html = 0
+- undefined/NaN/[object Object]: เจอ "NaN" 1 hit ใน dist/index.html แต่เป็น
+  โค้ด JS ของ winnersFeed.ts เอง ไม่ใช่เนื้อหาหลุด — false positive ที่คาดไว้
+  ไม่ใช่บั๊ก
+- og:image = https://jojo-789.net/_astro/og.*.jpeg (asset จริง ไม่ใช่ path
+  ใน public/)
+- canonical ทุกหน้าอยู่บนโดเมนใหม่ https://jojo-789.net
+- description ทุกหน้า indexable อยู่ในช่วง 150-160 ตัวอักษร (160/160/156/
+  151/155/156/154)
+- contact address: "ฝ่ายบริการลูกค้า JOJO789, อำเภอเมืองพิษณุโลก จังหวัด
+  พิษณุโลก 65000" derive จาก BRAND_NAME อัตโนมัติ ปรากฏเฉพาะหน้า contact-us
+  หน้าเดียวในทั้ง dist/
+- FAQ (Faq3) render 5 ข้อเป็น details/summary ครบ
+- wrangler.toml name = "jojo" (ตรงกับที่ verify-build.mjs คาดจากโดเมน
+  jojo-789.net) account_id/workers_dev/not_found_handling ไม่แตะ
+- ไม่ได้เปิด dev server แยกเพิ่ม เพราะ grep dist/ ที่ build ออกมาครอบคลุมการ
+  ตรวจ HTML ที่ render จริงแล้วครบตาม Phase 5 checklist
+
+### ไม่ได้แตะ (out of scope)
+- ไม่ได้ deploy ไม่ได้ commit ไม่ได้ push ตามที่ผู้สั่งงานระบุชัดเจน งานทั้งหมดยัง
+  เป็น working tree อยู่บน branch main
+- ลบไฟล์ scratchpad BRAND_SPEC_JOJO789.md ทิ้งหลัง verify เสร็จ (ตามหมายเหตุ
+  ในไฟล์เองว่า "delete before final commit/PR")
+- component variant ที่ไม่ได้ import (NavbarStyle4Black เดิมของ UFA24K,
+  ContentBoxPremium/Neumorphism ที่ index.astro เลิกใช้แต่ contact-us/
+  promotion ยังใช้อยู่ ฯลฯ) ยังเป็น inventory ตามธรรมเนียม
+- src/assets banner.png/banner2/banner3/bg.png ไม่มีอยู่แล้วตั้งแต่ก่อนรอบนี้
+  (asset drop สะอาด)
+- gamedemo7-18.webp ไม่แตะนอกจาก alt text (Agent C ตรวจแล้วว่ามีอยู่จริงครบ)
+- account_id ใน wrangler.toml ไม่แตะตามกฎ
+- ตรวจหวย.astro/แนวทาง.astro อยู่ใน src/pages-disabled/ เหมือนเดิม (แบรนด์
+  สล็อต ไม่ใช่หวย ไม่ต้องเปิด)
+- prettier drift ที่มีอยู่ก่อนแล้วไม่ได้ไล่จัดใหม่
