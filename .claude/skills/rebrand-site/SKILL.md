@@ -520,13 +520,28 @@ the same one:
   surface most brands use, that is invisible rather than merely wrong, and
   `terms`/`privacy`/`404` name no colours at all by design, so all three go
   blank at once. `verify-build.mjs` fails the build if it goes missing.
-- **Contact address** — **there is nothing to do here.** `BRAND_ADDRESS` in
-  `src/lib/brandProfile.ts` derives itself from `BRAND_NAME`: the brand name
-  hashes into `src/lib/thaiProvinces.ts` (the real 77 provinces, each with its
-  capital district and postal code) and into a short list of desk names, giving
-  a two-line block that `/contact-us` renders and no other page does. Setting
-  `BRAND_NAME` at the top of this phase has already set the address. Do not
-  hand-write one, and do not "fix" the derivation to keep a previous value.
+- **Contact address and email** — **there is nothing to derive here.**
+  `BRAND_ADDRESS` in `src/lib/brandProfile.ts` derives itself from
+  `BRAND_NAME`: the brand name hashes into `src/lib/thaiProvinces.ts` (the real
+  77 provinces, each with its capital district and postal code) and into a short
+  list of desk names, giving a two-line block. `BRAND_ADDRESS.email` comes from
+  the same hash — a mailbox name (`support`/`contact`/`info`/`service`/`help`)
+  at the host taken from `site:` in `astro.config.mjs`, so it follows the domain
+  on its own and cannot point at a previous brand's. Setting `BRAND_NAME` at the
+  top of this phase has already set all of it. Do not hand-write either, and do
+  not "fix" the derivation to keep a previous value.
+
+  **The mailbox is not routed anywhere, and that is the owner's decision**
+  (2026-08-05): the line is there to be read, not written to, the same way the
+  address is there to be read and not visited. LINE remains the channel that
+  actually reaches a human, and it is on the page twice plus in the footer.
+  So do not raise it every rebrand, do not set up mail routing unasked, and do
+  not drop the line because it "doesn't work" — it is doing what it was asked
+  to do.
+
+  **Two places render it, and only two:** `/contact-us` (under the image, above
+  the buttons) and the **active footer**, which puts it on every page. Both read
+  the same export — never retype the lines into either one.
 
   That derivation **is** the safety property: an address pinned to anything
   other than `BRAND_NAME` would survive a rebrand that changed the name, and
@@ -554,8 +569,14 @@ the same one:
   unrelated brand domains is a machine-readable join key — the same thing the
   `sameAs` ban exists to prevent. `verify-build.mjs` fails the build on any
   address vocabulary (`PostalAddress`, `addressLocality`, `postalCode`, …)
-  inside a JSON-LD block, and again on an `<address>` element on any page
-  other than `/contact-us`.
+  inside a JSON-LD block. The email is under the same rule — no `email:` in
+  `pageGraph`, no `ContactPoint.email`.
+
+  Because the footer carries it, an `<address>` on every page is now expected
+  and is no longer an error. What replaced that check is stricter about the
+  thing that actually goes wrong: **every rendered `<address>` must contain the
+  current `BRAND_NAME`, and any email inside it must be at the host in `site:`**.
+  A block left over from the previous brand fails the build on both counts.
 
 If a family genuinely has no better-fitting alternative for this brand's
 mood and you must reuse the previous variant, say so explicitly in the
@@ -950,33 +971,103 @@ Phase 5 build covers all pages at once.) For each page:
    verify they carry **zero** old-brand-name references; only the theme
    is exempt, not the brand name. Note this decision in the workspec.
 
-### `/contact-us` carries no article body — image, address, buttons, nothing else
+### Two pages carry no article body — `/contact-us` and `/ทางเข้า`
 
-`contact-us.astro` is the one sub-page that is **not** an article. Its whole
-body is four things, in this order:
+Both are **button pages, not articles**: a visitor opens them to press
+something, and every paragraph above the buttons pushes them further down.
+Their whole body is, in order:
+
+**`contact-us.astro`**
 
 1. the `ContentBox` `title` (the page's single `<h1>`)
 2. the LINE image (`src/assets/contact-line.webp`)
-3. the `BRAND_ADDRESS` block
+3. the `BRAND_ADDRESS` block — lines, then `BRAND_ADDRESS.email` as a
+   `mailto:` link underneath
 4. the `สมัครสมาชิก` / `เข้าสู่ระบบ` / `ติดต่อผ่าน Line Official` button row
 
-**Do not add section headings or explanatory paragraphs here.** Not "ควรเตรียม
-ข้อมูลอะไรก่อนแจ้ง", not "ทักทีมงานทางไหน", not a PIN/OTP safety notice —
-however well-written. Someone opens this page to press a button, and every
-paragraph pushes those buttons further down.
+**`ทางเข้า.astro`**
 
-Where the copy keeps coming from: the docx **SUB-PAGES** section gives this page
-a `Title` and a `Meta` and **never a body**, so any prose you find here was
-invented by an earlier rebrand and then rewritten by every rebrand since,
-each one assuming the last one had a reason. It didn't. If the page you
-inherit has `<h2>`s and paragraphs, **delete them** — that is a fix, not a
-scope overrun.
+1. the `ContentBox` `title` (the page's single `<h1>`)
+2. the two-column `เข้าสู่ระบบ` / `สมัครสมาชิก` button grid
 
-Consequence for the Phase 5 inventory: `/contact-us` contributes **`h1×1`,
-`h2×0`, `h3×0`**. An `<h2>` on that page means this rule was missed.
+**Write no section headings and no explanatory paragraphs on either.** Not
+"ควรเตรียมข้อมูลอะไรก่อนแจ้ง", not "ตรวจ 4 จุดก่อนล็อกอิน", not a PIN/OTP
+safety notice — however well-written and however much the previous copy looks
+like it belongs.
+
+Where the copy keeps coming from: the docx **SUB-PAGES** section gives these
+pages a `Title` and a `Meta` and **never a body**, so any prose you find is
+something an earlier rebrand invented and every rebrand since has faithfully
+rewritten, each assuming the last one had a reason. It didn't. If the page you
+inherit has `<h2>`s and paragraphs, **delete them** — that is a fix, not a scope
+overrun.
+
+**Everything else on these pages stays**: the `Announcement`, the buttons and
+their icons, `Navfoot`, the `pageGraph` call, the `MainLayout` title and
+description. Only the headings and the prose come out. Retheme the buttons to
+the new palette as normal.
+
+Give the `<h1>` a title that names what the page **is** — "ทางเข้า
+`<BRAND>` เว็บหลัก", "ติดต่อทีมงาน `<BRAND>`". A title that previews an article
+("…ต้องตรวจ 4 จุดก่อนล็อกอิน") reads as a broken promise once the article is
+gone, and it is the line most likely to tempt the next rebrand into writing the
+body back.
+
+Consequence for the Phase 5 inventory: each contributes **`h1×1`, `h2×0`,
+`h3×0`**. An `<h2>` on either means this rule was missed.
 
 The other sub-pages are the opposite — they *are* articles and their headings
 come from their own body, per Phase 5.
+
+### The active footer carries the same contact block
+
+`Footer*` rotates every rebrand, and the block lives in the file, not in
+`MainLayout` — so **whichever footer you switch to, port it across**. Resolve
+the live one from `MainLayout.astro`'s `import Footer`. Every variant puts an
+`<a href="/line">` in a customer-service column; drop this immediately after
+that anchor, and add the import to the frontmatter:
+
+```astro
+import { BRAND_ADDRESS } from "../lib/brandProfile";
+```
+
+```astro
+{
+  BRAND_ADDRESS.lines.length > 0 && (
+    <address aria-label={BRAND_ADDRESS.label} class="mt-2 rounded-xl border border-white/15 bg-black/20 p-4 text-xs leading-relaxed not-italic opacity-90">
+      <p class="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-wider uppercase opacity-80">
+        <span aria-hidden="true" class="text-sm">📍</span>
+        {BRAND_ADDRESS.label}
+      </p>
+      {BRAND_ADDRESS.lines.map((line) => (
+        <span class="block">{line}</span>
+      ))}
+      {BRAND_ADDRESS.email && (
+        <a href={`mailto:${BRAND_ADDRESS.email}`} class="mt-3 inline-flex items-center gap-2 font-bold underline decoration-current/40 underline-offset-4 opacity-90 transition-opacity hover:opacity-100">
+          <span aria-hidden="true" class="text-sm">✉️</span>
+          {BRAND_ADDRESS.email}
+        </a>
+      )}
+    </address>
+  )
+}
+```
+
+**Paste it verbatim — do not theme it, and do not put a hex value in it.** It
+carries no brand colour on purpose: `border-white/15`, `bg-black/20` and
+`opacity` over the footer's inherited text colour land correctly on every
+variant in the library, which are all dark. Retyping it in this brand's palette
+buys nothing and is the exact move that leaves the previous brand's hex behind
+next time.
+
+Rules that bite here: the label is a `<p>` or `<span>`, **never a heading**
+(chrome may not take a heading tag, and the footer is on every page, so one
+`<h2>` there is an `<h2>` sitewide); keep `not-italic`, since browsers italicise
+`<address>` by default; and the 📍/✉️ glyphs go in their own
+`<span aria-hidden="true">`, never inside the text.
+
+Leaving it out is not a build failure — the check only fires on an address that
+names the *wrong* brand — so it is on you to confirm the footer renders it.
 
 **Lottery pages — normally the operator's switch, not yours.** `ตรวจหวย.astro`
 and `แนวทาง.astro` are routed only when they sit in `src/pages/`; Astro ignores
@@ -1535,14 +1626,16 @@ pointing at a `public/` path during a rebrand, repoint it to the
    - grep for `undefined`, `NaN`, `[object Object]` as a cheap check
      for broken prop plumbing
    - **contact address**: `grep -o '<address[^>]*>.*</address>'
-     dist/contact-us/index.html` must name **this** brand and a province,
-     and the previous brand's name must return no hits anywhere in
-     `dist/`. The build already enforces that the block appears on no
-     other page and in no JSON-LD; what it cannot check is that the name
-     inside it is the current one
-   - **`grep -c '<h2' dist/contact-us/index.html` must be `0`** — that page
-     is a button page, not an article (Phase 4.5). Any hit means prose was
-     written back into it; delete the prose, don't demote the tag
+     dist/contact-us/index.html` must name **this** brand, a province, and
+     an email at this brand's own host. The build now fails on a block that
+     names the wrong brand or an email at the wrong host, so what is left
+     for you to look at is that the footer renders it **at all** —
+     `grep -c '<address' dist/index.html` should be `1`. A `0` means the
+     footer swap in Phase 4.5 dropped it, which no gate catches
+   - **`grep -c '<h2' dist/contact-us/index.html dist/ทางเข้า/index.html`
+     must be `0` for both** — they are button pages, not articles
+     (Phase 4.5). Any hit means prose was written back in; delete the prose,
+     don't demote the tag
    - `grep -c '<!--' dist/index.html` should be 0 — Astro ships HTML
      comments to output, so any `<!-- H2: … -->` section labels left in
      a page leak the docx outline (and often the old brand name) into
