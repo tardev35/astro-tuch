@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://jojo-789.net",
+  site: "https://cocoplus-vips.com",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship
