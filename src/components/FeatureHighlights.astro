@@ -8,9 +8,14 @@ export interface FeatureItem {
 
 export interface Props {
   items: FeatureItem[];
+  /** Set false when these items are chrome/UI (not docx sub-points of a real
+   *  heading above them) — renders the title as a <p> instead of an <h3>, so
+   *  a non-article widget never emits a heading tag with no docx backing. */
+  heading?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, heading = true } = Astro.props;
+const TitleTag = heading ? "h3" : "p";
 ---
 
 <div class="mt-4 flex flex-col gap-5">
@@ -19,30 +24,30 @@ const { items } = Astro.props;
       const isBright = item.accent !== "blue";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#220a0a] bg-[#0c0505]/70 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#122008] bg-[#07100a]/70 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isBright
-              ? "hover:border-[#f6d78a]/50 hover:bg-[#150806] hover:shadow-[0_10px_20px_rgba(246,215,138,0.16)]"
-              : "hover:border-[#c9a869]/60 hover:bg-[#150806] hover:shadow-[0_10px_20px_rgba(201,168,105,0.22)]"
+              ? "hover:border-[#a4e254]/50 hover:bg-[#0a1207] hover:shadow-[0_10px_20px_rgba(164,226,84,0.16)]"
+              : "hover:border-[#55aa25]/60 hover:bg-[#0a1207] hover:shadow-[0_10px_20px_rgba(85,170,37,0.22)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isBright
-                ? "border border-[#f6d78a]/50 bg-gradient-to-br from-[#f6d78a] to-[#c8102e] shadow-[0_0_15px_rgba(246,215,138,0.5)] text-white group-hover:rotate-3"
-                : "border border-[#c9a869]/60 bg-gradient-to-br from-[#c9a869] to-[#8a1420] shadow-[0_0_15px_rgba(201,168,105,0.45)] text-[#f4e3c8]"
+                ? "border border-[#a4e254]/50 bg-gradient-to-br from-[#a4e254] to-[#3fa316] shadow-[0_0_15px_rgba(164,226,84,0.5)] text-white group-hover:rotate-3"
+                : "border border-[#55aa25]/60 bg-gradient-to-br from-[#55aa25] to-[#2f6b0f] shadow-[0_0_15px_rgba(85,170,37,0.45)] text-[#dfeacf]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <h3
+            <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
                 isBright
-                  ? "bg-gradient-to-r from-[#f6d78a] to-[#c8102e] bg-clip-text text-transparent"
-                  : "bg-gradient-to-r from-[#e3cdb0] to-[#c9a869] bg-clip-text text-transparent transition-colors group-hover:text-[#e3cdb0]"
+                  ? "bg-gradient-to-r from-[#a4e254] to-[#3fa316] bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-[#dfeacf] to-[#55aa25] bg-clip-text text-transparent transition-colors group-hover:text-[#dfeacf]"
               }`}>
               {item.title}
-            </h3>
-            <p class="text-sm leading-relaxed text-[#f4e3c8]/75 transition-colors group-hover:text-[#f4e3c8]/95">{item.description}</p>
+            </TitleTag>
+            <p class="text-sm leading-relaxed text-[#dfeacf]/75 transition-colors group-hover:text-[#dfeacf]/95">{item.description}</p>
           </div>
         </div>
       );
