@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://zoro365-vip.co",
+  site: "https://fun24-vip.net",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship
