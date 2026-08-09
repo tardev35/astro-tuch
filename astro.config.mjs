@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://fun24-vip.net",
+  site: "https://we168.live",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship

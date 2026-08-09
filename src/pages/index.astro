@@ -1,13 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement3.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import AnnouncementCyber from "../components/AnnouncementCyber.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
 import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBox3ThreeCyberCut from "../components/ContentBox3ThreeCyberCut.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
-import LatestWinnersPremium from "../components/LatestWinnersPremium.astro";
+import LatestWinnersCyber from "../components/LatestWinnersCyber.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
 import Faq from "../components/Faq.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
@@ -16,72 +18,52 @@ import Navfoot from "../components/Navfoot.astro";
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
-import imgSlide2 from "../assets/slide2.png";
 
-const pageTitle = "FUN24 รวมเกมเดิมพันครบ เล่นง่ายบนมือถือ สนุกได้ทั้งวัน";
+const pageTitle = "WE168 คาสิโนออนไลน์ครบวงจร รองรับมือถือ สนุกได้ทุกที่ มีเงินได้ทุกวัน";
 
 const pageDescription =
-  "FUN24 รวมเกมเดิมพันครบทุกหมวด คาสิโน บาคาร่า สล็อต ยิงปลา กีฬา และหวย สมัครง่าย รองรับมือถือ ฝากถอนผ่านระบบออโต้ พร้อมโปรโมชั่นและทีมงานบริการตลอด 24 ชั่วโมง";
+  "WE168 คาสิโนออนไลน์ครบวงจร เกมหลากหลายในบัญชีเดียว รองรับมือถือ แท็บเล็ต คอมพิวเตอร์ ฝากถอนอัตโนมัติ 24 ชั่วโมง ทีมงานดูแลตลอดเวลา สนุกได้ทุกที่ มีเงินได้ทุกวัน";
 
-const gameTypes = [
-  {
-    icon: "🎴",
-    title: "คาสิโนออนไลน์และบาคาร่า",
-    description: "เลือกโต๊ะคาสิโนและเกมบาคาร่าได้จากค่ายที่เปิดให้บริการ รองรับการเล่นผ่านมือถือและเว็บเบราว์เซอร์",
-    accent: "gold" as const,
-  },
-  {
-    icon: "🎰",
-    title: "สล็อตออนไลน์และเกมยิงปลา",
-    description: "รวมเกมสล็อตและเกมยิงปลาหลากหลายรูปแบบ มีทั้งเกมยอดนิยมและเกมเปิดใหม่ให้เลือกตามความสนใจ",
-    accent: "blue" as const,
-  },
-  {
-    icon: "⚽",
-    title: "เดิมพันกีฬาและหวยออนไลน์",
-    description: "รองรับการเลือกเดิมพันกีฬาหลายประเภท รวมถึงบริการหวยออนไลน์ที่สามารถตรวจสอบรายการและรอบเดิมพันได้ผ่านหน้าเว็บไซต์",
-    accent: "gold" as const,
-  },
-];
-
-const onboardingSteps = [
+const signupSteps = [
   {
     icon: "📝",
     title: "ขั้นตอนที่ 1 กดสมัครสมาชิก",
-    description: "",
+    description: "กดสมัครสมาชิกและกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน",
     accent: "gold" as const,
   },
   {
-    icon: "🧾",
-    title: "ขั้นตอนที่ 2 กรอกข้อมูลตามแบบฟอร์ม",
-    description: "",
+    icon: "💳",
+    title: "ขั้นตอนที่ 2 ฝากเครดิต",
+    description: "เข้าสู่บัญชีสมาชิกและทำรายการฝากเครดิตผ่านระบบอัตโนมัติ",
     accent: "blue" as const,
   },
   {
-    icon: "✅",
-    title: "ขั้นตอนที่ 3 กดปุ่มยืนยันการสมัคร",
-    description: "",
+    icon: "🎰",
+    title: "ขั้นตอนที่ 3 เลือกเกม",
+    description: "เลือกหมวดหมู่และเกมคาสิโนที่ต้องการ จากนั้นจึงเริ่มเดิมพันตามเงื่อนไขของเกม",
     accent: "gold" as const,
   },
 ];
 
+const supportIssues = ["สมัครสมาชิกไม่สำเร็จ", "เข้าสู่ระบบไม่ได้", "ลืมรหัสผ่าน", "ฝากเงินไม่สำเร็จ", "ถอนเงินไม่สำเร็จ", "เลือกเกมไม่ได้"];
+
 const faqs = [
   {
-    q: "FUN24 มีเกมอะไรให้เลือกเล่นบ้าง?",
-    a: "FUN24 รวมหลายหมวดบริการไว้ในระบบเดียว เช่น คาสิโนออนไลน์ บาคาร่า สล็อต ยิงปลา กีฬา และหวย โดยสามารถตรวจสอบรายการเกมและค่ายที่เปิดให้บริการได้จากหน้าเว็บไซต์",
+    q: "WE168 มีเกมคาสิโนอะไรให้เลือกเล่นบ้าง?",
+    a: "WE168 รวมเกมคาสิโนออนไลน์หลายประเภทไว้ภายในเว็บไซต์เดียว ทั้งบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก ไฮโล และสล็อต สามารถเลือกเล่นได้จากบัญชีสมาชิกเดียวโดยไม่ต้องสมัครหลายบัญชี",
   },
   {
-    q: "FUN24 เล่นผ่านมือถือได้หรือไม่?",
-    a: "รองรับการใช้งานผ่านโทรศัพท์ Android และ iPhone รวมถึงแท็บเล็ตและคอมพิวเตอร์ โดยสามารถเปิดผ่านเว็บเบราว์เซอร์ที่รองรับได้โดยตรง",
+    q: "WE168 เล่นผ่านมือถือได้หรือไม่?",
+    a: "รองรับการใช้งานผ่านโทรศัพท์ Android และ iPhone รวมถึงแท็บเล็ตและคอมพิวเตอร์ สมาชิกสามารถเข้าสู่ระบบ เลือกเกม และเดิมพันผ่านเว็บเบราว์เซอร์ที่รองรับได้ทันที",
   },
   {
-    q: "หากฝากถอนหรือเข้าใช้งาน FUN24 ไม่ได้ต้องทำอย่างไร?",
-    a: "ตรวจสอบข้อมูลบัญชี การเชื่อมต่ออินเทอร์เน็ต และสถานะรายการก่อน หากยังพบปัญหา สามารถติดต่อทีมงาน FUN24 พร้อมแจ้งรายละเอียดเพื่อให้ช่วยตรวจสอบได้ตลอด 24 ชั่วโมง",
+    q: "หากฝากเงินหรือถอนเงินไม่สำเร็จต้องทำอย่างไร?",
+    a: "ควรตรวจสอบข้อมูลบัญชีและจำนวนเงินให้ถูกต้องก่อนทำรายการ หากยังพบปัญหา สามารถติดต่อแอดมิน WE168 พร้อมแจ้งรายละเอียดเพื่อให้ทีมงานช่วยตรวจสอบได้ตลอด 24 ชั่วโมง",
   },
 ];
 
 const graph = pageGraph(Astro, {
-  name: pageTitle,
+  name: "WE168",
   description: pageDescription,
   faqs,
 });
@@ -90,34 +72,33 @@ const graph = pageGraph(Astro, {
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
-  <Announcement message="FUN24 รวมเกมเดิมพันครบทุกหมวด คาสิโน บาคาร่า สล็อต ยิงปลา กีฬา หวย • คืนยอดเสียทุกวัน 0.3% • แนะนำเพื่อนรับโบนัส 0.8% • ฝากถอนออโต้ 24 ชม." />
+  <AnnouncementCyber message="WE168 คาสิโนออนไลน์ครบวงจร บาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก ไฮโล สล็อต • ฝากถอนออโต้ 24 ชม. • ทีมงานพร้อมดูแลตลอดเวลา • สมัครสมาชิกวันนี้เริ่มเล่นได้ทันที" />
 
-  <ContentBoxPremium as="h1" title="FUN24 เว็บเกมเดิมพันออนไลน์ รวมครบ เล่นง่าย สนุกได้ทั้งวัน">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      <strong class="text-[#fb923c]">FUN24</strong> รวมบริการเกมเดิมพันออนไลน์หลายประเภทไว้ในระบบเดียว ทั้งคาสิโน บาคาร่า สล็อต ยิงปลา กีฬา และหวย รองรับการเข้าใช้งานผ่านโทรศัพท์มือถือ
-      พร้อมระบบฝากถอนอัตโนมัติ โปรโมชั่นสำหรับสมาชิก และทีมงานคอยให้บริการตลอด 24 ชั่วโมง
+  <ContentBoxFloatingBadge as="h1" title="WE168 คาสิโนออนไลน์ครบวงจร รองรับมือถือ สนุกได้ทุกที่ มีเงินได้ทุกวัน">
+    <p class="text-left text-base leading-relaxed text-[#e9f7e6]">
+      <strong class="text-[#4ade80]">WE168</strong> เว็บคาสิโนออนไลน์ครบวงจร รองรับการใช้งานผ่านโทรศัพท์มือถือ แท็บเล็ต และคอมพิวเตอร์ในระบบเดียว รวมเกมคาสิโนหลากหลายประเภทไว้ในบัญชีสมาชิกเดียว
+      พร้อมระบบฝากถอนอัตโนมัติที่ทำรายการได้ด้วยตัวเองตลอดเวลา และทีมงานพร้อมดูแลให้บริการตลอด 24 ชั่วโมง
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
   <SmoothCarousel />
 
-  <ContentBox as="h2" title="FUN24 รวมเกมเดิมพันครบทุกหมวด คาสิโน บาคาร่า สล็อต ยิงปลา กีฬา หวย">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      เลือกเล่นเกมออนไลน์กับ FUN24 ได้หลากหลายรูปแบบภายในเว็บไซต์เดียว ไม่ว่าจะเป็นคาสิโนสด บาคาร่า สล็อตออนไลน์ เกมยิงปลา เดิมพันกีฬา หรือหวยออนไลน์
-      ช่วยให้สมาชิกเลือกบริการที่สนใจได้ง่ายโดยไม่ต้องสลับหลายเว็บไซต์
+  <ContentBoxCyberCut as="h2" title="WE168 บริการเกมคาสิโนออนไลน์ทุกประเภท มีให้เล่นครบทุกหมวดหมู่เกม">
+    <p class="text-left text-base leading-relaxed text-[#e9f7e6]">
+      WE168 รวมเกมคาสิโนออนไลน์ไว้ให้เลือกเล่นครบทุกประเภท ทั้งบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก ไฮโล และสล็อต ฯลฯ จัดหมวดหมู่เกมไว้อย่างเป็นระเบียบ ค้นหาและเลือกเล่นได้ง่าย
+      โดยใช้บัญชีสมาชิกเดียวสลับเล่นได้ทุกหมวดหมู่โดยไม่ต้องสมัครหลายบัญชี
     </p>
-    <FeatureHighlights items={gameTypes} heading={true} />
-  </ContentBox>
+  </ContentBoxCyberCut>
+
+  <ContentBox3ThreeCyberCut titleleft="เกมคาสิโนสด" titlecenter="สล็อตออนไลน์" titleright="บัญชีเดียวครบทุกเกม">
+    <p slot="left" class="text-left text-sm leading-relaxed text-[#e9f7e6]/80">บาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก และไฮโล ถ่ายสดภาพคมชัด เดิมพันได้แบบเรียลไทม์</p>
+    <p slot="center" class="text-left text-sm leading-relaxed text-[#e9f7e6]/80">รวมเกมสล็อตหลากหลายค่าย หมุนได้ทุกวันในบัญชีเดียว ไม่ต้องสลับเว็บไซต์</p>
+    <p slot="right" class="text-left text-sm leading-relaxed text-[#e9f7e6]/80">สมัครครั้งเดียวเล่นได้ทุกหมวดหมู่เกม สลับเล่นได้ทันทีโดยไม่ต้องสมัครซ้ำ</p>
+  </ContentBox3ThreeCyberCut>
 
   <ProviderGrid />
 
-  <ContentBox as="h2" title="โปรโมชั่น FUN24 สิทธิพิเศษสำหรับสมาชิก รับได้ทุกวัน">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      FUN24 มีโปรโมชั่นสำหรับสมาชิกทั้งยอดคืนจากการเล่นและโบนัสแนะนำเพื่อน สามารถเข้าสู่ระบบเพื่อตรวจสอบสิทธิ์ รายละเอียด และเงื่อนไขของแต่ละโปรโมชั่นได้ผ่านหน้าเว็บไซต์
-    </p>
-  </ContentBox>
-
-  <ContentBoxSevenThreePremium titleright="โปรเล่นสล็อต คืนยอดเสีย รับโบนัส 0.3%">
+  <ContentBoxSevenThreeCyberCut titleright="WE168 พัฒนาระบบใหม่ ปลอดภัยมากขึ้น พร้อมรองรับมือถือ สะดวกที่สุด">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -129,85 +110,79 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพประกอบ FUN24 โปรเล่นสล็อต คืนยอดเสีย รับโบนัส 0.3% ธีมคาร์นิวัลสีส้ม-ดำ หญิงสาวยิ้มดีใจถือโทรศัพท์มือถือ เครื่องสล็อต 777 ไพ่เอซ ลูกเต๋า วงล้อรูเล็ต ชิปคาสิโนตรา FUN24 และเงาชิงช้าสวรรค์อยู่ด้านหลัง พร้อมตัวเลข 0.3% เรืองแสงสีส้ม"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#fb923c]/25 shadow-[0_10px_30px_rgba(251,146,60,0.18)]"
+      alt="แบนเนอร์ WE168 โปรคืนยอดเสีย รับโบนัส 0.3% พื้นหลังธีมนีออนเขียว-ชมพู หญิงสาวชุดสีชมพูเงางามชี้ไปที่ตัวเลขโบนัส 0.3% พร้อมภาพหน้าจอมือถือแอป WE168 แสดงโต๊ะบาคาร่าและยอดเครดิต วงล้อรูเล็ต ไพ่เอซคู่ และชิปคาสิโนประกอบฉาก"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#22c55e]/25 shadow-[0_10px_30px_rgba(34,197,94,0.18)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      สมาชิกที่มียอดเล่นเสียตรงตามเงื่อนไขสามารถรับยอดคืน 0.3% โดยตรวจสอบยอดและกดรับสิทธิ์ผ่านบัญชีสมาชิกตามรอบที่กำหนด
-    </p>
-  </ContentBoxSevenThreePremium>
+    <div slot="right">
+      <p class="text-left text-base leading-relaxed text-[#e9f7e6]">
+        ระบบของ WE168 รองรับการใช้งานผ่านโทรศัพท์ Android และ iPhone รวมถึงแท็บเล็ตและคอมพิวเตอร์ หน้าเว็บไซต์ปรับขนาดให้พอดีกับทุกอุปกรณ์โดยอัตโนมัติ
+      </p>
+      <p class="mt-4 text-left text-base leading-relaxed text-[#e9f7e6]">
+        พร้อมระบบจัดการบัญชีสมาชิกและรายการธุรกรรมที่ปลอดภัยมากขึ้น ตรวจสอบยอดเงินและประวัติการทำรายการได้สะดวกทุกที่ทุกเวลา
+      </p>
+    </div>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSevenThreePremium titleright="โปรแนะนำเพื่อน รับโบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[200, 400, 600]}
-      sizes="(max-width: 768px) 100vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="ภาพประกอบ FUN24 โปรแนะนำเพื่อน รับโบนัส 0.8% ธีมคาร์นิวัลสีส้ม-ดำ หญิงสาวยิ้มดีใจถือโทรศัพท์มือถือ เครื่องสล็อต 777 วงล้อรูเล็ต ไพ่เอซ ลูกเต๋า ชิปคาสิโนตรา FUN24 และเงาหอคอยชมวิวคาร์นิวัลอยู่ด้านหลัง พร้อมตัวเลข 0.8% เรืองแสงสีส้มในกรอบข้อความ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#fb923c]/25 shadow-[0_10px_30px_rgba(251,146,60,0.18)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      แชร์ลิงก์แนะนำให้เพื่อนสมัคร FUN24 และรับโบนัส 0.8% จากยอดเล่นของเพื่อนตามเงื่อนไข สมาชิกสามารถตรวจสอบยอดโบนัสผ่านบัญชีของตนเองได้
+  <ContentBoxNeumorphism as="h2" title="เดิมพันจริงในรูปแบบคาสิโนออนไลน์ ลงเงินจริง ได้เงินจริง เสียเงินจริง">
+    <p class="text-left text-base leading-relaxed text-[#fdeaf4]">
+      การเดิมพันบน WE168 เป็นการเดิมพันจริงในรูปแบบคาสิโนออนไลน์ ลงเงินจริง มีโอกาสได้เงินจริงและเสียเงินจริงในทุกรอบการเล่น สมาชิกควรตรวจสอบกติกาและอัตราจ่ายของแต่ละเกมให้เข้าใจก่อนเริ่มเดิมพันทุกครั้ง
     </p>
-  </ContentBoxSevenThreePremium>
+    <p class="mt-4 text-left text-base leading-relaxed text-[#fdeaf4]">ควรกำหนดงบประมาณในการเล่นล่วงหน้า และเล่นตามกำลังทรัพย์ของตนเองเพื่อความเหมาะสมในการใช้งาน</p>
+  </ContentBoxNeumorphism>
 
-  <ContentBox as="h2" title="เริ่มต้นง่าย สมัครสมาชิก FUN24 เพียง 3 ขั้นตอน">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      สมัคร FUN24 ผ่านโทรศัพท์มือถือได้ง่าย ใช้เพียงไม่กี่ขั้นตอนก่อนเริ่มใช้งาน
+  <ContentBoxTwoCyberCut titleleft="ฝากเงินเข้าเดิมพันง่าย WE168 มีระบบออโต้ มีคู่มือขั้นตอนให้ดู">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#fdeaf4]">
+      WE168 มีระบบฝากเงินเข้าเดิมพันแบบออโต้ ทำรายการได้ด้วยตัวเองตลอด 24 ชั่วโมงโดยไม่ต้องรอเจ้าหน้าที่ พร้อมคู่มือขั้นตอนการฝากเงินให้ดูบนหน้าเว็บไซต์อย่างละเอียด
     </p>
-    <FeatureHighlights items={onboardingSteps} heading={false} />
-  </ContentBox>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#fdeaf4]">
+      หากทำรายการฝากเงินไม่สำเร็จ สามารถติดต่อเจ้าหน้าที่ของ WE168 เพื่อขอความช่วยเหลือและตรวจสอบรายการได้ทันที
+    </p>
+  </ContentBoxTwoCyberCut>
 
-  <LatestWinnersPremium />
+  <ContentBoxFloatingBadge as="h2" title="เริ่มต้นเล่นเกมคาสิโนกับ WE168 สมัครเพียง 3 ขั้นตอน">
+    <p class="text-left text-base leading-relaxed text-[#e9f7e6]">เริ่มต้นใช้งานได้ง่ายภายในไม่กี่ขั้นตอน</p>
+    <FeatureHighlights items={signupSteps} heading={true} />
+    <p class="mt-4 text-left text-base leading-relaxed text-[#e9f7e6]">ก่อนยืนยันการเดิมพันทุกครั้ง ควรตรวจสอบจำนวนเงินและรายละเอียดของรายการให้เรียบร้อย</p>
+  </ContentBoxFloatingBadge>
 
-  <ContentBox as="h2" title="เล่น FUN24 ผ่านมือถือได้สะดวก ใช้งานได้ทุกที่">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      FUN24 รองรับการเข้าใช้งานผ่านโทรศัพท์มือถือทั้ง Android และ iOS รวมถึงแท็บเล็ตและคอมพิวเตอร์ สามารถเปิดผ่านเว็บเบราว์เซอร์เพื่อสมัครสมาชิก เข้าสู่ระบบ
-      เลือกเกม ตรวจสอบโปรโมชั่น และจัดการบัญชีได้จากอุปกรณ์เครื่องเดียว
+  <ContentBoxCyberCut as="h2" title="พบปัญหาขณะใช้งาน ติดต่อสอบถามแอดมินได้ตลอด 24 ชม.">
+    <p class="text-left text-base leading-relaxed text-[#e9f7e6]">
+      หากพบปัญหาขณะใช้งาน ไม่ว่าจะเป็นการสมัครสมาชิก การเข้าสู่ระบบ การฝากถอนเงิน หรือการเลือกเกม สามารถติดต่อสอบถามแอดมิน WE168 ได้ตลอด 24 ชั่วโมง
     </p>
-  </ContentBox>
-
-  <ContentBoxCyberCut as="h2" title="ฝากถอน FUN24 ผ่านระบบออโต้ พร้อมขั้นตอนแนะนำ">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      สมาชิกสามารถทำรายการฝากและถอนผ่านระบบของ FUN24 ได้ด้วยตนเอง ควรตรวจสอบข้อมูลบัญชี จำนวนเงิน และสถานะรายการให้ถูกต้องก่อนยืนยันทุกครั้ง
-    </p>
-    <p class="mt-4 text-left text-base leading-relaxed text-[#fbe6d8]">
-      หากเป็นสมาชิกใหม่ สามารถดูขั้นตอนการฝากและถอนแบบละเอียดผ่านหน้าคู่มือการใช้งานของเว็บไซต์
-    </p>
+    <p class="mt-4 text-left text-base leading-relaxed text-[#e9f7e6]">ทีมงานสามารถช่วยตรวจสอบปัญหาต่าง ๆ เช่น</p>
+    <ul class="mt-3 grid grid-cols-1 gap-2 text-left text-base leading-relaxed text-[#e9f7e6] sm:grid-cols-2">
+      {
+        supportIssues.map((issue) => (
+          <li class="flex items-center gap-2">
+            <span aria-hidden="true" class="text-[#4ade80]">
+              •
+            </span>
+            {issue}
+          </li>
+        ))
+      }
+    </ul>
   </ContentBoxCyberCut>
 
-  <ContentBox as="h2" title="พบปัญหาการใช้งาน ติดต่อทีมงาน FUN24 ได้ตลอด 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#fbe6d8]">
-      หากพบปัญหาเกี่ยวกับการสมัครสมาชิก การเข้าสู่ระบบ โปรโมชั่น เกม หรือรายการฝากถอน สามารถติดต่อทีมงาน FUN24 ผ่านช่องทางบริการลูกค้าอย่างเป็นทางการเพื่อให้ช่วยตรวจสอบได้ตลอด 24 ชั่วโมง
-    </p>
-    <p class="mt-4 text-left text-base leading-relaxed text-[#fbe6d8]">
-      ทีมงานสามารถช่วยตรวจสอบเรื่องต่าง ๆ เช่น การสมัครไม่สำเร็จ ลืมรหัสผ่าน รายการฝากถอนไม่อัปเดต การรับโปรโมชั่น และปัญหาการเข้าใช้งาน
-    </p>
-  </ContentBox>
+  <LatestWinnersCyber />
 
   <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#fb923c] to-[#ea580c] px-4 py-3 text-sm font-black whitespace-nowrap text-[#1a0800] shadow-[0_10px_30px_rgba(234,88,12,0.26)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(234,88,12,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#4ade80] to-[#16a34a] px-4 py-3 text-sm font-black whitespace-nowrap text-[#04120a] shadow-[0_10px_30px_rgba(34,197,94,0.26)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(34,197,94,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
 
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#c2410c]/70 bg-[#170a03]/85 px-4 py-3 text-sm font-black whitespace-nowrap text-[#fbe6d8] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-[#ea580c] hover:bg-[#2a1206]/85 hover:shadow-[0_15px_40px_rgba(251,146,60,0.35)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#f9a8d4] to-[#db2777] px-4 py-3 text-sm font-black whitespace-nowrap text-[#4a0a29] shadow-[0_10px_30px_rgba(219,39,119,0.26)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(219,39,119,0.4)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
   </div>
 
-  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ FUN24" faqs={faqs} />
-
   <ReviewCardSumo2 />
+
+  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ WE168" faqs={faqs} />
 
   <Navfoot />
 </MainLayout>
