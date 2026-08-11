@@ -14,14 +14,7 @@ const bankPool = [
 
 // Pre-formatted, because the shared module treats a market as one opaque label
 // rather than a name/type pair it has to know how to join.
-const marketPool = [
-  "หวยรัฐบาลไทย · 3 ตัวบน",
-  "หวยฮานอย · 2 ตัวล่าง",
-  "หวยลาวพัฒนา · 3 ตัวโต๊ด",
-  "หวยยี่กี · 2 ตัวบน",
-  "หวยหุ้นไทย · 3 ตัวบน",
-  "หวยมาเลย์ · 2 ตัวล่าง",
-];
+const marketPool = ["หวยรัฐบาลไทย · 3 ตัวบน", "หวยฮานอย · 2 ตัวล่าง", "หวยลาวพัฒนา · 3 ตัวโต๊ด", "หวยออมสิน · 2 ตัวบน", "หวยหุ้นไทย · 3 ตัวบน", "หวย ธ.ก.ส. · 2 ตัวล่าง"];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
 // src/lib/winnersFeed.ts. Values come from the domain hash, never
@@ -32,8 +25,7 @@ const marketPool = [
 // rebrand, and a widget that supplies its own h2 breaks that check on every
 // page it appears on. Do not promote it again to "fix" the missing name.
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
-const digits = (salt: string, n: number) =>
-  Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
+const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
 const initialRows = Array.from({ length: 5 }, (_, i) => ({
   bank: bankPool[pick(`lotto-bank-${i}`, bankPool.length)],
@@ -43,18 +35,18 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
   pending: brandFlag(Astro.site, `lotto-pending-${i}`),
 }));
 
-const PENDING_CLASS = "text-amber-300 animate-pulse";
+const PENDING_CLASS = "text-[#ff6b70] animate-pulse";
 const DONE_CLASS = "text-green-400";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
-    aria-label="รายการถูกรางวัลล่าสุดของสมาชิก"
-    class="relative rounded-3xl border border-amber-500/30 bg-[#120b06]/60 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-8">
-    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-amber-500/30 pb-4">
+    aria-label="รายการถูกรางวัลล่าสุดของสมาชิก 7LOTTO"
+    class="relative rounded-3xl border border-[#a3060c]/40 bg-[#0d0304]/70 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-8">
+    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#a3060c]/40 pb-4">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]">🎉</span>
-        <p class="text-xl leading-normal font-black tracking-widest text-white drop-shadow-sm">รายการถูกรางวัลล่าสุด</p>
+        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(255,42,48,0.8)]">🎉</span>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#d3d6db] drop-shadow-sm">รายการถูกรางวัลล่าสุด</p>
       </div>
       <span class="animate-pulse rounded-full border border-green-400/50 bg-green-900/40 px-3 py-1 text-[10px] font-bold tracking-widest text-green-400 shadow-[0_0_10px_rgba(74,222,128,0.2)]">
         REAL-TIME
@@ -73,18 +65,22 @@ const DONE_CLASS = "text-green-400";
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-bottom transition-all duration-500 ease-out">
-            <div class="flex flex-col justify-between gap-4 rounded-xl border border-amber-500/10 bg-black/30 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-amber-400/40 hover:bg-black/50 sm:flex-row sm:items-center">
+            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#a3060c]/20 bg-black/30 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#ff2a30]/40 hover:bg-black/50 sm:flex-row sm:items-center">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain grayscale" />
                 </div>
                 <div class="flex flex-col">
-                  <span class="text-[10px] font-medium tracking-widest text-white/60">เบอร์สมาชิก</span>
-                  <span data-winner-user class="font-mono text-sm font-bold text-white">{row.user}</span>
-                  <span data-winner-market class="text-[10px] tracking-wide text-amber-100/70">{row.market}</span>
+                  <span class="text-[10px] font-medium tracking-widest text-[#9aa1ad]">เบอร์สมาชิก</span>
+                  <span data-winner-user class="font-mono text-sm font-bold text-[#d8dae0]">
+                    {row.user}
+                  </span>
+                  <span data-winner-market class="text-[10px] tracking-wide text-[#9aa1ad]">
+                    {row.market}
+                  </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between gap-6 border-t border-amber-500/25 pt-3 sm:justify-end sm:border-none sm:pt-0">
+              <div class="flex items-center justify-between gap-6 border-t border-[#a3060c]/25 pt-3 sm:justify-end sm:border-none sm:pt-0">
                 <div
                   data-winner-status
                   data-pending-text="กำลังตรวจโพย"
@@ -94,8 +90,8 @@ const DONE_CLASS = "text-green-400";
                   class={`text-[11px] font-medium tracking-wider ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? "กำลังตรวจโพย" : "โอนเงินรางวัลแล้ว"}
                 </div>
-                <div class="font-sans text-xl font-black text-amber-300 drop-shadow-[0_2px_5px_rgba(251,191,36,0.35)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-amber-500">บาท</span>
+                <div class="font-sans text-xl font-black text-[#ff2a30] drop-shadow-[0_2px_5px_rgba(255,42,48,0.35)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#ff6b70]">บาท</span>
                 </div>
               </div>
             </div>

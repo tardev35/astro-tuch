@@ -3,7 +3,10 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description: string;
-  accent?: "gold" | "blue";
+  /** "red" is the brand accent, "silver" the chrome tone. The older
+   *  "gold"/"blue" spellings stay accepted so an inventory page that still
+   *  passes them keeps building; "blue" maps to the chrome tone. */
+  accent?: "red" | "silver" | "gold" | "blue";
 }
 
 export interface Props {
@@ -21,35 +24,33 @@ const TitleTag = heading ? "h3" : "p";
 <div class="mt-4 flex flex-col gap-5">
   {
     items.map((item) => {
-      const isGold = item.accent !== "blue";
+      const isAccent = item.accent !== "silver" && item.accent !== "blue";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#1c1509] bg-[#0d0b06]/75 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
-            isGold
-              ? "hover:border-[#f5c518]/50 hover:bg-[#171208] hover:shadow-[0_10px_20px_rgba(245,197,24,0.18)]"
-              : "hover:border-[#d3d3d3]/50 hover:bg-[#15150f] hover:shadow-[0_10px_20px_rgba(211,211,211,0.14)]"
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#1e0709] bg-[#0d0304]/75 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+            isAccent
+              ? "hover:border-[#ff2a30]/50 hover:bg-[#1a0507] hover:shadow-[0_10px_20px_rgba(255,42,48,0.18)]"
+              : "hover:border-[#d3d6db]/50 hover:bg-[#141518] hover:shadow-[0_10px_20px_rgba(211,214,219,0.14)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
-              isGold
-                ? "border border-[#f5c518]/50 bg-gradient-to-br from-[#fff2c3] to-[#f5c518] shadow-[0_0_15px_rgba(245,197,24,0.45)] text-[#2b1c05] group-hover:rotate-3"
-                : "border border-[#d3d3d3]/60 bg-gradient-to-br from-[#f1f1f1] to-[#d3d3d3] shadow-[0_0_15px_rgba(211,211,211,0.35)] text-[#1a1a1a]"
+              isAccent
+                ? "border border-[#ff2a30]/50 bg-gradient-to-br from-[#ff6b70] to-[#ff2a30] text-[#2b070a] shadow-[0_0_15px_rgba(255,42,48,0.45)] group-hover:rotate-3"
+                : "border border-[#d3d6db]/60 bg-gradient-to-br from-[#f1f2f4] to-[#d3d6db] text-[#12060a] shadow-[0_0_15px_rgba(211,214,219,0.35)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
             <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
-                isGold
-                  ? "bg-gradient-to-r from-[#fff2c3] to-[#f5c518] bg-clip-text text-transparent"
-                  : "bg-gradient-to-r from-[#f2e6cd] to-[#d3d3d3] bg-clip-text text-transparent transition-colors group-hover:text-[#f2e6cd]"
+                isAccent
+                  ? "bg-gradient-to-r from-[#ff6b70] to-[#ff2a30] bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-[#d8dae0] to-[#8a8f98] bg-clip-text text-transparent transition-colors group-hover:text-[#d8dae0]"
               }`}>
               {item.title}
             </TitleTag>
-            {item.description && (
-              <p class="text-sm leading-relaxed text-[#f2e6cd]/75 transition-colors group-hover:text-[#f2e6cd]/95">{item.description}</p>
-            )}
+            {item.description && <p class="text-sm leading-relaxed text-[#d8dae0]/75 transition-colors group-hover:text-[#d8dae0]/95">{item.description}</p>}
           </div>
         </div>
       );
