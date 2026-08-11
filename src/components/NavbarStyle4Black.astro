@@ -10,46 +10,58 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
+// icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
+// ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
+//
+// ลำดับ: หน้าแรก · โปรโมชั่น · แล้วค่อยหน้าที่เหลือ — สมัคร/เข้าสู่ระบบ ของแบรนด์นี้
+// เป็นปุ่ม CTA ในแถบ ไม่ใช่เมนู จึงไม่มีรายการทั้งสองในอาร์เรย์นี้
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "ทางเข้า", path: "/ทางเข้า", icon: "🌐" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👑" },
-  { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
+  { name: "ทางเข้า", path: "/ทางเข้า", icon: "🚪" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔍" },
+  { name: "แนวทาง", path: "/แนวทาง", icon: "📈" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "📄" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 ---
 
-<nav class="sticky top-0 z-50 w-full border-b border-[#b6821d]/55 bg-[#0a0704] font-sans shadow-[0_0_20px_rgba(245,197,24,0.2)]">
+<nav class="sticky top-0 z-50 w-full border-b border-[#7c0207]/55 bg-[#0b0203] font-sans shadow-[0_0_20px_rgba(232,18,29,0.2)]">
   <div class="flex h-[75px] w-full items-center justify-between px-4 xl:px-8">
     <div class="z-50 flex items-center">
       <a href="/" class="group relative flex items-center">
-        <div class="absolute inset-0 scale-0 rounded-full bg-[#f5c518]/20 blur-xl transition-transform duration-500 group-hover:scale-150"></div>
-        <Picture
-          src={mainLogo!}
-          alt="โลโก้ UFASLOT ตัวอักษร UFA สีทองเมทัลลิกต่อด้วย SLOT สีเงินโครเมียม"
-          loading="eager"
-          fetchpriority="high"
-          widths={[100, 200, 300]}
-          sizes="100px"
-          class="relative h-[40px] w-auto drop-shadow-[0_0_10px_rgba(255,242,195,0.25)] transition-transform group-hover:scale-105 xl:h-[45px]"
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-        />
+        <div class="absolute inset-0 scale-0 rounded-full bg-[#e8121d]/20 blur-xl transition-transform duration-500 group-hover:scale-150"></div>
+        {
+          mainLogo ? (
+            <Picture
+              src={mainLogo}
+              alt="โลโก้ HSOD ตัวอักษรโครเมียมเงินขอบแดงเงา มีรูปข้าวหลามตัดสีแดงอยู่กลางตัว O"
+              loading="eager"
+              fetchpriority="high"
+              widths={[110, 220, 330]}
+              sizes="110px"
+              class="relative h-[40px] w-auto drop-shadow-[0_0_10px_rgba(232,18,29,0.35)] transition-transform group-hover:scale-105 xl:h-[45px]"
+              formats={["avif", "webp"]}
+              fallbackFormat="webp"
+            />
+          ) : (
+            <p class="relative bg-gradient-to-b from-[#eef1f6] to-[#aeb6c2] bg-clip-text text-3xl font-black tracking-widest text-transparent italic drop-shadow-[0_0_8px_rgba(232,18,29,0.5)]">HSOD</p>
+          )
+        }
       </a>
     </div>
 
-    <div class="z-10 hidden items-center gap-2 lg:gap-4 xl:flex">
+    <div class="z-10 hidden items-center gap-2 lg:gap-3 xl:flex">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`group relative px-6 py-2.5 skew-x-[-15deg] overflow-hidden border transition-all duration-300 ${isActive(link.path) ? "bg-[#f5c518]/20 border-[#f5c518] shadow-[0_0_15px_rgba(245,197,24,0.4)]" : "bg-white/5 border-white/10 hover:border-[#f5c518]/50"}`}>
+            class={`group relative px-5 py-2.5 skew-x-[-15deg] overflow-hidden border transition-all duration-300 ${isActive(link.path) ? "bg-[#e8121d]/20 border-[#e8121d] shadow-[0_0_15px_rgba(232,18,29,0.4)]" : "bg-white/5 border-white/10 hover:border-[#e8121d]/50"}`}>
             <div
               aria-hidden="true"
-              class={`absolute inset-0 bg-gradient-to-r from-[#845914] to-[#f5c518] translate-y-full transition-transform duration-300 ${isActive(link.path) ? "translate-y-0 opacity-20" : "group-hover:translate-y-0 opacity-40"}`}
+              class={`absolute inset-0 bg-gradient-to-r from-[#5a0104] to-[#e8121d] translate-y-full transition-transform duration-300 ${isActive(link.path) ? "translate-y-0 opacity-20" : "group-hover:translate-y-0 opacity-40"}`}
             />
-            <span class={`block skew-x-[15deg] relative z-10 font-bold tracking-wide transition-colors ${isActive(link.path) ? "text-[#fff2c3]" : "text-[#c9bfa6] group-hover:text-white"}`}>
+            <span class={`block skew-x-[15deg] relative z-10 text-sm font-bold tracking-wide transition-colors ${isActive(link.path) ? "text-[#eef1f6]" : "text-[#aeb6c2] group-hover:text-white"}`}>
               <span aria-hidden="true" class="mr-1">
                 {link.icon}
               </span>{" "}
@@ -61,13 +73,24 @@ const links = [
     </div>
 
     <div class="z-50 flex items-center gap-2">
+      <a
+        href="/register"
+        class="hidden rounded-sm skew-x-[-15deg] border border-[#ff4d55] bg-gradient-to-r from-[#ff4d55] via-[#e8121d] to-[#7c0207] px-6 py-2.5 text-sm font-black text-white shadow-[0_0_15px_rgba(232,18,29,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(232,18,29,0.65)] lg:block">
+        <span class="block skew-x-[15deg]">สมัครสมาชิก</span>
+      </a>
+      <a
+        href="/login"
+        class="hidden rounded-sm skew-x-[-15deg] border border-[#c2c9d4]/45 bg-[#170406] px-6 py-2.5 text-sm font-bold text-[#c2c9d4] transition-all hover:border-[#e8121d]/70 hover:text-white lg:block">
+        <span class="block skew-x-[15deg]">เข้าสู่ระบบ</span>
+      </a>
+
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center space-y-1.5 rounded-md border border-[#f5c518]/35 bg-[#845914]/25 p-2 transition-all hover:bg-[#845914]/45 xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center space-y-1.5 rounded-md border border-[#e8121d]/35 bg-[#5a0104]/25 p-2 transition-all hover:bg-[#5a0104]/45 xl:hidden"
         aria-label="เปิดหรือปิดเมนู">
-        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#fff2c3] transition-all duration-300"></span>
-        <span class="hamburger-line h-[2px] w-6 bg-[#fff2c3] transition-all duration-300"></span>
-        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#fff2c3] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#eef1f6] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 bg-[#eef1f6] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#eef1f6] transition-all duration-300"></span>
       </button>
     </div>
   </div>
@@ -76,13 +99,13 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 right-0 z-40 h-screen w-[280px] translate-x-full transform overflow-y-auto border-l border-[#b6821d]/55 bg-[#0a0704] shadow-[-10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out xl:hidden">
+    class="fixed top-0 right-0 z-40 h-screen w-[280px] translate-x-full transform overflow-y-auto border-l border-[#7c0207]/55 bg-[#0b0203] shadow-[-10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out xl:hidden">
     <div class="flex flex-col space-y-3 px-6 pt-24 pb-10">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center px-4 py-3.5 rounded-lg border transition-all ${isActive(link.path) ? "bg-[#f5c518]/20 border-[#f5c518] text-[#fff2c3] shadow-[inset_4px_0_0_rgba(245,197,24,1)]" : "bg-white/5 border-transparent text-[#c9bfa6] hover:bg-white/10 hover:text-white"}`}>
+            class={`sidebar-item flex items-center px-4 py-3.5 rounded-lg border transition-all ${isActive(link.path) ? "bg-[#e8121d]/20 border-[#e8121d] text-[#eef1f6] shadow-[inset_4px_0_0_rgba(232,18,29,1)]" : "bg-white/5 border-transparent text-[#aeb6c2] hover:bg-white/10 hover:text-white"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon}
             </span>
@@ -119,7 +142,7 @@ const links = [
     transform: translateX(0);
   }
 
-  /* หน่วงเวลาให้เมนูวิ่งเข้ามาทีละอัน — มี 6 เมนู ต้องครบทั้ง 6 */
+  /* หน่วงเวลาให้เมนูวิ่งเข้ามาทีละอัน — มี 7 เมนู ต้องครบทั้ง 7 */
   .sidebar-item:nth-child(1) {
     transition-delay: 0.1s;
   }
@@ -137,6 +160,9 @@ const links = [
   }
   .sidebar-item:nth-child(6) {
     transition-delay: 0.35s;
+  }
+  .sidebar-item:nth-child(7) {
+    transition-delay: 0.4s;
   }
 
   @media (prefers-reduced-motion: reduce) {
