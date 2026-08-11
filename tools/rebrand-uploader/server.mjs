@@ -361,11 +361,48 @@ const PAGE_META = {
 //              Huay theme; it may only ever be moved in or out of src/pages,
 //              never regenerated, or a rebrand would wipe the lottery copy
 const PRESET_PAGES = {
-  article: { kind: "scaffold", file: "บทความ.astro", route: "/บทความ", navLabel: "บทความ", boxTitle: "บทความ" },
-  aboutus: { kind: "scaffold", file: "about-us.astro", route: "/about-us", navLabel: "เกี่ยวกับเรา", boxTitle: "เกี่ยวกับเรา" },
-  huaycheck: { kind: "template", file: "ตรวจหวย.astro", route: "/ตรวจหวย", navLabel: "ตรวจหวย", footerLabel: "ตรวจผลรางวัล", boxTitle: "ตรวจหวย" },
-  huayguide: { kind: "template", file: "แนวทาง.astro", route: "/แนวทาง", navLabel: "แนวทาง", footerLabel: "แนวทางหวย", boxTitle: "แนวทาง" },
+  article: { kind: "scaffold", file: "บทความ.astro", route: "/บทความ", navLabel: "บทความ", boxTitle: "บทความ", icon: "📰" },
+  aboutus: { kind: "scaffold", file: "about-us.astro", route: "/about-us", navLabel: "เกี่ยวกับเรา", boxTitle: "เกี่ยวกับเรา", icon: "🏢" },
+  huaycheck: { kind: "template", file: "ตรวจหวย.astro", route: "/ตรวจหวย", navLabel: "ตรวจหวย", footerLabel: "ตรวจผลรางวัล", boxTitle: "ตรวจหวย", icon: "🔍" },
+  huayguide: { kind: "template", file: "แนวทาง.astro", route: "/แนวทาง", navLabel: "แนวทาง", footerLabel: "แนวทางหวย", boxTitle: "แนวทาง", icon: "📊" },
+  register: { kind: "cta", file: "register.astro", route: "/register", navLabel: "สมัครสมาชิก", boxTitle: "สมัครสมาชิก", cta: "สมัครสมาชิก", icon: "📝" },
+  login: { kind: "cta", file: "login.astro", route: "/login", navLabel: "เข้าสู่ระบบ", boxTitle: "เข้าสู่ระบบ", cta: "เข้าระบบเกม", icon: "🔑" },
 };
+// A "cta" page replaces the interstitial that auto-forwards to the affiliate
+// link with a real page whose only content is one button to the same place.
+// The destination is never written here — it rotates per brand and is read back
+// out of whatever is already on disk.
+const CTA_TARGET_RE = /\btargetUrl\s*=\s*["']([^"']+)["']/;
+const LEGACY_TITLE_RE = /<title[^>]*>([\s\S]*?)<\/title>/i;
+const LEGACY_DESC_RE = /<meta\b[^>]*\bname=["']description["'][^>]*\bcontent=["']([^"']*)["']/i;
+const LEGACY_DESC_RE_ALT = /<meta\b[^>]*\bcontent=["']([^"']*)["'][^>]*\bname=["']description["']/i;
+const redirectBackup = (cfg) => join(PAGES_DISABLED, cfg.file.replace(/\.astro$/, ".redirect.astro"));
+const isCtaPage = (src) => /<MainLayout\b/.test(src);
+// The interstitial these pages replace showed a loading animation on the way to
+// the affiliate link, and losing it made the hand-off feel like a dead click.
+// The component brings it back on the click instead of on page load, so the
+// page itself stays a real indexable page rather than a redirect.
+const CTA_REDIRECT_IMPORT = 'import CtaRedirect from "../components/CtaRedirect.astro";';
+// /ทางเข้า exists to offer เข้าสู่ระบบ and สมัครสมาชิก and nothing else. Once
+// those two are menu entries in their own right it becomes a third link to the
+// same two places, so any cta toggle takes it out of the menu and the last one
+// switched off puts it back. Only the menu entry moves — the page stays routed,
+// because it is linked from the homepage and indexed.
+const ENTRANCE = { route: "/ทางเข้า", label: "ทางเข้า", icon: "🚪" };
+// The entry is stashed verbatim on the way out so switching back on returns the
+// brand's own icon, not a stand-in. Rebuilding it from label + a default icon
+// silently repaints one menu row a different colour of emoji than the rest.
+const ENTRANCE_STASH = join(PAGES_DISABLED, ".entrance-nav.txt");
+
+async function anyCtaEnabled() {
+  for (const cfg of Object.values(PRESET_PAGES)) {
+    if (cfg.kind !== "cta") continue;
+    try {
+      if (isCtaPage(await readFile(join(PAGES, cfg.file), "utf8"))) return true;
+    } catch { /* not routed — not enabled */ }
+  }
+  return false;
+}
 // A generated page is cloned from this existing sub-page's frontmatter so it
 // stays on the brand's current component variants without hardcoding names here.
 const CANONICAL_PAGE = "ทางเข้า.astro";
@@ -380,6 +417,14 @@ const ML_TITLE_RE = /(<MainLayout\b[^>]*?\btitle=)"[^"]*"/;
 // Also normalises the pre-existing `,description=` typo in contact-us.astro to a
 // clean ` description=` on write.
 const ML_DESC_RE = /(<MainLayout\b[^>]*?)[,\s]+description=("|')[^"']*\2/;
+// The shape every hand-written page in this repo actually uses: the tag points
+// at a const that the page's JSON-LD graph reads too, so one edit keeps both.
+const ML_DESC_VAR_RE = /<MainLayout\b[^>]*?[,\s]+description=\{\s*pageDescription\s*\}/;
+const PAGE_DESC_CONST_RE = /(const\s+pageDescription\s*=\s*)"[\s\S]*?"/;
+// The page's own name in its JSON-LD graph — the first `name:` after the
+// pageGraph call opens, before the breadcrumb entries. Retitling the tag but
+// not this leaves the structured data claiming the old heading.
+const GRAPH_NAME_RE = /(pageGraph\(Astro,\s*\{[\s\S]*?\bname:\s*)"[^"]*"/;
 
 // Title/Meta land inside a double-quoted Astro attribute, so forbid anything
 // that would break out of it (quote, angle brackets, backtick, newline). Thai
@@ -676,10 +721,16 @@ async function setMainLayoutMeta(file, title, desc, label) {
   const d = validateText(desc, `Meta ${label}`);
   const src = await readFile(file, "utf8");
   if (!ML_TITLE_RE.test(src)) throw new Error(`${label}: ไม่พบ title บนแท็ก <MainLayout>`);
-  if (!ML_DESC_RE.test(src)) throw new Error(`${label}: ไม่พบ description บนแท็ก <MainLayout>`);
-  const next = src
-    .replace(ML_TITLE_RE, `$1"${t}"`)
-    .replace(ML_DESC_RE, `$1 description="${d}"`);
+  // Two shapes in the wild: description="..." inline on the tag, and
+  // description={pageDescription} pointing at a const the JSON-LD graph also
+  // reads. Editing only the inline form would silently skip every page written
+  // the second way — and leave the graph disagreeing with the meta tag.
+  const quoted = ML_DESC_RE.test(src);
+  const viaConst = ML_DESC_VAR_RE.test(src) && PAGE_DESC_CONST_RE.test(src);
+  if (!quoted && !viaConst) throw new Error(`${label}: ไม่พบ description บนแท็ก <MainLayout>`);
+  let next = src.replace(ML_TITLE_RE, `$1"${t}"`);
+  next = quoted ? next.replace(ML_DESC_RE, `$1 description="${d}"`) : next.replace(PAGE_DESC_CONST_RE, `$1"${d}"`);
+  if (GRAPH_NAME_RE.test(next)) next = next.replace(GRAPH_NAME_RE, `$1"${t}"`);
   await writeFile(file, next);
 }
 
@@ -702,10 +753,140 @@ async function fileExists(p) {
 // the real ~1-paragraph article at rebrand time (SKILL.md Phase 4.5). If the
 // file already exists we NEVER overwrite the body, and only refresh Title/Meta
 // when BOTH were supplied (blank = leave the existing page untouched).
+const softText = (s) => String(s ?? "").replace(/["'<>`]/g, "").replace(/\s+/g, " ").trim();
+
+// The affiliate destination is per-brand and lives only in these pages, so it is
+// read back rather than written here: the page being replaced first, then its
+// saved redirect, then the other cta page. A button with nowhere to go is worse
+// than an error, so a miss throws.
+async function ctaTarget(cfg) {
+  const paths = [join(PAGES, cfg.file), redirectBackup(cfg)];
+  for (const other of Object.values(PRESET_PAGES)) {
+    if (other.kind !== "cta" || other.file === cfg.file) continue;
+    paths.push(join(PAGES, other.file), redirectBackup(other));
+  }
+  for (const p of paths) {
+    try {
+      const m = (await readFile(p, "utf8")).match(CTA_TARGET_RE);
+      if (m) return m[1];
+    } catch { /* try the next one */ }
+  }
+  return null;
+}
+
+// Borrow the styling of the button that already points at this route from the
+// canonical sub-page, the same trick addFooterLink uses on the footer, so the
+// generated button matches the brand without any colour being named here.
+async function ctaButtonClass(route) {
+  try {
+    const src = await readFile(join(PAGES, CANONICAL_PAGE), "utf8");
+    const tag = src.match(new RegExp(`<a\\b[^>]*href="${route}"[^>]*>`, "i"));
+    return tag?.[0].match(/class="([^"]*)"/)?.[1] || null;
+  } catch {
+    return null;
+  }
+}
+
+// Both generated kinds need the same head. Only the imports are taken from the
+// canonical sub-page — they carry whichever component variants this brand
+// rotated in. Its graph is NOT taken: cloning the frontmatter whole publishes
+// the canonical page's name, description and breadcrumb on the new route, and
+// leaving the graph out entirely fails verify-build's "indexable page with no
+// JSON-LD at all".
+function pageHead(canonicalFm, cfg, t, d, extra = "", extraImports = []) {
+  const cloned = canonicalFm.split(/\r?\n/).filter((l) => /^\s*import\b/.test(l));
+  const missing = extraImports.filter((line) => !cloned.some((l) => l.trim() === line.trim()));
+  const imports = [...cloned, ...missing].join("\n");
+  const hasGraph = /\bpageGraph\b/.test(imports);
+  const parts = [`const pageDescription =\n  "${d}";`];
+  if (hasGraph) {
+    parts.push(
+      `const graph = pageGraph(Astro, {\n` +
+        `  name: "${t}",\n` +
+        `  description: pageDescription,\n` +
+        `  breadcrumb: [\n` +
+        `    { name: "หน้าแรก", path: "/" },\n` +
+        `    { name: "${cfg.navLabel}", path: "${cfg.route}" },\n` +
+        `  ],\n` +
+        `});`,
+    );
+  }
+  if (extra.trim()) parts.push(extra.trim());
+  return {
+    head: `---\n${imports}\n\n${parts.join("\n\n")}\n---\n\n`,
+    ldScript: hasGraph ? `  <script type="application/ld+json" set:html={graph} />\n\n` : "",
+  };
+}
+
+async function createCtaPage(cfg, title, desc, label) {
+  const file = join(PAGES, cfg.file);
+  const backup = redirectBackup(cfg);
+  let existing = null;
+  try { existing = await readFile(file, "utf8"); } catch { /* not created yet */ }
+
+  if (existing && isCtaPage(existing)) {
+    if (title?.trim() && desc?.trim()) await setMainLayoutMeta(file, title, desc, label);
+    return { written: [`src/pages/${cfg.file}`], created: false };
+  }
+
+  const target = await ctaTarget(cfg);
+  if (!target) throw new Error(`หา targetUrl ของ ${cfg.file} ไม่เจอ — ลิงก์ปลายทางของแบรนด์นี้เก็บอยู่ในหน้าเดิมเท่านั้น ถ้าหน้าเดิมหายไปแล้ว ต้องเอากลับมาก่อน`);
+
+  const t = title?.trim()
+    ? validateText(title, `Title ${label}`)
+    : softText(existing?.match(LEGACY_TITLE_RE)?.[1]) || cfg.boxTitle;
+  const d = desc?.trim()
+    ? validateText(desc, `Meta ${label}`)
+    : softText(existing?.match(LEGACY_DESC_RE)?.[1] || existing?.match(LEGACY_DESC_RE_ALT)?.[1]) || `หน้า${cfg.navLabel} (อยู่ระหว่างจัดทำเนื้อหา)`;
+
+  const canonical = await readFile(join(PAGES, CANONICAL_PAGE), "utf8");
+  const fm = canonical.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fm) throw new Error(`ไม่พบ frontmatter ใน ${CANONICAL_PAGE} (ต้นแบบหน้าย่อย)`);
+  // Only the imports are cloned. They carry whichever component variants this
+  // brand rotated in, which is the whole reason to read the canonical page —
+  // but its graph names its own route, so publishing that here would put the
+  // wrong name and breadcrumb on this page. That one is written fresh.
+  const cls = await ctaButtonClass(cfg.route);
+  const { head, ldScript } = pageHead(fm[1], cfg, t, d, `const targetUrl = "${target}";\n`, [CTA_REDIRECT_IMPORT]);
+
+  const page =
+    head +
+    `<MainLayout title="${t}" description={pageDescription}>\n` +
+    ldScript +
+    `  <Announcement />\n\n` +
+    `  <ContentBox title="${cfg.boxTitle}" as="h1">\n` +
+    `    <!-- TODO(rebrand): ตั้ง title/description บน <MainLayout> จาก content brief ตอนรีแบรนด์ และจัดสีปุ่มกับ CtaRedirect.astro ให้ตรงพาเลตต์${cls ? "" : " (ยังไม่ได้คลาสจาก " + CANONICAL_PAGE + " — ปุ่มนี้ยังไม่มีสีแบรนด์)"} -->\n` +
+    `    <div class="flex justify-center py-8">\n` +
+    `      <a\n` +
+    `        href={targetUrl}\n` +
+    `        rel="nofollow sponsored"\n` +
+    `        data-cta-redirect\n` +
+    `        aria-label="${cfg.cta}"\n` +
+    `        class="${cls || "inline-flex items-center justify-center rounded-lg border border-white/25 bg-white/10 px-10 py-4 text-2xl font-bold"}">\n` +
+    `        ${cfg.cta}\n` +
+    `      </a>\n` +
+    `    </div>\n` +
+    `  </ContentBox>\n\n` +
+    `  <Navfoot />\n\n` +
+    `  <CtaRedirect label="${cfg.navLabel}" />\n` +
+    `</MainLayout>\n`;
+
+  // Keep the interstitial we are about to replace: it is the only copy of this
+  // brand's affiliate link outside git, and switching the toggle back off
+  // restores it rather than leaving /login and /register as dead routes.
+  if (existing && !(await fileExists(backup))) {
+    await mkdir(PAGES_DISABLED, { recursive: true });
+    await writeFile(backup, existing);
+  }
+  await writeFile(file, page);
+  return { written: [`src/pages/${cfg.file}`], created: !existing, replacedRedirect: !!existing, target };
+}
+
 async function createPage(key, title, desc) {
   const cfg = PRESET_PAGES[key];
   if (!cfg) throw new Error(`ไม่รู้จักหน้า preset: ${key}`);
   const label = `${cfg.navLabel} (${cfg.file})`;
+  if (cfg.kind === "cta") return createCtaPage(cfg, title, desc, label);
   const file = join(PAGES, cfg.file);
   const parked = join(PAGES_DISABLED, cfg.file);
   const hasTitle = !!(title && title.trim());
@@ -736,9 +917,11 @@ async function createPage(key, title, desc) {
   const canonical = await readFile(join(PAGES, CANONICAL_PAGE), "utf8");
   const fm = canonical.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fm) throw new Error(`ไม่พบ frontmatter ใน ${CANONICAL_PAGE} (ต้นแบบหน้าย่อย)`);
+  const { head, ldScript } = pageHead(fm[1], cfg, t, d);
   const page =
-    `---\n${fm[1]}\n---\n\n` +
-    `<MainLayout title="${t}" description="${d}">\n` +
+    head +
+    `<MainLayout title="${t}" description={pageDescription}>\n` +
+    ldScript +
     `  <Announcement />\n\n` +
     `  <ContentBox title="${cfg.boxTitle}">\n` +
     `    <!-- TODO(rebrand): เขียนบทความจริงของ "${cfg.navLabel}" ~1 ย่อหน้าใน <ContentBox> นี้ + ตั้ง title/description บน <MainLayout> จาก content.docx ตอนรีแบรนด์ -->\n` +
@@ -761,6 +944,31 @@ async function disablePage(key) {
   const file = join(PAGES, cfg.file);
   const parked = join(PAGES_DISABLED, cfg.file);
   const written = [];
+
+  // A cta route is never parked. Every navbar, the footer and /ทางเข้า link to
+  // /login and /register, so taking the file away turns all of those into dead
+  // links. Off restores the interstitial that was there before instead.
+  if (cfg.kind === "cta") {
+    const backup = redirectBackup(cfg);
+    if (!(await fileExists(backup))) return { written: [], parked: false, missing: true };
+    await writeFile(file, await readFile(backup, "utf8"));
+    await unlink(backup);
+    written.push(`src/pages/${cfg.file}`);
+    const nav = await removeNavLink(cfg.route);
+    if (nav.removed) written.push(`navbar ${nav.navFile} (-${nav.removed})`);
+    let entranceBack = 0;
+    if (!(await anyCtaEnabled())) {
+      let saved = null;
+      try { saved = (await readFile(ENTRANCE_STASH, "utf8")).trim() || null; } catch { /* first run, or stash cleaned */ }
+      const back = await addNavLink(ENTRANCE.route, ENTRANCE.label, ENTRANCE.icon, saved);
+      entranceBack = back.inserted || 0;
+      if (entranceBack) {
+        written.push(`navbar ${back.navFile} (+${entranceBack} ${ENTRANCE.label})`);
+        if (saved) await unlink(ENTRANCE_STASH).catch(() => {});
+      }
+    }
+    return { written, parked: true, reverted: true, navRemoved: nav.removed || 0, entranceRestored: entranceBack };
+  }
 
   if (await fileExists(file)) {
     await mkdir(PAGES_DISABLED, { recursive: true });
@@ -842,7 +1050,7 @@ function dropFromGroups(src, re, route) {
     if (before) start -= before[0].length;
     out = out.slice(0, start) + out.slice(end);
   }
-  return { out, count: items.length };
+  return { out, count: items.length, removed: items.map((m) => m[0]) };
 }
 
 // Which navbar/footer is live rotates every rebrand, so resolve from MainLayout
@@ -857,7 +1065,9 @@ async function activeChrome(kind) {
   return { name: m[1], file: join(ROOT, "src", "components", m[1]) };
 }
 
-async function addNavLink(route, label) {
+// `verbatim` re-inserts an entry exactly as it was removed, so restoring a menu
+// item gives back the icon the brand picked rather than a generic stand-in.
+async function addNavLink(route, label, icon, verbatim) {
   const nav = await activeChrome("navbar");
   if (!nav) return { warning: `หา import Navbar ใน MainLayout.astro ไม่เจอ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
   let src;
@@ -866,7 +1076,11 @@ async function addNavLink(route, label) {
   if (src.includes(`path: "${route}"`) || src.includes(`path: '${route}'`)) {
     return { navFile: nav.name, already: true };
   }
-  const { out, count } = appendToGroups(src, NAV_ITEM_RE, () => `{ name: "${label}", path: "${route}" }`);
+  // Every menu item in this library carries an icon; an entry without one reads
+  // as a gap in the row. Only skip it on a navbar whose entries have none.
+  const usesIcons = /\bicon:\s*["']/.test(src);
+  const entry = verbatim || `{ name: "${label}", path: "${route}"${usesIcons && icon ? `, icon: "${icon}"` : ""} }`;
+  const { out, count } = appendToGroups(src, NAV_ITEM_RE, () => entry);
   if (!count) return { navFile: nav.name, warning: `navbar ${nav.name} ไม่ตรงรูปแบบ array ที่รองรับ — เพิ่มลิงก์ ${route} (${label}) ในเมนูเองตอนรีแบรนด์` };
   await writeFile(nav.file, out);
   return { navFile: nav.name, inserted: count };
@@ -877,9 +1091,9 @@ async function removeNavLink(route) {
   if (!nav) return { removed: 0 };
   let src;
   try { src = await readFile(nav.file, "utf8"); } catch { return { removed: 0 }; }
-  const { out, count } = dropFromGroups(src, NAV_ITEM_RE, route);
+  const { out, count, removed } = dropFromGroups(src, NAV_ITEM_RE, route);
   if (count) await writeFile(nav.file, out);
-  return { navFile: nav.name, removed: count };
+  return { navFile: nav.name, removed: count, entry: removed[0] || null };
 }
 
 async function addFooterLink(route, label) {
@@ -916,9 +1130,14 @@ async function readCurrentNewPages() {
     const entry = { file: `src/pages/${cfg.file}`, route: cfg.route, label: cfg.navLabel, exists: false, parked: false, title: "", meta: "" };
     try {
       const src = await readFile(join(PAGES, cfg.file), "utf8");
-      entry.exists = true;
-      entry.title = src.match(ML_TITLE_RE)?.[0]?.match(/"([^"]*)"$/)?.[1] || "";
-      entry.meta = src.match(ML_DESC_RE)?.[0]?.match(/description=("|')([^"']*)\1/)?.[2] || "";
+      // A cta route always has a file. What the toggle reports is whether that
+      // file is the button page yet — the interstitial reads as "off".
+      entry.exists = cfg.kind === "cta" ? isCtaPage(src) : true;
+      entry.title = src.match(ML_TITLE_RE)?.[0]?.match(/"([^"]*)"$/)?.[1] || softText(src.match(LEGACY_TITLE_RE)?.[1]) || "";
+      entry.meta =
+        src.match(ML_DESC_RE)?.[0]?.match(/description=("|')([^"']*)\1/)?.[2] ||
+        softText(src.match(LEGACY_DESC_RE)?.[1] || src.match(LEGACY_DESC_RE_ALT)?.[1]) ||
+        "";
     } catch {
       // Not routed — but it may be parked rather than absent, and those are very
       // different things to an operator: one needs writing from scratch, the
@@ -2184,13 +2403,29 @@ async function gitInfo() {
     files,
     blocked: offendingPaths(files).slice(0, 5).map((f) => f.path),
     blockedCount: offendingPaths(files).length,
-    brand: await currentBrandName(),
+    commitName: (await currentSiteHost()) || (await currentBrandName()),
   };
 }
 
-// The commit message the box is pre-filled with. Reading the file rather than
-// remembering it means a rebrand that just landed is reflected without a
+// What the commit message box is pre-filled with. Reading the files rather than
+// remembering them means a rebrand that just landed is reflected without a
 // restart — the same reason deployTarget() re-reads wrangler.toml.
+//
+// The domain wins over BRAND_NAME because it is the one identifier that is
+// unique per brand: names get typo'd in the prompt (WINNOW168 shipped as
+// "winnow167"), reused across rounds, and spelled three ways between the
+// artwork, the docx and the URL. BRAND_NAME stays as the fallback for a tree
+// whose astro.config.mjs has no site: yet.
+async function currentSiteHost() {
+  try {
+    const src = await readFile(CONFIG, "utf8");
+    const raw = src.match(/^\s*site:\s*["']([^"']+)["']/m)?.[1];
+    return raw ? new URL(raw).hostname.replace(/^www\./, "") : "";
+  } catch {
+    return "";
+  }
+}
+
 async function currentBrandName() {
   try {
     const src = await readFile(join(ROOT, "src", "lib", "brandProfile.ts"), "utf8");
@@ -2934,6 +3169,33 @@ const PAGE = /* html */ `<!doctype html>
           <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — Claude เขียนให้)" spellcheck="false"></textarea>
         </div>
         <span class="status"></span>
+      </div>
+
+      <div class="field newpage" data-newpage="register">
+        <div class="row">
+          <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+          <label>สมัครสมาชิก</label>
+          <span class="target">src/pages/register.astro</span>
+          <span class="badge np-badge"></span>
+        </div>
+        <div class="np-body" hidden>
+          <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — ใช้ของหน้าเดิม)" spellcheck="false" />
+          <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — ใช้ของหน้าเดิม)" spellcheck="false"></textarea>
+        </div>
+        <span class="status">เปิด = เปลี่ยนหน้าเด้งอัตโนมัติเป็นหน้าจริงที่มีปุ่มสมัครสมาชิกปุ่มเดียว · ปิด = เอาหน้าเด้งกลับ (ปลายทางเดิมไม่เปลี่ยน)</span>
+      </div>
+      <div class="field newpage" data-newpage="login">
+        <div class="row">
+          <label class="switch"><input type="checkbox" class="np-toggle" /><span class="slider"></span></label>
+          <label>เข้าสู่ระบบ</label>
+          <span class="target">src/pages/login.astro</span>
+          <span class="badge np-badge"></span>
+        </div>
+        <div class="np-body" hidden>
+          <input type="text" class="metatitle" data-k="title" placeholder="Title (เว้นว่างได้ — ใช้ของหน้าเดิม)" spellcheck="false" />
+          <textarea class="metadesc" data-k="desc" rows="2" placeholder="Meta description (เว้นว่างได้ — ใช้ของหน้าเดิม)" spellcheck="false"></textarea>
+        </div>
+        <span class="status">เปิด = เปลี่ยนหน้าเด้งอัตโนมัติเป็นหน้าจริงที่มีปุ่มเข้าระบบเกมปุ่มเดียว · ปิด = เอาหน้าเด้งกลับ (ปลายทางเดิมไม่เปลี่ยน)</span>
       </div>
     </section>
   </div>
@@ -4348,8 +4610,8 @@ const PAGE = /* html */ `<!doctype html>
       info.files.map((f) => '[' + f.label + '] ' + f.path).join('\\n');
 
     // Only ever pre-fill a box the operator has not typed into.
-    if (!gtTouched && !gtMsg.value && info.brand) {
-      gtMsg.value = 'Rebrand the site to ' + info.brand;
+    if (!gtTouched && !gtMsg.value && info.commitName) {
+      gtMsg.value = 'Rebrand the site to ' + info.commitName;
     }
     gtSync();
   }
@@ -4530,17 +4792,30 @@ const server = http.createServer(async (req, res) => {
           extra = { disabled: off.parked, missing: !!off.missing };
         } else {
           const pageRes = await createPage(key, url.searchParams.get("title"), url.searchParams.get("desc"));
-          const navRes = await addNavLink(cfg.route, cfg.navLabel);
-          const footRes = await addFooterLink(cfg.route, cfg.footerLabel || cfg.navLabel);
+          const navRes = await addNavLink(cfg.route, cfg.navLabel, cfg.icon);
+          // Footers already ship their own /login and /register rows, so a cta
+          // toggle neither adds one nor is allowed to remove one — the off path
+          // would otherwise delete a link it never created.
+          const footRes = cfg.kind === "cta" ? {} : await addFooterLink(cfg.route, cfg.footerLabel || cfg.navLabel);
+          const entRes = cfg.kind === "cta" ? await removeNavLink(ENTRANCE.route) : {};
+          if (entRes.entry) {
+            await mkdir(PAGES_DISABLED, { recursive: true });
+            await writeFile(ENTRANCE_STASH, entRes.entry);
+          }
           written = [...pageRes.written];
           if (navRes.inserted) written.push(`navbar ${navRes.navFile} (+${navRes.inserted})`);
           if (footRes.inserted) written.push(`footer ${footRes.footerFile} (+${footRes.inserted})`);
+          if (entRes.removed) written.push(`navbar ${entRes.navFile} (-${entRes.removed} ${ENTRANCE.label})`);
           extra = {
             created: pageRes.created,
             // distinguishes "moved back from pages-disabled" from "scaffolded
             // fresh" — the operator gets last brand's article in one case and a
             // TODO placeholder in the other, so the log has to say which
             restored: !!pageRes.restored,
+            // a cta page overwrote an interstitial rather than appearing from
+            // nothing — the operator needs to see that the redirect was moved
+            replacedRedirect: !!pageRes.replacedRedirect,
+            ctaTarget: pageRes.target || null,
             navWarning: navRes.warning || null,
             navAlready: !!navRes.already,
             footerWarning: footRes.warning || null,

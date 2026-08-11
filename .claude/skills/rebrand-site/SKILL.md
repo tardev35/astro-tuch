@@ -439,14 +439,9 @@ different colors:
 
   Do it the way `NavbarStyle1` does: put the icon in the `links` array
   next to `name` and `path`, then render it as its own
-  `<span aria-hidden="true">`. Two things that follow from that, both
-  enforced by `tools/verify-build.mjs`:
-
-  - **`aria-hidden="true"` is not optional.** A decorative emoji outside
-    an aria-hidden element fails the build, and without it a screen
-    reader announces the menu as "house หน้าแรก".
-  - **The icon must be a sibling of the label, never inside its text.**
-    Concatenating them puts the emoji into the accessible name.
+  `<span aria-hidden="true">` — a **sibling** of the label, never inside its
+  text. Both halves are build errors; the reasoning is in "Accessibility rules
+  the build now enforces" and is not repeated here.
 
   Several variants — `NavbarPremium` among them — declare the menu twice,
   once for desktop and once for the mobile drawer. Hoist that into one
@@ -454,6 +449,30 @@ different colors:
   copies, or the next person edits one and not the other. Pick icons that
   match the brand's genre (a lottery brand's menu should not be led by a
   slot machine), and keep them to one per item.
+
+  **Menu order: `สมัครสมาชิก` and `เข้าสู่ระบบ` go immediately after
+  `โปรโมชั่น`, not at the end of the list.** Asked for on 2026-08-07, on
+  WINNOW168's `NavbarStyle6`, and it applies to whichever variant a brand
+  picks from here on. The order is:
+
+  ```
+  หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · <everything else>
+  ```
+
+  Those two are the only menu entries that are conversion actions rather
+  than pages to read, so they belong where a visitor scanning left-to-right
+  reaches them before the informational pages (`ทดลองเล่น`, `เกี่ยวกับเรา`,
+  `ติดต่อเรา`, `บทความ`). They arrive last because the uploader's ส่วนที่ 5
+  **appends** a newly-toggled page's `{ name, path }` to the end of the
+  `links` array — so every rebrand inherits them in the wrong place unless
+  someone moves them. Reorder the array; do not special-case them in the
+  markup.
+
+  Two things this does NOT change: `หน้าแรก` stays first, and the header's
+  own login/register **CTA buttons** (most variants have a pair pinned in a
+  corner or in the mobile bar) are separate chrome — leave them where the
+  variant puts them. If a brand has the cta toggle off, there are no
+  `/register` and `/login` menu entries to order and this rule is a no-op.
 
 **Rotate every family's variant on each rebrand — the ONE variant you
 must not reuse is the one the previous brand had wired in.** This is a
@@ -1024,8 +1043,50 @@ body back.
 Consequence for the Phase 5 inventory: each contributes **`h1×1`, `h2×0`,
 `h3×0`**. An `<h2>` on either means this rule was missed.
 
-The other sub-pages are the opposite — they *are* articles and their headings
-come from their own body, per Phase 5.
+### `/promotion` is an IMAGE page — about four lines of prose, no more
+
+Asked for on 2026-08-08, after NORWAY89's promotion page shipped a four-section
+article. It applies to every rebrand from here on.
+
+The promotion page's content **is the `slide*` artwork**. Each slide already
+states its own offer in large type — the bonus, the percentage, the terms — so
+prose underneath it re-types what the visitor can already read, in smaller
+letters. A visitor opens `/promotion` to see what the promotions *are*, and
+every paragraph pushes the grid further down.
+
+Its whole body is, in order:
+
+1. the `ContentBox` `title` (the page's single `<h1>`)
+2. **one short intro paragraph — about four lines, and that is the entire prose
+   budget for the page**
+3. the promo image grid (the `slide*` files, `grid-cols-1 sm:grid-cols-2`)
+4. one `สมัครสมาชิก <BRAND>` button
+
+**Write no section headings.** Not "โบนัสสมาชิกใหม่…", not "โปรฝากประจำวันและ
+สิทธิ์คืนยอดเสีย", not "ฝากถอนออโต้และการรับสิทธิ์จากทุกอุปกรณ์" — however
+accurate the copy is and however much the page you inherit looks like it wants
+them. The intro says what the page holds and that conditions differ per
+promotion; the pictures say the rest.
+
+This is the same failure mode as `/contact-us` and `/ทางเข้า` above, and it
+arrives the same way: the docx **SUB-PAGES** section gives this page a `Title`
+and a `Meta` and **never a body**, so every paragraph on it was invented by some
+earlier rebrand and rewritten by every rebrand since. If the page you inherit
+has `<h2>`s and seven paragraphs, **delete them down to the one intro** — that
+is a fix, not a scope overrun.
+
+Everything else stays: the `Announcement`, the image grid and its `alt` text,
+the CTA, `Navfoot`, the `pageGraph` call (keep `primaryImagePath`), the
+`MainLayout` title and description. Retheme all of it to the new palette as
+normal, and keep writing a real 150–160 character description — the page is
+still indexed and still needs to say what it is.
+
+Consequence for the Phase 5 inventory: `/promotion` contributes **`h1×1`,
+`h2×0`, `h3×0`**, exactly like the two button pages.
+
+The remaining sub-pages — `/about-us`, `/ทดลองเล่น`, `/บทความ`, `/terms`,
+`/privacy` — are the opposite: they *are* articles and their headings come from
+their own body, per Phase 5.
 
 ### The active footer carries the same contact block
 
@@ -1259,7 +1320,8 @@ with what it may have written.)
 
 **The uploader's "ส่วนที่ 5 — สร้างหน้าเพิ่ม (ตัวเลือก)" can scaffold NEW
 pages before you start.** An operator may toggle on one of the preset extra
-pages (currently `บทความ.astro` and `about-us.astro`) in the uploader. When
+pages (`บทความ.astro` and `about-us.astro`; `register.astro`/`login.astro` are
+also toggles but behave differently — see below) in the uploader. When
 they do, the tool creates that `src/pages/*.astro` for real — cloning an
 existing sub-page's frontmatter (so it inherits the brand's current
 `Announcement*`/`ContentBox*` variants) — but leaves the **body as a blank
@@ -1281,6 +1343,47 @@ final copy. **These pages are in scope for this phase like any other
    the tool's default label/`(อยู่ระหว่างจัดทำเนื้อหา)` placeholder), same as
    item 1 of this phase.
 3. Run the same brand-name / hue / chrome / stale-asset sweep on it.
+
+**`register.astro` and `login.astro` are a different kind of preset — button
+pages, not articles.** Their toggle converts the interstitial that auto-forwards
+to the affiliate link into a real page whose only content is one button to that
+same destination, so the route becomes indexable instead of reading as a sneaky
+redirect. Spot them by `const targetUrl` in the frontmatter next to a
+`TODO(rebrand)` comment. On these:
+
+- **Never write an article, and never add an `<h2>`.** One `<h1>` from
+  `<ContentBox as="h1">` and one button — the same rule `/contact-us` and
+  `/ทางเข้า` follow.
+- **Never edit `targetUrl`.** It is this brand's affiliate link, carried over
+  from the page you replaced. Restyle the button, leave the destination and its
+  `rel="nofollow sponsored"` alone.
+- **Title and description are now load-bearing.** These pages used to be
+  `noindex`; as button pages they are indexed, so `verify-build` holds their
+  description to 150–160 characters like any other page. The tool carries over
+  the old interstitial's copy as a starting point, and that copy still describes
+  an automatic redirect that no longer happens — rewrite both.
+- Recolour the button to the palette. The tool clones its classes from whichever
+  matching button `/ทางเข้า` already has, so it is usually right already; if
+  `/ทางเข้า` had no such button the class falls back to a neutral grey and the
+  TODO comment says so.
+- **`CtaRedirect.astro` is rendered on both of these pages, so it is in scope
+  for the retheme.** It is the loading animation the interstitial used to show
+  on its way to the affiliate link — an orb, two counter-rotating rings and the
+  brand name — now triggered by the click instead of by page load, so the page
+  itself stays a real page. Nothing else in the repo renders it, which means an
+  un-rethemed copy ships the **previous** brand's hues on the one screen a
+  visitor sees at the moment they convert. Its scoped `<style>` is the only
+  place to change: swap the hexes for the palette's primary, its light and deep
+  shades, the second hue on `.ring-2`, and the panel/backdrop surface. Leave the
+  markup, the timings and the `<script>` alone — `data-cta-redirect` on the
+  anchor is what the script binds to, and the brand name comes from
+  `BRAND_NAME` on its own.
+- **`ทางเข้า` leaves the menu while either toggle is on, by design.** That page
+  exists only to offer เข้าสู่ระบบ and สมัครสมาชิก, so once those two are menu
+  entries themselves it is a third link to the same two places. The page stays
+  routed and indexed — only its menu entry goes, and switching the last cta
+  toggle back off restores it with its original icon. Do not re-add it by hand,
+  and do not delete `src/pages/ทางเข้า.astro`.
 
 The uploader also tries to add the page's `{ name, path }`
 to the **active navbar's** link arrays (both desktop + mobile) on a
@@ -1533,35 +1636,20 @@ files:
 grep -rlE "slide[0-9]\.png|banner[0-9]?\.png" src/
 ```
 
-**The glob-selection trap:** `MainLayout.astro` (and similar) often
-pick a hero/banner image via
-`import.meta.glob("../assets/banner*.{png,webp,jpg,jpeg}")` and just
-take `Object.keys(...)[0]`. If old `.png` originals are still sitting
-in `src/assets` alongside the new `.webp` drop (common — the asset
-swap usually keeps same-name old files around), **alphabetical sort
-picks the stale file silently** — no build error, just the wrong
-image rendering. Verify this by checking the actual rendered `<img
-src>` in Phase 5, not just that the build succeeds. Fix by explicitly
-preferring `.webp` and/or the specific file the user referenced as
-"ref", with the naive alphabetical pick only as a last-resort fallback.
+**The hero pick needs nothing from you — leave it alone.** `MainLayout`
+pins `import.meta.glob("../assets/banner1.{png,webp,jpg,jpeg}")` by name and
+throws if the file is missing, so there is no wide `banner*` glob to pick the
+wrong number out of and no silent fallback to a previous brand's art. If both
+`banner1.png` and `banner1.webp` are on disk it prefers the `.webp`. The
+banner/slide roles themselves are Phase 1's; do not restate or re-derive them
+here.
 
-**The `banner1` = hero convention (reconcile the glob pick with it).**
-The upload tool (`tools/rebrand-uploader`) and Phase 1/2 fix the hero as
-**`banner1`**, with `banner2`, `banner3`, … reserved as article-
-illustration images. So when you retheme `MainLayout.astro`, its
-preferred-banner pick **must target `banner1`** (`path.endsWith("banner1.")`
-across the glob'd extensions, or the user's explicit "ref"), and must
-*not* inherit the previous brand's hardcoded banner number. A live file
-has shipped hardcoding `banner3.png` as the preferred hero (that was one
-brand's specific choice); left as-is, once a new brand also uploads a
-`banner3` *article* image, the glob would grab that article image as the
-hero. When you rewrite `MainLayout.astro` in Phase 3, repoint the
-`preferredBannerPath` line to `banner1` — don't carry the old number
-forward. Two halves of this trap now differ in how they're handled:
-the **stale-extension** half is largely prevented at source (the uploader
-normalizes to one extension per name and deletes same-base siblings), but
-the **wrong-number** half is not — it's on you to point the hero pick at
-`banner1` every rebrand.
+Do **not** reintroduce a `banner*` glob, a `preferredBannerPath` variable, or
+any fallback chain while rethemeing. Every one of those existed and each cost a
+brand something: an eager wide glob emits every match into `dist/` whether or
+not a page renders it (3.1 MB of three dead brands' banners, every build), and
+a fallback silently served old art when the new file was missing instead of
+stopping the build.
 
 **The OG/Twitter image comes from `slide1` (not a `public/` file).**
 `MainLayout.astro` sets the `og:image`/`twitter:image` via the `ImageOg`
@@ -1610,9 +1698,11 @@ pointing at a `public/` path during a rebrand, repoint it to the
      owns them. They are pre-existing and expected — **do not go fix them
      during a rebrand.** Chasing a warning mid-rebrand means editing files
      outside the brief.
-   - It also prints the `h1`/`h2` inventory per page. Diff that against the
-     docx checklist here rather than grepping for headings by hand; the
-     script cannot read the brief, so this part is still your job.
+   - It also prints the `h1`/`h2` inventory per page. **That printout is the
+     only heading list you need** — the script cannot read the brief, so
+     diffing it against the docx checklist is still your job, but extracting
+     the headings is not. Step 2 below says what to compare and in which
+     directions; do not grep the pages for headings a second time.
 
    The script lives outside every file a rebrand rewrites, on purpose. If a
    new class of bug shows up twice, add a check to it instead of adding a
@@ -1640,10 +1730,13 @@ pointing at a `public/` path during a rebrand, repoint it to the
      for you to look at is that the footer renders it **at all** —
      `grep -c '<address' dist/index.html` should be `1`. A `0` means the
      footer swap in Phase 4.5 dropped it, which no gate catches
-   - **`grep -c '<h2' dist/contact-us/index.html dist/ทางเข้า/index.html`
-     must be `0` for both** — they are button pages, not articles
-     (Phase 4.5). Any hit means prose was written back in; delete the prose,
-     don't demote the tag
+   - **`grep -c '<h2' dist/contact-us/index.html dist/ทางเข้า/index.html
+     dist/promotion/index.html` must be `0` for all three** — the first two
+     are button pages and `/promotion` is an image page, none of them are
+     articles (Phase 4.5). Any hit means prose was written back in; delete the
+     prose, don't demote the tag. On `/promotion` also eyeball that the prose
+     above the image grid is still **one paragraph of about four lines** — the
+     `h2` count alone won't catch six headingless paragraphs
    - `grep -c '<!--' dist/index.html` should be 0 — Astro ships HTML
      comments to output, so any `<!-- H2: … -->` section labels left in
      a page leak the docx outline (and often the old brand name) into
@@ -1655,13 +1748,13 @@ pointing at a `public/` path during a rebrand, repoint it to the
      screenshot or in a build log
    - if a FAQ/accordion was wired up, count its item markup to confirm
      all entries rendered
-   - **content completeness/order**: extract every `<h1>`/`<h2>`
-     (whatever level the docx uses) from the rendered HTML with a
-     regex pass, strip tags, and diff that list against the numbered
-     docx heading checklist from Phase 2 — same count, same text, same
-     top-to-bottom order. A missing heading or a section that comes
-     out of order is a real bug, not a nitpick; go back and fix the
-     page structure, don't just note it.
+   - **content completeness/order** — this is the heading diff from
+     step 1, not a second pass. Do not re-extract the headings with a
+     regex; the build already printed them per page. Read that list
+     against the numbered docx checklist from Phase 2: same count,
+     same text, same top-to-bottom order. A missing heading or a
+     section out of order is a real bug — fix the page structure,
+     don't just note it.
 
      **The diff runs both directions.** A heading in the page that is
      *not* in the checklist is as much a defect as a missing one — it
