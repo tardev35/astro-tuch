@@ -1,23 +1,28 @@
 ---
-const { titleleft, titleright } = Astro.props;
+export interface Props {
+  title?: string;
+  titleleft?: string;
+  titleright?: string;
+}
+const { title, titleleft, titleright } = Astro.props;
+const rightHeading = titleright ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#c8102e]/30 bg-[#0c0505]/80 p-8 text-[#f4e3c8]/90 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f6d78a]/50 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#b6821d]/40 bg-[#0a0704]/85 p-8 text-[#f2e6cd] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f5c518]/60 md:p-10">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article
-        class="flex flex-col gap-4 border-b border-[#8a1420]/50 pb-6 text-center text-base font-medium text-[#f6d78a] md:border-r md:border-b-0 md:pr-6 md:pb-0 md:text-left">
+      <article class="flex flex-col gap-4 border-b border-[#845914]/50 pb-6 text-left text-base font-medium text-[#fff2c3] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
-            <h2 class="text-center text-4xl leading-normal font-black tracking-wider text-white uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)] md:text-left">{titleleft}</h2>
+            <h2 class="text-center text-4xl leading-normal font-black tracking-wider text-[#d3d3d3] uppercase drop-shadow-[0_2px_10px_rgba(211,211,211,0.25)] md:text-left">{titleleft}</h2>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e3cdb0] md:pl-6">
-        {titleright && <h2 class="flex items-center gap-2 text-2xl leading-normal font-black text-[#f6d78a] drop-shadow-[0_0_8px_rgba(246,215,138,0.3)]">{titleright}</h2>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f2e6cd] md:pl-6">
+        {rightHeading && <h2 class="flex items-center gap-2 text-2xl leading-normal font-black text-[#f5c518] drop-shadow-[0_0_8px_rgba(245,197,24,0.35)]">{rightHeading}</h2>}
         <slot name="right" />
       </article>
     </div>

@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://we168.live",
+  site: "https://ufa-slot.vip",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship
