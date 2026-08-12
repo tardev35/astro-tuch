@@ -4,18 +4,21 @@ import { Picture } from "astro:assets";
 import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.png";
 
-// The alt text is whatever is actually printed on the artwork — the two strings
-// below were swapped for an earlier brand (slide1 was described as the
-// "แนะนำเพื่อน 0.8%" poster when 0.8% is slide2), so both are re-read off the
-// images every rebrand and rewritten here.
+// Only slide1 and slide2 exist for this brand. slide3/slide4 are previous
+// brands' artwork and must never be imported here — an import is an emit, so
+// importing them would ship them to dist/ even if nothing rendered them.
+//
+// The alt strings below are read off the artwork itself, not guessed from the
+// filename: an earlier rebrand shipped them swapped (slide1 described as the
+// 0.8% poster when 0.8% is the other one), so they are rewritten every round.
 const images = [
   {
     src: slide1,
-    alt: "โปสเตอร์โปรโมชั่น SUPERWIN9 พื้นหลังดำแดงประกายทอง โลโก้ SUPERWIN9 ตัวอักษรแดงทองสามมิติ ข้อความ โปรโมชั่น คืนยอดเสีย รับโบนัส พร้อมตัวเลข 0.3% ขนาดใหญ่สีทอง หญิงสาวผมยาวสวมชุดราตรีแดงดำยืนชี้นิ้ว ข้างกายมีวงล้อรูเล็ต ไพ่โพดำคู่เอซ ชิปคาสิโนสีแดง กองเหรียญทอง และกล่องของขวัญ แถบล่างเขียนว่า รับโบนัสสูงสุดทุกวัน ออโต้เข้ากระเป๋าไว มั่นคงปลอดภัย 100% และบริการตลอด 24 ชม.",
+    alt: "โปสเตอร์โปรโมชั่น 12PLAY พื้นหลังดำลายวงจรไฟฟ้าเรืองแสงสีแดง มุมบนซ้ายเป็นโลโก้ 12PLAY ตัวอักษรโครเมียมสลับแดง ถัดลงมาเป็นแผ่นป้ายเขียนว่า โปรโมชั่น คืนยอดเสีย รับโบนัส และตัวเลข 0.3% ขนาดใหญ่สีแดง หญิงสาวในชุดแดงดำยืนแบมือทางซ้าย ด้านข้างมีไพ่เอซกับไพ่เค ชิปคาสิโนสีแดงและขาวสลักเลข 12 แถบล่างเขียนว่า มั่นคง ปลอดภัย เชื่อถือได้ 100% ฝาก-ถอน ออโต้ รวดเร็ว ทันใจ บริการดูแล 24 ชม. พร้อมดูแลคุณ และ งานบริการมาตรฐานระดับสากล",
   },
   {
     src: slide2,
-    alt: "โปสเตอร์โปรโมชั่น SUPERWIN9 พื้นหลังดำแดงประกายทอง โลโก้ SUPERWIN9 ตัวอักษรแดงทองสามมิติ ข้อความ โปรโมชั่น แนะนำเพื่อน รับโบนัส พร้อมตัวเลข 0.8% ขนาดใหญ่สีทอง หญิงสาวผมยาวสวมชุดราตรีแดงดำยืนชี้นิ้ว ข้างกายมีวงล้อรูเล็ต ไพ่เอซสามใบ ชิปคาสิโน กองเหรียญทอง และกล่องของขวัญสีดำคาดโบว์ทอง แถบล่างเขียนว่า แนะนำเพื่อนง่ายๆ เพียงแค่แชร์ลิงก์ให้เพื่อน และเพื่อนเล่นคุณรับโบนัสทันที",
+    alt: "โปสเตอร์โปรโมชั่น 12PLAY พื้นหลังดำลายวงจรไฟฟ้าเรืองแสงสีแดง โลโก้ 12PLAY ตัวอักษรโครเมียมสลับแดงอยู่ด้านบนซ้าย ถัดลงมาเป็นแผ่นป้ายเขียนว่า โปรโมชั่น แนะนำเพื่อน รับโบนัส 0.8% โดยตัวเลข 0.8% เป็นตัวใหญ่สีขาวขอบแดง หญิงสาวในชุดกีฬาแดงดำติดโลโก้ 12PLAY ยืนแบมือทางซ้าย รอบตัวมีชิปคาสิโนสีแดงและไพ่เอซลอยอยู่",
   },
 ];
 
@@ -27,7 +30,7 @@ const slides = Array.from({ length: COPIES }, () => images).flat();
   <input id="carousel-pause" type="checkbox" class="peer sr-only" />
   <label
     for="carousel-pause"
-    class="sr-only cursor-pointer peer-focus-visible:not-sr-only peer-focus-visible:mb-3 peer-focus-visible:inline-block peer-focus-visible:rounded-full peer-focus-visible:border peer-focus-visible:border-[#ebbb4a]/60 peer-focus-visible:px-4 peer-focus-visible:py-2 peer-focus-visible:text-sm peer-focus-visible:font-bold peer-focus-visible:text-[#ebbb4a]">
+    class="sr-only cursor-pointer peer-focus-visible:not-sr-only peer-focus-visible:mb-3 peer-focus-visible:inline-block peer-focus-visible:rounded-full peer-focus-visible:border peer-focus-visible:border-[#e01020]/60 peer-focus-visible:px-4 peer-focus-visible:py-2 peer-focus-visible:text-sm peer-focus-visible:font-bold peer-focus-visible:text-[#ff5a63]">
     หยุด / เล่นสไลด์ภาพ
   </label>
 
@@ -40,11 +43,11 @@ const slides = Array.from({ length: COPIES }, () => images).flat();
             <Picture
               src={slide.src}
               alt={isDuplicate ? "" : slide.alt}
-              class="block w-full rounded-xl border border-[#ebbb4a]/45 object-cover shadow-[0_10px_30px_rgba(200,17,24,0.22)]"
+              class="block w-full rounded-xl border border-[#e01020]/45 object-cover shadow-[0_10px_30px_rgba(224,16,32,0.22)]"
               width={slide.src.width}
               height={slide.src.height}
-              loading={index < 2 ? "eager" : "lazy"}
-              fetchpriority={index === 0 ? "high" : "auto"}
+              loading="lazy"
+              fetchpriority="low"
               decoding="async"
               widths={[200, 400, 600]}
               sizes="(max-width: 768px) 50vw, 33vw"

@@ -1,40 +1,70 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import AnnouncementPremium from "../components/AnnouncementPremium.astro";
+import Announcement5 from "../components/Announcement5.astro";
 import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
 import ContentBox from "../components/ContentBox.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
 import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import LatestWinnersPremium from "../components/LatestWinnersPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
+import LatestWinners3 from "../components/LatestWinners3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import Faq4 from "../components/Faq4.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import Faq3 from "../components/Faq3.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
+import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-const pageTitle = "SUPERWIN9 คาสิโนเกมนักล่า รับโบนัสแนะนำ0.8% เข้ากระเป๋าออนไลน์ทันที เพียงแค่แชร์ รับได้เลย";
+// Title and description are the docx brief's own lines (content.txt line 1),
+// used verbatim — the description already lands inside the 150-160 character
+// window the build gate enforces.
+const pageTitle = "12PLAY คาสิโนที่ดีที่สุดเบอร์1ของไทย โปรโมชั่นดี โบนัสค่าแนะนำสูง";
 
-const pageDescription =
-  "SUPERWIN9 คาสิโนเกมนักล่า เปิดให้เข้าร่วมเล่นคาสิโนสด บาคาร่า รูเล็ต และสล็อตทุกค่าย พร้อมรับโบนัสทุกวัน 0.8% เข้ากระเป๋าเงินออนไลน์ กดรับทันที ถอนไม่จำกัด";
+const pageDescription = "12PLAY คาสิโนที่ดีที่สุดเบอร์1ของไทย เซียนนักพนันให้การแนะนำมากที่สุด มาพร้อมโปรดีมาแรง ค่าแนะนำสูง สมัครเล่นได้ 24 ชั่วโมง แอดมินดูแลตลอดทั้งวันทั้งคืน";
 
+// The docx's "เริ่มต้นใช้งานได้ง่ายเพียง 3 ขั้นตอน" sub-points. Each description
+// is the docx line verbatim; FeatureHighlights renders the titles as the only
+// <h3> tier on the page.
+const steps = [
+  {
+    icon: "📝",
+    title: "ขั้นตอนที่ 1 สมัครสมาชิก",
+    description: "สมัครสมาชิกและกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน",
+    accent: "red" as const,
+  },
+  {
+    icon: "💳",
+    title: "ขั้นตอนที่ 2 เข้าสู่ระบบและฝากเครดิต",
+    description: "Login เข้าสู่บัญชีและทำรายการฝากเครดิตผ่านระบบอัตโนมัติ",
+    accent: "silver" as const,
+  },
+  {
+    icon: "🎯",
+    title: "ขั้นตอนที่ 3 เลือกเกมและเริ่มเดิมพัน",
+    description: "ตรวจสอบโปรโมชั่น เลือกเกมคาสิโนที่ต้องการ และศึกษากติกาก่อนเริ่มเดิมพัน",
+    accent: "red" as const,
+  },
+];
+
+// One array, used by both <Faq3> and the FAQPage node — never the component's
+// own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "โบนัสแนะนำเพื่อน SUPERWIN9 0.8% รับอย่างไร?",
-    a: "สมาชิกสามารถเข้าสู่ระบบและนำลิงก์แนะนำของตนเองไปแชร์ให้เพื่อน เมื่อเพื่อนสมัครและมียอดที่เข้าเงื่อนไข ระบบจะคำนวณโบนัสแนะนำ 0.8% ตามข้อกำหนดของโปรโมชั่น ควรตรวจสอบรายละเอียดล่าสุดก่อนกดรับทุกครั้ง",
+    q: "12PLAY มีเกมคาสิโนประเภทไหนให้เลือกเล่นบ้าง?",
+    a: "สมาชิกสามารถเลือกเกมได้หลายหมวดหมู่ เช่น บาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก สล็อต และเกมคาสิโนประเภทอื่น ๆ โดยรายการเกมที่เปิดให้บริการสามารถตรวจสอบได้จากบัญชีสมาชิก",
   },
   {
-    q: "SUPERWIN9 รองรับการฝากถอนผ่านธนาคารอะไรบ้าง?",
-    a: "ระบบรองรับธนาคารและช่องทางการทำธุรกรรมตามรายการที่แสดงอยู่ในหน้าฝากถอนของเว็บไซต์ สมาชิกควรตรวจสอบช่องทางที่เปิดให้บริการ ณ เวลาทำรายการ รวมถึงชื่อบัญชีและรายละเอียดให้ถูกต้องก่อนยืนยัน",
+    q: "โบนัสค่าแนะนำของ 12PLAY รับอย่างไร?",
+    a: "สมาชิกสามารถนำลิงก์แนะนำของตนเองไปแชร์ให้เพื่อน เมื่อมีรายการที่ตรงตามเงื่อนไข ระบบจะคำนวณสิทธิ์โบนัสตามอัตราที่กำหนด ควรตรวจสอบรายละเอียดและเงื่อนไขล่าสุดของโปรโมชั่นก่อนเข้าร่วมทุกครั้ง",
   },
   {
-    q: "หากโบนัสไม่เข้าหรือถอนเงินไม่ได้ต้องทำอย่างไร?",
-    a: "ให้ตรวจสอบสถานะรายการและเงื่อนไขของโปรโมชั่นก่อน หากยังพบปัญหา สามารถติดต่อแอดมิน SUPERWIN9 พร้อมแจ้งรายละเอียดบัญชีและรายการที่เกี่ยวข้อง เพื่อให้ทีมงานตรวจสอบและแนะนำขั้นตอนดำเนินการต่อได้ตลอด 24 ชั่วโมง",
+    q: "หากฝากถอนหรือโบนัสไม่เข้าต้องทำอย่างไร?",
+    a: "ตรวจสอบสถานะรายการในบัญชีสมาชิกก่อน หากพบว่ารายการยังค้างหรือยอดไม่ถูกต้อง สามารถติดต่อแอดมิน 12PLAY พร้อมแจ้งรายละเอียดและเวลาที่ทำรายการ เพื่อให้ทีมงานช่วยตรวจสอบได้ตลอด 24 ชั่วโมง",
   },
 ];
 
@@ -48,29 +78,29 @@ const graph = pageGraph(Astro, {
 <MainLayout title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
-  <AnnouncementPremium
-    message="SUPERWIN9 คาสิโนเกมนักล่า รวมคาสิโนสด บาคาร่า รูเล็ต เสือมังกร และสล็อตจากหลายค่ายไว้ในบัญชีเดียว • โบนัสแนะนำเพื่อน 0.8% ตามเงื่อนไขของกิจกรรม เพียงแชร์ลิงก์แนะนำของตนเองให้เพื่อน • ฝากถอนรองรับช่องทางธนาคารที่เว็บไซต์เปิดให้บริการ ตรวจสอบสถานะรายการได้ด้วยตนเอง • แอดมิน SUPERWIN9 พร้อมให้คำแนะนำตลอด 24 ชั่วโมง"
+  <Announcement5
+    message="12PLAY คาสิโนออนไลน์ รวมบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก และสล็อตหลายค่ายไว้ในบัญชีเดียว • โปรโมชั่นและสิทธิพิเศษอัปเดตต่อเนื่อง พร้อมกิจกรรมแนะนำเพื่อนรับโบนัสตามเงื่อนไข • สมัครสมาชิกใหม่ตรวจสอบโบนัสยอดฝากที่เปิดให้รับได้จากหน้าเว็บไซต์ • ระบบฝากถอนอัตโนมัติทำรายการได้ตลอด 24 ชั่วโมง • แอดมิน 12PLAY ดูแลตลอดทั้งวันทั้งคืน"
   />
 
   <SmoothCarousel />
 
-  <ContentBoxPremium as="h1" title="SUPERWIN9 คาสิโนเกมนักล่า เข้าร่วมสมาชิก รับโบนัสเพียบ">
-    <p class="text-left text-base leading-relaxed text-[#efe3d2]">
-      <strong class="text-[#ebbb4a]">SUPERWIN9</strong> พร้อมให้บริการสมาชิกที่ต้องการเล่นเกมคาสิโนออนไลน์ผ่านมือถือและคอมพิวเตอร์ มีเกมหลากหลายหมวดหมู่ให้เลือก พร้อมโปรโมชั่นสำหรับสมาชิก
-      โดยเฉพาะโบนัสแนะนำเพื่อน 0.8% ตามเงื่อนไขที่กำหนด ระบบรองรับการฝากถอนผ่านช่องทางที่เปิดให้บริการ และมีแอดมินคอยช่วยเหลือตลอด 24 ชั่วโมง ตั้งแต่ขั้นตอนสมัครสมาชิกไปจนถึงการใช้งานภายในระบบ
+  <ContentBoxFloatingBadge as="h1" title="12PLAY คาสิโนที่ดีที่สุดเบอร์1ของไทย เซียนพนันแนะนำมากที่สุด">
+    <p class="text-left text-base leading-relaxed text-[#e0d7d8]">
+      <strong class="text-[#ff5a63]">12PLAY</strong> พร้อมให้บริการสมาชิกที่ต้องการเล่นคาสิโนออนไลน์ผ่านระบบที่รองรับทั้งมือถือและคอมพิวเตอร์ มีเกมเดิมพันหลากหลายประเภทให้เลือก พร้อมโปรโมชั่นสำหรับสมาชิกใหม่และสมาชิกปัจจุบัน
+      รวมถึงโบนัสจากกิจกรรมแนะนำเพื่อนตามเงื่อนไข ระบบเปิดให้เข้าใช้งานตลอด 24 ชั่วโมง และมีแอดมินคอยให้คำแนะนำทั้งกลางวันและกลางคืน
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <ContentBox as="h2" title="SUPERWIN9 แหล่งรวมเกมคาสิโน โบนัสหนัก ทุกค่าย">
-    <p class="text-left text-base leading-relaxed text-[#efe3d2]">
-      สมาชิกสามารถเลือกเล่นเกมคาสิโนออนไลน์ได้หลากหลายประเภทภายในบัญชีเดียว ทั้งคาสิโนสด บาคาร่า รูเล็ต เสือมังกร สล็อต และเกมเดิมพันยอดนิยมจากหลายค่าย พร้อมอัปเดตเกมใหม่อย่างต่อเนื่อง
-      ระบบรองรับการใช้งานผ่านสมาร์ตโฟน แท็บเล็ต และคอมพิวเตอร์ ช่วยให้ค้นหาเกมที่สนใจและสลับเข้าเล่นแต่ละหมวดหมู่ได้สะดวก
+  <ContentBox as="h2" title="12PLAY คาสิโนออนไลน์ รวมค่ายแท้ เกมครบวงจร">
+    <p class="text-left text-base leading-relaxed text-[#e0d7d8]">
+      สมาชิกสามารถเลือกเล่นเกมคาสิโนออนไลน์ได้หลากหลายหมวดหมู่ภายในบัญชีเดียว ไม่ว่าจะเป็นบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก สล็อต และเกมเดิมพันยอดนิยมอื่น ๆ ระบบรองรับการเข้าเล่นผ่านสมาร์ตโฟน
+      แท็บเล็ต และคอมพิวเตอร์ พร้อมจัดหมวดหมู่เกมให้ค้นหาได้ง่าย ช่วยให้สมาชิกเลือกเกมที่สนใจได้สะดวกโดยไม่ต้องสลับใช้งานหลายระบบ
     </p>
   </ContentBox>
 
   <ProviderGrid />
 
-  <ContentBoxSevenThreeNeumorphism title="สิทธิพิเศษสำหรับสมาชิก SUPERWIN9 รับโบนัสแนะนำ 0.8%">
+  <ContentBoxSevenThreePremium title="คาสิโนออนไลน์ 12PLAY โปรโมชั่นดี ได้ค่าแนะนำสูงที่สุด">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -82,54 +112,68 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่น SUPERWIN9 พื้นหลังดำแดงประกายทอง โลโก้ SUPERWIN9 ตัวอักษรแดงทองสามมิติ ข้อความ โปรโมชั่น แนะนำเพื่อน รับโบนัส พร้อมตัวเลข 0.8% ขนาดใหญ่สีทอง หญิงสาวผมยาวสวมชุดราตรีแดงดำยืนชี้นิ้ว ข้างกายมีวงล้อรูเล็ต ไพ่เอซสามใบ ชิปคาสิโน กองเหรียญทอง และกล่องของขวัญสีดำคาดโบว์ทอง แถบล่างเขียนว่า แนะนำเพื่อนง่ายๆ เพียงแค่แชร์ลิงก์ให้เพื่อน และเพื่อนเล่นคุณรับโบนัสทันที"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#ebbb4a]/45 shadow-[0_10px_30px_rgba(200,17,24,0.22)]"
+      alt="โปสเตอร์โปรโมชั่น 12PLAY พื้นหลังดำลายวงจรไฟฟ้าเรืองแสงสีแดง โลโก้ 12PLAY ตัวอักษรโครเมียมสลับแดงอยู่ด้านบนซ้าย ถัดลงมาเป็นแผ่นป้ายเขียนว่า โปรโมชั่น แนะนำเพื่อน รับโบนัส 0.8% โดยตัวเลข 0.8% เป็นตัวใหญ่สีขาวขอบแดง หญิงสาวในชุดกีฬาแดงดำติดโลโก้ 12PLAY ยืนแบมือทางซ้าย รอบตัวมีชิปคาสิโนสีแดงและไพ่เอซลอยอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e01020]/45 shadow-[0_10px_30px_rgba(224,16,32,0.22)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#efe3d2]">
-      สมาชิก SUPERWIN9 สามารถเข้าร่วมโปรโมชั่นแนะนำเพื่อนเพื่อรับโบนัส 0.8% ตามเงื่อนไขของกิจกรรม เพียงเข้าสู่บัญชีสมาชิก คัดลอกลิงก์แนะนำของตนเองและแชร์ให้เพื่อน เมื่อรายการเป็นไปตามข้อกำหนด
-      ระบบจะแสดงโบนัสที่สามารถรับได้ สมาชิกควรตรวจสอบยอดคำนวณ รอบการรับ และเงื่อนไขการถอนก่อนกดรับสิทธิ์ทุกครั้ง
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e0d7d8]">
+      12PLAY มีโปรโมชั่นและสิทธิพิเศษสำหรับสมาชิกที่อัปเดตอย่างต่อเนื่อง รวมถึงกิจกรรมแนะนำเพื่อนที่ให้สมาชิกแชร์ลิงก์ของตนเองเพื่อรับโบนัสตามยอดที่เข้าเงื่อนไข
+      สามารถตรวจสอบยอดแนะนำและสิทธิ์ที่ได้รับผ่านบัญชีสมาชิกได้โดยตรง ก่อนเข้าร่วมควรอ่านรายละเอียด อัตราโบนัส รอบการรับ และข้อกำหนดการถอนให้ครบถ้วนทุกครั้ง
     </p>
+  </ContentBoxSevenThreePremium>
+
+  <ContentBoxSevenThreeNeumorphism title="สมัคร 12PLAY รับโบนัสยอดฝากได้ตลอดทั้งวัน">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[200, 400, 600]}
+      sizes="(max-width: 768px) 100vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่น 12PLAY พื้นหลังดำลายวงจรไฟฟ้าเรืองแสงสีแดง มุมบนซ้ายเป็นโลโก้ 12PLAY ตัวอักษรโครเมียมสลับแดง ถัดลงมาเป็นแผ่นป้ายเขียนว่า โปรโมชั่น คืนยอดเสีย รับโบนัส และตัวเลข 0.3% ขนาดใหญ่สีแดง หญิงสาวในชุดแดงดำยืนแบมือทางซ้าย ด้านข้างมีไพ่เอซกับไพ่เค ชิปคาสิโนสีแดงและขาวสลักเลข 12 แถบล่างเขียนว่า มั่นคง ปลอดภัย เชื่อถือได้ 100% ฝาก-ถอน ออโต้ รวดเร็ว ทันใจ บริการดูแล 24 ชม. พร้อมดูแลคุณ และ งานบริการมาตรฐานระดับสากล"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e01020]/45 shadow-[0_10px_30px_rgba(224,16,32,0.22)]"
+    />
+    <div slot="right" class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#e0d7d8]">
+        ผู้ใช้งานใหม่สามารถสมัครสมาชิก 12PLAY ผ่านระบบออนไลน์ได้ง่าย เมื่อเปิดบัญชีเรียบร้อยแล้ว สามารถตรวจสอบโปรโมชั่นโบนัสยอดฝากที่กำลังเปิดให้รับได้จากหน้าเว็บไซต์
+        โดยสิทธิ์และจำนวนโบนัสขึ้นอยู่กับเงื่อนไขของแต่ละโปรโมชั่น ระบบฝากถอนอัตโนมัติเปิดให้ทำรายการได้ตลอด 24 ชั่วโมง ช่วยให้สมาชิกตรวจสอบเครดิตและสถานะธุรกรรมได้ด้วยตนเอง
+      </p>
+      <p class="text-left text-base leading-relaxed font-bold text-[#ff5a63]">เริ่มต้นใช้งานได้ง่ายเพียง 3 ขั้นตอน</p>
+      <FeatureHighlights items={steps} />
+    </div>
   </ContentBoxSevenThreeNeumorphism>
 
-  <LatestWinnersPremium />
-
-  <ContentBoxFloatingBadge as="h2" title="SUPERWIN9 ฝากและถอนได้ทุกช่องทาง รองรับทุกธนาคาร">
-    <p class="text-left text-base leading-relaxed text-[#efe3d2]">
-      ระบบฝากถอนของ SUPERWIN9 รองรับช่องทางธนาคารและวิธีการชำระเงินที่เว็บไซต์เปิดให้บริการ สมาชิกสามารถฝากเครดิต ตรวจสอบยอด ส่งคำขอถอน และติดตามสถานะรายการผ่านบัญชีของตนเองได้โดยตรง
-      ช่วยลดขั้นตอนในการทำธุรกรรม หากรายการล่าช้าหรือเครดิตไม่เข้า สามารถแจ้งทีมงานพร้อมรายละเอียดรายการเพื่อให้ช่วยตรวจสอบได้ทันที
-    </p>
-  </ContentBoxFloatingBadge>
+  <LatestWinners3 />
 
   <LoginRtpSection />
 
-  <ContentBoxCyberCut as="h2" title="ปรึกษาแอดมิน SUPERWIN9 ได้ทันที ไม่ต้องรอคิว">
-    <div>
-      <p class="text-left text-base leading-relaxed text-[#efe3d2]">
-        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก การ Login การฝากถอน การรับโบนัสแนะนำเพื่อน หรือการเข้าเล่นเกมคาสิโน สามารถติดต่อแอดมิน SUPERWIN9 ได้ตลอด 24 ชั่วโมง
-        ทีมงานพร้อมให้คำแนะนำตามขั้นตอนและช่วยตรวจสอบรายการ เพื่อให้สมาชิกแก้ไขปัญหาและกลับมาใช้งานได้อย่างต่อเนื่อง
+  <ContentBoxPremium as="h2" title="12PLAY การันตีเว็บแท้ มีแอดมินดูแลตลอดทั้งวันทั้งคืน">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#e0d7d8]">
+        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก การเข้าสู่ระบบ ฝากเงิน ถอนเงิน รับโบนัส หรือเข้าเล่นเกมคาสิโน สามารถติดต่อแอดมิน 12PLAY ได้ตลอด 24 ชั่วโมง
+        ทีมงานพร้อมช่วยตรวจสอบรายการและแนะนำขั้นตอนการใช้งาน เพื่อให้สมาชิกสามารถแก้ไขปัญหาและกลับมาใช้งานได้อย่างต่อเนื่อง
       </p>
-      <a
-        href="/line"
-        class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#00B900] to-[#009900] px-7 py-3 text-sm font-black text-white shadow-[0_10px_30px_rgba(0,185,0,0.24)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-105">
-        <span aria-hidden="true">💬</span> ติดต่อแอดมิน SUPERWIN9 ผ่าน LINE
-      </a>
+      <p class="text-left text-base leading-relaxed text-[#e0d7d8]">ทั้งนี้ การพนันมีความเสี่ยงและไม่มีระบบหรือเทคนิคใดรับประกันผลกำไร ผู้เล่นควรศึกษากติกาและกำหนดงบประมาณก่อนเดิมพันทุกครั้ง</p>
     </div>
-  </ContentBoxCyberCut>
+  </ContentBoxPremium>
 
-  <Faq4 title="คำถามที่พบบ่อยเกี่ยวกับ SUPERWIN9" faqs={faqs} />
+  <Faq3 title="คำถามที่พบบ่อยเกี่ยวกับ 12PLAY" faqs={faqs} />
 
   <ReviewCardSumo2 />
 
   <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#f5333c] via-[#c81118] to-[#7a0d10] px-4 py-3 text-sm font-black whitespace-nowrap text-[#2a0a02] shadow-[0_10px_30px_rgba(200,17,24,0.28)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(200,17,24,0.42)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#ff5a63] via-[#e01020] to-[#8a0710] px-4 py-3 text-sm font-black whitespace-nowrap text-[#f4eff0] shadow-[0_10px_30px_rgba(224,16,32,0.28)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(224,16,32,0.42)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
 
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#ebbb4a]/50 bg-gradient-to-r from-[#240607] to-[#170405] px-4 py-3 text-sm font-black whitespace-nowrap text-[#ebbb4a] shadow-[0_10px_30px_rgba(235,187,74,0.16)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#fbe289]/70 hover:text-[#fbe289] hover:shadow-[0_15px_40px_rgba(235,187,74,0.28)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#e01020]/50 bg-gradient-to-r from-[#1a0304] to-[#0a0102] px-4 py-3 text-sm font-black whitespace-nowrap text-[#ff5a63] shadow-[0_10px_30px_rgba(224,16,32,0.16)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#ff5a63]/70 hover:text-[#f4eff0] hover:shadow-[0_15px_40px_rgba(244,239,240,0.28)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
   </div>

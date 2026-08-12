@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://superwin-9.com",
+  site: "https://12-play.co",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship

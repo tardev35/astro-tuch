@@ -5,8 +5,8 @@ import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
 import { BRAND_NAME, BRAND_TEXT, brandProfile, fontStack, iconVersion, usesGoogleFonts } from "../lib/brandProfile";
 import { canonicalFor } from "../lib/schema";
-import Navbar from "../components/NavbarPremium.astro";
-import Footer from "../components/FooterPremium.astro";
+import Navbar from "../components/NavbarStyle9.astro";
+import Footer from "../components/FooterStyle3.astro";
 
 // Only banner1 is ever rendered, so only banner1 is imported.
 //
@@ -50,13 +50,11 @@ const mobileBannerImages = import.meta.glob<{ default: ImageMetadata }>("../asse
 const mobileBannerPaths = Object.keys(mobileBannerImages);
 const mobileBannerPath = mobileBannerPaths.find((path) => path.endsWith(".webp")) ?? mobileBannerPaths[0];
 const mobileBanner = mobileBannerPath ? mobileBannerImages[mobileBannerPath].default : null;
-const mobileBannerImg = mobileBanner
-  ? await getImage({ src: mobileBanner, widths: [360, 480, 640, 828, 1080], format: "avif", quality: 60 })
-  : null;
+const mobileBannerImg = mobileBanner ? await getImage({ src: mobileBanner, widths: [360, 480, 640, 828, 1080], format: "avif", quality: 60 }) : null;
 
 const {
-  title = "SUPERWIN9 คาสิโนเกมนักล่า รับโบนัสแนะนำ0.8% เข้ากระเป๋าออนไลน์ทันที เพียงแค่แชร์ รับได้เลย",
-  description = "SUPERWIN9 คาสิโนเกมนักล่า เปิดให้เข้าร่วมเล่นคาสิโนสด บาคาร่า รูเล็ต และสล็อตทุกค่าย พร้อมรับโบนัสทุกวัน 0.8% เข้ากระเป๋าเงินออนไลน์ กดรับทันที ถอนไม่จำกัด",
+  title = "12PLAY คาสิโนที่ดีที่สุดเบอร์1ของไทย โปรโมชั่นดี โบนัสค่าแนะนำสูง",
+  description = "12PLAY คาสิโนที่ดีที่สุดเบอร์1ของไทย เซียนนักพนันให้การแนะนำมากที่สุด มาพร้อมโปรดีมาแรง ค่าแนะนำสูง สมัครเล่นได้ 24 ชั่วโมง แอดมินดูแลตลอดทั้งวันทั้งคืน",
   robots = "index, follow",
 } = Astro.props;
 
@@ -150,10 +148,7 @@ const profile = brandProfile(Astro.site);
         <Fragment>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
-            rel="stylesheet"
-          />
+          <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet" />
         </Fragment>
       )
     }
@@ -229,18 +224,18 @@ const profile = brandProfile(Astro.site);
         <div class="fixed inset-0 -z-50 h-full w-full bg-cover bg-center" style={bgCss} />
       ) : (
         Bg && (
-        <Image
-          src={Bg}
-          alt=""
-          loading="lazy"
-          fetchpriority="low"
-          widths={[412, 768, 1024, 1900]}
-          sizes="100vw"
-          format="avif"
-          class="fixed inset-0 -z-50 h-full w-full object-cover"
-          quality="low"
-          decoding="async"
-        />
+          <Image
+            src={Bg}
+            alt=""
+            loading="lazy"
+            fetchpriority="low"
+            widths={[412, 768, 1024, 1900]}
+            sizes="100vw"
+            format="avif"
+            class="fixed inset-0 -z-50 h-full w-full object-cover"
+            quality="low"
+            decoding="async"
+          />
         )
       )
     }
@@ -248,7 +243,8 @@ const profile = brandProfile(Astro.site);
     <Navbar />
 
     <div class="mb-2 flex w-full items-center justify-center">
-      {/* The LCP element. sizes must describe how wide it is DRAWN, and it is
+      {
+        /* The LCP element. sizes must describe how wide it is DRAWN, and it is
           drawn full-bleed at every breakpoint — the old "(max-width: 768px)
           412px" claimed 412 px on mobile, so a DPR-2 phone needed 824 and the
           browser jumped straight past the 768 candidate to the 1900 one. That
@@ -257,21 +253,13 @@ const profile = brandProfile(Astro.site);
           something sensible to land on.
 
           decoding="sync" is gone: it blocks the main thread on decode for no
-          benefit here, since the image is already fetchpriority="high". */}
+          benefit here, since the image is already fetchpriority="high". */
+      }
       <picture class="block">
-        {
-          mobileBannerImg && (
-            <source
-              media="(max-width: 767px)"
-              type="image/avif"
-              srcset={mobileBannerImg.srcSet.attribute || mobileBannerImg.src}
-              sizes="100vw"
-            />
-          )
-        }
+        {mobileBannerImg && <source media="(max-width: 767px)" type="image/avif" srcset={mobileBannerImg.srcSet.attribute || mobileBannerImg.src} sizes="100vw" />}
         <Image
           src={mainBanner}
-          alt="แบนเนอร์ SUPERWIN9 พื้นหลังสีดำแดงประกายทอง โลโก้ SUPERWIN9 ตัวอักษร SUPER สีแดงเมทัลลิกและ WIN9 สีทองสามมิติ ข้อความ คาสิโนเกมนักล่า รับโบนัสแนะนำ 0.8% เข้ากระเป๋าออนไลน์ทันที เพียงแค่แชร์ รับได้เลย หญิงสาวผมยาวสวมชุดราตรีแดงดำชี้นิ้วไปทางมือถือที่แสดงยอดแจ็กพอต 1,286,467.92 ข้างกายมีวงล้อรูเล็ต ชิปคาสิโน ไพ่ ลูกเต๋าแดง เหรียญทอง และกล่องของขวัญคาดโบว์ทอง"
+          alt="แบนเนอร์ 12PLAY พื้นหลังสีดำลายวงจรเรืองแสงสีแดง โลโก้ 12PLAY เลข 12 สีแดงเงาวาวคู่กับคำว่า PLAY ตัวอักษรโครเมียมเงิน ข้อความ 12PLAY คาสิโน ที่ดีที่สุดเบอร์1ของไทย ด้านซ้ายมีไพ่เอซสี่ใบ วงล้อรูเล็ต และกองชิปคาสิโนสีแดงดำ ด้านขวาเป็นหญิงสาวสวมชุดดีลเลอร์แดงดำพิมพ์ชื่อ 12PLAY พร้อมป้ายสี่ช่อง คาสิโนชั้นนำ มั่นคง ปลอดภัย 100% เกมหลากหลาย ครบทุกความสนุก ฝาก-ถอนเร็ว ภายใน 10 วินาที และ บริการ 24 ชม. ดูแลตลอด 24 ชั่วโมง แถบล่างเขียนว่า มั่นคง ปลอดภัย 100% สมาชิกมากกว่า 1,000,000+ คน และรองรับทุกระบบ มือถือ แท็บเล็ต คอมพิวเตอร์"
           loading="eager"
           fetchpriority="high"
           widths={[412, 640, 828, 1024, 1280, 1600, 1900]}
