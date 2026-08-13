@@ -18,33 +18,33 @@ const { title, faqs = [] } = Astro.props;
   {
     title && (
       <header class="mb-8 text-center">
-        <h2 class="bg-gradient-to-r from-[#e6e8ec] via-[#fce48c] to-[#ebc36b] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <h2 class="bg-gradient-to-r from-[#e8e6ee] via-[#c47bff] to-[#9d16f1] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </h2>
-        <div class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#ebc36b] to-transparent" />
+        <div class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#9d16f1] to-transparent" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#0d0904] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div class="absolute inset-0 bg-gradient-to-r from-[#ebc36b] via-[#5c3d0f] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#150726] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#9d16f1] via-[#4a0b8f] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
 
-        <details class="faq-item relative bg-[#050301] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details class="faq-item relative bg-[#06020e] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#fce48c] to-[#2a1c08] font-black text-[#0d0904] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#c47bff] to-[#2c045c] font-black text-[#06020e] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#e6e8ec]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#ebc36b] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#f5ebff]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#c47bff] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#ebc36b]/70 pl-4 text-left text-base leading-relaxed text-[#ece0c8]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#9d16f1]/70 pl-4 text-left text-base leading-relaxed text-[#ece0fb]">{faq.a}</p>
         </details>
       </div>
     ))
@@ -52,18 +52,11 @@ const { title, faqs = [] } = Astro.props;
 </section>
 
 <style>
-  /* <details> instead of a button + max-height script. The open/close state,
-     the keyboard handling and the expanded/collapsed announcement all come
-     from the element, so there is no JS to get wrong and nothing for a rebrand
-     to break by restyling.
-     What it fixed: the badge and the arrow were not aria-hidden, so the
-     accessible name of every question was "? <คำถาม> ▼". The panel was closed
-     with max-h-0, which leaves it in the accessibility tree and reachable by
-     keyboard while invisible. And aria-expanded was set without an
-     aria-controls to point at.
-     The question used to be a level-3 heading. The docx has no h3 here, and a
-     question inside a chrome accordion is not article structure, so it renders
-     as a span with the same classes. */
+  /* <details> carries the open/close state, the keyboard handling and the
+     expanded/collapsed announcement, so there is no JS here to get wrong.
+     The badge and the arrow are aria-hidden, so the accessible name of a
+     question is the question. The question is a <span>, not a heading — the
+     docx has no h3 here and a chrome accordion is not article structure. */
   .faq-item > summary {
     list-style: none;
   }

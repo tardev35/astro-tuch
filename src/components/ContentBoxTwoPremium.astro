@@ -1,22 +1,33 @@
 ---
 export interface Props {
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titleright?: string;
 }
-const { titleleft, titleright } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#e2c05f]/30 bg-[#0b1330]/92 p-8 text-[#e6e3d8] shadow-[0_10px_30px_rgba(5,9,18,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#e2c05f]/55 hover:shadow-[0_15px_40px_rgba(226,192,95,0.24)] md:p-10">
-    <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#1e2f74]/45 to-transparent opacity-70"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9d16f1]/30 bg-[#150726]/92 p-8 text-[#ece0fb] shadow-[0_10px_30px_rgba(6,2,14,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#9d16f1]/55 hover:shadow-[0_15px_40px_rgba(157,22,241,0.24)] md:p-10">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#4a0b8f]/45 to-transparent opacity-70"></div>
+
+    {
+      title && (
+        <header class="mb-8 flex items-center gap-3 border-b border-[#9d16f1]/30 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#e0b7ff] via-[#c47bff] to-[#4a0b8f] shadow-[0_0_10px_rgba(157,22,241,0.45)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#9d16f1] via-[#c47bff] to-[#e8e6ee] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        </header>
+      )
+    }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e3d8]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0fb]">
         {
           titleleft && (
-            <h2 class="flex items-center gap-3 border-b border-[#e2c05f]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f0d68c] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f7e3a4] via-[#e2c05f] to-[#c39a34] shadow-[0_0_10px_rgba(226,192,95,0.45)]" />
+            <h2 class="flex items-center gap-3 border-b border-[#9d16f1]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#c47bff] uppercase">
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#e0b7ff] via-[#c47bff] to-[#4a0b8f] shadow-[0_0_10px_rgba(157,22,241,0.45)]" />
               {titleleft}
             </h2>
           )
@@ -24,11 +35,11 @@ const { titleleft, titleright } = Astro.props;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e3d8] md:border-l md:border-[#2b3a6f] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0fb] md:border-l md:border-[#4a0b8f] md:pl-10">
         {
           titleright && (
-            <h2 class="flex items-center gap-3 border-b border-[#e2c05f]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f0d68c] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f7e3a4] via-[#e2c05f] to-[#c39a34] shadow-[0_0_10px_rgba(226,192,95,0.45)]" />
+            <h2 class="flex items-center gap-3 border-b border-[#9d16f1]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#c47bff] uppercase">
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#e0b7ff] via-[#c47bff] to-[#4a0b8f] shadow-[0_0_10px_rgba(157,22,241,0.45)]" />
               {titleright}
             </h2>
           )
@@ -38,4 +49,3 @@ const { titleleft, titleright } = Astro.props;
     </div>
   </div>
 </section>
-
