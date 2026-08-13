@@ -10,42 +10,48 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
+const logoAlt = "โลโก้ UFA99 ตัวอักษร UFA สีทองเมทัลลิกเงาและเลข 99 สีเงินโครเมียม";
+
 // icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
 // ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
 //
-// ลำดับ: หน้าแรก · โปรโมชั่น · แล้วค่อยหน้าที่เหลือ — สมัคร/เข้าสู่ระบบ ของแบรนด์นี้
-// เป็นปุ่ม CTA ในแถบ ไม่ใช่เมนู จึงไม่มีรายการทั้งสองในอาร์เรย์นี้
+// ลำดับ: หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · แล้วค่อยหน้าอ่าน —
+// สองรายการกลางเป็นปุ่มคอนเวอร์ชัน จึงต้องอยู่ก่อนหน้าที่ไว้อ่าน
+//
+// ไม่มี /ทางเข้า ในเมนู: แบรนด์นี้เปิด cta toggle ทั้งคู่ หน้าทางเข้าจึงกลายเป็น
+// ลิงก์ที่สามไปที่เดิม (รายการเดิมถูกเก็บไว้ที่ src/pages-disabled/.entrance-nav.txt)
+// และไม่มี /ตรวจหวย, /แนวทาง: UFA99 เป็นเว็บคาสิโน-สล็อต ไม่ใช่เว็บหวย
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
-  { name: "ทางเข้า", path: "/ทางเข้า", icon: "🚪" },
-  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔍" },
-  { name: "แนวทาง", path: "/แนวทาง", icon: "📈" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "📄" },
-  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
+  { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
+  { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "💠" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 ---
 
-<nav class="sticky top-0 z-50 w-full border-b border-[#7c0207]/55 bg-[#0b0203] font-sans shadow-[0_0_20px_rgba(232,18,29,0.2)]">
+<nav class="sticky top-0 z-50 w-full border-b border-[#7b5213]/55 bg-[#050301] font-sans shadow-[0_0_20px_rgba(235,195,107,0.2)]">
   <div class="flex h-[75px] w-full items-center justify-between px-4 xl:px-8">
     <div class="z-50 flex items-center">
       <a href="/" class="group relative flex items-center">
-        <div class="absolute inset-0 scale-0 rounded-full bg-[#e8121d]/20 blur-xl transition-transform duration-500 group-hover:scale-150"></div>
+        <div class="absolute inset-0 scale-0 rounded-full bg-[#ebc36b]/20 blur-xl transition-transform duration-500 group-hover:scale-150"></div>
         {
           mainLogo ? (
             <Picture
               src={mainLogo}
-              alt="โลโก้ HSOD ตัวอักษรโครเมียมเงินขอบแดงเงา มีรูปข้าวหลามตัดสีแดงอยู่กลางตัว O"
+              alt={logoAlt}
               loading="eager"
               fetchpriority="high"
               widths={[110, 220, 330]}
               sizes="110px"
-              class="relative h-[40px] w-auto drop-shadow-[0_0_10px_rgba(232,18,29,0.35)] transition-transform group-hover:scale-105 xl:h-[45px]"
+              class="relative h-[40px] w-auto drop-shadow-[0_0_10px_rgba(235,195,107,0.35)] transition-transform group-hover:scale-105 xl:h-[45px]"
               formats={["avif", "webp"]}
               fallbackFormat="webp"
             />
           ) : (
-            <p class="relative bg-gradient-to-b from-[#eef1f6] to-[#aeb6c2] bg-clip-text text-3xl font-black tracking-widest text-transparent italic drop-shadow-[0_0_8px_rgba(232,18,29,0.5)]">HSOD</p>
+            <p class="relative bg-gradient-to-b from-[#fce48c] to-[#c9962f] bg-clip-text text-3xl font-black tracking-widest text-transparent italic drop-shadow-[0_0_8px_rgba(235,195,107,0.5)]">UFA99</p>
           )
         }
       </a>
@@ -56,12 +62,12 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`group relative px-5 py-2.5 skew-x-[-15deg] overflow-hidden border transition-all duration-300 ${isActive(link.path) ? "bg-[#e8121d]/20 border-[#e8121d] shadow-[0_0_15px_rgba(232,18,29,0.4)]" : "bg-white/5 border-white/10 hover:border-[#e8121d]/50"}`}>
+            class={`group relative px-5 py-2.5 skew-x-[-15deg] overflow-hidden border transition-all duration-300 ${isActive(link.path) ? "bg-[#ebc36b]/20 border-[#ebc36b] shadow-[0_0_15px_rgba(235,195,107,0.4)]" : "bg-white/5 border-white/10 hover:border-[#ebc36b]/50"}`}>
             <div
               aria-hidden="true"
-              class={`absolute inset-0 bg-gradient-to-r from-[#5a0104] to-[#e8121d] translate-y-full transition-transform duration-300 ${isActive(link.path) ? "translate-y-0 opacity-20" : "group-hover:translate-y-0 opacity-40"}`}
+              class={`absolute inset-0 bg-gradient-to-r from-[#442904] to-[#ebc36b] translate-y-full transition-transform duration-300 ${isActive(link.path) ? "translate-y-0 opacity-20" : "group-hover:translate-y-0 opacity-40"}`}
             />
-            <span class={`block skew-x-[15deg] relative z-10 text-sm font-bold tracking-wide transition-colors ${isActive(link.path) ? "text-[#eef1f6]" : "text-[#aeb6c2] group-hover:text-white"}`}>
+            <span class={`block skew-x-[15deg] relative z-10 text-sm font-bold tracking-wide transition-colors ${isActive(link.path) ? "text-[#fce48c]" : "text-[#a8a08c] group-hover:text-[#e6e8ec]"}`}>
               <span aria-hidden="true" class="mr-1">
                 {link.icon}
               </span>{" "}
@@ -75,22 +81,22 @@ const links = [
     <div class="z-50 flex items-center gap-2">
       <a
         href="/register"
-        class="hidden rounded-sm skew-x-[-15deg] border border-[#ff4d55] bg-gradient-to-r from-[#ff4d55] via-[#e8121d] to-[#7c0207] px-6 py-2.5 text-sm font-black text-white shadow-[0_0_15px_rgba(232,18,29,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(232,18,29,0.65)] lg:block">
+        class="hidden rounded-sm skew-x-[-15deg] border border-[#fce48c] bg-gradient-to-r from-[#fce48c] via-[#ebc36b] to-[#7b5213] px-6 py-2.5 text-sm font-black text-[#150e05] shadow-[0_0_15px_rgba(235,195,107,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(235,195,107,0.65)] lg:block">
         <span class="block skew-x-[15deg]">สมัครสมาชิก</span>
       </a>
       <a
         href="/login"
-        class="hidden rounded-sm skew-x-[-15deg] border border-[#c2c9d4]/45 bg-[#170406] px-6 py-2.5 text-sm font-bold text-[#c2c9d4] transition-all hover:border-[#e8121d]/70 hover:text-white lg:block">
+        class="hidden rounded-sm skew-x-[-15deg] border border-[#c9b489]/45 bg-[#150e05] px-6 py-2.5 text-sm font-bold text-[#c9b489] transition-all hover:border-[#ebc36b]/70 hover:text-[#fce48c] lg:block">
         <span class="block skew-x-[15deg]">เข้าสู่ระบบ</span>
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center space-y-1.5 rounded-md border border-[#e8121d]/35 bg-[#5a0104]/25 p-2 transition-all hover:bg-[#5a0104]/45 xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center space-y-1.5 rounded-md border border-[#ebc36b]/35 bg-[#442904]/25 p-2 transition-all hover:bg-[#442904]/45 xl:hidden"
         aria-label="เปิดหรือปิดเมนู">
-        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#eef1f6] transition-all duration-300"></span>
-        <span class="hamburger-line h-[2px] w-6 bg-[#eef1f6] transition-all duration-300"></span>
-        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#eef1f6] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#e6e8ec] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 bg-[#e6e8ec] transition-all duration-300"></span>
+        <span class="hamburger-line h-[2px] w-6 origin-center bg-[#e6e8ec] transition-all duration-300"></span>
       </button>
     </div>
   </div>
@@ -99,13 +105,13 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 right-0 z-40 h-screen w-[280px] translate-x-full transform overflow-y-auto border-l border-[#7c0207]/55 bg-[#0b0203] shadow-[-10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out xl:hidden">
+    class="fixed top-0 right-0 z-40 h-screen w-[280px] translate-x-full transform overflow-y-auto border-l border-[#7b5213]/55 bg-[#050301] shadow-[-10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out xl:hidden">
     <div class="flex flex-col space-y-3 px-6 pt-24 pb-10">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center px-4 py-3.5 rounded-lg border transition-all ${isActive(link.path) ? "bg-[#e8121d]/20 border-[#e8121d] text-[#eef1f6] shadow-[inset_4px_0_0_rgba(232,18,29,1)]" : "bg-white/5 border-transparent text-[#aeb6c2] hover:bg-white/10 hover:text-white"}`}>
+            class={`sidebar-item flex items-center px-4 py-3.5 rounded-lg border transition-all ${isActive(link.path) ? "bg-[#ebc36b]/20 border-[#ebc36b] text-[#fce48c] shadow-[inset_4px_0_0_rgba(235,195,107,1)]" : "bg-white/5 border-transparent text-[#a8a08c] hover:bg-white/10 hover:text-[#e6e8ec]"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon}
             </span>
