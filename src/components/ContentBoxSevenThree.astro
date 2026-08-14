@@ -3,24 +3,35 @@ export interface Props {
   title?: string;
   titleleft?: string;
   titleright?: string;
+  /** Both columns render at this level. The docx decides it — a promo
+   *  sub-section under an H2 is an h3, a top-level section is an h2. */
+  as?: "h2" | "h3" | "h4";
 }
-const { title, titleleft, titleright } = Astro.props;
-// `title` is the shorthand for the right-hand column heading. Both columns
-// render <h2> — this box only ever carries docx article headings.
+const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
+// `title` is the shorthand for the right-hand column heading. This box only
+// ever carries docx article headings.
 const rightHeading = titleright ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#062d94]/60 bg-[#01050f]/85 p-8 text-[#dce9ff] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#7db4ff]/60 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a6320]/60 bg-[#050505]/85 p-8 text-[#ece3d1] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#e6b74e]/60 md:p-10">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 border-b border-[#040e22]/70 pb-6 text-left text-base font-medium text-[#a9ccff] md:border-r md:border-b-0 md:pr-6 md:pb-0">
-        {titleleft && <h2 class="text-center text-4xl leading-normal font-black tracking-wider text-[#e6e8ec] uppercase drop-shadow-[0_2px_10px_rgba(230,232,236,0.25)] md:text-left">{titleleft}</h2>}
+      <article class="flex flex-col gap-4 border-b border-[#1c170d]/70 pb-6 text-left text-base font-medium text-[#ece3d1] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+        {
+          titleleft && (
+            <HeadingTag class="text-center text-4xl leading-normal font-black tracking-wider text-[#c8cfd8] uppercase drop-shadow-[0_2px_10px_rgba(200,207,216,0.25)] md:text-left">{titleleft}</HeadingTag>
+          )
+        }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#dce9ff] md:pl-6">
-        {rightHeading && <h2 class="flex items-center gap-2 text-2xl leading-normal font-black text-[#7db4ff] drop-shadow-[0_0_8px_rgba(14,110,251,0.35)]">{rightHeading}</h2>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ece3d1] md:pl-6">
+        {
+          rightHeading && (
+            <HeadingTag class="flex items-center gap-2 text-2xl leading-normal font-black text-[#e6b74e] drop-shadow-[0_0_8px_rgba(230,183,78,0.35)]">{rightHeading}</HeadingTag>
+          )
+        }
         <slot name="right" />
       </article>
     </div>

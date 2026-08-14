@@ -10,24 +10,32 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
+// สมัครสมาชิก/เข้าสู่ระบบ อยู่ต่อจากโปรโมชั่นทันที เพราะเป็นสองรายการเดียวใน
+// เมนูที่เป็น "การกระทำ" ไม่ใช่หน้าให้อ่าน คนกวาดสายตาจากซ้ายจึงต้องเจอก่อน
+// หน้าข้อมูล — ไม่ใช่ท้ายลิสต์ตามที่ uploader append มาให้
+//
+// /ทางเข้า ไม่มีในเมนูโดยตั้งใจ: หน้านั้นมีไว้เสนอเข้าสู่ระบบกับสมัครสมาชิก
+// อยู่แล้ว พอสองอันนั้นขึ้นเป็นเมนูเอง มันก็กลายเป็นลิงก์ที่สามไปที่เดิม
+// (หน้ายังถูก route และ index ตามปกติ)
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
+  { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
+  { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "ทางเข้า", path: "/ทางเข้า", icon: "🌐" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "💠" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
-  { name: "เกี่ยวกับเรา", path: "/about-us" },
 ];
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-40 w-full border-b border-[#b38f00]/40 bg-[#0c0900]/95 shadow-[0_5px_25px_rgba(252,237,11,0.25)] backdrop-blur-xl">
+  <nav class="relative z-40 w-full border-b border-[#8a6320]/50 bg-[#050505]/95 shadow-[0_5px_25px_rgba(230,183,78,0.18)] backdrop-blur-xl">
     <div class="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4 lg:h-[80px] xl:px-8">
       <div class="flex items-center gap-4">
         <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2 lg:hidden" aria-label="Menu">
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#fced0b] shadow-[0_0_5px_rgba(252,237,11,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#fced0b] shadow-[0_0_5px_rgba(252,237,11,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#fced0b] shadow-[0_0_5px_rgba(252,237,11,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#e6b74e] shadow-[0_0_5px_rgba(230,183,78,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#c8cfd8] shadow-[0_0_5px_rgba(200,207,216,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#e6b74e] shadow-[0_0_5px_rgba(230,183,78,0.5)] transition-all duration-300"></span>
         </button>
 
         <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
@@ -35,31 +43,33 @@ const links = [
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="JOJO789"
+                alt="โลโก้ DARK168 ตัวอักษร DARK สีทองเมทัลลิกและเลข 168 สีเงินโครเมียม"
                 loading="eager"
                 fetchpriority="high"
-                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(252,237,11,0.4)] lg:h-[50px]"
+                widths={[110, 220, 330]}
+                sizes="110px"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(230,183,78,0.4)] lg:h-[50px]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#fff6b0] to-[#b38f00] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(252,237,11,0.5)] lg:text-3xl">JOJO789</span>
+              <span class="bg-gradient-to-b from-[#f6dfa4] via-[#e6b74e] to-[#8a6320] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(230,183,78,0.5)] lg:text-3xl">DARK168</span>
             )
           }
         </a>
       </div>
 
-      <div class="hidden h-full items-center justify-center gap-8 lg:flex xl:gap-12">
+      <div class="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-9">
         {
           links.map((link) => (
             <a href={link.path} class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#fced0b] drop-shadow-[0_0_8px_rgba(252,237,11,0.5)]" : "text-[#cfc199]/70 group-hover:text-[#fff6b0]"}`}>
+              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#e6b74e] drop-shadow-[0_0_8px_rgba(230,183,78,0.5)]" : "text-[#ece3d1]/70 group-hover:text-[#f6dfa4]"}`}>
                 <span aria-hidden="true">{link.icon}</span>
                 {link.name}
               </span>
               <div
                 aria-hidden="true"
-                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full bg-[#fced0b] transition-all duration-300 ${isActive(link.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(252,237,11,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
+                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full bg-[#e6b74e] transition-all duration-300 ${isActive(link.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(230,183,78,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
               />
             </a>
           ))
@@ -69,13 +79,13 @@ const links = [
       <div class="flex items-center gap-3">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#b38f00]/40 bg-[#171200]/60 px-6 py-2.5 text-sm font-bold text-[#fff6b0] transition-all hover:bg-[#201800]/70 hover:text-[#fced0b] md:flex">
+          class="hidden items-center justify-center rounded-full border border-[#c8cfd8]/35 bg-[#131009]/70 px-6 py-2.5 text-sm font-bold text-[#c8cfd8] transition-all hover:border-[#c8cfd8]/60 hover:bg-[#1c170d]/80 hover:text-[#f6dfa4] md:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #6b5300, #fced0b, #6b5300);"
-          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#201800] shadow-[0_0_20px_rgba(252,237,11,0.3)] transition-all hover:shadow-[0_0_25px_rgba(252,237,11,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
+          style="background-image: linear-gradient(in oklab to right, #5c4212, #e6b74e, #5c4212);"
+          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#1c170d] shadow-[0_0_20px_rgba(230,183,78,0.3)] transition-all hover:shadow-[0_0_25px_rgba(230,183,78,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
           สมัครสมาชิก
         </a>
       </div>
@@ -86,9 +96,9 @@ const links = [
 
   <div
     id="mobile-bottom-sheet"
-    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#b38f00]/40 bg-[#0c0900] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#8a6320]/50 bg-[#050505] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
     <div class="flex w-full cursor-pointer justify-center pt-3 pb-2" id="close-sheet-btn">
-      <div class="h-1.5 w-12 rounded-full bg-[#201800]/70"></div>
+      <div class="h-1.5 w-12 rounded-full bg-[#1c170d]"></div>
     </div>
 
     <div class="flex flex-col space-y-2 px-6 pt-2 pb-8">
@@ -96,34 +106,28 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#fced0b]/20 to-transparent border border-[#b38f00]/30 text-[#fced0b]" : "bg-white/5 border-transparent text-gray-400"}`}>
+            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#e6b74e]/20 to-transparent border border-[#8a6320]/40 text-[#e6b74e]" : "bg-white/5 border-transparent text-[#ece3d1]/60"}`}>
             <div class="flex items-center gap-4">
               <span aria-hidden="true" class="text-2xl drop-shadow-lg">{link.icon}</span>
               <span class="text-base font-bold tracking-wide">{link.name}</span>
             </div>
-            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#fced0b] shadow-[0_0_8px_rgba(252,237,11,1)]" />}
+            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#e6b74e] shadow-[0_0_8px_rgba(230,183,78,1)]" />}
           </a>
         ))
       }
 
       <div class="mt-2 grid grid-cols-2 gap-3 border-t border-white/5 pt-4">
-        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#b38f00]/30 bg-[#fced0b]/5 py-3.5 text-sm font-bold text-[#fced0b]">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#c8cfd8]/30 bg-[#c8cfd8]/5 py-3.5 text-sm font-bold text-[#c8cfd8]">เข้าสู่ระบบ</a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #6b5300, #fced0b, #6b5300);"
-          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#201800] shadow-[0_0_15px_rgba(252,237,11,0.4)]">
+          style="background-image: linear-gradient(in oklab to right, #5c4212, #e6b74e, #5c4212);"
+          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#1c170d] shadow-[0_0_15px_rgba(230,183,78,0.4)]">
           สมัครสมาชิก
         </a>
       </div>
     </div>
   </div>
 </header>
-
-<style>
-  a {
-    font-family: var(--font-sans) !important;
-  }
-</style>
 
 <script>
   const hamburgerBtn = document.getElementById("hamburger-btn");
