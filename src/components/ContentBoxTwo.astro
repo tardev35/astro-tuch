@@ -1,26 +1,43 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the only heading this box ever emits.
+   *  Leave it out and the box stays pure chrome, exactly as it was. */
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titleright?: string;
   label?: string;
 }
-const { titleleft, titleright, label } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label } = Astro.props;
 
-// This box carries chrome (a login widget, a service list), never docx article
-// content, so both column labels render as <p> and the section gets its
-// accessible name from aria-label instead of a heading.
+// Without a `title` this box carries chrome (a login widget, a service list),
+// never docx article content, so both column labels render as <p> and the
+// section gets its accessible name from aria-label instead of a heading. With a
+// `title` the heading itself names the region, so the aria-label is dropped.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 ---
 
-<section aria-label={sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+  {
+    title && (
+      <header class="mb-6 flex items-center gap-4 border-b border-[#5b636b]/55 pb-4">
+        <div class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f4f6f8] to-[#c02434] shadow-[0_0_10px_rgba(207,212,218,0.55)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#f4f6f8] via-[#cfd4da] to-[#c02434] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          {title}
+        </HeadingTag>
+      </header>
+    )
+  }
+
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4dc]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dfe4ea]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#fdd32d]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#fdd32d] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#cfd4da]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#cfd4da] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fdd32d]/50 bg-gradient-to-br from-[#ffe98a] via-[#fdd32d] to-[#6b4c05] text-sm text-[#0d0303] shadow-[0_5px_15px_rgba(253,211,45,0.32)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#cfd4da]/50 bg-gradient-to-br from-[#f4f6f8] via-[#cfd4da] to-[#5b636b] text-sm text-[#0a0b0d] shadow-[0_5px_15px_rgba(207,212,218,0.32)]">
               🔐
             </span>
             {titleleft}
@@ -30,13 +47,13 @@ const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลป�
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4dc]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dfe4ea]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#8e0c0a]/45 pb-3 text-xl leading-normal font-black tracking-widest text-[#f5322e] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#8d1420]/50 pb-3 text-xl leading-normal font-black tracking-widest text-[#c02434] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#f5322e]/60 bg-gradient-to-br from-[#f5322e] via-[#d31411] to-[#8e0c0a] text-sm text-[#ffe98a] shadow-[0_5px_15px_rgba(211,20,17,0.28)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#c02434]/60 bg-gradient-to-br from-[#c02434] via-[#8d1420] to-[#5a0a12] text-sm text-[#f4f6f8] shadow-[0_5px_15px_rgba(192,36,52,0.3)]">
               🎲
             </span>
             {titleright}
