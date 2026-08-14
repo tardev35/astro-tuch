@@ -5,24 +5,30 @@ export interface Props {
 }
 const { title, as: HeadingTag = "h1" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "text-lg sm:text-xl md:text-2xl";
+
+// The badge is `absolute -top-6`, so the card's top padding must exceed the
+// badge's own height minus 24px. This brand's longest title is a full docx
+// sentence that wraps to five lines at 320px (5 x 27px + 20px py + 4px border
+// = 159px, bottom edge at 135px), so the mobile padding stays at pt-44/176px.
+// Do not trim it back for a short title — the next brand's may be longer.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#cfd4da]/45 bg-gradient-to-b from-[#1c1f24]/95 to-[#0a0b0d]/95 p-8 pt-40 text-left text-base leading-relaxed text-[#dfe4ea] shadow-[0_10px_30px_rgba(207,212,218,0.18)] sm:pt-32 md:pt-32">
-    <div class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#c02434]/28 blur-[60px]"></div>
-    <div class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#cfd4da]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#1e4b9e]/50 bg-gradient-to-b from-[#0a1836]/95 to-[#03081c]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#cfdcea] shadow-[0_10px_30px_rgba(11,108,240,0.18)] sm:pt-32 md:pt-32">
+    <div class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#0b6cf0]/28 blur-[60px]"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#c3ced9]/20 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#cfd4da]/55 bg-[#0a0b0d] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(207,212,218,0.28)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#cfd4da]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#c3ced9]/55 bg-[#03081c] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(11,108,240,0.28)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#c3ced9]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#f4f6f8] via-[#cfd4da] to-[#c02434] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#e8f2fd] via-[#c3ced9] to-[#0b6cf0] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#cfd4da]">
+          <span aria-hidden="true" class="shrink-0 text-[#c3ced9]">
             ✦
           </span>
         </div>
