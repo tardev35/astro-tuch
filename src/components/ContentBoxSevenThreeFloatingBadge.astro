@@ -1,36 +1,40 @@
 ---
 export interface Props {
   title?: string;
+  /** The docx heading level this block sits at. The badge, and the two column
+   *  labels, all follow it — a variant that hardcodes its own level is how the
+   *  rendered heading inventory stops matching the brief. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titleright?: string;
 }
-const { title, titleleft, titleright } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#9d16f1]/25 bg-gradient-to-b from-[#150726]/95 to-[#06020e]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(157,22,241,0.16)] md:pt-28">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#e53cfe]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e8e6ee]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#62ae2d]/30 bg-gradient-to-b from-[#122008]/95 to-[#060a04]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(98,174,45,0.16)] md:pt-28">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#8fd45e]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#d9b95c]/20 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#9d16f1]/35 bg-[#150726] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(157,22,241,0.22)] sm:px-8">
-          <h2 class="bg-gradient-to-r from-[#e0b7ff] via-[#c47bff] to-[#9d16f1] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#62ae2d]/40 bg-[#0d1408] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(98,174,45,0.22)] sm:px-8">
+          <HeadingTag class="bg-gradient-to-r from-[#f2f8ec] via-[#8fd45e] to-[#d9b95c] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
-          </h2>
+          </HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0fb]">
-        {titleleft && <h2 class="text-2xl leading-normal font-bold text-[#c47bff]">{titleleft}</h2>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5d3]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#8fd45e]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0fb] md:border-l md:border-[#9d16f1]/25 md:pl-10">
-        {titleright && <h2 class="text-2xl leading-normal font-bold text-[#c47bff]">{titleright}</h2>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5d3] md:border-l md:border-[#62ae2d]/30 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#d9b95c]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
