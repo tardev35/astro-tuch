@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://bplay639-88.com",
+  site: "https://jadtem-88.net",
   integrations: [
     sitemap({
       // /login, /register and /line are forwarding pages that all ship

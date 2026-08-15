@@ -1,45 +1,49 @@
 ---
 export interface Props {
+  /** The section's docx heading. Renders in the right (7fr) column unless a
+   *  `titleright` overrides it — same prop shape as the Premium sibling. */
+  title?: string;
   titleleft?: string;
   titleright?: string;
   /** Both columns render at this level, set from the docx's own outline. */
-  as?: "h2" | "h3" | "h4";
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
-const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
+const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
+const rightHeading = titleright ?? title;
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#1e4b9e]/55 bg-[#061436]/92 p-8 text-[#cfdcea] shadow-[0_10px_30px_rgba(11,108,240,0.16)] backdrop-blur-md transition-all duration-300 hover:border-[#0b6cf0]/60 hover:shadow-[0_15px_40px_rgba(11,108,240,0.26)]"
+    class="relative isolate w-full border border-[#1e3a6b]/55 bg-[#0a142c]/92 p-8 text-[#cbd5e1] shadow-[0_10px_30px_rgba(59,130,246,0.16)] backdrop-blur-md transition-all duration-300 hover:border-[#3b82f6]/60 hover:shadow-[0_15px_40px_rgba(59,130,246,0.26)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#e8f2fd] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#0b6cf0] to-transparent"></div>
-    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#c3ced9] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#0a2a6b] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f1f5f9] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#3b82f6] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#cbd5e1] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#1d4ed8] to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfdcea]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cbd5e1]">
         {
           titleleft && (
-            <div class="flex items-baseline gap-2 border-b border-[#1e4b9e]/55 pb-2">
-              <span aria-hidden="true" class="font-mono text-[#4aa3ff]">
+            <div class="flex items-baseline gap-2 border-b border-[#1e3a6b]/55 pb-2">
+              <span aria-hidden="true" class="font-mono text-[#60a5fa]">
                 &gt;_
               </span>
-              <HeadingTag class="text-xl leading-normal font-black text-[#eaf3fd] uppercase">{titleleft}</HeadingTag>
+              <HeadingTag class="text-xl leading-normal font-black text-[#f1f5f9] uppercase">{titleleft}</HeadingTag>
             </div>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfdcea] md:border-l md:border-[#1e4b9e]/55 md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cbd5e1] md:border-l md:border-[#1e3a6b]/55 md:pl-8">
         {
-          titleright && (
-            <div class="flex items-baseline gap-2 border-b border-[#1e4b9e]/55 pb-2">
-              <span aria-hidden="true" class="font-mono text-[#4aa3ff]">
+          rightHeading && (
+            <div class="flex items-baseline gap-2 border-b border-[#1e3a6b]/55 pb-2">
+              <span aria-hidden="true" class="font-mono text-[#60a5fa]">
                 &gt;_
               </span>
-              <HeadingTag class="text-xl leading-normal font-black text-[#eaf3fd] uppercase">{titleright}</HeadingTag>
+              <HeadingTag class="text-xl leading-normal font-black text-[#f1f5f9] uppercase">{rightHeading}</HeadingTag>
             </div>
           )
         }
