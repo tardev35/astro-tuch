@@ -33,20 +33,30 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://pluspsg88.com",
+  site: "https://betplay369.co",
   integrations: [
     sitemap({
-      // /login, /register and /line are forwarding pages that all ship
-      // noindex. Listing a noindex URL in the sitemap is a contradiction —
-      // it asks Google to crawl a page it is simultaneously told to drop, and
-      // Search Console reports it as "Submitted URL marked noindex". These
-      // three are also the only pages carrying the affiliate and LINE short
-      // links, so there is nothing here to gain from the crawl either.
+      // /line is a redirect declared above — it resolves to an external short
+      // link and has no page of its own, so listing it asks Google to crawl a
+      // URL that only ever 301s off-site.
+      //
+      // /login and /register are NOT filtered, and that depends on brand state:
+      // when the uploader's cta toggle is ON (as it is for this brand) they are
+      // real button pages that ship `index, follow` from MainLayout's default,
+      // carry a length-gated description, and are meant to be indexed —
+      // withholding them from the sitemap while asking Google to index them is
+      // the contradiction, in the opposite direction. This filter previously
+      // dropped both on the premise that all three were noindex forwarding
+      // stubs, which stopped being true once the toggle converted them.
+      // If a future brand switches the toggle off, they revert to noindex
+      // redirect stubs (src/pages-disabled/*.redirect.astro) and belong back in
+      // this pattern — check which shape they have before trusting either form.
+      //
       // Match against the pathname, anchored at the front. The old form tested
       // the whole URL unanchored, so a future page whose path merely ENDED in
-      // one of these words — /promotion/login, say — would have been dropped
+      // one of these words — /promotion/line, say — would have been dropped
       // from the sitemap silently.
-      filter: (page) => !/^\/(login|register|line)\/?$/.test(new URL(page).pathname),
+      filter: (page) => !/^\/line\/?$/.test(new URL(page).pathname),
     }),
   ],
 });
