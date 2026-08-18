@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement3.astro";
 
 import { Picture } from "astro:assets";
 import { itemList, pageGraph, schemaCtx } from "../lib/schema";
@@ -23,7 +23,9 @@ import image12 from "../assets/gamedemo18.webp";
 // They used to be two hand-kept arrays that had to stay in the same order, and
 // the name shown to a reader could drift from the name handed to a crawler.
 // The thumbnails are generic stock demo art shared across brands — the alt text
-// describes the picture, never its position in the grid.
+// describes the picture, never its position in the grid. The card label lives
+// in the aria-label of the overlay link, never in a heading tag: this page's
+// headings all come from its ContentBox titles.
 const demoGames = [
   { name: "AskmeSlot", src: image1, alt: "แบนเนอร์ค่ายเกม askmeslot โลโก้โพดำสีเหลือง ตัวการ์ตูนเด็กชายสวมหมวกแดงกางแขน ฉากหลังเป็นถนนเมืองยุโรปและกังหันลม" },
   { name: "Popular Game", src: image2, alt: "แบนเนอร์ Popular Game ตัวอักษรสีทอง ตัวการ์ตูนกระต่ายกับแมวสวมแว่นกันแดด หีบสมบัติ ชิปและเหรียญทองกระจายรอบภาพ" },
@@ -44,14 +46,13 @@ const demoGames = [
 // slash and the Thai encoding wrong on every one of them.
 const gameList = demoGames.map((game) => ({ name: game.name, imagePath: game.src.src }));
 
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char).
-const pageDescription =
-  "หน้าทดลองเล่น BETPLAY369 สำหรับเปิดดูรูปแบบเกมและลองหมุนสล็อตด้วยเครดิตทดลอง ดูเพย์ไลน์ ฟีเจอร์โบนัส และช่วงเดิมพันของแต่ละค่าย ก่อนสมัครและเล่นด้วยเครดิตจริง";
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 159.
+const pageDescription = "หน้าทดลองเล่น ขวัญใจ168 เปิดดูรูปแบบเกมสล็อตและลองหมุนด้วยเครดิตทดลอง ดูเพย์ไลน์ ฟีเจอร์โบนัส และช่วงเดิมพันของแต่ละค่าย ก่อนสมัครยูสเซอร์และเล่นด้วยเครดิตจริง";
 
 const ctx = schemaCtx(Astro);
 const graph = pageGraph(Astro, {
   type: "CollectionPage",
-  name: "ทดลองเล่น BETPLAY369 เปิดดูรูปแบบเกมก่อนเดิมพันจริง",
+  name: "ทดลองเล่นสล็อต ขวัญใจ168 เปิดดูรูปแบบเกมก่อนเดิมพันจริง",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -59,8 +60,8 @@ const graph = pageGraph(Astro, {
   ],
   extra: [
     itemList(ctx, {
-      name: "รายการค่ายเกมที่เปิดให้ลองเปิดดูบน BETPLAY369",
-      alternateName: "BETPLAY369 โหมดทดลองสำหรับดูรูปแบบเกมก่อนสมัครสมาชิกและเดิมพันด้วยเครดิตจริง",
+      name: "รายการค่ายเกมสล็อตที่เปิดให้ลองเปิดดูบน ขวัญใจ168",
+      alternateName: "ขวัญใจ168 โหมดทดลองสำหรับดูรูปแบบเกมก่อนสมัครยูสเซอร์และเดิมพันด้วยเครดิตจริง",
       itemType: "Game",
       items: gameList,
     }),
@@ -68,47 +69,44 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="ทดลองเล่น BETPLAY369 เปิดดูรูปแบบเกมและลองหมุนก่อนเดิมพันจริง" description={pageDescription}>
+<MainLayout title="ทดลองเล่นสล็อต ขวัญใจ168 เปิดดูรูปแบบเกมและลองหมุนก่อนเดิมพันจริง" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="ทดลองเล่น BETPLAY369 เปิดดูรูปแบบเกมก่อนเดิมพันจริง" as="h1">
-    <p class="mb-6 text-left text-base leading-relaxed text-[#dfd0ee]">
-      <strong class="text-[#ff35b4]">BETPLAY369</strong> รวมเกมเดิมพันหลายประเภทไว้ในบัญชีเดียว ทั้งบาคาร่าและคาสิโนสด สล็อตออนไลน์หลายค่าย หวย มวย
-      และฟุตบอล หน้านี้เปิดไว้ให้ผู้ที่ยังไม่คุ้นเคยได้
-      <strong class="text-[#ff35b4]">เปิดดูรูปแบบเกมและลองหมุนสล็อตด้วยเครดิตทดลอง</strong> เพื่อดูหน้าตาเกม จังหวะการเล่น และฟีเจอร์ที่เกมนั้นมี
-      ก่อนตัดสินใจสมัครสมาชิก ฝากเครดิต และเดิมพันด้วยเงินจริง
+  <ContentBox title="ทดลองเล่นสล็อต ขวัญใจ168 เปิดดูรูปแบบเกมก่อนเดิมพันจริง" as="h1">
+    <p class="mb-6 text-left text-base leading-relaxed text-[#cfe7f2]">
+      <strong class="text-[#22b8e8]">ขวัญใจ168</strong> เป็นเว็บสล็อตที่เปิดทางเข้าสำรองไว้ให้สมาชิกเข้าเล่นต่อได้เมื่อช่องทางหลักใช้งานไม่ได้ หน้านี้เปิดไว้ให้ผู้ที่ยังไม่คุ้นเคยกับเกมในระบบได้
+      <strong class="text-[#22b8e8]">เปิดดูรูปแบบเกมและลองหมุนสล็อตด้วยเครดิตทดลอง</strong> เพื่อดูหน้าตาเกม จังหวะการเล่น และฟีเจอร์ที่เกมนั้นมี ก่อนตัดสินใจสมัครยูสเซอร์ ฝากเครดิต และเดิมพันด้วยเงินจริง
+      เปิดผ่านเบราว์เซอร์ได้ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
     </p>
 
-    <p class="mb-2 text-left text-base leading-relaxed text-[#dfd0ee]">
+    <p class="mb-2 text-left text-base leading-relaxed text-[#cfe7f2]">
       ขอให้เข้าใจตรงกันว่าโหมดทดลองเป็นเพียงการลองใช้งานระบบเท่านั้น
-      <strong class="text-[#ff35b4]">ผลที่ได้จากเครดิตทดลองไม่สามารถใช้ทำนายผลของการเดิมพันจริงได้</strong>
-      ผลของเกมและผลการแข่งขันไม่สามารถรับประกันล่วงหน้าได้ หากติดปัญหาระหว่างใช้งาน สามารถแจ้งแอดมิน BETPLAY369 พร้อมรายละเอียดและเวลาที่พบปัญหา
-      เพื่อให้ทีมงานช่วยตรวจสอบระบบได้ตลอด 24 ชั่วโมง
+      <strong class="text-[#22b8e8]">ผลที่ได้จากเครดิตทดลองไม่สามารถใช้ทำนายผลของการเดิมพันจริงได้</strong>
+      ผลของเกมไม่สามารถรับประกันล่วงหน้าได้ หากติดปัญหาระหว่างใช้งาน สามารถแจ้งแอดมิน ขวัญใจ168 พร้อมรายละเอียดและเวลาที่พบปัญหา เพื่อให้ทีมงานช่วยตรวจสอบระบบได้ตลอด 24 ชั่วโมง
     </p>
   </ContentBox>
 
-  <ContentBox title="วิธีทดลองเล่นเกม BETPLAY369 ด้วยตัวเอง 3 ขั้นตอน" as="h2">
-    <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#dfd0ee]">
-      <li class="flex gap-3"><span class="font-bold text-[#ffd54a]">1.</span> เลือกเกมที่สนใจจากค่ายเกมด้านล่าง แล้วเปิดดูหน้าจอและรูปแบบการเล่นของเกมนั้น</li>
-      <li class="flex gap-3"><span class="font-bold text-[#ffd54a]">2.</span> ลองหมุนด้วยเครดิตทดลอง เพื่อดูจังหวะเกม สัญลักษณ์ และฟีเจอร์โบนัสที่เกมมีให้</li>
+  <ContentBox title="วิธีทดลองเล่นสล็อต ขวัญใจ168 ด้วยตัวเอง 3 ขั้นตอน" as="h2">
+    <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#cfe7f2]">
+      <li class="flex gap-3"><span class="font-bold text-[#ffd76a]">1.</span> เลือกเกมที่สนใจจากค่ายเกมด้านล่าง แล้วเปิดดูหน้าจอและรูปแบบการเล่นของเกมนั้น</li>
+      <li class="flex gap-3"><span class="font-bold text-[#ffd76a]">2.</span> ลองหมุนด้วยเครดิตทดลอง เพื่อดูจังหวะเกม สัญลักษณ์ และฟีเจอร์โบนัสที่เกมมีให้</li>
       <li class="flex gap-3">
-        <span class="font-bold text-[#ffd54a]">3.</span> ตรวจสอบกติกา จำนวนเพย์ไลน์ อัตราจ่าย และช่วงการเดิมพันของเกม ก่อนสมัครสมาชิกและเล่นด้วยเครดิตจริง
+        <span class="font-bold text-[#ffd76a]">3.</span> ตรวจสอบกติกา จำนวนเพย์ไลน์ อัตราจ่าย และช่วงการเดิมพันของเกม ก่อนสมัครยูสเซอร์และเล่นด้วยเครดิตจริง
       </li>
     </ol>
 
-    <p class="mt-4 mb-2 text-left text-base leading-relaxed text-[#dfd0ee]">
-      หลังเปิดบัญชีเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติการเล่น รายการฝากถอน และโปรโมชั่นที่มีสิทธิ์รับ เช่น คืนยอดเสีย
-      <strong class="text-[#ffd54a]">0.3%</strong> และแนะนำเพื่อน <strong class="text-[#ffd54a]">0.8%</strong> ตามเงื่อนไขที่ระบบกำหนด ได้จากบัญชีเดียว
-      ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
+    <p class="mt-4 mb-2 text-left text-base leading-relaxed text-[#cfe7f2]">
+      หลังเปิดบัญชีเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติการเล่น รายการฝากถอนออโต้ และโปรโมชั่นที่มีสิทธิ์รับ เช่น แนะนำเพื่อน
+      <strong class="text-[#ffd76a]">0.8%</strong> และคืนยอดเสีย <strong class="text-[#ffd76a]">0.3%</strong> ตามเงื่อนไขที่ระบบกำหนด ได้จากบัญชีเดียว ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
     </p>
   </ContentBox>
 
-  <ContentBox title="ค่ายเกมในระบบ BETPLAY369 ที่เปิดให้ลองเปิดดู" as="h2">
-    <p class="mb-6 text-left text-base leading-relaxed text-[#dfd0ee]">
+  <ContentBox title="ค่ายเกมสล็อตในระบบ ขวัญใจ168 ที่เปิดให้ลองเปิดดู" as="h2">
+    <p class="mb-6 text-left text-base leading-relaxed text-[#cfe7f2]">
       ระบบจัดหมวดหมู่เกมจากหลายค่ายไว้ให้เลือก ตั้งแต่เกมยอดนิยม เกมที่มีฟีเจอร์โบนัส ไปจนถึงเกมใหม่ที่อัปเดตเข้ามาตามรอบ ตามภาพด้านล่าง
-      <strong class="text-[#ff35b4]">รูปแบบเกม จำนวนเพย์ไลน์ และช่วงเดิมพันขั้นต่ำของแต่ละค่ายไม่เหมือนกัน</strong>
+      <strong class="text-[#22b8e8]">รูปแบบเกม จำนวนเพย์ไลน์ และช่วงเดิมพันขั้นต่ำของแต่ละค่ายไม่เหมือนกัน</strong>
       ควรอ่านรายละเอียดที่แสดงในหน้าเกมก่อนเริ่มเล่นทุกครั้ง
     </p>
 
@@ -123,7 +121,7 @@ const graph = pageGraph(Astro, {
               fetchpriority="low"
               widths={[200, 400, 600]}
               sizes="(max-width: 768px) 50vw, 25vw"
-              class="block h-auto w-full object-cover shadow-[0_10px_30px_rgba(229,57,159,0.20)] transition-transform duration-300 group-hover/game:scale-105"
+              class="block h-auto w-full object-cover shadow-[0_10px_30px_rgba(22,135,201,0.20)] transition-transform duration-300 group-hover/game:scale-105"
               decoding="async"
               formats={["avif", "webp"]}
               fallbackFormat="webp"
@@ -133,9 +131,9 @@ const graph = pageGraph(Astro, {
               href="/register"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`สมัครสมาชิก BETPLAY369 เพื่อเปิดใช้งานเกมทดลอง ${game.name}`}
-              class="absolute inset-0 flex items-center justify-center bg-[#08030f]/85 opacity-0 transition-opacity duration-300 group-hover/game:opacity-100 focus-visible:opacity-100">
-              <span class="rounded-full border border-[#ff35b4]/70 bg-gradient-to-r from-[#ff35b4] via-[#e5399f] to-[#6d1750] px-6 py-2 font-bold text-[#f4ebff] shadow-[0_10px_30px_rgba(229,57,159,0.30)] transition-transform hover:scale-110">
+              aria-label={`สมัครสมาชิก ขวัญใจ168 เพื่อเปิดใช้งานเกมทดลอง ${game.name}`}
+              class="absolute inset-0 flex items-center justify-center bg-[#01050b]/85 opacity-0 transition-opacity duration-300 group-hover/game:opacity-100 focus-visible:opacity-100">
+              <span class="rounded-full border border-[#22b8e8]/70 bg-gradient-to-r from-[#22b8e8] via-[#1687c9] to-[#0e4f7a] px-6 py-2 font-bold text-[#eafcff] shadow-[0_10px_30px_rgba(22,135,201,0.30)] transition-transform hover:scale-110">
                 เปิดดู
               </span>
             </a>
@@ -146,25 +144,24 @@ const graph = pageGraph(Astro, {
   </ContentBox>
 
   <ContentBox title="ตรวจกติกา เพย์ไลน์ และช่วงเดิมพันก่อนเล่นด้วยเครดิตจริง" as="h2">
-    <ul class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#dfd0ee]">
+    <ul class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#cfe7f2]">
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> หน้านี้เป็นการลองใช้งานระบบเท่านั้น การเล่นด้วยเงินจริงต้องสมัครสมาชิกและฝากเครดิตผ่านระบบก่อน
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> หน้านี้เป็นการลองใช้งานระบบเท่านั้น การเล่นด้วยเงินจริงต้องสมัครยูสเซอร์และฝากเครดิตผ่านระบบก่อน
       </li>
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> ก่อนเริ่มเล่นแต่ละเกม ควรดูกติกา จำนวนเพย์ไลน์ อัตราจ่าย ฟีเจอร์โบนัส และช่วงการเดิมพันที่เกมนั้นรองรับให้ครบ
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> ก่อนเริ่มเล่นแต่ละเกม ควรดูกติกา จำนวนเพย์ไลน์ อัตราจ่าย ฟีเจอร์โบนัส และช่วงการเดิมพันที่เกมนั้นรองรับให้ครบ
       </li>
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> เดิมพันขั้นต่ำแตกต่างกันตามเกมและผู้ให้บริการ ควรกำหนดงบประมาณและเลือกขนาดเดิมพันให้เหมาะกับเงินทุนของตัวเอง
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> เดิมพันขั้นต่ำแตกต่างกันตามเกมและผู้ให้บริการ ควรกำหนดงบประมาณและเลือกขนาดเดิมพันให้เหมาะกับเงินทุนของตัวเอง
       </li>
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> เกมและการเดิมพันแต่ละประเภทมีความเสี่ยงต่างกัน ผลของเกมไม่สามารถรับประกันล่วงหน้าได้
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> เกมสล็อตแต่ละเกมมีความเสี่ยงต่างกัน ผลของเกมไม่สามารถรับประกันล่วงหน้าได้
       </li>
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> ข้อมูลผู้ให้บริการ ลิขสิทธิ์ และแหล่งที่มาของเกม ควรตรวจสอบจากรายละเอียดที่แสดงในระบบหรือที่ผู้ให้บริการเกมประกาศโดยตรง
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> ข้อมูลผู้ให้บริการ ลิขสิทธิ์ และแหล่งที่มาของเกม ควรตรวจสอบจากรายละเอียดที่แสดงในระบบหรือที่ผู้ให้บริการเกมประกาศโดยตรง
       </li>
       <li class="flex gap-3">
-        <span class="text-[#22c6f0]" aria-hidden="true">•</span> หากสมัครสมาชิกไม่ได้ Login ไม่ผ่าน เครดิตไม่เข้า ถอนไม่สำเร็จ หรือเข้าเกมไม่ได้ ให้แจ้งแอดมิน BETPLAY369
-        พร้อมรายละเอียดและเวลาที่ทำรายการ
+        <span class="text-[#4bdbee]" aria-hidden="true">•</span> หากเข้าทางเข้าสำรองไม่ได้ Login ไม่ผ่าน สมัครยูสใหม่ไม่สำเร็จ เครดิตไม่เข้า หรือถอนไม่สำเร็จ ให้แจ้งแอดมิน ขวัญใจ168 พร้อมรายละเอียดและเวลาที่ทำรายการ
       </li>
     </ul>
   </ContentBox>

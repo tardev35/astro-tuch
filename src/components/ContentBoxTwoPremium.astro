@@ -6,28 +6,32 @@ export interface Props {
   titleright?: string;
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
+
+// titleleft / titleright emit HeadingTag, so they carry docx sub-headings only.
+// A chrome two-column widget belongs in ContentBoxTwo, whose column labels are
+// <p> and whose <section> takes an aria-label instead.
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7a0304]/45 bg-[#0b0402]/92 p-8 text-[#e9d6ac] shadow-[0_10px_30px_rgba(4,2,1,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#e2060a]/60 hover:shadow-[0_15px_40px_rgba(226,6,10,0.24)] md:p-10">
-    <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#240803]/70 to-transparent opacity-70"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#0e4f7a]/55 bg-[#02142b]/92 p-8 text-[#cfe7f2] shadow-[0_10px_30px_rgba(1,5,11,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#1687c9]/70 hover:shadow-[0_15px_40px_rgba(22,135,201,0.26)] md:p-10">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#041d38]/70 to-transparent opacity-70"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-3 border-b border-[#7a0304]/70 pb-4">
-          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fae21e] via-[#fbbf14] to-[#8a5a02] shadow-[0_0_10px_rgba(250,226,30,0.45)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#fff6e0] via-[#fbbf14] to-[#e2060a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-3 border-b border-[#0e4f7a]/75 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#9df1ff] via-[#4bdbee] to-[#1687c9] shadow-[0_0_10px_rgba(75,219,238,0.5)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#eafcff] via-[#4bdbee] to-[#1687c9] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9d6ac]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe7f2]">
         {
           titleleft && (
-            <HeadingTag class="flex items-center gap-3 border-b border-[#7a0304]/70 pb-3 text-xl leading-normal font-black tracking-widest text-[#ff4b18] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff4b18] via-[#e2060a] to-[#7a0304] shadow-[0_0_10px_rgba(226,6,10,0.45)]" />
+            <HeadingTag class="flex items-center gap-3 border-b border-[#0e4f7a]/75 pb-3 text-xl leading-normal font-black tracking-widest text-[#22b8e8] uppercase">
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#22b8e8] via-[#1687c9] to-[#0e4f7a] shadow-[0_0_10px_rgba(22,135,201,0.5)]" />
               {titleleft}
             </HeadingTag>
           )
@@ -35,11 +39,11 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9d6ac] md:border-l md:border-[#7a0304] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe7f2] md:border-l md:border-[#0e4f7a] md:pl-10">
         {
           titleright && (
-            <HeadingTag class="flex items-center gap-3 border-b border-[#7a0304]/70 pb-3 text-xl leading-normal font-black tracking-widest text-[#fbbf14] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fae21e] via-[#fbbf14] to-[#8a5a02] shadow-[0_0_10px_rgba(250,226,30,0.45)]" />
+            <HeadingTag class="flex items-center gap-3 border-b border-[#0e4f7a]/75 pb-3 text-xl leading-normal font-black tracking-widest text-[#4bdbee] uppercase">
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#9df1ff] via-[#4bdbee] to-[#1687c9] shadow-[0_0_10px_rgba(75,219,238,0.5)]" />
               {titleright}
             </HeadingTag>
           )

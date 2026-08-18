@@ -7,29 +7,33 @@ const { title, as: HeadingTag = "h1" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "text-lg sm:text-xl md:text-2xl";
 
 // The badge is `absolute -top-6`, so the card's top padding must exceed the
-// badge's own height minus 24px. Worst case checked for this brand: the h1
-// title wraps to 3 lines at 320px (3 x 30px + 20px py + 4px border = 114px,
-// bottom edge at 90px) against pt-44/176px, and to 2 lines from sm up
-// (2 x 45px + 24px = 114px, bottom edge 90px) against pt-32/128px.
+// badge's own height minus 24px. It is width-capped (w-[92%] max-w-2xl) and
+// centred rather than whitespace-nowrap, so a long Thai title wraps instead of
+// overflowing the card.
+//
+// Worst case checked for ขวัญใจ168: the h2 title "สมัครเข้าเล่นสล็อต ขวัญใจ168
+// ใช้ยูสใหม่ เข้าเล่นได้ทันที" wraps to 3 lines at 320px (3 x 27px + 20px py +
+// 4px border = 105px, bottom edge at 81px) against pt-44/176px, and to 2 lines
+// from sm up (2 x 30px + 24px = 84px, bottom edge 60px) against pt-32/128px.
 // Do not trim it back for a short title — the next brand's may be longer.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#7a0304]/60 bg-gradient-to-b from-[#240803]/95 to-[#0b0402]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#e9d6ac] shadow-[0_10px_30px_rgba(226,6,10,0.18)] sm:pt-32 md:pt-32">
-    <div class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e2060a]/28 blur-[60px]"></div>
-    <div class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#fbbf14]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#0e4f7a]/70 bg-gradient-to-b from-[#041d38]/95 to-[#01050b]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#cfe7f2] shadow-[0_10px_30px_rgba(22,135,201,0.2)] sm:pt-32 md:pt-32">
+    <div class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#1687c9]/30 blur-[60px]"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#4bdbee]/22 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#c2a878]/55 bg-[#0b0402] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(226,6,10,0.28)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#fbbf14]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#0e4f7a]/70 bg-[#01050b] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(22,135,201,0.3)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#4bdbee]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#fff6e0] via-[#fbbf14] to-[#e2060a] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#eafcff] via-[#4bdbee] to-[#1687c9] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#fbbf14]">
+          <span aria-hidden="true" class="shrink-0 text-[#4bdbee]">
             ✦
           </span>
         </div>

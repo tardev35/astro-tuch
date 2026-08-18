@@ -754,7 +754,15 @@ scanAstroFrontmatter(path.join("src", "layouts"));
 if (fs.existsSync("wrangler.toml")) {
   const wrangler = fs.readFileSync("wrangler.toml", "utf8");
   const name = (wrangler.match(/^\s*name\s*=\s*"([^"]+)"/m) || [])[1];
-  const slug = SITE.hostname.replace(/^www\./i, "").split(/[-.]/)[0];
+  // A punycode label (an IDN domain, e.g. ขวัญใจ-168.com ->
+  // xn---168-9dovb8a1pjdvi.com) is ONE opaque ASCII token — the hyphens inside
+  // it are part of the encoding, not word breaks. Splitting on them yields
+  // "xn", which every IDN brand in the portfolio would share, so the check
+  // would demand the one worker name guaranteed to collide. Compare the whole
+  // label there; keep the leading-segment rule for ordinary hostnames, which
+  // is what every ASCII brand's name was derived from.
+  const label = SITE.hostname.replace(/^www\./i, "").split(".")[0];
+  const slug = label.startsWith("xn--") ? label : label.split("-")[0];
   if (name && slug && name.toLowerCase() !== slug.toLowerCase()) {
     error("wrangler.toml", `name = "${name}" but the site is ${SITE.hostname} (expected "${slug}") — ` + `deploying now would overwrite the "${name}" brand's live worker`);
   }

@@ -6,19 +6,23 @@ import ktbLogo from "../assets/banks/ktb.png";
 import ttbLogo from "../assets/banks/ttb.png";
 import { brandFlag, brandPick } from "../lib/brandProfile";
 
-// Real bank brand colours — these stay as they are through every rebrand.
+// Real bank brand colours — these stay as they are through every rebrand and
+// are never mapped onto the site palette.
 const bankPool = [
   { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
   { name: "SCB", color: "bg-[#4e1c80]", icon: scbLogo.src },
   { name: "Krungsri", color: "bg-[#fcd34d]", icon: krungsriLogo.src },
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
-  { name: "TTB", color: "bg-[#ca8a04]", icon: ttbLogo.src },
+  { name: "TTB", color: "bg-[#1279be]", icon: ttbLogo.src },
 ];
 
 // Ported off `<script define:vars={{ bankPool }}>` — see src/lib/winnersFeed.ts.
 // Rows are server-rendered; values come from the domain hash, never
 // Math.random(), which in frontmatter would run at build time and make two
 // builds of the same domain differ.
+//
+// The heading here is a <p>: this feed is chrome, not docx content, so the
+// <section> takes its accessible name from aria-label.
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) =>
@@ -31,29 +35,29 @@ const initialRows = Array.from({ length: 4 }, (_, i) => ({
   pending: brandFlag(Astro.site, `card-pending-${i}`),
 }));
 
-// Pending/verified stay semantic (grey / success green), not brand red — a
+// Pending/verified stay semantic (grey / success green), not brand blue — a
 // status colour that matches the accent tells the reader nothing.
-const PENDING_CLASS = "text-[#aeb6c2] bg-[#0d0203] animate-pulse";
+const PENDING_CLASS = "text-[#8fb6cc] bg-[#01050b] animate-pulse";
 const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e] to-[#15803d] font-black shadow-md";
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <section
-    aria-label="รายการถอนเงินล่าสุดของสมาชิก LOTTO42"
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#e8121d]/30 bg-[#170406]/92 px-4 py-8 shadow-[0_10px_30px_rgba(232,18,29,0.18)] backdrop-blur-md md:p-10">
-    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#e8121d]/20 blur-[50px]"></div>
+    aria-label="รายการถอนเงินล่าสุดของสมาชิก ขวัญใจ168"
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#1687c9]/35 bg-[#02142b]/92 px-4 py-8 shadow-[0_10px_30px_rgba(22,135,201,0.2)] backdrop-blur-md md:p-10">
+    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#4bdbee]/20 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
-      <span aria-hidden="true" class="text-2xl">🎟️</span>
-      <p class="bg-gradient-to-r from-[#eef1f6] via-[#ff4d55] to-[#e8121d] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก LOTTO42</p>
-      <span aria-hidden="true" class="text-2xl">🎟️</span>
+      <span aria-hidden="true" class="text-2xl">💸</span>
+      <p class="bg-gradient-to-r from-[#eafcff] via-[#4bdbee] to-[#1687c9] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก ขวัญใจ168</p>
+      <span aria-hidden="true" class="text-2xl">💸</span>
     </div>
 
     <div data-winners-feed data-interval="5000" data-max-rows="4" class="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-card transition-all duration-500 ease-out">
-            <div class="flex flex-col rounded-[20px] border border-[#7c0207]/55 bg-[#0d0203]/95 p-5 shadow-sm transition-all hover:border-[#e8121d]/50 hover:bg-[#170406]/90">
+            <div class="flex flex-col rounded-[20px] border border-[#0e4f7a]/65 bg-[#01050b]/95 p-5 shadow-sm transition-all hover:border-[#4bdbee]/55 hover:bg-[#041d38]/90">
               <div class="mb-4 flex items-start justify-between">
                 <div data-winner-bank class={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
@@ -69,11 +73,11 @@ const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e]
                 </div>
               </div>
               <div>
-                <div class="text-sm text-[#aeb6c2]">
-                  ยูสเซอร์: <span data-winner-user class="font-bold text-[#eef1f6]">{row.user}</span>
+                <div class="text-sm text-[#8fb6cc]">
+                  ยูสเซอร์: <span data-winner-user class="font-bold text-[#eafcff]">{row.user}</span>
                 </div>
-                <div class="mt-1 text-2xl font-black text-[#ff4d55]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#aeb6c2]">THB</span>
+                <div class="mt-1 text-2xl font-black text-[#4bdbee]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#8fb6cc]">THB</span>
                 </div>
               </div>
             </div>
@@ -82,7 +86,7 @@ const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e]
       }
     </div>
 
-    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#aeb6c2]">
+    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#8fb6cc]">
       ก่อนฝากหรือถอนควรตรวจยอด ช่องทาง และชื่อบัญชีรับเงินให้ตรงกับข้อมูลสมาชิก หากรายการยังประมวลผลอยู่ไม่ควรกดซ้ำทันที
     </p>
 
