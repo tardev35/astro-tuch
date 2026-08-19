@@ -2,170 +2,106 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/Announcement5.astro";
 
-import { Picture } from "astro:assets";
-import { itemList, pageGraph, schemaCtx } from "../lib/schema";
-import image1 from "../assets/gamedemo7.webp";
-import image2 from "../assets/gamedemo8.webp";
-import image3 from "../assets/gamedemo9.webp";
-import image4 from "../assets/gamedemo10.webp";
-import image5 from "../assets/gamedemo11.webp";
-import image6 from "../assets/gamedemo12.webp";
-import image7 from "../assets/gamedemo13.webp";
-import image8 from "../assets/gamedemo14.webp";
-import image9 from "../assets/gamedemo15.webp";
-import image10 from "../assets/gamedemo16.webp";
-import image11 from "../assets/gamedemo17.webp";
-import image12 from "../assets/gamedemo18.webp";
+import { pageGraph } from "../lib/schema";
 
-// One list, two consumers: the gallery below and the ItemList in the JSON-LD.
-// They used to be two hand-kept arrays that had to stay in the same order, and
-// the name shown to a reader could drift from the name handed to a crawler.
-// The thumbnails are generic stock demo art shared across brands — the alt text
-// describes the picture, never its position in the grid. The card label lives
-// in the aria-label of the overlay link, never in a heading tag: this page's
-// headings all come from its ContentBox titles.
-const demoGames = [
-  { name: "AskmeSlot", src: image1, alt: "แบนเนอร์ค่ายเกม askmeslot โลโก้โพดำสีเหลือง ตัวการ์ตูนเด็กชายสวมหมวกแดงกางแขน ฉากหลังเป็นถนนเมืองยุโรปและกังหันลม" },
-  { name: "Popular Game", src: image2, alt: "แบนเนอร์ Popular Game ตัวอักษรสีทอง ตัวการ์ตูนกระต่ายกับแมวสวมแว่นกันแดด หีบสมบัติ ชิปและเหรียญทองกระจายรอบภาพ" },
-  { name: "SlotXO", src: image3, alt: "แบนเนอร์ค่ายเกม SlotXO โลโก้รูปตู้สล็อตพร้อมเหรียญ ฉากหลังเป็นนักรบโรมันสวมชุดเกราะยืนหน้าโคลอสเซียม" },
-  { name: "Skywind Group", src: image4, alt: "แบนเนอร์ค่ายเกม Skywind Group โลโก้วงกลมสี่สี ฉากหลังเป็นแมวกวักญี่ปุ่นสีขาว ถุงทอง และดอกซากุระ" },
-  { name: "PG Soft", src: image5, alt: "แบนเนอร์ค่ายเกม PG Pocket Games Soft โลโก้ตัวอักษรพิกเซลหลากสี ฉากหลังเป็นหญิงสาวสวมเครื่องประดับทองและหมวกขนนก" },
-  { name: "SBOBET", src: image6, alt: "แบนเนอร์ค่ายเกม SBOBET โลโก้สีขาวบนพื้นดำ ฉากหลังเป็นตัวการ์ตูนหญิงสาวผมบลอนด์ชุดสีชมพูถืออมยิ้ม" },
-  { name: "Sexy Slot", src: image7, alt: "แบนเนอร์เกม Sexy Slot ตัวอักษรสีชมพูม่วง ฉากหลังเป็นตัวการ์ตูนหญิงสาวชุดสีน้ำเงินนั่งอยู่ในกรอบวงกลมพร้อมรูปหัวใจ" },
-  { name: "JILI", src: image8, alt: "แบนเนอร์ค่ายเกม JILI ตัวอักษรสีทอง ฉากหลังเป็นตัวการ์ตูนนางเงือกผมสีแดงถือหอยสังข์อยู่ใต้ท้องทะเล" },
-  { name: "Ask Me Bet", src: image9, alt: "แบนเนอร์ค่ายเกม ask me bet โลโก้สีเขียวเหลือง ฉากหลังเป็นหัวสิงโตเชิดสีแดงทองและโคมไฟจีน" },
-  { name: "New Game", src: image10, alt: "แบนเนอร์ New Game ตัวอักษรสีขาวสามมิติ ตัวการ์ตูนฟักทองสวมหมวกและโครงกระดูกยืนสองข้าง พร้อมอัญมณีและชิปหลากสี" },
-  { name: "JOKER", src: image11, alt: "แบนเนอร์ค่ายเกม JOKER ตัวอักษรสีขาวทอง ฉากหลังเป็นนักรบโรมันสวมหมวกเกราะยืนคู่กับสิงโตในสนามประลอง" },
-  { name: "AFB Gaming", src: image12, alt: "แบนเนอร์ค่ายเกม AFB Gaming ตัวอักษรสีทอง ฉากหลังเป็นเทพเจ้าเคราขาวสวมมงกุฎใบไม้ยืนอยู่หน้าวิหารกรีก" },
-];
-
-// The URL each entry resolves to is schema.ts's problem, not this file's — an
-// older version pasted a hand-built page URL onto all 12 and got the trailing
-// slash and the Thai encoding wrong on every one of them.
-const gameList = demoGames.map((game) => ({ name: game.name, imagePath: game.src.src }));
-
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 157.
+// LEKDED is a lottery site, so "ทดลองเล่น" here means walking through the system
+// before spending anything: pick a หวย type, build a โพย, read the อัตราจ่าย,
+// and learn the ฝากถอน flow. The previous brand rendered a 12-card slot
+// provider gallery (gamedemo7..18.webp) on this page — those assets belong to a
+// slot brand and are not imported anywhere any more. Do not bring them back: an
+// import alone emits the file into dist/, and verify-build fails an image that
+// nothing renders.
+//
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 158.
 const pageDescription =
-  "หน้าทดลองเล่น JUDTEM168 เปิดดูรูปแบบเกมสล็อตและลองหมุนด้วยเครดิตทดลอง ดู Paytable ฟีเจอร์โบนัส และ RTP ของแต่ละค่าย ก่อนตัดสินใจสมัครและเดิมพันด้วยเครดิตจริง";
+  "หน้าทดลองเล่น LEKDED สำหรับสมาชิกใหม่ ดูวิธีเลือกประเภทหวยรัฐบาลไทย ลาว ฮานอย หุ้น ขั้นตอนส่งโพย การตรวจสอบอัตราจ่ายและเลขอั้น รวมถึงขั้นตอนฝากถอนก่อนซื้อจริง";
 
-const ctx = schemaCtx(Astro);
 const graph = pageGraph(Astro, {
-  type: "CollectionPage",
-  name: "ทดลองเล่นสล็อต JUDTEM168 เปิดดูรูปแบบเกมก่อนเดิมพันจริง",
+  name: "ทดลองเล่น LEKDED ดูขั้นตอนซื้อหวยออนไลน์ก่อนใช้งานจริง",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
     { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   ],
-  extra: [
-    itemList(ctx, {
-      name: "รายการค่ายเกมสล็อตที่เปิดให้ลองเปิดดูบน JUDTEM168",
-      alternateName: "JUDTEM168 โหมดทดลองสำหรับดูรูปแบบเกมก่อนสมัครสมาชิกและเดิมพันด้วยเครดิตจริง",
-      itemType: "Game",
-      items: gameList,
-    }),
-  ],
 });
 ---
 
-<MainLayout title="ทดลองเล่นสล็อต JUDTEM168 เปิดดูรูปแบบเกมและลองหมุนก่อนเดิมพันจริง" description={pageDescription}>
+<MainLayout title="ทดลองเล่น LEKDED ดูวิธีส่งโพยและตรวจอัตราจ่ายก่อนซื้อหวยจริง" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="ทดลองเล่นสล็อต JUDTEM168 เปิดดูรูปแบบเกมก่อนเดิมพันจริง" as="h1">
-    <p class="mb-6 text-left text-base leading-relaxed text-[#f0e2bd]">
-      <strong class="text-[#fae27c]">JUDTEM168</strong> รวมเกมสล็อตออนไลน์หลายรูปแบบไว้ให้เลือกเล่นผ่านบัญชีเดียว หน้านี้เปิดไว้ให้ผู้ที่ยังไม่คุ้นเคยกับเกมในระบบได้
-      <strong class="text-[#fae27c]">เปิดดูรูปแบบเกมและลองหมุนสล็อตด้วยเครดิตทดลอง</strong> เพื่อดูหน้าตาเกม จังหวะการเล่น และฟีเจอร์ที่เกมนั้นมี ก่อนตัดสินใจสมัครสมาชิก ฝากเครดิต และเดิมพันด้วยเงินจริง
-      เปิดผ่านเบราว์เซอร์ได้ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
+  <ContentBox title="ทดลองเล่น LEKDED ดูขั้นตอนซื้อหวยออนไลน์ก่อนใช้งานจริง" as="h1">
+    <p class="mb-6 text-left text-base leading-relaxed text-[#ecdfb4]">
+      <strong class="text-[#fbe479]">LEKDED</strong> รวมหวยหลายประเภทไว้ในบัญชีเดียว ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น หน้านี้เปิดไว้ให้สมาชิกใหม่ที่ยังไม่คุ้นเคยกับระบบได้
+      <strong class="text-[#fbe479]">ดูวิธีเลือกประเภทหวย วิธีส่งโพย และจุดที่ต้องตรวจสอบก่อนยืนยันรายการ</strong> ก่อนเริ่มใช้งานจริงด้วยเครดิตของตัวเอง เปิดผ่านเบราว์เซอร์ได้ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
     </p>
 
-    <p class="mb-2 text-left text-base leading-relaxed text-[#f0e2bd]">
-      ขอให้เข้าใจตรงกันว่าโหมดทดลองเป็นเพียงการลองใช้งานระบบเท่านั้น
-      <strong class="text-[#fae27c]">ผลที่ได้จากเครดิตทดลองไม่สามารถใช้ทำนายผลของการเดิมพันจริงได้</strong>
-      ผลของเกมไม่สามารถรับประกันล่วงหน้าได้ หากติดปัญหาระหว่างใช้งาน สามารถแจ้งแอดมิน JUDTEM168 พร้อมรายละเอียดและเวลาที่พบปัญหา เพื่อให้ทีมงานค้นหารายการและตรวจสอบได้ตรงจุด
+    <p class="mb-2 text-left text-base leading-relaxed text-[#ecdfb4]">
+      ขอให้เข้าใจตรงกันว่าขั้นตอนในหน้านี้เป็นการอธิบายการใช้งานระบบเท่านั้น
+      <strong class="text-[#fbe479]">ไม่ใช่การรับประกันผลรางวัลและไม่สามารถใช้ทำนายผลของรอบใดได้</strong>
+      หากติดปัญหาระหว่างใช้งาน สามารถแจ้งแอดมิน LEKDED พร้อมรายละเอียดและเวลาที่พบปัญหา เพื่อให้ทีมงานค้นหารายการและตรวจสอบได้ตรงจุด
     </p>
   </ContentBox>
 
-  <ContentBox title="วิธีทดลองเล่นสล็อต JUDTEM168 ด้วยตัวเอง 3 ขั้นตอน" as="h2">
-    <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#f0e2bd]">
-      <li class="flex gap-3"><span class="font-bold text-[#f5d98a]">1.</span> เลือกค่ายและเกมที่สนใจจากรายการด้านล่าง แล้วเปิดดูหน้าจอและรูปแบบการเล่นของเกมนั้น</li>
-      <li class="flex gap-3"><span class="font-bold text-[#f5d98a]">2.</span> ลองหมุนด้วยเครดิตทดลอง เพื่อดูจังหวะเกม สัญลักษณ์ และฟีเจอร์โบนัสที่เกมมีให้</li>
-      <li class="flex gap-3">
-        <span class="font-bold text-[#f5d98a]">3.</span> อ่าน Paytable กติกา และค่า RTP ของเกม ก่อนสมัครสมาชิกและเล่นด้วยเครดิตจริง
-      </li>
+  <ContentBox title="ขั้นตอนทดลองใช้งานระบบ LEKDED ด้วยตัวเอง" as="h2">
+    <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ecdfb4]">
+      <li class="flex gap-3"><span class="font-bold text-[#efd591]">1.</span> เลือกประเภทหวยที่สนใจจากหมวดหมู่ในระบบ ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น แล้วดูรอบที่เปิดให้ส่งโพยอยู่</li>
+      <li class="flex gap-3"><span class="font-bold text-[#efd591]">2.</span> เลือกรูปแบบการแทงและเลขที่ต้องการ กรอกจำนวนเงิน แล้วดูรายการที่ระบบสรุปไว้ในโพยก่อนยืนยัน</li>
+      <li class="flex gap-3"><span class="font-bold text-[#efd591]">3.</span> ตรวจสอบอัตราจ่าย เลขอั้น และวงเงินรับแทงของรอบนั้น ว่าตรงกับที่ตั้งใจซื้อหรือไม่</li>
+      <li class="flex gap-3"><span class="font-bold text-[#efd591]">4.</span> ทำความเข้าใจขั้นตอนฝากถอนออโต้ผ่านบัญชีของตนเอง ก่อนเริ่มส่งโพยด้วยเครดิตจริง</li>
     </ol>
 
-    <p class="mt-4 mb-2 text-left text-base leading-relaxed text-[#f0e2bd]">
-      หลังเปิดบัญชีเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติรายการ และสถานะฝากถอนออโต้ผ่านบัญชีของตนเองได้ รวมถึงโปรโมชั่นที่มีสิทธิ์รับ เช่น แนะนำเพื่อน
-      <strong class="text-[#f5d98a]">0.8%</strong> และคืนยอดเสีย <strong class="text-[#f5d98a]">0.3%</strong> ตามเงื่อนไขของแต่ละกิจกรรม ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
+    <p class="mt-4 mb-2 text-left text-base leading-relaxed text-[#ecdfb4]">
+      หลังเปิดบัญชีเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติโพย และสถานะฝากถอนผ่านบัญชีของตนเองได้ รวมถึงโปรโมชั่นที่มีสิทธิ์รับตามรอบวันที่
+      <strong class="text-[#efd591]">1</strong> และ <strong class="text-[#efd591]">16</strong> ของเดือน ตามเงื่อนไขของแต่ละกิจกรรม ทั้งบนมือถือ แท็บเล็ต และคอมพิวเตอร์
     </p>
   </ContentBox>
 
-  <ContentBox title="ค่ายเกมสล็อตในระบบ JUDTEM168 ที่เปิดให้ลองเปิดดู" as="h2">
-    <p class="mb-6 text-left text-base leading-relaxed text-[#f0e2bd]">
-      ระบบจัดหมวดหมู่เกมสล็อตจากผู้ให้บริการหลายค่ายไว้ให้ค้นหาได้สะดวก เช่น PG SOFT, Pragmatic Play, JILI, JDB และ Habanero โดยเกมที่ผู้เล่นถามถึงบ่อยอย่าง Mahjong Ways, Fortune Tiger และ Lucky Neko
-      เป็นเกมจากฝั่ง PG SOFT ที่ออกแบบให้รองรับการเล่นผ่านมือถือ
-      <strong class="text-[#fae27c]">ธีมเกม ฟีเจอร์โบนัส ค่า RTP และช่วงเดิมพันของแต่ละค่ายไม่เหมือนกัน</strong>
-      ควรอ่านรายละเอียดที่แสดงในหน้าเกมก่อนเริ่มเล่นทุกครั้ง และยึดรายชื่อค่ายที่เปิดให้บริการจริงตามข้อมูลล่าสุดในระบบเป็นหลัก
-    </p>
-
-    <div class="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-4">
-      {
-        demoGames.map((game) => (
-          <div class="group/game relative mx-auto w-full max-w-[400px] overflow-hidden rounded-xl">
-            <Picture
-              src={game.src}
-              alt={game.alt}
-              loading="lazy"
-              fetchpriority="low"
-              widths={[200, 400, 600]}
-              sizes="(max-width: 768px) 50vw, 25vw"
-              class="block h-auto w-full object-cover shadow-[0_10px_30px_rgba(204,156,45,0.20)] transition-transform duration-300 group-hover/game:scale-105"
-              decoding="async"
-              formats={["avif", "webp"]}
-              fallbackFormat="webp"
-              quality={60}
-            />
-            <a
-              href="/register"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`สมัครสมาชิก JUDTEM168 เพื่อเปิดใช้งานเกมทดลอง ${game.name}`}
-              class="absolute inset-0 flex items-center justify-center bg-[#050301]/85 opacity-0 transition-opacity duration-300 group-hover/game:opacity-100 focus-visible:opacity-100">
-              <span class="rounded-full border border-[#e8bf4e]/70 bg-gradient-to-r from-[#e8bf4e] via-[#cc9c2d] to-[#6a5115] px-6 py-2 font-bold text-[#050301] shadow-[0_10px_30px_rgba(204,156,45,0.30)] transition-transform hover:scale-110">
-                เปิดดู
-              </span>
-            </a>
-          </div>
-        ))
-      }
-    </div>
-  </ContentBox>
-
-  <ContentBox title="ตรวจ Paytable และ RTP ก่อนเล่นด้วยเครดิตจริง" as="h2">
-    <ul class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#f0e2bd]">
+  <ContentBox title="สิ่งที่ควรตรวจสอบก่อนยืนยันโพยด้วยเครดิตจริง" as="h2">
+    <ul class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ecdfb4]">
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> หน้านี้เป็นการลองใช้งานระบบเท่านั้น การเล่นด้วยเงินจริงต้องสมัครสมาชิกและฝากเครดิตผ่านระบบออโต้ก่อน
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> หน้านี้อธิบายการใช้งานระบบเท่านั้น การซื้อหวยจริงต้องสมัครสมาชิกและฝากเครดิตผ่านระบบออโต้ก่อน
       </li>
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> ก่อนเริ่มเล่นแต่ละเกม ควรอ่าน Paytable รายละเอียดโบนัส ค่า RTP ความผันผวน และช่วงการเดิมพันที่เกมนั้นรองรับให้ครบ
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> เวลาเปิด-ปิดรับแทงของหวยแต่ละประเภทไม่เท่ากัน ควรดูรอบที่ระบบแสดงอยู่ก่อนเริ่มเลือกเลข
       </li>
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> เดิมพันขั้นต่ำแตกต่างกันตามเกมและผู้ให้บริการ ควรกำหนดงบประมาณและเลือกขนาดเดิมพันให้เหมาะกับเงินทุนของตัวเอง
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> อัตราจ่าย เลขอั้น และวงเงินรับแทงอาจต่างกันในแต่ละรอบ ให้ยึดข้อมูลที่ระบบแสดงในรอบนั้นเป็นหลัก
       </li>
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> เกมสล็อตแต่ละเกมมีความเสี่ยงต่างกัน ผลของเกมไม่สามารถรับประกันล่วงหน้าได้ และโปรโมชั่นไม่ได้ทำให้โอกาสชนะเพิ่มขึ้น
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> ตรวจสอบเลข จำนวนเงิน และรูปแบบการแทงในโพยให้ครบก่อนกดยืนยัน เพราะรายการที่ยืนยันแล้วจะเข้าสู่รอบทันที
       </li>
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> รายชื่อค่ายและเกมที่พร้อมใช้งานจริงให้ยึดข้อมูลล่าสุดที่แสดงภายในระบบ JUDTEM168 เป็นหลัก
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> ก่อนฝากถอนควรตรวจชื่อบัญชี จำนวนเงิน และช่องทางให้ถูกต้อง และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
       </li>
       <li class="flex gap-3">
-        <span class="text-[#fae27c]" aria-hidden="true">•</span> หาก Login ไม่ได้ เครดิตไม่เข้า ถอนเงินค้าง หรือเข้าเกมสล็อตไม่ได้ ให้แจ้งแอดมิน JUDTEM168 พร้อมรายละเอียดและเวลาที่ทำรายการ
+        <span class="text-[#fbe479]" aria-hidden="true">•</span> หาก Login ไม่ได้ เครดิตไม่เข้า ถอนเงินค้าง หรือส่งโพยไม่สำเร็จ ให้แจ้งแอดมิน LEKDED พร้อมเวลาและรายละเอียดของรายการ
       </li>
     </ul>
+
+    <p class="mt-4 mb-6 text-left text-base leading-relaxed text-[#ecdfb4]">
+      สมาชิกใหม่สอบถามวิธีเลือกประเภทหวย วิธีส่งโพย การตรวจสอบอัตราจ่าย หรือขั้นตอนการฝากถอนกับแอดมิน LEKDED ได้ตลอด 24 ชั่วโมง โดย
+      <strong class="text-[#fbe479]">การเดิมพันมีความเสี่ยง ควรกำหนดงบประมาณให้เหมาะสมทุกครั้ง</strong>
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4">
+      <a
+        href="/register"
+        aria-label="สมัครสมาชิก LEKDED"
+        class="flex items-center justify-center rounded-lg bg-gradient-to-r from-[#fbe479] via-[#e2c466] to-[#b5811e] px-8 py-3 font-black text-[#030803] shadow-[0_0_15px_rgba(181,129,30,0.32)] transition-transform hover:scale-105">
+        สมัครสมาชิก
+      </a>
+
+      <a
+        href="/login"
+        aria-label="เข้าสู่ระบบ LEKDED"
+        class="flex items-center justify-center rounded-lg border border-[#b5811e]/70 bg-transparent px-8 py-3 font-bold text-[#ecdfb4] transition-all hover:scale-105 hover:border-[#e2c466] hover:bg-[#0b1405]/70">
+        เข้าสู่ระบบ
+      </a>
+    </div>
   </ContentBox>
 
   <Navfoot />

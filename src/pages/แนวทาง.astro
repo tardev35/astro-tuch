@@ -1,0 +1,76 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import Navfoot from "../components/Navfoot.astro";
+import { pageGraph } from "../lib/schema";
+
+const tips = [
+  { title: "แนวทางหวยรัฐบาลไทย งวดล่าสุด", desc: "รวมเลขเด่นและเลขรองของงวดนี้ พร้อมจุดที่ควรดูก่อนจัดโพยส่งเข้ารอบที่เปิดรับ", type: "หวยรัฐบาลไทย", date: "วันนี้", hot: true },
+  { title: "เจาะแนวทางหวยลาว ก่อนปิดรับ", desc: "แนวทางเลขที่คนแทงหนักในรอบนี้ พร้อมวิธีกระจายเลขไม่ให้ยอดกระจุกอยู่ตัวเดียว", type: "หวยลาว", date: "วันนี้", hot: true },
+  { title: "สถิติเลขท้าย 2 ตัวหวยฮานอยที่ออกซ้ำ", desc: "สรุปเลขท้าย 2 ตัวที่ออกซ้ำบ่อยในรอบย้อนหลัง ใช้เป็นฐานคัดเลขก่อนลงโพยจริง", type: "หวยฮานอย", date: "เมื่อวาน", hot: false },
+  { title: "อ่านแนวทางหวยหุ้นให้เป็นก่อนส่งโพย", desc: "หวยหุ้นอิงอะไร รอบไหนเปิดรับบ้าง และควรตรวจอะไรก่อนกดยืนยันรายการทุกครั้ง", type: "หวยหุ้น", date: "เมื่อวาน", hot: false },
+  { title: "จัดโพยตามเงื่อนไขของแต่ละรอบ", desc: "วางเงินให้พอดีกับวงเงินที่แต่ละรอบเปิดรับ ลดปัญหาโพยไม่ผ่านเพราะเกินเงื่อนไข", type: "วางแผนโพย", date: "2 วันที่แล้ว", hot: false },
+  { title: "ตรวจโพยผ่านมือถือหลังประกาศผล", desc: "ขั้นตอนเปิดดูโพยย้อนหลังจากบัญชีสมาชิก ดูสถานะรางวัลและยอดที่ปล่อยเข้าบัญชี", type: "ตรวจโพย", date: "2 วันที่แล้ว", hot: false },
+];
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 154.
+const pageDescription = "รวมแนวทางหวยและเลขเด่นก่อนส่งโพยบน LEKDED ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยหุ้น สถิติงวดย้อนหลัง วิธีจัดโพยตามเงื่อนไขของแต่ละรอบ และการตรวจโพยหลังประกาศผล";
+
+const graph = pageGraph(Astro, {
+  name: "แนวทางหวย LEKDED เลขเด่นก่อนส่งโพย",
+  description: pageDescription,
+  breadcrumb: [
+    { name: "หน้าแรก", path: "/" },
+    { name: "แนวทาง", path: "/แนวทาง" },
+  ],
+});
+---
+
+<MainLayout title="แนวทางหวย LEKDED เลขเด่นรัฐบาลไทย ลาว ฮานอย หุ้น อัปเดตทุกวัน" description={pageDescription}>
+  <script type="application/ld+json" set:html={graph} />
+
+  <Announcement />
+
+  <section class="mx-auto my-8 w-full max-w-7xl px-4">
+    <div class="mb-10 flex flex-col items-center">
+      <span aria-hidden="true" class="mb-2 text-4xl drop-shadow-[0_0_10px_rgba(232,18,29,0.8)]">🔮</span>
+      <h1 class="bg-gradient-to-r from-[#ff4d55] via-[#e8121d] to-[#7c0207] bg-clip-text text-center text-4xl font-black tracking-widest text-transparent uppercase">แนวทางหวย LEKDED</h1>
+      <p class="mt-3 w-full text-left text-base leading-relaxed text-[#aeb6c2]">
+        รวบรวมเลขเด่น เลขรอง และสถิติรอบย้อนหลัง ให้สมาชิก LEKDED คัดเลขและวางแผนโพยได้ก่อนรอบปิดรับ ครอบคลุมทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น โดยวงเงินรับแทง เลขอั้น เวลาเปิด-ปิด
+        และอัตราจ่ายของหวยแต่ละประเภทอาจแตกต่างกัน จึงควรตรวจสอบข้อมูลที่ระบบแสดงในรอบนั้นก่อนส่งโพยทุกครั้ง
+      </p>
+    </div>
+
+    <h2 class="mb-6 text-center text-2xl font-black tracking-widest text-[#e8121d] uppercase">รวมแนวทางหวยล่าสุด ก่อนถึงรอบปิดรับ</h2>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        tips.map((tip) => (
+          <div class="group relative isolate flex flex-col overflow-hidden rounded-2xl border border-[#7c0207]/35 bg-[#170406]/85 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#e8121d]/55 hover:shadow-[0_15px_30px_rgba(232,18,29,0.22)]">
+            <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#7c0207]/25 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <div class="mb-4 flex items-center justify-between">
+              <span class="rounded-full border border-[#7c0207]/50 bg-[#2a0508] px-3 py-1 text-xs font-bold text-[#ff4d55]">{tip.type}</span>
+              {tip.hot && (
+                <span class="flex animate-pulse items-center gap-1 text-xs font-black text-[#e8121d]">
+                  <span aria-hidden="true">🔥</span> มาแรง
+                </span>
+              )}
+              {!tip.hot && <span class="text-xs font-medium text-[#aeb6c2]">{tip.date}</span>}
+            </div>
+
+            <span class="mb-2 line-clamp-1 block text-xl font-bold text-white transition-colors group-hover:text-[#ff4d55]">{tip.title}</span>
+
+            <p class="mb-6 line-clamp-2 text-left text-base leading-relaxed text-[#d7dce4]">{tip.desc}</p>
+
+            <div class="mt-auto flex items-center gap-2 border-t border-[#7c0207]/25 pt-4 text-sm font-bold text-[#ff4d55]">
+              <span aria-hidden="true">💰</span>
+              อัตราจ่ายตามที่ระบบแสดงในรอบนั้น
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <Navfoot />
+</MainLayout>
