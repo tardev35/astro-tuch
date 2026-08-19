@@ -3,48 +3,52 @@ export interface Props {
   titleleft?: string;
   titlecenter?: string;
   titleright?: string;
+  as?: "h2" | "h3" | "h4" | "h5" | "h6";
 }
-const { titleleft, titlecenter, titleright } = Astro.props;
+// The three column titles are docx article headings, not chrome labels, so they
+// render as real heading tags. They used to be <p>, which dropped three docx
+// sections out of the page's heading outline.
+const { titleleft, titlecenter, titleright, as: HeadingTag = "h3" } = Astro.props;
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#22c55e]/40 bg-[#0a1207]/90 p-8 text-[#e9f7e6] shadow-[0_0_25px_rgba(34,197,94,0.15)] backdrop-blur-md transition-all duration-300 hover:border-[#4ade80] hover:shadow-[0_0_40px_rgba(34,197,94,0.3)]"
+    class="relative isolate w-full border border-[#cc9c2d]/45 bg-[#0b0703]/90 p-8 text-[#f0e2bd] shadow-[0_0_25px_rgba(204,156,45,0.16)] backdrop-blur-md transition-all duration-300 hover:border-[#e8bf4e] hover:shadow-[0_0_40px_rgba(232,191,78,0.3)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#22c55e] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#ec4899] to-transparent"></div>
-    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#22c55e] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#ec4899] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#cc9c2d] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fae27c] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#cc9c2d] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#fae27c] to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#22c55e]/30 pb-6 text-left text-base leading-relaxed text-[#e9f7e6]/80 md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#6a5115]/60 pb-6 text-left text-base leading-relaxed text-[#f0e2bd] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
-            <p class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 bg-[#ec4899] shadow-[0_0_5px_rgba(236,72,153,0.8)]" /> {titleleft}
-            </p>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#fae27c] uppercase">
+              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#e8bf4e] shadow-[0_0_5px_rgba(232,191,78,0.8)]" /> {titleleft}
+            </HeadingTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#22c55e]/30 pb-6 text-left text-base leading-relaxed text-[#e9f7e6]/80 md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#6a5115]/60 pb-6 text-left text-base leading-relaxed text-[#f0e2bd] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <p class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 bg-[#ec4899] shadow-[0_0_5px_rgba(236,72,153,0.8)]" /> {titlecenter}
-            </p>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#fae27c] uppercase">
+              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#e8bf4e] shadow-[0_0_5px_rgba(232,191,78,0.8)]" /> {titlecenter}
+            </HeadingTag>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f7e6]/80 md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e2bd] md:pl-6">
         {
           titleright && (
-            <p class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 bg-[#ec4899] shadow-[0_0_5px_rgba(236,72,153,0.8)]" /> {titleright}
-            </p>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#fae27c] uppercase">
+              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#e8bf4e] shadow-[0_0_5px_rgba(232,191,78,0.8)]" /> {titleright}
+            </HeadingTag>
           )
         }
         <slot name="right" />
