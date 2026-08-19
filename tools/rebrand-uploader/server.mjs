@@ -2830,6 +2830,10 @@ const PAGE = /* html */ `<!doctype html>
     background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
     padding: 2px 8px; border-radius: 6px;
   }
+  .field .target.stale {
+    color: var(--err); background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.35);
+  }
+  .field .status b.stale { color: var(--err); }
   .field .opt {
     font-size: 10px; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
     background: rgba(148,163,184,0.1); padding: 2px 7px; border-radius: 999px;
@@ -4137,6 +4141,7 @@ const PAGE = /* html */ `<!doctype html>
           : 'งานไม่จบสมบูรณ์ — repo อาจถูกแก้ค้างไว้ ตรวจด้วย <code>git status</code> / ย้อนด้วย <code>git checkout .</code> ก่อนยิงใหม่';
         addLog('rebrand: ' + ev.status, okRun);
         gtRefresh();
+        dpRefreshTarget();
         break;
       }
     }
@@ -4407,11 +4412,32 @@ const PAGE = /* html */ `<!doctype html>
 
   // The two targets fail in different ways, so the line under the picker says
   // which one is not ready rather than a single "cannot deploy".
+  function dpBareHost(v) {
+    if (!v) return '';
+    let h = String(v).trim().toLowerCase();
+    if (h.indexOf('://') < 0) h = 'https://' + h;
+    try { h = new URL(h).hostname.toLowerCase(); } catch { return ''; }
+    if (h.indexOf('www.') === 0) h = h.slice(4);
+    return h;
+  }
+
+  function dpPendingHost() {
+    const typed = dpBareHost(rbUrl.value);
+    if (!typed) return '';
+    return dpBareHost(dpVps && dpVps.site) === typed ? '' : typed;
+  }
+
   function dpWhereSync() {
     const vps = dpMode() === 'vps';
     const t = document.getElementById('dpWhereTarget');
     const hint = document.getElementById('dpWhereHint');
-    if (vps) {
+    const pending = dpPendingHost();
+    t.classList.toggle('stale', !!pending);
+    if (pending) {
+      t.textContent = pending + ' · รอ Rebrand';
+      hint.innerHTML = '<b class="stale">ยังไม่ได้เขียน ' + esc(pending) +
+        ' ลง astro.config.mjs</b> — กด <b>เริ่ม Rebrand</b> ก่อน ช่องนี้จะเปลี่ยนให้เอง · ถ้าจะขึ้นแบรนด์เดิม ให้ล้างช่อง URL production ในส่วนที่ 1';
+    } else if (vps) {
       t.textContent = dpVps?.domain || 'อ่านโดเมนไม่ได้';
       hint.innerHTML = dpVps?.valid
         ? 'อ่านโดเมนจาก <code>astro.config.mjs</code> → <code>site:</code> · ถ้ายังไม่มีบนเซิร์ฟเวอร์จะรัน <code>add-site.sh</code> ให้ก่อนอัตโนมัติ'
@@ -4428,9 +4454,11 @@ const PAGE = /* html */ `<!doctype html>
     const previewed = pvPill.dataset.ok === '1';
     const ticked = pvAllChecked();
     const vps = dpMode() === 'vps';
-    const targetReady = vps ? !!dpVps?.valid : true;
+    const pending = dpPendingHost();
+    const targetReady = !pending && (vps ? !!dpVps?.valid : true);
     dpStart.disabled = !(previewed && ticked && targetReady) || running();
     if (running()) dpHint.textContent = 'มี rebrand กำลังรันอยู่ — รอให้จบก่อน';
+    else if (pending) dpHint.innerHTML = 'ยังไม่ได้รัน Rebrand ให้ <code>' + esc(pending) + '</code> — ถ้าขึ้นตอนนี้จะไปทับแบรนด์เดิม';
     else if (!previewed) dpHint.textContent = 'กด "ทดสอบหน้าเว็บ" ให้เว็บขึ้นก่อน';
     else if (!ticked) dpHint.textContent = 'ติ๊กให้ครบ 5 ข้อก่อน — ยังเหลือ ' + pvBoxes().filter((b) => !b.checked).length + ' ข้อ';
     else if (!targetReady) dpHint.textContent = 'ยังอ่านโดเมนปลายทางไม่ได้ — ดูบรรทัดบน';
@@ -4511,15 +4539,21 @@ const PAGE = /* html */ `<!doctype html>
     }
   });
 
-  (async () => {
+  let dpFirstLoad = true;
+  async function dpRefreshTarget() {
     try {
       const st = await (await fetch('/deploy/status')).json();
       dpTarget = st.target || null;
       dpVps = st.vps || null;
-      if (st.deploy && st.deploy.log && st.deploy.log.length) dpRender(st.deploy);
+      if (dpFirstLoad && st.deploy && st.deploy.log && st.deploy.log.length) dpRender(st.deploy);
     } catch { /* server not answering */ }
+    dpFirstLoad = false;
     dpWhereSync();
-  })();
+  }
+  dpRefreshTarget();
+  setInterval(() => { if (!document.hidden && !dpBusy) dpRefreshTarget(); }, 4000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) dpRefreshTarget(); });
+  rbUrl.addEventListener('input', () => dpWhereSync());
 
   // ── Cloudflare account ────────────────────────────────────────────────────
   // Two separate things have to agree before a deploy lands where it should:
