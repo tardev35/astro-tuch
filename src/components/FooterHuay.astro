@@ -7,48 +7,65 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", 
 const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".png")) || imagePaths.find((path) => path.endsWith(".webp")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
+
+const logoAlt = "โลโก้ HUAY928 ตัวอักษรหนาสามมิติ คำว่า HU สีทองเมทัลลิก AY สีฟ้าอ่อน และตัวเลข 928 สีเงินโครเมียม";
+
+// HUAY928 เป็นเว็บรับแทงหวย — /ตรวจหวย และ /แนวทาง เปิดใช้งานรอบนี้ จึงมีลิงก์อยู่
+// ส่วน /ทางเข้า ไม่ได้อยู่ในเมนู navbar (toggle register/login เปิดอยู่) แต่ยังถูก
+// route และ index อยู่ ลิงก์จาก footer จึงเป็นทางเดียวที่ผู้ใช้เข้าถึงหน้านั้นได้
+const shortcuts = [
+  { name: "หน้าหลัก", path: "/" },
+  { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย" },
+  { name: "แนวทาง", path: "/แนวทาง" },
+  { name: "โปรโมชั่น", path: "/promotion" },
+  { name: "ติดต่อเรา", path: "/contact-us" },
+];
 ---
 
-<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#a3060c]/45 bg-[#0d0304] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(0,0,0,0.55)]">
-  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#ff2a30]/10 blur-[80px]"></div>
+<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#a87a1e]/45 bg-[#01091b] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(0,0,0,0.55)]">
+  <div class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#dfb455]/10 blur-[80px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-4 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-[#ff2a30]/15 bg-[#ff2a30]/5 p-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-[#dfb455]/15 bg-[#dfb455]/5 p-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt="โลโก้ 7LOTTO ตัวอักษรโครเมียมเงิน มีเลข 7 สีแดง" widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt={logoAlt} widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
               <p class="text-2xl font-black tracking-widest text-white italic">
-                <span class="rounded-md bg-gradient-to-r from-[#ff2a30] to-[#8f0104] px-2 text-white">7</span><span class="bg-gradient-to-r from-[#f2f3f5] to-[#9aa1ad] bg-clip-text text-transparent">LOTTO</span>
+                <span class="bg-gradient-to-r from-[#f7d979] to-[#a87a1e] bg-clip-text text-transparent">HUAY</span>
+                <span class="bg-gradient-to-r from-[#f2f3f5] to-[#8fc3ec] bg-clip-text text-transparent">928</span>
               </p>
             )
           }
         </a>
-        <p class="mt-2 border-l-2 border-[#a3060c]/50 pl-4 text-sm leading-relaxed text-[#d8dae0]/70">
-          7LOTTO เว็บแทงหวยออนไลน์ รวมหวยรัฐบาลไทย หวยออมสิน หวย ธ.ก.ส. หวยลาว หวยฮานอย และหวยหุ้นไว้ในบัญชีเดียว เรทจ่าย 2 ตัว 100 3 ตัว 1,000 ระบบฝากถอนอัตโนมัติ ปล่อยยอดทันที บริการตลอด 24 ชั่วโมง
+        <p class="mt-2 border-l-2 border-[#a87a1e]/50 pl-4 text-sm leading-relaxed text-[#d5e3f7]/70">
+          HUAY928 เว็บรับแทงหวยออนไลน์ ครอบคลุมหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น ไว้ในบัญชีเดียว รองรับการเดิมพันเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนด
+          เลือกเลข ตรวจเรท และส่งโพยผ่านมือถือได้ด้วยตัวเอง พร้อมแอดมินดูแลตลอด 24 ชั่วโมง
         </p>
         <div class="mt-2 flex gap-3">
-          <span class="rounded-full border border-[#a3060c]/40 bg-[#0a0304] px-4 py-1 text-xs font-bold text-[#d8dae0] shadow-sm">ฝากถอนออโต้</span>
-          <span class="rounded-full border border-[#ff2a30]/40 bg-[#ff2a30]/15 px-4 py-1 text-xs font-bold text-[#ff6b70] shadow-sm">100% SECURE</span>
+          <span class="rounded-full border border-[#a87a1e]/40 bg-[#04122b] px-4 py-1 text-xs font-bold text-[#d5e3f7] shadow-sm">ฝากถอนออโต้</span>
+          <span class="rounded-full border border-[#dfb455]/40 bg-[#dfb455]/15 px-4 py-1 text-xs font-bold text-[#f7d979] shadow-sm">รับทุกเลข ไม่มีอั้น</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12">
-        <p class="border-b border-[#a3060c]/40 pb-2 text-lg font-black tracking-widest text-white uppercase">ทางลัดหน้าเว็บ</p>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-[#d8dae0]/70">
-          <li><a href="/" class="transition-colors hover:text-[#ff6b70]">หน้าหลัก</a></li>
-          <li><a href="/ทางเข้า" class="transition-colors hover:text-[#ff6b70]">เข้าสู่ระบบ</a></li>
-          <li><a href="/ตรวจหวย" class="transition-colors hover:text-[#ff6b70]">ตรวจหวย</a></li>
-          <li><a href="/แนวทาง" class="transition-colors hover:text-[#ff6b70]">แนวทาง</a></li>
-          <li><a href="/promotion" class="transition-colors hover:text-[#ff6b70]">โปรโมชั่น</a></li>
-          <li><a href="/contact-us" class="transition-colors hover:text-[#ff6b70]">ติดต่อเรา</a></li>
+        <p class="border-b border-[#a87a1e]/40 pb-2 text-lg font-black tracking-widest text-white uppercase">ทางลัดหน้าเว็บ</p>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-[#d5e3f7]/70">
+          {shortcuts.map((item) => (
+            <li>
+              <a href={item.path} class="transition-colors hover:text-[#f7d979]">
+                {item.name}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
       <div class="flex flex-col gap-4 md:col-span-4">
-        <p class="border-b border-[#a3060c]/40 pb-2 text-lg font-black tracking-widest text-white uppercase">บริการลูกค้า</p>
+        <p class="border-b border-[#a87a1e]/40 pb-2 text-lg font-black tracking-widest text-white uppercase">บริการลูกค้า</p>
 
         <a
           href="/line"
@@ -76,16 +93,17 @@ const mainLogo = targetPath ? images[targetPath].default : null;
           )
         }
 
-        <div class="mt-2 text-xs font-medium text-[#9aa1ad]">ระบบฝาก-ถอนอัตโนมัติ รองรับ:</div>
+        <div class="mt-2 text-xs font-medium text-[#8fa5c4]">ระบบฝาก-ถอนอัตโนมัติ รองรับ:</div>
         <BankStrip size={30} />
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#5c0203] pt-8 text-xs font-medium text-[#9aa1ad] md:flex-row">
-      <p>COPYRIGHT &copy; {new Date().getFullYear()} 7LOTTO ALL RIGHTS RESERVED.</p>
+    <div class="flex flex-col items-center justify-between border-t border-[#1d3a68] pt-8 text-xs font-medium text-[#8fa5c4] md:flex-row">
+      <p>COPYRIGHT &copy; {new Date().getFullYear()} HUAY928 ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
         <a href="/terms/" class="transition-colors hover:text-white">เงื่อนไขและข้อตกลง</a>
         <a href="/privacy/" class="transition-colors hover:text-white">นโยบายความเป็นส่วนตัว</a>
+        <a href="#top" class="transition-colors hover:text-white">กลับขึ้นบน</a>
       </div>
     </div>
   </div>

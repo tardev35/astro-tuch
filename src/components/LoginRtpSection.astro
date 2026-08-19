@@ -3,84 +3,85 @@
 // carries an aria-label, so a login widget never emits a heading tag.
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 
-// LEKDED is a lottery brand, so every row below stays inside what the docx
-// states: หวยรัฐบาลไทย / หวยลาว / หวยฮานอย / หวยหุ้น ตามรอบที่เปิดให้บริการ,
-// การเลือกเลข-กรอกจำนวนเงิน-ตรวจโพยก่อนยืนยัน, วงเงิน/เลขอั้น/เวลาเปิด-ปิด/
-// อัตราจ่ายที่ต่างกันในแต่ละประเภท, ระบบฝากถอนที่รองรับบัญชีธนาคารและวอลเลท,
-// โปรโมชั่นรอบวันที่ 1 และ 16 และแอดมินที่ออนไลน์ตลอด 24 ชั่วโมง.
-// Nothing here names a game studio, a return-to-player figure or a payout rate.
+// HUAY928 is a lottery brand, so every row below stays inside what the brief
+// states: หวยรัฐบาลไทย / ลาว / ฮานอย / ยี่กี่ / หุ้น ตามรอบที่เปิดรับ, การเลือกเลข
+// กรอกยอดเดิมพัน ตรวจเรท แล้วยืนยันโพย, เรท 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000,
+// การสมัครและ Login ด้วยตัวเอง, การฝากเครดิตผ่านช่องทางที่เปิดให้บริการ,
+// ประวัติโพยในบัญชีสมาชิก และแอดมินที่ออนไลน์ตลอด 24 ชั่วโมง.
+// Nothing here names a game studio, a return-to-player figure, or a promotion
+// the brief does not state.
 const menus = [
-  { icon: "🏛️", name: "หวยรัฐบาลไทย", detail: "เลือกเลข กรอกจำนวนเงิน และตรวจรายละเอียดโพยก่อนยืนยันรายการผ่านมือถือได้โดยตรง", tag: "ตามรอบที่เปิด" },
-  { icon: "🎫", name: "หวยลาว", detail: "ระบบแยกหมวดหมู่และรอบเดิมพันไว้ให้ตรวจสอบได้ง่ายก่อนส่งโพยในแต่ละรอบ", tag: "ตามรอบที่เปิด" },
-  { icon: "🎯", name: "หวยฮานอย", detail: "เลือกประเภทการเดิมพันและตรวจสอบข้อมูลที่ระบบแสดงของรอบนั้นก่อนยืนยันรายการ", tag: "ตามรอบที่เปิด" },
-  { icon: "📈", name: "หวยหุ้น", detail: "อีกหนึ่งประเภทที่เปิดให้เลือกซื้อในบัญชีเดียว ตรวจรอบที่เปิดให้บริการก่อนส่งโพย", tag: "ตามรอบที่เปิด" },
-  { icon: "🧾", name: "วงเงิน เลขอั้น และอัตราจ่าย", detail: "วงเงินรับแทง เลขอั้น เวลาเปิด-ปิด และอัตราจ่ายของหวยแต่ละประเภทอาจแตกต่างกัน", tag: "ดูในระบบทุกรอบ" },
-  { icon: "💳", name: "ฝากถอนออโต้", detail: "รองรับบัญชีธนาคารและวอลเลทตามช่องทางที่เปิดให้บริการ ตรวจยอด ฝากเครดิต และติดตามสถานะได้เอง", tag: "ทุกธนาคารและวอลเลท" },
-  { icon: "🎁", name: "โบนัสวันที่ 1 และ 16", detail: "สมาชิกที่มีคุณสมบัติตรงตามข้อกำหนด Login เพื่อตรวจสอบสิทธิ์และรายละเอียดโบนัสได้เอง", tag: "ตามเงื่อนไข" },
-  { icon: "🎧", name: "แอดมินออนไลน์ 24 ชั่วโมง", detail: "แจ้งรายละเอียดและเวลาที่เกิดปัญหา เพื่อให้เจ้าหน้าที่ค้นหารายการและแนะนำขั้นตอนได้ตรงจุด", tag: "ตลอด 24 ชม." },
+  { icon: "🏛️", name: "หวยรัฐบาลไทย", detail: "เลือกรอบที่เปิดรับ กรอกเลขและยอดเดิมพัน แล้วตรวจรายละเอียดก่อนยืนยันโพย", tag: "ตามรอบที่เปิดรับ" },
+  { icon: "🎫", name: "หวยลาว", detail: "เลือกประเภทการเดิมพันของรอบนั้น แล้วตรวจอัตราจ่ายที่ระบบแสดงก่อนส่งโพย", tag: "ตามรอบที่เปิดรับ" },
+  { icon: "🏮", name: "หวยฮานอย", detail: "ตรวจเวลาเปิด-ปิดและรายละเอียดของรอบที่ต้องการก่อนกรอกเลขลงระบบ", tag: "ตามรอบที่เปิดรับ" },
+  { icon: "⏱️", name: "หวยยี่กี่", detail: "รอบเดิมพันหมุนเวียนถี่ ควรดูรอบที่ระบบเปิดรับอยู่ก่อนส่งโพยทุกครั้ง", tag: "ตามรอบที่เปิดรับ" },
+  { icon: "📈", name: "หวยหุ้น", detail: "อีกหนึ่งประเภทที่เลือกแทงได้ในระบบเดียวกับหวยประเภทอื่น", tag: "ตามรอบที่เปิดรับ" },
+  { icon: "🧮", name: "เลข 2 ตัว และ 3 ตัว", detail: "รองรับการเดิมพันเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนดไว้ในแต่ละรอบ", tag: "2 ตัว 100 · 3 ตัว 1,000" },
+  { icon: "🧾", name: "ตรวจเรทและวงเงินก่อนส่งโพย", detail: "เวลาเปิด-ปิด อัตราจ่าย เลขอั้น และวงเงินอาจต่างกันในแต่ละประเภทและแต่ละรอบ", tag: "ดูที่หน้าแทงทุกครั้ง" },
+  { icon: "🎧", name: "แอดมินออนไลน์ 24 ชั่วโมง", detail: "แจ้งรายละเอียดและเวลาที่เกิดรายการ เพื่อให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด", tag: "ตลอด 24 ชม." },
 ];
 
-const chips = ["หวยรัฐบาลไทย", "หวยลาว", "หวยฮานอย", "หวยหุ้น", "ฝากถอนออโต้", "ทุกธนาคารและวอลเลท", "โบนัสวันที่ 1 และ 16", "แอดมิน 24 ชั่วโมง"];
+const chips = ["หวยรัฐบาลไทย", "หวยลาว", "หวยฮานอย", "หวยยี่กี่", "หวยหุ้น", "2 ตัวจ่าย 100", "3 ตัวจ่าย 1,000", "แอดมิน 24 ชั่วโมง"];
 ---
 
 <ContentBoxTwo
-  titleleft="เข้าสู่ระบบ LEKDED"
-  titleright="ประเภทหวยและบริการที่ใช้งานได้ทั้งบนมือถือและคอมพิวเตอร์"
-  label="เข้าสู่ระบบ LEKDED และรายการประเภทหวยที่เปิดให้ซื้อผ่านมือถือและคอมพิวเตอร์">
+  titleleft="เข้าสู่ระบบ HUAY928"
+  titleright="ประเภทหวยและรายการที่ใช้งานได้ทั้งบนมือถือและคอมพิวเตอร์"
+  label="เข้าสู่ระบบ HUAY928 และรายการประเภทหวยที่เปิดรับแทงผ่านมือถือและคอมพิวเตอร์">
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#7a5d2c]/75 bg-[#0b1405]/92 p-6 shadow-[0_10px_30px_rgba(226,196,102,0.18)] backdrop-blur-md">
-      <div class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#b5811e]/45 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#2c4d84]/75 bg-[#04122b]/92 p-6 shadow-[0_10px_30px_rgba(223,180,85,0.18)] backdrop-blur-md">
+      <div class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#a87a1e]/45 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#e2c466]/60 bg-gradient-to-br from-[#fbe479] via-[#e2c466] to-[#7a5d2c] text-xl shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#dfb455]/60 bg-gradient-to-br from-[#f7d979] via-[#dfb455] to-[#a87a1e] text-xl shadow-inner">
           🎱
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#fff4cd]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#a89a6b]">เข้าสู่ระบบ LEKDED เพื่อซื้อหวยออนไลน์ผ่านมือถือหรือคอมพิวเตอร์ได้จากจุดเดียว</span>
+          <p class="text-base font-black text-[#fdf1cd]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#8fa5c4]">เข้าสู่ระบบ HUAY928 เพื่อเลือกเลข ตรวจเรท และส่งโพยผ่านมือถือหรือคอมพิวเตอร์ได้จากจุดเดียว</span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#a89a6b]">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#8fa5c4]">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#7a5d2c] bg-[#030803]/95 py-3 pr-4 pl-12 text-[#ecdfb4] transition-all outline-none placeholder:text-[#a89a6b] focus:border-[#e2c466] focus:ring-1 focus:ring-[#e2c466]/50"
+            class="w-full rounded-xl border border-[#2c4d84] bg-[#01091b]/95 py-3 pr-4 pl-12 text-[#d5e3f7] transition-all outline-none placeholder:text-[#8fa5c4] focus:border-[#dfb455] focus:ring-1 focus:ring-[#dfb455]/50"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#a89a6b]">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#8fa5c4]">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#7a5d2c] bg-[#030803]/95 py-3 pr-4 pl-12 text-[#ecdfb4] transition-all outline-none placeholder:text-[#a89a6b] focus:border-[#e2c466] focus:ring-1 focus:ring-[#e2c466]/50"
+            class="w-full rounded-xl border border-[#2c4d84] bg-[#01091b]/95 py-3 pr-4 pl-12 text-[#d5e3f7] transition-all outline-none placeholder:text-[#8fa5c4] focus:border-[#dfb455] focus:ring-1 focus:ring-[#dfb455]/50"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#ecdfb4]">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#7a5d2c] bg-[#030803] accent-[#e2c466]" />
+          <label class="flex items-center gap-2 text-[#d5e3f7]">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#2c4d84] bg-[#01091b] accent-[#dfb455]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#ecdfb4] transition-colors hover:text-[#fbe479]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#d5e3f7] transition-colors hover:text-[#f7d979]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#e2c466]/55 bg-gradient-to-r from-[#fbe479] via-[#e2c466] to-[#b5811e] p-3.5 text-center font-black text-[#030803] shadow-[0_10px_30px_rgba(226,196,102,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(251,228,121,0.42)]">
+          class="mt-1 block w-full rounded-xl border border-[#dfb455]/55 bg-gradient-to-r from-[#f7d979] via-[#dfb455] to-[#a87a1e] p-3.5 text-center font-black text-[#01091b] shadow-[0_10px_30px_rgba(223,180,85,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(247,217,121,0.42)]">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#a89a6b]">
-          <span class="h-px flex-1 bg-[#7a5d2c]"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#8fa5c4]">
+          <span class="h-px flex-1 bg-[#2c4d84]"></span>
           หรือ
-          <span class="h-px flex-1 bg-[#7a5d2c]"></span>
+          <span class="h-px flex-1 bg-[#2c4d84]"></span>
         </div>
 
         <a
@@ -91,58 +92,58 @@ const chips = ["หวยรัฐบาลไทย", "หวยลาว", "�
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#7a5d2c]/80 bg-[#030803] px-2.5 py-1 text-[10px] font-bold text-[#fff4cd]"><span aria-hidden="true">🔒</span> HTTPS + SSL</span>
-            <span class="rounded-full border border-[#e2c466]/40 bg-[#030803]/80 px-2.5 py-1 text-[10px] font-bold text-[#ecdfb4]"><span aria-hidden="true">🕐</span> แอดมินตลอด 24 ชม.</span>
+            <span class="rounded-full border border-[#2c4d84]/80 bg-[#01091b] px-2.5 py-1 text-[10px] font-bold text-[#fdf1cd]"><span aria-hidden="true">🔒</span> HTTPS + SSL</span>
+            <span class="rounded-full border border-[#dfb455]/40 bg-[#01091b]/80 px-2.5 py-1 text-[10px] font-bold text-[#d5e3f7]"><span aria-hidden="true">🕐</span> แอดมินตลอด 24 ชม.</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#fff4cd] transition-colors hover:text-[#fbe479]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#fdf1cd] transition-colors hover:text-[#f7d979]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#e2c466]/40 bg-[#0b1405]/92 p-5 shadow-[0_10px_30px_rgba(226,196,102,0.14)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#dfb455]/40 bg-[#04122b]/92 p-5 shadow-[0_10px_30px_rgba(223,180,85,0.14)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#ecdfb4]">ซื้อหวยออนไลน์ผ่านมือถือและคอมพิวเตอร์ในบัญชีเดียว</span>
-          <div class="bg-gradient-to-r from-[#fff4cd] via-[#e2c466] to-[#b5811e] bg-clip-text text-3xl font-black text-transparent sm:text-4xl">Android • iOS • เว็บ</div>
+          <span class="text-xs font-bold tracking-wide text-[#d5e3f7]">แทงหวยออนไลน์ผ่านมือถือและคอมพิวเตอร์ในบัญชีเดียว</span>
+          <div class="bg-gradient-to-r from-[#fdf1cd] via-[#dfb455] to-[#a87a1e] bg-clip-text text-3xl font-black text-transparent sm:text-4xl">Android • iOS • เว็บ</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#1c9b22]/45 bg-[#052b06]/70 px-2.5 py-1">
-          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1c9b22] shadow-[0_0_8px_rgba(28,155,34,0.7)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#8fd694] uppercase">Live</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-green-500/45 bg-green-950/70 px-2.5 py-1">
+          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.7)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-green-300 uppercase">Live</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#a89a6b] uppercase">
-        <span>ประเภทหวยและบริการในระบบ</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#8fa5c4] uppercase">
+        <span>ประเภทหวยและรายการในระบบ</span>
         <span>จุดที่ต้องดู</span>
       </div>
 
       <div class="flex flex-1 flex-col gap-2.5">
         {
           menus.map((m) => (
-            <div class="rounded-xl border border-[#7a5d2c] bg-[#030803]/95 px-3.5 py-2.5 transition-colors hover:border-[#e2c466]/60 hover:bg-[#123209]">
+            <div class="rounded-xl border border-[#2c4d84] bg-[#01091b]/95 px-3.5 py-2.5 transition-colors hover:border-[#dfb455]/60 hover:bg-[#08234c]">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#ecdfb4]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#d5e3f7]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
                     {m.icon}
                   </span>{" "}
                   <span class="truncate">{m.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#7a5d2c]/80 bg-[#030803] px-2.5 py-0.5 text-[10px] font-bold text-[#fff4cd]">{m.tag}</span>
+                <span class="shrink-0 rounded-full border border-[#2c4d84]/80 bg-[#01091b] px-2.5 py-0.5 text-[10px] font-bold text-[#fdf1cd]">{m.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#a89a6b]">{m.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#8fa5c4]">{m.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#e2c466]/35 bg-[#030803] px-3 py-1 text-[10px] font-bold text-[#fff4cd]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#dfb455]/35 bg-[#01091b] px-3 py-1 text-[10px] font-bold text-[#fdf1cd]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#a89a6b]">
-        สมาชิกเข้าสู่ระบบผ่านมือถือและคอมพิวเตอร์ได้โดยไม่ต้องติดตั้งโปรแกรมเพิ่มเติม และไม่ควรส่งรหัสผ่านหรือรหัส OTP ให้บุคคลอื่นไม่ว่ากรณีใด
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#8fa5c4]">
+        สมาชิกเข้าสู่ระบบผ่านมือถือและคอมพิวเตอร์ได้โดยไม่ต้องติดตั้งโปรแกรมเพิ่มเติม และไม่ควรเปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่นไม่ว่ากรณีใด
       </div>
     </div>
   </div>

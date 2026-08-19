@@ -1,30 +1,33 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import SmoothCarousel from "../components/SmoothCarousel.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
 import ContentBox from "../components/ContentBox.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
+import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
 import LottoGrid from "../components/LottoGrid.astro";
-import Faq4 from "../components/Faq4.astro";
+import FaqHuay from "../components/FaqHuay.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import LatestWinners from "../components/LatestWinnersHuay.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
+import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
 // Title and description are the brief's own Title/Description lines, verbatim.
 // A brief-supplied description ships at whatever length it was written — it is
-// not padded up to the 150-character floor.
-const pageTitle = "LEKDED เว็บซื้อหวยออนไลน์อันดับ1 ระบบฝากถอนออโต้ เร็ว ปลอดภัย";
+// not padded up to the 150-character floor. The brief's own line was 176
+// characters, over the 160 upper bound verify-build enforces, so the one clause
+// that repeats what the rest already says ("เปิดให้แทงก่อนใคร") is dropped —
+// 158 characters. The floor is not binding here; the ceiling is.
+const pageTitle = "HUAY928 รับแทงหวย รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น รับทุกเลข ไม่มีอั้น";
 
 const pageDescription =
-  "LEKDED เว็บซื้อหวยออนไลน์อันดับ1 รับหวยไม่อั้นทุกรูปแบบ รัฐบาลไทย ลาว ฮานอย หุ้น ครบทุกประเภท จัดโปรรับโบนัสทุกวันที่1และ16 ฝากถอนรองรับทุกธนาคารและวอลเลท";
+  "HUAY928 เปิดรับแทงหวยออนไลน์ ครบทุกประเภท ครอบคลุม รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น เปิดระบบแทง 2ตัวจ่าย100 และ 3ตัวจ่าย1,000 พร้อมรับทุกเลขเด็ด เลขดัง เลขอั้น";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -32,24 +35,45 @@ const pageDescription =
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "LEKDED เว็บซื้อหวยออนไลน์อันดับ1 เปิดรับหวยไม่อั้นทุกรูปแบบ • รวมหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น ไว้ในบัญชีเดียว • เลือกเลข กรอกจำนวนเงิน และตรวจโพยก่อนยืนยันได้จากมือถือ • จัดโปรรับโบนัสทุกวันที่ 1 และ 16 ตามเงื่อนไขของกิจกรรม • ระบบฝากถอนรองรับบัญชีธนาคารและวอลเลทตามช่องทางที่เปิดให้บริการ • แอดมิน LEKDED ออนไลน์ตลอด 24 ชั่วโมง";
+  "HUAY928 รับแทงหวยออนไลน์ จ่ายจริง ครบทุกรูปแบบ • ครอบคลุมหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น ในระบบเดียว • รองรับเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนด 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 • เลือกเลข ตรวจเรท ส่งโพย และติดตามรายการผ่านมือถือได้ด้วยตัวเอง • ควรยึดอัตราจ่ายและวงเงินที่ระบบแสดง ณ เวลาส่งโพยเป็นหลัก • แอดมิน HUAY928 ออนไลน์ตลอด 24 ชั่วโมง";
 
-// One array, used by both <Faq4> and the FAQPage node — never the component's
+// One array, used by both <FaqHuay> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "LEKDED มีหวยประเภทไหนเปิดให้ซื้อบ้าง?",
-    a: "มีหวยหลายประเภทให้เลือกตามรอบที่เปิดให้บริการ เช่น หวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น โดยสมาชิกควรตรวจสอบเวลาเปิด-ปิด อัตราจ่าย และวงเงินของหวยแต่ละประเภทก่อนยืนยันโพย",
+    q: "HUAY928 เปิดรับแทงหวยอะไรบ้าง?",
+    a: "มีทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น รวมถึงประเภทการเดิมพันที่เปิดในแต่ละรอบ สมาชิกควรตรวจสอบเวลาเปิด-ปิดและรายการล่าสุดจากหน้าแทงหวยก่อนส่งโพย",
   },
   {
-    q: "โปรโมชั่นวันที่ 1 และ 16 ของ LEKDED รับอย่างไร?",
-    a: "สมาชิกที่เข้าเงื่อนไขสามารถตรวจสอบสิทธิ์ผ่านหน้าโปรโมชั่นในวันที่กำหนด โดยรายละเอียดโบนัสและวิธีรับอาจแตกต่างกันตามกิจกรรม ควรตรวจสอบเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง",
+    q: "HUAY928 เลข 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 จริงหรือไม่?",
+    a: "ตามเรทที่กำหนดในหน้านี้ เลข 2 ตัวใช้อัตราจ่าย 100 และเลข 3 ตัวใช้อัตราจ่าย 1,000 แต่ก่อนเดิมพันควรยึดอัตราจ่ายที่แสดงในระบบ ณ เวลาส่งโพยเป็นหลัก โดยเฉพาะเลขหรือรอบที่อาจมีเงื่อนไขเฉพาะ",
   },
   {
-    q: "ฝากถอน LEKDED แล้วเครดิตไม่เข้าต้องทำอย่างไร?",
-    a: "ตรวจสอบสถานะรายการในบัญชีสมาชิกก่อน หากยอดยังไม่เข้าหรือรายการถอนยังค้าง สามารถติดต่อแอดมิน LEKDED พร้อมแจ้งจำนวนเงิน เวลา และรายละเอียดธุรกรรม เพื่อให้เจ้าหน้าที่ช่วยตรวจสอบได้ตลอด 24 ชั่วโมง",
+    q: "หากแทงหวยหรือฝากถอน HUAY928 มีปัญหาต้องทำอย่างไร?",
+    a: "ตรวจสอบสถานะรายการในบัญชีก่อน หากโพย เครดิต หรือรายการถอนยังผิดปกติ ให้ติดต่อแอดมิน HUAY928 พร้อมแจ้งประเภทหวย เวลา จำนวนเงิน และรายละเอียดรายการ เพื่อให้เจ้าหน้าที่ช่วยตรวจสอบได้รวดเร็วยิ่งขึ้น",
   },
 ];
+
+// The two rate tables the brief asks for as HTML tables rather than pictures —
+// Google reads the numbers straight out of the markup and a phone can read them
+// without pinching. Rows are the brief's own, verbatim.
+const twoDigitRows = [
+  ["หวย 2 ตัว", "28", "1 บาท", "100 บาท"],
+  ["หวย 2 ตัว", "56", "10 บาท", "1,000 บาท"],
+  ["หวย 2 ตัว", "89", "100 บาท", "10,000 บาท"],
+];
+
+const threeDigitRows = [
+  ["หวย 3 ตัว", "289", "1 บาท", "1,000 บาท"],
+  ["หวย 3 ตัว", "928", "10 บาท", "10,000 บาท"],
+  ["หวย 3 ตัว", "168", "100 บาท", "100,000 บาท"],
+];
+
+const tableWrap = "overflow-x-auto rounded-2xl border border-[#2c4d84]/70 bg-[#01091b]/60";
+const tableClass = "w-full min-w-[520px] border-collapse text-left text-sm";
+const thClass = "border-b border-[#dfb455]/40 px-4 py-3 text-[13px] font-black tracking-wide text-[#fdf1cd] uppercase";
+const tdClass = "border-b border-[#1d3a68]/60 px-4 py-3 text-[#d5e3f7]";
+const tdStrongClass = "border-b border-[#1d3a68]/60 px-4 py-3 font-black text-[#f7d979]";
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -66,74 +90,150 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <SmoothCarousel />
-
-  <ContentBoxFloatingBadge as="h1" title="LEKDED เว็บซื้อหวยออนไลน์อันดับ1 เปิดรับหวยไม่อั้นทุกรูปแบบ">
-    <p class="text-left text-base leading-relaxed text-[#ecdfb4]">
-      <strong class="text-[#fff4cd]">LEKDED</strong> พร้อมให้บริการผู้ที่ต้องการซื้อหวยออนไลน์ผ่านมือถือและคอมพิวเตอร์ รวมหวยหลายประเภทไว้ให้เลือกในบัญชีเดียว ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น
-      พร้อมระบบฝากถอนออโต้ที่รองรับช่องทางตามที่เว็บไซต์กำหนด มีโปรโมชั่นสำหรับสมาชิกในวันที่ 1 และ 16 ของเดือน รวมถึงแอดมินออนไลน์ตลอด 24 ชั่วโมง คอยช่วยตรวจสอบการสมัคร ส่งโพย ฝากถอน และปัญหาการใช้งาน
+  <ContentBoxPremium as="h1" title="HUAY928 รับแทงหวยออนไลน์ จ่ายจริง ครบทุกรูปแบบ">
+    <p class="text-left text-base leading-relaxed text-[#d5e3f7]">
+      <strong class="text-[#fdf1cd]">HUAY928</strong> เปิดให้บริการแทงหวยออนไลน์หลายประเภทผ่านระบบเดียว ครอบคลุมทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น
+      พร้อมรองรับการเดิมพันเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนด สมาชิกสามารถเลือกเลข ตรวจสอบเรท ส่งโพย และติดตามรายการผ่านมือถือได้ด้วยตัวเอง พร้อมแอดมินคอยดูแลเรื่องการสมัคร ฝากถอน
+      และปัญหาการใช้งานตลอด 24 ชั่วโมง
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoFloatingBadge as="h2" title="LEKDED เว็บซื้อหวยออนไลน์ รัฐบาลไทย ลาว ฮานอย หุ้น ครบทุกประเภท">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ecdfb4]">
-      สมาชิก <strong class="text-[#fff4cd]">LEKDED</strong> สามารถเลือกซื้อหวยออนไลน์ได้หลายประเภทตามรอบที่เปิดให้บริการ ไม่ว่าจะเป็นหวยรัฐบาลไทย หวยลาว หวยฮานอย หรือหวยหุ้น
-      โดยระบบแยกหมวดหมู่และรอบเดิมพันให้ตรวจสอบได้ง่าย สามารถเลือกเลข กรอกจำนวนเงิน และตรวจสอบรายละเอียดโพยก่อนยืนยันรายการผ่านมือถือได้โดยตรง
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfb4]">
-      สำหรับวงเงินรับแทง <span class="font-black text-[#efd591]">เลขอั้น</span> เวลาเปิด-ปิด และอัตราจ่ายของหวยแต่ละประเภทอาจแตกต่างกัน จึงควรตรวจสอบข้อมูลที่ระบบแสดงในรอบนั้นก่อนส่งโพยทุกครั้ง
-    </p>
-  </ContentBoxTwoFloatingBadge>
-
-  <LottoGrid />
-
-  <ContentBoxSevenThreeCyberCut as="h2" title="จัดโปร LEKDED รับโบนัสทุกวันที่ 1 และ 16 ได้ทุกยูส">
+  <ContentBoxSevenThreePremium as="h2" title="HUAY928 ให้บริการ แทงหวยรัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น ไม่จำกัดยอด">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
+      sizes="(max-width: 767px) 92vw, 28vw"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นสี่เหลี่ยมจัตุรัส พื้นหลังสีดำเขียวทองมีลูกบิลเลียดเลข 8 เลข 9 เลข 3 และกองเหรียญทอง ด้านบนเป็นโลโก้ LEKDED สีทองเขียวมีมงกุฎและลูกบิลเลียดเลข 8 กลางภาพเป็นกรอบทองเขียนว่า โปรโมชั่น คืนยอดเสีย พร้อมตัวเลขทองขนาดใหญ่ 0.3% ด้านขวาเป็นผู้หญิงผมยาวสีเงินในชุดสีทองเขียวยืนแบมือ ด้านล่างซ้ายมีโพยหวยสามใบติดป้ายว่า รัฐบาลไทย ฮานอย และ ลาว พร้อมแถบข้อความ กดรับได้ทุกวัน มั่นคงปลอดภัยเชื่อถือได้ 100% บริการตลอด 24 ชม. และแถบล่างสุดเขียนว่า ซื้อหวยง่าย จ่ายจริง จ่ายเต็มทุกบิล"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e2c466]/50 shadow-[0_10px_30px_rgba(226,196,102,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ HUAY928 พื้นหลังสีน้ำเงินกรมท่าประดับเส้นโค้งสีทอง ด้านบนเป็นโลโก้ HUAY928 กลางภาพเป็นข้อความสีขาวว่า โปรโมชั่น คืนยอดเสีย พร้อมตัวเลขทองขนาดใหญ่ 0.3% ด้านซ้ายเป็นใบสลากสามใบติดป้าย รัฐบาลไทย ลาว และ ฮานอย ด้านขวาเป็นผู้หญิงผมสีเงินในชุดสีทองน้ำเงินชี้นิ้วขึ้น ด้านล่างมีไอคอนห้าช่องเขียนว่า รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น และแถบล่างสุดเขียนว่า รับทุกเลข ไม่มีอั้น"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#dfb455]/50 shadow-[0_10px_30px_rgba(223,180,85,0.28)]"
     />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ecdfb4]">
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e3f7]">
       <p>
-        <strong class="text-[#fff4cd]">LEKDED</strong> มีโปรโมชั่นสำหรับสมาชิกตามรอบวันที่ 1 และ 16 ของเดือน โดยสมาชิกที่มีคุณสมบัติตรงตามข้อกำหนดสามารถ Login เพื่อตรวจสอบสิทธิ์และรายละเอียดโบนัสผ่านบัญชีของตนเอง
-        ก่อนกดรับควรอ่านข้อมูลเกี่ยวกับยอดที่ใช้คำนวณ ช่วงเวลารับสิทธิ์ และเงื่อนไขที่เกี่ยวข้องให้ครบถ้วน
+        <strong class="text-[#fdf1cd]">HUAY928</strong> รวมหวยหลายประเภทไว้ให้เลือกตามรอบที่เปิดรับ ไม่ว่าจะเป็นหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ หรือหวยหุ้น
+        สมาชิกสามารถเลือกประเภทหวยและรอบที่ต้องการ จากนั้นกรอกเลขและยอดเดิมพันผ่านระบบได้โดยตรง ก่อนส่งโพยควรตรวจสอบเวลาเปิด-ปิด อัตราจ่าย <span class="font-black text-[#8fc3ec]">เลขอั้น</span>
+        และวงเงินที่ระบบแสดง เนื่องจากรายละเอียดของหวยแต่ละประเภทและแต่ละรอบอาจแตกต่างกัน
       </p>
-      <p>หากไม่พบโบนัสหรือไม่แน่ใจว่าบัญชีของตนเองเข้าเงื่อนไขหรือไม่ สามารถสอบถามแอดมิน LEKDED เพื่อตรวจสอบสิทธิ์ก่อนทำรายการได้</p>
+      <p>สำหรับข้อความว่า “ไม่จำกัดยอด” ควรยึดวงเงินที่หน้าแทงแสดง ณ เวลาทำรายการเป็นหลัก เพื่อป้องกันความคลาดเคลื่อนหากเลขบางรายการมีการกำหนดวงเงินเฉพาะ</p>
     </div>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxTwoNeumorphism as="h2" title="เว็บหวย LEKDED ระบบฝากถอนรองรับทุกธนาคารและวอลเลท">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ecdfb4]">
-      ระบบฝากถอนของ <strong class="text-[#fff4cd]">LEKDED</strong> ออกแบบให้สมาชิกสามารถจัดการเครดิตผ่านบัญชีของตนเอง รองรับบัญชีธนาคารและวอลเลทตามช่องทางที่เปิดให้บริการ สามารถตรวจสอบยอด ฝากเครดิต
-      ส่งคำขอถอน และติดตามสถานะธุรกรรมผ่านระบบได้โดยตรง ช่วยให้จัดการเงินสำหรับซื้อหวยออนไลน์ได้สะดวกตลอดทั้งวัน
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfb4]">
-      ก่อนยืนยันรายการควรตรวจสอบชื่อบัญชี จำนวนเงิน และช่องทางฝากถอนให้ถูกต้อง หากเครดิตไม่เข้าหรือรายการถอนค้าง สามารถแจ้งเจ้าหน้าที่พร้อมรายละเอียดธุรกรรมเพื่อให้ช่วยตรวจสอบได้
-    </p>
-  </ContentBoxTwoNeumorphism>
+  <LottoGrid />
 
-  <ContentBox as="h2" title="แอดมิน LEKDED ออนไลน์ตลอด 24 ชั่วโมง">
-    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ecdfb4]">
+  <ContentBox as="h2" title="เว็บ HUAY928 ให้อัตราจ่ายสูง ไม่น้อยกว่าใคร">
+    <div class="flex flex-col gap-6 text-left text-base leading-relaxed text-[#d5e3f7]">
       <p>
-        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินล่าช้า ส่งโพยไม่สำเร็จ หรือโปรโมชั่นไม่แสดง สามารถติดต่อแอดมิน <strong class="text-[#fff4cd]">LEKDED</strong>
-        ได้ตลอด 24 ชั่วโมง พร้อมแจ้งรายละเอียดและเวลาที่เกิดปัญหา เพื่อช่วยให้เจ้าหน้าที่ค้นหารายการและแนะนำขั้นตอนแก้ไขได้ตรงจุด
+        จุดที่ควรแสดงให้ชัดบนหน้า <strong class="text-[#fdf1cd]">HUAY928</strong> คืออัตราจ่ายของเลข 2 ตัวและ 3 ตัว เพื่อให้สมาชิกเห็นข้อมูลก่อนส่งโพย โดยจากเรทที่กำหนดไว้ 2 ตัวจ่าย 100
+        และ 3 ตัวจ่าย 1,000 สามารถทำเป็นตารางบนหน้าเว็บเพื่อให้อ่านง่ายทั้งบนคอมพิวเตอร์และมือถือ
       </p>
-      <p>
-        สมาชิกใหม่ยังสามารถสอบถามวิธีเลือกประเภทหวย วิธีส่งโพย ตรวจสอบอัตราจ่าย หรือขั้นตอนการฝากถอนก่อนเริ่มใช้งานจริงได้ โดยการเดิมพันมีความเสี่ยง ควรกำหนดงบประมาณให้เหมาะสมทุกครั้ง
-      </p>
+
+      <h3 class="text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase">2 ตัวจ่าย 100</h3>
+
+      <div class={tableWrap}>
+        <table class={tableClass}>
+          <thead class="bg-[#08234c]/80">
+            <tr>
+              <th scope="col" class={thClass}>ประเภทเดิมพัน</th>
+              <th scope="col" class={thClass}>ตัวอย่างเลข</th>
+              <th scope="col" class={thClass}>เดิมพันตัวอย่าง</th>
+              <th scope="col" class={thClass}>อัตราจ่ายตามที่กำหนด</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              twoDigitRows.map(([type, number, stake, payout]) => (
+                <tr class="transition-colors hover:bg-[#08234c]/50">
+                  <td class={tdClass}>{type}</td>
+                  <td class={tdStrongClass}>{number}</td>
+                  <td class={tdClass}>{stake}</td>
+                  <td class={tdStrongClass}>{payout}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p>ตัวอย่างการคำนวณ: หากอัตราจ่ายคือ 1 บาทต่อ 100 บาท การแทง 10 บาท เมื่อถูกรางวัลตามเงื่อนไขจะคำนวณเป็น 10 × 100 = 1,000 บาท</p>
+
+      <p>อัตราจ่ายจริงควรยึดตัวเลขที่ระบบ <strong class="text-[#fdf1cd]">HUAY928</strong> แสดงก่อนยืนยันโพย เนื่องจากเลขบางรายการหรือหวยบางประเภทอาจมีเงื่อนไขแตกต่างกัน</p>
+
+      <h3 class="text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase">3 ตัวจ่าย 1,000</h3>
+
+      <div class={tableWrap}>
+        <table class={tableClass}>
+          <thead class="bg-[#08234c]/80">
+            <tr>
+              <th scope="col" class={thClass}>ประเภทเดิมพัน</th>
+              <th scope="col" class={thClass}>ตัวอย่างเลข</th>
+              <th scope="col" class={thClass}>เดิมพันตัวอย่าง</th>
+              <th scope="col" class={thClass}>อัตราจ่ายตามที่กำหนด</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              threeDigitRows.map(([type, number, stake, payout]) => (
+                <tr class="transition-colors hover:bg-[#08234c]/50">
+                  <td class={tdClass}>{type}</td>
+                  <td class={tdStrongClass}>{number}</td>
+                  <td class={tdClass}>{stake}</td>
+                  <td class={tdStrongClass}>{payout}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p>ตัวอย่างการคำนวณ: หากอัตราจ่ายคือ 1 บาทต่อ 1,000 บาท การแทง 10 บาท เมื่อถูกรางวัลตามเงื่อนไขจะคำนวณเป็น 10 × 1,000 = 10,000 บาท</p>
     </div>
   </ContentBox>
 
-  <Faq4 title="คำถามที่พบบ่อยเกี่ยวกับ LEKDED" faqs={faqs} />
+  <ContentBoxSevenThreeHuay titleright="สมัครแทงหวย HUAY928 ด้วยตัวเอง ไม่ต้องผ่านเจ้ามือ">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 28vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ HUAY928 พื้นหลังสีน้ำเงินกรมท่าประดับเส้นโค้งสีทองและลูกบอลหวยเลข 9 เลข 3 เลข 8 ด้านบนเป็นโลโก้ HUAY928 กลางภาพเป็นข้อความสีขาวว่า โปรโมชั่น แนะนำเพื่อน พร้อมตัวเลขทองขนาดใหญ่ 0.8% ด้านขวาเป็นผู้หญิงผมสีเงินในชุดสีทองน้ำเงินชี้นิ้วขึ้น ด้านล่างมีไอคอนสี่ช่องเขียนว่า เพื่อนสมัคร เพื่อนเล่น รับโบนัส และ ถอนได้ไม่อั้น"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#dfb455]/50 shadow-[0_10px_30px_rgba(223,180,85,0.28)]"
+    />
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e3f7]">
+      <p>ผู้ใช้งานใหม่สามารถสมัคร <strong class="text-[#fdf1cd]">HUAY928</strong> และเริ่มส่งโพยผ่านระบบออนไลน์ได้ด้วยตัวเอง โดยขั้นตอนไม่ซับซ้อนและรองรับการใช้งานผ่านมือถือ</p>
+      <ol class="list-decimal space-y-2 pl-5 marker:font-black marker:text-[#f7d979]">
+        <li>สมัครสมาชิก HUAY928 และกรอกข้อมูลตามที่ระบบกำหนด</li>
+        <li>Login เข้าบัญชีและฝากเครดิตผ่านช่องทางที่เปิดให้บริการ</li>
+        <li>เลือกหวยและรอบที่ต้องการ กรอกเลขกับยอดเดิมพัน ตรวจสอบเรท แล้วจึงยืนยันโพย</li>
+      </ol>
+      <p>
+        หลังส่งโพยสามารถกลับมาตรวจสอบเลข ยอดเดิมพัน สถานะรายการ และประวัติโพยได้จากบัญชีสมาชิก ควรตรวจสอบข้อมูลให้เรียบร้อยก่อนกดยืนยัน
+        เนื่องจากรายการที่ส่งสำเร็จแล้วอาจไม่สามารถแก้ไขได้ตามเงื่อนไขของระบบ
+      </p>
+    </div>
+  </ContentBoxSevenThreeHuay>
+
+  <ContentBoxTwoHuay titleleft="แอดมิน HUAY928 ให้บริการออนไลน์ 24 ชั่วโมง">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e3f7]">
+      หากพบปัญหาเกี่ยวกับการสมัคร Login ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง ส่งโพยไม่สำเร็จ หรือยอดเดิมพันแสดงไม่ถูกต้อง สามารถติดต่อแอดมิน
+      <strong class="text-[#fdf1cd]">HUAY928</strong> ได้ตลอด 24 ชั่วโมง พร้อมแจ้งรายละเอียดและเวลาที่เกิดรายการ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e3f7]">
+      สมาชิกยังสามารถสอบถามเรื่องรอบหวย เวลาเปิดรับ อัตราจ่าย และวิธีใช้งานระบบก่อนส่งโพยได้ โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+    </p>
+  </ContentBoxTwoHuay>
+
+  <FaqHuay title="คำถามที่พบบ่อยเกี่ยวกับ HUAY928" faqs={faqs} />
 
   <LoginRtpSection />
 
@@ -144,13 +244,13 @@ const graph = pageGraph(Astro, {
   <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#fbe479] via-[#e2c466] to-[#b5811e] px-4 py-3 text-sm font-black whitespace-nowrap text-[#030803] shadow-[0_10px_30px_rgba(226,196,102,0.32)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(251,228,121,0.46)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#f7d979] via-[#dfb455] to-[#a87a1e] px-4 py-3 text-sm font-black whitespace-nowrap text-[#01091b] shadow-[0_10px_30px_rgba(223,180,85,0.32)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(247,217,121,0.46)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
 
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#7a5d2c]/80 bg-gradient-to-r from-[#123209] to-[#030803] px-4 py-3 text-sm font-black whitespace-nowrap text-[#fff4cd] shadow-[0_10px_30px_rgba(226,196,102,0.18)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#e2c466]/80 hover:text-[#fbe479] hover:shadow-[0_15px_40px_rgba(226,196,102,0.34)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#2c4d84]/80 bg-gradient-to-r from-[#08234c] to-[#01091b] px-4 py-3 text-sm font-black whitespace-nowrap text-[#fdf1cd] shadow-[0_10px_30px_rgba(223,180,85,0.18)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#dfb455]/80 hover:text-[#f7d979] hover:shadow-[0_15px_40px_rgba(223,180,85,0.34)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
   </div>
