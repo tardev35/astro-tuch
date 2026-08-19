@@ -1,15 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
-import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
-import LottoGrid from "../components/LottoGrid.astro";
-import FaqHuay from "../components/FaqHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ProviderGridPremium from "../components/ProviderGridPremium.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import LatestWinners from "../components/LatestWinnersHuay.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import Faq3 from "../components/Faq3.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
@@ -17,17 +18,16 @@ import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
+import imgBanner2 from "../assets/banner2.png";
 
-// Title and description are the brief's own Title/Description lines, verbatim.
-// A brief-supplied description ships at whatever length it was written — it is
-// not padded up to the 150-character floor. The brief's own line was 176
-// characters, over the 160 upper bound verify-build enforces, so the one clause
-// that repeats what the rest already says ("เปิดให้แทงก่อนใคร") is dropped —
-// 158 characters. The floor is not binding here; the ceiling is.
-const pageTitle = "HUAY928 รับแทงหวย รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น รับทุกเลข ไม่มีอั้น";
+// Title and description are the brief's own Title/Description lines. The brief's
+// description ran past the 160-character ceiling verify-build enforces, so the
+// one clause that repeats what the rest already says ("ค่ายแท้จริง") is dropped —
+// 154 characters. A brief-supplied description is never padded up to the floor.
+const pageTitle = "UFAFOX เกมสล็อตPGค่ายหลัก คำแนะนำ เทคนิค สูตรเพียบ";
 
 const pageDescription =
-  "HUAY928 เปิดรับแทงหวยออนไลน์ ครบทุกประเภท ครอบคลุม รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น เปิดระบบแทง 2ตัวจ่าย100 และ 3ตัวจ่าย1,000 พร้อมรับทุกเลขเด็ด เลขดัง เลขอั้น";
+  "UFAFOX เกมสล็อตPGค่ายหลัก แหล่งเดิมพันที่ดีที่สุด ต้องมีคู่มือ เทคนิค และสูตรเกมมาให้ฟรี ไม่ต้องเสียค่าเพิ่ม สมัครรับสูตรและเทคนิคการเล่นสล็อตได้เลยตอนนี้";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -35,45 +35,52 @@ const pageDescription =
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "HUAY928 รับแทงหวยออนไลน์ จ่ายจริง ครบทุกรูปแบบ • ครอบคลุมหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น ในระบบเดียว • รองรับเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนด 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 • เลือกเลข ตรวจเรท ส่งโพย และติดตามรายการผ่านมือถือได้ด้วยตัวเอง • ควรยึดอัตราจ่ายและวงเงินที่ระบบแสดง ณ เวลาส่งโพยเป็นหลัก • แอดมิน HUAY928 ออนไลน์ตลอด 24 ชั่วโมง";
+  "UFAFOX เกมสล็อต PG ค่ายหลัก แหล่งเดิมพันสล็อตที่ดีที่สุด • รวมคำแนะนำ เทคนิค และสูตรบริหารเงินทุนให้ศึกษาครบทุกเกม ไม่มีค่าใช้จ่ายเพิ่ม • อ่าน Paytable, RTP, ความผันผวน, Wild, Scatter และ Free Spins ให้ครบก่อนลงเงินจริง • ไม่มีสูตรใดบังคับผลสล็อตให้ชนะได้ แต่ช่วยวางแผนงบและลดการเล่นตามอารมณ์ • สมัคร UFAFOX ด้วยตัวเองผ่านมือถือได้ใน 3 ขั้นตอน • แอดมิน UFAFOX พร้อมตรวจสอบรายการให้ตลอดทั้งวัน";
 
-// One array, used by both <FaqHuay> and the FAQPage node — never the component's
+// One array, used by both <Faq3> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "HUAY928 เปิดรับแทงหวยอะไรบ้าง?",
-    a: "มีทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น รวมถึงประเภทการเดิมพันที่เปิดในแต่ละรอบ สมาชิกควรตรวจสอบเวลาเปิด-ปิดและรายการล่าสุดจากหน้าแทงหวยก่อนส่งโพย",
+    q: "UFAFOX มีสูตรเล่นสล็อต PG ให้ชนะทุกเกมหรือไม่?",
+    a: "ไม่มีสูตรที่รับประกันว่าจะชนะเกมสล็อตได้ทุกเกม แนวทางที่เหมาะกว่าคือศึกษากติกา RTP ความผันผวน และวางแผนเงินทุนก่อนเล่น เพื่อควบคุมความเสี่ยงของตัวเอง",
   },
   {
-    q: "HUAY928 เลข 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 จริงหรือไม่?",
-    a: "ตามเรทที่กำหนดในหน้านี้ เลข 2 ตัวใช้อัตราจ่าย 100 และเลข 3 ตัวใช้อัตราจ่าย 1,000 แต่ก่อนเดิมพันควรยึดอัตราจ่ายที่แสดงในระบบ ณ เวลาส่งโพยเป็นหลัก โดยเฉพาะเลขหรือรอบที่อาจมีเงื่อนไขเฉพาะ",
+    q: "มือใหม่เล่นสล็อต PG ควรเริ่มศึกษาเรื่องอะไรก่อน?",
+    a: "ควรเริ่มจาก Paytable รูปแบบการจ่าย RTP ความผันผวน Wild, Scatter และ Free Spins จากนั้นจึงกำหนดเงินทุนและขนาดเดิมพันให้เหมาะสมกับงบที่สามารถเสียได้",
   },
   {
-    q: "หากแทงหวยหรือฝากถอน HUAY928 มีปัญหาต้องทำอย่างไร?",
-    a: "ตรวจสอบสถานะรายการในบัญชีก่อน หากโพย เครดิต หรือรายการถอนยังผิดปกติ ให้ติดต่อแอดมิน HUAY928 พร้อมแจ้งประเภทหวย เวลา จำนวนเงิน และรายละเอียดรายการ เพื่อให้เจ้าหน้าที่ช่วยตรวจสอบได้รวดเร็วยิ่งขึ้น",
+    q: "หากสมัครหรือฝากถอน UFAFOX มีปัญหาต้องทำอย่างไร?",
+    a: "ตรวจสอบสถานะรายการและข้อมูลในบัญชีก่อน หากยังพบความผิดปกติให้ติดต่อแอดมิน UFAFOX พร้อมแจ้งเวลา จำนวนเงิน และรายละเอียดรายการ เพื่อให้เจ้าหน้าที่ช่วยตรวจสอบต่อไปได้",
   },
 ];
 
-// The two rate tables the brief asks for as HTML tables rather than pictures —
-// Google reads the numbers straight out of the markup and a phone can read them
-// without pinching. Rows are the brief's own, verbatim.
-const twoDigitRows = [
-  ["หวย 2 ตัว", "28", "1 บาท", "100 บาท"],
-  ["หวย 2 ตัว", "56", "10 บาท", "1,000 บาท"],
-  ["หวย 2 ตัว", "89", "100 บาท", "10,000 บาท"],
+// The three H3 sub-points that sit under the docx's "เทคนิคและสูตรทำกำไร" H2.
+// FeatureHighlights renders each title as an <h3> with `heading` left default,
+// so the section keeps exactly one H2 and gains the three H3 children the docx
+// actually has — no hand-rolled icon-card markup, no extra heading tier.
+const profitTechniques = [
+  {
+    icon: "🧮",
+    accent: "gold" as const,
+    title: "สูตรแบ่งทุน 100 ส่วน คุมเบทก่อนเริ่มเล่นสล็อต",
+    description:
+      "ตั้งงบประมาณสำหรับเล่นเป็น 100 หน่วย เช่น มีทุน 1,000 บาท ให้คิด 1 หน่วยเท่ากับ 10 บาท แล้วกำหนดขนาดเดิมพันให้อยู่ในระดับที่รับความผันผวนได้ หากเสียถึงจุดที่ตั้งไว้ให้หยุดตามแผน ไม่เพิ่มเดิมพันเพื่อไล่เอาเงินคืน วิธีนี้ไม่ได้ทำให้เกมจ่ายรางวัลมากขึ้น แต่ช่วยให้รู้ล่วงหน้าว่าแต่ละรอบสามารถใช้เงินได้เท่าไร",
+  },
+  {
+    icon: "📊",
+    accent: "silver" as const,
+    title: "เทคนิคเลือกเกมจาก RTP และความผันผวน ไม่เลือกจากคำว่าแตกง่าย",
+    description:
+      "ก่อนเล่นควรเปิดข้อมูลเกมและดูทั้ง RTP กับระดับความผันผวนประกอบกัน เกมที่มีความผันผวนสูงอาจมีช่วงที่รางวัลห่างกว่า ขณะที่เกมความผันผวนต่ำอาจมีรูปแบบการจ่ายแตกต่างออกไป จึงควรเลือกให้เหมาะกับเงินทุนและระยะเวลาที่ตั้งใจเล่น มากกว่าการตามสูตรว่าเกมใดกำลังแตกหรือถึงรอบจ่าย เพราะผลรอบก่อนหน้าไม่ได้ยืนยันผลรอบถัดไป",
+  },
+  {
+    icon: "🛑",
+    accent: "gold" as const,
+    title: "สูตรตั้ง Stop Loss และ Stop Win ก่อนกด Spin",
+    description:
+      "กำหนดจุดหยุดตั้งแต่ก่อนเล่น เช่น แบ่งทุนเฉพาะรอบและกำหนดว่าจะหยุดเมื่อเสียถึงจำนวนที่รับได้ ส่วนเมื่อมียอดเพิ่มถึงเป้าหมายก็พักหรือจบรอบตามแผน หลักนี้ช่วยป้องกันการเล่นต่อเพราะต้องการเอาคืนหรือหวังกำไรเพิ่ม แม้ไม่ใช่สูตรชนะสล็อต แต่เป็นวิธีบริหารเงินที่ชัดเจนและนำไปใช้กับเกมสล็อตหลายรูปแบบได้",
+  },
 ];
-
-const threeDigitRows = [
-  ["หวย 3 ตัว", "289", "1 บาท", "1,000 บาท"],
-  ["หวย 3 ตัว", "928", "10 บาท", "10,000 บาท"],
-  ["หวย 3 ตัว", "168", "100 บาท", "100,000 บาท"],
-];
-
-const tableWrap = "overflow-x-auto rounded-2xl border border-[#2c4d84]/70 bg-[#01091b]/60";
-const tableClass = "w-full min-w-[520px] border-collapse text-left text-sm";
-const thClass = "border-b border-[#dfb455]/40 px-4 py-3 text-[13px] font-black tracking-wide text-[#fdf1cd] uppercase";
-const tdClass = "border-b border-[#1d3a68]/60 px-4 py-3 text-[#d5e3f7]";
-const tdStrongClass = "border-b border-[#1d3a68]/60 px-4 py-3 font-black text-[#f7d979]";
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -90,15 +97,16 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxPremium as="h1" title="HUAY928 รับแทงหวยออนไลน์ จ่ายจริง ครบทุกรูปแบบ">
-    <p class="text-left text-base leading-relaxed text-[#d5e3f7]">
-      <strong class="text-[#fdf1cd]">HUAY928</strong> เปิดให้บริการแทงหวยออนไลน์หลายประเภทผ่านระบบเดียว ครอบคลุมทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น
-      พร้อมรองรับการเดิมพันเลข 2 ตัวและ 3 ตัวตามอัตราจ่ายที่กำหนด สมาชิกสามารถเลือกเลข ตรวจสอบเรท ส่งโพย และติดตามรายการผ่านมือถือได้ด้วยตัวเอง พร้อมแอดมินคอยดูแลเรื่องการสมัคร ฝากถอน
-      และปัญหาการใช้งานตลอด 24 ชั่วโมง
+  <ContentBoxCyberCut as="h1" title="UFAFOX เกมสล็อต PG ค่ายหลัก แหล่งเดิมพันสล็อตที่ดีที่สุด">
+    <p class="text-left text-base leading-relaxed text-[#ded4cb]">
+      <strong class="text-[#ffc48a]">UFAFOX</strong> เน้นเกมสล็อต PG สำหรับคนที่ต้องการเลือกเกมพร้อมข้อมูลประกอบก่อนเล่น มีคำแนะนำตั้งแต่การอ่าน Paytable ทำความเข้าใจ RTP ความผันผวน ฟีเจอร์ฟรีสปิน
+      ไปจนถึงการจัดการเงินทุนผ่านมือถือ จุดสำคัญคือเทคนิคหรือสูตรไม่สามารถบังคับผลสล็อตให้ชนะได้ แต่สามารถใช้วางแผนงบประมาณ ลดการเล่นตามอารมณ์ และช่วยให้เข้าใจกติกาของแต่ละเกมมากขึ้นก่อนลงเงินจริง
     </p>
-  </ContentBoxPremium>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreePremium as="h2" title="HUAY928 ให้บริการ แทงหวยรัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น ไม่จำกัดยอด">
+  <ProviderGridPremium />
+
+  <ContentBoxSevenThreeNeumorphism as="h2" title="UFAFOX ค่ายแท้ มีคำแนะนำการเล่นให้ศึกษาครบทุกเกม">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -110,91 +118,44 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ HUAY928 พื้นหลังสีน้ำเงินกรมท่าประดับเส้นโค้งสีทอง ด้านบนเป็นโลโก้ HUAY928 กลางภาพเป็นข้อความสีขาวว่า โปรโมชั่น คืนยอดเสีย พร้อมตัวเลขทองขนาดใหญ่ 0.3% ด้านซ้ายเป็นใบสลากสามใบติดป้าย รัฐบาลไทย ลาว และ ฮานอย ด้านขวาเป็นผู้หญิงผมสีเงินในชุดสีทองน้ำเงินชี้นิ้วขึ้น ด้านล่างมีไอคอนห้าช่องเขียนว่า รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น และแถบล่างสุดเขียนว่า รับทุกเลข ไม่มีอั้น"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#dfb455]/50 shadow-[0_10px_30px_rgba(223,180,85,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ UFAFOX พื้นหลังสีดำมีเส้นแสงสีส้มและเหรียญทองลอยอยู่ ด้านบนกลางภาพเป็นโลโก้หัวจิ้งจอกและตัวอักษร UFAFOX ถัดลงมาเป็นข้อความสีขาวส้มว่า โปรโมชั่น คืนยอดเสีย พร้อมตัวเลขสีส้มขนาดใหญ่ 0.3% ด้านซ้ายเป็นนางแบบผมสีเงินในชุดรัดรูปสีส้มดำยกมือแบออก ฉากหลังซ้ายเป็นป้ายไฟ JACKPOT และฝั่งขวาเป็นวงล้อสล็อตเลข 777 กับสัญลักษณ์ BAR ด้านล่างเป็นแถบสามช่องเขียนว่า เสียเท่าไหร่ก็ได้คืน มั่นคง ปลอดภัย เชื่อถือได้ และ ระบบออโต้ รับคืนไว"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#f26a02]/50 shadow-[0_10px_30px_rgba(242,106,2,0.28)]"
     />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e3f7]">
-      <p>
-        <strong class="text-[#fdf1cd]">HUAY928</strong> รวมหวยหลายประเภทไว้ให้เลือกตามรอบที่เปิดรับ ไม่ว่าจะเป็นหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ หรือหวยหุ้น
-        สมาชิกสามารถเลือกประเภทหวยและรอบที่ต้องการ จากนั้นกรอกเลขและยอดเดิมพันผ่านระบบได้โดยตรง ก่อนส่งโพยควรตรวจสอบเวลาเปิด-ปิด อัตราจ่าย <span class="font-black text-[#8fc3ec]">เลขอั้น</span>
-        และวงเงินที่ระบบแสดง เนื่องจากรายละเอียดของหวยแต่ละประเภทและแต่ละรอบอาจแตกต่างกัน
-      </p>
-      <p>สำหรับข้อความว่า “ไม่จำกัดยอด” ควรยึดวงเงินที่หน้าแทงแสดง ณ เวลาทำรายการเป็นหลัก เพื่อป้องกันความคลาดเคลื่อนหากเลขบางรายการมีการกำหนดวงเงินเฉพาะ</p>
-    </div>
-  </ContentBoxSevenThreePremium>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded4cb]">
+      ก่อนเลือกเกมสล็อตใน <strong class="text-[#ffc48a]">UFAFOX</strong> ควรเริ่มจากการอ่านรายละเอียดของเกมนั้นให้ครบ โดยเฉพาะ Paytable, RTP, จำนวนเพย์ไลน์หรือรูปแบบการจ่าย,
+      <span class="font-black text-[#e3e7ec]">Wild</span>, <span class="font-black text-[#e3e7ec]">Scatter</span>, Free Spins และเงื่อนไขของฟีเจอร์โบนัส เพราะสล็อต PG แต่ละเกมไม่ได้ใช้ระบบเหมือนกัน
+      การรู้ว่าเกมจ่ายรางวัลอย่างไรช่วยให้เลือกขนาดเดิมพันและเงินทุนได้เหมาะสมกว่าเดิม แทนที่จะเลือกเกมจากคำว่าแตกง่ายเพียงอย่างเดียว
+    </p>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <LottoGrid />
-
-  <ContentBox as="h2" title="เว็บ HUAY928 ให้อัตราจ่ายสูง ไม่น้อยกว่าใคร">
-    <div class="flex flex-col gap-6 text-left text-base leading-relaxed text-[#d5e3f7]">
-      <p>
-        จุดที่ควรแสดงให้ชัดบนหน้า <strong class="text-[#fdf1cd]">HUAY928</strong> คืออัตราจ่ายของเลข 2 ตัวและ 3 ตัว เพื่อให้สมาชิกเห็นข้อมูลก่อนส่งโพย โดยจากเรทที่กำหนดไว้ 2 ตัวจ่าย 100
-        และ 3 ตัวจ่าย 1,000 สามารถทำเป็นตารางบนหน้าเว็บเพื่อให้อ่านง่ายทั้งบนคอมพิวเตอร์และมือถือ
+  <ContentBoxNeumorphism as="h2" title="เทคนิคและสูตรทำกำไรจากเกมสล็อต UFAFOX 3 วิธี">
+    <div class="flex flex-col gap-6">
+      <p class="text-left text-base leading-relaxed text-[#ded4cb]">
+        ไม่มีสูตรเกมสล็อตที่รับประกันกำไร เนื่องจากผลลัพธ์แต่ละรอบไม่สามารถทำนายได้ แต่ผู้เล่นสามารถใช้ “สูตร” ในความหมายของแผนจัดการเงินและวิธีเลือกเกม
+        เพื่อควบคุมความเสี่ยงและป้องกันการเพิ่มเดิมพันตามอารมณ์ โดย <strong class="text-[#ffc48a]">UFAFOX</strong> สามารถวางคู่มือสำหรับมือใหม่เป็น 3 แนวทางดังนี้
       </p>
 
-      <h3 class="text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase">2 ตัวจ่าย 100</h3>
+      <Picture
+        src={imgBanner2}
+        loading="lazy"
+        fetchpriority="low"
+        widths={[400, 672, 900]}
+        sizes="(max-width: 767px) 92vw, 672px"
+        decoding="async"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        quality={80}
+        alt="ภาพประกอบเทคนิคและสูตรทำกำไรของ UFAFOX พื้นหลังสีดำมีประกายไฟสีส้ม ด้านบนซ้ายเป็นโลโก้หัวจิ้งจอกและตัวอักษร UFAFOX กลางภาพเป็นข้อความว่า เทคนิคและสูตรทำกำไร เหนือป้ายชื่อ UFAFOX สีส้มสลับเงินโครเมียม ด้านขวาเป็นนางแบบผมสีเงินในชุดสีส้มดำติดตราหัวจิ้งจอกกำลังชี้นิ้ว ฉากหลังเป็นการ์ดเกมสล็อต PG คำว่า WILD และโลโก้ PG ด้านล่างซ้ายเป็นโทรศัพท์มือถือที่เปิดเกมสล็อต PG ห้าเกม พร้อมชิปสีส้มพิมพ์ตัวอักษร PG ลูกเต๋าเรืองแสง และเหรียญทอง"
+        class="mx-auto h-auto w-full max-w-2xl rounded-2xl border border-[#f26a02]/50 shadow-[0_10px_30px_rgba(242,106,2,0.26)]"
+      />
 
-      <div class={tableWrap}>
-        <table class={tableClass}>
-          <thead class="bg-[#08234c]/80">
-            <tr>
-              <th scope="col" class={thClass}>ประเภทเดิมพัน</th>
-              <th scope="col" class={thClass}>ตัวอย่างเลข</th>
-              <th scope="col" class={thClass}>เดิมพันตัวอย่าง</th>
-              <th scope="col" class={thClass}>อัตราจ่ายตามที่กำหนด</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              twoDigitRows.map(([type, number, stake, payout]) => (
-                <tr class="transition-colors hover:bg-[#08234c]/50">
-                  <td class={tdClass}>{type}</td>
-                  <td class={tdStrongClass}>{number}</td>
-                  <td class={tdClass}>{stake}</td>
-                  <td class={tdStrongClass}>{payout}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <p>ตัวอย่างการคำนวณ: หากอัตราจ่ายคือ 1 บาทต่อ 100 บาท การแทง 10 บาท เมื่อถูกรางวัลตามเงื่อนไขจะคำนวณเป็น 10 × 100 = 1,000 บาท</p>
-
-      <p>อัตราจ่ายจริงควรยึดตัวเลขที่ระบบ <strong class="text-[#fdf1cd]">HUAY928</strong> แสดงก่อนยืนยันโพย เนื่องจากเลขบางรายการหรือหวยบางประเภทอาจมีเงื่อนไขแตกต่างกัน</p>
-
-      <h3 class="text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase">3 ตัวจ่าย 1,000</h3>
-
-      <div class={tableWrap}>
-        <table class={tableClass}>
-          <thead class="bg-[#08234c]/80">
-            <tr>
-              <th scope="col" class={thClass}>ประเภทเดิมพัน</th>
-              <th scope="col" class={thClass}>ตัวอย่างเลข</th>
-              <th scope="col" class={thClass}>เดิมพันตัวอย่าง</th>
-              <th scope="col" class={thClass}>อัตราจ่ายตามที่กำหนด</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              threeDigitRows.map(([type, number, stake, payout]) => (
-                <tr class="transition-colors hover:bg-[#08234c]/50">
-                  <td class={tdClass}>{type}</td>
-                  <td class={tdStrongClass}>{number}</td>
-                  <td class={tdClass}>{stake}</td>
-                  <td class={tdStrongClass}>{payout}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <p>ตัวอย่างการคำนวณ: หากอัตราจ่ายคือ 1 บาทต่อ 1,000 บาท การแทง 10 บาท เมื่อถูกรางวัลตามเงื่อนไขจะคำนวณเป็น 10 × 1,000 = 10,000 บาท</p>
+      <FeatureHighlights items={profitTechniques} />
     </div>
-  </ContentBox>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreeHuay titleright="สมัครแทงหวย HUAY928 ด้วยตัวเอง ไม่ต้องผ่านเจ้ามือ">
+  <LoginRtpSection />
+
+  <ContentBoxSevenThreeCyberCut as="h2" title="สมัคร UFAFOX ด้วยตัวเอง 3 ขั้นตอนง่าย ๆ">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -206,36 +167,35 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ HUAY928 พื้นหลังสีน้ำเงินกรมท่าประดับเส้นโค้งสีทองและลูกบอลหวยเลข 9 เลข 3 เลข 8 ด้านบนเป็นโลโก้ HUAY928 กลางภาพเป็นข้อความสีขาวว่า โปรโมชั่น แนะนำเพื่อน พร้อมตัวเลขทองขนาดใหญ่ 0.8% ด้านขวาเป็นผู้หญิงผมสีเงินในชุดสีทองน้ำเงินชี้นิ้วขึ้น ด้านล่างมีไอคอนสี่ช่องเขียนว่า เพื่อนสมัคร เพื่อนเล่น รับโบนัส และ ถอนได้ไม่อั้น"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#dfb455]/50 shadow-[0_10px_30px_rgba(223,180,85,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ UFAFOX พื้นหลังสีดำมีเส้นแสงสีส้มและเหรียญทองลอยอยู่ ด้านบนกลางภาพเป็นโลโก้หัวจิ้งจอกและตัวอักษร UFAFOX ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น แนะนำเพื่อน พร้อมตัวเลขสีเงินโครเมียมขนาดใหญ่ 0.8% ด้านขวาเป็นนางแบบผมสีเงินในชุดรัดรูปสีส้มดำชี้นิ้วขึ้น ฉากหลังซ้ายเป็นการ์ดสัญลักษณ์ SCATTER ลูกเต๋า และการ์ด WILD รูปมงกุฎ ฝั่งขวาเป็นวงล้อเลข 777 และการ์ดโลโก้ PG"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#f26a02]/50 shadow-[0_10px_30px_rgba(242,106,2,0.28)]"
     />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e3f7]">
-      <p>ผู้ใช้งานใหม่สามารถสมัคร <strong class="text-[#fdf1cd]">HUAY928</strong> และเริ่มส่งโพยผ่านระบบออนไลน์ได้ด้วยตัวเอง โดยขั้นตอนไม่ซับซ้อนและรองรับการใช้งานผ่านมือถือ</p>
-      <ol class="list-decimal space-y-2 pl-5 marker:font-black marker:text-[#f7d979]">
-        <li>สมัครสมาชิก HUAY928 และกรอกข้อมูลตามที่ระบบกำหนด</li>
-        <li>Login เข้าบัญชีและฝากเครดิตผ่านช่องทางที่เปิดให้บริการ</li>
-        <li>เลือกหวยและรอบที่ต้องการ กรอกเลขกับยอดเดิมพัน ตรวจสอบเรท แล้วจึงยืนยันโพย</li>
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ded4cb]">
+      <p>การเริ่มใช้งาน <strong class="text-[#ffc48a]">UFAFOX</strong> สามารถทำผ่านมือถือหรือคอมพิวเตอร์ได้ โดยควรตรวจสอบข้อมูลและเงื่อนไขของระบบก่อนทำรายการ</p>
+      <ol class="list-decimal space-y-2 pl-5 marker:font-black marker:text-[#ff9130]">
+        <li>สมัครสมาชิก UFAFOX และกรอกข้อมูลตามที่ระบบกำหนด</li>
+        <li>Login เข้าบัญชี ตรวจสอบช่องทางฝากเงินและรายละเอียดโปรโมชั่น</li>
+        <li>เลือกเกมสล็อต PG อ่านกติกาและกำหนดงบประมาณก่อนเริ่มเล่น</li>
       </ol>
-      <p>
-        หลังส่งโพยสามารถกลับมาตรวจสอบเลข ยอดเดิมพัน สถานะรายการ และประวัติโพยได้จากบัญชีสมาชิก ควรตรวจสอบข้อมูลให้เรียบร้อยก่อนกดยืนยัน
-        เนื่องจากรายการที่ส่งสำเร็จแล้วอาจไม่สามารถแก้ไขได้ตามเงื่อนไขของระบบ
-      </p>
+      <p>หลังสมัครควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผยรหัสผ่านหรือ OTP ให้ผู้อื่น ส่วนโบนัสหรือโปรโมชั่นควรอ่านเงื่อนไขก่อนกดรับทุกครั้ง</p>
     </div>
-  </ContentBoxSevenThreeHuay>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxTwoHuay titleleft="แอดมิน HUAY928 ให้บริการออนไลน์ 24 ชั่วโมง">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e3f7]">
-      หากพบปัญหาเกี่ยวกับการสมัคร Login ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง ส่งโพยไม่สำเร็จ หรือยอดเดิมพันแสดงไม่ถูกต้อง สามารถติดต่อแอดมิน
-      <strong class="text-[#fdf1cd]">HUAY928</strong> ได้ตลอด 24 ชั่วโมง พร้อมแจ้งรายละเอียดและเวลาที่เกิดรายการ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
+  <ContentBoxTwoCyberCut
+    as="h2"
+    title="ติดต่อแอดมิน UFAFOX หลังบ้านได้ทันที หากติดปัญหา"
+    titleleft="แจ้งปัญหาการใช้งาน"
+    titleright="สอบถามกติกาและข้อมูลของเกม">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ded4cb]">
+      หากพบปัญหาเกี่ยวกับการสมัคร Login ฝากถอน เครดิตไม่เข้า โปรโมชั่น หรือไม่สามารถเข้าเกมสล็อตได้ สามารถติดต่อแอดมิน <strong class="text-[#ffc48a]">UFAFOX</strong>
+      พร้อมแจ้งรายละเอียดและเวลาที่เกิดรายการ เพื่อให้ตรวจสอบปัญหาได้ตรงจุด
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e3f7]">
-      สมาชิกยังสามารถสอบถามเรื่องรอบหวย เวลาเปิดรับ อัตราจ่าย และวิธีใช้งานระบบก่อนส่งโพยได้ โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded4cb]">
+      นอกจากนี้ยังสามารถสอบถามวิธีอ่านกติกา ฟีเจอร์ หรือข้อมูลของเกมได้ แต่ควรระวังคำแนะนำที่อ้างว่ามีสูตรล็อกผล สูตรชนะ 100% หรือสามารถรู้รอบแตกได้ล่วงหน้า
     </p>
-  </ContentBoxTwoHuay>
+  </ContentBoxTwoCyberCut>
 
-  <FaqHuay title="คำถามที่พบบ่อยเกี่ยวกับ HUAY928" faqs={faqs} />
-
-  <LoginRtpSection />
+  <Faq3 title="คำถามที่พบบ่อยเกี่ยวกับ UFAFOX" faqs={faqs} />
 
   <LatestWinners />
 
@@ -244,13 +204,13 @@ const graph = pageGraph(Astro, {
   <div class="relative z-10 mx-auto mb-10 flex flex-nowrap justify-center gap-3 px-4 sm:gap-6">
     <a
       href="/register"
-      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#f7d979] via-[#dfb455] to-[#a87a1e] px-4 py-3 text-sm font-black whitespace-nowrap text-[#01091b] shadow-[0_10px_30px_rgba(223,180,85,0.32)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(247,217,121,0.46)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#ffb266] via-[#f26a02] to-[#8c3a01] px-4 py-3 text-sm font-black whitespace-nowrap text-[#070403] shadow-[0_10px_30px_rgba(242,106,2,0.32)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_15px_40px_rgba(255,145,48,0.46)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       สมัครสมาชิก
     </a>
 
     <a
       href="/login"
-      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#2c4d84]/80 bg-gradient-to-r from-[#08234c] to-[#01091b] px-4 py-3 text-sm font-black whitespace-nowrap text-[#fdf1cd] shadow-[0_10px_30px_rgba(223,180,85,0.18)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#dfb455]/80 hover:text-[#f7d979] hover:shadow-[0_15px_40px_rgba(223,180,85,0.34)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
+      class="group relative flex flex-1 items-center justify-center rounded-full border border-[#4a2409]/90 bg-gradient-to-r from-[#1e0f06] to-[#070403] px-4 py-3 text-sm font-black whitespace-nowrap text-[#ffc48a] shadow-[0_10px_30px_rgba(242,106,2,0.18)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-[#f26a02]/80 hover:text-[#ff9130] hover:shadow-[0_15px_40px_rgba(242,106,2,0.34)] sm:flex-none sm:px-10 sm:py-3.5 sm:text-base">
       เข้าสู่ระบบ
     </a>
   </div>
