@@ -2037,6 +2037,28 @@ async function startDeploy(mode = "cf") {
   if (deployState.status === "running") throw new Error("กำลัง deploy อยู่แล้ว");
   if (isActive()) throw new Error("มี rebrand กำลังรันอยู่ — รอให้จบก่อน");
 
+  // dpSync()/dpPendingHost() on the client only WARN and disable the button
+  // when astro.config.mjs disagrees with the URL typed into ส่วนที่ 6 — that
+  // check lives entirely in browser JS and never reaches this endpoint. A
+  // stale tab (old bundle cached from before a rebrand), a direct POST here,
+  // or any client bug skips it completely, and this function had nothing of
+  // its own to catch it. That is how a rebrand shipped over a previous,
+  // already-delivered brand's live site (max56-auto.net) even after the
+  // client-side warning existed.
+  //
+  // The one signal this server can trust without relying on anything the
+  // client claims: every finished rebrand in this repo's history ends in a
+  // "Rebrand the site to X" commit (see git log). An uncommitted
+  // astro.config.mjs or wrangler.toml means a rebrand is mid-flight — those
+  // are exactly the two files that decide where `wrangler deploy` (and the
+  // VPS path, which reads astro.config.mjs's site: too) ships to, so refuse
+  // to build+deploy while either is dirty rather than trust the browser to
+  // have asked first.
+  const dirty = await gitRead(["status", "--porcelain", "--", "astro.config.mjs", "wrangler.toml"]);
+  if (dirty.code === 0 && dirty.out.trim()) {
+    throw new Error("astro.config.mjs หรือ wrangler.toml ยังไม่ได้ commit — commit รีแบรนด์ให้เสร็จก่อนขึ้นเว็บจริง ไม่งั้นเสี่ยงไปทับแบรนด์เดิมที่เคย deploy ไว้");
+  }
+
   Object.assign(deployState, {
     status: "running", mode, log: [], error: "", url: "", startedAt: Date.now(), endedAt: 0,
     target: mode === "vps" ? await vpsTarget() : await deployTarget(),
