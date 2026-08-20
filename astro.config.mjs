@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://ufafox-88.co",
+  site: "https://ufa-168.co",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
