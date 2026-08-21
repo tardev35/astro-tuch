@@ -7,30 +7,29 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// LEKDED เป็นเว็บหวย — /ตรวจหวย และ /แนวทาง เปิดใช้งานรอบนี้ จึงมีลิงก์อยู่ใน
-// เมนูหลักของ footer ด้วย (navbar ก็มี) ส่วน /ทางเข้า ไม่มีในเมนู navbar
-// เพราะ toggle register/login เปิดอยู่ แต่ยังลิงก์จากตรงนี้ให้เข้าถึงได้
+// CASINO888 เป็นเว็บคาสิโน ไม่ใช่เว็บหวยโดยเฉพาะ — /ตรวจหวย และ /แนวทาง ปิดอยู่ใน
+// src/pages-disabled/ รอบนี้ จึงไม่มีลิงก์ทั้งใน navbar และตรงนี้ (ไฟล์นี้เคยมีทั้งคู่
+// ติดมาจากแบรนด์หวยก่อนหน้า) ส่วน /ทางเข้า ไม่มีในเมนู navbar เพราะ toggle
+// register/login เปิดอยู่ แต่ยังลิงก์จากตรงนี้ให้เข้าถึงได้
 const quickLinks = [
   { name: "หน้าแรก", path: "/" },
   { name: "โปรโมชั่น", path: "/promotion" },
   { name: "สมัครสมาชิก", path: "/register" },
   { name: "เข้าสู่ระบบ", path: "/login" },
-  { name: "ตรวจหวย", path: "/ตรวจหวย" },
-  { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทางเข้า", path: "/ทางเข้า" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
   { name: "ติดต่อเรา", path: "/contact-us" },
 ];
 
-// ประเภทหวยตามที่ brief ระบุไว้เท่านั้น ไม่มีเวลาเปิด-ปิดหรืออัตราจ่าย
-// เพราะ docx ไม่ได้ระบุ — อะไรที่เจาะจงกว่านี้คือการแต่งขึ้นเอง
-const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว", "หวยฮานอย", "หวยหุ้น", "โปรโบนัสวันที่ 1 และ 16"];
+// หมวดเกมตามที่ brief ระบุไว้เท่านั้น ไม่มีอัตราจ่ายหรือชื่อค่ายเกม เพราะ content.txt
+// ไม่ได้ระบุ — อะไรที่เจาะจงกว่านี้คือการแต่งขึ้นเอง
+const gameTypes = ["บาคาร่า & คาสิโนสด", "สล็อตออนไลน์", "หวยออนไลน์", "แทงบอลออนไลน์", "โบนัสแนะนำเพื่อน 0.8%"];
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#e2c466] bg-[#030803] pt-16 pb-8 font-sans text-[#ecdfb4] shadow-[0_-10px_30px_rgba(226,196,102,0.18)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#e2c466]/10 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#1c9b22]/10 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-[#e4c25a] bg-[#050403] pt-16 pb-8 font-sans text-[#e9ddc4] shadow-[0_-10px_30px_rgba(228,194,90,0.18)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#e4c25a]/10 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#c9c9c9]/10 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -40,42 +39,42 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว"
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="โลโก้ LEKDED ตัวอักษรหนาสามมิติ คำว่า LEK สีทองและ DED สีเขียว ด้านซ้ายเป็นลูกบอลหวยสีดำเลข 8 สวมมงกุฎทอง พร้อมใบสลากตารางตัวเลขสีเขียวซ้อนอยู่ด้านหลัง"
+                alt="โลโก้ CASINO888 ตัวอักษร CASINO สีทองเมทัลลิกวางอยู่บนเลข 888 สีเงินโครเมียม"
                 widths={[150, 300, 450]}
                 sizes="150px"
-                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(226,196,102,0.45)]"
+                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(228,194,90,0.45)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#fbe479] via-[#e2c466] to-[#b5811e] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(226,196,102,0.4)]">LEKDED</span>
+              <span class="bg-gradient-to-b from-[#fdf49c] via-[#e4c25a] to-[#b28a2a] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(228,194,90,0.4)]">CASINO888</span>
             )
           }
         </a>
-        <p class="text-base leading-relaxed text-[#ecdfb4]">
-          LEKDED เว็บซื้อหวยออนไลน์อันดับ1 รวมหวยหลายประเภทไว้ให้เลือกในบัญชีเดียว ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น พร้อมระบบฝากถอนออโต้ที่รองรับช่องทางตามที่เว็บไซต์กำหนด
-          รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ และมีแอดมินคอยช่วยตรวจสอบการสมัคร ส่งโพย ฝากถอน และปัญหาการใช้งานตลอด 24 ชั่วโมง
+        <p class="text-base leading-relaxed text-[#e9ddc4]">
+          CASINO888 รวมเกมเดิมพันออนไลน์หลายประเภทไว้ให้เลือกผ่านบัญชีเดียว ทั้งบาคาร่า สล็อต หวย และฟุตบอล รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ มีเกมที่เริ่มเดิมพันในระดับต่ำตามเงื่อนไขของแต่ละค่าย
+          พร้อมโปรโมชั่นแนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% สมาชิกสามารถสมัคร ตรวจสอบโบนัส ฝากถอน และเลือกเกมที่ต้องการได้จากระบบเดียว พร้อมแอดมินให้บริการตลอด 24 ชั่วโมง
         </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#e2c466]/50 bg-[#e2c466]/10 px-3 py-1.5 text-xs font-bold text-[#fbe479] shadow-[0_0_10px_rgba(226,196,102,0.22)]">
+          <div class="flex items-center gap-1.5 rounded border border-[#e4c25a]/50 bg-[#e4c25a]/10 px-3 py-1.5 text-xs font-bold text-[#fdf49c] shadow-[0_0_10px_rgba(228,194,90,0.22)]">
             <span aria-hidden="true" class="text-base">🛡️</span> SSL/TLS 256-BIT
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-[#1c9b22]/45 bg-[#0b1405]/60 px-3 py-1.5 text-xs font-bold text-[#8fd694]">
+          <div class="flex items-center gap-1.5 rounded border border-[#c9c9c9]/45 bg-[#17120a]/60 px-3 py-1.5 text-xs font-bold text-[#d9d9d9]">
             <span aria-hidden="true" class="text-base">⚡</span> AUTO 24H
           </div>
         </div>
       </div>
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe479]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe479] to-[#052b06]"></span> เมนูหลัก
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fdf49c]">
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fdf49c] to-[#6b5216]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-[#ecdfb4] transition-all hover:text-[#fbe479]">
-                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#e2c466] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
+                <a href={link.path} class="group flex items-center text-[#e9ddc4] transition-all hover:text-[#fdf49c]">
+                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#e4c25a] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
                     ➤
                   </span>
                   {link.name}
@@ -86,17 +85,17 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว"
         </ul>
       </nav>
 
-      <nav aria-label="ประเภทหวยที่เปิดรับ" class="flex flex-col gap-4">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe479]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe479] to-[#052b06]"></span> ประเภทหวย
+      <nav aria-label="หมวดเกมที่เปิดให้บริการ" class="flex flex-col gap-4">
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fdf49c]">
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fdf49c] to-[#6b5216]"></span> หมวดเกม
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
-            lottoTypes.map((lotto) => (
+            gameTypes.map((game) => (
               <li>
-                <a href="/register" class="group flex items-center text-[#ecdfb4] transition-all hover:text-[#fbe479]">
-                  <span aria-hidden="true" class="mr-3 h-1.5 w-1.5 rounded-full bg-[#0b530d] transition-colors group-hover:bg-[#1c9b22] group-hover:shadow-[0_0_8px_rgba(28,155,34,0.8)]" />
-                  {lotto}
+                <a href="/register" class="group flex items-center text-[#e9ddc4] transition-all hover:text-[#fdf49c]">
+                  <span aria-hidden="true" class="mr-3 h-1.5 w-1.5 rounded-full bg-[#8a8a8a] transition-colors group-hover:bg-[#e4c25a] group-hover:shadow-[0_0_8px_rgba(228,194,90,0.8)]" />
+                  {game}
                 </a>
               </li>
             ))
@@ -105,14 +104,14 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว"
       </nav>
 
       <div class="flex flex-col gap-5">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe479]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe479] to-[#052b06]"></span> บริการลูกค้า
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fdf49c]">
+          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fdf49c] to-[#6b5216]"></span> บริการลูกค้า
         </p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00B900] py-3 font-bold text-white shadow-[0_0_15px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
-          <span class="text-xl font-black">LINE</span> @LEKDED
+          <span class="text-xl font-black">LINE</span> @CASINO888
         </a>
 
         {
@@ -136,25 +135,25 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว"
         }
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#e2c466]/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-[#e4c25a]/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
           <BankStrip size={26} />
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#e2c466]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
-      <span class="text-lg font-black text-[#e2c466] italic md:text-2xl">รัฐบาล<span class="text-[#8fd694]">ไทย</span></span>
-      <span class="text-lg font-black text-[#e2c466] italic md:text-2xl">หวย<span class="text-[#8fd694]">ลาว</span></span>
-      <span class="text-lg font-black text-[#e2c466] italic md:text-2xl">หวย<span class="text-[#8fd694]">ฮานอย</span></span>
-      <span class="text-lg font-black text-[#e2c466] italic md:text-2xl">หวย<span class="text-[#8fd694]">หุ้น</span></span>
-      <span class="text-lg font-black text-[#e2c466] italic md:text-2xl">ฝากถอน<span class="text-[#8fd694]">ออโต้</span></span>
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#e4c25a]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
+      <span class="text-lg font-black text-[#e4c25a] italic md:text-2xl">บาคา<span class="text-[#d9d9d9]">ร่า</span></span>
+      <span class="text-lg font-black text-[#e4c25a] italic md:text-2xl">สล็อต<span class="text-[#d9d9d9]">ออนไลน์</span></span>
+      <span class="text-lg font-black text-[#e4c25a] italic md:text-2xl">หวย<span class="text-[#d9d9d9]">ออนไลน์</span></span>
+      <span class="text-lg font-black text-[#e4c25a] italic md:text-2xl">แทง<span class="text-[#d9d9d9]">บอล</span></span>
+      <span class="text-lg font-black text-[#e4c25a] italic md:text-2xl">ขั้นต่ำ<span class="text-[#d9d9d9]">1บาท</span></span>
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#a89a6b] md:flex-row">
-      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-[#fbe479]">LEKDED</span>. All rights reserved. เว็บซื้อหวยออนไลน์อันดับ1 รับหวยไม่อั้นทุกรูปแบบ ฝากถอนออโต้ตลอด 24 ชั่วโมง</p>
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#8a8a8a] md:flex-row">
+      <p>&copy; {new Date().getFullYear()} <span class="font-bold text-[#fdf49c]">CASINO888</span>. All rights reserved. เว็บคาสิโน888 รวมบาคาร่า สล็อต หวย บอล ไว้ในบัญชีเดียว แอดมินดูแลตลอด 24 ชั่วโมง</p>
       <div class="flex gap-4">
-        <a href="/terms/" class="transition-colors hover:text-[#fbe479]">เงื่อนไขการให้บริการ</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#fbe479]">นโยบายความเป็นส่วนตัว</a>
+        <a href="/terms/" class="transition-colors hover:text-[#fdf49c]">เงื่อนไขการให้บริการ</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#fdf49c]">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

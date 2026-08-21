@@ -1,18 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import Announcement from "../components/Announcement2.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import FeatureHighlights from "../components/FeatureHighlights.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import LoginRtpSection from "../components/LoginRtpSection.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
-import Faq from "../components/Faq3.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import LoginRtpSection from "../components/LoginRtpSection.astro";
+import ContentBox from "../components/ContentBox.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import Faq from "../components/Faq4.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -23,66 +22,32 @@ import imgSlide2 from "../assets/slide2.png";
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "TIGER88 สล็อตไทเกอร์แท้ เกมแตกง่าย ขั้นต่ำ 1 บาท";
+const pageTitle = "CASINO888 เว็บคาสิโน888 บาคาร่า สล็อต หวย บอล ขั้นต่ำ1บาท";
 
-const pageDescription = "TIGER88 สล็อตไทเกอร์แท้ เกมแตกง่าย จากค่ายจริง แนะนำอันดับเกมสล็อตแตกไว ไม่มีขั้นต่ำ พร้อมโปรโมชั่นจัดเต็ม";
+const pageDescription = "CASINO888 ทางเข้าเล่น เว็บคาสิโน888 รวมเกมเดิมพันครบวงจร บาคาร่า สล็อต หวย บอล ถูกลิขสิทธิ์ ขั้นต่ำในการเดิมพันแค่ 1 บาท ไม่จำกัดรอบ";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
 // wired it in last. No emoji in this string: an emoji baked into a text prop
 // cannot be given its own aria-hidden span, and this marquee prints the string
-// twice.
+// three times.
 const announcement =
-  "TIGER88 รวมเกมสล็อตออนไลน์หลากหลายรูปแบบไว้ในระบบเดียว • มีทั้งสล็อตธีมยอดนิยม เกมโบนัส ฟรีสปิน และเกมที่รองรับการเดิมพันเริ่มต้นระดับต่ำ • เกมแนะนำ Fortune Tiger, Mahjong Ways 2, Lucky Neko และ Wild Bandito • ควรเลือกเกมจากรูปแบบเกม RTP ความผันผวน และขนาดเดิมพันที่เหมาะกับเงินทุน • ไม่มีเกมสล็อตใดรับประกันผลรางวัลหรือจังหวะการจ่ายได้ • ขั้นต่ำจริงขึ้นอยู่กับเกมและผู้ให้บริการแต่ละราย ควรตรวจตัวเลขเดิมพันบนหน้าเกมก่อนกด Spin • โปรโมชั่นแนะนำเพื่อนรับโบนัส 0.8% ตามเงื่อนไข • โปรโมชั่นคืนยอดเสียรับโบนัส 0.3% ตามรอบที่กำหนด • สมัคร TIGER88 ผ่านมือถือหรือคอมพิวเตอร์ได้ด้วย 3 ขั้นตอนหลัก • แอดมิน TIGER88 ให้บริการออนไลน์ตลอด 24 ชั่วโมง";
-
-// The four games the brief names, rendered as the H3 sub-points of the H2 above
-// them. FeatureHighlights is the sanctioned shape for this — each item's title
-// becomes an <h3>, so the section keeps exactly one H2.
-const games = [
-  {
-    icon: "🐯",
-    accent: "gold" as const,
-    title: "1. Fortune Tiger สล็อตเสือทอง เล่นง่ายบนมือถือ",
-    description:
-      "Fortune Tiger เป็นเกมสล็อตธีมเสือมงคล รูปแบบหน้าจอค่อนข้างเข้าใจง่าย เหมาะกับผู้ที่ไม่ต้องการเริ่มจากเกมที่มีระบบซับซ้อน ก่อนเล่นควรเปิด Paytable เพื่อตรวจสอบรูปแบบสัญลักษณ์ ฟีเจอร์ และช่วงเดิมพันที่เกมรองรับ แล้วเลือกจำนวนเงินต่อรอบให้สัมพันธ์กับทุนที่เตรียมไว้",
-  },
-  {
-    icon: "🀄",
-    accent: "silver" as const,
-    title: "2. Mahjong Ways 2 สล็อตไพ่นกกระจอก ฟีเจอร์โบนัสเด่น",
-    description:
-      "Mahjong Ways 2 มาในธีมไพ่นกกระจอกและมีระบบ Free Spins รวมถึงตัวคูณตามกลไกของเกม เหมาะกับคนที่ชอบสล็อตซึ่งมีฟีเจอร์ให้ติดตามระหว่างหมุน ก่อนเดิมพันควรทำความเข้าใจวิธีเกิดชุดรางวัลและเงื่อนไขเข้าสู่รอบโบนัสให้เรียบร้อย",
-  },
-  {
-    icon: "🐱",
-    accent: "gold" as const,
-    title: "3. Lucky Neko สล็อตแมวกวัก ธีมญี่ปุ่น",
-    description:
-      "Lucky Neko ใช้ธีมแมวกวักนำโชคแบบญี่ปุ่น มีทั้งรอบปกติและฟีเจอร์โบนัสภายในเกม สมาชิกที่สนใจสามารถตรวจสอบ Paytable, Free Spins และช่วงการเดิมพันก่อนเริ่มเล่น เพื่อประเมินว่าโครงสร้างเกมเหมาะกับงบประมาณและสไตล์การเล่นของตัวเองหรือไม่",
-  },
-  {
-    icon: "🤠",
-    accent: "silver" as const,
-    title: "4. Wild Bandito สล็อตธีมเม็กซิกัน ฟีเจอร์หลากหลาย",
-    description:
-      "Wild Bandito เป็นอีกเกมที่มีภาพและธีมแตกต่างจากสล็อตเอเชีย พร้อมกลไกโบนัสตามกติกาของเกม เหมาะสำหรับคนที่ต้องการสลับบรรยากาศจากเกมยอดนิยมทั่วไป อย่างไรก็ตาม ผลรอบก่อนหน้าไม่ได้บอกว่ารอบถัดไปจะจ่ายหรือไม่ จึงไม่ควรเพิ่มเดิมพันเพียงเพราะคิดว่าเกมกำลังถึงรอบแตก",
-  },
-];
+  "CASINO888 รวมเกมเดิมพันออนไลน์หลายประเภทไว้ให้เลือกผ่านบัญชีเดียว ทั้งบาคาร่า สล็อต หวย และฟุตบอล • รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ • จัดหมวดหมู่เกมไว้ให้ค้นหาได้ง่าย ทั้งบาคาร่าและคาสิโนสด สล็อตออนไลน์ หวยออนไลน์หลายประเภท และการเดิมพันฟุตบอลตามรายการที่เปิดให้บริการ • ควรตรวจสอบอัตราจ่าย กติกา และขั้นต่ำของการเดิมพันก่อนยืนยันรายการทุกครั้ง • บางเกมอาจรองรับการเดิมพันเริ่มต้นประมาณ 1 บาท ขึ้นอยู่กับข้อกำหนดของผู้ให้บริการแต่ละราย • โปรโมชั่นแนะนำเพื่อนรับโบนัส 0.8% ตามเงื่อนไข • โปรโมชั่นคืนยอดเสียรับโบนัส 0.3% ตามรอบที่กำหนด • สมัคร CASINO888 ผ่านมือถือหรือคอมพิวเตอร์ได้ด้วย 3 ขั้นตอนหลัก • แอดมิน CASINO888 ให้บริการตลอด 24 ชั่วโมง";
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "TIGER88 มีเกมสล็อตเดิมพันขั้นต่ำ 1 บาทหรือไม่?",
-    a: "หากเกมที่เลือกกำหนดช่วงเดิมพันเริ่มต้นประมาณ 1 บาท สมาชิกสามารถเลือกเล่นในระดับดังกล่าวได้ แต่ขั้นต่ำแตกต่างกันในแต่ละเกม จึงควรตรวจสอบจำนวนเดิมพันบนหน้าเกมก่อนเริ่มเล่นจริง",
+    q: "CASINO888 มีเกมอะไรให้เลือกเดิมพันบ้าง?",
+    a: "มีทั้งบาคาร่า สล็อตออนไลน์ หวยออนไลน์ ฟุตบอล และเกมเดิมพันประเภทอื่น ๆ ตามที่ระบบเปิดให้บริการ สมาชิกสามารถตรวจสอบรายการเกม อัตราจ่าย และรายละเอียดล่าสุดได้ก่อนเริ่มเดิมพัน",
   },
   {
-    q: "เกมไหนใน TIGER88 แตกง่ายที่สุด?",
-    a: "ไม่มีเกมใดสามารถยืนยันว่าแตกง่ายที่สุดหรือกำหนดจังหวะรับรางวัลได้ สามารถเลือกดูเกมอย่าง Fortune Tiger, Mahjong Ways 2, Lucky Neko หรือ Wild Bandito จากกติกา ฟีเจอร์ RTP และความผันผวนแทน",
+    q: "CASINO888 เดิมพันขั้นต่ำ 1 บาทได้ทุกเกมหรือไม่?",
+    a: "ไม่จำเป็นต้องทุกเกม เนื่องจากขั้นต่ำขึ้นอยู่กับประเภทการเดิมพันและผู้ให้บริการ หากต้องการเล่นด้วยทุนเริ่มต้น 1 บาท ควรเลือกเกมที่แสดงขั้นต่ำดังกล่าวและตรวจสอบตัวเลขก่อนยืนยันเดิมพัน",
   },
   {
-    q: "โบนัส TIGER88 0.8% และ 0.3% ต่างกันอย่างไร?",
-    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับรายการที่เข้าเงื่อนไข ส่วน 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบรายละเอียดและข้อกำหนดล่าสุดก่อนกดรับโบนัสทุกครั้ง",
+    q: "โบนัส CASINO888 0.8% และ 0.3% รับอย่างไร?",
+    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับรายการที่เข้าเงื่อนไข ส่วนโบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบวิธีคำนวณและเงื่อนไขล่าสุดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
   },
 ];
 
@@ -101,56 +66,37 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxPremium as="h1" title="TIGER88 สล็อตไทเกอร์แท้ ค่ายจริง ลิขสิทธิ์เจ้าของโดยตรง">
-    <p class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      <strong class="text-[#ff2a36]">TIGER88</strong> รวมเกมสล็อตออนไลน์หลากหลายรูปแบบสำหรับผู้ที่ต้องการเลือกเกมผ่านมือถือได้สะดวก มีทั้งสล็อตธีมยอดนิยม เกมโบนัส ฟรีสปิน และเกมที่รองรับการเดิมพันเริ่มต้นระดับต่ำ
-      พร้อมโปรโมชั่นแนะนำเพื่อน <span class="font-black text-[#fdd121]">0.8%</span> และคืนยอดเสีย <span class="font-black text-[#fdd121]">0.3%</span> ตามเงื่อนไข สมาชิกสามารถตรวจสอบรายละเอียดเกม สมัคร ฝากถอน
-      และติดต่อแอดมินได้ผ่านระบบออนไลน์ตลอด 24 ชั่วโมง
+  <ContentBoxCyberCut as="h1" title="CASINO888 เว็บพนัน888 แหล่งเดิมพันออนไลน์ ครบวงจร">
+    <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+      <strong class="text-[#fdf49c]">CASINO888</strong> รวมเกมเดิมพันออนไลน์หลายประเภทไว้ให้เลือกผ่านบัญชีเดียว ทั้งบาคาร่า สล็อต หวย และฟุตบอล รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ มีเกมที่เริ่มเดิมพันในระดับต่ำตามเงื่อนไขของแต่ละค่าย
+      พร้อมโปรโมชั่นแนะนำเพื่อน <span class="font-black text-[#fae582]">0.8%</span> และคืนยอดเสีย <span class="font-black text-[#fae582]">0.3%</span>
+      สมาชิกสามารถสมัคร ตรวจสอบโบนัส ฝากถอน และเลือกเกมที่ต้องการได้จากระบบเดียว พร้อมแอดมินให้บริการตลอด 24 ชั่วโมง
     </p>
-  </ContentBoxPremium>
+  </ContentBoxCyberCut>
 
   <ProviderGrid />
 
-  <ContentBoxFloatingBadge as="h2" title="4 อันดับเกมสล็อต TIGER88 แตกง่าย ได้เงินไว">
-    <div>
-      <p class="text-left text-base leading-relaxed text-[#f2e3c9]">
-        สำหรับสมาชิกที่กำลังมองหาเกมสล็อตน่าสนใจ สามารถเริ่มดูจากเกมยอดนิยมที่มีกติกาและฟีเจอร์แตกต่างกัน เช่น Fortune Tiger, Mahjong Ways 2, Lucky Neko และ Wild Bandito โดยควรเลือกจากรูปแบบเกม RTP
-        ความผันผวน และขนาดเดิมพันที่เหมาะกับเงินทุน มากกว่าตัดสินจากคำว่า “แตกง่าย” เพราะไม่มีเกมสล็อตใดรับประกันผลรางวัลหรือจังหวะการจ่ายได้
+  <ContentBoxPremium as="h2" title="ทางเข้าเล่น CASINO888 บาคาร่า สล็อต หวย บอล ถูกลิขสิทธิ์ ไม่ผ่านเอเย่นต์">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+        <strong class="text-[#fdf49c]">CASINO888</strong> จัดหมวดหมู่เกมเดิมพันไว้ให้ค้นหาได้ง่าย ไม่ว่าจะเป็นบาคาร่าและเกมคาสิโนสด สล็อตออนไลน์ หวยออนไลน์หลายประเภท รวมถึงการเดิมพันฟุตบอลตามรายการที่เปิดให้บริการ
+        สมาชิกสามารถเลือกเกม ตรวจสอบอัตราจ่าย กติกา และขั้นต่ำของการเดิมพันก่อนยืนยันรายการ โดยบางเกมอาจรองรับการเดิมพันเริ่มต้นประมาณ <span class="font-black text-[#fae582]">1 บาท</span>
+        ขึ้นอยู่กับข้อกำหนดของผู้ให้บริการแต่ละราย
       </p>
-      <FeatureHighlights items={games} />
+      <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+        สำหรับข้อมูลเรื่องลิขสิทธิ์และสถานะการเป็นเว็บตรง ควรตรวจสอบรายละเอียดผู้ให้บริการเกมหรือใบอนุญาตที่เว็บไซต์แสดงโดยตรง เพื่อให้ข้อมูลบนหน้าเว็บสอดคล้องกับบริการจริง
+      </p>
     </div>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBox as="h2" title="โปรโมชั่นแนะนำ เดิมพันขั้นต่ำ 1 บาท">
-    <p class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      สำหรับผู้ที่ต้องการเริ่มจากเงินเดิมพันระดับต่ำ สามารถตรวจสอบเกมสล็อตที่รองรับการเดิมพันประมาณ <span class="font-black text-[#fdd121]">1 บาท</span> จากหน้าเกม <strong class="text-[#ff2a36]">
-        TIGER88
-      </strong> ได้ โดยขั้นต่ำจริงขึ้นอยู่กับเกมและผู้ให้บริการแต่ละราย นอกจากนี้ สมาชิกยังสามารถตรวจสอบโปรโมชั่นที่บัญชีมีสิทธิ์รับ เพื่อดูเปอร์เซ็นต์โบนัส รอบคำนวณ และข้อกำหนดก่อนเข้าร่วม
+  <ContentBoxNeumorphism as="h2" title="โบนัส CASINO888 ทุกยอดฝาก กดรับได้ทุกวัน">
+    <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+      สมาชิก <strong class="text-[#fdf49c]">CASINO888</strong> สามารถ Login เพื่อตรวจสอบโปรโมชั่นที่เปิดให้รับในแต่ละวัน โดยมีทั้งโบนัสจากกิจกรรมแนะนำเพื่อนและโปรโมชั่นคืนยอดเสีย แต่ละรายการอาจกำหนดยอดที่ใช้คำนวณ
+      รอบรับโบนัส และเงื่อนไขแตกต่างกัน ก่อนกดรับจึงควรอ่านรายละเอียดให้ครบถ้วน โดยเฉพาะข้อกำหนดเกี่ยวกับยอดเดิมพันและการถอนโบนัส
     </p>
-  </ContentBox>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่นแนะนำเพื่อน รับโบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ TIGER88 พื้นหลังสีดำแดงมีประกายสีทอง ด้านซ้ายเป็นนางแบบผมสีเงินยาวในชุดรัดรูปสีแดงดำที่มีคำว่า TIGER88 บนอกและเข็มขัดเลข 88 ด้านขวาบนเป็นโลโก้ TIGER สีขาวคู่กับเลข 88 สีทอง ถัดลงมาเป็นข้อความสีขาวขอบดำว่า โปรโมชั่น และแถบสีทองว่า แนะนำเพื่อน พร้อมตัวเลข 0.8% ฉากหลังมีตู้สล็อตคำว่า JACKPOT และเลข 777 วงล้อรูเล็ต เหรียญทองและชิปคาสิโนกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#5e0505]/70 shadow-[0_10px_30px_rgba(239,22,34,0.28)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      สมาชิกสามารถแชร์ลิงก์แนะนำของตนเองให้เพื่อน เมื่อเพื่อนสมัครและมีรายการตรงตามเงื่อนไข ระบบจะคำนวณโบนัสแนะนำเพื่อน <span class="font-black text-[#fdd121]">0.8%</span> สามารถตรวจสอบจำนวนการแนะนำ ยอดที่นำมาคำนวณ
-      และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่นคืนยอดเสีย รับโบนัส 0.3%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่นแนะนำเพื่อน รับโบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -162,46 +108,71 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ TIGER88 พื้นหลังสีดำแดงมีประกายสีทอง ด้านซ้ายเป็นหัวเสือโคร่งกำลังคำรามอยู่ในแสงสีส้มทอง ด้านบนเป็นโลโก้ TIGER สีขาวคู่กับเลข 88 สีทอง ถัดลงมาเป็นข้อความสีขาวขอบดำว่า โปรโมชั่น และคำว่า คืนยอดเสีย สีทอง ใต้ลงมาเป็นตัวเลขสีขาวขนาดใหญ่ 0.3% ในกรอบสีแดง ด้านขวาเป็นนางแบบผมสีเงินยาวในชุดรัดรูปสีแดงดำที่มีคำว่า TIGER88 กำลังชี้นิ้วมาที่ตัวเลข ฉากหลังมีตู้สล็อตคำว่า JACKPOT เลข 777 และชิปคาสิโนสีแดงกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#5e0505]/70 shadow-[0_10px_30px_rgba(239,22,34,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ CASINO888 พื้นหลังสีดำมีประกายสีทอง ด้านบนเป็นโลโก้คำว่า CASINO สีขาวเงินคู่กับเลข 888 ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น และคำว่า แนะนำเพื่อน สีทอง พร้อมตัวเลข 0.8% ขนาดใหญ่สีทองในกรอบสีดำ ด้านขวาเป็นนางแบบผมสีเงินยาวในชุดสีดำทองกำลังชี้นิ้วมาที่ตัวเลข ฉากหลังมีวงล้อรูเล็ต กองเหรียญทอง และไพ่โพดำกระจายอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e4c25a]/35 shadow-[0_10px_30px_rgba(228,194,90,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      หากมียอดเสียตรงตามข้อกำหนด สมาชิกสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย <span class="font-black text-[#fdd121]">0.3%</span> ตามรอบที่ <strong class="text-[#ff2a36]">TIGER88</strong> กำหนด ก่อนกดรับควรตรวจสอบประเภทเกม
-      ยอดที่ใช้คำนวณ และเงื่อนไขของโปรโมชั่นให้ครบถ้วน โดยโบนัสคืนยอดเสียไม่ได้รับประกันว่าจะชดเชยเงินที่เสียจากการเดิมพันทั้งหมด
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9ddc4]">
+      สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัครและมียอดการใช้งานตรงตามเงื่อนไข ระบบจะคำนวณโบนัสแนะนำเพื่อน <span class="font-black text-[#fae582]">0.8%</span> ตามข้อกำหนด สามารถติดตามจำนวนการแนะนำ
+      ยอดที่นำมาคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้ด้วยตนเอง
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSpecial as="h2" title="สมัครเดิมพัน TIGER88 ง่าย ๆ 3 ขั้นตอน">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่นคืนยอดเสีย รับโบนัส 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ CASINO888 พื้นหลังสีดำมีประกายสีทองและวงล้อรูเล็ต ด้านบนเป็นโลโก้ CASINO 888 ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น ในกรอบสีดำ และคำว่า คืนยอดเสีย สีขาว พร้อมตัวเลข 0.3% สีทองขนาดใหญ่ ด้านขวาเป็นนางแบบผมสีเงินยาวในชุดสีดำทอง ฉากหลังมีเหรียญทอง ไพ่ และเลข 777 กระจายอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e4c25a]/35 shadow-[0_10px_30px_rgba(228,194,90,0.28)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9ddc4]">
+      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย <span class="font-black text-[#fae582]">0.3%</span> ตามรอบประจำวันที่กำหนด ระบบจะแสดงยอดที่เข้าเกณฑ์และโบนัสที่สามารถรับได้ ก่อนกดยืนยันควรตรวจสอบประเภทเกม
+      รอบคำนวณ และข้อกำหนดของโปรโมชั่นให้เรียบร้อย
+    </p>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxTwoPremium as="h2" title="สมัคร CASINO888 ง่าย ๆ 3 ขั้นตอน">
     <div slot="left" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#f2e3c9]">
-        เริ่มต้นใช้งาน <strong class="text-[#ff2a36]">TIGER88</strong> ผ่านมือถือหรือคอมพิวเตอร์ได้ด้วย 3 ขั้นตอนหลัก
+      <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+        การสมัคร <strong class="text-[#fdf49c]">CASINO888</strong> สามารถทำผ่านมือถือหรือคอมพิวเตอร์ได้ โดยหลังเปิดบัญชีเรียบร้อย สมาชิกสามารถเลือกหมวดเกมและจัดการเครดิตผ่านระบบออนไลน์ได้ทันที
       </p>
-      <ol class="list-decimal space-y-2 pl-5 text-left text-base leading-relaxed text-[#f2e3c9] marker:font-black marker:text-[#fdd121]">
-        <li>สมัครสมาชิก TIGER88 และกรอกข้อมูลตามที่ระบบกำหนด</li>
-        <li>Login เข้าบัญชีและฝากเครดิตผ่านช่องทางที่เปิดให้บริการ</li>
-        <li>เลือกเกมสล็อต ตรวจสอบขั้นต่ำและกติกา แล้วกำหนดงบประมาณก่อนเดิมพัน</li>
+      <ol class="list-decimal space-y-2 pl-5 text-left text-base leading-relaxed text-[#e9ddc4] marker:font-black marker:text-[#e4c25a]">
+        <li>เปิดหน้าสมัคร CASINO888 และกรอกข้อมูลตามที่ระบบกำหนด</li>
+        <li>Login เข้าบัญชี ฝากเครดิต และตรวจสอบโปรโมชั่นที่มีสิทธิ์รับ</li>
+        <li>เลือกบาคาร่า สล็อต หวย หรือฟุตบอล ตรวจสอบขั้นต่ำและกติกาก่อนเดิมพัน</li>
       </ol>
     </div>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      หลังสมัครสามารถตรวจสอบเครดิต โปรโมชั่น และประวัติรายการผ่านบัญชีสมาชิกได้ หากต้องการเล่นสล็อตขั้นต่ำ <span class="font-black text-[#fdd121]">1 บาท</span> ควรตรวจสอบตัวเลขเดิมพันจริงภายในเกมก่อนกด
-      Spin
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9ddc4]">
+      หากต้องการเริ่มเดิมพันเพียง <span class="font-black text-[#fae582]">1 บาท</span> ควรตรวจสอบขั้นต่ำจริงของเกมหรือประเภทการเดิมพันนั้นก่อนทำรายการ เพราะแต่ละค่ายและแต่ละเกมอาจกำหนดขั้นต่ำไม่เท่ากัน
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoPremium>
 
   <LoginRtpSection />
 
-  <ContentBoxNeumorphism as="h2" title="TIGER88 มีแอดมินคอยให้บริการออนไลน์ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#f2e3c9]">
-      หากพบปัญหาเกี่ยวกับการสมัคร Login ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือเข้าเกมสล็อตไม่ได้ สามารถติดต่อแอดมิน <strong class="text-[#ff2a36]">TIGER88</strong> ได้ตลอด 24 ชั่วโมง
-      พร้อมแจ้งเวลา จำนวนเงิน และรายละเอียดรายการ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด รวมถึงสามารถสอบถามข้อมูลเกี่ยวกับกติกา โปรโมชั่น และขั้นตอนการใช้งานสำหรับสมาชิกใหม่ได้
-    </p>
-  </ContentBoxNeumorphism>
+  <ContentBox as="h2" title="ติดต่อสอบถามแอดมิน CASINO888 ได้ตลอด 24 ชั่วโมง">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือเข้าเกมไม่ได้ สามารถติดต่อแอดมิน <strong class="text-[#fdf49c]">CASINO888</strong>
+        ได้ตลอด 24 ชั่วโมง พร้อมแจ้งรายละเอียด เวลา และข้อมูลรายการที่เกี่ยวข้อง เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
+      </p>
+      <p class="text-left text-base leading-relaxed text-[#e9ddc4]">
+        สมาชิกใหม่ยังสามารถสอบถามขั้นตอนฝากถอน วิธีรับโปรโมชั่น หรือข้อมูลการใช้งานเกมแต่ละหมวดได้ โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+      </p>
+    </div>
+  </ContentBox>
 
   <LatestWinners />
 
   <ReviewCardSumo />
 
-  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ TIGER88" faqs={faqs} />
+  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ CASINO888" faqs={faqs} />
 
   <Navfoot />
 </MainLayout>
