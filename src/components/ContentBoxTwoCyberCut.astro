@@ -18,42 +18,45 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // more <h2> is the thing that makes that diff disagree. A <p> heading needs the
 // section to carry its own accessible name instead, which is what `label` is for.
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
+
+// The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
+// so it is one of the three ContentBox* wrappers that cannot be hoisted away.
 ---
 
 <section aria-label={sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#7a1219]/70 bg-[#0a0607]/92 p-8 text-[#e8dadb] shadow-[0_10px_30px_rgba(224,26,43,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#ff3b4d]/55 hover:shadow-[0_15px_40px_rgba(224,26,43,0.28)]"
+    class="relative isolate w-full border border-[#7a5312]/70 bg-[#0a0704]/92 p-8 text-[#e8dcc4] shadow-[0_10px_30px_rgba(217,164,65,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#d9a441]/55 hover:shadow-[0_15px_40px_rgba(217,164,65,0.28)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#e01a2b] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f4f6f8] to-transparent"></div>
-    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#e01a2b] to-transparent"></div>
-    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#f4f6f8] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#d9a441] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#e6ebf0] to-transparent"></div>
+    <div class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#d9a441] to-transparent"></div>
+    <div class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#e6ebf0] to-transparent"></div>
 
     {
       title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#f4f6f8] via-[#ff3b4d] to-[#c1121f] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
+        <TitleTag class="mb-4 bg-gradient-to-r from-[#ffeec2] via-[#e8bf5f] to-[#a67a2a] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e8dadb]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e8dcc4]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8dadb]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8dcc4]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#7a1219]/70 pb-2 text-xl leading-normal font-black text-[#ff3b4d] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#e01a2b] shadow-[0_0_5px_rgba(224,26,43,0.7)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#7a5312]/70 pb-2 text-xl leading-normal font-black text-[#f5d98a] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#d9a441] shadow-[0_0_5px_rgba(217,164,65,0.7)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8dadb] md:border-l md:border-[#7a1219]/70 md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8dcc4] md:border-l md:border-[#7a5312]/70 md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#7a1219]/70 pb-2 text-xl leading-normal font-black text-[#f4f6f8] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#cfd4da] shadow-[0_0_5px_rgba(207,212,218,0.8)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#7a5312]/70 pb-2 text-xl leading-normal font-black text-[#c2cad3] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#c2cad3] shadow-[0_0_5px_rgba(194,202,211,0.8)]" /> {titleright}
             </p>
           )
         }
