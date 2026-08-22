@@ -2,35 +2,41 @@
 export interface Props {
   titleleft?: string;
   titleright?: string;
+  /** Both column headings render at this level, set from the docx's outline.
+   *  Pass only the heading(s) the docx actually has — an unpassed title emits
+   *  no tag at all, so this box can carry one docx heading across two columns. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  iconleft?: string;
+  iconright?: string;
 }
-const { titleleft, titleright } = Astro.props;
+const { titleleft, titleright, as: HeadingTag = "h2", iconleft = "🏦", iconright = "🛡️" } = Astro.props;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-    <article class="flex flex-col gap-4 rounded-2xl border border-[#2c4d84]/55 bg-[#04122b]/85 p-6 text-left text-base leading-relaxed text-[#d5e3f7] shadow-[0_10px_30px_rgba(1,9,27,0.5)] backdrop-blur-md md:p-7">
+    <article class="flex flex-col gap-4 rounded-2xl border border-[#1c6b3f]/70 bg-[#082013]/85 p-6 text-left text-base leading-relaxed text-[#e4e7d8] shadow-[0_10px_30px_rgba(2,12,6,0.55)] backdrop-blur-md md:p-7">
       {
         titleleft && (
-          <h2 class="flex items-center gap-3 border-b border-[#dfb455]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase drop-shadow-md">
-            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f7d979] to-[#a87a1e] text-sm text-[#01091b] shadow-[0_0_10px_rgba(223,180,85,0.5)]">
-              🎧
+          <HeadingTag class="flex items-center gap-3 border-b border-[#e3c56a]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f7e8b4] uppercase drop-shadow-md">
+            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f7e8b4] to-[#8a6a26] text-sm text-[#020c06] shadow-[0_0_10px_rgba(227,197,106,0.5)]">
+              {iconleft}
             </span>
             {titleleft}
-          </h2>
+          </HeadingTag>
         )
       }
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 rounded-2xl border border-[#1d3a68]/70 bg-[#061733]/85 p-6 text-left text-base leading-relaxed text-[#d5e3f7] shadow-[0_10px_30px_rgba(1,9,27,0.5)] backdrop-blur-md md:p-7">
+    <article class="flex flex-col gap-4 rounded-2xl border border-[#2a9d5c]/45 bg-[#0d3a22]/70 p-6 text-left text-base leading-relaxed text-[#e4e7d8] shadow-[0_10px_30px_rgba(2,12,6,0.55)] backdrop-blur-md md:p-7">
       {
         titleright && (
-          <h2 class="flex items-center gap-3 border-b border-[#dfb455]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f7d979] uppercase drop-shadow-md">
-            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#8fc3ec] to-[#12508f] text-sm text-[#01091b] shadow-[0_0_10px_rgba(61,143,216,0.5)]">
-              🛡️
+          <HeadingTag class="flex items-center gap-3 border-b border-[#e3c56a]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#f7e8b4] uppercase drop-shadow-md">
+            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#2a9d5c] to-[#0d3a22] text-sm text-[#f7e8b4] shadow-[0_0_10px_rgba(42,157,92,0.5)]">
+              {iconright}
             </span>
             {titleright}
-          </h2>
+          </HeadingTag>
         )
       }
       <slot name="right" />

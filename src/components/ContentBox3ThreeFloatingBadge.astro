@@ -1,34 +1,54 @@
 ---
-const { title, titleleft, titlecenter, titleright } = Astro.props;
+export interface Props {
+  title?: string;
+  /** Level for the floating badge title, set from the docx's own outline. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  titleleft?: string;
+  titlecenter?: string;
+  titleright?: string;
+  /** Column labels default to <p>: a three-up card label is chrome unless the
+   *  docx itself nests sub-headings under this section. Pass "h3" only then. */
+  ascols?: "h3" | "h4" | "p";
+}
+const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, ascols: ColTag = "p" } = Astro.props;
+
+// The badge is `absolute -top-6`, width-capped at w-[92%] max-w-2xl so a long
+// Thai title wraps instead of overflowing. Clearance check for PREMSUK365's
+// H2 "PREMSUK365 เปิดรับทุกเลขดัง เลขอั้น เว็บไหนอั้นเว็บเรารับหมด": at 320px
+// it wraps to 3 lines of text-lg/leading-normal (3 x 27px + 24px py + 4px
+// border = 109px, bottom edge at 85px) against pt-32/128px; from sm up it is
+// 2 lines of text-2xl (2 x 36px + 28px = 100px, bottom edge at 76px) against
+// sm:pt-24/96px. Do not trim the padding back for a short title.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#10b981]/40 bg-gradient-to-b from-[#062b15] to-[#021207] p-8 pt-18 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#e3c56a]/40 bg-gradient-to-b from-[#0d3a22] to-[#03130a] p-8 pt-32 shadow-[0_20px_50px_rgba(2,12,6,0.6)] sm:pt-24">
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#10b981]/60 bg-gradient-to-b from-[#064e3b] to-[#021207] px-5 py-3 text-center shadow-[0_10px_20px_rgba(0,0,0,0.5)] sm:px-10">
-          <h2 class="bg-gradient-to-r from-yellow-100 via-yellow-400 to-yellow-600 bg-clip-text text-lg leading-normal font-black tracking-widest text-transparent uppercase sm:text-2xl">{title}</h2>
-          <div aria-hidden="true" class="absolute bottom-1 left-1/2 h-[2px] w-1/2 -translate-x-1/2 bg-[#10b981]/80 shadow-[0_0_5px_rgba(16,185,129,1)]" />
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#e3c56a]/60 bg-gradient-to-b from-[#0d3a22] to-[#020c06] px-5 py-3 text-center shadow-[0_10px_20px_rgba(2,12,6,0.5)] sm:px-10">
+          <HeadingTag class="bg-gradient-to-r from-[#f7e8b4] via-[#e3c56a] to-[#8a6a26] bg-clip-text text-lg leading-normal font-black tracking-widest text-transparent uppercase sm:text-2xl">
+            {title}
+          </HeadingTag>
+          <div aria-hidden="true" class="absolute bottom-1 left-1/2 h-[2px] w-1/2 -translate-x-1/2 bg-[#2a9d5c]/80 shadow-[0_0_5px_rgba(42,157,92,1)]" />
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:border-r md:border-[#10b981]/20 md:pr-6">
-        {titleleft && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titleleft}</h3>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e4e7d8] md:border-r md:border-[#1c6b3f]/40 md:pr-6">
+        {titleleft && <ColTag class="text-center text-xl leading-normal font-black text-[#e3c56a] uppercase drop-shadow-md">{titleleft}</ColTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:border-r md:border-[#10b981]/20 md:px-4">
-        {titlecenter && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titlecenter}</h3>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e4e7d8] md:border-r md:border-[#1c6b3f]/40 md:px-4">
+        {titlecenter && <ColTag class="text-center text-xl leading-normal font-black text-[#e3c56a] uppercase drop-shadow-md">{titlecenter}</ColTag>}
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-green-50/70 md:pl-6">
-        {titleright && <h3 class="text-center text-xl leading-normal font-black text-yellow-400 uppercase drop-shadow-md">{titleright}</h3>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e4e7d8] md:pl-6">
+        {titleright && <ColTag class="text-center text-xl leading-normal font-black text-[#e3c56a] uppercase drop-shadow-md">{titleright}</ColTag>}
         <slot name="right" />
       </article>
     </div>
   </div>
 </section>
-

@@ -1,0 +1,169 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import LatestWinnersHuay from "../components/LatestWinnersHuay.astro";
+import FaqHuay from "../components/FaqHuay.astro";
+import Navfoot from "../components/Navfoot.astro";
+import { pageGraph } from "../lib/schema";
+
+// Steps a member follows to read their own bill after a draw. No draw result,
+// no example winning number and no prediction lives on this page — the brief
+// supports how the system is used, never what a result will be.
+const steps = [
+  { icon: "🔐", label: "เข้าสู่ระบบ", detail: "เปิดบัญชีสมาชิกจากมือถือหรือคอมพิวเตอร์ แล้วเข้าหน้าประวัติโพย" },
+  { icon: "🧾", label: "เปิดบิลที่ต้องการตรวจ", detail: "เลือกรอบและเลขที่ส่งไว้ ระบบแสดงยอดแทงและอัตราจ่ายที่บันทึกไว้ตอนส่งโพย" },
+  { icon: "✅", label: "ดูสถานะรางวัล", detail: "เมื่อระบบตรวจสอบเสร็จ สถานะของบิลจะอัปเดตพร้อมยอดที่เข้าบัญชีสมาชิก" },
+];
+
+// Only the two rates the brief states. The full 1/10/50/100 tables belong to
+// the home page; this is the compact reference a bill check needs.
+const rates = [
+  { type: "เลข 2 ตัว", rate: "บาทละ 100 (1 : 100)", example: "1,000 บาท" },
+  { type: "เลข 3 ตัว", rate: "บาทละ 1,000 (1 : 1,000)", example: "10,000 บาท" },
+];
+
+const faqs = [
+  {
+    q: "ตรวจโพย PREMSUK365 ย้อนหลังได้ที่ไหน",
+    a: "เปิดประวัติโพยในบัญชีสมาชิกได้ด้วยตัวเอง ระบบจะแสดงรอบที่ส่ง เลขที่เลือก ยอดแทง และอัตราจ่ายที่บันทึกไว้ตอนส่งโพย ทำให้เทียบกับสถานะที่ระบบอัปเดตหลังตรวจสอบเสร็จได้ทันที",
+  },
+  {
+    q: "โพยที่ถูกรางวัลคิดยอดตามเรทเท่าไร",
+    a: "ตามเรทที่กำหนดสำหรับหน้านี้ เลข 2 ตัวจ่ายบาทละ 100 และเลข 3 ตัวจ่ายบาทละ 1,000 อย่างไรก็ตามให้ยึดอัตราจ่ายที่ปรากฏบนหน้าส่งโพยก่อนกดยืนยันเป็นหลัก เพราะบางรอบหรือบางประเภทอาจมีเงื่อนไขเฉพาะ",
+  },
+  {
+    q: "สถานะบิลไม่ตรงกับที่ส่งไว้ ต้องทำอย่างไร",
+    a: "ตรวจสอบประวัติโพยหรือธุรกรรมในบัญชีก่อน หากยังพบความผิดปกติ ให้ติดต่อแอดมิน PREMSUK365 พร้อมแจ้งเวลา จำนวนเงิน ประเภทหวย และรายละเอียดรายการ เพื่อให้เจ้าหน้าที่ตรวจสอบต่อได้อย่างรวดเร็ว",
+  },
+];
+
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 158.
+const pageDescription =
+  "ตรวจหวย PREMSUK365 เช็กสถานะโพยและบิลย้อนหลังได้เองจากบัญชีสมาชิก พร้อมยอดตามเรทเลข 2 ตัวบาทละ 100 และเลข 3 ตัวบาทละ 1,000 ไม่ลบบิล ไม่เบี้ยวโพย แจ้งแอดมินได้";
+
+const graph = pageGraph(Astro, {
+  name: "ตรวจหวย PREMSUK365 เช็กสถานะโพยและยอดตามเรท",
+  description: pageDescription,
+  faqs,
+  breadcrumb: [
+    { name: "หน้าแรก", path: "/" },
+    { name: "ตรวจหวย", path: "/ตรวจหวย" },
+  ],
+});
+---
+
+<MainLayout title="ตรวจหวย PREMSUK365 เช็กสถานะโพย ประวัติบิล และยอดตามเรทด้วยตัวเอง" description={pageDescription}>
+  <script type="application/ld+json" set:html={graph} />
+
+  <Announcement />
+
+  <section class="mx-auto my-8 w-full max-w-5xl px-4">
+    <div class="relative isolate overflow-hidden rounded-3xl border border-[#c1121f]/50 bg-[#3d0b0e]/90 p-8 shadow-[0_15px_40px_rgba(227,197,106,0.2)] backdrop-blur-xl md:p-12">
+      <div class="pointer-events-none absolute -top-20 -left-20 -z-10 h-64 w-64 rounded-full bg-[#e3c56a]/15 blur-[60px]"></div>
+      <div class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-64 w-64 rounded-full bg-[#1c6b3f]/30 blur-[60px]"></div>
+
+      <div class="flex w-full flex-col items-center">
+        <span aria-hidden="true" class="mb-4 text-5xl drop-shadow-[0_0_15px_rgba(227,197,106,0.8)]">🧾</span>
+        <h1 class="mb-3 bg-gradient-to-r from-[#f7e8b4] via-[#e3c56a] to-[#8a6a26] bg-clip-text text-center text-4xl font-black tracking-widest text-transparent uppercase">
+          ตรวจหวย PREMSUK365
+        </h1>
+        <p class="w-full text-left text-base leading-relaxed text-[#f4e7d3]">
+          หน้านี้อธิบายวิธีตรวจโพยของคุณเองกับ PREMSUK365 ตั้งแต่เปิดประวัติบิล ดูเลขและยอดที่ส่งไว้ ไปจนถึงการอ่านสถานะรางวัลและยอดที่เข้าบัญชี เว็บไซต์ไม่ประกาศผลรางวัลเองและไม่ทำนายเลขใด ๆ
+          ให้ยึดผลที่หน่วยงานผู้จัดออกรางวัลประกาศ ส่วนวงเงินรับแทง เลขอั้น และอัตราจ่ายให้ยึดข้อมูลที่ระบบแสดงในรอบที่ส่งโพยเป็นหลัก
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3" aria-label="ขั้นตอนตรวจโพยด้วยตัวเองสามขั้นตอน">
+        {
+          steps.map((step, i) => (
+            <div class="flex flex-col gap-2 rounded-2xl border border-[#c1121f]/40 bg-[#1a0405]/60 p-5 transition-colors hover:border-[#e3c56a]/50">
+              <div class="flex items-center gap-3">
+                <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#f7e8b4] to-[#8a6a26] text-sm font-black text-[#1a0405]">
+                  {i + 1}
+                </span>
+                <span aria-hidden="true" class="text-xl">
+                  {step.icon}
+                </span>
+                <span class="text-base font-black tracking-wide text-[#f7e8b4]">{step.label}</span>
+              </div>
+              <p class="text-left text-base leading-relaxed text-[#cbaa8d]">{step.detail}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="/login"
+          class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#8a6a26] via-[#e3c56a] to-[#8a6a26] px-8 py-4 font-black text-[#1a0405] shadow-[0_5px_15px_rgba(227,197,106,0.4)] transition-transform hover:scale-105">
+          <span aria-hidden="true">🔒</span> เข้าสู่ระบบเพื่อตรวจโพย
+        </a>
+        <a
+          href="/register"
+          class="flex items-center justify-center gap-2 rounded-xl border border-[#2a9d5c]/60 bg-[#0d3a22] px-8 py-4 font-bold text-[#f7e8b4] shadow-[0_5px_15px_rgba(42,157,92,0.25)] transition-colors hover:bg-[#1c6b3f]">
+          <span aria-hidden="true">⚡</span> สมัครสมาชิก PREMSUK365
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ContentBoxHuay title="ขั้นตอนตรวจโพย PREMSUK365 หลังผลรางวัลประกาศ" as="h2">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        เมื่อผลของรอบที่คุณส่งโพยไว้ถูกประกาศแล้ว ให้เทียบเลขในบิลกับผลตามประเภทที่แทงจริง เพราะเลขชุดเดียวกันใช้ตัดสินคนละประเภทกัน การอ่านผิดประเภทคือสาเหตุที่พบบ่อยที่สุดของการเข้าใจว่าโพยไม่ถูกรางวัล
+        สมาชิก PREMSUK365 เปิดดูบิลย้อนหลังได้เองจากบัญชี ระบบบันทึกทั้งรอบที่ส่ง เลขที่เลือก ยอดแทง และอัตราจ่ายที่แสดงไว้ตอนยืนยันรายการ จึงตรวจย้อนกลับได้ว่ารายการที่ส่งไปตรงกับที่ตั้งใจหรือไม่
+        เมื่อระบบตรวจสอบเสร็จ สถานะของบิลจะอัปเดตพร้อมยอดตามเรทที่ปล่อยเข้าบัญชีให้ถอนได้ ระหว่างรอตรวจสอบ ควรเก็บข้อมูลบิลไว้จนกว่ารายการจะเสร็จสมบูรณ์ และไม่ควรเปิดเผยรหัสผ่านหรือ OTP แก่บุคคลอื่นไม่ว่ากรณีใด
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <ContentBoxHuay title="ยอดตามเรทเมื่อโพยถูกรางวัล เลข 2 ตัวและเลข 3 ตัว" as="h2">
+    <div>
+      <div class="overflow-x-auto rounded-xl border border-[#c1121f]/35 bg-[#1a0405]">
+        <table class="w-full min-w-[520px] text-left text-sm">
+          <thead class="bg-gradient-to-r from-[#511014] to-[#1a0405]">
+            <tr class="text-[#f7e8b4]">
+              <th class="p-4 font-bold">ประเภทเลข</th>
+              <th class="p-4 text-center font-bold">อัตราจ่าย</th>
+              <th class="p-4 text-right font-bold">ยอดตามเรทเมื่อแทง 10 บาท</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#c1121f]/20 text-[#f4e7d3]">
+            {
+              rates.map((row) => (
+                <tr class="transition-colors hover:bg-[#511014]/60">
+                  <td class="p-4 font-bold text-[#f4e7d3]">{row.type}</td>
+                  <td class="p-4 text-center text-lg font-black tracking-wider text-[#e3c56a]">{row.rate}</td>
+                  <td class="p-4 text-right text-lg font-black tracking-wider text-[#2a9d5c]">{row.example}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6 text-left text-base leading-relaxed text-[#f4e7d3]">
+        ตัวอย่างในตารางคำนวณจากเรทที่กำหนดสำหรับหน้านี้ คือเลข 2 ตัวบาทละ 100 และเลข 3 ตัวบาทละ 1,000 ใช้ประเมินยอดเบื้องต้นได้ก่อนตัดสินใจ แต่เมื่อจะส่งโพยจริงให้ยึดอัตราจ่ายที่ปรากฏบนหน้ายืนยันโพยเป็นหลัก
+        เพราะหวยแต่ละประเภทหรือแต่ละรอบอาจมีเงื่อนไขต่างกัน และเลขที่มีผู้เลือกเดิมพันจำนวนมากในรอบนั้นอาจมีวงเงินรับที่จำกัด PREMSUK365 แสดงอัตราจ่ายและวงเงินที่รับได้ให้ตรวจสอบก่อนกดยืนยันทุกครั้ง
+        เมื่อส่งโพยสำเร็จแล้วบิลจะถูกเก็บไว้ในประวัติ ไม่ลบบิล ไม่เบี้ยวโพย จึงเทียบย้อนหลังได้เสมอ
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <LatestWinnersHuay />
+
+  <ContentBoxHuay title="โพยหรือรายการฝากถอนมีปัญหา แจ้งแอดมิน PREMSUK365 ได้ทันที" as="h2">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        หากส่งโพยไม่สำเร็จ เลขที่ต้องการแทงไม่แสดง ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง หรือพบยอดในบิลไม่ตรงกับรายการ ให้ตรวจสอบประวัติโพยและประวัติธุรกรรมในบัญชีก่อนเป็นอันดับแรก
+        เพราะรายการส่วนใหญ่อธิบายได้จากข้อมูลที่ระบบบันทึกไว้แล้ว หากยังพบความผิดปกติ ติดต่อแอดมิน PREMSUK365 พร้อมแจ้งประเภทหวย รอบเดิมพัน เวลา จำนวนเงิน และรายละเอียดธุรกรรม เพื่อให้ตรวจสอบได้ตรงจุด
+        สมาชิกควรเก็บข้อมูลบิลและหลักฐานการทำรายการไว้จนกว่าปัญหาจะได้รับการตรวจสอบเสร็จสิ้น ส่วนการฝากถอนออโต้ผ่านวอลเลทหรือธนาคารที่รองรับ สามารถติดตามสถานะและประวัติได้ด้วยตัวเองจากบัญชีสมาชิกตลอดเวลา
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <FaqHuay title="คำถามที่พบบ่อยเรื่องการตรวจโพย PREMSUK365" faqs={faqs} />
+
+  <Navfoot />
+</MainLayout>

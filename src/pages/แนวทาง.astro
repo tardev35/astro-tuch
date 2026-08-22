@@ -1,0 +1,189 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import Navfoot from "../components/Navfoot.astro";
+import { pageGraph } from "../lib/schema";
+
+// หน้านี้เป็น "แนวทางการจัดโพย" ไม่ใช่การทำนายผล — เว็บไม่ประกาศผลรางวัลเองและไม่รับประกัน
+// เลขใด ทุกการ์ดจึงพูดถึงสิ่งที่ตรวจสอบได้จริงก่อนกดยืนยัน (เลขที่รอบนั้นเปิดรับ วงเงิน
+// อัตราจ่าย เวลาปิดรับ) ไม่ใช่ "เลขเด่นงวดนี้"
+//
+// เรทที่อ้างได้มีชุดเดียวคือ เลข 2 ตัวบาทละ 100 และเลข 3 ตัวบาทละ 1,000 ตาม content.txt
+//
+// การ์ดเหล่านี้เป็น chrome ไม่ใช่หัวข้อบทความ ชื่อการ์ดจึงเรนเดอร์เป็น span ไม่ใช่แท็กหัวข้อ
+// และ label ของ grid ย้ายไปอยู่บน aria-label ของ section แทน
+const tips = [
+  {
+    title: "แนวทางจัดโพยหวยรัฐบาลไทย",
+    desc: "จุดที่ควรเปิดดูให้ครบก่อนส่งโพย ทั้งเลขที่รอบนั้นเปิดรับ วงเงินที่ระบบรับได้ และอัตราจ่ายของประเภทที่เลือก",
+    type: "หวยรัฐบาลไทย",
+    note: "ทุกงวด",
+    hot: true,
+  },
+  {
+    title: "อ่านแนวทางหวยลาวก่อนรอบปิดรับ",
+    desc: "วิธีกระจายเลขไม่ให้ยอดไปกระจุกอยู่ตัวเดียว พร้อมดูวงเงินคงเหลือของเลขที่มีคนแทงหนักในรอบนั้น",
+    type: "หวยลาว",
+    note: "ทุกรอบ",
+    hot: true,
+  },
+  {
+    title: "สถิติเลขท้าย 2 ตัวหวยฮานอยย้อนหลัง",
+    desc: "สถิติรอบย้อนหลังใช้เป็นข้อมูลประกอบการคัดเลขเท่านั้น ไม่ได้บอกผลของรอบถัดไป ควรใช้คู่กับการคุมยอดเสมอ",
+    type: "หวยฮานอย",
+    note: "ย้อนหลัง",
+    hot: false,
+  },
+  {
+    title: "หวยยี่กี่รอบถี่ ต้องคุมอะไรบ้าง",
+    desc: "ยี่กี่เปิดรอบถี่กว่าประเภทอื่นมาก จึงควรตั้งยอดต่อรอบและจุดหยุดไว้ล่วงหน้าก่อนกดยืนยันโพยทุกครั้ง",
+    type: "หวยยี่กี่",
+    note: "ทุกรอบ",
+    hot: false,
+  },
+  {
+    title: "อ่านแนวทางหวยหุ้นให้เป็นก่อนส่งโพย",
+    desc: "หวยหุ้นอิงอะไร รอบไหนเปิดรับบ้าง และควรตรวจอัตราจ่ายกับเวลาปิดรับตรงจุดไหนก่อนยืนยันรายการ",
+    type: "หวยหุ้น",
+    note: "ทุกวัน",
+    hot: false,
+  },
+  {
+    title: "ตรวจโพยผ่านมือถือหลังผลประกาศ",
+    desc: "ขั้นตอนเปิดดูบิลย้อนหลังได้เองจากบัญชีสมาชิก ดูสถานะรางวัลและยอดตามเรทที่ปล่อยเข้าบัญชี",
+    type: "ตรวจโพย",
+    note: "ทุกงวด",
+    hot: false,
+  },
+];
+
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 158.
+const pageDescription =
+  "แนวทางหวย PREMSUK365 รวมวิธีคัดเลข อ่านสถิติย้อนหลัง และจัดโพยให้พอดีวงเงินที่แต่ละรอบเปิดรับ ครอบคลุมหวยรัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น พร้อมเรทที่ตรวจสอบได้";
+
+const graph = pageGraph(Astro, {
+  name: "แนวทางหวย PREMSUK365 วิธีคัดเลขและจัดโพยก่อนรอบปิดรับ",
+  description: pageDescription,
+  breadcrumb: [
+    { name: "หน้าแรก", path: "/" },
+    { name: "แนวทาง", path: "/แนวทาง" },
+  ],
+});
+---
+
+<MainLayout title="แนวทางหวย PREMSUK365 วิธีคัดเลขและจัดโพย รัฐบาลไทย ลาว ฮานอย ยี่กี่ หุ้น" description={pageDescription}>
+  <script type="application/ld+json" set:html={graph} />
+
+  <Announcement />
+
+  <section class="mx-auto my-8 w-full max-w-7xl px-4">
+    <div class="mb-10 flex flex-col items-center">
+      <span aria-hidden="true" class="mb-2 text-4xl drop-shadow-[0_0_10px_rgba(227,197,106,0.8)]">🔮</span>
+      <h1 class="bg-gradient-to-r from-[#f7e8b4] via-[#e3c56a] to-[#8a6a26] bg-clip-text text-center text-4xl font-black tracking-widest text-transparent uppercase">แนวทางหวย PREMSUK365</h1>
+      <p class="mt-3 w-full text-left text-base leading-relaxed text-[#f4e7d3]">
+        หน้านี้รวบรวมแนวทางการคัดเลขและจัดโพยของ <strong class="text-[#f7e8b4]">PREMSUK365</strong> ให้สมาชิกวางแผนได้ก่อนรอบปิดรับ ครอบคลุมทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย หวยยี่กี่ และหวยหุ้น
+        โดยวงเงินรับแทง เลขอั้น เวลาเปิด-ปิด และอัตราจ่ายของหวยแต่ละประเภทกำหนดไว้ไม่เหมือนกัน จึงควรยึดข้อมูลที่ระบบแสดงในรอบนั้นก่อนกดยืนยันทุกครั้ง เว็บไซต์ไม่ประกาศผลรางวัลเองและไม่ทำนายเลขใด ๆ
+      </p>
+    </div>
+
+    <h2 class="mb-6 text-center text-2xl leading-normal font-black tracking-widest text-[#e3c56a] uppercase">รวมแนวทางหวยล่าสุด ก่อนถึงรอบปิดรับ</h2>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-label="แนวทางหวยแยกตามประเภท">
+      {
+        tips.map((tip) => (
+          <div class="group relative isolate flex flex-col overflow-hidden rounded-2xl border border-[#c1121f]/40 bg-[#3d0b0e]/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#e3c56a]/55 hover:shadow-[0_15px_30px_rgba(227,197,106,0.22)]">
+            <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#511014]/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <div class="mb-4 flex items-center justify-between">
+              <span class="rounded-full border border-[#c1121f]/55 bg-[#1a0405] px-3 py-1 text-xs font-bold text-[#f7e8b4]">{tip.type}</span>
+              {tip.hot && (
+                <span class="flex animate-pulse items-center gap-1 text-xs font-black text-[#e3c56a]">
+                  <span aria-hidden="true">🔥</span> มาแรง
+                </span>
+              )}
+              {!tip.hot && <span class="text-xs font-medium text-[#cbaa8d]">{tip.note}</span>}
+            </div>
+
+            <span class="mb-2 block text-xl font-bold text-[#f4e7d3] transition-colors group-hover:text-[#f7e8b4]">{tip.title}</span>
+
+            <p class="mb-6 text-left text-base leading-relaxed text-[#cbaa8d]">{tip.desc}</p>
+
+            <div class="mt-auto flex items-center gap-2 border-t border-[#c1121f]/30 pt-4 text-sm font-bold text-[#e3c56a]">
+              <span aria-hidden="true">💰</span>
+              อัตราจ่ายตามที่ระบบแสดงในรอบนั้น
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <ContentBoxHuay title="อ่านแนวทางหวยให้ใช้งานได้จริงก่อนส่งโพย" as="h2">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        แนวทางที่ใช้ได้จริงคือแนวทางที่ตรวจสอบได้ก่อนกดยืนยัน ไม่ใช่การเดาผลล่วงหน้า สิ่งที่ควรเปิดดูให้ครบทุกครั้งคือ
+        <strong class="text-[#f7e8b4]">เลขที่รอบนั้นเปิดรับ วงเงินที่ระบบรับได้ อัตราจ่ายของประเภทที่เลือก และเวลาปิดรับ</strong>
+        เพราะสี่อย่างนี้เป็นตัวกำหนดว่ารายการจะคิดผลอย่างไรและแทงได้สูงสุดเท่าไร ส่วนสถิติรอบย้อนหลังใช้เป็นข้อมูลประกอบการคัดเลขได้ แต่ไม่ได้บอกผลของรอบถัดไป
+        <strong class="text-[#f7e8b4]">ไม่มีเลขหรือสูตรใดรับประกันผลได้เสียล่วงหน้า</strong> การเดิมพันจึงมีความเสี่ยง ควรกำหนดงบประมาณให้เหมาะสมทุกครั้ง
+      </p>
+
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f4e7d3]">
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#e3c56a]">🎯</span>
+          <span><strong class="text-[#f7e8b4]">คัดเลขก่อน แล้วค่อยดูวงเงิน</strong> เลือกเลขที่มีในใจให้ครบก่อน จากนั้นเปิดหน้าส่งโพยดูว่ารอบนี้ยังรับเลขนั้นอยู่หรือไม่ และรับได้อีกเท่าไร</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#e3c56a]">🎱</span>
+          <span><strong class="text-[#f7e8b4]">กระจายยอด อย่ากระจุกตัวเดียว</strong> แบ่งยอดออกเป็นหน่วยย่อยไว้ล่วงหน้า แล้ววางต่อเลขให้อยู่ในระดับที่รับความผันผวนของรอบนั้นได้</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#e3c56a]">⏱️</span>
+          <span><strong class="text-[#f7e8b4]">เผื่อเวลาก่อนรอบปิดรับ</strong> หวยแต่ละประเภทปิดรับคนละเวลา การส่งโพยชิดเวลาปิดทำให้ไม่เหลือจังหวะแก้ไขเมื่อกรอกผิด</span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#e3c56a]">🧾</span>
+          <span><strong class="text-[#f7e8b4]">เก็บบิลไว้ทุกครั้ง</strong> เมื่อส่งโพยสำเร็จ ระบบบันทึกรอบ เลข ยอดแทง และอัตราจ่ายที่แสดงตอนยืนยันไว้ให้ เช็กย้อนหลังได้เองจากบัญชีสมาชิก</span>
+        </li>
+      </ul>
+    </div>
+  </ContentBoxHuay>
+
+  <ContentBoxHuay title="PREMSUK365 รับเลขดัง เลขอั้น พร้อมอัตราจ่ายที่ตรวจสอบได้ก่อนยืนยัน" as="h2">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        สายหวยที่มีเลขในใจสามารถเข้ามาตรวจสอบการรับแทงกับ PREMSUK365 ได้ก่อนส่งโพย ไม่ว่าจะเป็นเลขดัง เลขกระแส หรือเลขที่บางรอบมีผู้เลือกเดิมพันจำนวนมาก
+        ระบบจะแสดงวงเงินที่สามารถรับได้ก่อนยืนยันรายการ ทำให้เห็นรายละเอียดของเลขและยอดเดิมพันอย่างชัดเจน <strong class="text-[#f7e8b4]">เว็บไหนอั้นเว็บเรารับหมด</strong>
+        ตามวงเงินที่ระบบเปิดรับในรอบนั้น และเมื่อส่งโพยสำเร็จแล้วบิลจะถูกเก็บไว้ในประวัติ <strong class="text-[#f7e8b4]">ไม่ลบบิล ไม่เบี้ยวโพย</strong> จึงเทียบย้อนหลังได้เสมอ
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        เรทที่กำหนดสำหรับหน้านี้คือ <strong class="text-[#f7e8b4]">เลข 2 ตัวบาทละ 100</strong> และ <strong class="text-[#f7e8b4]">เลข 3 ตัวบาทละ 1,000</strong>
+        ใช้ประเมินยอดเบื้องต้นได้ก่อนตัดสินใจ เช่น เลข 2 ตัวลงเดิมพัน 10 บาท ยอดตามเรทเมื่อผลตรงตามเงื่อนไขจะเท่ากับ 1,000 บาท ส่วนเลข 3 ตัวลง 10 บาท จะเท่ากับ 10,000 บาท
+        อย่างไรก็ตามให้ยึดอัตราจ่ายที่ปรากฏบนหน้าส่งโพยก่อนกดยืนยันเป็นหลัก เพราะหวยแต่ละประเภทหรือแต่ละรอบอาจมีเงื่อนไขต่างกัน
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#f4e7d3]">
+        หากส่งโพยไม่สำเร็จ เลขที่ต้องการแทงไม่แสดง ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง หรือพบยอดในบิลไม่ตรงกับรายการ ให้ตรวจสอบประวัติโพยและประวัติธุรกรรมในบัญชีก่อน
+        หากยังพบความผิดปกติ ติดต่อแอดมิน PREMSUK365 พร้อมแจ้งประเภทหวย รอบเดิมพัน เวลา และจำนวนเงิน เพื่อให้ตรวจสอบได้ตรงจุด และไม่ควรเปิดเผยรหัสผ่านหรือ OTP แก่บุคคลอื่นไม่ว่ากรณีใด
+      </p>
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="/register"
+          aria-label="สมัครสมาชิก PREMSUK365"
+          class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#8a6a26] via-[#e3c56a] to-[#8a6a26] px-8 py-4 font-black text-[#1a0405] shadow-[0_5px_15px_rgba(227,197,106,0.4)] transition-transform hover:scale-105">
+          <span aria-hidden="true">⚡</span> สมัครสมาชิก PREMSUK365
+        </a>
+        <a
+          href="/ตรวจหวย"
+          aria-label="ตรวจหวยและเช็กสถานะโพย PREMSUK365"
+          class="flex items-center justify-center gap-2 rounded-xl border border-[#2a9d5c]/60 bg-[#0d3a22] px-8 py-4 font-bold text-[#f7e8b4] shadow-[0_5px_15px_rgba(42,157,92,0.25)] transition-colors hover:bg-[#1c6b3f]">
+          <span aria-hidden="true">🧾</span> ตรวจโพยของคุณ
+        </a>
+      </div>
+    </div>
+  </ContentBoxHuay>
+
+  <Navfoot />
+</MainLayout>

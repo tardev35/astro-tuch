@@ -11,29 +11,36 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
 // overflowing the card.
 //
-// Worst case re-checked for HIX168: the h1 title "HIX168 สล็อตปั่นแตกไว
-// แหล่งรวมเกมเล่นง่าย กำไรดี" wraps to 3 lines at 320px (3 x 30px + 20px py +
-// 4px border = 114px, bottom edge at 90px) against pt-44/176px, and to 2 lines
-// from sm up (2 x 36px + 24px = 96px, bottom edge at 72px) against pt-32/128px.
-// Do not trim it back for a short title — the next brand's may be longer.
+// Worst case re-checked for PREMSUK365's h1, "PREMSUK365 หวยที่ดีต้องเปรมสุข
+// เว็บแทงหวยออนไลน์ที่ดีที่สุดในตอนนี้". The heading grows one step per
+// breakpoint, so each one is measured against its OWN line-height, not the
+// base's:
+//   base  text-xl  (30px/line) -> up to 4 lines = 4x30 + 20 py + 4 border
+//                                = 144px, bottom edge 120px vs pt-44/176px
+//   sm    text-2xl (36px/line) -> up to 3 lines = 132px, edge 108px vs
+//                                pt-32/128px
+//   md    text-3xl (45px/line) -> up to 3 lines = 159px, edge 135px, which
+//                                OVERFLOWS pt-32/128px — hence md:pt-36/144px
+// Do not trim any of these back for a short title — the next brand's may be
+// longer, and md is the tight one.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#1e7bf5]/40 bg-gradient-to-b from-[#0d1730]/95 to-[#01030d]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#d6e2f5] shadow-[0_10px_30px_rgba(30,123,245,0.22)] sm:pt-32 md:pt-32">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#1e7bf5]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#cfd8e6]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#e3c56a]/40 bg-gradient-to-b from-[#0d3a22]/95 to-[#03130a]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#e4e7d8] shadow-[0_10px_30px_rgba(227,197,106,0.22)] sm:pt-32 md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e3c56a]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#2a9d5c]/20 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#1e7bf5]/40 bg-[#01030d] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(30,123,245,0.3)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#6fb4ff]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e3c56a]/40 bg-[#03130a] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(227,197,106,0.3)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#2a9d5c]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#cfe4ff] via-[#1e7bf5] to-[#0a3fa8] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#f7e8b4] via-[#e3c56a] to-[#8a6a26] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#6fb4ff]">
+          <span aria-hidden="true" class="shrink-0 text-[#2a9d5c]">
             ✦
           </span>
         </div>
