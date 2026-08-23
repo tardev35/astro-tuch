@@ -33,7 +33,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://กินดี-365.net",
+  site: "https://หวยกินดี-365.net",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

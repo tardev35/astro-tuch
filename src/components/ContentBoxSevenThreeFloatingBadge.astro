@@ -9,18 +9,28 @@ export interface Props {
   titleright?: string;
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
+
+// The badge is width-capped (w-[92%] max-w-2xl) and centred, never
+// whitespace-nowrap, so a full docx sentence wraps instead of blowing past the
+// viewport. It sits at -top-6, so the card's top padding has to clear the
+// badge height minus that 24px offset: หวยกินดี365's section 6 title
+// ("ฝากเครดิตออโต้ เว็บ หวยกินดี365 ได้ทุกช่องทางธนาคารและวอลเลท") wraps to three
+// lines at text-lg on a 320-375px viewport (3 x 27px + 20px py + 4px border =
+// 105px, bottom edge at 81px), which pt-32 (128px) clears, and to two lines at
+// text-2xl from md (96px, bottom edge at 72px), which md:pt-28 (112px) clears.
+// Do not shrink either — they were not sized for a short placeholder title.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#62ae2d]/30 bg-gradient-to-b from-[#122008]/95 to-[#060a04]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(98,174,45,0.16)] md:pt-28">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#8fd45e]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#d9b95c]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#f6db6b]/35 bg-gradient-to-b from-[#062a6b]/95 to-[#03153b]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(2,10,30,0.6)] md:pt-28">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#0a6dfb]/35 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f6db6b]/22 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#62ae2d]/40 bg-[#0d1408] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(98,174,45,0.22)] sm:px-8">
-          <HeadingTag class="bg-gradient-to-r from-[#f2f8ec] via-[#8fd45e] to-[#d9b95c] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#f6db6b]/60 bg-[#03153b] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(246,219,107,0.30)] sm:px-8">
+          <HeadingTag class="bg-gradient-to-r from-[#fbe473] via-[#f6db6b] to-[#c9a23a] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
         </div>
@@ -28,13 +38,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5d3]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#8fd45e]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dce7fb]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#5ec2f5]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5d3] md:border-l md:border-[#62ae2d]/30 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#d9b95c]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dce7fb] md:border-l md:border-[#f6db6b]/30 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#f6db6b]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
