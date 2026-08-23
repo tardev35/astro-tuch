@@ -11,10 +11,13 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ JUDTEM168 เป็นสัญลักษณ์โพดำสีทองเมทัลลิกที่มีรูปข้าวหลามตัดอยู่ตรงกลาง ตามด้วยตัวอักษร JUDTEM168 พิมพ์ใหญ่สามมิติสีทองไล่เงา";
+const logoAlt = "โลโก้ กินดี365 คำว่า กินดี เป็นตัวอักษรไทยสีทองเมทัลลิกวางเหนือเลข 365 สีฟ้าเงิน ล้อมด้วยวงกลมเส้นทองที่ปลายแตกเป็นใบไม้สามใบ";
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
+//
+// ตรวจหวย/แนวทาง อยู่ในเมนูเพราะแบรนด์นี้เป็นเว็บหวย ทั้งสองหน้าถูก route
+// อยู่ใน src/pages/ จริง
 //
 // ไม่มี /ทางเข้า ในเมนูโดยตั้งใจ: toggle ของ register/login เปิดอยู่ หน้านั้น
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
@@ -24,14 +27,16 @@ const links = [
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "♠️" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔎" },
+  { name: "แนวทาง", path: "/แนวทาง", icon: "📊" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🧾" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏛️" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-40 w-full bg-[#050301]/95 shadow-[0_4px_20px_rgba(0,0,0,0.7)] backdrop-blur-lg">
+  <nav class="relative z-40 w-full bg-[#00081f]/95 shadow-[0_4px_20px_rgba(0,0,0,0.7)] backdrop-blur-lg">
     <div class="bg-theme-oklab absolute bottom-0 left-0 h-[2px] w-full opacity-80"></div>
 
     <div class="flex h-[65px] w-full items-center justify-between px-3 md:px-6 lg:h-[80px]">
@@ -46,26 +51,26 @@ const links = [
                 fetchpriority="high"
                 widths={[110, 220, 330]}
                 sizes="110px"
-                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(250,226,124,0.5)] lg:h-[45px]"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(246,218,115,0.5)] lg:h-[45px]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#fff6d4] to-[#cc9c2d] bg-clip-text text-2xl font-black tracking-widest text-transparent">{BRAND_NAME}</span>
+              <span class="bg-gradient-to-b from-[#fbeeb8] to-[#d0a63a] bg-clip-text text-2xl font-black tracking-widest text-transparent">{BRAND_NAME}</span>
             )
           }
         </a>
       </div>
 
-      <div class="hidden h-full items-center justify-center gap-8 lg:flex xl:gap-10">
+      <div class="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-8">
         {
           links.map((link) => (
             <a href={link.path} class="group relative flex h-full items-center gap-1.5 text-sm font-bold transition-all xl:text-base">
               <span aria-hidden="true">{link.icon}</span>
-              <span class={`transition-colors duration-300 ${isActive(link.path) ? "text-[#fae27c] drop-shadow-[0_0_8px_rgba(250,226,124,0.8)]" : "text-[#b9a67d]/90 group-hover:text-[#fae27c]"}`}>
+              <span class={`transition-colors duration-300 ${isActive(link.path) ? "text-[#f6da73] drop-shadow-[0_0_8px_rgba(246,218,115,0.8)]" : "text-[#a9c4e8]/90 group-hover:text-[#f6da73]"}`}>
                 {link.name}
               </span>
-              {isActive(link.path) && <div class="absolute bottom-0 left-0 h-[3px] w-full rounded-t-md bg-[#fae27c] shadow-[0_-2px_10px_rgba(250,226,124,0.9)]" />}
+              {isActive(link.path) && <div class="absolute bottom-0 left-0 h-[3px] w-full rounded-t-md bg-[#f6da73] shadow-[0_-2px_10px_rgba(246,218,115,0.9)]" />}
             </a>
           ))
         }
@@ -74,25 +79,25 @@ const links = [
       <div class="z-50 flex items-center gap-2 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded border border-[#cc9c2d]/70 px-6 py-2 text-sm font-bold text-[#fae27c] transition-all hover:bg-[#cc9c2d]/20 hover:shadow-[0_0_15px_rgba(204,156,45,0.45)] lg:flex">
+          class="hidden items-center justify-center rounded border border-[#d0a63a]/70 px-6 py-2 text-sm font-bold text-[#f6da73] transition-all hover:bg-[#d0a63a]/20 hover:shadow-[0_0_15px_rgba(208,166,58,0.45)] lg:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="bg-theme-oklab hidden items-center justify-center rounded px-6 py-2 text-sm font-extrabold text-[#050301] shadow-[0_0_20px_rgba(204,156,45,0.55)] transition-all hover:brightness-110 lg:flex">
+          class="bg-theme-oklab hidden items-center justify-center rounded px-6 py-2 text-sm font-extrabold text-[#00081f] shadow-[0_0_20px_rgba(208,166,58,0.55)] transition-all hover:brightness-110 lg:flex">
           สมัครสมาชิก
         </a>
 
         <div class="flex items-center gap-2 lg:hidden">
           <a
             href="/register"
-            class="bg-theme-oklab flex items-center justify-center rounded px-3 py-1.5 text-[11px] font-bold text-[#050301] shadow-[0_0_10px_rgba(204,156,45,0.55)] md:px-4 md:text-xs">
+            class="bg-theme-oklab flex items-center justify-center rounded px-3 py-1.5 text-[11px] font-bold text-[#00081f] shadow-[0_0_10px_rgba(208,166,58,0.55)] md:px-4 md:text-xs">
             สมัครสมาชิก
           </a>
-          <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 rounded border border-[#cc9c2d]/45 bg-[#cc9c2d]/10 p-1.5" aria-label="เปิดเมนู">
-            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#fae27c] transition-all duration-300"></span>
-            <span class="hamburger-line h-[2px] w-5 rounded-full bg-[#fae27c] transition-all duration-300"></span>
-            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#fae27c] transition-all duration-300"></span>
+          <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 rounded border border-[#d0a63a]/45 bg-[#d0a63a]/10 p-1.5" aria-label="เปิดเมนู">
+            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#f6da73] transition-all duration-300"></span>
+            <span class="hamburger-line h-[2px] w-5 rounded-full bg-[#f6da73] transition-all duration-300"></span>
+            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#f6da73] transition-all duration-300"></span>
           </button>
         </div>
       </div>
@@ -103,10 +108,10 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 right-0 z-50 h-screen w-[260px] translate-x-full transform overflow-y-auto border-l border-[#cc9c2d]/40 bg-[#050301] shadow-[-10px_0_30px_rgba(0,0,0,0.9)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    class="fixed top-0 right-0 z-50 h-screen w-[260px] translate-x-full transform overflow-y-auto border-l border-[#d0a63a]/40 bg-[#00081f] shadow-[-10px_0_30px_rgba(0,0,0,0.9)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
     <div class="flex items-center justify-between border-b border-white/5 px-5 py-5">
-      <span class="text-sm font-extrabold tracking-wider text-[#fff6d4]">MENU</span>
-      <button id="close-sidebar-btn" class="p-1 text-xl text-[#fae27c] hover:text-[#fff6d4]" aria-label="ปิดเมนู">✕</button>
+      <span class="text-sm font-extrabold tracking-wider text-[#fbeeb8]">MENU</span>
+      <button id="close-sidebar-btn" class="p-1 text-xl text-[#f6da73] hover:text-[#fbeeb8]" aria-label="ปิดเมนู">✕</button>
     </div>
 
     <div class="flex flex-col space-y-2 px-4 pt-4 pb-8">
@@ -114,7 +119,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center rounded-lg border px-4 py-3.5 transition-all ${isActive(link.path) ? "border-[#cc9c2d]/60 bg-[#cc9c2d]/20 text-[#fae27c]" : "border-transparent bg-white/5 text-[#b9a67d]/90 hover:bg-white/10"}`}>
+            class={`sidebar-item flex items-center rounded-lg border px-4 py-3.5 transition-all ${isActive(link.path) ? "border-[#d0a63a]/60 bg-[#d0a63a]/20 text-[#f6da73]" : "border-transparent bg-white/5 text-[#a9c4e8]/90 hover:bg-white/10"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon ?? "🔗"}
             </span>
@@ -123,10 +128,10 @@ const links = [
         ))
       }
 
-      <div class="mt-6 flex flex-col gap-3 border-t border-[#cc9c2d]/40 pt-6">
+      <div class="mt-6 flex flex-col gap-3 border-t border-[#d0a63a]/40 pt-6">
         <a
           href="/login"
-          class="sidebar-item hover:bg-theme-oklab flex justify-center gap-2 rounded-lg border border-[#fae27c]/70 bg-transparent py-3.5 text-sm font-bold text-[#fae27c] transition-colors hover:border-transparent hover:text-[#050301]">
+          class="sidebar-item hover:bg-theme-oklab flex justify-center gap-2 rounded-lg border border-[#f6da73]/70 bg-transparent py-3.5 text-sm font-bold text-[#f6da73] transition-colors hover:border-transparent hover:text-[#00081f]">
           <span aria-hidden="true">🔒</span> เข้าสู่ระบบ
         </a>
       </div>
@@ -136,7 +141,7 @@ const links = [
 
 <style is:global>
   .bg-theme-oklab {
-    background-image: linear-gradient(in oklab to right, #cc9c2d, #fae27c, #fff6d4);
+    background-image: linear-gradient(in oklab to right, #d0a63a, #f6da73, #fbeeb8);
   }
 
   #hamburger-btn.active .hamburger-line:nth-child(1) {
@@ -178,6 +183,12 @@ const links = [
   }
   .sidebar-item:nth-child(7) {
     transition-delay: 0.4s;
+  }
+  .sidebar-item:nth-child(8) {
+    transition-delay: 0.45s;
+  }
+  .sidebar-item:nth-child(9) {
+    transition-delay: 0.5s;
   }
 </style>
 
