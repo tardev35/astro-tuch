@@ -11,34 +11,36 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
 // overflowing the card.
 //
-// Worst case re-checked for MGM9's h2, "MGM9 ฝากถอนวอลเลท รองรับทุกธนาคาร
-// โปรโมชั่นครบทุกรูปแบบ". The heading grows one step per breakpoint, so each one
-// is measured against its OWN line-height, not the base's:
-//   base  text-lg  (28px/line) -> up to 3 lines = 3x28 + 20 py + 4 border
-//                               = 108px, bottom edge 84px vs pt-44/176px
-//   sm    text-xl  (28px/line) -> up to 2 lines = 80px, edge 56px vs pt-32/128px
-//   md    text-2xl (32px/line) -> up to 2 lines = 88px, edge 64px vs pt-36/144px
-// The h1 case is tighter still (text-3xl, 45px/line, up to 3 lines = 159px,
-// edge 135px against md:pt-36/144px), so do not trim any of these back for a
-// short title — the next brand's may be longer, and md is the tight one.
+// Clearance re-done for KINDEE365's h3, "แทงหวย 2 ตัว ถูกจ่ายบาทละ 100". Each
+// breakpoint is measured against its OWN line-height, not the base's, and the
+// budget is kept at THREE wrapped lines at base / TWO from sm so a longer title
+// than this brand's still clears:
+//   base  text-lg  (28px/line) -> 3 lines = 3x28 + 20 py + 4 border = 108px,
+//                                 bottom edge 84px vs pt-28/112px
+//   sm    text-xl  (28px/line) -> 3 lines = 108px, edge 84px vs sm:pt-24/96px
+//   md    text-2xl (32px/line) -> 2 lines = 88px,  edge 64px vs md:pt-24/96px
+// The h1 case: base text-xl 3 lines = edge 84px (clears 112), md text-3xl
+// (36px/line) 2 lines = edge 72px (clears 96). The previous brand reserved
+// pt-44 at base for a one-line badge, which left ~120px of dead space above the
+// copy; do not push these back up without redoing the arithmetic above.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#4aa4f4]/40 bg-gradient-to-b from-[#062a72]/95 to-[#010c26]/95 p-8 pt-44 text-left text-base leading-relaxed text-[#d3e6ff] shadow-[0_10px_30px_rgba(74,164,244,0.22)] sm:pt-32 md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#4aa4f4]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#5ee7ff]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#2b8ae9]/40 bg-gradient-to-b from-[#083163]/95 to-[#010b26]/95 p-8 pt-28 text-left text-base leading-relaxed text-[#cfe3f7] shadow-[0_10px_30px_rgba(43,138,233,0.22)] sm:pt-24 md:pt-24">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#2b8ae9]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e8bb4a]/20 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#4aa4f4]/40 bg-[#010c26] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(74,164,244,0.3)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#5ee7ff]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e8bb4a]/45 bg-[#010b26] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(232,187,74,0.3)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#e8bb4a]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#c9e8ff] via-[#4aa4f4] to-[#0b4ea8] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#f8dc8c] via-[#e8bb4a] to-[#b98213] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#5ee7ff]">
+          <span aria-hidden="true" class="shrink-0 text-[#e8bb4a]">
             ✦
           </span>
         </div>

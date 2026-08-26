@@ -2,60 +2,62 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBoxNeumorphism.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementCyber.astro";
+import Announcement from "../components/Announcement2.astro";
 
 import { Picture } from "astro:assets";
 
-// เฉพาะ slide1/slide2 (ลงวันที่ 2026-08-26) เท่านั้นที่เป็นอาร์ตเวิร์กของ MGM9
-// slide1 คือโปสเตอร์ "แนะนำเพื่อน 0.8%" ส่วน slide2 คือ "คืนยอดเสีย 0.3%" (อ่านจากตัวภาพ)
-// บทบาทสลับกันได้ในแต่ละแบรนด์ — อย่าเชื่อชื่อตัวแปรเดิม ให้เปิดรูปดูทุกครั้งที่เปลี่ยนแบรนด์
+// เฉพาะ slide1/slide2 (ลงวันที่ 2026-08-26) เท่านั้นที่เป็นอาร์ตเวิร์กของ KINDEE365
+// slide1 คือโปสเตอร์ "คืนยอดเสีย 0.3%" ส่วน slide2 คือ "แนะนำเพื่อน 0.8%" (อ่านจากตัวภาพ)
+// รอบก่อนหน้าคอมเมนต์ไว้สลับกัน — บทบาทสลับได้ในแต่ละแบรนด์ อย่าเชื่อชื่อตัวแปรเดิม
+// ให้เปิดรูปดูทุกครั้งที่เปลี่ยนแบรนด์
 // slide3/slide4 ยังค้างอยู่บนดิสก์แต่เป็นอาร์ตเวิร์กของลูกค้าก่อนหน้า — ห้าม import ที่นี่
 // ทั้งรอบนี้และรอบถัดไป (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว)
-import promoReferral from "../assets/slide1.png";
-import promoCashback from "../assets/slide2.png";
+import promoCashback from "../assets/slide1.png";
+import promoReferral from "../assets/slide2.png";
 import { pageGraph } from "../lib/schema";
 
 // หน้านี้เป็น IMAGE page: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า, กริดโปสเตอร์,
 // ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุเงื่อนไข
 // ของแต่ละโปรโมชั่นไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 157
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 155
 const pageDescription =
-  "รวมโปรโมชั่น MGM9 ทั้งแนะนำเพื่อนรับโบนัส 0.8% และคืนยอดเสีย 0.3% ดูเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และเงื่อนไขของแต่ละรายการได้จากภาพโปรโมชั่นในหน้านี้ก่อนกดรับ";
+  "รวมโปรโมชั่นของ KINDEE365 ทั้งคืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% ดูเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และรอบรับสิทธิ์ได้จากภาพโปรโมชั่นในหน้านี้ก่อนกดรับทุกครั้ง";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น MGM9 แนะนำเพื่อน 0.8% คืนยอดเสีย 0.3%",
+  name: "โปรโมชั่น KINDEE365 คืนยอดเสีย 0.3% แนะนำเพื่อน 0.8%",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
     { name: "โปรโมชั่น", path: "/promotion" },
   ],
-  primaryImagePath: promoReferral.src,
+  primaryImagePath: promoCashback.src,
 });
 ---
 
-<MainLayout title="โปรโมชั่น MGM9 แนะนำเพื่อนรับโบนัส 0.8% และคืนยอดเสียรับ 0.3%" description={pageDescription}>
+<MainLayout title="โปรโมชั่น KINDEE365 คืนยอดเสียรับ 0.3% และแนะนำเพื่อนรับโบนัส 0.8%" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น MGM9" as="h1">
+  <ContentBox title="โปรโมชั่น KINDEE365" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#d3e6ff]">
-        หน้านี้รวมโปรโมชั่นที่ MGM9 เปิดให้สมาชิกตรวจสอบสิทธิ์และกดรับผ่านบัญชีของตนเอง ทั้งกิจกรรมแนะนำเพื่อนรับ <strong class="text-[#9ad4ff]">0.8%</strong>
-        และคืนยอดเสีย <strong class="text-[#9ad4ff]">0.3%</strong> โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และรอบเวลารับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
-        แต่ละรายการมีวิธีคำนวณและเงื่อนไขต่างกัน จึงควรอ่านรายละเอียดล่าสุดหรือสอบถามแอดมินก่อนกดรับทุกครั้ง
+      <p class="mb-8 text-left text-base leading-relaxed text-[#cfe3f7]">
+        หน้านี้รวมโปรโมชั่นที่ KINDEE365 เปิดให้สมาชิกตรวจสอบสิทธิ์และกดรับผ่านบัญชีของตนเอง ทั้งคืนยอดเสีย
+        <strong class="text-[#e8bb4a]">0.3%</strong> และแนะนำเพื่อนรับ <strong class="text-[#e8bb4a]">0.8%</strong>
+        โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และรอบเวลารับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
+        แต่ละรายการมีเงื่อนไขต่างกัน จึงควรอ่านรายละเอียดล่าสุดหรือสอบถามเจ้าหน้าที่ก่อนกดรับทุกครั้ง
       </p>
 
       <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
-          src={promoReferral}
-          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ MGM9 พื้นหลังคาสิโนสีน้ำเงินเข้ม โลโก้ MGM9 อยู่กลางด้านบน ป้ายสีน้ำเงินคำว่า โปรโมชั่น ตัวอักษรสีขาวขนาดใหญ่ แนะนำเพื่อน เหนือตัวเลข 0.8% ผู้หญิงในชุดกี่เพ้าสีขาวแดงชี้มาที่ตัวเลข รอบตัวมีไพ่ ชิปโป๊กเกอร์สีน้ำเงินและวงล้อรูเล็ต ด้านล่างมีชิปสีน้ำเงินสามใบเขียนว่า ชวนเพื่อนง่าย รับโบนัสทันที รับโบนัส จากยอดเล่นเพื่อน และ ปลอดภัย มั่นคง 100%"
+          src={promoCashback}
+          alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ KINDEE365 พื้นหลังสีน้ำเงินกรมท่าเข้มพาดด้วยลำแสงสีทอง โลโก้ KINDEE สีน้ำเงินเหนือเลข 365 สีทองอยู่กลางด้านบน ถัดลงมาเป็นป้ายขอบทองคำว่า โปรโมชั่น ตัวอักษรสีขาวขนาดใหญ่ คืนยอดเสีย เหนือตัวเลข 0.3% สีทองขนาดใหญ่ ผู้หญิงในชุดไทยประยุกต์สีน้ำเงินแต่งทองชี้มาที่ตัวเลข รอบตัวมีลูกบอลหวยและเหรียญทอง ด้านขวาเป็นตารางผลรางวัลสลากไทย ด้านล่างเรียงป้ายเล็กสีน้ำเงินว่า จ่ายจริง จ่ายเต็ม มั่นคง ปลอดภัย ตรวจสอบได้ และ ไม่มีประวัติโกง"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#1f74d6]/70 object-contain shadow-[0_10px_30px_rgba(1,12,38,0.72)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#4aa4f4]/70 hover:shadow-[0_15px_40px_rgba(74,164,244,0.30)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#1f6fd0]/70 object-contain shadow-[0_10px_30px_rgba(1,11,38,0.72)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#e8bb4a]/70 hover:shadow-[0_15px_40px_rgba(232,187,74,0.30)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -63,13 +65,13 @@ const graph = pageGraph(Astro, {
         />
 
         <Picture
-          src={promoCashback}
-          alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ MGM9 พื้นหลังคาสิโนสีน้ำเงินเข้ม โลโก้ MGM9 อยู่กลางด้านบน ป้ายสีน้ำเงินคำว่า โปรโมชั่น ตัวอักษรสีขาวขนาดใหญ่ คืนยอดเสีย เหนือตัวเลข 0.3% ผู้หญิงในชุดกี่เพ้าสีขาวแดงชี้มาที่ตัวเลข รอบตัวมีไพ่ วงล้อรูเล็ต วงล้อสล็อตและชิปสีน้ำเงิน ด้านล่างมีชิปสีน้ำเงินสามใบเขียนว่า คืนยอดเสีย ทุกวัน มั่นคง ปลอดภัย และ ฝาก-ถอน ออโต้ 24 ชม."
+          src={promoReferral}
+          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ KINDEE365 พื้นหลังสีน้ำเงินกรมท่าเข้มพาดด้วยลำแสงสีทอง โลโก้ KINDEE สีน้ำเงินเหนือเลข 365 สีทองอยู่กลางด้านบน ถัดลงมาเป็นป้ายขอบทองคำว่า โปรโมชั่น ตัวอักษรสีขาวขนาดใหญ่ แนะนำเพื่อน เหนือตัวเลข 0.8% สีทองขนาดใหญ่ ผู้หญิงในชุดไทยประยุกต์สีน้ำเงินแต่งทองชี้มาที่ตัวเลข รอบตัวมีลูกบอลหวยและเหรียญทอง ด้านขวาเป็นตารางผลรางวัลสลากไทย ด้านล่างเรียงป้ายเล็กสีน้ำเงินว่า จ่ายจริง จ่ายเต็ม แนะนำง่าย ได้จริง มั่นคง ปลอดภัย และ ตรวจสอบได้"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#1f74d6]/70 object-contain shadow-[0_10px_30px_rgba(1,12,38,0.72)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#4aa4f4]/70 hover:shadow-[0_15px_40px_rgba(74,164,244,0.30)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#1f6fd0]/70 object-contain shadow-[0_10px_30px_rgba(1,11,38,0.72)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#e8bb4a]/70 hover:shadow-[0_15px_40px_rgba(232,187,74,0.30)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -80,9 +82,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก MGM9"
-          class="flex items-center justify-center rounded-lg border border-[#4aa4f4]/70 bg-gradient-to-r from-[#9ad4ff] via-[#4aa4f4] to-[#1f74d6] px-10 py-3.5 text-lg font-black text-[#01102e] shadow-[0_0_15px_rgba(74,164,244,0.45)] transition-transform hover:scale-105">
-          สมัครสมาชิก MGM9
+          aria-label="สมัครสมาชิก KINDEE365"
+          class="flex items-center justify-center rounded-lg border border-[#e8bb4a]/70 bg-gradient-to-r from-[#f8dc8c] via-[#e8bb4a] to-[#b98213] px-10 py-3.5 text-lg font-black text-[#010b26] shadow-[0_0_15px_rgba(232,187,74,0.45)] transition-transform hover:scale-105">
+          สมัครสมาชิก KINDEE365
         </a>
       </div>
     </div>
