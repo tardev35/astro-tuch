@@ -2054,9 +2054,22 @@ async function startDeploy(mode = "cf") {
   // VPS path, which reads astro.config.mjs's site: too) ships to, so refuse
   // to build+deploy while either is dirty rather than trust the browser to
   // have asked first.
+  //
+  // This one throws() would go through the same /deploy/start catch block as
+  // the two guards above and still return `deploy: deploySnapshot()` in the
+  // response — but dpRender() only reads the TOP-LEVEL `error` field as a
+  // fallback for when `deploy` itself is missing, which it never is. A throw
+  // here left the client rendering whatever deployState a PREVIOUS run left
+  // behind (or nothing, on a fresh server) — the pill stayed stuck on
+  // "กำลังขึ้น..." with an empty log and no visible reason, which is exactly
+  // what this guard looked like it broke rather than caught. Setting
+  // deployState directly, the same way the build/deploy failure branches
+  // below do, is what makes deploySnapshot() actually describe this attempt.
   const dirty = await gitRead(["status", "--porcelain", "--", "astro.config.mjs", "wrangler.toml"]);
   if (dirty.code === 0 && dirty.out.trim()) {
-    throw new Error("astro.config.mjs หรือ wrangler.toml ยังไม่ได้ commit — commit รีแบรนด์ให้เสร็จก่อนขึ้นเว็บจริง ไม่งั้นเสี่ยงไปทับแบรนด์เดิมที่เคย deploy ไว้");
+    const msg = "astro.config.mjs หรือ wrangler.toml ยังไม่ได้ commit — commit รีแบรนด์ให้เสร็จก่อนขึ้นเว็บจริง ไม่งั้นเสี่ยงไปทับแบรนด์เดิมที่เคย deploy ไว้";
+    Object.assign(deployState, { status: "error", mode, log: [msg], error: msg, url: "", startedAt: Date.now(), endedAt: Date.now() });
+    return deploySnapshot();
   }
 
   Object.assign(deployState, {
