@@ -3,86 +3,103 @@
 // carries an aria-label, so a login widget never emits a heading tag.
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 
-// LION991 is a LIVE-CASINO brand, so every row below describes โต๊ะไลฟ์สด /
-// กติกาและวงเงินของโต๊ะ / โปรโมชั่น / สมัครเอง 3 ขั้นตอน / ฝากถอน — never หวย,
-// รอบหวย or เรทบาทละ. Each one stays inside what the brief states: บาคาร่า รูเล็ต
-// เสือมังกร แบล็กแจ็ก และเกมคาสิโนสดประเภทอื่น ๆ ตามโต๊ะและผู้ให้บริการที่เปิดให้บริการ,
-// การรับชมผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์แบบเรียลไทม์, การตรวจกติกา อัตราจ่าย
-// วงเงินขั้นต่ำและสูงสุดของแต่ละโต๊ะก่อนเดิมพัน, การยึดข้อมูลสตูดิโอที่แสดงในเกมโดยตรง,
-// การ Login เพื่อดูโปรโมชั่นที่เปิดให้รับในช่วงเวลานั้นพร้อมเปอร์เซ็นต์ วิธีคำนวณ รอบรับ
-// โบนัส และข้อกำหนดในการถอน, การสมัครออนไลน์ด้วยตัวเอง 3 ขั้นตอนโดยไม่ต้องผ่าน
-// แอดมิน, การตรวจเครดิต ประวัติรายการ โปรโมชั่น และสถานะฝากถอนจากบัญชีสมาชิก,
-// และแอดมินที่รับเรื่องตลอด 24 ชั่วโมง.
+// OSAKA198 is a SLOT brand, so every row below describes เกมสล็อตหลายค่าย /
+// ช่วงเดิมพันของแต่ละเกม / โปรโมชั่น / สมัคร 3 ขั้นตอน / ฝากถอน — never บาคาร่า,
+// โต๊ะไลฟ์สด, แทงบอล or หวย. Each one stays inside what the brief states:
+// เกมสล็อตจากหลายค่ายในบัญชีเดียว ทั้งเกมยอดนิยม เกมใหม่ เกมโบนัส ฟรีสปิน และสล็อต
+// หลายรูปแบบ, การรองรับสมาร์ตโฟน แท็บเล็ต และคอมพิวเตอร์โดยไม่ต้องสมัครแยกหลายบัญชี,
+// การตรวจช่วงเดิมพันของเกมก่อนเริ่มเล่นเพราะขั้นต่ำจริงขึ้นอยู่กับผู้ให้บริการและแต่ละเกม,
+// การยึดวงเงินที่ระบบแสดง ณ เวลาทำรายการสำหรับเงื่อนไขไม่จำกัดยอด, การ Login เพื่อดู
+// โปรโมชั่นที่เปิดให้รับผ่านบัญชีของตนเอง, โบนัสแนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3%
+// พร้อมยอดที่ใช้คำนวณ รอบรับ และเงื่อนไขการถอน, การสมัคร 3 ขั้นตอน, การตรวจเครดิต
+// โปรโมชั่น ประวัติรายการ และสถานะฝากถอนจากบัญชีสมาชิก, และแอดมินที่ดูแลตลอด 24 ชั่วโมง.
 // No licence, no member count, no guaranteed win — the brief states none of them.
 const menus = [
-  { icon: "🃏", name: "เลือกโต๊ะคาสิโนสดที่เปิดให้บริการ", detail: "บาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก และเกมคาสิโนสดประเภทอื่น ๆ เลือกได้ตามโต๊ะและผู้ให้บริการที่ระบบเปิดให้บริการ", tag: "ห้องไลฟ์สด" },
-  { icon: "📱", name: "รับชมผ่านมือถือ แท็บเล็ต และคอม", detail: "รองรับการรับชมผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ ทำให้ติดตามการดำเนินเกมแบบเรียลไทม์ได้อย่างสะดวก", tag: "เรียลไทม์" },
-  { icon: "📖", name: "ตรวจกติกาและอัตราจ่ายของโต๊ะ", detail: "ก่อนเดิมพันควรตรวจสอบกติกาและอัตราจ่าย เนื่องจากรายละเอียดอาจแตกต่างกันตามเกมและผู้ให้บริการ", tag: "ดูก่อนเดิมพัน" },
-  { icon: "🎚️", name: "ดูวงเงินขั้นต่ำและสูงสุดของแต่ละโต๊ะ", detail: "แต่ละโต๊ะกำหนดวงเงินขั้นต่ำและสูงสุดไม่เท่ากัน ควรตรวจให้ครบก่อนเลือกโต๊ะที่เหมาะกับการใช้งานของตนเอง", tag: "เช็กวงเงิน" },
-  { icon: "🎥", name: "ยึดข้อมูลที่แสดงในเกมโดยตรง", detail: "ข้อมูลเกี่ยวกับสตูดิโอหรือแหล่งถ่ายทอดสดของแต่ละโต๊ะ ควรยึดข้อมูลที่แสดงอยู่ในเกมนั้นเป็นหลัก", tag: "ตามหน้าเกม" },
-  { icon: "🎁", name: "Login ตรวจโปรโมชั่นที่เปิดให้รับ", detail: "สิทธิ์สมาชิกใหม่ โปรโมชั่นยอดฝาก กิจกรรมแนะนำเพื่อน หรือโบนัสอื่น ๆ เปิดให้รับต่างกันในแต่ละช่วงเวลา", tag: "ดูจากบัญชี" },
-  { icon: "🧮", name: "อ่านเงื่อนไขก่อนกดรับโบนัส", detail: "แต่ละโปรโมชั่นมีเปอร์เซ็นต์ วิธีคำนวณ รอบรับโบนัส ยอดขั้นต่ำ ประเภทเกมที่ร่วมรายการ และข้อกำหนดในการถอนต่างกัน", tag: "อ่านให้ครบ" },
-  { icon: "🏦", name: "สมัครเองและฝากถอนจากบัญชีสมาชิก", detail: "สมัครออนไลน์ได้เองโดยไม่ต้องผ่านแอดมิน จากนั้นตรวจเครดิต ประวัติรายการ และสถานะฝากถอนได้จากบัญชีของตนเอง", tag: "3 ขั้นตอน" },
+  {
+    icon: "🎰",
+    name: "เลือกค่ายและเกมสล็อตจากบัญชีเดียว",
+    detail: "เกมยอดนิยม เกมใหม่ เกมโบนัส ฟรีสปิน และสล็อตหลายรูปแบบ เลือกได้จากค่ายที่ระบบเปิดให้บริการโดยไม่ต้องสมัครแยกหลายบัญชี",
+    tag: "ทุกค่ายในเว็บเดียว",
+  },
+  { icon: "📱", name: "เล่นผ่านมือถือ แท็บเล็ต และคอม", detail: "รองรับการใช้งานผ่านสมาร์ตโฟน แท็บเล็ต และคอมพิวเตอร์ ใช้บัญชีเดียวเข้าเล่นได้จากทุกอุปกรณ์", tag: "ทุกอุปกรณ์" },
+  {
+    icon: "🪙",
+    name: "ตรวจช่วงเดิมพันของเกมก่อนเริ่มเล่น",
+    detail: "หากต้องการเล่นสล็อตเริ่มต้น 1 บาท ควรตรวจช่วงเดิมพันของเกมนั้นก่อน เพราะขั้นต่ำจริงขึ้นอยู่กับผู้ให้บริการและแต่ละเกม",
+    tag: "ดูก่อนหมุน",
+  },
+  { icon: "🎚️", name: "ยึดวงเงินที่ระบบแสดง ณ เวลาทำรายการ", detail: "เงื่อนไข “ไม่จำกัดยอด” หรือ “ไม่อั้น” ให้ยึดวงเงินที่ระบบแสดงในขณะทำรายการนั้นเป็นหลัก", tag: "เช็กวงเงิน" },
+  { icon: "🎁", name: "Login ตรวจโปรโมชั่นที่เปิดให้รับ", detail: "สมาชิกตรวจโปรโมชั่นที่เปิดให้รับผ่านบัญชีของตนเองได้ แต่ละรายการอาจกำหนดยอดที่ใช้คำนวณและรอบรับต่างกัน", tag: "ดูจากบัญชี" },
+  { icon: "👥", name: "โบนัสแนะนำเพื่อน 0.8%", detail: "แชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามข้อกำหนด ระบบจะคำนวณโบนัส 0.8% ตามเงื่อนไข", tag: "0.8%" },
+  { icon: "💠", name: "โบนัสคืนยอดเสีย 0.3%", detail: "ตรวจสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่กำหนด ก่อนกดรับควรดูประเภทเกม รอบเวลา และเงื่อนไขให้ครบถ้วน", tag: "0.3%" },
+  {
+    icon: "🏦",
+    name: "สมัคร 3 ขั้นตอนแล้วจัดการจากบัญชี",
+    detail: "สมัครผ่านมือถือหรือคอมพิวเตอร์ด้วย 3 ขั้นตอน จากนั้นตรวจเครดิต โปรโมชั่น ประวัติรายการ และสถานะฝากถอนได้จากบัญชีของตนเอง",
+    tag: "3 ขั้นตอน",
+  },
 ];
 
-const chips = ["บาคาร่า", "รูเล็ต", "เสือมังกร", "แบล็กแจ็ก", "ห้องไลฟ์สด 24 ชม.", "สมัครเอง 3 ขั้นตอน", "ฝากถอนจากบัญชีสมาชิก", "แอดมิน 24 ชม."];
+const chips = ["สล็อตหลายค่าย", "เกมยอดนิยม", "เกมใหม่", "เกมโบนัส", "ฟรีสปิน", "แนะนำเพื่อน 0.8%", "คืนยอดเสีย 0.3%", "แอดมิน 24 ชม."];
 ---
 
-<ContentBoxTwo titleleft="เข้าสู่ระบบ LION991" titleright="จุดที่ควรตรวจสอบก่อนเริ่มเดิมพันกับ LION991" label="เข้าสู่ระบบ LION991 และรายการจุดที่ควรตรวจสอบก่อนเริ่มเดิมพัน">
+<ContentBoxTwo titleleft="เข้าสู่ระบบ OSAKA198" titleright="จุดที่ควรตรวจสอบก่อนเริ่มเล่นสล็อตกับ OSAKA198" label="เข้าสู่ระบบ OSAKA198 และรายการจุดที่ควรตรวจสอบก่อนเริ่มเล่นสล็อต">
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#1046e0]/40 bg-[#041640]/92 p-6 shadow-[0_10px_30px_rgba(16,70,224,0.18)] backdrop-blur-md">
-      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#3d82ff]/28 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#a37c4b]/40 bg-[#1c1509]/92 p-6 shadow-[0_10px_30px_rgba(163,124,75,0.18)] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#d1ae72]/28 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#b7c6dd]/60 bg-gradient-to-br from-[#e6ecf7] via-[#b7c6dd] to-[#7d90ad] text-xl shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#c7b895]/60 bg-gradient-to-br from-[#f7f1e4] via-[#e4cc95] to-[#a37c4b] text-xl shadow-inner">
           🎰
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#e6ecf7]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#8fc2ff]">เข้าสู่ระบบ LION991 เพื่อเข้าโต๊ะคาสิโนสด ตรวจกติกาและวงเงินของแต่ละโต๊ะ ดูโปรโมชั่นที่เปิดให้รับ ฝากถอน และติดตามประวัติรายการได้จากหน้าเดียว</span>
+          <p class="text-base font-black text-[#f7f1e4]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#e4cc95]">
+            เข้าสู่ระบบ OSAKA198 เพื่อเลือกค่ายและเกมสล็อต ตรวจช่วงเดิมพันของแต่ละเกม ดูโปรโมชั่นที่เปิดให้รับ ฝากถอน และติดตามประวัติรายการได้จากหน้าเดียว
+          </span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#7d90ad]">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#9a8a68]">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#1046e0]/45 bg-[#01041c]/95 py-3 pr-4 pl-12 text-[#d6e2f5] transition-all outline-none placeholder:text-[#7d90ad] focus:border-[#3d82ff] focus:ring-1 focus:ring-[#3d82ff]/50"
+            class="w-full rounded-xl border border-[#a37c4b]/45 bg-[#0b0906]/95 py-3 pr-4 pl-12 text-[#e8ddc8] transition-all outline-none placeholder:text-[#9a8a68] focus:border-[#d1ae72] focus:ring-1 focus:ring-[#d1ae72]/50"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#7d90ad]">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#9a8a68]">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#1046e0]/45 bg-[#01041c]/95 py-3 pr-4 pl-12 text-[#d6e2f5] transition-all outline-none placeholder:text-[#7d90ad] focus:border-[#3d82ff] focus:ring-1 focus:ring-[#3d82ff]/50"
+            class="w-full rounded-xl border border-[#a37c4b]/45 bg-[#0b0906]/95 py-3 pr-4 pl-12 text-[#e8ddc8] transition-all outline-none placeholder:text-[#9a8a68] focus:border-[#d1ae72] focus:ring-1 focus:ring-[#d1ae72]/50"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#d6e2f5]">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#1046e0]/45 bg-[#01041c] accent-[#1046e0]" />
+          <label class="flex items-center gap-2 text-[#e8ddc8]">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#a37c4b]/45 bg-[#0b0906] accent-[#a37c4b]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#d6e2f5] transition-colors hover:text-[#e6ecf7]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#e8ddc8] transition-colors hover:text-[#f7f1e4]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#7d90ad]/55 bg-gradient-to-r from-[#e6ecf7] via-[#b7c6dd] to-[#7d90ad] p-3.5 text-center font-black text-[#01041c] shadow-[0_10px_30px_rgba(183,198,221,0.30)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(183,198,221,0.42)]">
+          class="mt-1 block w-full rounded-xl border border-[#a37c4b]/55 bg-gradient-to-r from-[#f7f1e4] via-[#e4cc95] to-[#a37c4b] p-3.5 text-center font-black text-[#0b0906] shadow-[0_10px_30px_rgba(209,174,114,0.30)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(209,174,114,0.42)]">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#7d90ad]">
-          <span aria-hidden="true" class="h-px flex-1 bg-[#1046e0]/40"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#9a8a68]">
+          <span aria-hidden="true" class="h-px flex-1 bg-[#a37c4b]/40"></span>
           หรือ
-          <span aria-hidden="true" class="h-px flex-1 bg-[#1046e0]/40"></span>
+          <span aria-hidden="true" class="h-px flex-1 bg-[#a37c4b]/40"></span>
         </div>
 
         <a
@@ -93,29 +110,31 @@ const chips = ["บาคาร่า", "รูเล็ต", "เสือม�
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#b7c6dd]/45 bg-[#01041c] px-2.5 py-1 text-[10px] font-bold text-[#b7c6dd]"><span aria-hidden="true">🎥</span> ห้องไลฟ์สด</span>
-            <span class="rounded-full border border-[#1046e0]/40 bg-[#01041c]/80 px-2.5 py-1 text-[10px] font-bold text-[#8fc2ff]"><span aria-hidden="true">🕐</span> แอดมิน 24 ชม.</span>
+            <span class="rounded-full border border-[#c7b895]/45 bg-[#0b0906] px-2.5 py-1 text-[10px] font-bold text-[#c7b895]"><span aria-hidden="true">🎰</span> สล็อตหลายค่าย</span>
+            <span class="rounded-full border border-[#a37c4b]/40 bg-[#0b0906]/80 px-2.5 py-1 text-[10px] font-bold text-[#e4cc95]"><span aria-hidden="true">🕐</span> แอดมิน 24 ชม.</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#8fc2ff] transition-colors hover:text-[#e6ecf7]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#e4cc95] transition-colors hover:text-[#f7f1e4]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#1046e0]/40 bg-[#041640]/92 p-5 shadow-[0_10px_30px_rgba(16,70,224,0.14)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#a37c4b]/40 bg-[#1c1509]/92 p-5 shadow-[0_10px_30px_rgba(163,124,75,0.14)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#d6e2f5]">เข้าโต๊ะบาคาร่า รูเล็ต เสือมังกร และแบล็กแจ็กจากบัญชีเดียว ตรวจกติกา อัตราจ่าย และวงเงินขั้นต่ำ-สูงสุดของโต๊ะนั้นก่อนเดิมพันทุกครั้ง</span>
-          <div class="bg-gradient-to-r from-[#e6ecf7] via-[#b7c6dd] to-[#7d90ad] bg-clip-text text-3xl font-black text-transparent sm:text-4xl">ห้องไลฟ์สด 24 ชั่วโมง</div>
+          <span class="text-xs font-bold tracking-wide text-[#e8ddc8]">
+            เลือกเกมสล็อตจากหลายค่ายผ่านบัญชีเดียว ตรวจช่วงเดิมพันของเกมนั้นก่อนเริ่มเล่นทุกครั้ง และยึดวงเงินที่ระบบแสดง ณ เวลาทำรายการเป็นหลัก
+          </span>
+          <div class="bg-gradient-to-r from-[#f7f1e4] via-[#e4cc95] to-[#a37c4b] bg-clip-text text-3xl font-black text-transparent sm:text-4xl">เล่นได้ทุกค่าย ในเว็บเดียว</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#b7c6dd]/55 bg-[#020a2b]/80 px-2.5 py-1">
-          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#b7c6dd] shadow-[0_0_8px_rgba(183,198,221,0.7)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#b7c6dd] uppercase">Live</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#c7b895]/55 bg-[#141210]/80 px-2.5 py-1">
+          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#e4cc95] shadow-[0_0_8px_rgba(228,204,149,0.7)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-[#c7b895] uppercase">24 ชม.</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#7d90ad] uppercase">
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#9a8a68] uppercase">
         <span>ขั้นตอนเข้าเล่น โปรโมชั่น และการใช้งานบัญชี</span>
         <span>จุดที่ต้องดู</span>
       </div>
@@ -123,29 +142,29 @@ const chips = ["บาคาร่า", "รูเล็ต", "เสือม�
       <div class="flex flex-1 flex-col gap-2.5">
         {
           menus.map((m) => (
-            <div class="rounded-xl border border-[#1046e0]/60 bg-[#01041c]/95 px-3.5 py-2.5 transition-colors hover:border-[#b7c6dd]/60 hover:bg-[#020a2b]">
+            <div class="rounded-xl border border-[#a37c4b]/60 bg-[#0b0906]/95 px-3.5 py-2.5 transition-colors hover:border-[#c7b895]/60 hover:bg-[#141210]">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#d6e2f5]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#e8ddc8]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
                     {m.icon}
                   </span>{" "}
                   <span class="truncate">{m.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#b7c6dd]/45 bg-[#01041c] px-2.5 py-0.5 text-[10px] font-bold text-[#b7c6dd]">{m.tag}</span>
+                <span class="shrink-0 rounded-full border border-[#c7b895]/45 bg-[#0b0906] px-2.5 py-0.5 text-[10px] font-bold text-[#c7b895]">{m.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#8fc2ff]">{m.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#e4cc95]">{m.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#1046e0]/35 bg-[#01041c] px-3 py-1 text-[10px] font-bold text-[#8fc2ff]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#a37c4b]/35 bg-[#0b0906] px-3 py-1 text-[10px] font-bold text-[#e4cc95]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#7d90ad]">
-        ข้อมูลข้างต้นใช้ประกอบการตรวจสอบก่อนเริ่มเดิมพัน โต๊ะและผู้ให้บริการแต่ละรายอาจมีกติกา อัตราจ่าย และวงเงินขั้นต่ำ-สูงสุดต่างกัน ให้ยึดรายละเอียดที่แสดงในเกม ณ เวลาเดิมพันเป็นหลัก
-        ส่วนเปอร์เซ็นต์ วิธีคำนวณ รอบรับโบนัส และข้อกำหนดในการถอนของแต่ละโปรโมชั่น ควรยึดข้อมูลล่าสุดที่ปรากฏในระบบ และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#9a8a68]">
+        ข้อมูลข้างต้นใช้ประกอบการตรวจสอบก่อนเริ่มเล่น แต่ละค่ายและแต่ละเกมอาจกำหนดช่วงเดิมพันและเงื่อนไขไม่เท่ากัน ให้ยึดรายละเอียดที่แสดงในเกม ณ เวลาเล่นเป็นหลัก ส่วนยอดที่ใช้คำนวณ รอบรับ
+        และเงื่อนไขการถอนของแต่ละโปรโมชั่น ควรยึดข้อมูลล่าสุดที่ปรากฏในระบบ และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
       </div>
     </div>
   </div>
