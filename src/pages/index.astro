@@ -1,18 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement2.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import LottoGrid from "../components/LottoGrid.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBox from "../components/ContentBox.astro";
+import ProviderGridPremium from "../components/ProviderGridPremium.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import GameRankingBoard from "../components/GameRankingBoard.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
-import ContentBoxTwo from "../components/ContentBoxTwo.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
-import Faq from "../components/Faq3.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import Faq from "../components/Faq4.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
+import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -23,53 +22,32 @@ import imgSlide2 from "../assets/slide2.png";
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "KINDEE365 หวยลอตเตอรี่ออนไลน์ ราคาดีสุด จ่ายเต็มบิล ไม่มีประวัติโกง";
+const pageTitle = "LION991 คาสิโนvip รวมเกมเดิมพัน แบรนด์แท้ไลฟ์สด 24 ชม";
 
-const pageDescription =
-  "KINDEE365 เว็บหวยลอตเตอรี่ออนไลน์ จ่ายไม่อั้น รับทุกเลข หวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย หวยหุ้นต่างประเทศ อัตราจ่ายสูง 3ตัว1,000 2ตัว100";
+const pageDescription = "LION991 คาสิโนvip เกมเดิมพันออนไลน์ ครบทุกแบรนด์แท้ ระบบเดิมพันมาตรฐาน มีห้องไลฟ์สด 24 ชั่วโมง";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
 // wired it in last. No emoji in this string: an emoji baked into a text prop
 // cannot be given its own aria-hidden span, and this marquee prints the string
-// three times.
+// twice.
 const announcement =
-  "KINDEE365 หวยลอตเตอรี่ออนไลน์ ราคาดีสุด จ่ายเต็มบิล ไม่มีประวัติโกง • เปิดรับแทงหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศ เลือกประเภทหวย เลขที่ต้องการ และจำนวนเงินเดิมพันได้จากระบบโดยตรง • อัตราจ่ายสำหรับหน้านี้ เลข 3 ตัวบาทละ 1,000 และเลข 2 ตัวบาทละ 100 คำนวณยอดตามเรทได้ก่อนส่งโพย • ก่อนยืนยันโพยควรตรวจเวลาเปิด-ปิด อัตราจ่าย เลขอั้น และวงเงินของรอบนั้นให้ครบถ้วน • ฝากถอนระบบออโต้ผ่านธนาคารและวอลเลทตามช่องทางที่เปิดรองรับ ตรวจสถานะรายการเองได้จากบัญชีของตนเอง • เจ้าหน้าที่ KINDEE365 รับเรื่องออนไลน์ตลอด 24 ชั่วโมง";
-
-// The brief prints both rate tables as flat lines (ยอดแทง / อัตราจ่าย /
-// ยอดตามเรทเมื่อถูก, then five rows). They are kept as data so the markup below
-// stays one real <table> per section instead of ten hand-typed cells — the
-// header cells are <th scope="col">, never headings.
-const rate3 = [
-  { bet: "1 บาท", rate: "1 : 1,000", payout: "1,000 บาท" },
-  { bet: "5 บาท", rate: "1 : 1,000", payout: "5,000 บาท" },
-  { bet: "10 บาท", rate: "1 : 1,000", payout: "10,000 บาท" },
-  { bet: "50 บาท", rate: "1 : 1,000", payout: "50,000 บาท" },
-  { bet: "100 บาท", rate: "1 : 1,000", payout: "100,000 บาท" },
-];
-
-const rate2 = [
-  { bet: "1 บาท", rate: "1 : 100", payout: "100 บาท" },
-  { bet: "5 บาท", rate: "1 : 100", payout: "500 บาท" },
-  { bet: "10 บาท", rate: "1 : 100", payout: "1,000 บาท" },
-  { bet: "50 บาท", rate: "1 : 100", payout: "5,000 บาท" },
-  { bet: "100 บาท", rate: "1 : 100", payout: "10,000 บาท" },
-];
+  "LION991 คาสิโน VIP เกมเดิมพันออนไลน์ ครบทุกแบรนด์แท้ มีห้องไลฟ์สด 24 ชั่วโมง • เลือกเข้าเล่นคาสิโนแบบ Live ได้ตามโต๊ะและผู้ให้บริการที่เปิดให้บริการ ทั้งบาคาร่า รูเล็ต เสือมังกร และแบล็กแจ็ก • รองรับการรับชมผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ ติดตามการดำเนินเกมแบบเรียลไทม์ได้ • ก่อนเดิมพันควรตรวจสอบกติกา อัตราจ่าย วงเงินขั้นต่ำและสูงสุดของแต่ละโต๊ะให้ครบถ้วน • Login เพื่อตรวจสอบโปรโมชั่นที่เปิดให้รับในช่วงเวลานั้นได้จากบัญชีสมาชิก • สมัคร LION991 ออนไลน์ได้เอง 3 ขั้นตอน ไม่ต้องผ่านแอดมิน • แอดมิน LION991 รับเรื่องตลอด 24 ชั่วโมง";
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "KINDEE365 มีหวยอะไรให้เลือกแทงบ้าง?",
-    a: "มีทั้งหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศตามรอบที่เปิดให้บริการ โดยแต่ละประเภทอาจมีเวลาเปิด-ปิดและเงื่อนไขแตกต่างกัน ควรตรวจสอบรายละเอียดก่อนส่งโพยทุกครั้ง",
+    q: "LION991 มีเกมคาสิโน Live อะไรให้เลือกบ้าง?",
+    a: "ระบบสามารถมีเกมอย่างบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก และคาสิโนสดประเภทอื่น ๆ โดยโต๊ะและผู้ให้บริการที่พร้อมใช้งานอาจเปลี่ยนแปลงได้ สมาชิกควรตรวจสอบรายการล่าสุดจากหมวดคาสิโน Live ก่อนเข้าเล่น",
   },
   {
-    q: "KINDEE365 จ่าย 3 ตัว 1,000 และ 2 ตัว 100 หรือไม่?",
-    a: "ตามข้อมูลที่กำหนดสำหรับหน้านี้ เลข 3 ตัวอยู่ที่บาทละ 1,000 และเลข 2 ตัวอยู่ที่บาทละ 100 แต่ควรยึดอัตราจ่ายจริงที่แสดงในระบบ ณ เวลาส่งโพยเป็นหลัก โดยเฉพาะหวยหรือรอบที่อาจมีเงื่อนไขเฉพาะ",
+    q: "สมัคร LION991 ต้องติดต่อแอดมินก่อนหรือไม่?",
+    a: "หากระบบสมัครออนไลน์เปิดให้บริการ สมาชิกสามารถกรอกข้อมูลและสร้างบัญชีได้ด้วยตัวเองโดยไม่ต้องสมัครผ่านแอดมิน หากติดปัญหาในขั้นตอนใดจึงค่อยติดต่อทีมงานเพื่อขอคำแนะนำ",
   },
   {
-    q: "ฝากถอน KINDEE365 แล้วเครดิตไม่เข้าต้องทำอย่างไร?",
-    a: "ให้ตรวจสอบสถานะธุรกรรมในบัญชีก่อน หากรายการยังค้างหรือยอดไม่ถูกต้อง สามารถติดต่อเจ้าหน้าที่ KINDEE365 พร้อมแจ้งจำนวนเงิน เวลา และช่องทางที่ใช้ทำรายการ เพื่อให้ทีมงานช่วยตรวจสอบและแนะนำขั้นตอนดำเนินการต่อได้",
+    q: "หากคาสิโน Live หรือฝากถอน LION991 มีปัญหาต้องทำอย่างไร?",
+    a: "ตรวจสอบสถานะระบบและรายการในบัญชีก่อน หากยังพบปัญหา ให้ติดต่อแอดมิน LION991 พร้อมแจ้งชื่อเกม เวลา จำนวนเงิน หรือรายละเอียดธุรกรรม เพื่อให้เจ้าหน้าที่ตรวจสอบและแนะนำขั้นตอนดำเนินการต่อได้",
   },
 ];
 
@@ -88,15 +66,30 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxPremium as="h1" title="KINDEE365 เว็บหวยลอตเตอรี่ออนไลน์ มีครบทุกเลข จ่ายไม่อั้น รับทุกเลข">
-    <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-      <strong class="text-[#f8dc8c]">KINDEE365</strong> เปิดบริการสำหรับผู้ที่ต้องการแทงหวยออนไลน์ผ่านระบบที่ใช้งานง่ายบนมือถือและคอมพิวเตอร์ มีทั้งหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศ
-      พร้อมอัตราจ่ายตามที่กำหนด เลข <strong class="text-[#f8dc8c]">3 ตัวบาทละ 1,000</strong> และเลข <strong class="text-[#f8dc8c]">2 ตัวบาทละ 100</strong> สมาชิกสามารถตรวจสอบเรท ส่งโพย ฝากถอน
-      และติดตามประวัติรายการได้จากบัญชีของตนเอง พร้อมเจ้าหน้าที่คอยรับเรื่องและช่วยตรวจสอบปัญหาตลอด 24 ชั่วโมง
+  <ContentBox as="h1" title="LION991 คาสิโน VIP เกมเดิมพันออนไลน์ ครบทุกแบรนด์แท้">
+    <p class="text-left text-base leading-relaxed text-[#d6e2f5]">
+      <strong class="text-[#e6ecf7]">LION991</strong> พร้อมให้บริการสมาชิกที่ต้องการเล่นคาสิโนออนไลน์ผ่านมือถือและคอมพิวเตอร์ โดยรวบรวมเกมเดิมพันหลายหมวดหมู่ไว้ในบัญชีเดียว
+      พร้อมคาสิโนสดและโต๊ะ <strong class="text-[#8fc2ff]">Live</strong> ตามที่ระบบเปิดให้บริการ สมาชิกสามารถสมัคร เข้าเกม ตรวจสอบโปรโมชั่น ฝากถอน และจัดการบัญชีได้อย่างสะดวก
+      พร้อมทีมงานคอยช่วยเหลือด้านการใช้งานตลอด 24 ชั่วโมง
     </p>
-  </ContentBoxPremium>
+  </ContentBox>
 
-  <ContentBoxSevenThreeCyberCut as="h2" title="KINDEE365 เปิดรับแทง หวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย หวยหุ้นต่างประเทศ">
+  <ProviderGridPremium />
+
+  <ContentBoxSpecial as="h2" title="ระบบเดิมพัน LION991 มีห้องไลฟ์สด 24 ชั่วโมง" iconleft="🎥" iconright="🃏">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d6e2f5]">
+      สมาชิกสามารถเลือกเข้าเล่นเกมคาสิโนแบบ Live ผ่านระบบ <strong class="text-[#e6ecf7]">LION991</strong> ได้ตามโต๊ะและผู้ให้บริการที่เปิดให้บริการ มีทั้งบาคาร่า รูเล็ต เสือมังกร แบล็กแจ็ก
+      และเกมคาสิโนสดประเภทอื่น ๆ รองรับการรับชมผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ ทำให้สามารถติดตามการดำเนินเกมแบบเรียลไทม์ได้อย่างสะดวก
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d6e2f5]">
+      ก่อนเดิมพันควรตรวจสอบกติกา อัตราจ่าย <strong class="text-[#8fc2ff]">วงเงินขั้นต่ำและสูงสุดของแต่ละโต๊ะ</strong> เนื่องจากรายละเอียดอาจแตกต่างกันตามเกมและผู้ให้บริการ
+      ส่วนข้อมูลเกี่ยวกับสตูดิโอหรือแหล่งถ่ายทอดสดควรยึดข้อมูลที่แสดงในเกมโดยตรง
+    </p>
+  </ContentBoxSpecial>
+
+  <GameRankingBoard />
+
+  <ContentBoxSevenThreePremium as="h2" title="โปรโมชั่น LION991 ยอดนิยมที่สมาชิกกดรับบ่อยที่สุด">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -108,105 +101,22 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ KINDEE365 พื้นหลังสีน้ำเงินกรมท่าเข้มมีลำแสงสีทองพาดเป็นเส้น ด้านบนกลางภาพเป็นโลโก้ KINDEE365 ตัวอักษร KINDEE สีน้ำเงินวางเหนือเลข 365 สีทอง ถัดลงมาเป็นแผ่นป้ายขอบทองเขียนว่า โปรโมชั่น ตามด้วยข้อความตัวใหญ่สีขาวว่า คืนยอดเสีย วางเหนือตัวเลข 0.3% สีทองขนาดใหญ่ ตรงกลางเป็นผู้หญิงสวมชุดไทยประยุกต์สีน้ำเงินสลับทองชี้มือไปที่ตัวเลข รอบตัวมีลูกบอลหวยและเหรียญทองกระจายอยู่ ด้านขวาเป็นตารางผลรางวัลสลากแบบไทย ด้านล่างเป็นชิปไอคอนสีน้ำเงินสี่อันเรียงกันเขียนว่า จ่ายจริง จ่ายเต็ม กับ มั่นคง ปลอดภัย กับ ตรวจสอบได้ และ ไม่มีประวัติโกง"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e8bb4a]/40 shadow-[0_10px_30px_rgba(232,187,74,0.25)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ LION991 พื้นหลังเป็นห้องคาสิโนสดโทนน้ำเงินเข้ม ด้านบนเป็นโลโก้ LION991 ตัวอักษร LION สีน้ำเงินเมทัลลิกต่อด้วยเลข 991 สีเงิน ถัดลงมาเป็นป้ายคำว่า โปรโมชั่น ตามด้วยข้อความสีขาวว่า คืนยอดเสีย วางเหนือตัวเลข 0.3% ขนาดใหญ่สีน้ำเงินสลับขาว ตรงกลางเป็นผู้หญิงสวมชุดสีน้ำเงินกรมท่ายกมือชี้ไปที่ตัวเลข ด้านข้างมีป้ายวงรีสีน้ำเงินสี่อันเขียนว่า มั่นคง ปลอดภัย กับ บริการระดับพรีเมียม และ คืนยอดเสียทุกวัน ด้านล่างสุดเป็นแถบข้อความว่า คาสิโนออนไลน์ คาสิโนสด สล็อต โปรโมชั่นพิเศษมากมาย"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#3d82ff]/40 shadow-[0_10px_30px_rgba(61,130,255,0.25)]"
     />
     <div slot="right" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        <strong class="text-[#f8dc8c]">KINDEE365</strong> จัดหมวดหวยออนไลน์หลายประเภทไว้ให้เลือกตามรอบที่เปิดบริการ ไม่ว่าจะเป็นหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย หรือหวยหุ้นต่างประเทศ
-        สมาชิกสามารถเลือกประเภทหวย เลขที่ต้องการ และจำนวนเงินเดิมพันได้จากระบบโดยตรง ก่อนยืนยันโพยควรตรวจสอบเวลาเปิด-ปิด อัตราจ่าย เลขอั้น และวงเงินของรอบนั้นให้ครบถ้วน
-        เพื่อให้รายละเอียดตรงกับรายการที่ต้องการส่ง
+      <p class="text-left text-base leading-relaxed text-[#d6e2f5]">
+        สมาชิกสามารถ Login เพื่อตรวจสอบโปรโมชั่น <strong class="text-[#e6ecf7]">LION991</strong> ที่เปิดให้รับในช่วงเวลานั้น ไม่ว่าจะเป็นสิทธิ์สำหรับสมาชิกใหม่ โปรโมชั่นยอดฝาก
+        กิจกรรมแนะนำเพื่อน หรือโบนัสประเภทอื่น ๆ ตามที่เว็บไซต์กำหนด โดยแต่ละโปรโมชั่นอาจมีเปอร์เซ็นต์ วิธีคำนวณ รอบรับโบนัส และข้อกำหนดในการถอนแตกต่างกัน
       </p>
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        สำหรับข้อความว่า “รับทุกเลข” หรือ “จ่ายไม่อั้น” ควรยึดวงเงินและเงื่อนไขที่ระบบแสดง ณ เวลาส่งโพยเป็นหลัก เนื่องจากบางเลขหรือบางรอบอาจมีข้อกำหนดเฉพาะ
-      </p>
-    </div>
-  </ContentBoxSevenThreeCyberCut>
-
-  <LottoGrid />
-
-  <ContentBoxCyberCut as="h2" title="เว็บ KINDEE365 ให้อัตราจ่ายสูง 3ตัว1,000 2ตัว100">
-    <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-      <strong class="text-[#f8dc8c]">KINDEE365</strong> กำหนดอัตราจ่ายสำหรับหน้านี้ไว้ที่ เลข 3 ตัว บาทละ 1,000 และเลข 2 ตัว บาทละ 100 เพื่อให้สมาชิกเห็นเรทและคำนวณยอดเบื้องต้นได้ก่อนส่งโพย
-      อย่างไรก็ตาม ควรตรวจสอบตัวเลขที่แสดงจริงในระบบก่อนยืนยันทุกครั้ง เพราะประเภทหวยหรือรอบเดิมพันอาจมีเงื่อนไขแตกต่างกัน
-    </p>
-  </ContentBoxCyberCut>
-
-  <ContentBoxNeumorphism as="h3" title="แทงหวย 3 ตัว ถูกจ่ายบาทละ 1,000">
-    <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">เลข 3 ตัวใช้อัตราจ่ายตามที่กำหนดคือ 1 บาท จ่าย 1,000 บาท สามารถดูตัวอย่างการคำนวณได้ดังนี้</p>
-
-      <div class="overflow-x-auto rounded-2xl border border-[#1f6fd0]/50">
-        <table class="w-full min-w-[420px] border-collapse text-left">
-          <caption class="border-b border-[#1f6fd0]/40 bg-[#010b26]/70 px-4 py-3 text-left text-sm leading-relaxed text-[#8fb3d9]">
-            ตารางคำนวณยอดตามเรทของเลข 3 ตัว ที่อัตราจ่ายบาทละ 1,000
-          </caption>
-          <thead>
-            <tr class="bg-[#083163]">
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">ยอดแทง</th>
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">อัตราจ่าย</th>
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">ยอดตามเรทเมื่อถูก</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              rate3.map((row) => (
-                <tr class="border-t border-[#1f6fd0]/30 odd:bg-[#02153c]/70 even:bg-[#010b26]/50">
-                  <td class="px-4 py-2.5 text-base text-[#cfe3f7]">{row.bet}</td>
-                  <td class="px-4 py-2.5 text-base text-[#a3dbfb]">{row.rate}</td>
-                  <td class="px-4 py-2.5 text-base font-bold text-[#e8bb4a]">{row.payout}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        ตัวอย่าง หากแทงเลข 3 ตัว 10 บาท และเรทในรอบนั้นยังอยู่ที่ 1,000 เมื่อผลตรงตามเงื่อนไข ยอดตามเรทจะเท่ากับ 10 × 1,000 = 10,000 บาท
+      <p class="text-left text-base leading-relaxed text-[#d6e2f5]">
+        ก่อนกดรับควรอ่านรายละเอียดให้ครบถ้วน โดยเฉพาะ<strong class="text-[#8fc2ff]">ยอดขั้นต่ำ ประเภทเกมที่ร่วมรายการ และเงื่อนไขที่ต้องทำให้สำเร็จก่อนถอนโบนัส</strong>
+        เพื่อเลือกโปรโมชั่นให้เหมาะกับการใช้งานของตนเอง
       </p>
     </div>
-  </ContentBoxNeumorphism>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxFloatingBadge as="h3" title="แทงหวย 2 ตัว ถูกจ่ายบาทละ 100">
-    <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">สำหรับเลข 2 ตัว กำหนดเรทไว้ที่ 1 บาท จ่าย 100 บาท โดยสามารถคำนวณยอดตามจำนวนเงินที่เลือกแทงได้ง่าย</p>
-
-      <div class="overflow-x-auto rounded-2xl border border-[#1f6fd0]/50">
-        <table class="w-full min-w-[420px] border-collapse text-left">
-          <caption class="border-b border-[#1f6fd0]/40 bg-[#010b26]/70 px-4 py-3 text-left text-sm leading-relaxed text-[#8fb3d9]">
-            ตารางคำนวณยอดตามเรทของเลข 2 ตัว ที่อัตราจ่ายบาทละ 100
-          </caption>
-          <thead>
-            <tr class="bg-[#083163]">
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">ยอดแทง</th>
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">อัตราจ่าย</th>
-              <th scope="col" class="px-4 py-3 text-sm font-black tracking-wide text-[#f8dc8c]">ยอดตามเรทเมื่อถูก</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              rate2.map((row) => (
-                <tr class="border-t border-[#1f6fd0]/30 odd:bg-[#02153c]/70 even:bg-[#010b26]/50">
-                  <td class="px-4 py-2.5 text-base text-[#cfe3f7]">{row.bet}</td>
-                  <td class="px-4 py-2.5 text-base text-[#a3dbfb]">{row.rate}</td>
-                  <td class="px-4 py-2.5 text-base font-bold text-[#e8bb4a]">{row.payout}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        ตัวอย่าง หากแทงเลข 2 ตัวจำนวน 10 บาท และระบบแสดงเรท 100 เมื่อผลตรงตามเงื่อนไข ยอดตามเรทจะเท่ากับ 10 × 100 = 1,000 บาท
-      </p>
-    </div>
-  </ContentBoxFloatingBadge>
-
-  <LoginRtpSection />
-
-  <ContentBoxSevenThreeFloatingBadge as="h2" title="เว็บ KINDEE365 ฝากถอนระบบออโต้ ทุกช่องทางและวอลเลท">
+  <ContentBoxSevenThree as="h2" title="สมัครสมาชิก LION991 3 ขั้นตอน ไม่ต้องผ่านแอดมิน">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -218,35 +128,41 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ KINDEE365 พื้นหลังสีน้ำเงินกรมท่าเข้มมีลำแสงสีทองพาดเป็นเส้น ด้านบนกลางภาพเป็นโลโก้ KINDEE365 ตัวอักษร KINDEE สีน้ำเงินวางเหนือเลข 365 สีทอง ถัดลงมาเป็นแผ่นป้ายขอบทองเขียนว่า โปรโมชั่น ตามด้วยข้อความตัวใหญ่สีขาวว่า แนะนำเพื่อน วางเหนือตัวเลข 0.8% สีทองขนาดใหญ่ ตรงกลางเป็นผู้หญิงสวมชุดไทยประยุกต์สีน้ำเงินสลับทองชี้มือไปที่ตัวเลข รอบตัวมีลูกบอลหวยและเหรียญทองกระจายอยู่ ด้านขวาเป็นตารางผลรางวัลสลากแบบไทย ด้านล่างเป็นชิปไอคอนสีน้ำเงินสี่อันเรียงกันเขียนว่า จ่ายจริง จ่ายเต็ม กับ แนะนำง่าย ได้จริง กับ มั่นคง ปลอดภัย และ ตรวจสอบได้"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e8bb4a]/40 shadow-[0_10px_30px_rgba(232,187,74,0.25)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ LION991 พื้นหลังโทนน้ำเงินเข้ม มุมบนซ้ายเป็นเงาหัวสิงโต ถัดมาเป็นโลโก้ LION991 ตัวอักษร LION สีน้ำเงินเมทัลลิกต่อด้วยเลข 991 สีเงิน ใต้ลงมาเป็นป้ายคำว่า โปรโมชั่น ตามด้วยข้อความว่า แนะนำเพื่อน วางเหนือตัวเลข 0.8% ขนาดใหญ่ ตรงกลางเป็นผู้หญิงสวมชุดสีน้ำเงินกรมท่ายกมือชี้ไปที่ตัวเลข รอบตัวมีชิปคาสิโนและไพ่กระจายอยู่ ด้านล่างเป็นป้ายวงรีสีน้ำเงินสามอันเขียนว่า ชวนเพื่อนง่าย รับโบนัสทันที กับ รับโบนัส จากยอดเพื่อนเล่น และ ปลอดภัย มั่นคง เชื่อถือได้ 100%"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#3d82ff]/40 shadow-[0_10px_30px_rgba(61,130,255,0.25)]"
     />
     <div slot="right" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        สมาชิกสามารถจัดการเครดิตผ่านระบบฝากถอนออโต้ของ <strong class="text-[#f8dc8c]">KINDEE365</strong> โดยเลือกใช้ธนาคารหรือวอลเลทตามช่องทางที่เว็บไซต์เปิดรองรับ สามารถฝากเครดิต ส่งคำขอถอน
-        และตรวจสอบสถานะรายการผ่านบัญชีของตนเองได้โดยตรง ก่อนทำธุรกรรมควรตรวจสอบชื่อบัญชี จำนวนเงิน ยอดขั้นต่ำ และวงเงินต่อรายการให้ถูกต้องทุกครั้ง
+      <p class="text-left text-base leading-relaxed text-[#d6e2f5]">
+        ผู้ใช้งานใหม่สามารถสมัคร <strong class="text-[#e6ecf7]">LION991</strong> ผ่านระบบออนไลน์ได้ด้วยตัวเอง โดยไม่จำเป็นต้องส่งข้อมูลการสมัครผ่านเจ้าหน้าที่ เริ่มต้นใช้งานได้ง่ายเพียง 3 ขั้นตอน
       </p>
-      <p class="text-left text-base leading-relaxed text-[#cfe3f7]">
-        หากเครดิตไม่เข้า รายการถอนค้าง หรือสถานะธุรกรรมไม่อัปเดต ควรเก็บข้อมูลและหลักฐานรายการไว้เพื่อใช้ประกอบการตรวจสอบกับเจ้าหน้าที่
+      <ol class="ml-5 list-decimal space-y-2 text-left text-base leading-relaxed text-[#d6e2f5] marker:font-black marker:text-[#8fc2ff]">
+        <li>เปิดหน้าสมัคร LION991 และกรอกข้อมูลตามที่ระบบกำหนด</li>
+        <li>Login เข้าสู่บัญชีและเลือกช่องทางฝากเครดิตที่เปิดให้บริการ</li>
+        <li>ตรวจสอบโปรโมชั่น เลือกเกมคาสิโนหรือโต๊ะ Live และศึกษากติกาก่อนเริ่มเดิมพัน</li>
+      </ol>
+      <p class="text-left text-base leading-relaxed text-[#d6e2f5]">
+        หลังสมัครเรียบร้อยสามารถตรวจสอบ<strong class="text-[#8fc2ff]">เครดิต ประวัติรายการ โปรโมชั่น และสถานะฝากถอน</strong>ผ่านบัญชีสมาชิกได้โดยตรง
       </p>
     </div>
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThree>
+
+  <LoginRtpSection />
+
+  <ContentBoxTwoPremium as="h2" title="ติดต่อแอดมิน LION991 ได้ตลอด 24 ชั่วโมง">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d6e2f5]">
+      หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าโต๊ะ Live ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง หรือโปรโมชั่นไม่แสดง สามารถติดต่อแอดมิน <strong class="text-[#e6ecf7]">LION991</strong>
+      ได้ตลอด 24 ชั่วโมง พร้อมแจ้งรายละเอียด เวลา และข้อมูลรายการที่เกี่ยวข้อง เพื่อให้เจ้าหน้าที่ช่วยตรวจสอบปัญหาได้ตรงจุด
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d6e2f5]">
+      สมาชิกยังสามารถสอบถามเกี่ยวกับวิธีใช้งานคาสิโนสด ขั้นตอนฝากถอน หรือโปรโมชั่นที่เปิดให้บริการได้ โดย<strong class="text-[#8fc2ff]">ไม่ควรเปิดเผยรหัสผ่านและ OTP</strong>ให้บุคคลอื่น
+    </p>
+  </ContentBoxTwoPremium>
+
+  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ LION991" faqs={faqs} />
 
   <LatestWinners />
 
-  <ContentBoxTwo as="h2" title="เจ้าหน้าที่ KINDEE365 รับเรื่องออนไลน์ตลอด 24 ชั่วโมง ติดต่อได้ทันที">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#cfe3f7]">
-      หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ส่งโพย ฝากเงิน ถอนเงิน หรือข้อมูลในบัญชีไม่ตรง สามารถติดต่อเจ้าหน้าที่ <strong class="text-[#f8dc8c]">KINDEE365</strong> ได้ตลอด 24 ชั่วโมง
-      พร้อมแจ้งเวลา จำนวนเงิน ประเภทหวย และรายละเอียดของรายการ เพื่อให้ทีมงานช่วยตรวจสอบได้ตรงจุด
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#cfe3f7]">
-      สมาชิกใหม่ยังสามารถสอบถามเรื่องอัตราจ่าย รอบหวย วิธีส่งโพย หรือขั้นตอนการฝากถอนก่อนเริ่มใช้งานจริงได้ โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
-    </p>
-  </ContentBoxTwo>
-
-  <ReviewCardSumo />
-
-  <Faq title="คำถามที่พบบ่อยเกี่ยวกับ KINDEE365" faqs={faqs} />
+  <ReviewCardSumo2 />
 
   <Navfoot />
 </MainLayout>
