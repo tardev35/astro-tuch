@@ -15,6 +15,11 @@ const bankPool = [
   { name: "TTB", color: "bg-[#1279be]", icon: ttbLogo.src },
 ];
 
+// The two status labels live here and on the row's data-* attributes, so the
+// server-rendered text and the text the module swaps in can never drift apart.
+const PENDING_TEXT = "[กำลังตรวจสอบ]";
+const DONE_TEXT = "[ถอนสำเร็จ]";
+
 // The first rows are rendered on the server. They used to be built by an inline
 // script, which left the container empty in the HTML: nothing for a crawler to
 // read, nothing at all without JS, and a guaranteed layout shift the moment the
@@ -37,29 +42,29 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
 
 <div class="mx-auto w-full max-w-[1300px] p-4">
   <section
-    aria-label="รายการถอนล่าสุดของสมาชิก PREMSUK365 ผ่านระบบฝากถอนออโต้"
-    class="relative border-r-4 border-l-4 border-[#e3c56a]/40 bg-[#03130a]/92 px-4 py-8 shadow-[0_0_30px_rgba(227,197,106,0.22)] md:p-10"
+    aria-label="รายการถอนล่าสุดของสมาชิก MGM9 ผ่านระบบฝากถอนที่เว็บไซต์เปิดให้บริการ"
+    class="relative border-r-4 border-l-4 border-[#4aa4f4]/40 bg-[#010c26]/92 px-4 py-8 shadow-[0_0_30px_rgba(74,164,244,0.22)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#f7e8b4] to-transparent"></div>
-    <div class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#2a9d5c] to-transparent"></div>
+    <div class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#c9e8ff] to-transparent"></div>
+    <div class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#5ee7ff] to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#e3c56a]/40 pb-4">
-      <p class="text-xl font-black tracking-[0.2em] text-[#f7e8b4] drop-shadow-[0_0_8px_rgba(227,197,106,0.5)]">/// PREMSUK365 · รายการถอนล่าสุด</p>
-      <span class="shrink-0 animate-pulse border border-[#2a9d5c]/55 px-2 py-1 text-xs font-bold tracking-widest text-[#2a9d5c]">ONLINE</span>
+    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#4aa4f4]/40 pb-4">
+      <p class="text-xl font-black tracking-[0.2em] text-[#c9e8ff] drop-shadow-[0_0_8px_rgba(74,164,244,0.5)]">/// MGM9 · รายการถอนล่าสุด</p>
+      <span class="shrink-0 animate-pulse border border-[#16a34a]/55 px-2 py-1 text-xs font-bold tracking-widest text-[#16a34a]">ONLINE</span>
     </div>
 
     <div data-winners-feed class="relative z-10 flex flex-col gap-3">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-left transform transition-all duration-500 ease-out">
-            <div class="flex items-center justify-between border-l-2 border-[#e3c56a]/60 bg-gradient-to-r from-[#e3c56a]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#0d3a22]">
+            <div class="flex items-center justify-between border-l-2 border-[#4aa4f4]/60 bg-gradient-to-r from-[#4aa4f4]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#062a72]">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-white/10 bg-black/50 mix-blend-screen ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
                 </div>
-                <div class="font-mono text-sm text-[#cfd8c8]">
+                <div class="font-mono text-sm text-[#d3e6ff]">
                   USR_ID:{" "}
-                  <span data-winner-user class="font-bold text-[#f7e8b4]">
+                  <span data-winner-user class="font-bold text-[#c9e8ff]">
                     {row.user}
                   </span>
                 </div>
@@ -67,13 +72,13 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
               <div class="flex items-center gap-6">
                 <div
                   data-winner-status
-                  data-pending-text="[PROCESSING]"
-                  data-done-text="[VERIFIED]"
+                  data-pending-text={PENDING_TEXT}
+                  data-done-text={DONE_TEXT}
                   class={`winner-status font-mono text-[10px] tracking-widest ${row.pending ? "is-pending" : "is-verified"}`}>
-                  {row.pending ? "[PROCESSING]" : "[VERIFIED]"}
+                  {row.pending ? PENDING_TEXT : DONE_TEXT}
                 </div>
-                <div class="font-mono text-xl font-black text-[#e3c56a] drop-shadow-[0_0_8px_rgba(227,197,106,0.5)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#a9bda9]">THB</span>
+                <div class="font-mono text-xl font-black text-[#4aa4f4] drop-shadow-[0_0_8px_rgba(74,164,244,0.5)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#a8c8ea]">THB</span>
                 </div>
               </div>
             </div>
