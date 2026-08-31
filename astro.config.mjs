@@ -37,7 +37,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://mepay77-vip.com",
+  site: "https://win8s-play.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

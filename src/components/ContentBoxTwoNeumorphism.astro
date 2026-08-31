@@ -14,29 +14,33 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // content. Rendering it unconditionally left a dead mb-8 gap under the heading
 // on every page that used the two-column layout only.
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
+
+// WIN8S palette: the soft-extruded card sits on the brand's near-black surface
+// (#1c0a02) with a cool shadow into #050201 and a warm orange-lit highlight,
+// and the heading gradient runs cream -> orange -> deep orange.
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#141210] p-8 shadow-[10px_10px_20px_#0b0906,-10px_-10px_20px_#2c2214] transition-all duration-300 hover:shadow-[15px_15px_30px_#0b0906,-15px_-15px_30px_#5b4423]">
+    class="w-full rounded-[25px] bg-[#1c0a02] p-8 shadow-[10px_10px_20px_#050201,-10px_-10px_20px_#3a1405] transition-all duration-300 hover:shadow-[15px_15px_30px_#050201,-15px_-15px_30px_#6a2606]">
     {
       title && (
-        <header class="mb-8 border-b border-[#a37c4b]/40 pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#f7f1e4] via-[#d1ae72] to-[#a37c4b] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-b border-[#8a3103]/60 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#fff2e6] via-[#fc8d13] to-[#ec5402] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e8ddc8]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f6e4d6]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8ddc8]">
-        {titleleft && <p class="text-2xl leading-normal font-black tracking-wide text-[#e4cc95]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6]">
+        {titleleft && <p class="text-2xl leading-normal font-black tracking-wide text-[#fd9a1e]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8ddc8] md:border-l md:border-[#a37c4b]/40 md:pl-8">
-        {titleright && <p class="text-2xl leading-normal font-black tracking-wide text-[#e4cc95]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6] md:border-l md:border-[#8a3103]/60 md:pl-8">
+        {titleright && <p class="text-2xl leading-normal font-black tracking-wide text-[#fd9a1e]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>
