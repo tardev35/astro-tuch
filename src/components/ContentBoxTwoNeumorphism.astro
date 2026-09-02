@@ -15,32 +15,37 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // on every page that used the two-column layout only.
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
-// WIN8S palette: the soft-extruded card sits on the brand's near-black surface
-// (#1c0a02) with a cool shadow into #050201 and a warm orange-lit highlight,
-// and the heading gradient runs cream -> orange -> deep orange.
+// Flattened: each column's text classes live on its own <article> and the slot
+// renders as a direct child. `leading-normal` on the column labels neutralises
+// the hoisted `leading-relaxed`. Do not re-add a wrapper <div>.
+//
+// HERO1688 palette: the soft-extruded card sits on the brand's near-black card
+// surface (#080a12), shadowed into #010207 with a red-lit highlight (#3a0709),
+// and the heading gradient runs silver-white -> red -> deep red so it reads as
+// the logo's silver 1688 against the red HERO wordmark.
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#1c0a02] p-8 shadow-[10px_10px_20px_#050201,-10px_-10px_20px_#3a1405] transition-all duration-300 hover:shadow-[15px_15px_30px_#050201,-15px_-15px_30px_#6a2606]">
+    class="w-full rounded-[25px] bg-[#080a12] p-8 shadow-[10px_10px_20px_#010207,-10px_-10px_20px_#3a0709] transition-all duration-300 hover:shadow-[15px_15px_30px_#010207,-15px_-15px_30px_#5a0406]">
     {
       title && (
-        <header class="mb-8 border-b border-[#8a3103]/60 pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#fff2e6] via-[#fc8d13] to-[#ec5402] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-b border-[#7d0507]/60 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#f4f7fb] via-[#e11015] to-[#7d0507] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f6e4d6]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#dbe1ea]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6]">
-        {titleleft && <p class="text-2xl leading-normal font-black tracking-wide text-[#fd9a1e]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea]">
+        {titleleft && <p class="text-2xl leading-normal font-black tracking-wide text-[#ff5a5d]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6] md:border-l md:border-[#8a3103]/60 md:pl-8">
-        {titleright && <p class="text-2xl leading-normal font-black tracking-wide text-[#fd9a1e]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea] md:border-l md:border-[#7d0507]/60 md:pl-8">
+        {titleright && <p class="text-2xl leading-normal font-black tracking-wide text-[#ff5a5d]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

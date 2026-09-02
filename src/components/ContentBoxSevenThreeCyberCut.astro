@@ -11,44 +11,49 @@ export interface Props {
 const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 const rightHeading = titleright ?? title;
 
-// WIN8S palette: near-black card (#1c0a02) inside a clipped orange frame, with
-// the corner rules split orange (#fc8d13 / #8a3103) on one diagonal and chrome
-// silver (#e3e7ec / #9aa3ad) on the other. The heading and the `>_` marker take
-// orange.
+// Flattened: `isolate` on the card, `-z-10` on the four corner rules, each
+// column's text classes on its own <article> with the slot as a direct child.
+// The headings carry `leading-normal` so the hoisted `leading-relaxed` cannot
+// leak into them. Do not re-add a wrapper <div>.
+//
+// HERO1688 palette: near-black card surface (#080a12) inside a clipped deep-red
+// frame, with the corner rules split red (#ff2d2d / #7d0507) on one diagonal and
+// chrome silver (#e3e7ec / #9aa3ad) on the other — the logo's red HERO against
+// its silver 1688. The heading and the `>_` marker take red.
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#8a3103]/85 bg-[#1c0a02]/92 p-8 text-[#f6e4d6] shadow-[0_10px_30px_rgba(243,100,3,0.20)] backdrop-blur-md transition-all duration-300 hover:border-[#f36403]/70 hover:shadow-[0_15px_40px_rgba(243,100,3,0.30)]"
+    class="relative isolate w-full border border-[#7d0507]/85 bg-[#080a12]/92 p-8 text-[#dbe1ea] shadow-[0_10px_30px_rgba(225,16,21,0.20)] backdrop-blur-md transition-all duration-300 hover:border-[#e11015]/70 hover:shadow-[0_15px_40px_rgba(225,16,21,0.30)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fc8d13] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#8a3103] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#ff2d2d] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#7d0507] to-transparent"></div>
     <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#e3e7ec] to-transparent"></div>
     <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#9aa3ad] to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea]">
         {
           titleleft && (
-            <div class="flex items-baseline gap-2 border-b border-[#8a3103]/85 pb-2">
-              <span aria-hidden="true" class="font-mono text-[#f36403]">
+            <div class="flex items-baseline gap-2 border-b border-[#7d0507]/85 pb-2">
+              <span aria-hidden="true" class="font-mono text-[#e11015]">
                 &gt;_
               </span>
-              <HeadingTag class="text-xl leading-normal font-black text-[#fd9a1e] uppercase">{titleleft}</HeadingTag>
+              <HeadingTag class="text-xl leading-normal font-black text-[#ff5a5d] uppercase">{titleleft}</HeadingTag>
             </div>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4d6] md:border-l md:border-[#8a3103]/85 md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea] md:border-l md:border-[#7d0507]/85 md:pl-8">
         {
           rightHeading && (
-            <div class="flex items-baseline gap-2 border-b border-[#8a3103]/85 pb-2">
-              <span aria-hidden="true" class="font-mono text-[#f36403]">
+            <div class="flex items-baseline gap-2 border-b border-[#7d0507]/85 pb-2">
+              <span aria-hidden="true" class="font-mono text-[#e11015]">
                 &gt;_
               </span>
-              <HeadingTag class="text-xl leading-normal font-black text-[#fd9a1e] uppercase">{rightHeading}</HeadingTag>
+              <HeadingTag class="text-xl leading-normal font-black text-[#ff5a5d] uppercase">{rightHeading}</HeadingTag>
             </div>
           )
         }

@@ -1,19 +1,19 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ProviderGrid from "../components/ProviderGridPremium.astro";
+import Announcement from "../components/AnnouncementCyber.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import Faq4 from "../components/Faq4.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import LoginRtpSection from "../components/LoginRtpSection.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import Faq2 from "../components/Faq2.astro";
+import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -21,19 +21,29 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// slide1 is the แนะนำเพื่อน 0.8% poster and slide2 is the คืนยอดเสีย 0.3% one, in
-// the same order the docx runs its two H3 sub-sections. slide3 and slide4 belong
-// to a previous client's drop (dated weeks before this one) and are never
-// imported here, and there is no banner2+ illustration in this brand's drop
-// either — banner2.png/banner3.png are likewise older brands' leftovers.
+// SLIDE ROLES FOR HERO1688 — READ BEFORE REUSING THESE IMPORTS.
+// slide1.png is the คืนยอดเสีย 0.3% poster and slide2.png is the แนะนำเพื่อน 0.8%
+// one. That is the OPPOSITE of the previous brand, whose comment in this same
+// spot said slide1 = แนะนำเพื่อน — carrying that assumption forward silently
+// pairs each promotion with the other one's artwork, which builds clean and
+// reads wrong. So the docx runs its two H3 sub-sections แนะนำเพื่อน (0.8%) then
+// คืนยอดเสีย (0.3%), and this file therefore renders slide2 first, then slide1.
+// Re-check the actual posters on the next rebrand rather than trusting either
+// order.
+//
+// Stale assets that must stay unimported: slide3.png / slide4.png (2026-08-13)
+// and banner2.png / banner3.png belong to earlier clients' drops, and there is
+// no banner2+ article illustration in this brand's drop. banner1.png and
+// banner1-mobile.png are the hero pair and belong to MainLayout's own pinned
+// globs — never referenced from a page.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 118 characters and
-// that is correct.
-const pageTitle = "SUPERMAX168 คาสิโนเว็บตรง100% บาคาร่า สล็อต เข้าเล่นได้24ชม.";
+// floor and never topped up from the H1/H2 — this one is 86 characters and that
+// is correct.
+const pageTitle = "HERO1688 สล็อตออโต้เว็บตรง เกมแตกไว ค่ายแท้ ไม่ผ่านตัวแทน";
 
-const pageDescription = "SUPERMAX168 คาสิโนเว็บตรง100% ทางเข้าแท้ บาคาร่า สล็อต บอล หวย ไฮโล ปลอดภัยทุกการเดิมพัน สมัครรับโปรโมชั่นดีๆ อีกมากมาย";
+const pageDescription = "HERO1688 สล็อตออโต้เว็บตรง รวมเกมเล่นง่าย แตกไว การันตีจากค่ายแท้ ไม่ผ่านเว็บตัวแทน";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -41,22 +51,22 @@ const pageDescription = "SUPERMAX168 คาสิโนเว็บตรง100%
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "SUPERMAX168 คาสิโนเว็บตรง100% รวมบาคาร่า สล็อต บอล หวย และไฮโล ไว้ในบัญชีเดียว • รองรับการเข้าใช้งานผ่านมือถือและคอมพิวเตอร์ตลอด 24 ชั่วโมง • Login แล้วเลือกเกมที่ต้องการได้ทันที พร้อมตรวจสอบกติกา อัตราจ่าย และวงเงินเดิมพันก่อนทำรายการด้วยตัวเอง • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% และโปรโมชั่นคืนยอดเสีย โบนัส 0.3% ตามเงื่อนไขและรอบคำนวณที่กำหนด ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง • ระบบฝากถอนรองรับวอลเลทและบัญชีธนาคารตามช่องทางที่เว็บไซต์เปิดรองรับ ควรตรวจสอบชื่อบัญชี ยอดขั้นต่ำ และวงเงินก่อนทำธุรกรรม • แอดมิน SUPERMAX168 ดูแลออนไลน์ตลอด 24 ชั่วโมง";
+  "HERO1688 สล็อตออโต้เว็บตรง รวมเกมสล็อตจากหลายค่ายไว้ในบัญชีเดียว • รองรับการเข้าเล่นผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ตลอด 24 ชั่วโมง • Login แล้วเลือกค่ายและเกมที่ต้องการได้ทันที พร้อมตรวจสอบกติกาและอัตราจ่ายของแต่ละเกมก่อนเริ่มเดิมพัน • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% และโปรโมชั่นคืนยอดเสีย โบนัส 0.3% ตามเงื่อนไขและรอบคำนวณที่กำหนด ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง • ระบบฝากถอนรองรับวอลเลทและบัญชีธนาคารตามช่องทางที่เว็บไซต์เปิดรองรับ • แอดมิน HERO1688 ดูแลออนไลน์ตลอด 24 ชั่วโมง";
 
-// One array, used by both <Faq4> and the FAQPage node — never the component's
+// One array, used by both <Faq2> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "SUPERMAX168 มีเกมอะไรให้เลือกบ้าง?",
-    a: "มีเกมหลักอย่างบาคาร่า สล็อต บอล หวย และไฮโล รวมถึงเกมประเภทอื่นตามที่ระบบเปิดให้บริการ สมาชิกสามารถเลือกหมวดที่สนใจและตรวจสอบกติกา อัตราจ่าย และวงเงินก่อนเริ่มเดิมพันได้",
+    q: "HERO1688 มีเกมสล็อตจากหลายค่ายให้เลือกหรือไม่?",
+    a: "HERO1688 สามารถรวบรวมเกมสล็อตจากหลายผู้ให้บริการไว้ในบัญชีเดียวตามค่ายที่ระบบเปิดให้บริการ สมาชิกสามารถตรวจสอบรายชื่อค่ายและเกมล่าสุดจากหน้าเลือกเกมก่อนเข้าใช้งานได้",
   },
   {
-    q: "โปรโมชั่น SUPERMAX168 0.8% และ 0.3% รับอย่างไร?",
-    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบยอดคำนวณและข้อกำหนดของแต่ละโปรโมชั่นก่อนกดรับ",
+    q: "โปรโมชั่น HERO1688 โบนัส 0.8% และ 0.3% รับอย่างไร?",
+    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับยอดที่ตรงตามข้อกำหนด ส่วนโบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบยอดที่เข้าเกณฑ์และเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง",
   },
   {
-    q: "หากฝากถอน SUPERMAX168 แล้วเครดิตไม่เข้าต้องทำอย่างไร?",
-    a: "ให้ตรวจสอบประวัติธุรกรรมในบัญชีก่อน หากรายการยังค้างหรือยอดไม่ถูกต้อง สามารถติดต่อแอดมิน SUPERMAX168 พร้อมแจ้งจำนวนเงิน เวลา และช่องทางที่ใช้ทำรายการ เพื่อให้เจ้าหน้าที่ตรวจสอบและช่วยแก้ไขปัญหาได้ตลอด 24 ชั่วโมง",
+    q: "HERO1688 ฝากถอนผ่านวอลเลทและธนาคารได้หรือไม่?",
+    a: "สามารถเลือกใช้วอลเลทและบัญชีธนาคารตามช่องทางที่ HERO1688 เปิดรองรับในขณะนั้นได้ ก่อนยืนยันรายการควรตรวจสอบยอดขั้นต่ำ วงเงิน และสถานะของช่องทางฝากถอนจากหน้าเว็บไซต์โดยตรง",
   },
 ];
 
@@ -64,8 +74,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Cream marks a claim the brief states outright; gold marks the caveat that
-// goes with it.
+// Silver-white (#f4f7fb) marks a claim the brief states outright; the light red
+// accent (#ff5a5d) marks the caveat that goes with it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -82,66 +92,48 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxNeumorphism as="h1" title="SUPERMAX168 คาสิโนเว็บตรง100% เข้าเล่นได้ทุกรูปแบบ">
-    <p class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      <strong class="text-[#fff8e2]">SUPERMAX168</strong> เปิดบริการเกมคาสิโนออนไลน์สำหรับสมาชิกที่ต้องการรวมหลายรูปแบบการเดิมพันไว้ในบัญชีเดียว มีทั้งบาคาร่า สล็อต บอล หวย และไฮโล
-      <strong class="text-[#fff8e2]">รองรับการเข้าใช้งานผ่านมือถือและคอมพิวเตอร์ตลอด 24 ชั่วโมง</strong>
-      สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต รับโปรโมชั่น และจัดการฝากถอนได้จากหน้าเว็บไซต์ พร้อมระบบรองรับวอลเลทและธนาคาร รวมถึงมีแอดมินคอยช่วยเหลือเมื่อพบปัญหาระหว่างใช้งาน
+  <ContentBoxCyberCut as="h1" title="HERO1688 สล็อตออโต้เว็บตรง เล่นง่าย ไม่มีขั้นต่ำ">
+    <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      <strong class="text-[#f4f7fb]">HERO1688</strong> ให้บริการเกมสล็อตออนไลน์ผ่านระบบออโต้ รวมเกมจากหลายค่ายไว้ให้เลือกผ่านบัญชีเดียว
+      <strong class="text-[#f4f7fb]">รองรับการใช้งานทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์</strong>
+      สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต ฝากถอน และรับโปรโมชั่นผ่านหน้าเว็บไซต์ได้โดยตรง พร้อมช่องทางวอลเลทและธนาคารตามที่ระบบรองรับ
+      รวมถึงมีแอดมินให้บริการและช่วยตรวจสอบปัญหาการใช้งานตลอด 24 ชั่วโมง
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxCyberCut>
 
-  <ContentBoxTwoPremium as="h2" title="ทางเข้าแท้ SUPERMAX168 บาคาร่า สล็อต บอล หวย ไฮโล ปลอดภัยทุกการเดิมพัน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      <strong class="text-[#fff8e2]">SUPERMAX168</strong> รวมหมวดเกมหลักไว้ให้เลือกตามความต้องการ ทั้งบาคาร่าออนไลน์สำหรับผู้ที่ชอบเกมไพ่ สล็อตออนไลน์จากหลายค่าย เดิมพันฟุตบอลตามรายการแข่งขัน
-      หวยออนไลน์ตามรอบที่เปิดรับ และไฮโลในหมวดคาสิโน
-      <strong class="text-[#fff8e2]">สมาชิกสามารถ Login แล้วเลือกเกมที่ต้องการผ่านบัญชีเดียว</strong>
-      พร้อมตรวจสอบกติกา อัตราจ่าย และวงเงินเดิมพันก่อนทำรายการได้ด้วยตัวเอง
+  <ContentBoxTwoNeumorphism as="h2" title="เว็บสล็อต HERO1688 การันตีจากค่ายแท้ ไม่ผ่านเว็บตัวแทน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      <strong class="text-[#f4f7fb]">HERO1688</strong> รวบรวมเกมสล็อตจากหลายผู้ให้บริการไว้เป็นหมวดหมู่
+      <strong class="text-[#f4f7fb]">ช่วยให้สมาชิกค้นหาเกมที่ต้องการและสลับค่ายผ่านบัญชีเดียวได้สะดวก</strong>
+      มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน และเกมรูปแบบใหม่ตามที่แต่ละค่ายเปิดให้บริการ พร้อมรองรับการเข้าเล่นผ่านเว็บเบราว์เซอร์บนอุปกรณ์หลากหลายประเภท
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      สำหรับคำว่า “เว็บตรง 100%” หรือ “ทางเข้าแท้”
-      <strong class="text-[#ecc964]">ควรมีข้อมูลผู้ให้บริการหรือรายละเอียดที่สามารถตรวจสอบได้บนเว็บไซต์</strong>
-      เพื่อช่วยให้สมาชิกแยกช่องทางหลักออกจากลิงก์ที่ไม่เกี่ยวข้องได้ชัดเจนยิ่งขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      สำหรับคำว่า “ค่ายแท้” และ “ไม่ผ่านเว็บตัวแทน”
+      <strong class="text-[#ff5a5d]">ควรมีข้อมูลผู้ให้บริการหรือรายละเอียดที่สามารถตรวจสอบได้บนเว็บไซต์</strong>
+      ส่วนผลลัพธ์ของเกมสล็อตเป็นไปตามระบบของแต่ละเกม
+      <strong class="text-[#ff5a5d]">จึงไม่สามารถรับประกันว่าเกมใดจะแตกไวหรือสร้างกำไรได้ทุกครั้ง</strong>
     </p>
-  </ContentBoxTwoPremium>
-
-  <LoginRtpSection />
+  </ContentBoxTwoNeumorphism>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBox as="h2" title="สมัคร SUPERMAX168 รับโปรโมชั่นสำหรับสมาชิกได้ไม่จำกัด">
-    <p class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      หลังสมัคร <strong class="text-[#fff8e2]">SUPERMAX168</strong> สมาชิกสามารถ Login เพื่อตรวจสอบโปรโมชั่นที่เปิดให้รับในแต่ละช่วงได้
-      <strong class="text-[#fff8e2]">โดยมีทั้งกิจกรรมแนะนำเพื่อนและคืนยอดเสียตามเงื่อนไข</strong>
-      โปรโมชั่นแต่ละรายการอาจกำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ และเงื่อนไขการรับโบนัสแตกต่างกัน
-      <strong class="text-[#ecc964]">จึงควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง</strong>
+  <ContentBoxTwoFloatingBadge as="h2" title="HERO1688 เดิมพันไม่มีขั้นต่ำ รองรับทุกธนาคาร ฝากถอนวอลเลท">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      สมาชิก <strong class="text-[#f4f7fb]">HERO1688</strong> สามารถจัดการเครดิตผ่านระบบฝากถอนที่เว็บไซต์เปิดให้บริการ โดยเลือกใช้วอลเลทหรือบัญชีธนาคารจากช่องทางที่รองรับ
+      <strong class="text-[#f4f7fb]">ทำรายการฝาก ส่งคำขอถอน และตรวจสอบสถานะผ่านบัญชีสมาชิกได้ด้วยตัวเองบนมือถือ</strong>
     </p>
-  </ContentBox>
-
-  <ContentBoxSevenThree as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide1}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ SUPERMAX168 พื้นหลังคาสิโนโทนดำทอง มีเหรียญทองปลิวกระจาย ด้านบนกลางภาพเป็นโลโก้ SUPERMAX168 ตัวอักษร SUPER สีทองไล่เฉด คำว่า MAX สีเงินโครเมียม และเลข 168 สีทองคู่กับชิปคาสิโนรูปโพดำ ถัดลงมาเป็นป้ายกรอบทองเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีทอง วางเหนือตัวเลข 0.8% ขนาดใหญ่สีขาวเงินขอบทอง ด้านซ้ายเป็นไพ่เอซสี่ใบ กล่องของขวัญผูกโบว์ทอง และกองเหรียญทอง ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำคาดทองยกมือชี้มาที่ตัวเลข ฉากหลังด้านขวาเป็นวงล้อรูเล็ตและตู้สล็อต 777 ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า ชวนเพื่อนง่าย รับโบนัสทันที กับ รับโบนัส จากยอดเพื่อนเล่น และ มั่นคง ปลอดภัย เชื่อถือได้ 100%"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#ecc964]/45 shadow-[0_10px_30px_rgba(236,201,100,0.25)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัครและมีรายการตรงตามเงื่อนไข
-      <strong class="text-[#fff8e2]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% ตามยอดที่เข้าเกณฑ์</strong>
-      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่ได้รับผ่านบัญชีสมาชิกได้ด้วยตัวเอง
+    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      เงื่อนไข “ไม่มีขั้นต่ำ” และ “รองรับทุกธนาคาร”
+      <strong class="text-[#ff5a5d]">ควรยึดข้อมูลที่แสดงในหน้าฝากถอน ณ เวลาทำรายการ</strong>
+      เนื่องจากช่องทางแต่ละประเภทอาจกำหนดยอดขั้นต่ำ วงเงิน หรือเงื่อนไขแตกต่างกัน
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxTwoFloatingBadge>
 
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่นคืนยอดเสีย โบนัส 0.3%">
+  <LoginRtpSection />
+
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -153,47 +145,72 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ SUPERMAX168 พื้นหลังคาสิโนโทนดำทอง มีเหรียญทองปลิวกระจาย ด้านบนกลางภาพเป็นโลโก้ SUPERMAX168 ตัวอักษร SUPER สีทองไล่เฉด คำว่า MAX สีเงินโครเมียม และเลข 168 สีทองคู่กับชิปคาสิโนรูปโพดำ ถัดลงมาเป็นป้ายกรอบทองเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีขาวเงินขอบทอง ด้านซ้ายเป็นไพ่เอซสี่ใบ กล่องของขวัญผูกโบว์ทอง และกองเหรียญทอง ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำคาดทองยกมือชี้มาที่ตัวเลข ฉากหลังด้านขวาเป็นวงล้อรูเล็ตและตู้สล็อต 777 ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า คืนยอดเสียทุกวัน กดรับได้เอง กับ มั่นคง ปลอดภัย เชื่อถือได้ 100% และ รองรับ วอลเลท ทุกธนาคาร"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e3e3e4]/35 shadow-[0_10px_30px_rgba(227,227,228,0.18)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ HERO1688 พื้นหลังคาสิโนโทนดำแดง มีชิปคาสิโนและประกายแสงสีแดงกระจาย ด้านบนกลางภาพเป็นโลโก้ HERO1688 คำว่า HERO สีแดงและเลข 1688 สีเงินโครเมียม ถัดลงมาเป็นป้ายกรอบแดงเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีแดงขอบขาว ด้านซ้ายเป็นตู้สล็อตขึ้นเลข 777 สีแดงและกองชิปคาสิโน ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำแดงยกมือชี้มาที่ตัวเลข พร้อมกล่องของขวัญผูกโบว์แดง ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า แนะนำเพื่อน รับโบนัสทันที กับ เพื่อนสมัคร รับโบนัสไปเลย และ รับโบนัสสูงสุด ไม่จำกัด"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e11015]/45 shadow-[0_10px_30px_rgba(225,16,21,0.25)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      หากสมาชิกมียอดเสียตรงตามข้อกำหนด
-      <strong class="text-[#fff8e2]">สามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ SUPERMAX168 กำหนด</strong>
-      ระบบจะแสดงยอดที่เข้าเงื่อนไขและจำนวนโบนัสที่สามารถกดรับได้
-      <strong class="text-[#ecc964]">ควรตรวจสอบประเภทเกม รอบคำนวณ และข้อกำหนดก่อนรับสิทธิ์ทุกครั้ง</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      สมาชิกสามารถนำลิงก์แนะนำส่วนตัวไปแชร์ให้เพื่อน เมื่อเพื่อนสมัคร <strong class="text-[#f4f7fb]">HERO1688</strong> และมียอดใช้งานตรงตามข้อกำหนด
+      <strong class="text-[#f4f7fb]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเงื่อนไข</strong>
+      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้โดยตรง
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxTwoCyberCut as="h2" title="ระบบฝากถอน SUPERMAX168 รองรับวอลเลทและธนาคารชั้นนำ">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      สมาชิกสามารถจัดการเครดิตผ่านระบบฝากถอน <strong class="text-[#fff8e2]">SUPERMAX168</strong> โดยเลือกวอลเลทหรือบัญชีธนาคารจากช่องทางที่เว็บไซต์เปิดรองรับ
-      <strong class="text-[#fff8e2]">ทำรายการฝาก ส่งคำขอถอน และติดตามสถานะผ่านบัญชีสมาชิกได้โดยตรง</strong>
-      ช่วยให้จัดการธุรกรรมผ่านมือถือได้สะดวกโดยไม่จำเป็นต้องแจ้งรายการกับเจ้าหน้าที่ทุกครั้ง
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่นคืนยอดเสีย โบนัส 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ HERO1688 พื้นหลังคาสิโนโทนดำแดง มีชิปคาสิโนและประกายแสงสีแดงกระจาย ด้านบนกลางภาพเป็นโลโก้ HERO1688 คำว่า HERO สีแดงและเลข 1688 สีเงินโครเมียม ถัดลงมาเป็นป้ายกรอบแดงเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีแดงขอบขาว ด้านซ้ายเป็นตู้สล็อตขึ้นเลข 777 สีแดง ไพ่โพดำ และกองชิปคาสิโน ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำแดงยกมือชี้มาที่ตัวเลข ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า มั่นคง ปลอดภัย เชื่อถือได้ 100% กับ ฝาก-ถอน ออโต้ รวดเร็ว ทันใจ และ แอดมินดูแล 24 ชม. บริการทุกระดับประทับใจ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#c4c5ca]/35 shadow-[0_10px_30px_rgba(196,197,202,0.18)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
+      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถ
+      <strong class="text-[#f4f7fb]">ตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ HERO1688 กำหนด</strong>
+      โดยยอดโบนัสจะคำนวณจากรายการที่เข้าเกณฑ์
+      <strong class="text-[#ff5a5d]">ก่อนกดรับควรตรวจสอบรอบคำนวณ ประเภทเกมที่ร่วมรายการ และเงื่อนไขของโปรโมชั่นให้ครบถ้วน</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      ก่อนทำธุรกรรม
-      <strong class="text-[#ecc964]">ควรตรวจสอบชื่อบัญชี จำนวนเงิน ยอดขั้นต่ำ และวงเงินของช่องทางที่เลือก</strong>
-      เนื่องจากธนาคารหรือวอลเลทแต่ละประเภทอาจมีเงื่อนไขแตกต่างกัน
-    </p>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxSevenThreeNeumorphism>
+
+  <ContentBoxPremium as="h2" title="สมัคร HERO1688 เล่นสล็อตเว็บแท้ ไม่ผ่านเว็บตัวแทน">
+    <div class="space-y-4">
+      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
+        การสมัคร <strong class="text-[#f4f7fb]">HERO1688</strong> สามารถดำเนินการผ่านระบบออนไลน์ได้ด้วยตัวเอง
+        <strong class="text-[#f4f7fb]">เริ่มจากกรอกข้อมูลตามที่เว็บไซต์กำหนด ยืนยันข้อมูลและ Login เข้าสู่บัญชี</strong>
+        จากนั้นเลือกช่องทางฝากเครดิต ตรวจสอบโปรโมชั่น และเลือกค่ายเกมสล็อตที่ต้องการได้ทันที
+      </p>
+      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
+        หลังเปิดบัญชี สมาชิกสามารถตรวจสอบยอดเครดิต ประวัติฝากถอน โปรโมชั่น และรายการใช้งานผ่านหน้าเว็บไซต์ได้ โดย
+        <strong class="text-[#ff5a5d]">ควรตั้งรหัสผ่านที่คาดเดายาก ไม่ใช้รหัสเดียวกับบริการอื่น และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
+      </p>
+    </div>
+  </ContentBoxPremium>
 
   <LatestWinners />
 
-  <ContentBoxSpecial as="h2" title="แอดมิน SUPERMAX168 มีระบบดูแลออนไลน์ ตลอด 24 ชั่วโมง" iconleft="🎧" iconright="🔐">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง หรือโปรโมชั่นไม่แสดง
-      <strong class="text-[#fff8e2]">สามารถติดต่อแอดมิน SUPERMAX168 ได้ตลอด 24 ชั่วโมง</strong>
-      โดยควรแจ้งเวลา จำนวนเงิน และรายละเอียดของรายการให้ครบ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้รวดเร็วและตรงจุด
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f3e6c8]">
-      สมาชิกใหม่ยังสามารถสอบถามขั้นตอนการใช้งาน วิธีฝากถอน การรับโปรโมชั่น หรือรายละเอียดเกมแต่ละประเภทได้ และ
-      <strong class="text-[#ecc964]">ไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
-    </p>
-  </ContentBoxSpecial>
+  <ContentBoxFloatingBadge as="h2" title="แอดมิน HERO1688 ติดต่อสอบถามได้ 24 ชั่วโมง">
+    <div class="space-y-4">
+      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
+        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือไม่สามารถเข้าเกมสล็อตได้
+        <strong class="text-[#f4f7fb]">สามารถติดต่อแอดมิน HERO1688 ได้ตลอด 24 ชั่วโมง</strong>
+        โดยควรแจ้งเวลา จำนวนเงิน และรายละเอียดรายการให้ครบ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
+      </p>
+      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
+        นอกจากนี้สมาชิกใหม่ยังสามารถสอบถามขั้นตอนการฝากถอน วิธีรับโปรโมชั่น หรือการเข้าใช้งานเกมแต่ละค่ายได้
+        <strong class="text-[#ff5a5d]">หากเป็นปัญหาด้านธุรกรรมควรเก็บหลักฐานรายการไว้จนกว่าการตรวจสอบจะเสร็จสิ้น</strong>
+      </p>
+    </div>
+  </ContentBoxFloatingBadge>
 
-  <Faq4 title="คำถามที่พบบ่อยเกี่ยวกับ SUPERMAX168" faqs={faqs} />
+  <Faq2 title="คำถามที่พบบ่อยเกี่ยวกับ HERO1688" faqs={faqs} />
 
-  <ReviewCardSumo />
+  <ReviewCardSumo2 />
 
   <Navfoot />
 </MainLayout>

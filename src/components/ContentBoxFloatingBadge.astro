@@ -9,44 +9,49 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // The badge is `absolute -top-6`, so the card's top padding must exceed the
 // badge's own height minus 24px. It is width-capped (w-[92%] max-w-2xl) and
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
-// overflowing the card.
+// overflowing the card and forcing horizontal scroll on a phone.
 //
-// Clearance re-done for SUPERMAX168's h1, "SUPERMAX168 คาสิโนเว็บตรง100%
-// เข้าเล่นได้ทุกรูปแบบ" — 51 characters, longer than any title this box has
-// carried before. The heading carries `leading-normal` (1.5), so each breakpoint
-// is measured at 1.5x its own font-size, and the badge adds py-2.5 (20px) plus
-// border-2 (4px). Measured wrap is THREE lines at base and TWO from sm; the
-// budget below is one line more than measured at every breakpoint:
-//   base  text-xl  20px -> 30px/line, budget 4 lines = 4x30 + 24 = 144px,
-//                          bottom edge 120px vs pt-36/144px  -> 24px clear
-//   sm    text-2xl 24px -> 36px/line, budget 2 lines = 96px, edge 72px
-//                          vs sm:pt-24/96px               -> 24px clear
-//   md    text-3xl 30px -> 45px/line, budget 2 lines = 114px, edge 90px
-//                          vs md:pt-28/112px             -> 22px clear
-// base was pt-32 (8px of clearance at four lines) and md was pt-24 (6px at two
-// lines) — both were positive but too thin to survive a longer title. Do not
-// push these back down without redoing the arithmetic above.
+// Clearance redone for HERO1688's H2, "แอดมิน HERO1688 ติดต่อสอบถามได้ 24 ชั่วโมง"
+// (41 characters). The heading carries `leading-normal` (1.5), the badge adds
+// py-2.5 (20px) plus border-2 (4px), and the two ✦ spans plus gap-2 take ~48px
+// out of the line box. Budget is one line beyond the measured wrap at every
+// breakpoint, and pt-28 (112px) clears all three:
+//   base  text-lg 18px -> 27px/line, ~247px of text width at 360px
+//         (w-[92%] 331 - px-4 32 - border 4 - sparks 48) = ~23 chars/line,
+//         so 41 chars wraps to 2. Budget 3 lines = 3x27 + 24 = 105px,
+//         bottom edge 81px vs pt-28/112px    -> 31px clear
+//   sm    text-xl 20px -> 30px/line, ~473px of text width = ~43 chars/line,
+//         wraps to 1. Budget 3 lines = 3x30 + 24 = 114px,
+//         bottom edge 90px vs pt-28/112px    -> 22px clear
+//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~41 chars/line,
+//         wraps to 1. Budget 2 lines = 2x36 + 24 = 96px,
+//         bottom edge 72px vs pt-28/112px    -> 40px clear
+// It was pt-36 sm:pt-24 md:pt-28, sized for the previous brand's 51-char H1 — the
+// sm step was the thin one there and is now the safest. If a future brand puts
+// an H1 back in this box the sizes step up one notch each and the arithmetic
+// has to be redone; do not shrink it on the assumption that it stays an H2.
 //
-// Two-tone: the left spark is gold and the right one silver, matching the logo's
-// gold "SUPER" against the brushed-silver "MAX" and its gold chip "168".
+// HERO1688 palette: near-black card inside a deep-red border, red heading
+// gradient, and a two-tone spark pair — red on the left, chrome silver on the
+// right — matching the logo's red HERO against the silver 1688.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#ba8219]/70 bg-gradient-to-b from-[#1b140b]/95 to-[#030201]/95 p-8 pt-36 text-left text-base leading-relaxed text-[#f3e6c8] shadow-[0_10px_30px_rgba(236,201,100,0.22)] sm:pt-24 md:pt-28">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#f9e38b]/25 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e3e3e4]/15 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#7d0507]/70 bg-gradient-to-b from-[#12060a]/95 to-[#010207]/95 p-8 pt-28 text-left text-base leading-relaxed text-[#dbe1ea] shadow-[0_10px_30px_rgba(225,16,21,0.22)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e11015]/25 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#c4c5ca]/15 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#ecc964]/50 bg-[#0d0904] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(249,227,139,0.3)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#f9e38b]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e11015]/50 bg-[#080a12] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(255,90,93,0.3)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ff5a5d]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#f9e38b] via-[#fff8e2] to-[#ecc964] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ff5a5d] via-[#f4f7fb] to-[#e11015] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#e3e3e4]">
+          <span aria-hidden="true" class="shrink-0 text-[#c4c5ca]">
             ✦
           </span>
         </div>
