@@ -1,18 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementCyber.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import LatestWinners from "../components/LatestWinnersCyber.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import Faq2 from "../components/Faq2.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBox from "../components/ContentBox.astro";
+import Faq4 from "../components/Faq4.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
@@ -21,15 +20,13 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR HERO1688 — READ BEFORE REUSING THESE IMPORTS.
-// slide1.png is the คืนยอดเสีย 0.3% poster and slide2.png is the แนะนำเพื่อน 0.8%
-// one. That is the OPPOSITE of the previous brand, whose comment in this same
-// spot said slide1 = แนะนำเพื่อน — carrying that assumption forward silently
-// pairs each promotion with the other one's artwork, which builds clean and
-// reads wrong. So the docx runs its two H3 sub-sections แนะนำเพื่อน (0.8%) then
-// คืนยอดเสีย (0.3%), and this file therefore renders slide2 first, then slide1.
-// Re-check the actual posters on the next rebrand rather than trusting either
-// order.
+// SLIDE ROLES FOR TTN69 — READ BEFORE REUSING THESE IMPORTS.
+// Verified against the artwork on the 2026-09-03 drop: slide1.png is the
+// คืนยอดเสีย 0.3% poster and slide2.png is the แนะนำเพื่อน 0.8% one. The docx
+// runs its promotions section (H2) then its แนะนำเพื่อน 0.8% sub-section (H3),
+// so slide1 sits in the H2 block and slide2 in the H3 block. Re-check the actual
+// posters on the next rebrand rather than trusting this order — a previous brand
+// shipped the two swapped, which builds clean and reads wrong.
 //
 // Stale assets that must stay unimported: slide3.png / slide4.png (2026-08-13)
 // and banner2.png / banner3.png belong to earlier clients' drops, and there is
@@ -39,11 +36,10 @@ import imgSlide2 from "../assets/slide2.png";
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 86 characters and that
-// is correct.
-const pageTitle = "HERO1688 สล็อตออโต้เว็บตรง เกมแตกไว ค่ายแท้ ไม่ผ่านตัวแทน";
+// floor and never topped up from the H1/H2.
+const pageTitle = "TTN69 สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ1บาท";
 
-const pageDescription = "HERO1688 สล็อตออโต้เว็บตรง รวมเกมเล่นง่าย แตกไว การันตีจากค่ายแท้ ไม่ผ่านเว็บตัวแทน";
+const pageDescription = "TTN69 สล็อตออโต้เกม แตกง่าย ขั้นต่ำ1บาท ทุกค่าย รองรับทุกธนาคารและวอลเลท พร้อมโปรฮิตมาแรง โบนัสสูง 0.8%";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -51,22 +47,22 @@ const pageDescription = "HERO1688 สล็อตออโต้เว็บต�
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "HERO1688 สล็อตออโต้เว็บตรง รวมเกมสล็อตจากหลายค่ายไว้ในบัญชีเดียว • รองรับการเข้าเล่นผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ตลอด 24 ชั่วโมง • Login แล้วเลือกค่ายและเกมที่ต้องการได้ทันที พร้อมตรวจสอบกติกาและอัตราจ่ายของแต่ละเกมก่อนเริ่มเดิมพัน • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% และโปรโมชั่นคืนยอดเสีย โบนัส 0.3% ตามเงื่อนไขและรอบคำนวณที่กำหนด ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง • ระบบฝากถอนรองรับวอลเลทและบัญชีธนาคารตามช่องทางที่เว็บไซต์เปิดรองรับ • แอดมิน HERO1688 ดูแลออนไลน์ตลอด 24 ชั่วโมง";
+  "TTN69 สล็อตออโต้เกม รวมเกมจากหลายแบรนด์ไว้ในบัญชีเดียว สลับค่ายได้โดยไม่ต้องสมัครใหม่ • รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ • บางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท แต่ขั้นต่ำจริงต่างกันตามผู้ให้บริการ ควรตรวจสอบช่วงเดิมพันในเกมก่อนเริ่มเล่นทุกครั้ง • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% คำนวณจากยอดที่เข้าเกณฑ์ ตามรอบคำนวณและเงื่อนไขที่กำหนด • ฝากถอนผ่านบัญชีธนาคารและวอลเลทตามช่องทางที่เว็บไซต์เปิดรองรับ ควรตรวจสอบรายชื่อธนาคาร ยอดขั้นต่ำ และวงเงินล่าสุดก่อนทำรายการ • ติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง";
 
-// One array, used by both <Faq2> and the FAQPage node — never the component's
+// One array, used by both <Faq4> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "HERO1688 มีเกมสล็อตจากหลายค่ายให้เลือกหรือไม่?",
-    a: "HERO1688 สามารถรวบรวมเกมสล็อตจากหลายผู้ให้บริการไว้ในบัญชีเดียวตามค่ายที่ระบบเปิดให้บริการ สมาชิกสามารถตรวจสอบรายชื่อค่ายและเกมล่าสุดจากหน้าเลือกเกมก่อนเข้าใช้งานได้",
+    q: "TTN69 รวมเกมสล็อตจากหลายแบรนด์ไว้ในบัญชีเดียวอย่างไร?",
+    a: "TTN69 รวบรวมเกมสล็อตจากหลายค่ายไว้ให้เลือกตามสไตล์ที่ต้องการ ทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่ตามที่แต่ละผู้ให้บริการเปิดให้บริการ สมาชิกสลับค่ายผ่านบัญชีเดียวได้โดยไม่ต้องสมัครใหม่ และควรตรวจสอบรายชื่อค่ายและเกมล่าสุดจากหน้าเลือกเกมก่อนเริ่มเล่น",
   },
   {
-    q: "โปรโมชั่น HERO1688 โบนัส 0.8% และ 0.3% รับอย่างไร?",
-    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับยอดที่ตรงตามข้อกำหนด ส่วนโบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบยอดที่เข้าเกณฑ์และเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง",
+    q: "ขั้นต่ำ 1 บาททุกค่ายของ TTN69 หมายความว่าอย่างไร?",
+    a: "บางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท เหมาะกับผู้ที่ต้องการกำหนดงบและเลือกระดับเดิมพันด้วยตัวเอง แต่ขั้นต่ำจริงอาจแตกต่างกันตามผู้ให้บริการ จึงควรตรวจสอบช่วงเดิมพันของแต่ละเกมก่อนเริ่มเล่นทุกครั้ง ส่วนคำว่าแตกง่ายหรือแตกหนักไม่สามารถรับประกันผลลัพธ์ได้ เพราะแต่ละเกมมีระบบและความผันผวนต่างกัน",
   },
   {
-    q: "HERO1688 ฝากถอนผ่านวอลเลทและธนาคารได้หรือไม่?",
-    a: "สามารถเลือกใช้วอลเลทและบัญชีธนาคารตามช่องทางที่ HERO1688 เปิดรองรับในขณะนั้นได้ ก่อนยืนยันรายการควรตรวจสอบยอดขั้นต่ำ วงเงิน และสถานะของช่องทางฝากถอนจากหน้าเว็บไซต์โดยตรง",
+    q: "โบนัสแนะนำเพื่อน 0.8% ของ TTN69 รับอย่างไร?",
+    a: "สมาชิกแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัคร TTN69 และมียอดใช้งานตรงตามเงื่อนไข ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์ ตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับได้จากบัญชีสมาชิกโดยตรง และควรตรวจสอบรอบคำนวณ ประเภทเกมที่เข้าร่วม และเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง",
   },
 ];
 
@@ -74,8 +70,9 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Silver-white (#f4f7fb) marks a claim the brief states outright; the light red
-// accent (#ff5a5d) marks the caveat that goes with it.
+// Heading white (#f1faf4) marks a claim the brief states outright; the amber
+// accent (#f5b93c) marks the caveat that goes with it — a warning painted in
+// the brand's own emerald stops reading as a warning.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -92,70 +89,34 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxCyberCut as="h1" title="HERO1688 สล็อตออโต้เว็บตรง เล่นง่าย ไม่มีขั้นต่ำ">
-    <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      <strong class="text-[#f4f7fb]">HERO1688</strong> ให้บริการเกมสล็อตออนไลน์ผ่านระบบออโต้ รวมเกมจากหลายค่ายไว้ให้เลือกผ่านบัญชีเดียว
-      <strong class="text-[#f4f7fb]">รองรับการใช้งานทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์</strong>
-      สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต ฝากถอน และรับโปรโมชั่นผ่านหน้าเว็บไซต์ได้โดยตรง พร้อมช่องทางวอลเลทและธนาคารตามที่ระบบรองรับ
-      รวมถึงมีแอดมินให้บริการและช่วยตรวจสอบปัญหาการใช้งานตลอด 24 ชั่วโมง
+  <ContentBoxNeumorphism as="h1" title="TTN69 สล็อตออโต้เกม แตกง่าย ค่ายแท้ ไม่มีขั้นต่ำ">
+    <p class="text-left text-base leading-relaxed text-[#d5e6da]">
+      <strong class="text-[#f1faf4]">TTN69</strong> ให้บริการเกมสล็อตออนไลน์ผ่านระบบออโต้ รวมเกมจากหลายแบรนด์ไว้ให้เลือกในบัญชีเดียว
+      <strong class="text-[#f1faf4]">รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์</strong>
+      สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต ฝากถอน และรับโปรโมชั่นได้จากหน้าเว็บไซต์ พร้อมช่องทางธนาคารและวอลเลทตามที่ระบบรองรับ รวมถึงมี LINE OFFICIAL สำหรับติดต่อแอดมินและสอบถามปัญหาการใช้งานได้ตลอด 24
+      ชั่วโมง
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxTwoNeumorphism as="h2" title="เว็บสล็อต HERO1688 การันตีจากค่ายแท้ ไม่ผ่านเว็บตัวแทน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      <strong class="text-[#f4f7fb]">HERO1688</strong> รวบรวมเกมสล็อตจากหลายผู้ให้บริการไว้เป็นหมวดหมู่
-      <strong class="text-[#f4f7fb]">ช่วยให้สมาชิกค้นหาเกมที่ต้องการและสลับค่ายผ่านบัญชีเดียวได้สะดวก</strong>
-      มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน และเกมรูปแบบใหม่ตามที่แต่ละค่ายเปิดให้บริการ พร้อมรองรับการเข้าเล่นผ่านเว็บเบราว์เซอร์บนอุปกรณ์หลากหลายประเภท
+  <ContentBoxTwoPremium as="h2" title="สล็อต TTN69 แบรนด์ดัง แตกหนัก ขั้นต่ำ1บาท ทุกค่าย">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6da]">
+      <strong class="text-[#f1faf4]">TTN69</strong> รวบรวมเกมสล็อตจากหลายค่ายไว้ให้สมาชิกเลือกตามสไตล์ที่ต้องการ
+      <strong class="text-[#f1faf4]">มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่จากผู้ให้บริการต่าง ๆ</strong>
+      สามารถสลับค่ายผ่านบัญชีเดียวได้สะดวก โดยบางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท เหมาะกับผู้ที่ต้องการกำหนดงบและเลือกระดับเดิมพันด้วยตัวเอง
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      สำหรับคำว่า “ค่ายแท้” และ “ไม่ผ่านเว็บตัวแทน”
-      <strong class="text-[#ff5a5d]">ควรมีข้อมูลผู้ให้บริการหรือรายละเอียดที่สามารถตรวจสอบได้บนเว็บไซต์</strong>
-      ส่วนผลลัพธ์ของเกมสล็อตเป็นไปตามระบบของแต่ละเกม
-      <strong class="text-[#ff5a5d]">จึงไม่สามารถรับประกันว่าเกมใดจะแตกไวหรือสร้างกำไรได้ทุกครั้ง</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6da]">
+      สำหรับคำว่า “ขั้นต่ำ 1 บาททุกค่าย”
+      <strong class="text-[#f5b93c]">ควรตรวจสอบช่วงเดิมพันของแต่ละเกมก่อนเริ่มเล่น เนื่องจากขั้นต่ำจริงอาจแตกต่างกันตามผู้ให้บริการ</strong>
+      ส่วนคำว่า “แตกง่าย” หรือ “แตกหนัก”
+      <strong class="text-[#f5b93c]">ไม่สามารถรับประกันผลลัพธ์ได้ เพราะเกมสล็อตแต่ละเกมมีระบบและความผันผวนแตกต่างกัน</strong>
     </p>
-  </ContentBoxTwoNeumorphism>
+  </ContentBoxTwoPremium>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBoxTwoFloatingBadge as="h2" title="HERO1688 เดิมพันไม่มีขั้นต่ำ รองรับทุกธนาคาร ฝากถอนวอลเลท">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      สมาชิก <strong class="text-[#f4f7fb]">HERO1688</strong> สามารถจัดการเครดิตผ่านระบบฝากถอนที่เว็บไซต์เปิดให้บริการ โดยเลือกใช้วอลเลทหรือบัญชีธนาคารจากช่องทางที่รองรับ
-      <strong class="text-[#f4f7fb]">ทำรายการฝาก ส่งคำขอถอน และตรวจสอบสถานะผ่านบัญชีสมาชิกได้ด้วยตัวเองบนมือถือ</strong>
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      เงื่อนไข “ไม่มีขั้นต่ำ” และ “รองรับทุกธนาคาร”
-      <strong class="text-[#ff5a5d]">ควรยึดข้อมูลที่แสดงในหน้าฝากถอน ณ เวลาทำรายการ</strong>
-      เนื่องจากช่องทางแต่ละประเภทอาจกำหนดยอดขั้นต่ำ วงเงิน หรือเงื่อนไขแตกต่างกัน
-    </p>
-  </ContentBoxTwoFloatingBadge>
-
-  <LoginRtpSection />
-
-  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ HERO1688 พื้นหลังคาสิโนโทนดำแดง มีชิปคาสิโนและประกายแสงสีแดงกระจาย ด้านบนกลางภาพเป็นโลโก้ HERO1688 คำว่า HERO สีแดงและเลข 1688 สีเงินโครเมียม ถัดลงมาเป็นป้ายกรอบแดงเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีแดงขอบขาว ด้านซ้ายเป็นตู้สล็อตขึ้นเลข 777 สีแดงและกองชิปคาสิโน ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำแดงยกมือชี้มาที่ตัวเลข พร้อมกล่องของขวัญผูกโบว์แดง ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า แนะนำเพื่อน รับโบนัสทันที กับ เพื่อนสมัคร รับโบนัสไปเลย และ รับโบนัสสูงสุด ไม่จำกัด"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e11015]/45 shadow-[0_10px_30px_rgba(225,16,21,0.25)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      สมาชิกสามารถนำลิงก์แนะนำส่วนตัวไปแชร์ให้เพื่อน เมื่อเพื่อนสมัคร <strong class="text-[#f4f7fb]">HERO1688</strong> และมียอดใช้งานตรงตามข้อกำหนด
-      <strong class="text-[#f4f7fb]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเงื่อนไข</strong>
-      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้โดยตรง
-    </p>
-  </ContentBoxSevenThreeCyberCut>
-
-  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่นคืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreePremium as="h2" title="TTN69 รองรับทุกธนาคารและวอลเลท พร้อมโปรฮิตมาแรง">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -167,50 +128,91 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ HERO1688 พื้นหลังคาสิโนโทนดำแดง มีชิปคาสิโนและประกายแสงสีแดงกระจาย ด้านบนกลางภาพเป็นโลโก้ HERO1688 คำว่า HERO สีแดงและเลข 1688 สีเงินโครเมียม ถัดลงมาเป็นป้ายกรอบแดงเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีแดงขอบขาว ด้านซ้ายเป็นตู้สล็อตขึ้นเลข 777 สีแดง ไพ่โพดำ และกองชิปคาสิโน ด้านขวาเป็นผู้หญิงผมรวบสวมชุดสีดำแดงยกมือชี้มาที่ตัวเลข ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า มั่นคง ปลอดภัย เชื่อถือได้ 100% กับ ฝาก-ถอน ออโต้ รวดเร็ว ทันใจ และ แอดมินดูแล 24 ชม. บริการทุกระดับประทับใจ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#c4c5ca]/35 shadow-[0_10px_30px_rgba(196,197,202,0.18)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ TTN69 พื้นหลังโทนดำเขียวมรกต มีชิปคาสิโนและเหรียญทองลอยกระจาย ด้านบนกลางภาพเป็นโลโก้ TTN69 รูปทิวเขาสีขาวเหนือตัวอักษร TTN และเลข 69 บนแถบเขียว ถัดลงมาเป็นป้ายหกเหลี่ยมขอบเขียวเรืองแสงเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีเขียวมรกตมันวาว ด้านซ้ายเป็นตู้สล็อตขึ้นสัญลักษณ์ BAR และเลข 7 ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีขาวสลับเขียวยกมือชี้มาที่ตัวเลข ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า คืนยอดเสียทุกวัน 0.3% กับ มั่นคง ปลอดภัย เชื่อถือได้ 100% และ ระบบออโต้ รวดเร็ว ทันใจ ปิดท้ายด้วยแถบล่างเขียนว่า สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ 1 บาท"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#02b961]/45 shadow-[0_10px_30px_rgba(2,185,97,0.25)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe1ea]">
-      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถ
-      <strong class="text-[#f4f7fb]">ตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ HERO1688 กำหนด</strong>
-      โดยยอดโบนัสจะคำนวณจากรายการที่เข้าเกณฑ์
-      <strong class="text-[#ff5a5d]">ก่อนกดรับควรตรวจสอบรอบคำนวณ ประเภทเกมที่ร่วมรายการ และเงื่อนไขของโปรโมชั่นให้ครบถ้วน</strong>
-    </p>
-  </ContentBoxSevenThreeNeumorphism>
-
-  <ContentBoxPremium as="h2" title="สมัคร HERO1688 เล่นสล็อตเว็บแท้ ไม่ผ่านเว็บตัวแทน">
-    <div class="space-y-4">
-      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
-        การสมัคร <strong class="text-[#f4f7fb]">HERO1688</strong> สามารถดำเนินการผ่านระบบออนไลน์ได้ด้วยตัวเอง
-        <strong class="text-[#f4f7fb]">เริ่มจากกรอกข้อมูลตามที่เว็บไซต์กำหนด ยืนยันข้อมูลและ Login เข้าสู่บัญชี</strong>
-        จากนั้นเลือกช่องทางฝากเครดิต ตรวจสอบโปรโมชั่น และเลือกค่ายเกมสล็อตที่ต้องการได้ทันที
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e6da]">
+      <p>
+        สมาชิก <strong class="text-[#f1faf4]">TTN69</strong> สามารถเลือกใช้บัญชีธนาคารหรือวอลเลทจากช่องทางที่เว็บไซต์เปิดรองรับ
+        <strong class="text-[#f1faf4]">เพื่อฝากเครดิต ส่งคำขอถอน และตรวจสอบสถานะรายการผ่านบัญชีสมาชิกได้ด้วยตัวเอง</strong>
+        พร้อมเข้าไปดูโปรโมชั่นที่เปิดให้รับในแต่ละช่วงได้จากหน้าโปรโมชั่นโดยตรง
       </p>
-      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
-        หลังเปิดบัญชี สมาชิกสามารถตรวจสอบยอดเครดิต ประวัติฝากถอน โปรโมชั่น และรายการใช้งานผ่านหน้าเว็บไซต์ได้ โดย
-        <strong class="text-[#ff5a5d]">ควรตั้งรหัสผ่านที่คาดเดายาก ไม่ใช้รหัสเดียวกับบริการอื่น และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
+      <p>
+        ก่อนทำธุรกรรม
+        <strong class="text-[#f5b93c]">ควรตรวจสอบรายชื่อธนาคาร ยอดขั้นต่ำ วงเงิน และสถานะของช่องทางล่าสุด</strong>
+        เนื่องจากคำว่า “รองรับทุกธนาคาร”
+        <strong class="text-[#f5b93c]">ควรเป็นไปตามระบบที่เปิดให้ใช้งานจริงในขณะนั้น</strong>
       </p>
     </div>
-  </ContentBoxPremium>
+  </ContentBoxSevenThreePremium>
+
+  <ContentBoxSevenThree as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% ฮิตที่สุดในวงสมาชิก">
+    <Picture
+      slot="left"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ TTN69 พื้นหลังโทนดำเขียวมรกต มีชิปคาสิโนและเหรียญทองลอยกระจาย ด้านบนกลางภาพเป็นโลโก้ TTN69 รูปทิวเขาสีขาวเหนือตัวอักษร TTN และเลข 69 บนแถบเขียว ถัดลงมาเป็นป้ายหกเหลี่ยมขอบเขียวเรืองแสงเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีเขียวมรกตมันวาว ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีขาวสลับเขียวยกมือชี้มาที่ตัวเลข ฉากหลังเป็นตู้สล็อตขึ้นเลข 777 สีเขียว ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า แนะนำเพื่อน รับโบนัสทันที กับ เพื่อนสมัคร รับโบนัสไปเลย และ รับโบนัสสูงสุด ไม่จำกัด ปิดท้ายด้วยแถบล่างเขียนว่า สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ 1 บาท"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e4ece7]/35 shadow-[0_10px_30px_rgba(228,236,231,0.18)]"
+    />
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e6da]">
+      <p>
+        สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัคร <strong class="text-[#f1faf4]">TTN69</strong> และมียอดใช้งานตรงตามเงื่อนไข
+        <strong class="text-[#f1faf4]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+        สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้โดยตรง
+      </p>
+      <p>
+        โปรโมชั่นนี้เหมาะสำหรับสมาชิกที่มีการแนะนำผู้ใช้งานใหม่อย่างต่อเนื่อง แต่
+        <strong class="text-[#f5b93c]">ควรตรวจสอบรอบคำนวณ ประเภทเกมที่เข้าร่วม และเงื่อนไขการรับโบนัสล่าสุดก่อนใช้งานทุกครั้ง</strong>
+      </p>
+    </div>
+  </ContentBoxSevenThree>
+
+  <LoginRtpSection />
 
   <LatestWinners />
 
-  <ContentBoxFloatingBadge as="h2" title="แอดมิน HERO1688 ติดต่อสอบถามได้ 24 ชั่วโมง">
-    <div class="space-y-4">
-      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
-        หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือไม่สามารถเข้าเกมสล็อตได้
-        <strong class="text-[#f4f7fb]">สามารถติดต่อแอดมิน HERO1688 ได้ตลอด 24 ชั่วโมง</strong>
-        โดยควรแจ้งเวลา จำนวนเงิน และรายละเอียดรายการให้ครบ เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
+  <ContentBoxSpecial as="h2" title="สมัครเล่น TTN69 สล็อตออโต้เกม ด้วยตัวเอง 3 ขั้นตอน">
+    <div slot="left" class="flex min-w-0 flex-1 flex-col gap-4">
+      <p>
+        การสมัคร <strong class="text-[#f1faf4]">TTN69</strong> สามารถทำผ่านระบบออนไลน์ได้ด้วยตัวเอง
+        <strong class="text-[#f1faf4]">ไม่จำเป็นต้องผ่านขั้นตอนที่ซับซ้อน</strong>
       </p>
-      <p class="text-left text-base leading-relaxed text-[#dbe1ea]">
-        นอกจากนี้สมาชิกใหม่ยังสามารถสอบถามขั้นตอนการฝากถอน วิธีรับโปรโมชั่น หรือการเข้าใช้งานเกมแต่ละค่ายได้
-        <strong class="text-[#ff5a5d]">หากเป็นปัญหาด้านธุรกรรมควรเก็บหลักฐานรายการไว้จนกว่าการตรวจสอบจะเสร็จสิ้น</strong>
+      <ol class="flex list-decimal flex-col gap-2 pl-5 marker:font-black marker:text-[#4ce68f]">
+        <li>เข้าหน้าสมัคร TTN69 และกรอกข้อมูลตามที่ระบบกำหนด</li>
+        <li>Login เข้าบัญชีและเลือกช่องทางฝากเครดิตจากธนาคารหรือวอลเลทที่รองรับ</li>
+        <li>ตรวจสอบโปรโมชั่น เลือกค่ายและเกมสล็อตที่ต้องการก่อนเริ่มเล่น</li>
+      </ol>
+    </div>
+    <p slot="right">
+      หลังสมัครเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติฝากถอน โปรโมชั่น และรายการใช้งานผ่านบัญชีของตนเองได้ โดย
+      <strong class="text-[#f5b93c]">ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผย OTP ให้บุคคลอื่น</strong>
+    </p>
+  </ContentBoxSpecial>
+
+  <ContentBox as="h2" title="ช่องทางติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง">
+    <div class="flex flex-col gap-4">
+      <p>
+        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือเข้าเกมสล็อตไม่ได้
+        <strong class="text-[#f1faf4]">สามารถติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง</strong>
+        โดยควรแจ้งรายละเอียด เวลา จำนวนเงิน หรือข้อมูลรายการที่เกี่ยวข้อง เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
+      </p>
+      <p>
+        สมาชิกใหม่ยังสามารถสอบถามขั้นตอนสมัคร วิธีฝากถอน การรับโปรโมชั่น หรือการใช้งานเกมแต่ละค่ายผ่าน LINE OFFICIAL ได้ และ
+        <strong class="text-[#f5b93c]">ควรตรวจสอบว่าเป็นบัญชี LINE หลักที่เว็บไซต์ระบุไว้ก่อนส่งข้อมูลทุกครั้ง เพื่อหลีกเลี่ยงช่องทางที่ไม่เกี่ยวข้อง</strong>
       </p>
     </div>
-  </ContentBoxFloatingBadge>
-
-  <Faq2 title="คำถามที่พบบ่อยเกี่ยวกับ HERO1688" faqs={faqs} />
+  </ContentBox>
 
   <ReviewCardSumo2 />
+
+  <Faq4 title="คำถามที่พบบ่อยเกี่ยวกับ TTN69" faqs={faqs} />
 
   <Navfoot />
 </MainLayout>

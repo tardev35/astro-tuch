@@ -12,19 +12,25 @@ export interface Props {
 // No defaults for `faqs` beyond an empty list — a stale default here would ship
 // a previous brand's questions. The page passes both props.
 //
+// The block title is a <p>, not a heading: the FAQ accordion is chrome and the
+// docx marks no heading for it, so the page's heading inventory stays exactly
+// the docx's own (h1x1 / h2x4 / h3x1). The <section> takes its accessible name
+// from aria-label instead, so nothing is lost for assistive tech.
+//
 // The open state is keyed off [open] in the stylesheet rather than a
 // hand-written .rotate-45 override, which removes both a script and a
 // Tailwind-utility name collision.
 const { title, faqs = [] } = Astro.props;
+const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
-<div class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
+<section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#ecc964] bg-gradient-to-r from-[#1b140b] via-[#0d0904]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#02b961] bg-gradient-to-r from-[#0c2214] via-[#061309]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <h2 class="text-xl leading-normal font-black tracking-widest text-[#fff8e2] uppercase md:text-2xl">{title}</h2>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#f1faf4] uppercase md:text-2xl">{title}</p>
       </div>
     )
   }
@@ -34,13 +40,13 @@ const { title, faqs = [] } = Astro.props;
       faqs.map((faq) => (
         <details
           name="faq-terminal"
-          class="faq-item group relative overflow-hidden border border-[#ba8219]/70 bg-[#0d0904]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#ecc964]/60 hover:shadow-[0_15px_40px_rgba(236,201,100,0.22)]"
+          class="faq-item group relative overflow-hidden border border-[#046b3a]/70 bg-[#061309]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#02b961]/60 hover:shadow-[0_15px_40px_rgba(2,185,97,0.22)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#f9e38b] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#4ce68f] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2 text-base font-bold text-[#f3e6c8] transition-colors group-hover:text-[#fff8e2] md:text-lg">
-              <span aria-hidden="true" class="font-mono text-[#ecc964]">
+            <span class="flex items-center gap-2 text-base font-bold text-[#d5e6da] transition-colors group-hover:text-[#f1faf4] md:text-lg">
+              <span aria-hidden="true" class="font-mono text-[#02b961]">
                 &gt;_
               </span>
               {faq.q}
@@ -48,18 +54,18 @@ const { title, faqs = [] } = Astro.props;
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#ecc964]/40 bg-[#1b140b] text-lg font-black text-[#f9e38b] transition-all duration-300 group-hover:border-[#ecc964]/70 group-hover:text-[#fff8e2]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#02b961]/40 bg-[#0c2214] text-lg font-black text-[#4ce68f] transition-all duration-300 group-hover:border-[#02b961]/70 group-hover:text-[#c9f7dd]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#ba8219]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#f3e6c8]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#046b3a]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#d5e6da]">{faq.a}</div>
         </details>
       ))
     }
   </div>
-</div>
+</section>
 
 <style>
   .faq-item > summary {
@@ -69,13 +75,13 @@ const { title, faqs = [] } = Astro.props;
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(236, 201, 100, 0.6);
-    box-shadow: 0 15px 40px rgba(236, 201, 100, 0.22);
+    border-color: rgba(2, 185, 97, 0.6);
+    box-shadow: 0 15px 40px rgba(2, 185, 97, 0.22);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #ecc964;
-    color: #fff8e2;
+    border-color: #02b961;
+    color: #c9f7dd;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;
