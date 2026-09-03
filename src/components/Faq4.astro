@@ -6,21 +6,26 @@ export interface FaqItem {
 
 export interface Props {
   title?: string;
+  /** The docx's own level for this section. YADOM168's brief marks
+   *  "คำถามที่พบบ่อยเกี่ยวกับ YADOM168" as an H2, so index.astro passes as="h2".
+   *  It defaults to <p> so a page that hangs a chrome FAQ here stays out of the
+   *  heading inventory. */
+  as?: "h2" | "h3" | "p";
   faqs?: FaqItem[];
 }
 
 // No defaults for `faqs` beyond an empty list — a stale default here would ship
 // a previous brand's questions. The page passes both props.
 //
-// The block title is a <p>, not a heading: the FAQ accordion is chrome and the
-// docx marks no heading for it, so the page's heading inventory stays exactly
-// the docx's own (h1x1 / h2x4 / h3x1). The <section> takes its accessible name
-// from aria-label instead, so nothing is lost for assistive tech.
+// The questions themselves stay <span> inside <summary>: they are accordion
+// controls, not docx headings, and the rendered heading inventory is diffed
+// against the brief on every rebrand. The <section> keeps its aria-label either
+// way, so nothing is lost for assistive tech.
 //
 // The open state is keyed off [open] in the stylesheet rather than a
 // hand-written .rotate-45 override, which removes both a script and a
 // Tailwind-utility name collision.
-const { title, faqs = [] } = Astro.props;
+const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
@@ -28,9 +33,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#02b961] bg-gradient-to-r from-[#0c2214] via-[#061309]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#5cc23f] bg-gradient-to-r from-[#0f2a10] via-[#071508]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <p class="text-xl leading-normal font-black tracking-widest text-[#f1faf4] uppercase md:text-2xl">{title}</p>
+        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#f2fbef] uppercase md:text-2xl">{title}</TitleTag>
       </div>
     )
   }
@@ -40,13 +45,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
       faqs.map((faq) => (
         <details
           name="faq-terminal"
-          class="faq-item group relative overflow-hidden border border-[#046b3a]/70 bg-[#061309]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#02b961]/60 hover:shadow-[0_15px_40px_rgba(2,185,97,0.22)]"
+          class="faq-item group relative overflow-hidden border border-[#0f3d0d]/70 bg-[#071508]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#5cc23f]/60 hover:shadow-[0_15px_40px_rgba(92,194,63,0.22)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#4ce68f] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#8fe06f] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2 text-base font-bold text-[#d5e6da] transition-colors group-hover:text-[#f1faf4] md:text-lg">
-              <span aria-hidden="true" class="font-mono text-[#02b961]">
+            <span class="flex items-center gap-2 text-base font-bold text-[#d4e8cb] transition-colors group-hover:text-[#f2fbef] md:text-lg">
+              <span aria-hidden="true" class="font-mono text-[#5cc23f]">
                 &gt;_
               </span>
               {faq.q}
@@ -54,13 +59,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#02b961]/40 bg-[#0c2214] text-lg font-black text-[#4ce68f] transition-all duration-300 group-hover:border-[#02b961]/70 group-hover:text-[#c9f7dd]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#5cc23f]/40 bg-[#0f2a10] text-lg font-black text-[#8fe06f] transition-all duration-300 group-hover:border-[#5cc23f]/70 group-hover:text-[#e6bd5c]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#046b3a]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#d5e6da]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#0f3d0d]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#d4e8cb]">{faq.a}</div>
         </details>
       ))
     }
@@ -75,13 +80,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(2, 185, 97, 0.6);
-    box-shadow: 0 15px 40px rgba(2, 185, 97, 0.22);
+    border-color: rgba(92, 194, 63, 0.6);
+    box-shadow: 0 15px 40px rgba(92, 194, 63, 0.22);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #02b961;
-    color: #c9f7dd;
+    border-color: #5cc23f;
+    color: #e6bd5c;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

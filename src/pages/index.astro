@@ -1,18 +1,18 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import Announcement from "../components/Announcement5.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBox from "../components/ContentBox.astro";
-import Faq4 from "../components/Faq4.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
+import Faq4 from "../components/Faq4.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -20,26 +20,31 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR TTN69 — READ BEFORE REUSING THESE IMPORTS.
-// Verified against the artwork on the 2026-09-03 drop: slide1.png is the
-// คืนยอดเสีย 0.3% poster and slide2.png is the แนะนำเพื่อน 0.8% one. The docx
-// runs its promotions section (H2) then its แนะนำเพื่อน 0.8% sub-section (H3),
-// so slide1 sits in the H2 block and slide2 in the H3 block. Re-check the actual
-// posters on the next rebrand rather than trusting this order — a previous brand
-// shipped the two swapped, which builds clean and reads wrong.
+// SLIDE ROLES FOR YADOM168 — READ BEFORE REUSING THESE IMPORTS.
+// Verified against the artwork on the 2026-09-04 drop, and note they are
+// SWAPPED versus the previous brand: slide1.png is the แนะนำเพื่อน 0.8% poster
+// and slide2.png is the คืนยอดเสีย 0.3% one. The docx runs its ฝาก/โบนัสรายวัน
+// section (H2) before its แนะนำเพื่อน 0.8% sub-section (H3), so slide2 sits in
+// the H2 block and slide1 in the H3 block. Re-check the actual posters on the
+// next rebrand rather than trusting this order — a previous brand shipped the
+// two swapped, which builds clean and reads wrong.
+//
+// slide2's own artwork prints a 0.3% cashback offer, but this brief has NO
+// คืนยอดเสีย section — so the alt text describes what the poster shows while the
+// section prose stays on the brief and never claims a cashback promotion.
 //
 // Stale assets that must stay unimported: slide3.png / slide4.png (2026-08-13)
-// and banner2.png / banner3.png belong to earlier clients' drops, and there is
-// no banner2+ article illustration in this brand's drop. banner1.png and
-// banner1-mobile.png are the hero pair and belong to MainLayout's own pinned
-// globs — never referenced from a page.
+// and banner2.png / banner3.png (2026-08-20 / 2026-08-11) belong to earlier
+// clients' drops, and there is no banner2+ article illustration in this brand's
+// drop. banner1.png and banner1-mobile.png are the hero pair and belong to
+// MainLayout's own pinned globs — never referenced from a page.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "TTN69 สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ1บาท";
+const pageTitle = "YADOM168 สล็อตเกมแตกง่าย เบทต่ำ1บาท เดิมพันออโต้";
 
-const pageDescription = "TTN69 สล็อตออโต้เกม แตกง่าย ขั้นต่ำ1บาท ทุกค่าย รองรับทุกธนาคารและวอลเลท พร้อมโปรฮิตมาแรง โบนัสสูง 0.8%";
+const pageDescription = "YADOM168 สล็อตเกมแตกง่าย ค่ายแท้ไม่ผ่านตัวแทน เบทต่ำ1บาท เดิมพันออโต้ เว็บตรง ปลอดภัย เชื่อถือได้";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -47,22 +52,22 @@ const pageDescription = "TTN69 สล็อตออโต้เกม แตก
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "TTN69 สล็อตออโต้เกม รวมเกมจากหลายแบรนด์ไว้ในบัญชีเดียว สลับค่ายได้โดยไม่ต้องสมัครใหม่ • รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ • บางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท แต่ขั้นต่ำจริงต่างกันตามผู้ให้บริการ ควรตรวจสอบช่วงเดิมพันในเกมก่อนเริ่มเล่นทุกครั้ง • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% คำนวณจากยอดที่เข้าเกณฑ์ ตามรอบคำนวณและเงื่อนไขที่กำหนด • ฝากถอนผ่านบัญชีธนาคารและวอลเลทตามช่องทางที่เว็บไซต์เปิดรองรับ ควรตรวจสอบรายชื่อธนาคาร ยอดขั้นต่ำ และวงเงินล่าสุดก่อนทำรายการ • ติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง";
+  "YADOM168 รวมเกมสล็อตจากหลายค่ายไว้ในบัญชีเดียว ทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่ ๆ • รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ โดยไม่ต้องสลับสมัครหลายเว็บไซต์ • มีเกมที่รองรับเบทต่ำ 1 บาทให้เลือก แต่ควรตรวจสอบขั้นต่ำภายในเกมก่อนกด Spin ทุกครั้ง เพราะแต่ละค่ายกำหนดช่วงเดิมพันไม่เท่ากัน • ระบบออโต้สำหรับจัดการเครดิต ฝากถอน และตรวจสอบรายการผ่านบัญชีสมาชิก • Login เพื่อตรวจสอบโบนัสที่มีสิทธิ์รับในแต่ละวัน โดยสิทธิ์จริงขึ้นอยู่กับกิจกรรมและเงื่อนไขของโปรโมชั่นในช่วงนั้น • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% คำนวณจากยอดที่เข้าเงื่อนไข ตามรอบคำนวณและข้อกำหนดที่เว็บไซต์กำหนด • ติดต่อแอดมิน YADOM168 ได้ตลอด 24 ชั่วโมง";
 
 // One array, used by both <Faq4> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last.
 const faqs = [
   {
-    q: "TTN69 รวมเกมสล็อตจากหลายแบรนด์ไว้ในบัญชีเดียวอย่างไร?",
-    a: "TTN69 รวบรวมเกมสล็อตจากหลายค่ายไว้ให้เลือกตามสไตล์ที่ต้องการ ทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่ตามที่แต่ละผู้ให้บริการเปิดให้บริการ สมาชิกสลับค่ายผ่านบัญชีเดียวได้โดยไม่ต้องสมัครใหม่ และควรตรวจสอบรายชื่อค่ายและเกมล่าสุดจากหน้าเลือกเกมก่อนเริ่มเล่น",
+    q: "YADOM168 มีเกมสล็อตเบทเริ่มต้น 1 บาทหรือไม่?",
+    a: "สามารถมีเกมสล็อตที่รองรับการเดิมพันเริ่มต้นระดับ 1 บาทตามช่วงเดิมพันของแต่ละค่าย แต่ไม่ใช่ทุกเกมจะกำหนดขั้นต่ำเท่ากัน จึงควรตรวจสอบราคาต่อ Spin ที่แสดงภายในเกมก่อนเริ่มเล่น",
   },
   {
-    q: "ขั้นต่ำ 1 บาททุกค่ายของ TTN69 หมายความว่าอย่างไร?",
-    a: "บางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท เหมาะกับผู้ที่ต้องการกำหนดงบและเลือกระดับเดิมพันด้วยตัวเอง แต่ขั้นต่ำจริงอาจแตกต่างกันตามผู้ให้บริการ จึงควรตรวจสอบช่วงเดิมพันของแต่ละเกมก่อนเริ่มเล่นทุกครั้ง ส่วนคำว่าแตกง่ายหรือแตกหนักไม่สามารถรับประกันผลลัพธ์ได้ เพราะแต่ละเกมมีระบบและความผันผวนต่างกัน",
+    q: "โปรโมชั่นแนะนำเพื่อน YADOM168 โบนัส 0.8% รับอย่างไร?",
+    a: "สมาชิกใช้ลิงก์แนะนำส่วนตัวเพื่อชวนเพื่อนสมัคร เมื่อเพื่อนมียอดใช้งานตรงตามข้อกำหนด ระบบจะนำยอดที่เข้าเกณฑ์มาคำนวณโบนัส 0.8% โดยควรตรวจสอบรอบรับและเงื่อนไขโปรโมชั่นล่าสุดก่อนใช้สิทธิ์",
   },
   {
-    q: "โบนัสแนะนำเพื่อน 0.8% ของ TTN69 รับอย่างไร?",
-    a: "สมาชิกแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัคร TTN69 และมียอดใช้งานตรงตามเงื่อนไข ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์ ตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับได้จากบัญชีสมาชิกโดยตรง และควรตรวจสอบรอบคำนวณ ประเภทเกมที่เข้าร่วม และเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง",
+    q: "หากฝากถอนหรือเข้าเกม YADOM168 มีปัญหาต้องทำอย่างไร?",
+    a: "ควรตรวจสอบสถานะรายการและข้อมูลในบัญชีก่อน หากปัญหายังไม่ถูกแก้ไข สามารถติดต่อแอดมิน YADOM168 พร้อมแจ้งเวลา จำนวนเงิน หรือรายละเอียดที่เกี่ยวข้อง เพื่อให้ทีมงานช่วยตรวจสอบได้ตลอด 24 ชั่วโมง",
   },
 ];
 
@@ -70,9 +75,9 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Heading white (#f1faf4) marks a claim the brief states outright; the amber
-// accent (#f5b93c) marks the caveat that goes with it — a warning painted in
-// the brand's own emerald stops reading as a warning.
+// Heading white (#f2fbef) marks a claim the brief states outright; the amber
+// accent (#f0b93a) marks the caveat that goes with it — a warning painted in
+// the brand's own green stops reading as a warning.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -89,64 +94,33 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxNeumorphism as="h1" title="TTN69 สล็อตออโต้เกม แตกง่าย ค่ายแท้ ไม่มีขั้นต่ำ">
-    <p class="text-left text-base leading-relaxed text-[#d5e6da]">
-      <strong class="text-[#f1faf4]">TTN69</strong> ให้บริการเกมสล็อตออนไลน์ผ่านระบบออโต้ รวมเกมจากหลายแบรนด์ไว้ให้เลือกในบัญชีเดียว
-      <strong class="text-[#f1faf4]">รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์</strong>
-      สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต ฝากถอน และรับโปรโมชั่นได้จากหน้าเว็บไซต์ พร้อมช่องทางธนาคารและวอลเลทตามที่ระบบรองรับ รวมถึงมี LINE OFFICIAL สำหรับติดต่อแอดมินและสอบถามปัญหาการใช้งานได้ตลอด 24
-      ชั่วโมง
+  <ContentBoxFloatingBadge as="h1" title="YADOM168 สล็อตเกมแตกง่าย จ่ายไว ไม่จำกัดยอดแทง">
+    <p class="text-left text-base leading-relaxed text-[#d4e8cb]">
+      <strong class="text-[#f2fbef]">YADOM168</strong> ให้บริการเกมสล็อตออนไลน์ที่รวมเกมจากหลายค่ายไว้ในบัญชีเดียว
+      <strong class="text-[#f2fbef]">รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์</strong>
+      มีเกมสล็อตที่สามารถเลือกเบทเริ่มต้นระดับต่ำตามเงื่อนไขของแต่ละเกม พร้อมระบบออโต้สำหรับจัดการเครดิต ฝากถอน และตรวจสอบรายการ สมาชิกสามารถเลือกเกม รับโปรโมชั่น และติดตามสถานะบัญชีได้ด้วยตัวเอง
+      <strong class="text-[#f2fbef]">พร้อมแอดมินคอยช่วยเหลือด้านการใช้งานตลอด 24 ชั่วโมง</strong>
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxFloatingBadge>
 
-  <ContentBoxTwoPremium as="h2" title="สล็อต TTN69 แบรนด์ดัง แตกหนัก ขั้นต่ำ1บาท ทุกค่าย">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6da]">
-      <strong class="text-[#f1faf4]">TTN69</strong> รวบรวมเกมสล็อตจากหลายค่ายไว้ให้สมาชิกเลือกตามสไตล์ที่ต้องการ
-      <strong class="text-[#f1faf4]">มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่จากผู้ให้บริการต่าง ๆ</strong>
-      สามารถสลับค่ายผ่านบัญชีเดียวได้สะดวก โดยบางเกมมีช่วงเดิมพันเริ่มต้นระดับ 1 บาท เหมาะกับผู้ที่ต้องการกำหนดงบและเลือกระดับเดิมพันด้วยตัวเอง
+  <ContentBoxTwoCyberCut as="h2" title="YADOM168 รวมเกมค่ายดัง สล็อตเบทต่ำ1บาท เดิมพันออโต้">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d4e8cb]">
+      <strong class="text-[#f2fbef]">YADOM168</strong> รวบรวมเกมสล็อตจากหลายผู้ให้บริการ
+      <strong class="text-[#f2fbef]">มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน แจ็กพอต และเกมธีมใหม่ ๆ</strong>
+      ให้สมาชิกเลือกผ่านบัญชีเดียว รองรับการเล่นบนมือถือโดยไม่ต้องสลับสมัครหลายเว็บไซต์ พร้อมระบบออโต้ที่ช่วยให้ตรวจสอบเครดิตและจัดการรายการต่าง ๆ ได้สะดวกมากขึ้น
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6da]">
-      สำหรับคำว่า “ขั้นต่ำ 1 บาททุกค่าย”
-      <strong class="text-[#f5b93c]">ควรตรวจสอบช่วงเดิมพันของแต่ละเกมก่อนเริ่มเล่น เนื่องจากขั้นต่ำจริงอาจแตกต่างกันตามผู้ให้บริการ</strong>
-      ส่วนคำว่า “แตกง่าย” หรือ “แตกหนัก”
-      <strong class="text-[#f5b93c]">ไม่สามารถรับประกันผลลัพธ์ได้ เพราะเกมสล็อตแต่ละเกมมีระบบและความผันผวนแตกต่างกัน</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d4e8cb]">
+      สำหรับผู้ที่ต้องการเล่นสล็อตเบทต่ำ 1 บาท สามารถเลือกเกมที่รองรับช่วงเดิมพันดังกล่าวได้
+      <strong class="text-[#f0b93a]">แต่ควรตรวจสอบขั้นต่ำภายในเกมก่อนกด Spin ทุกครั้ง เพราะแต่ละค่ายอาจกำหนดช่วงเดิมพันไม่เท่ากัน</strong>
+      <strong class="text-[#f0b93a]">และผลลัพธ์ของเกมสล็อตไม่สามารถรับประกันว่าเกมใดจะแตกง่ายหรือทำกำไรได้ทุกครั้ง</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoCyberCut>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBoxSevenThreePremium as="h2" title="TTN69 รองรับทุกธนาคารและวอลเลท พร้อมโปรฮิตมาแรง">
-    <Picture
-      slot="left"
-      src={imgSlide1}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ TTN69 พื้นหลังโทนดำเขียวมรกต มีชิปคาสิโนและเหรียญทองลอยกระจาย ด้านบนกลางภาพเป็นโลโก้ TTN69 รูปทิวเขาสีขาวเหนือตัวอักษร TTN และเลข 69 บนแถบเขียว ถัดลงมาเป็นป้ายหกเหลี่ยมขอบเขียวเรืองแสงเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีเขียวมรกตมันวาว ด้านซ้ายเป็นตู้สล็อตขึ้นสัญลักษณ์ BAR และเลข 7 ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีขาวสลับเขียวยกมือชี้มาที่ตัวเลข ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า คืนยอดเสียทุกวัน 0.3% กับ มั่นคง ปลอดภัย เชื่อถือได้ 100% และ ระบบออโต้ รวดเร็ว ทันใจ ปิดท้ายด้วยแถบล่างเขียนว่า สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ 1 บาท"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#02b961]/45 shadow-[0_10px_30px_rgba(2,185,97,0.25)]"
-    />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e6da]">
-      <p>
-        สมาชิก <strong class="text-[#f1faf4]">TTN69</strong> สามารถเลือกใช้บัญชีธนาคารหรือวอลเลทจากช่องทางที่เว็บไซต์เปิดรองรับ
-        <strong class="text-[#f1faf4]">เพื่อฝากเครดิต ส่งคำขอถอน และตรวจสอบสถานะรายการผ่านบัญชีสมาชิกได้ด้วยตัวเอง</strong>
-        พร้อมเข้าไปดูโปรโมชั่นที่เปิดให้รับในแต่ละช่วงได้จากหน้าโปรโมชั่นโดยตรง
-      </p>
-      <p>
-        ก่อนทำธุรกรรม
-        <strong class="text-[#f5b93c]">ควรตรวจสอบรายชื่อธนาคาร ยอดขั้นต่ำ วงเงิน และสถานะของช่องทางล่าสุด</strong>
-        เนื่องจากคำว่า “รองรับทุกธนาคาร”
-        <strong class="text-[#f5b93c]">ควรเป็นไปตามระบบที่เปิดให้ใช้งานจริงในขณะนั้น</strong>
-      </p>
-    </div>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThree as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% ฮิตที่สุดในวงสมาชิก">
+  <ContentBoxSevenThreeNeumorphism as="h2" title="YADOM168 รองรับการเดิมพัน ไม่จำกัดยอดฝาก รับโบนัสได้ทุกวัน">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -158,61 +132,85 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ TTN69 พื้นหลังโทนดำเขียวมรกต มีชิปคาสิโนและเหรียญทองลอยกระจาย ด้านบนกลางภาพเป็นโลโก้ TTN69 รูปทิวเขาสีขาวเหนือตัวอักษร TTN และเลข 69 บนแถบเขียว ถัดลงมาเป็นป้ายหกเหลี่ยมขอบเขียวเรืองแสงเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีเขียวมรกตมันวาว ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีขาวสลับเขียวยกมือชี้มาที่ตัวเลข ฉากหลังเป็นตู้สล็อตขึ้นเลข 777 สีเขียว ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า แนะนำเพื่อน รับโบนัสทันที กับ เพื่อนสมัคร รับโบนัสไปเลย และ รับโบนัสสูงสุด ไม่จำกัด ปิดท้ายด้วยแถบล่างเขียนว่า สล็อตออโต้เกม รวมแบรนด์ดัง แตกหนัก ขั้นต่ำ 1 บาท"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e4ece7]/35 shadow-[0_10px_30px_rgba(228,236,231,0.18)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ YADOM168 พื้นหลังโทนดำเขียว มีชิปคาสิโนและเหรียญทองกระจาย มุมซ้ายบนเป็นโลโก้ YADOM168 ตัวอักษรสีขาวเหนือเลข 168 สีเขียว ถัดมาเป็นป้ายเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีขาวเงา ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีเขียวดำชี้มาที่ตัวเลข ฉากหลังเป็นตู้สล็อตสีเขียว ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า คืนยอดเสียทุกวัน กับ ระบบมั่นคง ปลอดภัย 100% และ ถอนเร็ว ไม่อั้น"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#5cc23f]/45 shadow-[0_10px_30px_rgba(92,194,63,0.25)]"
     />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5e6da]">
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d4e8cb]">
       <p>
-        สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัคร <strong class="text-[#f1faf4]">TTN69</strong> และมียอดใช้งานตรงตามเงื่อนไข
-        <strong class="text-[#f1faf4]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
-        สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้โดยตรง
+        สมาชิก <strong class="text-[#f2fbef]">YADOM168</strong> สามารถเติมเครดิตผ่านช่องทางฝากเงินที่ระบบเปิดรองรับ
+        <strong class="text-[#f2fbef]">พร้อมตรวจสอบสถานะรายการผ่านบัญชีของตนเองได้</strong>
+        <strong class="text-[#f0b93a]">หากต้องการทำรายการจำนวนมากควรตรวจสอบวงเงินขั้นต่ำและสูงสุดของช่องทางที่เลือกก่อนยืนยัน เนื่องจากข้อกำหนดอาจแตกต่างกันตามธนาคารหรือช่องทางชำระเงิน</strong>
       </p>
       <p>
-        โปรโมชั่นนี้เหมาะสำหรับสมาชิกที่มีการแนะนำผู้ใช้งานใหม่อย่างต่อเนื่อง แต่
-        <strong class="text-[#f5b93c]">ควรตรวจสอบรอบคำนวณ ประเภทเกมที่เข้าร่วม และเงื่อนไขการรับโบนัสล่าสุดก่อนใช้งานทุกครั้ง</strong>
+        ในส่วนของโปรโมชั่น สมาชิกสามารถ Login เพื่อตรวจสอบโบนัสที่มีสิทธิ์รับในแต่ละวันได้
+        <strong class="text-[#f0b93a]">โดยสิทธิ์จริงขึ้นอยู่กับกิจกรรมและเงื่อนไขของโปรโมชั่นในช่วงนั้น</strong>
+        ไม่ว่าจะเป็นยอดที่ใช้คำนวณ รอบรับโบนัส หรือประเภทเกมที่เข้าร่วมรายการ
       </p>
     </div>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeNeumorphism>
+
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% โปรขายดีมาแรงในตอนนี้">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ YADOM168 พื้นหลังโทนดำเขียว มีชิปคาสิโนและเหรียญทองกระจาย มุมซ้ายบนเป็นโลโก้ YADOM168 ตัวอักษรสีขาวเหนือเลข 168 สีเขียว ถัดมาเป็นป้ายเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีขาวเงา ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีเขียวดำชี้มาที่ตัวเลข ฉากหลังเป็นตู้สล็อตสีเขียว ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า ชวนเพื่อน รับโบนัสไม่อั้น กับ เพื่อนเล่นยิ่งมาก ยิ่งได้เยอะ และ รับโบนัสสูงสุด ไม่จำกัด"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e6bd5c]/40 shadow-[0_10px_30px_rgba(230,189,92,0.20)]"
+    />
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d4e8cb]">
+      <p>
+        สมาชิกสามารถใช้ลิงก์แนะนำส่วนตัวเพื่อชวนเพื่อนสมัคร <strong class="text-[#f2fbef]">YADOM168</strong> เมื่อบัญชีที่แนะนำมียอดใช้งานตรงตามข้อกำหนด
+        <strong class="text-[#f2fbef]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเงื่อนไข</strong>
+        พร้อมให้ตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิก
+      </p>
+      <p>
+        <strong class="text-[#f0b93a]">ก่อนใช้โปรโมชั่นควรตรวจสอบรอบคำนวณ วิธีรับโบนัส และข้อกำหนดล่าสุดให้ครบถ้วน</strong>
+        เนื่องจากรายละเอียดของกิจกรรมอาจมีการเปลี่ยนแปลงตามช่วงเวลาที่เว็บไซต์กำหนด
+      </p>
+    </div>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxPremium as="h2" title="สมัคร YADOM168 เล่นสล็อตแตกง่าย ไม่มีขั้นต่ำ">
+    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d4e8cb]">
+      <p>
+        <strong class="text-[#f2fbef]">ผู้ใช้งานใหม่สามารถสมัคร YADOM168 ผ่านระบบออนไลน์ได้ด้วยตัวเอง</strong>
+        เริ่มจากกรอกข้อมูลที่จำเป็นสำหรับเปิดบัญชี จากนั้น Login เลือกช่องทางเติมเครดิตและตรวจสอบโปรโมชั่น ก่อนเข้าสู่หน้าเกมสล็อตเพื่อเลือกค่ายหรือเกมที่สนใจได้ทันที
+      </p>
+      <p>
+        หลังเปิดบัญชีแล้วสามารถตรวจสอบเครดิต ประวัติฝากถอน โปรโมชั่น และรายการใช้งานผ่านมือถือได้ สำหรับคำว่า “ไม่มีขั้นต่ำ”
+        <strong class="text-[#f0b93a]">ควรตรวจสอบเงื่อนไขของเกมและช่องทางฝากถอนจริงก่อนทำรายการ เนื่องจากแต่ละระบบอาจกำหนดขั้นต่ำแตกต่างกัน</strong>
+      </p>
+    </div>
+  </ContentBoxPremium>
 
   <LoginRtpSection />
 
+  <ContentBoxCyberCut as="h2" title="ติดต่อแอดมิน YADOM168 ปรึกษาปัญหาพร้อมแก้ไขได้ 24 ชั่วโมง">
+    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d4e8cb]">
+      <p>
+        หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมไม่ได้ เครดิตไม่อัปเดต ฝากถอนค้าง หรือโปรโมชั่นไม่แสดง
+        <strong class="text-[#f2fbef]">สามารถติดต่อแอดมิน YADOM168 ได้ตลอด 24 ชั่วโมง</strong>
+        โดยควรแจ้งรายละเอียดของปัญหา เวลา จำนวนเงิน และข้อมูลรายการที่เกี่ยวข้อง เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
+      </p>
+      <p>
+        สมาชิกใหม่ยังสามารถสอบถามเกี่ยวกับขั้นตอนใช้งาน ระบบฝากถอน วิธีรับโปรโมชั่น หรือการเข้าเกมสล็อตแต่ละค่ายได้
+        <strong class="text-[#f0b93a]">และไม่ควรส่งรหัสผ่านหรือ OTP ให้บุคคลอื่นในระหว่างการติดต่อเจ้าหน้าที่</strong>
+      </p>
+    </div>
+  </ContentBoxCyberCut>
+
   <LatestWinners />
-
-  <ContentBoxSpecial as="h2" title="สมัครเล่น TTN69 สล็อตออโต้เกม ด้วยตัวเอง 3 ขั้นตอน">
-    <div slot="left" class="flex min-w-0 flex-1 flex-col gap-4">
-      <p>
-        การสมัคร <strong class="text-[#f1faf4]">TTN69</strong> สามารถทำผ่านระบบออนไลน์ได้ด้วยตัวเอง
-        <strong class="text-[#f1faf4]">ไม่จำเป็นต้องผ่านขั้นตอนที่ซับซ้อน</strong>
-      </p>
-      <ol class="flex list-decimal flex-col gap-2 pl-5 marker:font-black marker:text-[#4ce68f]">
-        <li>เข้าหน้าสมัคร TTN69 และกรอกข้อมูลตามที่ระบบกำหนด</li>
-        <li>Login เข้าบัญชีและเลือกช่องทางฝากเครดิตจากธนาคารหรือวอลเลทที่รองรับ</li>
-        <li>ตรวจสอบโปรโมชั่น เลือกค่ายและเกมสล็อตที่ต้องการก่อนเริ่มเล่น</li>
-      </ol>
-    </div>
-    <p slot="right">
-      หลังสมัครเรียบร้อย สมาชิกสามารถตรวจสอบเครดิต ประวัติฝากถอน โปรโมชั่น และรายการใช้งานผ่านบัญชีของตนเองได้ โดย
-      <strong class="text-[#f5b93c]">ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผย OTP ให้บุคคลอื่น</strong>
-    </p>
-  </ContentBoxSpecial>
-
-  <ContentBox as="h2" title="ช่องทางติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง">
-    <div class="flex flex-col gap-4">
-      <p>
-        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง โปรโมชั่นไม่แสดง หรือเข้าเกมสล็อตไม่ได้
-        <strong class="text-[#f1faf4]">สามารถติดต่อแอดมิน TTN69 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง</strong>
-        โดยควรแจ้งรายละเอียด เวลา จำนวนเงิน หรือข้อมูลรายการที่เกี่ยวข้อง เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
-      </p>
-      <p>
-        สมาชิกใหม่ยังสามารถสอบถามขั้นตอนสมัคร วิธีฝากถอน การรับโปรโมชั่น หรือการใช้งานเกมแต่ละค่ายผ่าน LINE OFFICIAL ได้ และ
-        <strong class="text-[#f5b93c]">ควรตรวจสอบว่าเป็นบัญชี LINE หลักที่เว็บไซต์ระบุไว้ก่อนส่งข้อมูลทุกครั้ง เพื่อหลีกเลี่ยงช่องทางที่ไม่เกี่ยวข้อง</strong>
-      </p>
-    </div>
-  </ContentBox>
 
   <ReviewCardSumo2 />
 
-  <Faq4 title="คำถามที่พบบ่อยเกี่ยวกับ TTN69" faqs={faqs} />
+  <Faq4 as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ YADOM168" faqs={faqs} />
 
   <Navfoot />
 </MainLayout>
