@@ -1,19 +1,19 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import Announcement from "../components/Announcement5.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
 import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
-import Faq2 from "../components/Faq2.astro";
+import Faq4 from "../components/Faq4.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -21,31 +21,32 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR UVO88 — READ BEFORE REUSING THESE IMPORTS.
-// Verified against the artwork on the 2026-09-04 drop: slide1.png is the
-// แนะนำเพื่อน 0.8% poster and slide2.png is the คืนยอดเสีย 0.3% one, which is the
-// order the docx puts them in (H3 #4 then H3 #5), so slide1 sits in the first
-// SevenThree block and slide2 in the second. Re-check the actual posters on the
-// next rebrand rather than trusting this order — a previous brand shipped the
+// SLIDE ROLES FOR VAK88 — READ BEFORE REUSING THESE IMPORTS.
+// Verified against the artwork on the 2026-09-15 drop, and they are the REVERSE
+// of the previous brand's order: slide2.png is the แนะนำเพื่อน 0.8% poster
+// (circuit-board ground, gold VAK88 coins) and slide1.png is the คืนยอดเสีย 0.3%
+// one (spotlights, red light rays, gold and silver VAK88 chips). The docx puts
+// แนะนำเพื่อน first (H3 #5) and คืนยอดเสีย second (H3 #6), so slide2 sits in the
+// first SevenThree block and slide1 in the second. Re-check the actual posters on
+// the next rebrand rather than trusting this order — a previous brand shipped the
 // two swapped, which builds clean and reads wrong.
 //
 // Both posters print the exact percentage its section describes, so the alt text
 // and the section prose agree with each other and with the brief.
 //
 // Stale assets that must stay unimported: slide3.png / slide4.png (2026-08-13)
-// are a DIFFERENT client's artwork (PIGAUTO — red Chinese-New-Year lottery
-// posters with a pink pig logo), and banner2.png / banner3.png (2026-08-20 /
-// 2026-08-11) are earlier clients' drops. This brand has no banner2+ article
-// illustration, so no ContentBox gets an inline banner image this round.
-// banner1.png and banner1-mobile.png are the hero pair and belong to
-// MainLayout's own pinned globs — never referenced from a page.
+// and banner2.png / banner3.png (2026-08-20 / 2026-08-11) all belong to earlier
+// clients. This brand has no banner2+ article illustration, so no ContentBox gets
+// an inline banner image this round. banner1.png and banner1-mobile.png are the
+// hero pair and belong to MainLayout's own pinned globs — never referenced from
+// a page.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "UVO88 เว็บพนันที่น่าเชื่อที่สุด ครบทุกการเดิมพัน ส่งตรงจากต่างประเทศ";
+const pageTitle = "VAK88 เกมสล็อตเว็บตรงเจ้าแรก แพลตฟอร์มหลักในไทย";
 
-const pageDescription = "UVO88 เว็บพนันที่น่าเชื่อที่สุด รวมเกม บาคาร่า ไพ่ สล็อต หวย บอล สนุกครบทุกการเดิมพัน ไม่มีขั้นต่ำ ส่งตรงจากต่างประเทศ";
+const pageDescription = "VAK88 เกมสล็อตเว็บตรงเจ้าแรก ช่องทางเข้าเล่นหลัก ทุกค่ายรับอนุญาตจากลิขสิทธิ์แท้ 100% แพลตฟอร์มหลักในไทย";
 
 // The ticker copy is passed explicitly rather than relying on the component's
 // default — every Announcement* variant's default belongs to whichever brand
@@ -53,22 +54,23 @@ const pageDescription = "UVO88 เว็บพนันที่น่าเช�
 // cannot be given its own aria-hidden span, and this marquee prints the string
 // twice.
 const announcement =
-  "UVO88 ให้บริการเกมเดิมพันออนไลน์หลายประเภทผ่านบัญชีเดียว ทั้งบาคาร่า เกมไพ่ สล็อตออนไลน์ หวย และฟุตบอล • รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ สลับประเภทเกมได้โดยไม่ต้องสมัครหลายบัญชี • ก่อนเริ่มเดิมพันควรตรวจสอบกติกา อัตราจ่าย ช่วงเดิมพัน และวงเงินของแต่ละเกมให้ครบถ้วน เพราะรายละเอียดอาจแตกต่างกันตามผู้ให้บริการ และผลลัพธ์ของเกมไม่สามารถรับประกันกำไรหรือผลชนะได้ทุกครั้ง • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% คำนวณจากยอดที่เข้าเงื่อนไข ตามรอบคำนวณและข้อกำหนดที่เว็บไซต์กำหนด • โปรโมชั่นคืนยอดเสีย โบนัส 0.3% ตรวจสอบสิทธิ์และยอดที่เข้าเกณฑ์ได้จากบัญชีสมาชิก • สำหรับคำว่า ไม่มีขั้นต่ำ ควรยึดตัวเลขที่เกมหรือระบบแสดง ณ เวลาทำรายการ • ติดต่อแอดมิน UVO88 ได้ตลอด 24 ชั่วโมง";
+  "VAK88 แพลตฟอร์มเว็บพนันหลักในไทย ให้บริการผ่านช่องทางเข้าเล่นหลักอย่างเป็นทางการ โดยไม่ต้องผ่านตัวแทนหรือเอเย่นต์ • เกมสล็อตจากค่ายยักษ์ใหญ่ระดับโลก ทุกค่ายได้รับการตรวจสอบและอนุญาตจากลิขสิทธิ์แท้ 100% (Certified API) พร้อมอัตราการชนะ (RTP) ที่เป็นมาตรฐานสากล • โปรโมชั่นแจกโบนัสหนักแบบไม่มีการล็อคยูสเซอร์ ทั้งผู้เล่นใหม่และยูสเซอร์เก่า • แนะนำเพื่อนรับส่วนแบ่งค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อน • คืนยอดเสีย 0.3% ในทุกรอบบิล ตรวจสอบสิทธิ์และยอดที่เข้าเกณฑ์ได้จากบัญชีสมาชิก • สมัครสมาชิกอัตโนมัติเพียง 3 ขั้นตอน ยืนยันเบอร์โทรศัพท์ ผูกบัญชีธนาคาร แล้วตั้งรหัสผ่านเข้าสู่ Portal หลัก • ระบบฝาก-ถอนอัตโนมัติประมวลผลภายใน 3-5 วินาที รองรับทุกธนาคารชั้นนำ โดยไม่มีการกำหนดขั้นต่ำ • แอดมิน VAK88 ให้บริการผ่าน Line Official ตลอด 24 ชั่วโมง";
 
-// One array, used by both <Faq2> and the FAQPage node — never the component's
-// own defaults, which belong to whichever brand shipped last.
+// One array, used by both <Faq4> and the FAQPage node — never the component's
+// own defaults, which belong to whichever brand shipped last. The three pairs
+// are the brief's Q1-Q3, verbatim.
 const faqs = [
   {
-    q: "UVO88 มีเกมอะไรให้เลือกเดิมพันบ้าง?",
-    a: "มีทั้งบาคาร่า เกมไพ่ สล็อตออนไลน์ หวยออนไลน์ และการเดิมพันฟุตบอล รวมถึงเกมประเภทอื่นตามที่ระบบเปิดให้บริการ สมาชิกสามารถเลือกหมวดเกมและตรวจสอบกติกา อัตราจ่าย และวงเงินก่อนเริ่มเดิมพันได้",
+    q: "VAK88 แตกต่างจากเว็บสล็อตทั่วไปอย่างไร?",
+    a: "VAK88 เป็นแพลตฟอร์มหลักและเว็บตรงเจ้าแรกในไทยที่นำเข้า API เกมลิขสิทธิ์แท้ 100% โดดเด่นด้วยการออกแบบระบบระดับพรีเมียม ไม่มีการดัดแปลงเปอร์เซ็นต์การชนะ และไม่มีการล็อคยูสเซอร์ทั้งลูกค้าเก่าและลูกค้าใหม่",
   },
   {
-    q: "โปรโมชั่น UVO88 โบนัส 0.8% และ 0.3% ต่างกันอย่างไร?",
-    a: "โบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนสำหรับยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียตามรอบที่กำหนด สมาชิกควรตรวจสอบวิธีคำนวณและข้อกำหนดของแต่ละโปรโมชั่นก่อนกดรับ",
+    q: "ระบบฝาก-ถอนของ VAK88 มีความเร็วแค่ไหนและมีขั้นต่ำหรือไม่?",
+    a: "เราใช้ระบบฝาก-ถอนอัตโนมัติที่ประมวลผลรวดเร็วภายใน 3-5 วินาที รองรับทุกธนาคารชั้นนำ และเปิดให้อิสระทางการเงินอย่างเต็มที่โดยไม่มีการกำหนดขั้นต่ำในการทำรายการ",
   },
   {
-    q: "UVO88 เดิมพันแบบไม่มีขั้นต่ำได้ทุกเกมหรือไม่?",
-    a: "ขึ้นอยู่กับช่วงเดิมพันที่แต่ละเกมกำหนด บางเกมอาจเปิดให้เริ่มด้วยยอดต่ำ ขณะที่บางเกมอาจมีขั้นต่ำแตกต่างกัน จึงควรตรวจสอบตัวเลขเดิมพันที่แสดงในเกมก่อนยืนยันทุกครั้ง",
+    q: "สามารถเข้าเล่น VAK88 ผ่านอุปกรณ์ใดได้บ้าง?",
+    a: "แพลตฟอร์มของเราถูกพัฒนามาเพื่อรองรับทุกอุปกรณ์อย่างสมบูรณ์แบบ ทั้งคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน (iOS และ Android) เข้าเล่นผ่านเว็บเบราว์เซอร์ได้ทันทีโดยไม่ต้องดาวน์โหลดแอปพลิเคชันให้ยุ่งยาก",
   },
 ];
 
@@ -76,9 +78,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Heading white (#f3fbf5) marks a claim the brief states outright; the caveat
-// gold (#ffd76a) marks the warning that goes with it — a caution painted in the
-// brand's own emerald stops reading as a caution.
+// Heading white (#fff4dd) marks a claim the brief states outright; the caution
+// amber (#ffb36b) marks the account-security caveats in the signup steps — it is
+// deliberately neither the brand gold nor the crimson, so a caution still reads
+// as a caution.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -95,83 +98,43 @@ const graph = pageGraph(Astro, {
 
   <Announcement message={announcement} />
 
-  <ContentBoxNeumorphism as="h1" title="UVO88 เว็บพนันที่น่าเชื่อที่สุด การันตีจากเจ้าของแท้">
-    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#c8e3d0]">
-      <p>
-        <strong class="text-[#f3fbf5]">UVO88</strong> ให้บริการเกมเดิมพันออนไลน์หลายประเภทผ่านบัญชีเดียว
-        <strong class="text-[#f3fbf5]">มีทั้งบาคาร่า เกมไพ่ สล็อตออนไลน์ หวย และฟุตบอล</strong>
-        รองรับการใช้งานผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต ฝากถอน รับโปรโมชั่น และจัดการบัญชีได้จากหน้าเว็บไซต์
-        <strong class="text-[#f3fbf5]">พร้อมระบบช่วยเหลือสำหรับผู้ใช้งานตลอด 24 ชั่วโมง</strong>
-        เพื่อให้การใช้งานแต่ละส่วนเป็นไปอย่างสะดวกและไม่ซับซ้อน
-      </p>
-      <p>
-        สำหรับคำว่า “การันตีจากเจ้าของแท้” และ “น่าเชื่อที่สุด”
-        <strong class="text-[#ffd76a]">ควรมีข้อมูลผู้ให้บริการหรือหลักฐานที่ตรวจสอบได้บนเว็บไซต์</strong>
-        เพื่อให้คำกล่าวอ้างมีความชัดเจนและสร้างความน่าเชื่อถือได้มากขึ้น
-      </p>
-    </div>
-  </ContentBoxNeumorphism>
+  <ContentBoxCyberCut as="h1" title="VAK88 เกมสล็อตเว็บตรงเจ้าแรก แพลตฟอร์มเว็บพนันหลักในไทย">
+    <p class="text-left text-base leading-relaxed text-[#ded8ca]">
+      ก้าวเข้าสู่มิติใหม่ของการเดิมพันกับ <strong class="text-[#fff4dd]">VAK88 แพลตฟอร์มเว็บพนันหลักในไทยที่ได้รับการยอมรับว่าเป็นเกมสล็อตเว็บตรงเจ้าแรก</strong>
+      เราออกแบบระบบนิเวศการเดิมพันให้มีความเป็นพรีเมียมในทุกมิติ
+      <strong class="text-[#fff4dd]">โดยนำเสนอผ่านโครงสร้างแบบ Portal &amp; Privilege</strong>
+      ที่เชื่อมโยงความบันเทิงระดับลักชูรีไว้ในที่เดียว พร้อมอินเทอร์เฟซผู้ใช้งาน (UI/UX) ที่โดดเด่นด้วยโทนสีกรมท่า (Navy Blue) ตัดกับสีทองเมทัลลิค (Gold Metallic) มอบความรู้สึกหรูหราเหนือระดับ
+      เพื่อให้ผู้เล่นได้สัมผัสประสบการณ์การทำกำไรที่ดีที่สุดและมั่นคงที่สุดในประเทศไทย
+    </p>
+  </ContentBoxCyberCut>
 
-  <ContentBoxTwoPremium as="h2" title="UVO88 รวมเกม บาคาร่า ไพ่ สล็อต หวย บอล ครบทุกการเดิมพัน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#c8e3d0]">
-      <strong class="text-[#f3fbf5]">UVO88</strong> รวมหมวดเกมเดิมพันยอดนิยมไว้ให้สมาชิกเลือกใช้งานผ่านระบบเดียว
-      <strong class="text-[#f3fbf5]">ไม่ว่าจะเป็นบาคาร่าออนไลน์ เกมไพ่ในหมวดคาสิโน สล็อตออนไลน์จากหลายค่าย หวยออนไลน์ตามรอบที่เปิดรับ และการเดิมพันฟุตบอลตามรายการแข่งขัน</strong>
-      ช่วยให้สมาชิกสามารถสลับประเภทเกมได้โดยไม่ต้องสมัครหลายบัญชี
+  <ContentBoxTwoNeumorphism as="h2" title="ช่องทางเข้าเล่น VAK88 หลัก ได้รับอนุญาตจากลิขสิทธิ์แท้ 100%">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ded8ca]">
+      เราคือศูนย์กลางความบันเทิงที่ให้บริการผ่านช่องทางเข้าเล่นหลักอย่างเป็นทางการ
+      <strong class="text-[#fff4dd]">โดยไม่ต้องผ่านตัวแทนหรือเอเย่นต์</strong>
+      VAK88 นำเสนอเกมสล็อตจากค่ายยักษ์ใหญ่ระดับโลก
+      <strong class="text-[#fff4dd]">ทุกค่ายได้รับการตรวจสอบและอนุญาตจากลิขสิทธิ์แท้ 100% (Certified API)</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#c8e3d0]">
-      <strong class="text-[#ffd76a]">ก่อนเริ่มเดิมพันควรตรวจสอบกติกา อัตราจ่าย ช่วงเดิมพัน และวงเงินของแต่ละเกมให้ครบถ้วน</strong>
-      เนื่องจากรายละเอียดอาจแตกต่างกันตามผู้ให้บริการและประเภทการเดิมพัน
-      <strong class="text-[#ffd76a]">รวมถึงผลลัพธ์ของเกมไม่สามารถรับประกันกำไรหรือผลชนะได้ทุกครั้ง</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded8ca]">
+      คุณจะได้สัมผัสกับคุณภาพกราฟิกที่คมชัด การจัดแสงเงาระดับ Cinematic Lighting ที่สมจริงในทุกการสปิน
+      <strong class="text-[#fff4dd]">พร้อมด้วยอัตราการชนะ (RTP) ที่เป็นมาตรฐานสากล</strong>
+      มั่นใจได้ในความโปร่งใสและยุติธรรมขั้นสูงสุด
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoNeumorphism>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBox as="h2" title="เล่นสล็อต UVO88 ผ่านมือถือ ไม่มีขั้นต่ำ รับโปรโมชั่นได้ทุกวัน">
-    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#c8e3d0]">
-      <p>
-        <strong class="text-[#f3fbf5]">สมาชิกสามารถเล่นสล็อต UVO88 ผ่านเว็บเบราว์เซอร์บนมือถือได้</strong>
-        โดยเลือกเกมจากค่ายที่ระบบเปิดให้บริการ พร้อมตรวจสอบเครดิต ประวัติรายการ และโปรโมชั่นผ่านบัญชีเดียว
-        <strong class="text-[#f3fbf5]">ช่วยให้เข้าถึงเกมสล็อตได้สะดวกทั้งบนสมาร์ตโฟน แท็บเล็ต และคอมพิวเตอร์</strong>
-      </p>
-      <p>
-        สำหรับคำว่า “ไม่มีขั้นต่ำ”
-        <strong class="text-[#ffd76a]">ควรตรวจสอบช่วงเดิมพันของแต่ละเกมและยอดขั้นต่ำของช่องทางฝากถอนก่อนใช้งาน</strong>
-        เพราะเงื่อนไขอาจแตกต่างกัน ขณะที่โปรโมชั่นสามารถตรวจสอบสิทธิ์ได้ตามรายการที่เปิดให้รับในแต่ละวัน
-      </p>
-    </div>
-  </ContentBox>
+  <ContentBoxFloatingBadge as="h2" title="โปรโมชั่นพิเศษ VAK88 แจกโบนัสหนักทุกยูส ไม่ล็อค">
+    <p class="text-left text-base leading-relaxed text-[#ded8ca]">
+      VAK88 มุ่งมั่นรักษาฐานลูกค้าในระยะยาวและมอบความคุ้มค่าสูงสุดให้กับสมาชิกทุกคน ไม่ว่าจะเป็นผู้เล่นใหม่หรือยูสเซอร์เก่าที่อยู่ด้วยกันมานาน
+      <strong class="text-[#fff4dd]">เราจัดเต็มโปรโมชั่นแจกโบนัสหนักแบบไม่มีการล็อคยูสเซอร์</strong>
+      ยิ่งเล่นยิ่งได้สิทธิประโยชน์ที่ตอบโจทย์ทุกความต้องการ
+    </p>
+  </ContentBoxFloatingBadge>
 
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่นแนะนำเพื่อน โบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide1}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ UVO88 พื้นหลังโทนเขียวมรกตเข้ม มีเหรียญทองและชิปคาสิโนกองอยู่รอบภาพ มุมซ้ายบนเป็นโลโก้ UVO88 ตัวอักษร UVO สีทองวางบนชิปโป๊กเกอร์สีเขียว และเลข 88 สีทองอยู่ใต้ลงมา ถัดมาเป็นป้ายโค้งสีเขียวเขียนว่า โปรโมชั่น ตามด้วยข้อความ แนะนำเพื่อน สีขาวขอบทอง วางเหนือตัวเลข 0.8% ขนาดใหญ่สีทองเงา ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีเขียวแต่งทองกำลังชี้มาที่ตัวเลข ฉากหลังมีวงล้อรูเล็ต ไพ่เอซ และกองชิป ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า แนะนำเพื่อน รับโบนัสไม่อั้น กับ เพื่อนสมัคร รับโบนัสไปเลย และ รับโบนัสสูงสุด ไม่จำกัด"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#0f9d47]/45 shadow-[0_10px_30px_rgba(15,157,71,0.25)]"
-    />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#c8e3d0]">
-      <p>
-        สมาชิกสามารถนำลิงก์แนะนำส่วนตัวไปแชร์ให้เพื่อน เมื่อเพื่อนสมัคร <strong class="text-[#f3fbf5]">UVO88</strong> และมียอดใช้งานตรงตามข้อกำหนด
-        <strong class="text-[#f3fbf5]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเงื่อนไข</strong>
-        สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกได้โดยตรง
-      </p>
-      <p>
-        <strong class="text-[#ffd76a]">ก่อนรับโบนัสควรตรวจสอบรอบคำนวณ ประเภทเกมที่ร่วมรายการ และเงื่อนไขของโปรโมชั่นล่าสุดให้ครบถ้วน</strong>
-      </p>
-    </div>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThree as="h3" title="โปรโมชั่นคืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -183,45 +146,76 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ UVO88 พื้นหลังโทนเขียวมรกตเข้ม มีเหรียญทองและชิปคาสิโนกองอยู่รอบภาพ มุมซ้ายบนเป็นโลโก้ UVO88 ตัวอักษร UVO สีทองวางบนชิปโป๊กเกอร์สีเขียว และเลข 88 สีทองอยู่ใต้ลงมา ถัดมาเป็นป้ายโค้งสีเขียวเขียนว่า โปรโมชั่น ตามด้วยข้อความ คืนยอดเสีย สีขาวขอบทอง วางเหนือตัวเลข 0.3% ขนาดใหญ่สีทองเงา ด้านขวาเป็นผู้หญิงผมบลอนด์สวมชุดสีเขียวแต่งทองกำลังชี้มาที่ตัวเลข ฉากหลังมีวงล้อรูเล็ต ไพ่เอซ และกองชิป ด้านล่างเป็นป้ายสามอันพร้อมไอคอน เขียนว่า คืนยอดเสีย ทุกวัน กับ มั่นคง ปลอดภัย มาตรฐานระดับสากล และ ระบบออโต้ รวดเร็ว ทันใจ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#f2c230]/45 shadow-[0_10px_30px_rgba(242,194,48,0.22)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ VAK88 พื้นหลังสีกรมท่าเกือบดำ มีลายแผงวงจรอิเล็กทรอนิกส์สีทองและกรอบเส้นทองล้อมรอบทั้งภาพ ด้านบนเป็นโลโก้ VAK88 รูปนกฟีนิกซ์สีแดงตัดทองกางปีกอยู่เหนือตัวอักษร VAK สีเงินทองและเลข 88 สีทองเงา ถัดลงมาเป็นข้อความ โปรโมชั่น สีขาว และ แนะนำเพื่อน ตัวอักษรสีขาวขอบทอง วางเหนือตัวเลข 0.8% ขนาดใหญ่สีทองเงาที่มีเงาสีแดงเน้นขอบ ด้านล่างเป็นผู้หญิงในชุดราตรีสีแดงยื่นมือออกมา คู่กับผู้ชายสูทสีดำที่กำลังชี้นิ้วมาที่ตัวเลข รอบภาพมีเหรียญทองสลักโลโก้ VAK88 ลอยกระจายอยู่หลายเหรียญ และมีแผงหน้าจอโฮโลแกรมโปร่งแสงประกอบอยู่ทั้งสองข้าง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e6b23c]/45 shadow-[0_10px_30px_rgba(230,178,60,0.25)]"
     />
-    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#c8e3d0]">
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ded8ca]">
       <p>
-        <strong class="text-[#f3fbf5]">สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ UVO88 กำหนด</strong>
-        ระบบจะแสดงยอดที่เข้าเกณฑ์และจำนวนโบนัสที่สามารถกดรับได้จากบัญชีสมาชิก
-      </p>
-      <p>
-        <strong class="text-[#ffd76a]">ก่อนกดรับควรตรวจสอบประเภทเกม รอบเวลา วิธีคำนวณ และเงื่อนไขการถอนของโปรโมชั่น</strong>
-        เพื่อให้ใช้งานโบนัสได้ตรงตามข้อกำหนด
+        สร้างเครือข่ายรายได้ที่มั่นคงด้วยตัวคุณเอง เพียงแชร์ลิงก์แนะนำเพื่อนให้เข้ามาร่วมสนุกกับ VAK88
+        <strong class="text-[#fff4dd]">คุณจะได้รับส่วนแบ่งค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อน</strong>
+        เป็นระบบสร้างรายได้แบบพาสซีฟอินคัม (Passive Income)
+        <strong class="text-[#fff4dd]">ที่ถอนเป็นเงินสดได้จริงและไม่มีขีดจำกัด</strong>
       </p>
     </div>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxPremium as="h2" title="สมัคร UVO88 เดิมพันได้ไม่มีขั้นต่ำ">
-    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#c8e3d0]">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ VAK88 พื้นหลังสีดำอมกรมท่า มีลำแสงสปอตไลต์จากมุมบนและริ้วแสงสีแดงพาดขวางทั้งภาพ ด้านบนเป็นโลโก้ VAK88 รูปนกฟีนิกซ์สีแดงตัดทองกางปีกอยู่เหนือตัวอักษร VAK สีเงินทองและเลข 88 สีทองเงา ตรงกลางเป็นคู่ชายหญิง ผู้ชายสวมสูทสีดำ ผู้หญิงสวมชุดราตรีสีดำลายทอง ด้านล่างเป็นป้ายข้อความ โปรโมชั่น กับ คืนยอดเสีย สีขาว วางเหนือตัวเลข 0.3% ขนาดใหญ่สีทองเงา รอบภาพมีชิปคาสิโนสีทองและสีเงินสลักโลโก้ VAK88 ลอยอยู่ พร้อมไพ่โพดำและไพ่ข้าวหลามตัดสอดอยู่ด้านหลัง ส่วนพื้นด้านล่างเป็นตารางเส้นเรืองแสงสีแดง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#cf2027]/45 shadow-[0_10px_30px_rgba(207,32,39,0.24)]"
+    />
+    <div slot="right" class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ded8ca]">
       <p>
-        <strong class="text-[#f3fbf5]">ผู้ใช้งานใหม่สามารถสมัคร UVO88 ผ่านระบบออนไลน์ได้ด้วยตัวเอง</strong>
-        เริ่มจากกรอกข้อมูลตามที่เว็บไซต์กำหนด จากนั้น Login เข้าบัญชี เลือกช่องทางฝากเครดิตที่เปิดรองรับ ตรวจสอบโปรโมชั่น และเลือกหมวดเกมที่ต้องการได้ทันที
+        ทุกการลงทุนมีหลักประกันเสมอ เราพร้อมดูแลทุกยูสเซอร์ด้วยโปรโมชั่น
+        <strong class="text-[#fff4dd]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong>
+        เพื่อให้คุณมีเงินทุนหมุนเวียนและสามารถนำเครดิตส่วนนี้กลับไปต่อยอดสร้างกำไรในเกมสล็อตได้อย่างต่อเนื่อง ไร้กังวลทุกการเดิมพัน
       </p>
+    </div>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxPremium as="h2" title="สมัครเล่นสล็อต VAK88 ด้วย 3 ขั้นตอนง่ายๆ">
+    <div class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ded8ca]">
       <p>
-        หลังเปิดบัญชี สมาชิกสามารถตรวจสอบเครดิต ฝากถอน โปรโมชั่น และประวัติรายการผ่านหน้าเว็บไซต์ได้ สำหรับเงื่อนไขการเดิมพันไม่มีขั้นต่ำ
-        <strong class="text-[#ffd76a]">ควรยึดตัวเลขที่เกมหรือระบบแสดง ณ เวลาทำรายการ เนื่องจากเกมแต่ละประเภทอาจมีช่วงเดิมพันแตกต่างกัน</strong>
+        เริ่มต้นประสบการณ์ระดับพรีเมียมกับ VAK88 ได้อย่างรวดเร็ว
+        <strong class="text-[#fff4dd]">ผ่านระบบสมัครสมาชิกอัตโนมัติที่ปลอดภัยและปกป้องข้อมูลส่วนบุคคลของคุณขั้นสูงสุด</strong>
+        เพียงทำตาม 3 ขั้นตอน:
       </p>
+      <ol class="flex list-decimal flex-col gap-3 pl-6 marker:font-black marker:text-[#e6b23c]">
+        <li>
+          <strong class="text-[#fff4dd]">ยืนยันเบอร์โทรศัพท์:</strong> กรอกเบอร์มือถือของคุณเพื่อรับรหัส OTP
+          <strong class="text-[#ffb36b]">ป้องกันการแอบอ้างและรักษาความปลอดภัยของบัญชี</strong>
+        </li>
+        <li>
+          <strong class="text-[#fff4dd]">ผูกบัญชีธนาคาร:</strong> กรอกชื่อ-นามสกุล และเลขบัญชีธนาคารที่ต้องการใช้ทำรายการ
+          <strong class="text-[#ffb36b]">(ข้อมูลต้องตรงกันเพื่อรองรับระบบฝาก-ถอนออโต้)</strong>
+        </li>
+        <li>
+          <strong class="text-[#fff4dd]">ตั้งรหัสผ่านและเข้าสู่ระบบ:</strong> กำหนดรหัสผ่านที่รัดกุม ล็อคอินเข้าสู่หน้า Portal หลัก เติมเครดิต และเริ่มต้นทำกำไรได้ทันที
+        </li>
+      </ol>
     </div>
   </ContentBoxPremium>
 
   <LoginRtpSection />
 
-  <ContentBoxSpecial as="h2" title="แอดมิน UVO88 คอยให้บริการและสอบถามได้ 24 ชั่วโมง" iconleft="🎧" iconright="🛡️">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#c8e3d0]">
-      หากพบปัญหาเกี่ยวกับการสมัครสมาชิก Login ไม่ได้ ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง เข้าเกมไม่ได้ หรือโปรโมชั่นไม่แสดง
-      <strong class="text-[#f3fbf5]">สามารถติดต่อแอดมิน UVO88 ได้ตลอด 24 ชั่วโมง</strong>
-      พร้อมแจ้งรายละเอียด เวลา จำนวนเงิน หรือข้อมูลรายการที่เกี่ยวข้อง เพื่อช่วยให้เจ้าหน้าที่ตรวจสอบปัญหาได้ตรงจุด
+  <ContentBoxSpecial as="h2" title="แอดมิน VAK88 บริการออนไลน์ ผ่าน Line official 24 ชั่วโมง" iconleft="💬" iconright="🕐">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ded8ca]">
+      เราพร้อมให้บริการและดูแลสมาชิกทุกท่านด้วยมาตรฐานระดับวีไอพี ทีมงานผู้เชี่ยวชาญของ VAK88
+      <strong class="text-[#fff4dd]">สแตนด์บายให้คำปรึกษาและแก้ไขปัญหาผ่านช่องทาง Line Official ตลอด 24 ชั่วโมง</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#c8e3d0]">
-      สมาชิกใหม่ยังสามารถสอบถามเกี่ยวกับขั้นตอนสมัคร วิธีฝากถอน การรับโปรโมชั่น หรือการเข้าใช้งานเกมแต่ละประเภทได้
-      <strong class="text-[#ffd76a]">โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อเจ้าหน้าที่</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded8ca]">
+      ไม่ว่าคุณจะต้องการสอบถามเกี่ยวกับโปรโมชั่น ข้อสงสัยในการใช้งาน หรือติดตามการทำรายการธุรกรรมต่างๆ
+      <strong class="text-[#fff4dd]">แอดมินของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และใส่ใจในทุกรายละเอียด</strong>
     </p>
   </ContentBoxSpecial>
 
@@ -229,7 +223,7 @@ const graph = pageGraph(Astro, {
 
   <ReviewCardSumo2 />
 
-  <Faq2 title="คำถามที่พบบ่อยเกี่ยวกับ UVO88" faqs={faqs} />
+  <Faq4 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
 
   <Navfoot />
 </MainLayout>

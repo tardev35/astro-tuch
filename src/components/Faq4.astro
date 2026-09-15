@@ -6,8 +6,8 @@ export interface FaqItem {
 
 export interface Props {
   title?: string;
-  /** The docx's own level for this section. YADOM168's brief marks
-   *  "คำถามที่พบบ่อยเกี่ยวกับ YADOM168" as an H2, so index.astro passes as="h2".
+  /** The docx's own level for this section. VAK88's brief marks
+   *  "คำถามที่พบบ่อย (FAQ)" as an H2, so index.astro passes as="h2".
    *  It defaults to <p> so a page that hangs a chrome FAQ here stays out of the
    *  heading inventory. */
   as?: "h2" | "h3" | "p";
@@ -25,6 +25,10 @@ export interface Props {
 // The open state is keyed off [open] in the stylesheet rather than a
 // hand-written .rotate-45 override, which removes both a script and a
 // Tailwind-utility name collision.
+//
+// VAK88 palette: navy-black panels (#070b16) inside deep-gold hairlines, a
+// metallic-gold rail and `>_` marker, and the open state lit with the gold glow
+// while the toggle glyph flips to phoenix crimson.
 const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
@@ -33,9 +37,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#5cc23f] bg-gradient-to-r from-[#0f2a10] via-[#071508]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#e6b23c] bg-gradient-to-r from-[#121a2e] via-[#070b16]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#f2fbef] uppercase md:text-2xl">{title}</TitleTag>
+        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#fff4dd] uppercase md:text-2xl">{title}</TitleTag>
       </div>
     )
   }
@@ -45,13 +49,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
       faqs.map((faq) => (
         <details
           name="faq-terminal"
-          class="faq-item group relative overflow-hidden border border-[#0f3d0d]/70 bg-[#071508]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#5cc23f]/60 hover:shadow-[0_15px_40px_rgba(92,194,63,0.22)]"
+          class="faq-item group relative overflow-hidden border border-[#8a5f14]/70 bg-[#070b16]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#e6b23c]/60 hover:shadow-[0_15px_40px_rgba(230,178,60,0.22)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#8fe06f] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#ffd873] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2 text-base font-bold text-[#d4e8cb] transition-colors group-hover:text-[#f2fbef] md:text-lg">
-              <span aria-hidden="true" class="font-mono text-[#5cc23f]">
+            <span class="flex items-center gap-2 text-base font-bold text-[#ded8ca] transition-colors group-hover:text-[#fff4dd] md:text-lg">
+              <span aria-hidden="true" class="font-mono text-[#e6b23c]">
                 &gt;_
               </span>
               {faq.q}
@@ -59,13 +63,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#5cc23f]/40 bg-[#0f2a10] text-lg font-black text-[#8fe06f] transition-all duration-300 group-hover:border-[#5cc23f]/70 group-hover:text-[#e6bd5c]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#e6b23c]/40 bg-[#121a2e] text-lg font-black text-[#ffd873] transition-all duration-300 group-hover:border-[#e6b23c]/70 group-hover:text-[#ee3a34]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#0f3d0d]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#d4e8cb]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#8a5f14]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#ded8ca]">{faq.a}</div>
         </details>
       ))
     }
@@ -80,13 +84,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(92, 194, 63, 0.6);
-    box-shadow: 0 15px 40px rgba(92, 194, 63, 0.22);
+    border-color: rgba(230, 178, 60, 0.6);
+    box-shadow: 0 15px 40px rgba(230, 178, 60, 0.22);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #5cc23f;
-    color: #e6bd5c;
+    border-color: #e6b23c;
+    color: #ee3a34;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;
