@@ -792,12 +792,23 @@ if (fs.existsSync("wrangler.toml")) {
   // it are part of the encoding, not word breaks. Splitting on them yields
   // "xn", which every IDN brand in the portfolio would share, so the check
   // would demand the one worker name guaranteed to collide. Compare the whole
-  // label there; keep the leading-segment rule for ordinary hostnames, which
-  // is what every ASCII brand's name was derived from.
+  // label there.
+  //
+  // For ordinary hostnames, accept the whole label OR any hyphen-separated
+  // segment of it. This used to demand the LEADING segment, on the premise
+  // that a hyphenated brand domain is always brand-first with a suffix
+  // (hero1688-slot.com -> hero1688, ttn69-88.com -> ttn69). That premise
+  // breaks when the hyphen carries a PREFIX instead: m-oczplus.com is brand
+  // OCZPLUS behind a "mobile" marker, and the old rule demanded name = "m" —
+  // a one-letter worker that the first m-* brand would claim and every later
+  // m-* brand would then overwrite, which is exactly the disaster this check
+  // exists to prevent. Matching any segment keeps the property that matters
+  // (the name must come from THIS domain, so a previous brand's leftover name
+  // is still caught) without dictating which segment is the brand.
   const label = SITE.hostname.replace(/^www\./i, "").split(".")[0];
-  const slug = label.startsWith("xn--") ? label : label.split("-")[0];
-  if (name && slug && name.toLowerCase() !== slug.toLowerCase()) {
-    error("wrangler.toml", `name = "${name}" but the site is ${SITE.hostname} (expected "${slug}") — ` + `deploying now would overwrite the "${name}" brand's live worker`);
+  const allowed = label.startsWith("xn--") ? [label] : [label, ...label.split("-")].filter(Boolean);
+  if (name && allowed.length && !allowed.some((s) => s.toLowerCase() === name.toLowerCase())) {
+    error("wrangler.toml", `name = "${name}" but the site is ${SITE.hostname} (expected one of ${allowed.map((s) => `"${s}"`).join(", ")}) — ` + `deploying now would overwrite the "${name}" brand's live worker`);
   }
 }
 

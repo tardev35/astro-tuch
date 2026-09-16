@@ -7,29 +7,41 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// หวยกินดี365 เป็นเว็บหวย — /ตรวจหวย และ /แนวทาง เปิดอยู่ใน src/pages/ รอบนี้
-// จึงมีลิงก์ทั้งใน NavbarStyle9 และตรงนี้ ส่วน /ทางเข้า ไม่มีในเมนู navbar เพราะ
-// toggle register/login เปิดอยู่ แต่ยังลิงก์จากตรงนี้ให้เข้าถึงได้
+// OCZPLUS เป็นเว็บสล็อต ไม่ใช่เว็บหวย — /ตรวจหวย และ /แนวทาง ถูกพักไว้ใน
+// src/pages-disabled/ รอบนี้ จึงไม่มีลิงก์ทั้งสองในคอลัมน์นี้ (ไฟล์คอมโพเนนต์
+// *Huay ยังอยู่ครบในฐานะ inventory ของแบรนด์หวยรอบหน้า)
+//
+// /ทางเข้า ยังลิงก์จากตรงนี้: หน้านั้นยัง route และ index อยู่ แค่ไม่มีในเมนู
+// navbar เพราะ toggle register/login เปิดอยู่ ทำให้มันกลายเป็นลิงก์ที่สามไปที่เดิม
 const quickLinks = [
   { name: "หน้าแรก", path: "/" },
   { name: "โปรโมชั่น", path: "/promotion" },
   { name: "สมัครสมาชิก", path: "/register" },
   { name: "เข้าสู่ระบบ", path: "/login" },
-  { name: "ตรวจหวย", path: "/ตรวจหวย" },
-  { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทางเข้า", path: "/ทางเข้า" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
   { name: "ติดต่อเรา", path: "/contact-us" },
 ];
 
-// หมวดหวยตามที่ content.txt ระบุไว้เท่านั้น — อะไรที่เจาะจงกว่านี้คือการแต่งขึ้นเอง
-const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาวพัฒนา", "หวยฮานอย 3 รูปแบบ", "หวยหุ้นต่างประเทศ", "3 ตัวบาทละ 1,000 / 2 ตัวบาทละ 100"];
+// สิทธิประโยชน์ตามที่ content.txt ระบุไว้เท่านั้น — อะไรที่เจาะจงกว่านี้
+// (เลขใบอนุญาต ปีที่ก่อตั้ง จำนวนสมาชิก ชื่อค่ายเกม) คือการแต่งขึ้นเอง
+const privileges = ["การันตียอดถอนทุกวัน จ่ายเต็มจำนวน", "ไม่ล็อคยูส ควบคุมด้วย RNG 100%", "แนะนำเพื่อนรับคอมมิชชั่น 0.8%", "คืนยอดเสีย 0.3% ทุกยอดการเล่น", "ฝาก-ถอนออโต้ 3-5 วินาที ไม่มีขั้นต่ำ"];
+
+// แถบคำโปรยล่างสุด: คำหน้าเป็นทอง คำหลังเป็นเงินโครเมียม ล้อโลโก้ที่เป็น
+// OCZ เงิน + แดง + PLUS ทอง
+const claimChips = [
+  { lead: "สล็อต", tail: "อันดับหนึ่ง" },
+  { lead: "การันตี", tail: "ยอดถอนทุกวัน" },
+  { lead: "ไม่ล็อค", tail: "ยูสเซอร์" },
+  { lead: "ฝากถอน", tail: "ออโต้24ชม." },
+  { lead: "รีวิว", tail: "จากสมาชิกจริง" },
+];
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#f6db6b] bg-[#03153b] pt-16 pb-8 font-sans text-[#dce7fb] shadow-[0_-10px_30px_rgba(246,219,107,0.18)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#f6db6b]/10 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#0a6dfb]/15 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-[#d9b45e] bg-[#071a36] pt-16 pb-8 font-sans text-[#ccd6e6] shadow-[0_-10px_30px_rgba(217,180,94,0.18)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#d9b45e]/10 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#c0202b]/15 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -39,42 +51,47 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว�
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="โลโก้ หวยกินดี365 คำว่า หวย สีน้ำเงินสดวางติดกับคำว่า กินดี สีทองไล่เงา ด้านล่างเป็นเลข 365 สีน้ำเงินไล่เฉดขอบขาว ล้อมด้วยเส้นโค้งสีทองปลายเป็นใบไม้ทองสามใบ"
+                alt="โลโก้ OCZPLUS ตัวอักษร OCZ สีเงินโครเมียม ตามด้วยเครื่องหมายบวกสีแดง และคำว่า PLUS สีทองเมทัลลิค"
                 widths={[150, 300, 450]}
                 sizes="150px"
-                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(246,219,107,0.45)]"
+                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(217,180,94,0.45)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#fbe473] via-[#f6db6b] to-[#c9a23a] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(246,219,107,0.4)]">หวยกินดี365</span>
+              <span class="text-4xl font-black drop-shadow-[0_0_10px_rgba(217,180,94,0.4)]">
+                <span class="bg-gradient-to-b from-[#e6ebf0] to-[#8b939c] bg-clip-text text-transparent">OCZ</span>
+                <span class="text-[#c0202b]">+</span>
+                <span class="bg-gradient-to-b from-[#f2dc9a] via-[#d9b45e] to-[#8a6b2c] bg-clip-text text-transparent">PLUS</span>
+              </span>
             )
           }
         </a>
-        <p class="text-base leading-relaxed text-[#dce7fb]">
-          หวยกินดี365 รวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว เหมาะกับคนที่ต้องการเลือกเล่นได้หลายตลาดโดยไม่ต้องสลับเว็บไซต์ มีทั้งหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศ
-          พร้อมอัตราจ่ายตามที่กำหนด 3 ตัวบาทละ 1,000 และ 2 ตัวบาทละ 100 สมาชิกสามารถตรวจสอบเรทก่อนส่งโพย ฝากเครดิตผ่านระบบออโต้ และติดต่อเจ้าหน้าที่ได้ตลอด 24 ชั่วโมง
+        <p class="text-base leading-relaxed text-[#ccd6e6]">
+          OCZPLUS สล็อตอันดับหนึ่ง แหล่งเดิมพันชั้นเยี่ยมที่ดีที่สุด พัฒนาระบบนิเวศการเดิมพันในรูปแบบ Portal &amp; Privilege บนอินเทอร์เฟซโทนสีกรมท่าตัดทองเมทัลลิค
+          พร้อมกราฟิกเกมสล็อตระดับ Cinematic Lighting เราการันตียอดถอนทุกวันและจ่ายเต็มจำนวน แจกโบนัสหนักทุกยูสเซอร์แบบไม่ล็อคยูสด้วยระบบสุ่ม RNG 100%
+          ฝาก-ถอนอัตโนมัติภายใน 3-5 วินาที รองรับทุกธนาคารและ TrueMoney Wallet โดยไม่มีขั้นต่ำ
         </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#f6db6b]/50 bg-[#f6db6b]/10 px-3 py-1.5 text-xs font-bold text-[#fbe473] shadow-[0_0_10px_rgba(246,219,107,0.22)]">
-            <span aria-hidden="true" class="text-base">🛡️</span> SSL/TLS 256-BIT
+          <div class="flex items-center gap-1.5 rounded border border-[#d9b45e]/50 bg-[#d9b45e]/10 px-3 py-1.5 text-xs font-bold text-[#f2dc9a] shadow-[0_0_10px_rgba(217,180,94,0.22)]">
+            <span aria-hidden="true" class="text-base">🛡️</span> RNG 100%
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-[#0a6dfb]/55 bg-[#041b44]/70 px-3 py-1.5 text-xs font-bold text-[#5ec2f5]">
+          <div class="flex items-center gap-1.5 rounded border border-[#c0202b]/55 bg-[#0b2547]/70 px-3 py-1.5 text-xs font-bold text-[#c9d2dc]">
             <span aria-hidden="true" class="text-base">⚡</span> AUTO 24H
           </div>
         </div>
       </div>
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe473]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe473] to-[#c9a23a]"></span> เมนูหลัก
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#f2dc9a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f2dc9a] to-[#8a6b2c]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-[#dce7fb] transition-all hover:text-[#fbe473]">
-                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#f6db6b] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
+                <a href={link.path} class="group flex items-center text-[#ccd6e6] transition-all hover:text-[#f2dc9a]">
+                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#d9b45e] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
                     ➤
                   </span>
                   {link.name}
@@ -85,17 +102,17 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว�
         </ul>
       </nav>
 
-      <nav aria-label="หมวดหวยที่เปิดให้บริการ" class="flex flex-col gap-4">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe473]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe473] to-[#c9a23a]"></span> หมวดหวย
+      <nav aria-label="สิทธิประโยชน์สำหรับสมาชิก" class="flex flex-col gap-4">
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#f2dc9a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f2dc9a] to-[#8a6b2c]"></span> สิทธิประโยชน์
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
-            lottoTypes.map((lotto) => (
+            privileges.map((item) => (
               <li>
-                <a href="/register" class="group flex items-center text-[#dce7fb] transition-all hover:text-[#fbe473]">
-                  <span aria-hidden="true" class="mr-3 h-1.5 w-1.5 rounded-full bg-[#0a6dfb] transition-colors group-hover:bg-[#f6db6b] group-hover:shadow-[0_0_8px_rgba(246,219,107,0.8)]" />
-                  {lotto}
+                <a href="/promotion" class="group flex items-start text-[#ccd6e6] transition-all hover:text-[#f2dc9a]">
+                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c0202b] transition-colors group-hover:bg-[#d9b45e] group-hover:shadow-[0_0_8px_rgba(217,180,94,0.8)]" />
+                  {item}
                 </a>
               </li>
             ))
@@ -104,14 +121,14 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว�
       </nav>
 
       <div class="flex flex-col gap-5">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#fbe473]">
-          <span class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fbe473] to-[#c9a23a]"></span> บริการลูกค้า
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#f2dc9a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#f2dc9a] to-[#8a6b2c]"></span> บริการลูกค้า
         </p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00B900] py-3 font-bold text-white shadow-[0_0_15px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
-          <span class="text-xl font-black">LINE</span> @หวยกินดี365
+          <span class="text-xl font-black">LINE</span> @OCZPLUS
         </a>
 
         {
@@ -135,28 +152,31 @@ const lottoTypes = ["หวยรัฐบาลไทย", "หวยลาว�
         }
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#f6db6b]/90 uppercase">รองรับทุกธนาคาร & True Wallet</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-[#d9b45e]/90 uppercase">รองรับทุกธนาคาร &amp; True Wallet</p>
           <BankStrip size={26} />
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#f6db6b]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
-      <span class="text-lg font-black text-[#f6db6b] italic md:text-2xl">หวย<span class="text-[#5ec2f5]">รัฐบาลไทย</span></span>
-      <span class="text-lg font-black text-[#f6db6b] italic md:text-2xl">หวย<span class="text-[#5ec2f5]">ลาวพัฒนา</span></span>
-      <span class="text-lg font-black text-[#f6db6b] italic md:text-2xl">หวย<span class="text-[#5ec2f5]">ฮานอย</span></span>
-      <span class="text-lg font-black text-[#f6db6b] italic md:text-2xl">หวย<span class="text-[#5ec2f5]">หุ้นต่างประเทศ</span></span>
-      <span class="text-lg font-black text-[#f6db6b] italic md:text-2xl">3ตัว<span class="text-[#5ec2f5]">บาทละ1,000</span></span>
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#d9b45e]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
+      {
+        claimChips.map((chip) => (
+          <span class="text-lg font-black text-[#d9b45e] italic md:text-2xl">
+            {chip.lead}
+            <span class="text-[#c9d2dc]">{chip.tail}</span>
+          </span>
+        ))
+      }
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#93a8ce] md:flex-row">
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#8fa2bd] md:flex-row">
       <p>
-        &copy; {new Date().getFullYear()} <span class="font-bold text-[#fbe473]">หวยกินดี365</span>. All rights reserved. เว็บหวยออนไลน์ รับแทงหวยรัฐบาลไทย ลาวพัฒนา ฮานอย และหุ้นต่างประเทศ
-        เจ้าหน้าที่ดูแลตลอด 24 ชั่วโมง
+        &copy; {new Date().getFullYear()} <span class="font-bold text-[#f2dc9a]">OCZPLUS</span>. All rights reserved. สล็อตอันดับหนึ่ง การันตียอดถอนทุกวัน ไม่ล็อคยูส
+        ฝาก-ถอนอัตโนมัติรองรับทุกธนาคารและ TrueMoney Wallet แอดมินดูแลผ่าน Line Official ตลอด 24 ชั่วโมง
       </p>
       <div class="flex gap-4">
-        <a href="/terms/" class="transition-colors hover:text-[#fbe473]">เงื่อนไขการให้บริการ</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#fbe473]">นโยบายความเป็นส่วนตัว</a>
+        <a href="/terms/" class="transition-colors hover:text-[#f2dc9a]">เงื่อนไขการให้บริการ</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#f2dc9a]">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>
