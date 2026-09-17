@@ -1,42 +1,43 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ContentBox from "../components/ContentBoxNeumorphism.astro";
+import ContentBox from "../components/ContentBoxHuay.astro";
 import ContentBoxPlain from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
 import { pageGraph } from "../lib/schema";
 
-// NEXT55 เป็นคาสิโนออนไลน์เว็บตรงครบวงจร ไม่ใช่เว็บหวยเฉพาะทาง — หวยเป็นหนึ่งใน
-// ห้าหมวดเกม จึงไม่มีลิงก์ไป /ตรวจหวย หรือ /แนวทาง ในหน้านี้ (สองหน้านั้นปิดอยู่)
-// เนื้อหาทั้งหน้าอ้างอิงบรีฟของแบรนด์นี้เท่านั้น: เว็บตรง 100% ไม่ผ่านเอเย่นต์ ·
-// One-Stop Service ครบห้าหมวด (บาคาร่าและคาสิโนสด Full HD · สล็อตลิขสิทธิ์แท้ ·
-// เกมยิงปลา · หวยรัฐบาล ลาว ฮานอย จ่ายเต็มไม่มีเลขอั้น · แทงบอลทุกลีก ค่าน้ำดี) ·
-// เดิมพันเริ่มต้นเพียง 1 บาท · ไม่มีขั้นต่ำฝาก-ถอน · ฝากถอนออโต้ภายใน 5 วินาที
-// รองรับทุกธนาคารและ TrueMoney Wallet · แนะนำเพื่อน 0.8% ถอนเป็นเงินสดได้ ·
-// คืนยอดเสีย 0.3% ทุกยอดการเล่น · สมัคร 3 ขั้นตอน (OTP · ผูกบัญชี/วอลเลท · ตั้งรหัสผ่าน) ·
-// แอดมิน Line Official ตลอด 24 ชั่วโมง · รองรับ iOS/Android/แท็บเล็ต/พีซี ผ่านเบราว์เซอร์
-// โดยไม่ต้องโหลดแอป
-// — ไม่มีการอ้างเลขใบอนุญาต ปีที่ก่อตั้ง จำนวนสมาชิก การันตีผลกำไร ตัวเลข RTP
-// หรือชื่อค่ายเกมรายใด เพราะบรีฟไม่ได้ระบุไว้
+// LOTTOKA เป็น "เว็บแทงหวยออนไลน์" ล้วนๆ ไม่ใช่คาสิโน — หน้านี้เคยเป็นบทความของ
+// แบรนด์คาสิโนก่อนหน้า (บาคาร่า สล็อต ยิงปลา บอล) และถูกเขียนใหม่ทั้งหมดรอบนี้
 //
-// Announcement รอบนี้หมุนมาใช้ Announcement3 ทั้งเว็บ — default message ของไฟล์นั้น
-// เป็นคอปปี้ของ NEXT55 อยู่แล้ว จึงเรียกแบบ bare ไม่ต้องส่ง prop
+// ข้อเท็จจริงทุกบรรทัดมาจาก src/assets/content.txt เท่านั้น:
+// แพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์ · ทุกยอดฝาก-ถอนโอนเข้าบัญชีของบริษัทโดยตรง
+// ไม่ใช้บัญชีม้าหรือผ่านบุคคลที่สาม ยอดเข้าเต็ม 100% ไม่หักค่าธรรมเนียม ·
+// เปิดรับหวยรัฐบาลไทย (1 และ 16 ของเดือน) · หวยลาวพัฒนา (จันทร์ พุธ ศุกร์) ·
+// หวยออมสิน · หวยฮานอย ปกติ/พิเศษ/VIP ออกทุกวัน · หวยหุ้นไทยและต่างประเทศ
+// (นิเคอิ ดาวโจนส์ ฮั่งเส็ง) · 2 ตัวบาทละ 100 · 3 ตัวตรงบาทละ 1,000 ·
+// จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ รับแทงทุกเลข ไม่มีเลขอั้น ·
+// สมัครออโต้ 3 ขั้นตอน · ทุกธนาคารและ TrueMoney Wallet ไม่มีขั้นต่ำในการฝาก ·
+// แอดมิน Line Official 24 ชั่วโมง
+// — ห้ามอ้างเลขใบอนุญาต ปีที่ก่อตั้ง เลขทะเบียนบริษัท จำนวนสมาชิก รางวัล
+// หรือการันตีผลกำไร เพราะบรีฟไม่ได้ระบุไว้เลย
 //
-// พาเลตต์ NEXT55: พื้นการ์ดกราไฟต์ #17181c · แดงโลโก้ #cd1437 นำโครงสร้าง
-// (ขอบ ไอคอน เงา) · แดงสว่าง #f0435f สำหรับ hover และข้อควรระวัง ·
-// ชมพูอ่อน #ffb3bf ใช้กับ <strong> ในเนื้อความ · เนื้อความ #d5dae2
-// แบรนด์นี้ไม่มีสีน้ำเงิน ฟ้า หรือทองเลย
+// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของ
+// ไฟล์นั้นเป็นคอปปี้ของ LOTTOKA อยู่แล้ว จึงเรียกแบบ bare ไม่ต้องส่ง prop
+//
+// พาเลตต์ LOTTOKA: แดงโลโก้ #c21e22 นำโครงสร้าง · แดงสว่าง #e2353a สำหรับ hover
+// ไอคอน และข้อควรระวัง · ชมพูอ่อน #ff9a9d เป็นสีเดียวที่ใช้กับ <strong> ·
+// ครีม #ffe9ea บนปุ่มแดง · เนื้อความ #ded9da — ไม่มีทองหรือน้ำเงินของแบรนด์หวยเก่า
 //
 // 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ การนับไบต์จะยาวเกินจริง ~3 เท่า)
-// สตริงเดียว ใช้ทั้ง meta ของ MainLayout และ WebPage node — หน้านี้ยาว 151
+// สตริงเดียว ใช้ทั้ง meta ของ MainLayout และ WebPage node — หน้านี้ยาว 157
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "เกี่ยวกับ NEXT55 คาสิโนออนไลน์เว็บตรง 100% ไม่ผ่านเอเย่นต์ รวมบาคาร่า สล็อต ยิงปลา หวย บอล เริ่มต้น 1 บาท ฝากถอนออโต้ไม่มีขั้นต่ำ แอดมินดูแล 24 ชั่วโมง";
+const pageDescription = "เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์ ยอดฝากถอนเข้าบัญชีบริษัทโดยตรง เข้าเต็ม 100% เปิดรับหวยรัฐบาล ลาว ออมสิน ฮานอย หวยหุ้น จ่ายเต็มทุกบิล";
 
 const graph = pageGraph(Astro, {
   type: "AboutPage",
-  name: "เกี่ยวกับ NEXT55 คาสิโนออนไลน์เว็บตรงครบวงจร ไม่ผ่านเอเย่นต์",
+  name: "เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -45,144 +46,137 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="เกี่ยวกับเรา NEXT55 คาสิโนออนไลน์เว็บตรง เริ่มต้น 1 บาท" description={pageDescription}>
+<MainLayout title="เกี่ยวกับเรา LOTTOKA เว็บแทงหวยออนไลน์หลัก จ่ายเต็มทุกบิล" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="เกี่ยวกับ NEXT55 คาสิโนออนไลน์เว็บตรงครบวงจร ไม่ผ่านเอเย่นต์" as="h1">
+  <ContentBox title="เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์" as="h1">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#ffb3bf]">NEXT55</strong> คือ<strong class="text-[#ffb3bf]">คาสิโนออนไลน์เว็บตรงครบวงจร</strong> ที่ให้บริการแพลตฟอร์มเดิมพันด้วยตัวเอง
-        <strong class="text-[#f0435f]">ไม่ผ่านเอเย่นต์หรือตัวแทนใดๆ</strong> ทุกอย่างจึงอยู่ในบัญชีเดียว ตั้งแต่สมัครสมาชิก เข้าสู่ระบบ ฝากถอนเครดิต กดรับโปรโมชั่น ไปจนถึงการเข้าเล่นทุกหมวดเกม โดยไม่ต้องสลับไปมาระหว่างหลายระบบ
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        <strong class="text-[#ff9a9d]">LOTTOKA (ลอตโตก้า)</strong> คือเว็บแทงหวยออนไลน์ที่เป็น<strong class="text-[#ff9a9d]">แพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์</strong>
+        เราดูแลระบบสมาชิก ระบบรับโพย และระบบการเงินด้วยตัวเองทั้งหมด สมาชิกจึงใช้บัญชีเดียวทำได้ครบตั้งแต่สมัครสมาชิก ฝากเครดิต เลือกตลาดหวยที่จะแทง ส่งโพย ตรวจผล ไปจนถึงถอนเงิน โดยไม่ต้องผ่านคนกลางคนใด
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        เรามุ่งเน้นมาตรฐานความปลอดภัยระดับสากลและความโปร่งใสในทุกยอดบิล ควบคู่กับเกมลิขสิทธิ์แท้และระบบที่เสถียร หน้านี้รวบรวมไว้ว่าเว็บไซต์เปิดให้ทำอะไรได้บ้าง ตั้งแต่หมวดเกมที่ให้บริการ
-        โปรโมชั่นที่กดรับสิทธิ์ได้เอง ขั้นตอนสมัครสมาชิกบนมือถือ ไปจนถึงช่องทางติดต่อทีมงาน
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        สิ่งที่ทำให้ LOTTOKA ต่างจากเว็บทั่วไปคือระบบการเงินที่โปร่งใส ทุกยอดฝาก-ถอนของคุณจะถูกโอนเข้าสู่<strong class="text-[#ff9a9d]">บัญชีของบริษัทโดยตรง</strong>
+        ไม่มีการใช้บัญชีม้าหรือผ่านบุคคลที่สาม หน้านี้รวบรวมไว้ว่าเราเป็นใคร เปิดรับหวยตลาดไหนบ้าง จ่ายอย่างไร และติดต่อทีมงานได้ทางช่องทางใด
       </p>
     </div>
   </ContentBox>
 
-  <ContentBoxPlain title="NEXT55 รวมเกมคาสิโน บาคาร่า สล็อต ยิงปลา หวย บอล เริ่มต้น 1 บาท" as="h2">
+  <ContentBoxPlain title="ระบบการเงิน LOTTOKA โอนเข้าบัญชีของบริษัทโดยตรง ยอดเข้าเต็ม 100%" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        ที่ NEXT55 เราตอบโจทย์ทุกไลฟ์สไตล์การเดิมพันด้วยการรวบรวมเกมยอดฮิตจากทุกค่ายดังทั่วโลกมาไว้ในเว็บเดียว <strong class="text-[#ffb3bf]">(One-Stop Service)</strong> และเปิดโอกาสให้ทุกคนเข้าถึงความสนุกได้ด้วย
-        <strong class="text-[#f0435f]">เงินทุนเริ่มต้นเพียง 1 บาท</strong>
-        โดยช่วงเดิมพันต่ำสุด-สูงสุดของแต่ละเกมกำหนดไว้ไม่เท่ากัน ให้ยึดค่าที่ระบบแสดงในตัวเกมเป็นหลัก
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        หัวใจของ LOTTOKA คือการที่ยอดการฝากและถอนทุกรายการวิ่งเข้า<strong class="text-[#ff9a9d]">บัญชีของบริษัทโดยตรง</strong> ไม่ผ่านบัญชีม้าและไม่ผ่านบุคคลที่สาม
+        วิธีนี้ช่วยเพิ่มความปลอดภัยให้สมาชิก ป้องกันปัญหาเว็บโดนบล็อกหรือการทุจริต และทำให้ทุกรายการถูกบันทึกอย่างถูกต้องและตรวจสอบย้อนกลับได้
       </p>
 
-      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#d5dae2]">
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        เมื่อเส้นทางเงินตรงแบบนี้ เราจึง<strong class="text-[#ff9a9d]">รับประกันยอดเงินเข้าเต็ม 100% ไม่มีหักค่าธรรมเนียม</strong> จ่ายไว จ่ายตรง
+        ระบบรองรับทุกธนาคารชั้นนำในประเทศไทยและ TrueMoney Wallet ดำเนินการด้วยระบบออโต้ที่รวดเร็วทันใจ และ<strong class="text-[#ff9a9d]">ไม่มีขั้นต่ำในการฝากเงิน</strong>
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        <strong class="text-[#e2353a]">ชื่อ-นามสกุลของบัญชีธนาคารหรือวอลเลทที่ผูกไว้ต้องตรงกับชื่อที่ใช้สมัคร</strong> เพราะระบบใช้ข้อมูลชุดนี้ในการโอนยอดเข้า-ออกบริษัท
+        หากข้อมูลไม่ตรงกัน รายการจะตรวจสอบได้ช้าลง ให้ยึดตัวเลขและสถานะที่ระบบแสดง ณ เวลาทำรายการเป็นหลักเสมอ
+      </p>
+    </div>
+  </ContentBoxPlain>
+
+  <ContentBoxPlain title="ตลาดหวยที่ LOTTOKA เปิดรับ ครบทั้งไทย ลาว ออมสิน ฮานอย และหวยหุ้น" as="h2">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        ที่ LOTTOKA เราคือ<strong class="text-[#ff9a9d]">ศูนย์รวมหวยออนไลน์ที่ครบครันที่สุด</strong> ตอบโจทย์คอหวยทุกสาย ไม่ว่าคุณจะชอบลุ้นรางวัลใหญ่หรือชอบทำกำไรทุกวัน
+        เราเปิดรับแทงครบทุกประเภท และแต่ละตลาดมีวันออกรางวัลกับรอบปิดรับโพยเป็นของตัวเอง
+      </p>
+
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da]">
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#f0435f]">🃏</span>
-          <span><strong class="text-[#ffb3bf]">บาคาร่าและคาสิโนสด</strong> ถ่ายทอดสดจากคาสิโนชั้นนำ ภาพคมชัดระดับ Full HD สัมผัสบรรยากาศสมจริงเหมือนนั่งอยู่ในคาสิโนวีไอพี</span>
+          <span aria-hidden="true" class="text-[#e2353a]">🏛️</span>
+          <span><strong class="text-[#ff9a9d]">หวยรัฐบาลไทย</strong> ลุ้นรวยทุกวันที่ 1 และ 16 ของเดือน เปิดรับแทงล่วงหน้า ปิดรับช้า ให้เวลาคุณหาเลขเด็ดได้อย่างเต็มที่</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#f0435f]">🎰</span>
-          <span><strong class="text-[#ffb3bf]">สล็อตออนไลน์</strong> รวบรวมค่ายเกมสล็อตลิขสิทธิ์แท้ ฟีเจอร์แน่น ภาพสวยงามตระการตา และเลือกวงเงินต่อสปินได้เอง</span>
+          <span aria-hidden="true" class="text-[#ff8a8d]">🌏</span>
+          <span><strong class="text-[#ff9a9d]">หวยลาว (ลาวพัฒนา)</strong> หวยยอดฮิตฝั่งโขง ออกรางวัลทุกวันจันทร์ พุธ ศุกร์ ลุ้นง่าย จ่ายหนัก</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#f0435f]">🐟</span>
-          <span><strong class="text-[#ffb3bf]">เกมยิงปลา</strong> เล่นง่าย ตายไว กราฟิกสวยงาม เลือกระดับกระสุนและโต๊ะที่เหมาะกับงบของตัวเองได้</span>
+          <span aria-hidden="true" class="text-[#e2353a]">🏦</span>
+          <span><strong class="text-[#ff9a9d]">หวยออมสิน</strong> อีกหนึ่งทางเลือกสำหรับคนชอบหวยไทย อ้างอิงผลสลากออมสิน มั่นใจได้ในความโปร่งใส</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#f0435f]">🎫</span>
-          <span><strong class="text-[#ffb3bf]">หวยออนไลน์</strong> รับแทงหวยทุกประเภท ทั้งหวยรัฐบาล หวยลาว และหวยฮานอย จ่ายหนัก จ่ายเต็ม ไม่มีเลขอั้น</span>
+          <span aria-hidden="true" class="text-[#ff8a8d]">🕐</span>
+          <span><strong class="text-[#ff9a9d]">หวยฮานอย (เวียดนาม)</strong> ลุ้นสนุกได้ทุกวันไม่มีวันหยุด มีทั้งฮานอยปกติ ฮานอยพิเศษ และฮานอย VIP</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#f0435f]">⚽</span>
-          <span><strong class="text-[#ffb3bf]">แทงบอลและกีฬา</strong> ค่าน้ำดีที่สุด เปิดรับเดิมพันทุกลีกดังทั่วโลก พร้อมรูปแบบการแทงที่หลากหลาย</span>
+          <span aria-hidden="true" class="text-[#e2353a]">📈</span>
+          <span><strong class="text-[#ff9a9d]">หวยหุ้นต่างประเทศและหุ้นไทย</strong> ตอบสนองสายวิเคราะห์ด้วยหวยหุ้นชั้นนำ เช่น นิเคอิ ดาวโจนส์ ฮั่งเส็ง และอื่นๆ อีกมากมาย</span>
         </li>
       </ul>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#f0435f]">รายชื่อเกมและตารางการแข่งขันที่เปิดรับเดิมพันเปลี่ยนแปลงได้ตามรอบ จึงควรตรวจสอบรายการล่าสุดและอัตราจ่ายจากหน้าเลือกเกมในเว็บก่อนยืนยันทุกครั้ง</strong>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        <strong class="text-[#e2353a]">รอบที่เปิดรับและเวลาปิดรับโพยของแต่ละตลาดเปลี่ยนแปลงได้ตามรอบออกรางวัล จึงควรตรวจรอบล่าสุดในหน้าเลือกหวยก่อนส่งโพยทุกครั้ง</strong>
       </p>
     </div>
   </ContentBoxPlain>
 
-  <ContentBoxPlain title="โปรโมชั่น NEXT55 จัดเต็มทุกยูส แนะนำเพื่อน 0.8% คืนยอดเสีย 0.3%" as="h2">
+  <ContentBoxPlain title="อัตราจ่าย LOTTOKA จ่ายเต็มทุกบิล รับแทงทุกเลข ไม่มีเลขอั้น" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        เราพร้อมคืนกำไรและมอบความคุ้มค่าสูงสุดให้กับสมาชิก NEXT55 ด้วยโปรโมชั่นสุดพิเศษที่ <strong class="text-[#ffb3bf]">แจกหนักให้ทุกยูสเซอร์อย่างเท่าเทียม</strong>
-        ไม่ว่าจะเป็นสมาชิกใหม่หรือสมาชิกเก่า ก็กดรับสิทธิประโยชน์ได้ <strong class="text-[#f0435f]">ทุกวัน ไม่มีกั๊ก</strong>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        เรากล้าให้มากกว่าใคร ด้วยความเป็นเว็บหลักที่มีฐานการเงินมั่นคงระดับประเทศ LOTTOKA จึงมอบ<strong class="text-[#ff9a9d]">อัตราการจ่ายที่สูงที่สุดในตลาด</strong>
+        แทงถูกปุ๊บ รับเงินเต็มจำนวนปั๊บ ไม่มีหักเปอร์เซ็นต์ใดๆ ทั้งสิ้น
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#f0435f]">โปรโมชั่นแนะนำเพื่อน 0.8%</strong> สร้างรายได้เสริมแบบง่ายๆ เพียงนำลิงก์ส่วนตัวของคุณไปแชร์ให้เพื่อนสมัครและเข้าเล่น คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อนทันที
-        เป็นระบบ Passive Income ที่ยิ่งชวนมาก ยิ่งได้มาก และถอนเป็นเงินสดได้ตลอดเวลา
-      </p>
-
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#f0435f]">โปรโมชั่นคืนยอดเสีย 0.3%</strong> ทุกการเดิมพันมีจังหวะของมัน หากวันไหนมือไม่ขึ้น เรามีระบบเซฟตี้คอยดูแลด้วยการคืนยอดเสีย 0.3% ในทุกยอดการเล่น เพื่อให้คุณมีเครดิตเงินทุนสำรองไว้ต่อยอดในรอบถัดไป
-        <strong class="text-[#f0435f]">โดยก่อนกดรับควรอ่านรอบการคำนวณและเงื่อนไขของโปรโมชั่นล่าสุดให้ครบถ้วนทุกครั้ง</strong>
-      </p>
-    </div>
-  </ContentBoxPlain>
-
-  <ContentBoxPlain title="สมัคร NEXT55 ด้วยตัวเอง 3 ขั้นตอน ฝากถอนออโต้ไม่มีขั้นต่ำ" as="h2">
-    <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        เริ่มต้นเปิดประสบการณ์การเดิมพันได้ง่ายๆ ผ่าน<strong class="text-[#ffb3bf]">ระบบสมัครสมาชิกอัตโนมัติ (Auto)</strong>ที่ออกแบบมาให้ใช้งานบนโทรศัพท์มือถือได้อย่างสมบูรณ์แบบ รวดเร็ว ปลอดภัย
-        ใช้เวลาไม่ถึง 1 นาที เพียงทำตาม 3 ขั้นตอนดังนี้
-      </p>
-
-      <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#d5dae2]">
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da]">
         <li class="flex gap-3">
-          <span class="font-bold text-[#f0435f]">1.</span>
-          <span><strong class="text-[#ffb3bf]">กรอกเบอร์โทรศัพท์</strong> ระบุเบอร์มือถือของคุณเพื่อรับรหัส OTP สำหรับยืนยันตัวตนและรักษาความปลอดภัยของบัญชี</span>
-        </li>
-        <li class="flex gap-3">
-          <span class="font-bold text-[#f0435f]">2.</span>
+          <span aria-hidden="true" class="text-[#e2353a]">🎯</span>
           <span>
-            <strong class="text-[#ffb3bf]">ผูกบัญชีธนาคารหรือวอลเลท</strong> เลือกธนาคารหรือ TrueMoney Wallet พร้อมกรอกเลขบัญชี โดยชื่อ-นามสกุลต้องตรงกับข้อมูลที่ใช้สมัคร เพื่อความปลอดภัยในการฝาก-ถอน
+            <strong class="text-[#ff9a9d]">ถูก 2 ตัวจ่าย 100 บาท</strong> คุ้มค่าสุดๆ กับการแทงหวย 2 ตัวบนและ 2 ตัวล่าง รับอัตราจ่ายสูงสุดถึงบาทละ 100 ลงทุนเพียงเล็กน้อยก็สร้างกำไรก้อนโตได้ง่ายๆ
           </span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#f0435f]">3.</span>
-          <span><strong class="text-[#ffb3bf]">ตั้งรหัสผ่าน</strong> กำหนด Username และ Password ของคุณ ล็อคอินเข้าสู่ระบบ ฝากเงินแบบไม่มีขั้นต่ำ ทุน 1 บาทก็เริ่มเล่นได้ทันที</span>
+          <span aria-hidden="true" class="text-[#ff8a8d]">💰</span>
+          <span>
+            <strong class="text-[#ff9a9d]">ถูก 3 ตัวจ่าย 1,000 บาท</strong> สัมผัสประสบการณ์รวยพริบตาเมื่อทายผล 3 ตัวตรงถูกต้อง รับเงินรางวัลไปเลยในเรทสูงสุดบาทละ 1,000 จ่ายจริง จ่ายเต็ม ทุกบิลการเดิมพัน
+          </span>
         </li>
-      </ol>
+      </ul>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        หลังเปิดบัญชีแล้วสามารถทำรายการต่อได้ด้วยตัวเองทั้งหมด ระบบฝาก-ถอนเงินอัตโนมัติทำรายการเสร็จสิ้น
-        <strong class="text-[#f0435f]">ภายใน 5 วินาที</strong> ไม่มีขั้นต่ำทั้งฝากและถอน รองรับทุกธนาคารชั้นนำรวมถึง TrueMoney Wallet และทำรายการได้เองตลอด 24 ชั่วโมง ส่วนอินเทอร์เฟซพัฒนามาเพื่อรองรับทุกอุปกรณ์
-        ทั้งโทรศัพท์มือถือระบบ iOS และ Android แท็บเล็ต หรือคอมพิวเตอร์พีซี ผ่านเว็บเบราว์เซอร์โดยไม่ต้องดาวน์โหลดแอปพลิเคชัน
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        เรื่องเลขดังหรือเลขอั้นก็เช่นกัน LOTTOKA มีนโยบาย<strong class="text-[#ff9a9d]">รับแทงทุกเลข ไม่มีปิดกั้น</strong> หากคุณทำรายการแทงสำเร็จก่อนที่ระบบจะปิดรับโพย
+        และถูกรางวัล เราการันตีจ่ายเต็มจำนวนตามเรทราคาที่กำหนดไว้ในบิล โดยไม่มีการหักเปอร์เซ็นต์ย้อนหลัง
       </p>
     </div>
   </ContentBoxPlain>
 
-  <ContentBoxPlain title="ติดต่อแอดมิน NEXT55 ผ่าน Line Official ตลอด 24 ชั่วโมง" as="h2">
+  <ContentBoxPlain title="ทีมงาน LOTTOKA ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#ffb3bf]">เราใส่ใจในทุกรายละเอียดการให้บริการ</strong> NEXT55 มีทีมงานแอดมินคุณภาพที่ผ่านการอบรมมาเป็นอย่างดี พร้อมสแตนด์บายดูแลสมาชิกทุกท่านผ่าน <strong
-          class="text-[#f0435f]">
-          ช่องทาง Line Official ตลอด 24 ชั่วโมง
-        </strong>
-        ไม่ว่าจะติดปัญหาเรื่องการใช้งาน สอบถามข้อมูลโปรโมชั่น หรือต้องการความช่วยเหลือเรื่องการฝาก-ถอน ทีมงานของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และคอยซัพพอร์ตคุณในทุกสถานการณ์
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        <strong class="text-[#ff9a9d]">เราให้ความสำคัญกับการบริการลูกค้าเป็นอันดับหนึ่ง</strong> ทีมงานแอดมินคุณภาพของ LOTTOKA พร้อมสแตนด์บายดูแลคุณผ่าน Line Official ตลอด 24 ชั่วโมง
+        ไม่ว่าคุณจะต้องการคำแนะนำในการแทงหวย สอบถามเรื่องระบบการโอนเงินตรงเข้าบริษัท หรือแจ้งปัญหาการใช้งาน แอดมินของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และแก้ปัญหาให้อย่างมืออาชีพ
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        เวลาแจ้งปัญหา ควรระบุเวลา จำนวนเงิน และข้อมูลรายการที่เกี่ยวข้องให้ครบ เพื่อให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
-        <strong class="text-[#f0435f]">และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อเจ้าหน้าที่ไม่ว่ากรณีใด</strong>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        เวลาแจ้งปัญหา ควรระบุเวลาทำรายการ จำนวนเงิน และเลขบิลที่เกี่ยวข้องให้ครบ เพื่อให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
+        <strong class="text-[#e2353a]">และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อเจ้าหน้าที่ไม่ว่ากรณีใด</strong>
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
-        <strong class="text-[#f0435f]">การเดิมพันมีความเสี่ยงและผลของแต่ละรอบไม่แน่นอน ไม่มีเกมใดรับประกันผลล่วงหน้า</strong> สมาชิกจึงควรกำหนดงบประมาณก่อนเริ่มเล่นทุกครั้ง
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        <strong class="text-[#e2353a]">การแทงหวยมีความเสี่ยงและผลรางวัลของแต่ละงวดไม่แน่นอน ไม่มีเลขใดรับประกันผลล่วงหน้า</strong> สมาชิกจึงควรกำหนดงบประมาณก่อนส่งโพยทุกครั้ง
       </p>
 
       <div class="flex flex-wrap justify-center gap-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก NEXT55"
-          class="flex items-center justify-center rounded-lg border border-[#cd1437]/70 bg-gradient-to-r from-[#f0435f] via-[#cd1437] to-[#7a0a20] px-8 py-3 font-black text-[#e7eaef] shadow-[0_0_15px_rgba(205,20,55,0.38)] transition-transform hover:scale-105">
+          aria-label="สมัครสมาชิก LOTTOKA"
+          class="flex items-center justify-center rounded-lg border border-[#c21e22]/70 bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] px-8 py-3 font-black text-[#ffe9ea] shadow-[0_0_15px_rgba(194,30,34,0.38)] transition-transform hover:scale-105">
           สมัครสมาชิก
         </a>
 
         <a
           href="/login"
-          aria-label="เข้าสู่ระบบ NEXT55"
-          class="flex items-center justify-center rounded-lg border border-[#cd1437]/60 bg-[#22242a] px-8 py-3 font-bold text-[#ffb3bf] transition-all hover:scale-105 hover:border-[#f0435f] hover:bg-[#3a3d45]">
+          aria-label="เข้าสู่ระบบ LOTTOKA"
+          class="flex items-center justify-center rounded-lg border border-[#c21e22]/60 bg-[#1c0d0f] px-8 py-3 font-bold text-[#ff9a9d] transition-all hover:scale-105 hover:border-[#e2353a] hover:bg-[#3a0709]">
           เข้าสู่ระบบ
         </a>
       </div>

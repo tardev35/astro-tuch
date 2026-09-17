@@ -1,0 +1,160 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import LatestWinnersHuay from "../components/LatestWinnersHuay.astro";
+import FaqHuay from "../components/FaqHuay.astro";
+import Navfoot from "../components/Navfoot.astro";
+import { pageGraph } from "../lib/schema";
+
+// Steps a member follows to read their own bill after a draw. No draw result,
+// no example winning number, no date and no prediction lives on this page — the
+// brief supports how the system is used, never what a result will be.
+//
+// LOTTOKA is a lottery brand, so this page keeps the Huay component family — but
+// the gold/navy palette those components shipped with is gone: the whole site is
+// on the LOTTOKA red/near-black palette this round, so these pages match it.
+const steps = [
+  { icon: "🔐", label: "เข้าสู่ระบบ", detail: "เปิดบัญชีสมาชิกจากมือถือหรือคอมพิวเตอร์ แล้วเข้าหน้าประวัติโพย" },
+  { icon: "🧾", label: "เปิดบิลที่ต้องการตรวจ", detail: "เลือกรอบและเลขที่ส่งไว้ ระบบแสดงยอดแทงและอัตราจ่ายที่บันทึกไว้ตอนส่งโพย" },
+  { icon: "✅", label: "ดูสถานะรางวัล", detail: "เมื่อระบบตรวจสอบเสร็จ สถานะของบิลจะอัปเดตพร้อมยอดที่เข้าบัญชีสมาชิก" },
+];
+
+// ตัวเลขทั้งหมดในหน้านี้มาจาก content.txt เท่านั้น: เลข 2 ตัวบาทละ 100 · เลข 3 ตัวตรง
+// บาทละ 1,000 · จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ · รับแทงทุกเลข ไม่มีปิดกั้น ·
+// ฝาก-ถอนเข้าบัญชีบริษัทโดยตรง เข้าเต็ม 100% ไม่มีขั้นต่ำ · Line Official 24 ชม.
+// ห้ามเพิ่มผลรางวัล วันที่ สถิติ เลขเด็ด หรือเลขที่ใบอนุญาตใด ๆ เกินจากนี้
+const faqs = [
+  {
+    q: "ตรวจโพย LOTTOKA ย้อนหลังได้ที่ไหน",
+    a: "เปิดประวัติโพยในบัญชีสมาชิกได้ด้วยตัวเอง ระบบจะแสดงรอบที่ส่ง เลขที่เลือก ยอดแทง และอัตราจ่ายที่บันทึกไว้ตอนส่งโพย ทำให้เทียบกับสถานะที่ระบบอัปเดตหลังตรวจสอบเสร็จได้ทันที",
+  },
+  {
+    q: "โพยที่ถูกรางวัลคิดยอดตามเรทเท่าไร",
+    a: "อัตราจ่ายของ LOTTOKA คือเลข 2 ตัวบาทละ 100 และเลข 3 ตัวตรงบาทละ 1,000 จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ โดยยอดตามเรทจะคำนวณจากอัตราจ่ายที่ระบบแสดงบนหน้าส่งโพย ณ ตอนที่คุณกดยืนยันรายการ และอัตรานั้นจะถูกบันทึกไว้ในบิลของรอบนั้น จึงเปิดดูย้อนหลังได้ว่าคิดจากเรทเท่าไร",
+  },
+  {
+    q: "สถานะบิลไม่ตรงกับที่ส่งไว้ ต้องทำอย่างไร",
+    a: "ตรวจสอบประวัติโพยหรือธุรกรรมในบัญชีก่อน หากยังพบความผิดปกติ ให้ติดต่อแอดมิน LOTTOKA ผ่าน Line Official ได้ตลอด 24 ชั่วโมง พร้อมแจ้งเวลา จำนวนเงิน ประเภทหวย และรายละเอียดรายการ เพื่อให้ตรวจสอบต่อได้ตรงจุด",
+  },
+];
+
+// Passed explicitly rather than letting AnnouncementHuay's default render: a
+// ticker default is the classic place a previous brand's slogan survives a
+// rebrand unnoticed. No emoji in the string — the marquee prints it twice and a
+// text prop cannot carry its own aria-hidden span.
+const announcement =
+  "LOTTOKA เปิดรับแทงหวยรัฐบาลไทย หวยลาวพัฒนา หวยออมสิน หวยฮานอย และหวยหุ้นทั้งไทยและต่างประเทศ ตรวจโพยย้อนหลังและดูสถานะรางวัลได้เองจากบัญชีสมาชิก ระบบบันทึกรอบที่ส่ง เลขที่เลือก ยอดแทง และอัตราจ่ายไว้ในบิลทุกครั้ง ถูกรางวัลจ่ายเต็มตามเรทในบิล เลข 2 ตัวบาทละ 100 เลข 3 ตัวตรงบาทละ 1,000 ไม่หักเปอร์เซ็นต์ ฝาก-ถอนโอนเข้าบัญชีของบริษัทโดยตรง รับเงินเข้าเต็ม 100% แอดมิน LOTTOKA ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง";
+
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). This page is 157.
+const pageDescription = "ตรวจหวย LOTTOKA วิธีเช็กผลรางวัลและเปิดดูโพยย้อนหลังเองจากบัญชีสมาชิก พร้อมวิธีอ่านสถานะบิล ยอดตามอัตราจ่ายที่บันทึกไว้ และขั้นตอนแจ้งแอดมินเมื่อรายการไม่ตรง";
+
+const graph = pageGraph(Astro, {
+  name: "ตรวจหวย LOTTOKA เช็กผลรางวัลและสถานะโพยด้วยตัวเอง",
+  description: pageDescription,
+  faqs,
+  breadcrumb: [
+    { name: "หน้าแรก", path: "/" },
+    { name: "ตรวจหวย", path: "/ตรวจหวย" },
+  ],
+});
+---
+
+<MainLayout title="ตรวจหวย LOTTOKA เช็กผลรางวัล ประวัติบิล และยอดตามเรทด้วยตัวเอง" description={pageDescription}>
+  <script type="application/ld+json" set:html={graph} />
+
+  <Announcement message={announcement} />
+
+  <section class="mx-auto my-8 w-full max-w-5xl px-4">
+    <div class="relative isolate overflow-hidden rounded-3xl border border-[#c21e22]/50 bg-[#3a0709]/90 p-8 shadow-[0_15px_40px_rgba(194,30,34,0.22)] backdrop-blur-xl md:p-12">
+      <div class="pointer-events-none absolute -top-20 -left-20 -z-10 h-64 w-64 rounded-full bg-[#e2353a]/20 blur-[60px]"></div>
+      <div class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-64 w-64 rounded-full bg-[#ffe9ea]/10 blur-[60px]"></div>
+
+      <div class="flex w-full flex-col items-center">
+        <span aria-hidden="true" class="mb-4 text-5xl drop-shadow-[0_0_15px_rgba(226,53,58,0.8)]">🧾</span>
+        <h1 class="mb-3 bg-gradient-to-r from-[#ffe9ea] via-[#ff8a8d] to-[#c21e22] bg-clip-text text-center text-4xl font-black tracking-widest text-transparent uppercase">ตรวจหวย LOTTOKA</h1>
+        <p class="w-full text-left text-base leading-relaxed text-[#ded9da]">
+          หน้านี้อธิบายวิธีเช็กผลรางวัลและตรวจโพยของคุณเองกับ LOTTOKA ตั้งแต่เปิดประวัติบิล ดูเลขและยอดที่ส่งไว้ ไปจนถึงการอ่านสถานะรางวัลและยอดที่เข้าบัญชีสมาชิก ครอบคลุมทั้งหวยรัฐบาลไทยที่ออกรางวัลทุกวันที่ 1
+          และ 16 ของเดือน หวยลาวพัฒนาที่ออกทุกวันจันทร์ พุธ ศุกร์ หวยออมสิน หวยฮานอยทั้งแบบปกติ พิเศษ และ VIP ที่มีให้ลุ้นทุกวัน รวมถึงหวยหุ้นไทยและต่างประเทศอย่างนิเคอิ ดาวโจนส์ และฮั่งเส็ง
+          เว็บไซต์ไม่ประกาศผลรางวัลเองและไม่ทำนายเลขใด ๆ ให้ยึดผลที่หน่วยงานผู้จัดออกรางวัลประกาศเป็นหลัก ส่วนเวลาเปิด-ปิดรับและอัตราจ่ายให้ยึดตัวเลขที่ระบบแสดงบนหน้าส่งโพยของรอบนั้น
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3" aria-label="ขั้นตอนตรวจโพยด้วยตัวเองสามขั้นตอน">
+        {
+          steps.map((step, i) => (
+            <div class="flex flex-col gap-2 rounded-2xl border border-[#c21e22]/40 bg-[#140a0c]/70 p-5 transition-colors hover:border-[#e2353a]/55">
+              <div class="flex items-center gap-3">
+                <span aria-hidden="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#e2353a] to-[#7d1114] text-sm font-black text-[#ffe9ea]">
+                  {i + 1}
+                </span>
+                <span aria-hidden="true" class="text-xl">
+                  {step.icon}
+                </span>
+                <span class="text-base font-black tracking-wide text-[#ff8a8d]">{step.label}</span>
+              </div>
+              <p class="text-left text-base leading-relaxed text-[#bdb4b6]">{step.detail}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="/login"
+          class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#7d1114] via-[#c21e22] to-[#7d1114] px-8 py-4 font-black text-[#ffe9ea] shadow-[0_5px_15px_rgba(194,30,34,0.45)] transition-transform hover:scale-105">
+          <span aria-hidden="true">🔒</span> เข้าสู่ระบบเพื่อตรวจโพย
+        </a>
+        <a
+          href="/register"
+          class="flex items-center justify-center gap-2 rounded-xl border border-[#c21e22]/60 bg-[#1c0d0f] px-8 py-4 font-bold text-[#ff8a8d] shadow-[0_5px_15px_rgba(226,53,58,0.22)] transition-colors hover:bg-[#3a0709]">
+          <span aria-hidden="true">⚡</span> สมัครสมาชิก LOTTOKA
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ContentBoxHuay title="ขั้นตอนตรวจโพย LOTTOKA หลังผลรางวัลประกาศ" as="h2">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        เมื่อผลของรอบที่คุณส่งโพยไว้ถูกประกาศแล้ว ให้เทียบเลขในบิลกับผลตามประเภทที่แทงจริง เพราะเลขชุดเดียวกันใช้ตัดสินคนละประเภทกัน
+        การอ่านผิดประเภทคือสาเหตุที่พบบ่อยที่สุดของการเข้าใจว่าโพยไม่ถูกรางวัล สมาชิก LOTTOKA เปิดดูบิลย้อนหลังได้เองจากบัญชี ระบบบันทึกทั้งรอบที่ส่ง เลขที่เลือก ยอดแทง
+        และอัตราจ่ายที่แสดงไว้ตอนยืนยันรายการ จึงตรวจย้อนกลับได้ว่ารายการที่ส่งไปตรงกับที่ตั้งใจหรือไม่ เมื่อระบบตรวจสอบเสร็จ สถานะของบิลจะอัปเดตพร้อมยอดตามเรทที่ปล่อยเข้าบัญชีให้ถอนได้
+        ระหว่างรอตรวจสอบ ควรเก็บข้อมูลบิลไว้จนกว่ารายการจะเสร็จสมบูรณ์ และไม่ควรเปิดเผยรหัสผ่านหรือ OTP แก่บุคคลอื่นไม่ว่ากรณีใด
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <ContentBoxHuay title="ยอดตามเรทคำนวณจากอัตราจ่ายที่บันทึกไว้ในบิล" as="h2">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        อัตราจ่ายของ LOTTOKA คือ <strong class="text-[#ff9a9d]">เลข 2 ตัวบาทละ 100 และเลข 3 ตัวตรงบาทละ 1,000 จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์</strong> ใช้คำนวณยอดเบื้องต้นก่อนส่งโพยได้ แต่ยอดตามเรทของโพยที่ถูกรางวัลจะคิดจากอัตราจ่ายที่ระบบแสดงบนหน้ายืนยันโพย
+        ณ ตอนที่คุณกดส่งรายการ ไม่ใช่จากตัวเลขที่จำมาจากรอบก่อน อัตรานั้นจะถูกบันทึกลงในบิลพร้อมกับรอบที่ส่ง เลขที่เลือก และยอดแทง จึงเปิดดูย้อนหลังได้เสมอว่ารายการนั้นคิดจากเรทเท่าไร และเทียบกับยอดที่เข้าบัญชีหลังระบบตรวจสอบเสร็จได้โดยตรง
+        นโยบายของเว็บคือ <strong class="text-[#ff9a9d]">รับแทงทุกเลข ไม่มีปิดกั้น</strong> หากทำรายการสำเร็จก่อนระบบปิดรับโพยและถูกรางวัล จะได้รับเงินเต็มจำนวนตามเรทที่ระบุไว้ในบิล ไม่มีการหักเปอร์เซ็นต์ย้อนหลัง
+      </p>
+
+      <p class="mt-6 text-left text-base leading-relaxed text-[#ded9da]">
+        ยอดที่ถูกปล่อยเข้าบัญชีตรวจสอบได้จากประวัติธุรกรรมในบัญชีสมาชิกเช่นกัน เพราะทุกยอดฝากและถอนของ LOTTOKA โอนเข้าสู่บัญชีของบริษัทโดยตรง ไม่ผ่านบัญชีม้าหรือบุคคลที่สาม
+        ทำให้ยอดเงินเข้าเต็ม 100% ไม่มีหักค่าธรรมเนียม ระบบรองรับทุกธนาคารชั้นนำในประเทศไทยและ TrueMoney Wallet ด้วยระบบออโต้ และไม่มีขั้นต่ำในการฝากเงิน
+        ชื่อบัญชีที่ผูกไว้ต้องตรงกับชื่อที่สมัคร ระบบจึงจะโอนยอดเข้า-ออกให้ได้อย่างถูกต้อง
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <LatestWinnersHuay />
+
+  <ContentBoxHuay title="โพยหรือรายการฝากถอนมีปัญหา แจ้งแอดมิน LOTTOKA ได้ 24 ชั่วโมง" as="h2">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#ded9da]">
+        หากส่งโพยไม่สำเร็จ เลขที่ต้องการแทงไม่แสดง ฝากเงินแล้วเครดิตไม่เข้า ถอนเงินค้าง เข้าสู่ระบบไม่ได้ หรือพบยอดในบิลไม่ตรงกับรายการ ให้ตรวจสอบประวัติโพยและประวัติธุรกรรมในบัญชีก่อนเป็นอันดับแรก
+        เพราะรายการส่วนใหญ่อธิบายได้จากข้อมูลที่ระบบบันทึกไว้แล้ว หากยังพบความผิดปกติ ติดต่อแอดมิน LOTTOKA ผ่าน Line Official ได้ตลอด 24 ชั่วโมง พร้อมแจ้งประเภทหวย รอบเดิมพัน เวลา จำนวนเงิน และรายละเอียดธุรกรรม
+        เพื่อให้ตรวจสอบได้ตรงจุด ทีมงานพร้อมตอบกลับอย่างรวดเร็วทั้งเรื่องการแทงหวย ระบบโอนเงินตรงเข้าบริษัท และปัญหาการใช้งาน สมาชิกควรเก็บข้อมูลบิลและหลักฐานการทำรายการไว้จนกว่าเรื่องจะตรวจสอบเสร็จสิ้น
+        และไม่ควรเปิดเผยรหัสผ่านหรือ OTP แก่บุคคลอื่นไม่ว่ากรณีใด
+      </p>
+    </div>
+  </ContentBoxHuay>
+
+  <FaqHuay title="คำถามที่พบบ่อยเรื่องการตรวจหวยกับ LOTTOKA" faqs={faqs} />
+
+  <Navfoot />
+</MainLayout>

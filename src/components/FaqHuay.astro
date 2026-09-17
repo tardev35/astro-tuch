@@ -8,20 +8,31 @@ export interface Props {
   faqs?: FAQ[];
 }
 
-// The defaults are deliberately brand-neutral: every page that renders this
-// accordion passes an explicit `faqs` array built from its own brief, so the
-// defaults exist only so the component never renders empty.
+// Rendered only by /ตรวจหวย, which always passes an explicit `faqs` array built
+// from this brand's brief. The defaults below exist so the component can never
+// render empty — they are kept in step with the current brand for the same
+// reason AnnouncementHuay's default message is: a stale default is the classic
+// place a previous brand's copy survives a rebrand unnoticed.
+//
+// No <script> here on purpose. The one this file used to carry queried `.icon`,
+// `.faq-content` and `.faq-item` across the WHOLE document rather than its own
+// component, so a second accordion on the page would have had its rows closed
+// and its icons reset by this one. `name` on <details> gives the browser the
+// exclusive behaviour it was reaching for, scoped to this group.
 const {
   title = "คำถามที่พบบ่อย (FAQ)",
   faqs = [
     {
-      q: "อัตราจ่ายของหวยแต่ละตลาดดูได้ที่ไหน",
-      a: "อัตราจ่ายของทุกประเภทการแทงจะแสดงอยู่ในหน้าของแต่ละตลาดหวย และระบบจะแสดงอัตราจ่ายจริงอีกครั้งบนหน้ายืนยันโพยก่อนกดส่งเสมอ",
+      q: "ตรวจโพย LOTTOKA ย้อนหลังได้ที่ไหน",
+      a: "เปิดประวัติโพยในบัญชีสมาชิกได้ด้วยตัวเอง ระบบจะแสดงรอบที่ส่ง เลขที่เลือก ยอดแทง และอัตราจ่ายที่บันทึกไว้ตอนส่งโพย ทำให้เทียบกับสถานะที่ระบบอัปเดตหลังตรวจสอบเสร็จได้ทันที",
     },
-    { q: "แทงหวยขั้นต่ำกี่บาท", a: "ระบบรองรับการส่งโพยตั้งแต่จำนวนเงินขั้นต่ำที่กำหนดไว้ในแต่ละตลาด สมาชิกสามารถตรวจสอบจำนวนเงินขั้นต่ำและสูงสุดได้จากหน้ารายละเอียดของตลาดนั้นก่อนส่งโพย" },
     {
-      q: "มีเลขอั้นหรือเลขเต็มหรือไม่",
-      a: "มีตามรอบที่ยอดแทงเข้ามามาก เลขอั้นจะถูกปรับลดอัตราจ่ายลง ส่วนเลขเต็มจะปิดรับในรอบนั้น ทั้งสองรายการแสดงอยู่ในหน้าตลาดหวยและระบบจะแจ้งให้ทราบก่อนยืนยันโพย",
+      q: "โพยที่ถูกรางวัลคิดยอดตามเรทเท่าไร",
+      a: "อัตราจ่ายของ LOTTOKA คือเลข 2 ตัวบาทละ 100 และเลข 3 ตัวตรงบาทละ 1,000 จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ โดยยอดตามเรทคำนวณจากอัตราจ่ายที่ระบบแสดงบนหน้าส่งโพย ณ ตอนที่กดยืนยันรายการ และอัตรานั้นถูกบันทึกไว้ในบิลของรอบนั้น",
+    },
+    {
+      q: "สถานะบิลไม่ตรงกับที่ส่งไว้ ต้องทำอย่างไร",
+      a: "ตรวจสอบประวัติโพยหรือธุรกรรมในบัญชีก่อน หากยังพบความผิดปกติ ให้ติดต่อแอดมิน LOTTOKA ผ่าน Line Official ได้ตลอด 24 ชั่วโมง พร้อมแจ้งเวลา จำนวนเงิน ประเภทหวย และรายละเอียดรายการ เพื่อให้ตรวจสอบต่อได้ตรงจุด",
     },
   ],
 } = Astro.props;
@@ -29,7 +40,7 @@ const {
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
   <div class="mb-6 text-center">
-    <h2 class="bg-gradient-to-r from-[#f7e8b4] via-[#e3c56a] to-[#2a9d5c] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm">{title}</h2>
+    <h2 class="bg-gradient-to-r from-[#ffe9ea] via-[#ff8a8d] to-[#c21e22] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm">{title}</h2>
   </div>
 
   <div class="flex flex-col gap-3">
@@ -37,16 +48,16 @@ const {
       faqs.map((faq) => (
         <details
           name="faq-huay"
-          class="faq-item group overflow-hidden rounded-xl border border-[#c1121f]/55 bg-[#3d0b0e]/85 backdrop-blur-md transition-all duration-300 hover:border-[#e3c56a]/60 hover:shadow-[0_10px_25px_rgba(227,197,106,0.15)]">
+          class="faq-item group overflow-hidden rounded-xl border border-[#c21e22]/55 bg-[#3a0709]/85 backdrop-blur-md transition-all duration-300 hover:border-[#e2353a]/60 hover:shadow-[0_10px_25px_rgba(226,53,58,0.18)]">
           <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left">
-            <h3 class="text-base leading-normal font-bold text-[#f4e7d3] transition-colors group-hover:text-[#f7e8b4]">{faq.q}</h3>
+            <h3 class="text-base leading-normal font-bold text-[#ded9da] transition-colors group-hover:text-[#ff9a9d]">{faq.q}</h3>
             <span
               aria-hidden="true"
-              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#c1121f]/70 bg-[#511014] text-sm font-bold text-[#f7e8b4] transition-all duration-300 group-hover:bg-[#e3c56a] group-hover:text-[#1a0405]">
+              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#c21e22]/70 bg-[#7d1114] text-sm font-bold text-[#ffe9ea] transition-all duration-300 group-hover:bg-[#e2353a] group-hover:text-[#0a0608]">
               +
             </span>
           </summary>
-          <p class="faq-answer border-t border-[#c1121f]/45 bg-[#1a0405]/70 p-5 text-left text-base leading-relaxed text-[#f4e7d3]">{faq.a}</p>
+          <p class="faq-answer border-t border-[#c21e22]/45 bg-[#140a0c]/80 p-5 text-left text-base leading-relaxed text-[#ded9da]">{faq.a}</p>
         </details>
       ))
     }
@@ -54,11 +65,6 @@ const {
 </section>
 
 <style>
-  /* The removed script queried `.icon`, `.faq-content` and `.faq-item` across
-     the WHOLE document, not within its own component — so a second accordion
-     anywhere on the page would have had its rows closed and its icons reset by
-     this one. `name` gives the exclusive behaviour it was reaching for, scoped
-     to this group by the browser. */
   .faq-item > summary {
     list-style: none;
   }
@@ -66,12 +72,12 @@ const {
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(227, 197, 106, 0.6);
+    border-color: rgba(226, 53, 58, 0.6);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    background-color: #e3c56a;
-    color: #1a0405;
+    background-color: #e2353a;
+    color: #0a0608;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

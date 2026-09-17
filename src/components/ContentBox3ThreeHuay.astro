@@ -1,39 +1,66 @@
 ---
-const { titleleft, titlecenter, titleright } = Astro.props;
+export interface Props {
+  titleleft?: string;
+  titlecenter?: string;
+  titleright?: string;
+  /** All three column headings render at this level, set from the docx's
+   *  outline. The file used to hardcode <h3>; it is a prop now so the level
+   *  follows the brief instead of the component. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  /** Accessible name for the <section>. The columns carry real docx headings,
+   *  so this only names the group they belong to. */
+  label?: string;
+  iconleft?: string;
+  iconcenter?: string;
+  iconright?: string;
+}
+const { titleleft, titlecenter, titleright, as: HeadingTag = "h3", label, iconleft = "📱", iconcenter = "🏦", iconright = "🔐" } = Astro.props;
+
+// LOTTOKA: การ์ดดำอมแดง #140a0c ในกรอบแดงโลโก้ หัวข้อคอลัมน์เป็นชมพูอ่อน #ff8a8d
+// เส้นคั่นเป็นแดงโลโก้ — ทองของแบรนด์หวยรุ่นก่อนถูกถอดออกทั้งหมด
 ---
 
-<section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section aria-label={label} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#c1121f]/45 bg-[#3d0b0e]/85 p-8 text-[#f4e7d3] shadow-[0_10px_30px_rgba(26,4,5,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-[#e3c56a]/55 hover:shadow-[0_15px_40px_rgba(227,197,106,0.2)] md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#c21e22]/45 bg-[#140a0c]/85 p-8 text-[#ded9da] shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-[#e2353a]/55 hover:shadow-[0_15px_40px_rgba(226,53,58,0.2)] md:p-10">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-[#c1121f]/40 pb-8 text-left text-base leading-relaxed text-[#f4e7d3] md:border-r md:border-b-0 md:pr-8 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#c21e22]/40 pb-8 text-left text-base leading-relaxed text-[#ded9da] md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
-            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#e3c56a] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(227,197,106,0.8)]">💸</span> {titleleft}
-            </h3>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
+              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+                {iconleft}
+              </span>{" "}
+              {titleleft}
+            </HeadingTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-[#c1121f]/40 pb-8 text-left text-base leading-relaxed text-[#f4e7d3] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#c21e22]/40 pb-8 text-left text-base leading-relaxed text-[#ded9da] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#e3c56a] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(227,197,106,0.8)]">⚡</span> {titlecenter}
-            </h3>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
+              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+                {iconcenter}
+              </span>{" "}
+              {titlecenter}
+            </HeadingTag>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f4e7d3] md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da] md:pl-8">
         {
           titleright && (
-            <h3 class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#e3c56a] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(227,197,106,0.8)]">💎</span> {titleright}
-            </h3>
+            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
+              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+                {iconright}
+              </span>{" "}
+              {titleright}
+            </HeadingTag>
           )
         }
         <slot name="right" />
