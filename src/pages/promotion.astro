@@ -2,39 +2,40 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/Announcement5.astro";
 
 import { Picture } from "astro:assets";
 
-// อาร์ตเวิร์กของ JOKERSLOTZ รอบนี้มีแค่ slide1/slide2 (ลงวันที่ 2026-09-17) — ตรวจจากตัวภาพจริง:
-// slide1 คือโปสเตอร์ "โปรโมชั่น แนะนำเพื่อน 0.8%" ส่วน slide2 คือ "โปรโมชั่น คืนยอดเสีย 0.3%"
-// slide3/slide4 (2026-08-13) กับ banner2/banner3 ยังค้างอยู่บนดิสก์แต่เป็นอาร์ตเวิร์ก
-// ของลูกค้าเจ้าอื่น — ห้าม import ที่นี่ทั้งรอบนี้และรอบถัดไป
+// อาร์ตเวิร์กของ GODBET88 รอบนี้มีแค่ slide1/slide2 (ลงวันที่ 2026-09-17) — ตรวจจากตัวภาพจริง
+// และรอบนี้ "สลับด้าน" กับแบรนด์ก่อนหน้า: slide1 คือโปสเตอร์ "โปรโมชั่น คืนยอดเสีย 0.3%"
+// ส่วน slide2 คือ "โปรโมชั่น แนะนำเพื่อน 0.8%" — ก๊อปลำดับเดิมมาจะ build ผ่านแต่ภาพผิดหัวข้อ
+// slide3/slide4 (2026-08-13) กับ banner2/banner3 ยังอยู่บนดิสก์แต่เป็นอาร์ตเวิร์กของลูกค้า
+// เจ้าอื่น (พิมพ์โลโก้แบรนด์อื่นไว้กลางรูป) — ห้าม import ที่นี่เด็ดขาด ห้ามลบไฟล์ทิ้งด้วย
 // (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ verify-build จะแดง)
-import promoReferral from "../assets/slide1.png";
-import promoCashback from "../assets/slide2.png";
+import promoReferral from "../assets/slide2.png";
+import promoCashback from "../assets/slide1.png";
 import { pageGraph } from "../lib/schema";
 
 // หน้านี้เป็น IMAGE page: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า, กริดโปสเตอร์,
 // ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุเงื่อนไข
 // ของแต่ละโปรโมชั่นไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
-// ลำดับในกริดตามบรีฟ: แนะนำเพื่อน 0.8% มาก่อน คืนยอดเสีย 0.3%
+// ลำดับในกริดตามบรีฟ: แนะนำเพื่อน 0.8% (slide2) มาก่อน คืนยอดเสีย 0.3% (slide1)
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของไฟล์นั้น
-// เป็นข้อความของ JOKERSLOTZ อยู่แล้ว จึงเรียกแบบ bare ได้ ห้ามส่ง prop message
+// Announcement รอบนี้หมุนมาใช้ Announcement5 ทั้งเว็บ — default message ของไฟล์นั้น
+// เป็นข้อความของ GODBET88 อยู่แล้ว จึงเรียกแบบ bare ได้ ห้ามส่ง prop message
 //
-// พาเลตต์ JOKERSLOTZ: แดงโลโก้ #a51515 นำ (ขอบ/เงา) แดงสว่าง #c81e1e สำหรับ hover
-// แดงเข้ม #6d0d0d เป็นขอบและสต็อปล่างของเกรเดียนต์ ทองหมวกตัวตลก #d9b45e เป็นขอบทอง
-// ทองอ่อน #f2dc9a เป็นสีเดียวที่ใช้กับ <strong> และตัวอักษรบนปุ่มแดง เนื้อความ #ecdfd0
-// — ไม่มีชมพู เทา หรือน้ำเงินของแบรนด์ก่อนหน้าหลงเหลือ
+// พาเลตต์ GODBET88: ทองหลัก #c2a55c เป็นขอบและออร่า ทองประกาย #f6e7b8 เป็นสต็อปบน
+// ของเกรเดียนต์และสี <strong> ทองเข้ม #9a7f3f เป็นสต็อปล่าง ตัวอักษรบนปุ่มทองเป็น
+// ดำหน้าเว็บ #050403 เนื้อความ #ece1cc — แบรนด์นี้มีสีเดียวคือทอง แยกชิ้นส่วนด้วย
+// ความสว่าง ไม่ใช่ด้วยสีที่สอง แดงเลือดหมูของแบรนด์ก่อนหายไปทั้งหมด
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 159
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 151
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมโปรโมชั่น JOKERSLOTZ ทั้งแนะนำเพื่อนรับคอมมิชชั่น 0.8% และคืนยอดเสีย 0.3% ทุกรอบบิล สมาชิกกดรับได้ทุกวัน ดูเงื่อนไขและวิธีรับสิทธิ์ได้จากภาพโปรโมชั่นแต่ละใบ";
+const pageDescription = "รวมโปรโมชั่น GODBET88 ทั้งแนะนำเพื่อนรับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อน และคืนยอดเสีย 0.3% ทุกรอบบิล กดรับสิทธิ์ได้ผ่านหน้าเว็บทันที";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น JOKERSLOTZ",
+  name: "โปรโมชั่น GODBET88",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -44,29 +45,29 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="โปรโมชั่น JOKERSLOTZ แนะนำเพื่อนรับ 0.8% และคืนยอดเสียรับ 0.3%" description={pageDescription}>
+<MainLayout title="โปรโมชั่น GODBET88 แนะนำเพื่อนรับ 0.8% และคืนยอดเสียรับ 0.3%" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น JOKERSLOTZ" as="h1">
+  <ContentBox title="โปรโมชั่น GODBET88" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#ecdfd0]">
-        หน้านี้รวมโปรโมชั่นที่ JOKERSLOTZ แจกให้สมาชิกทุกคนบนทางเข้าสำรองล่าสุด ทั้งแนะนำเพื่อนรับคอมมิชชั่น
-        <strong class="text-[#f2dc9a]">0.8%</strong> จากทุกยอดการเดิมพันของเพื่อน และคืนยอดเสีย
-        <strong class="text-[#f2dc9a]">0.3%</strong> ในทุกรอบบิล โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และวิธีกดรับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
-        <strong class="text-[#f2dc9a]">แต่ละรายการมีเงื่อนไขต่างกัน จึงควรอ่านรอบการคำนวณและเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง</strong>
+      <p class="mb-8 text-left text-base leading-relaxed text-[#ece1cc]">
+        หน้านี้รวมโปรโมชั่นที่ GODBET88 แจกให้สมาชิกทุกคน ทั้งแนะนำเพื่อนรับค่าคอมมิชชั่นสูงถึง
+        <strong class="text-[#f6e7b8]">0.8%</strong> จากทุกยอดการเล่นของเพื่อน และคืนยอดเสีย
+        <strong class="text-[#f6e7b8]">0.3%</strong> ในทุกรอบบิล โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และวิธีกดรับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
+        <strong class="text-[#f6e7b8]">แต่ละรายการมีเงื่อนไขต่างกัน จึงควรอ่านรอบการคำนวณและเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง</strong>
       </p>
 
       <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
           src={promoReferral}
-          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% พื้นหลังสีขาวครีมมีกรอบลายเพชรสีทองและเหรียญทองลอยกระจาย มุมซ้ายบนเป็นโลโก้ JOKERSLOTZ พร้อมหมวกตัวตลกสีแดงสลับทอง ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น บรรทัดล่างว่า แนะนำเพื่อน และตัวเลขสีทองขนาดใหญ่ 0.8% ด้านขวาเป็นโจ๊กเกอร์สวมหมวกตัวตลกสามแฉกสีแดงทองและสูทสีแดงลายทองกำลังยิ้ม"
+          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% พื้นหลังแบ่งสองฝั่ง ฝั่งซ้ายเป็นสีดำและฝั่งขวาเป็นสีขาวครีมมีกรอบมุมเส้นทองบาง มุมซ้ายบนเป็นโลโก้เหรียญพวงหรีดทอง GODBET88 ด้านซ้ายเป็นหญิงสาวในชุดราตรีทองสลับขาวพลิ้วไหว มีปีกนางฟ้าขนนกสีขาวสลับทองขนาดใหญ่กางอยู่ด้านหลัง ด้านขวาเป็นข้อความสีทองว่า โปรโมชั่น บรรทัดล่างว่า แนะนำเพื่อน และตัวเลขสีทองเมทัลลิกขนาดใหญ่มาก 0.8%"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#6d0d0d]/70 object-contain shadow-[0_10px_30px_rgba(6,2,2,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#d9b45e]/75 hover:shadow-[0_15px_40px_rgba(217,180,94,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#c2a55c]/45 object-contain shadow-[0_10px_30px_rgba(0,0,0,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f6e7b8]/75 hover:shadow-[0_15px_40px_rgba(194,165,92,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -75,12 +76,12 @@ const graph = pageGraph(Astro, {
 
         <Picture
           src={promoCashback}
-          alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% พื้นหลังสีขาวครีมมีกรอบลายเพชรสีทองและเหรียญทองลอยกระจาย ด้านซ้ายบนเป็นโลโก้ JOKERSLOTZ พร้อมหมวกตัวตลกสีแดงสลับทอง ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น และบรรทัดล่างว่า คืนยอดเสีย 0.3% ด้านขวาเป็นโจ๊กเกอร์ในสูทสีแดงลายทองกำลังยิ้มและถือเหรียญทองไว้ในมือทั้งสองข้าง"
+          alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% พื้นหลังสีดำเกือบสนิทมีลำแสงสีทองพาดและตราสัญลักษณ์พวงหรีดสีขาวสลับทองอยู่ด้านหลังโลโก้เหรียญทอง GODBET88 ที่มุมซ้ายบน ด้านขวาเป็นหญิงสาวในชุดราตรีสีดำปักลายดวงอาทิตย์และดาวสีทอง คาดผ้าคาดเอวสีทอง มีปีกนางฟ้าขนนกสีขาวสลับทองขนาดใหญ่กางอยู่ด้านหลัง ตรงกลางด้านล่างเป็นข้อความสีทองว่า โปรโมชั่น เหนือคำว่า คืนยอดเสีย ถัดมาเป็นตัวเลขสีทองเมทัลลิกขนาดใหญ่ 0.3%"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#6d0d0d]/70 object-contain shadow-[0_10px_30px_rgba(6,2,2,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#d9b45e]/75 hover:shadow-[0_15px_40px_rgba(217,180,94,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#c2a55c]/45 object-contain shadow-[0_10px_30px_rgba(0,0,0,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f6e7b8]/75 hover:shadow-[0_15px_40px_rgba(194,165,92,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -91,9 +92,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก JOKERSLOTZ"
-          class="flex items-center justify-center rounded-lg border border-[#d9b45e]/60 bg-gradient-to-r from-[#c81e1e] via-[#a51515] to-[#6d0d0d] px-10 py-3.5 text-lg font-black text-[#f2dc9a] shadow-[0_0_15px_rgba(165,21,21,0.45)] transition-transform hover:scale-105">
-          สมัครสมาชิก JOKERSLOTZ
+          aria-label="สมัครสมาชิก GODBET88"
+          class="flex items-center justify-center rounded-lg border border-[#f6e7b8]/60 bg-gradient-to-r from-[#f6e7b8] via-[#c2a55c] to-[#9a7f3f] px-10 py-3.5 text-lg font-black text-[#050403] shadow-[0_0_15px_rgba(194,165,92,0.45)] transition-transform hover:scale-105">
+          สมัครสมาชิก GODBET88
         </a>
       </div>
     </div>

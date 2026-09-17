@@ -1,18 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import Announcement from "../components/Announcement5.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
 import ContentBox from "../components/ContentBox.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
-import ProviderGridPremium from "../components/ProviderGridPremium.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import ProviderGrid from "../components/ProviderGrid.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
-import Faq2 from "../components/Faq2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
+import Faq3 from "../components/Faq3.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -20,19 +19,21 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR JOKERSLOTZ — READ BEFORE REUSING THESE IMPORTS.
-// Verified against the artwork on the 2026-09-17 drop: slide1.png is the
-// แนะนำเพื่อน 0.8% poster and slide2.png is the คืนยอดเสีย 0.3% one, which is the
-// order the docx puts them in (H3 #4 then H3 #5), so slide1 sits in the first
-// SevenThree block and slide2 in the second. Re-check the actual posters on the
-// next rebrand rather than trusting this order — a previous brand shipped the
-// two swapped, which builds clean and reads wrong.
+// SLIDE ROLES FOR GODBET88 — READ BEFORE REUSING THESE IMPORTS.
+// Verified against the artwork on the 2026-09-17 drop, and they are the OPPOSITE
+// WAY ROUND from the brand before this one: slide1.png is the คืนยอดเสีย 0.3%
+// poster (docx H3 #5) and slide2.png is the แนะนำเพื่อน 0.8% poster (docx H3 #4).
+// So slide2 sits in the FIRST SevenThree block and slide1 in the second. Copying
+// the previous brand's import order across builds clean and reads wrong —
+// re-check the actual posters on the next rebrand rather than trusting either
+// order.
 //
 // Nothing else on this page carries an image, deliberately:
 //   banner1 / banner1-mobile  = MainLayout's own pinned globs. A page never
 //                               references them, and nothing here gets
 //                               loading="eager" fetchpriority="high" — the hero
 //                               is the LCP element and it belongs to the layout.
+//   og.png                    = MainLayout's og:image, never an article image.
 //   banner2.png (2026-08-20), banner3.png (2026-08-11), slide3.png and
 //   slide4.png (2026-08-13) all predate the 2026-09-17 asset drop -> stale
 //   inventory from earlier clients, must stay unimported.
@@ -40,68 +41,70 @@ import imgSlide2 from "../assets/slide2.png";
 // family's hard cap per rebrand and this page uses exactly two.
 //
 // Dropped from the previous brand's index and NOT deleted from disk (they are
-// inventory for the next brand): LottoGrid, Faq4, AnnouncementHuay,
-// ContentBoxHuay / FloatingBadge / Special / TwoHuay / 3ThreeHuay and
-// LatestWinnersHuay — the whole Huay kit is the next lottery brand's, and
-// JOKERSLOTZ is a slot brand.
+// inventory for the next brand): AnnouncementPremium, ContentBoxPremium,
+// ContentBoxNeumorphism, ContentBoxCyberCut, ContentBoxSevenThreePremium,
+// ContentBoxSevenThree, ProviderGridPremium, LatestWinnersPremium,
+// ReviewCardSumo2 and Faq2 — the whole Premium family went out with JOKERSLOTZ
+// and none of it may be reused this round.
 
 // Title and description are the brief's own Title/Meta Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "ทางเข้าสำรอง JOKERSLOTZ โจ๊กเกอร์สล็อตอันดับ 1 ในไทย";
+const pageTitle = "GODBET88 เว็บสล็อตไม่ติดเทิร์น ถอนได้ทุกยอด ไม่มีขั้นต่ำ";
 
-const pageDescription = "JOKERSLOTZ ทางเข้าสำรอง ล่าสุด เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย สมัครสมาชิกรับ User เข้าเล่น ลิ้งก์ใหม่ได้ทันที";
+const pageDescription = "GODBET88 เว็บสล็อตไม่ติดเทิร์น เริ่มต้น 1บาท เล่นได้ทุกค่าย ไม่มีขั้นต่ำ ถอนได้ทุกยอดแม้หลักล้าน";
 
-// <Announcement /> runs bare: AnnouncementPremium's default message is already
-// this brand's copy, and every sub-page calls it bare too — passing an override
-// here is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: Announcement5's default message is already this
+// brand's copy, and every sub-page calls it bare too — passing an override here
+// is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H1 -> H2 -> H3 hierarchy this round (#4 and #5 are genuine
 // H3 sub-points of #3), so the page is NOT flattened to H2-only. The only other
 // H3s are the three signup steps under #6, carried by FeatureHighlights.
-// Everything else on the page is chrome — ProviderGridPremium, LatestWinners,
-// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span>
-// with an aria-label on the section, so none of them emits a heading tag.
+// Everything else on the page is chrome — ProviderGrid, LatestWinners,
+// LoginRtpSection and ReviewCardSumo all render their titles as <p>/<span> with
+// an aria-label on the section, so none of them emits a heading tag.
 // Final inventory for this page: h1 x1, h2 x5, h3 x5.
 
-// The three signup steps are the brief's L15-L17, split at the colon into the
-// step name and its instruction. Nothing is added or reworded.
+// The three signup steps are the brief's L16-L18, split at the colon into the
+// step name and its instruction. Nothing is added or reworded. The accents are
+// two brightnesses of the one gold, alternating down the list.
 const signupSteps = [
   {
     icon: "📱",
-    accent: "crimson" as const,
-    title: "กรอกเบอร์โทรศัพท์",
-    description: "ระบุเบอร์มือถือปัจจุบันของคุณ เพื่อรับรหัส OTP สำหรับยืนยันตัวตน",
+    accent: "deep" as const,
+    title: "กรอกเบอร์โทรศัพท์มือถือ",
+    description: "เพื่อรับรหัส OTP สำหรับยืนยันตัวตน (เพิ่มความปลอดภัยให้บัญชีของคุณ)",
   },
   {
     icon: "🏦",
-    accent: "gold" as const,
+    accent: "sheen" as const,
     title: "ผูกบัญชีธนาคาร",
-    description: "กรอกชื่อ-นามสกุล และเลขบัญชีธนาคาร (รองรับทุกธนาคารและ TrueMoney Wallet) ข้อมูลต้องตรงกันเพื่อใช้สำหรับระบบฝาก-ถอนออโต้",
+    description: "กรอกชื่อ-นามสกุล และเลขบัญชีธนาคารที่ต้องการใช้ทำรายการ (ต้องตรงกัน) รองรับทุกธนาคารชั้นนำ รวมถึง TrueMoney Wallet",
   },
   {
     icon: "🔑",
-    accent: "crimson" as const,
+    accent: "deep" as const,
     title: "ตั้งรหัสผ่าน",
-    description: "กำหนด Username และ Password จากนั้นล็อคอินเข้าสู่ลิ้งก์ใหม่ เติมเงินแล้วเริ่มทำกำไรกับ JOKERSLOTZ ได้ทันที",
+    description: "กำหนดรหัสผ่านเข้าใช้งาน ล็อคอิน ฝากเงินแบบไม่มีขั้นต่ำ แล้วเริ่มปั่นสล็อตได้เลย!",
   },
 ];
 
-// One array, used by both <Faq2> and the FAQPage node — never the component's
+// One array, used by both <Faq3> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's Q1-Q3, verbatim, with only the "Q1:"/"A:" prefixes removed.
 const faqs = [
   {
-    q: "ทำไมถึงต้องใช้ลิ้งก์ทางเข้าสำรอง JOKERSLOTZ?",
-    a: "ทางเข้าสำรองถูกสร้างขึ้นมาเพื่อป้องกันปัญหาลิ้งก์หลักเข้าไม่ได้ เนื่องจากบางครั้งเครือข่ายอินเทอร์เน็ตอาจมีการบล็อก การใช้ทางเข้าสำรองจะช่วยให้คุณเข้าเล่นเกมสล็อตได้อย่างต่อเนื่องและเสถียรที่สุด",
+    q: '"สล็อตไม่ติดเทิร์น" คืออะไร?',
+    a: 'คือการที่คุณฝากเงินเข้ามาเล่นเกมสล็อต เมื่อเล่นได้กำไรตามที่พอใจแล้ว สามารถกดทำรายการ "ถอนเงิน" ได้ทันที 100% โดยไม่จำเป็นต้องทำยอดเล่นสะสม (ยอดเทิร์น) ให้ถึงเป้าตามที่เว็บกำหนดเหมือนเว็บทั่วไป',
   },
   {
-    q: "สมัครยูสใหม่บนทางเข้าสำรอง ดียังไง?",
-    a: "การใช้ยูสเซอร์ใหม่บนระบบทางเข้าล่าสุด จะช่วยให้คุณเชื่อมต่อกับเซิร์ฟเวอร์ใหม่ที่มีความปลอดภัยสูงขึ้น 100% ระบบฝาก-ถอนทำงานได้รวดเร็วกว่าเดิม และลดปัญหาเกมสะดุดหรือหลุดออกจากระบบ",
+    q: "ทุนน้อย มีเงินแค่ 50 บาท สามารถฝากเล่นได้ไหม?",
+    a: "ฝากได้แน่นอนครับ! GODBET88 ใช้ระบบฝาก-ถอนไม่มีขั้นต่ำ 1 บาทก็ฝากได้ และเกมสล็อตของเราเริ่มต้นเบท (Bet) เพียงแค่ 1 บาทเท่านั้น ทุน 50 บาทก็สามารถปั่นสล็อตลุ้นแจ็คพอตหลักหมื่นได้",
   },
   {
-    q: "ลิ้งก์ทางเข้าใหม่ สามารถเล่นผ่านมือถือได้ไหม?",
-    a: "รองรับการเล่นผ่านมือถือทุกรุ่น ทุกระบบปฏิบัติการ (iOS และ Android) อย่างสมบูรณ์แบบ คุณสามารถกดเข้าลิ้งก์ผ่านเว็บบราว์เซอร์ได้ทันทีโดยไม่ต้องดาวน์โหลดหรือติดตั้งแอปพลิเคชันใดๆ",
+    q: "ถ้าเล่นสล็อตแตกหลักล้าน ทางเว็บจะจ่ายจริงและถอนได้เลยไหม?",
+    a: "จ่ายจริงและถอนได้ทันทีครับ! GODBET88 คือเว็บตรงที่มีฐานการเงินแข็งแกร่งระดับประเทศ เราการันตีถอนได้ทุกยอดแม้หลักล้าน ไม่มีการแบ่งจ่าย ไม่ต้องรอคิว ระบบออโต้โอนเงินเข้าบัญชีคุณเต็มจำนวนอย่างรวดเร็ว",
   },
 ];
 
@@ -109,7 +112,7 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's light gold (#f2dc9a); it marks a claim
+// The highlight colour is the palette's sheen gold (#f6e7b8); it marks a claim
 // the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -127,97 +130,97 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxPremium as="h1" title="JOKERSLOTZ ทางเข้าสำรอง โจ๊กเกอร์สล็อตอันดับ 1 ในไทย">
-    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      พบกับความสนุกที่ไม่มีวันสะดุดกับ
-      <strong class="text-[#f2dc9a]">JOKERSLOTZ เว็บให้บริการเกมโจ๊กเกอร์สล็อตอันดับ 1 ในไทย</strong>
-      ที่ได้รับการยอมรับจากผู้เล่นทั่วประเทศ เราได้ทำการอัปเดต
-      <strong class="text-[#f2dc9a]">ทางเข้าสำรอง ล่าสุด</strong>
-      เพื่อแก้ปัญหาลิ้งก์เข้าใช้งานไม่ได้หรือเว็บโดนบล็อก ให้คุณสามารถเข้าถึงหน้าเกมสล็อตลิขสิทธิ์แท้จากค่าย
-      <strong class="text-[#f2dc9a]">Joker Gaming ได้อย่างรวดเร็ว เสถียรที่สุด</strong>
-      และพร้อมทำกำไรได้ตลอดเวลาโดยไม่ต้องกลัวเว็บปลิว
+  <ContentBoxFloatingBadge as="h1" title="GODBET88 เว็บสล็อตไม่ติดเทิร์น ปั่นได้ทั้งวัน ไม่จำกัดรอบถอน">
+    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
+      ปลดล็อคทุกข้อจำกัดของการเล่นสล็อตออนไลน์ที่
+      <strong class="text-[#f6e7b8]">GODBET88 เว็บสล็อตเว็บตรงที่เข้าใจคอสล็อตมากที่สุด!</strong>
+      เรามาพร้อมกับจุดเด่นที่ทุกคนตามหาคือการเป็น
+      <strong class="text-[#f6e7b8]">"เว็บสล็อตไม่ติดเทิร์น" เล่นได้เท่าไหร่ ถอนออกได้ทันทีโดยไม่ต้องทำยอดเทิร์นโอเวอร์ให้วุ่นวายและเสียเวลา</strong>
+      ให้คุณสนุกกับการปั่นสล็อตได้ทั้งวัน ทำกำไรได้ต่อเนื่อง พร้อมอิสระทางการเงินสูงสุดด้วยระบบที่ให้คุณสั่งถอนเงินได้ตลอดเวลา
+      <strong class="text-[#f6e7b8]">ไม่จำกัดรอบบิลต่อวัน ถอนกี่ครั้งก็ได้ตามใจคุณ!</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <ProviderGridPremium />
-
-  <ContentBoxNeumorphism as="h2" title="ลิ้งก์ทางเข้าสำรอง JOKERSLOTZ ใช้ยูสใหม่ ปลอดภัยขึ้น100%">
-    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      การอัปเดตลิ้งก์ทางเข้าสำรองในครั้งนี้
-      <strong class="text-[#f2dc9a]">เราได้พัฒนาระบบเซิร์ฟเวอร์ใหม่ทั้งหมดเพื่อยกระดับความปลอดภัยขั้นสูงสุด</strong>
-      ขอแนะนำให้ผู้เล่นทำการสมัครสมาชิกเพื่อ
-      <strong class="text-[#f2dc9a]">ใช้ยูสใหม่</strong>
-      บนทางเข้าล่าสุดนี้ ซึ่งจะช่วยให้ข้อมูลส่วนตัวและข้อมูลทางการเงินของคุณได้รับการเข้ารหัสความปลอดภัย (Encryption)
-      <strong class="text-[#f2dc9a]">ที่แน่นหนาขึ้น 100%</strong>
-      หมดปัญหาเรื่องยูสเซอร์ค้าง เครดิตหาย หรือโดนแฮ็ก ให้คุณมั่นใจได้ว่าทุกการหมุนสปินและการทำธุรกรรมบนระบบใหม่นี้จะลื่นไหล ปลอดภัย และได้เงินจริงแน่นอน
+  <ContentBoxSpecial as="h2" title="เล่นสล็อต GODBET88 เริ่มต้น 1บาท เล่นได้ทุกค่าย ไม่มีขั้นต่ำ" iconleft="🪙" iconright="💸">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ece1cc]">
+      ไม่ว่าคุณจะมีทุนหลักสิบหรือหลักหมื่น ก็สามารถเข้ามาสร้างกำไรก้อนโตกับ GODBET88 ได้อย่างเท่าเทียม เราเปิดโอกาสให้ทุกคนเข้าถึงความสนุกด้วยเงินลงทุน
+      <strong class="text-[#f6e7b8]">เริ่มต้นเพียง 1 บาท</strong>
+      แต่สามารถเลือกเล่นเกมสล็อตลิขสิทธิ์แท้ได้ครบทุกค่ายดังระดับโลก ไม่ว่าจะเป็น
+      <strong class="text-[#f6e7b8]">PG SLOT, Pragmatic Play, Joker Gaming, JILI</strong>
+      และอื่นๆ อีกมากมาย
     </p>
-  </ContentBoxNeumorphism>
-
-  <ContentBoxCyberCut as="h2" title="โปรสล็อต JOKERSLOTZ มาแรง สมาชิกกดรับทุกวัน">
-    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      เพื่อต้อนรับสมาชิกที่เข้ามาใช้งานผ่านลิ้งก์ทางเข้าสำรองใหม่ JOKERSLOTZ
-      <strong class="text-[#f2dc9a]">จัดเตรียมโปรโมชั่นสุดคุ้มที่ฮิตที่สุดในตอนนี้</strong>
-      มอบสิทธิพิเศษให้สมาชิกกดรับได้ทุกวัน
-      <strong class="text-[#f2dc9a]">นำไปต่อยอดการทำกำไรในเกมสล็อตได้อย่างไร้ขีดจำกัด</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
+      นอกจากนี้ เรายังให้อิสระขั้นสุดด้วยระบบฝาก-ถอน
+      <strong class="text-[#f6e7b8]">ไม่มีขั้นต่ำ ทุนน้อยก็ฝากเล่นได้</strong>
+      และเมื่อแจ็คพอตแตก ไม่ว่ายอดถอนของคุณจะหลักร้อย หลักหมื่น หรือทะลุถึง "หลักล้าน" เราก็พร้อมโอนจ่ายให้เต็มจำนวน
+      <strong class="text-[#f6e7b8]">ถอนได้ทุกยอดทันที ไม่มีกั๊ก ไม่มีอั้น</strong>
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxSpecial>
 
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide1}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ JOKERSLOTZ พื้นหลังสีครีมขาวมีลายเส้นเรขาคณิตสีทองเป็นกรอบ มุมซ้ายบนเป็นโลโก้ JOKER SLOTZ ตัวอักษรสีแดงเลือดหมูขอบทอง มีหมวกตัวตลกสามแฉกสีแดงสลับทองวางอยู่ด้านบน ถัดลงมาเป็นคำว่า โปรโมชั่น สีแดง และ แนะนำเพื่อน สีแดง วางเหนือตัวเลข 0.8% ขนาดใหญ่สีทองเงาที่มีเหรียญทองกระจายอยู่รอบ ด้านขวาเป็นตัวตลกโจ๊กเกอร์หน้าขาวยิ้มกว้าง สวมหมวกตัวตลกสามแฉกสีแดงแต่งทองและชุดสูทสีแดงเลือดหมูปักลายทอง"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a51515]/55 shadow-[0_10px_30px_rgba(165,21,21,0.28)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      สร้างรายได้เสริมง่ายๆ
-      <strong class="text-[#f2dc9a]">โดยไม่ต้องลงทุน</strong>
-      เพียงคัดลอกลิ้งก์แนะนำส่วนตัวของคุณส่งให้เพื่อนสมัครสมาชิกผ่านทางเข้าใหม่ เมื่อเพื่อนมีการเข้าเล่น
-      <strong class="text-[#f2dc9a]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8%</strong>
-      จากทุกยอดการเดิมพันของเพื่อน เป็นช่องทางรับเงินแบบ
-      <strong class="text-[#f2dc9a]">Passive Income ที่สามารถถอนเป็นเงินสดได้ตลอดเวลา</strong>
+  <ProviderGrid />
+
+  <ContentBox as="h2" title="โปรสล็อต GODBET88 มาแรง 2 อันดับ">
+    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
+      เพื่อเพิ่มความคุ้มค่าให้กับการลงทุนของคุณ
+      <strong class="text-[#f6e7b8]">GODBET88 ได้คัดสรรโปรโมชั่นสุดพิเศษที่แจกจริง</strong>
+      และมอบสิทธิประโยชน์ให้กับสมาชิกทุกคนอย่างยุติธรรม
+      <strong class="text-[#f6e7b8]">โดยไม่ต้องทำเงื่อนไขยุ่งยาก</strong>
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBox>
 
-  <ContentBoxSevenThree as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
+      widths={[260, 400, 700]}
+      sizes="(max-width: 767px) 92vw, 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ JOKERSLOTZ พื้นหลังสีครีมขาวมีลายเส้นเรขาคณิตสีทองเป็นกรอบ ตรงกลางค่อนไปทางซ้ายเป็นโลโก้ JOKER SLOTZ ตัวอักษรสีแดงเลือดหมูขอบทอง มีหมวกตัวตลกสามแฉกสีแดงสลับทองวางอยู่ด้านบน ถัดลงมาเป็นคำว่า โปรโมชั่น สีแดง และ คืนยอดเสีย สีแดง ต่อด้วยตัวเลข 0.3% ขนาดใหญ่สีทองเงา ด้านขวาเป็นตัวตลกโจ๊กเกอร์หน้าขาวยิ้มกว้าง สวมหมวกตัวตลกสามแฉกสีแดงแต่งทอง ชุดสูทสามชิ้นสีแดงเลือดหมูปักลายทองกับเนกไทสีทอง กำลังแบมือถือเหรียญทองทั้งสองข้าง และมีเหรียญทองปลิวอยู่รอบภาพ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#bc9b5b]/55 shadow-[0_10px_30px_rgba(217,180,94,0.24)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ GODBET88 พื้นหลังแบ่งสองฝั่ง ฝั่งซ้ายสีดำและฝั่งขวาสีขาวครีม มีกรอบมุมเป็นเส้นทองบาง โลโก้เหรียญกลมสีทอง GODBET88 วางอยู่ที่มุมซ้ายบน ด้านซ้ายเป็นผู้หญิงสวมชุดราตรีสีทองสลับขาวพลิ้วไหว มีปีกนางฟ้าขนนกสีขาวแต่งทองขนาดใหญ่แผ่อยู่ด้านหลัง ด้านขวาเป็นตัวอักษรสีทองคำว่า โปรโมชั่น อยู่เหนือคำว่า แนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่มากสีทองเมทัลลิก"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#c2a55c]/55 shadow-[0_10px_30px_rgba(194,165,92,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      ทุกการเล่นมีหลักประกัน เราพร้อมดูแลสมาชิกด้วยโปรโมชั่น
-      <strong class="text-[#f2dc9a]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong>
-      เพื่อเป็นเงินทุนสำรองให้คุณสามารถกดรับและนำกลับไปแก้มือในเกมสล็อตโจ๊กเกอร์ที่คุณชื่นชอบได้ใหม่
-      <strong class="text-[#f2dc9a]">ช่วยลดความเสี่ยงในการลงทุนได้อย่างดีเยี่ยม</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
+      เปลี่ยนช่องทางโซเชียลของคุณให้เป็นเครื่องผลิตเงิน! เพียงแค่นำลิงก์ส่วนตัวไปแชร์และชวนเพื่อนมาสมัครเล่นสล็อตกับเรา
+      <strong class="text-[#f6e7b8]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8%</strong>
+      จากทุกยอดการเล่นของเพื่อน ยิ่งเพื่อนเล่นมาก คุณยิ่งได้มาก รับรายได้แบบ
+      <strong class="text-[#f6e7b8]">Passive Income ตลอดชีพ ถอนเป็นเงินสดได้เลย</strong>
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[260, 400, 780]}
+      sizes="(max-width: 767px) 92vw, 389px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ GODBET88 พื้นหลังสีดำสนิทมีลำแสงสีทองพาดเฉียง และมีตราสัญลักษณ์พวงหรีดใบลอเรลสีขาวสลับทองอยู่ด้านหลังโลโก้เหรียญกลมสีทอง GODBET88 ที่มุมซ้ายบน ด้านขวาเป็นผู้หญิงสวมชุดราตรีสีดำปักลายดวงอาทิตย์และดาวสีทอง คาดผ้าคาดเอวสีทอง มีปีกนางฟ้าขนนกสีขาวแต่งทองขนาดใหญ่แผ่อยู่ด้านหลัง ตรงกลางด้านล่างเป็นตัวอักษรสีทองคำว่า โปรโมชั่น อยู่เหนือคำว่า คืนยอดเสีย ข้างตัวเลข 0.3% ขนาดใหญ่สีทองเมทัลลิก"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#f6e7b8]/45 shadow-[0_10px_30px_rgba(246,231,184,0.22)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
+      เล่นสล็อตแบบไม่ต้องกลัวหมดตัว เพราะ GODBET88 มีระบบเซฟตี้คืนทุนให้กับผู้เล่นทุกคน ด้วยโปรโมชั่น
+      <strong class="text-[#f6e7b8]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong>
+      เพื่อให้คุณมีเครดิตสำรองไว้สำหรับแก้มือและนำไปต่อยอดทำกำไรในเกมสล็อตค่ายโปรดของคุณได้อีกครั้ง
+      <strong class="text-[#f6e7b8]">กดรับสิทธิ์ได้ง่ายๆ ผ่านหน้าเว็บ</strong>
+    </p>
+  </ContentBoxSevenThreeNeumorphism>
 
   <LatestWinners />
 
-  <ContentBox as="h2" title="สมัคร JOKERSLOTZ บนทางเข้าใหม่ 3 ขั้นตอน">
-    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      เปิดประสบการณ์ความสนุกและรับยูสเซอร์ใหม่ผ่านลิ้งก์ทางเข้าสำรองได้อย่างรวดเร็ว
-      ด้วยระบบสมัครสมาชิกอัตโนมัติ (Auto) ที่ใช้งานง่าย
-      <strong class="text-[#f2dc9a]">ทำรายการเสร็จสิ้นภายใน 1 นาที</strong>
-      ด้วย 3 ขั้นตอนดังนี้:
+  <ContentBox as="h2" title="สมัคร GODBET88 เล่นสล็อต">
+    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
+      เข้าสู่โลกของการทำกำไรแบบไม่ติดเทิร์นได้ง่ายๆ ผ่านระบบสมัครสมาชิกอัตโนมัติ (Auto) ที่รวดเร็วและปลอดภัย
+      <strong class="text-[#f6e7b8]">ใช้เวลาไม่ถึง 1 นาที</strong>
+      เพียงทำตามขั้นตอนดังนี้:
     </p>
   </ContentBox>
 
@@ -225,19 +228,20 @@ const graph = pageGraph(Astro, {
 
   <LoginRtpSection />
 
-  <ContentBoxPremium as="h2" title="ติดต่อแอดมิน JOKERSLOTZ ได้ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
-      เรามีทีมงานแอดมินมืออาชีพที่พร้อมดูแลและให้บริการสมาชิกทุกท่านผ่านช่องทาง
-      <strong class="text-[#f2dc9a]">Line Official ตลอด 24 ชั่วโมง</strong>
-      หากคุณพบปัญหาในการเข้าใช้งานลิ้งก์สำรอง ต้องการสอบถามวิธีการรับโปรโมชั่น หรือมีข้อสงสัยเกี่ยวกับการฝาก-ถอนเครดิต สามารถทักหาทีมงานได้ตลอดเวลา
-      <strong class="text-[#f2dc9a]">เราพร้อมตอบกลับอย่างรวดเร็วและแก้ไขปัญหาให้คุณทันที</strong>
-      เพื่อให้การเล่นสล็อตของคุณราบรื่นที่สุด
+  <ContentBoxFloatingBadge as="h2" title="ช่องทางติดต่อแอดมิน GODBET88 เกี่ยวกับเกมสล็อต 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
+      เราพร้อมให้บริการและดูแลสมาชิกทุกท่านระดับ VIP หากคุณมีข้อสงสัยเกี่ยวกับเกมสล็อตค่ายต่างๆ ต้องการสอบถามเรื่องระบบการไม่ติดเทิร์น หรือพบปัญหาในการฝาก-ถอนเงิน
+      สามารถติดต่อทีมงานแอดมินมืออาชีพของเราได้ผ่านช่องทาง
+      <strong class="text-[#f6e7b8]">Line Official ตลอด 24 ชั่วโมง</strong>
+      แอดมินสแตนด์บายตอบไว
+      <strong class="text-[#f6e7b8]">แก้ไขปัญหาตรงจุด สุภาพ</strong>
+      และพร้อมดูแลคุณตลอดการเดิมพัน
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <Faq2 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+  <Faq3 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
 
-  <ReviewCardSumo2 />
+  <ReviewCardSumo />
 
   <Navfoot />
 </MainLayout>
