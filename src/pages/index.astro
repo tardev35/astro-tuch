@@ -1,17 +1,19 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement5.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBox3ThreeCyberCut from "../components/ContentBox3ThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import Faq2 from "../components/Faq2.astro";
+import Faq4 from "../components/Faq4.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -19,53 +21,89 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR OCZPLUS — READ BEFORE REUSING THESE IMPORTS.
-// Verified against the artwork on the 2026-09-16 drop: slide1.png is the
-// แนะนำเพื่อน 0.8% poster (navy network ground, a couple with a tablet showing a
-// people graph) and slide2.png is the คืนยอดเสีย 0.3% one (cream-to-black split
-// ground, a tablet showing a rising chart). The docx puts แนะนำเพื่อน first
-// (H3 #4) and คืนยอดเสีย second (H3 #5), so slide1 sits in the first SevenThree
-// block and slide2 in the second. Re-check the actual posters on the next
-// rebrand rather than trusting this order — a previous brand shipped the two
-// swapped, which builds clean and reads wrong.
+// SLIDE ROLES FOR PAOTUNG — READ BEFORE REUSING THESE IMPORTS.
+// Both posters were opened and read on the 2026-09-17 drop, and the pair is the
+// REVERSE of the previous brand's order:
+//   slide2.png = the แนะนำเพื่อน 0.8% poster (white ground, blue chevrons, gold
+//                coins, a woman in a navy suit) -> docx H3 #4
+//   slide1.png = the คืนยอดเสีย 0.3% poster (light-blue fintech ground, wallet
+//                and coin icons, a BLOCKCHAIN HUD)              -> docx H3 #5
+// So slide2 sits in the FIRST SevenThree block and slide1 in the second. Re-read
+// the actual artwork on the next rebrand rather than trusting this order — a
+// previous brand shipped the two swapped, which builds clean and reads wrong.
 //
-// Both posters print the exact percentage its section describes, so the alt text
+// Each poster prints the exact percentage its section describes, so the alt text
 // and the section prose agree with each other and with the brief. Two
-// ContentBoxSevenThree* blocks in total — that is the hard cap for the family.
+// ContentBoxSevenThree* blocks in total — that is the hard cap for the family,
+// and a slide* image may not appear anywhere else on the site.
 //
-// Stale assets that must stay unimported: slide3.png / slide4.png (2026-08-13)
-// and banner2.png / banner3.png (2026-08-20 / 2026-08-11) all belong to earlier
-// clients. This brand has no banner2+ article illustration, so no ContentBox
-// gets an inline banner image this round. banner1.png and banner1-mobile.png are
-// the hero pair and belong to MainLayout's own pinned globs — never referenced
-// from a page.
+// Stale assets that must stay unimported: slide3.png / slide4.png and
+// banner2.png / banner3.png all belong to earlier clients. This brand has no
+// banner2+ article illustration, so no ContentBox gets an inline banner image
+// this round. banner1.png and banner1-mobile.png are the hero pair and belong to
+// MainLayout's own pinned globs — never referenced from a page.
 
 // Title and description are the brief's own Title/Meta Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "OCZPLUS สล็อตอันดับหนึ่ง การันตียอดถอนทุกวัน รีวิวเพียบ";
+const pageTitle = "PAOTUNG รวมเกมออนไลน์ สล็อต บาคาร่า เดิมพัน 1 บาท ทุกเกม";
 
-const pageDescription = "OCZPLUS สล็อตอันดับหนึ่ง แหล่งเดิมพันชั้นเยี่ยมที่ดีที่สุด การันตียอดถอนทุกวัน รีวิวจากสมาชิกเพียบ แจกโบนัสหนัก ไม่ล็อคยูส";
+const pageDescription = "PAOTUNG รวมเกมออนไลน์ สล็อต บาคาร่า หวย มวย บอล ทุกเกม สามารถเริ่มเดิมพันเริ่มต้น 1 บาท ทุกค่ายเกม";
 
-// <Announcement /> runs bare: Announcement3's default message is already this
+// <Announcement /> runs bare: Announcement5's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
-// One array, used by both <Faq2> and the FAQPage node — never the component's
+// The docx has a real H1 -> H2 -> H3 hierarchy this round (#4 and #5 are genuine
+// H3 sub-points of #3), so the page is NOT flattened to H2-only. The other H3s
+// are the sanctioned sub-point shapes: FeatureHighlights' four game types under
+// #2 and ContentBox3ThreeCyberCut's three signup steps under #6.
+
+// One array, used by both <Faq4> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's Q1-Q3, verbatim.
 const faqs = [
   {
-    q: "OCZPLUS มีการล็อคยูสเซอร์ใหม่หรือยูสเซอร์เก่าหรือไม่?",
-    a: "ไม่มีอย่างแน่นอนครับ OCZPLUS ใช้ระบบเกมลิขสิทธิ์แท้ที่ควบคุมด้วยระบบสุ่ม RNG (Random Number Generator) 100% ทั้งลูกค้าเก่าและใหม่มีโอกาสชนะและรับแจ็คพอตเท่าเทียมกัน ไม่มีการปรับลดอัตราการชนะใดๆ ทั้งสิ้น",
+    q: "ทุนน้อยสามารถเข้ามาเล่นที่ PAOTUNG ได้หรือไม่?",
+    a: "ได้แน่นอนครับ เว็บไซต์ของเราเปิดกว้างสำหรับผู้เล่นทุกกลุ่ม ด้วยข้อเสนอเดิมพันขั้นต่ำเพียง 1 บาทเท่านั้น ไม่ว่าจะเป็นสล็อต บาคาร่า หรือหวย ทุนหลักสิบก็สามารถนำมาต่อยอดทำกำไรหลักพันได้สบายๆ",
   },
   {
-    q: "การถอนเงินใช้เวลานานเท่าไหร่ และมีจำกัดรอบต่อวันไหม?",
-    a: "ระบบฝาก-ถอนอัตโนมัติของเราประมวลผลรวดเร็วภายใน 3-5 วินาที สมาชิกสามารถทำรายการถอนเงินได้ตลอด 24 ชั่วโมง โดยไม่จำกัดจำนวนครั้งและไม่จำกัดยอดถอนสูงสุดต่อวัน",
+    q: "แพลตฟอร์มของ PAOTUNG รองรับการใช้งานผ่านช่องทางใดบ้าง?",
+    a: "ระบบอินเทอร์เฟซของเราถูกพัฒนามาเพื่อรองรับทุกอุปกรณ์ คุณสามารถเข้าใช้งานผ่านโทรศัพท์มือถือ (ทั้งระบบ iOS และ Android) แท็บเล็ต หรือคอมพิวเตอร์พีซี ได้อย่างไหลลื่น ภาพสวยคมชัดแบบพรีเมียมโดยไม่ต้องโหลดแอปพลิเคชัน",
   },
   {
-    q: "ภาพกราฟิกของเกมสล็อตในเว็บจะทำให้มือถือกระตุกไหม?",
-    a: "ระบบแพลตฟอร์มของเราถูกปรับแต่ง (Optimize) มาเป็นอย่างดี แม้ตัวเกมจะจัดเต็มด้วยภาพระดับพรีเมียมและเอฟเฟกต์สุดอลังการ แต่ก็สามารถเล่นได้อย่างไหลลื่น ไม่มีสะดุด รองรับการทำงานบนสมาร์ทโฟนทุกรุ่นทั้ง iOS และ Android",
+    q: "ระบบฝาก-ถอนเงินใช้เวลานานไหม?",
+    a: "PAOTUNG ใช้ระบบฝาก-ถอนเงินอัตโนมัติ (Auto) ที่รวดเร็วและปลอดภัยที่สุด ทำรายการเสร็จสิ้นภายใน 3-5 วินาที รองรับทุกธนาคารชั้นนำ และสามารถทำรายการได้ด้วยตัวเองตลอด 24 ชั่วโมง",
+  },
+];
+
+// The four game types the brief lists under H2 #2, as the sanctioned
+// FeatureHighlights sub-point shape — each label renders as an <h3> under that
+// section's single <h2>, and the descriptions are the docx's own sentences.
+const gameTypes = [
+  {
+    icon: "🎰",
+    title: "สล็อตออนไลน์",
+    description: "รวมค่ายสล็อตระดับโลกที่มาพร้อมภาพกราฟิกคมชัด จัดเต็มด้วยแสงเงาสมจริงแบบ Cinematic Lighting ให้ทุกการสปินของคุณตื่นตาตื่นใจและลุ้นแจ็คพอตแตกง่ายกว่าเดิม",
+    accent: "gold" as const,
+  },
+  {
+    icon: "🃏",
+    title: "บาคาร่าและคาสิโนสด",
+    description: "สัมผัสบรรยากาศโต๊ะวีไอพีเสมือนจริง ส่งตรงสัญญาณภาพสดจากคาสิโนชั้นนำ เล่นง่าย จ่ายไว",
+    accent: "blue" as const,
+  },
+  {
+    icon: "🎫",
+    title: "หวยออนไลน์",
+    description: "รับแทงหวยทุกประเภท ทั้งหวยรัฐบาล หวยลาว หวยฮานอย ให้อัตราจ่ายสูง จ่ายเต็มไม่มีอั้น",
+    accent: "gold" as const,
+  },
+  {
+    icon: "⚽",
+    title: "เดิมพันกีฬา มวย และฟุตบอล",
+    description: "อัปเดตราคาค่าน้ำดีที่สุด ครบทุกแมตช์ ทุกลีกดัง ให้คอกีฬาได้ลุ้นมันส์ทุกวินาที",
+    accent: "blue" as const,
   },
 ];
 
@@ -73,7 +111,7 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's light gold (#f2dc9a); it marks a claim
+// The highlight colour is the palette's light gold (#f5e3b3); it marks a claim
 // the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -91,68 +129,48 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxPremium as="h1" title="OCZPLUS สล็อตอันดับหนึ่ง แหล่งเดิมพันชั้นเยี่ยมที่ดีที่สุด">
-    <p class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      ก้าวสู่ความเหนือระดับกับ <strong class="text-[#f2dc9a]">OCZPLUS สล็อตอันดับหนึ่ง แหล่งเดิมพันชั้นเยี่ยมที่ดีที่สุดในยุคนี้</strong>
-      เราได้พัฒนาระบบนิเวศการเดิมพันในรูปแบบ
-      <strong class="text-[#f2dc9a]">Portal &amp; Privilege ที่พร้อมมอบเอกสิทธิ์และผลตอบแทนสูงสุดให้กับสมาชิก</strong>
-      สัมผัสประสบการณ์การใช้งานที่หรูหราผ่านหน้าอินเทอร์เฟซ (UI/UX) โทนสีกรมท่าตัดกับสีทองเมทัลลิคสุดพรีเมียม
-      <strong class="text-[#f2dc9a]">พร้อมกราฟิกเกมสล็อตที่จัดเต็มด้วยแสงเงาระดับ Cinematic Lighting</strong>
-      ให้คุณดื่มด่ำกับความบันเทิงระดับลักชูรีและทำกำไรได้อย่างไร้ขีดจำกัด
+  <ContentBoxFloatingBadge as="h1" title="PAOTUNG รวมเกมออนไลน์ เดิมพันได้ครบทุกค่าย">
+    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
+      ก้าวสู่มิติใหม่แห่งการเดิมพันที่เหนือระดับกับ
+      <strong class="text-[#f5e3b3]">PAOTUNG (เป๋าตุง) ศูนย์รวมเกมออนไลน์ที่ตอบโจทย์ทุกไลฟ์สไตล์การลงทุน</strong>
+      เราได้ออกแบบแพลตฟอร์มในรูปแบบ
+      <strong class="text-[#f5e3b3]">Portal &amp; Privilege ที่เชื่อมต่อทุกความบันเทิงไว้ในที่เดียว</strong>
+      พร้อมยกระดับประสบการณ์ของผู้ใช้งาน
+      <strong class="text-[#f5e3b3]">ด้วยอินเทอร์เฟซสุดหรูหราในโทนสีกรมท่า (Navy Blue) สลับกับลวดลายสีทองเมทัลลิค (Gold Metallic)</strong>
+      มอบความรู้สึกพรีเมียมในทุกครั้งที่เข้าใช้งาน
+      <strong class="text-[#f5e3b3]">ให้คุณสัมผัสกับความลักชูรีพร้อมทำกำไรจากเกมลิขสิทธิ์แท้ครบทุกค่ายได้อย่างไร้ขีดจำกัด</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
+
+  <ContentBox as="h2" title="PAOTUNG สล็อต บาคาร่า หวย มวย บอล">
+    <div>
+      <p class="text-left text-base leading-relaxed text-[#cfdeed]">
+        ที่ PAOTUNG
+        <strong class="text-[#f5e3b3]">เราคืออาณาจักรความบันเทิงแบบครบวงจร (One-Stop Service)</strong>
+        ที่รวบรวมเกมยอดฮิตจากทุกมุมโลกมาไว้ให้คุณเพลิดเพลินได้ในเว็บเดียว ที่สำคัญคือเปิดโอกาสให้ทุกคนเข้าถึงความสนุกได้ด้วย
+        <strong class="text-[#f5e3b3]">เดิมพันเริ่มต้นเพียง 1 บาท</strong>
+        เท่านั้น
+      </p>
+      <FeatureHighlights items={gameTypes} />
+    </div>
+  </ContentBox>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBox as="h2" title="OCZPLUS การันตียอดถอนทุกวัน รีวิวจากสมาชิกเพียบ">
-    <p class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      ความน่าเชื่อถือคือสิ่งที่เราให้ความสำคัญเป็นอันดับแรก OCZPLUS ได้รับการยอมรับจากผู้เล่นทั่วประเทศด้วยการ
-      <strong class="text-[#f2dc9a]">การันตียอดถอนทุกวัน</strong>
-      ไม่ว่าคุณจะทำกำไรได้หลักหมื่นหรือหลักล้าน
-      <strong class="text-[#f2dc9a]">เราพร้อมจ่ายเต็มจำนวน ไร้ประวัติการโกง</strong>
-      พิสูจน์ได้จากรีวิวของสมาชิกตัวจริงที่หมุนเวียนเข้ามาทำกำไรและแบ่งปันความประทับใจผ่านช่องทางต่างๆ อย่างล้นหลาม มั่นใจได้เลยว่าทุกการเดิมพันที่นี่
-      <strong class="text-[#f2dc9a]">ปลอดภัยและได้เงินชัวร์ 100%</strong>
+  <ContentBoxSpecial as="h2" title="โปรโมชั่น PAOTUNG แจกทุกยูส ไม่มีล็อค" iconleft="🎁" iconright="🔓">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      เราให้ความสำคัญกับการมอบผลตอบแทนที่คุ้มค่าที่สุดให้กับสมาชิก PAOTUNG
+      <strong class="text-[#f5e3b3]">จัดเต็มโปรโมชั่นสุดพิเศษที่พร้อมแจกหนักให้กับทุกยูสเซอร์อย่างเท่าเทียม</strong>
     </p>
-  </ContentBox>
-
-  <LatestWinners />
-
-  <ReviewCardSumo2 />
-
-  <ContentBoxPremium as="h2" title="โปรโมชั่น OCZPLUS แจกทุกยูส ไม่มีล็อค">
-    <p class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      เราดูแลสมาชิกทุกคนอย่างเท่าเทียม ไม่ว่าจะเป็นฐานลูกค้าเก่าที่สะสมยอดฝากมาอย่างยาวนาน หรือสมาชิกใหม่ที่เพิ่งสมัครเข้ามา
-      <strong class="text-[#f2dc9a]">OCZPLUS แจกโบนัสหนัก จัดเต็มทุกยูสเซอร์แบบไม่มีการล็อคยูส (RNG 100%)</strong>
-      เพื่อให้ทุกคนมีโอกาสคว้ารางวัลใหญ่ได้อย่างยุติธรรม
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      <strong class="text-[#f5e3b3]">ทำงานผ่านระบบอัตโนมัติ 100% การันตีไม่มีการล็อคยูส</strong>
+      ให้คุณมั่นใจในความโปร่งใสและรับสิทธิประโยชน์ได้อย่างเต็มที่
     </p>
-  </ContentBoxPremium>
+  </ContentBoxSpecial>
 
-  <ContentBoxSevenThree as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide1}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ OCZPLUS พื้นหลังโทนสีกรมท่าไล่เฉด มีเส้นเชื่อมโยงเครือข่ายและจุดแสงสีฟ้าทองกระจายทั่วภาพ มุมซ้ายบนเป็นโลโก้ OCZPLUS ตัวอักษร OCZ สีเงินโครเมียม เครื่องหมายบวกสีแดง และคำว่า PLUS สีทองเมทัลลิค ตรงกลางเป็นหญิงสวมชุดสีทองตัดดำถือแท็บเล็ตที่แสดงแผนผังเครือข่ายรูปคน ยืนคู่กับชายสวมสูทสีกรมท่าที่ยกมือชี้ไปทางข้อความ ด้านขวาเป็นคำว่า โปรโมชั่น สีขาว บรรทัดถัดมาเขียนว่า แนะนำเพื่อน สีขาว วางเหนือตัวเลข 0.8% ขนาดใหญ่สีทองเงาขอบแดง และบรรทัดล่างสุดเขียนว่า ง่ายๆ เพียงส่งต่อลิงก์"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#d9b45e]/45 shadow-[0_10px_30px_rgba(217,180,94,0.24)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      เปลี่ยนเครือข่ายสังคมออนไลน์ของคุณให้เป็นรายได้ที่มั่นคง เพียงส่งลิงก์แนะนำเพื่อนให้เข้ามาร่วมสนุก
-      <strong class="text-[#f2dc9a]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อน</strong>
-      ยิ่งชวนมาก ยิ่งรับทรัพย์มาก
-      <strong class="text-[#f2dc9a]">ถือเป็นช่องทางการสร้างรายได้แบบ Passive Income ที่คุ้มค่าที่สุด</strong>
-    </p>
-  </ContentBoxSevenThree>
-
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -164,51 +182,80 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ OCZPLUS ครึ่งซ้ายเป็นพื้นหลังสว่างโทนครีมที่มีลำแสงสีทองพาด ครึ่งขวาเป็นพื้นหลังสีดำอมกรมท่าที่มีบรรทัดโค้ดโปรแกรมและอนุภาคแสงสีทองลอยอยู่ มุมซ้ายบนเป็นโลโก้ OCZPLUS ตัวอักษร OCZ สีเงินโครเมียม เครื่องหมายบวกสีแดง และคำว่า PLUS สีทองเมทัลลิค ด้านซ้ายเป็นคำว่า โปรโมชั่น สีทอง บรรทัดถัดมาเขียนว่า คืนยอดเสีย สีดำ วางเหนือตัวเลข 0.3% ขนาดใหญ่สีทองเงาขอบแดง ตรงกลางเป็นหญิงสวมชุดสีแดงเข้มยื่นมือออกมาในท่าเชิญ ยืนคู่กับชายสวมสูทสีเทาที่ถือแท็บเล็ตแสดงกราฟขาขึ้นพร้อมตัวเลข 0.3%"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#8b939c]/45 shadow-[0_10px_30px_rgba(230,235,240,0.18)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ PAOTUNG พื้นหลังสีขาวตัดกับลวดลายลูกศรเฉียงสีน้ำเงินสดทางด้านขวา มุมซ้ายบนเป็นโลโก้ถุงเงินที่มีเครื่องหมายดอลลาร์และลูกศรชี้ขึ้น ใต้โลโก้เป็นตัวอักษร PAOTUNG สีน้ำเงินและคำว่า DIGITAL WALLET ด้านซ้ายเขียนว่า โปรโมชั่น ตัวใหญ่สีน้ำเงินเข้ม บรรทัดถัดมาเขียนว่า แนะนำเพื่อน วางคู่กับตัวเลข 0.8% สีน้ำเงินสด พร้อมไอคอนรูปคนสองคนที่มีลูกศรโยงถึงกัน มีเหรียญทองลอยกระจายอยู่รอบภาพ และด้านขวาเป็นหญิงสวมสูทสีกรมท่ายื่นมือทั้งสองข้างออกมาในท่าเชิญ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#226ca9]/45 shadow-[0_10px_30px_rgba(34,108,169,0.24)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      เล่นเสียไม่ต้องถอดใจ เพราะเรามีระบบซัพพอร์ตเงินทุนด้วยโปรโมชั่น
-      <strong class="text-[#f2dc9a]">คืนยอดเสีย 0.3% ในทุกยอดการเล่น</strong>
-      เพื่อให้คุณมีเครดิตสำรองกลับไปแก้มือและต่อยอดสร้างกำไรในเกมสล็อตได้อย่างต่อเนื่อง
-      <strong class="text-[#f2dc9a]">กดรับสิทธิ์ได้ง่ายๆ ผ่านหน้าเว็บ</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      ยิ่งแชร์ยิ่งรับทรัพย์! เพียงคัดลอกลิงก์ส่วนตัวของคุณส่งให้เพื่อนสมัครและเข้าเล่น
+      <strong class="text-[#f5e3b3]">คุณก็จะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเดิมพันของเพื่อน</strong>
+      ถือเป็นการสร้างรายได้เสริมแบบ
+      <strong class="text-[#f5e3b3]">Passive Income ที่มั่นคงและสามารถถอนเป็นเงินสดได้ตลอดเวลา</strong>
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBox3ThreePremium
-    as="h2"
-    title="ฝากถอน OCZPLUS บนมือถือได้ทุกธนาคารและวอลเลท"
-    titleleft="ระบบอัตโนมัติเพื่อมือถือ"
-    titlecenter="ทุกธนาคารและ TrueMoney Wallet"
-    titleright="ไม่ต้องส่งสลิป ไม่มีขั้นต่ำ">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      มอบความสะดวกสบายสูงสุดด้วย
-      <strong class="text-[#f2dc9a]">ระบบธุรกรรมการเงินแบบอัตโนมัติ (Auto)</strong>
-      ที่ออกแบบมาเพื่อการใช้งานบนโทรศัพท์มือถือโดยเฉพาะ
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ PAOTUNG พื้นหลังโทนฟ้าอ่อนแบบฟินเทค มีภาพกระเป๋าสตางค์ เหรียญเครื่องหมายดอลลาร์ วงแหวน HUD และคำว่า BLOCKCHAIN จางอยู่ด้านหลัง มุมซ้ายบนเป็นโลโก้ถุงเงินที่มีเครื่องหมายดอลลาร์และลูกศรชี้ขึ้น ใต้โลโก้เป็นตัวอักษร PAOTUNG สีน้ำเงินและคำว่า DIGITAL WALLET ด้านซ้ายเขียนว่า โปรโมชั่นพิเศษ! สีขาว บรรทัดถัดมาเขียนว่า คืนยอดเสีย วางคู่กับตัวเลข 0.3% ตัวใหญ่สีขาว และบรรทัดล่างสุดเขียนว่า สำหรับทุกยอดการใช้งาน ด้านขวาเป็นหญิงสวมสูทสีกรมท่ายิ้มและแบมือออกมาทางซ้าย"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e0bd72]/45 shadow-[0_10px_30px_rgba(224,189,114,0.28)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      เพื่อเป็นการดูแลสมาชิกในทุกจังหวะของการเดิมพัน เรามีระบบรองรับความเสี่ยงด้วยโปรโมชั่น
+      <strong class="text-[#f5e3b3]">คืนยอดเสีย 0.3% ในทุกยอดการเล่น</strong>
+      เพื่อให้คุณมีเครดิตสำรองสำหรับนำกลับไปต่อยอดสร้างกำไรในรอบถัดไปได้อย่างสบายใจ
     </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      <strong class="text-[#f2dc9a]">รองรับการทำรายการผ่านทุกธนาคารชั้นนำในประเทศไทย รวมถึง TrueMoney Wallet</strong>
-      ฝากถอนง่าย รวดเร็วทันใจภายในไม่กี่วินาที
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      <strong class="text-[#f2dc9a]">ไม่ต้องส่งสลิปให้แอดมิน ไม่มีขั้นต่ำ</strong>
-      ให้อิสระทางการเงินกับคุณตลอด 24 ชั่วโมง
-    </p>
-  </ContentBox3ThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <LoginRtpSection />
+  <LatestWinners />
 
-  <ContentBox as="h2" title="แอดมิน OCZPLUS ดูแลสมาชิกออนไลน์ตลอด 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#ccd6e6]">
-      ยกระดับการบริการด้วยทีมงานดูแลลูกค้ามืออาชีพ ที่พร้อมสแตนด์บาย
-      <strong class="text-[#f2dc9a]">ให้บริการและคำปรึกษาผ่านช่องทาง Line Official ตลอด 24 ชั่วโมง</strong>
-      ไม่ว่าคุณจะมีข้อสงสัยเรื่องการรับโปรโมชั่น ติดปัญหาการทำธุรกรรม หรือต้องการคำแนะนำในการใช้งานเว็บไซต์
-      <strong class="text-[#f2dc9a]">ทีมแอดมินของเราพร้อมดูแลเอาใจใส่และแก้ไขปัญหาให้อย่างรวดเร็ว ตรงจุด</strong>
-      เพื่อให้ประสบการณ์การเดิมพันของคุณราบรื่นที่สุด
+  <ContentBox as="h2" title="สมัครเดิมพัน PAOTUNG บนมือถือ 3ขั้นตอนง่ายๆ">
+    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
+      เริ่มต้นเส้นทางเศรษฐีและสัมผัสแพลตฟอร์มระดับพรีเมียมได้ง่ายๆ
+      <strong class="text-[#f5e3b3]">ผ่านระบบสมัครสมาชิกอัตโนมัติที่ออกแบบมาให้ใช้งานบนโทรศัพท์มือถือได้อย่างสมบูรณ์แบบ</strong>
+      ใช้เวลาเพียงไม่กี่วินาทีด้วย 3 ขั้นตอนดังนี้
     </p>
   </ContentBox>
 
-  <Faq2 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+  <ContentBox3ThreeCyberCut as="h3" titleleft="กรอกเบอร์โทรศัพท์" titlecenter="ผูกบัญชีธนาคาร" titleright="ตั้งรหัสผ่าน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      ระบุเบอร์มือถือของคุณเพื่อรับรหัส
+      <strong class="text-[#f5e3b3]">OTP สำหรับยืนยันตัวตนและรักษาความปลอดภัยของบัญชี</strong>
+    </p>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      เลือกธนาคารและกรอกเลขบัญชีที่ต้องการใช้ทำรายการฝาก-ถอน
+      <strong class="text-[#f5e3b3]">(ชื่อ-นามสกุล ต้องตรงกับชื่อบัญชีที่สมัครเท่านั้น)</strong>
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
+      กำหนด Username และ Password เพื่อความปลอดภัย จากนั้นล็อคอินเข้าสู่ระบบ
+      <strong class="text-[#f5e3b3]">เติมเงินเพียง 1 บาทก็เริ่มสนุกได้ทันที</strong>
+    </p>
+  </ContentBox3ThreeCyberCut>
+
+  <LoginRtpSection />
+
+  <ContentBox as="h2" title="เปิดช่องทางติดต่อ PAOTUNG 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
+      <strong class="text-[#f5e3b3]">การดูแลลูกค้าระดับ VIP คือมาตรฐานของเรา</strong>
+      PAOTUNG มีทีมงานแอดมินมืออาชีพที่พร้อมให้บริการและดูแลสมาชิกทุกท่านอย่างใกล้ชิด
+      <strong class="text-[#f5e3b3]">เปิดช่องทางติดต่อผ่าน Line Official ตลอด 24 ชั่วโมง</strong>
+      ไม่ว่าคุณจะต้องการสอบถามข้อมูล ติดปัญหาการเข้าใช้งาน หรือต้องการคำแนะนำเกี่ยวกับระบบแพลตฟอร์ม
+      <strong class="text-[#f5e3b3]">ทีมงานของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และใส่ใจ</strong>
+      เพื่อให้ทุกการเดิมพันของคุณลื่นไหลที่สุด
+    </p>
+  </ContentBox>
+
+  <Faq4 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+
+  <ReviewCardSumo2 />
 
   <Navfoot />
 </MainLayout>

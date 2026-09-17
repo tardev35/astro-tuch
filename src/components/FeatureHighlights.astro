@@ -3,10 +3,10 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** "gold" is the brand accent, "silver" the secondary tone (this brand's
-   *  red). The older "green"/"red"/"blue" spellings stay accepted so an
-   *  inventory page that still passes them keeps building; "blue" maps to the
-   *  secondary tone. */
+  /** "gold" is this brand's metallic accent, "blue" the logo's primary blue.
+   *  The older "silver"/"green"/"red" spellings stay accepted so an inventory
+   *  page that still passes them keeps building; "silver" maps to the blue
+   *  tone alongside "blue". */
   accent?: "gold" | "silver" | "green" | "red" | "blue";
 }
 
@@ -20,6 +20,12 @@ export interface Props {
 
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
+
+// PAOTUNG palette: every card sits on the navy card surface (#04203c) inside a
+// primary-blue hairline. The two accents are the brief's own pair — gold
+// metallic for the accent plate, the logo's blue for the secondary one — so an
+// alternating items list reads as navy + gold rather than the previous brand's
+// deep-red/yellow set.
 ---
 
 <div class="mt-4 flex flex-col gap-5">
@@ -28,28 +34,28 @@ const TitleTag = heading ? "h3" : "p";
       const isAccent = item.accent !== "silver" && item.accent !== "blue";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#5e0505]/75 bg-[#120404]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#226ca9]/50 bg-[#04203c]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isAccent
-              ? "hover:border-[#fdd121]/65 hover:bg-[#1c0606] hover:shadow-[0_10px_20px_rgba(253,209,33,0.2)]"
-              : "hover:border-[#ff2a36]/60 hover:bg-[#1c0606] hover:shadow-[0_10px_20px_rgba(239,22,34,0.2)]"
+              ? "hover:border-[#e0bd72]/65 hover:bg-[#0a2036] hover:shadow-[0_10px_20px_rgba(224,189,114,0.22)]"
+              : "hover:border-[#3b9ddd]/65 hover:bg-[#0a2036] hover:shadow-[0_10px_20px_rgba(59,157,221,0.22)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isAccent
-                ? "border border-[#fdd121]/55 bg-gradient-to-br from-[#ffe98a] to-[#c99a10] text-[#070202] shadow-[0_0_15px_rgba(253,209,33,0.45)] group-hover:rotate-3"
-                : "border border-[#ff2a36]/55 bg-gradient-to-br from-[#ff2a36] to-[#b00a12] text-[#f2e3c9] shadow-[0_0_15px_rgba(239,22,34,0.45)]"
+                ? "border border-[#e0bd72]/55 bg-gradient-to-br from-[#f5e3b3] to-[#a5813a] text-[#020f1e] shadow-[0_0_15px_rgba(224,189,114,0.45)] group-hover:rotate-3"
+                : "border border-[#3b9ddd]/55 bg-gradient-to-br from-[#7fc4f0] to-[#054e83] text-[#eef6fd] shadow-[0_0_15px_rgba(59,157,221,0.45)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
             <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
-                isAccent ? "bg-gradient-to-r from-[#ffe98a] to-[#fdd121] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#ffe98a] to-[#ff2a36] bg-clip-text text-transparent"
+                isAccent ? "bg-gradient-to-r from-[#f5e3b3] to-[#e0bd72] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#eef6fd] to-[#3b9ddd] bg-clip-text text-transparent"
               }`}>
               {item.title}
             </TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#f2e3c9]">{item.description}</p>}
+            {item.description && <p class="text-left text-base leading-relaxed text-[#cfdeed]">{item.description}</p>}
           </div>
         </div>
       );
