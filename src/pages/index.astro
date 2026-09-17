@@ -1,19 +1,21 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement3.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBox3ThreeCyberCut from "../components/ContentBox3ThreeCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import GameRankingBoard from "../components/GameRankingBoard.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
 import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import Faq4 from "../components/Faq4.astro";
+import Faq3 from "../components/Faq3.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -21,21 +23,20 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR PAOTUNG — READ BEFORE REUSING THESE IMPORTS.
-// Both posters were opened and read on the 2026-09-17 drop, and the pair is the
-// REVERSE of the previous brand's order:
-//   slide2.png = the แนะนำเพื่อน 0.8% poster (white ground, blue chevrons, gold
-//                coins, a woman in a navy suit) -> docx H3 #4
-//   slide1.png = the คืนยอดเสีย 0.3% poster (light-blue fintech ground, wallet
-//                and coin icons, a BLOCKCHAIN HUD)              -> docx H3 #5
-// So slide2 sits in the FIRST SevenThree block and slide1 in the second. Re-read
-// the actual artwork on the next rebrand rather than trusting this order — a
-// previous brand shipped the two swapped, which builds clean and reads wrong.
+// SLIDE ROLES FOR NEXT55 — READ BEFORE REUSING THESE IMPORTS.
+// Both posters were read off the 2026-09-17 drop, and each prints the exact
+// percentage its section describes:
+//   slide1.png = the แนะนำเพื่อน 0.8% poster (light grey office ground, crimson
+//                circuit-node linework, a woman in a grey suit with a phone)
+//                                                            -> docx H3 #4
+//   slide2.png = the คืนยอดเสีย 0.3% poster (dark charcoal ground, gold coins at
+//                the left, a woman in a grey suit over a red top) -> docx H3 #5
+// Re-read the actual artwork on the next rebrand rather than trusting this
+// order — a previous brand shipped the two swapped, which builds clean and
+// reads wrong.
 //
-// Each poster prints the exact percentage its section describes, so the alt text
-// and the section prose agree with each other and with the brief. Two
-// ContentBoxSevenThree* blocks in total — that is the hard cap for the family,
-// and a slide* image may not appear anywhere else on the site.
+// Two ContentBoxSevenThree* blocks in total — that is the hard cap for the
+// family, and a slide* image may not appear anywhere else on the site.
 //
 // Stale assets that must stay unimported: slide3.png / slide4.png and
 // banner2.png / banner3.png all belong to earlier clients. This brand has no
@@ -46,64 +47,70 @@ import imgSlide2 from "../assets/slide2.png";
 // Title and description are the brief's own Title/Meta Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "PAOTUNG รวมเกมออนไลน์ สล็อต บาคาร่า เดิมพัน 1 บาท ทุกเกม";
+const pageTitle = "NEXT55 คาสิโนออนไลน์เว็บตรงครบวงจร ไม่มีขั้นต่ำ รับวอลเลท";
 
-const pageDescription = "PAOTUNG รวมเกมออนไลน์ สล็อต บาคาร่า หวย มวย บอล ทุกเกม สามารถเริ่มเดิมพันเริ่มต้น 1 บาท ทุกค่ายเกม";
+const pageDescription = "NEXT55 คาสิโนออนไลน์เว็บตรงครบวงจร เดิมพันไม่มีขั้นต่ำ ฝากถอนไม่จำกัด รับทุกธนาคารและวอลเลท";
 
-// <Announcement /> runs bare: Announcement5's default message is already this
+// <Announcement /> runs bare: Announcement3's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H1 -> H2 -> H3 hierarchy this round (#4 and #5 are genuine
 // H3 sub-points of #3), so the page is NOT flattened to H2-only. The other H3s
-// are the sanctioned sub-point shapes: FeatureHighlights' four game types under
-// #2 and ContentBox3ThreeCyberCut's three signup steps under #6.
+// are the sanctioned sub-point shapes: FeatureHighlights' five game types under
+// #2 and ContentBox3ThreePremium's three signup steps under #6.
 
-// One array, used by both <Faq4> and the FAQPage node — never the component's
+// One array, used by both <Faq3> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's Q1-Q3, verbatim.
 const faqs = [
   {
-    q: "ทุนน้อยสามารถเข้ามาเล่นที่ PAOTUNG ได้หรือไม่?",
-    a: "ได้แน่นอนครับ เว็บไซต์ของเราเปิดกว้างสำหรับผู้เล่นทุกกลุ่ม ด้วยข้อเสนอเดิมพันขั้นต่ำเพียง 1 บาทเท่านั้น ไม่ว่าจะเป็นสล็อต บาคาร่า หรือหวย ทุนหลักสิบก็สามารถนำมาต่อยอดทำกำไรหลักพันได้สบายๆ",
+    q: "NEXT55 มีข้อกำหนดเรื่องขั้นต่ำในการฝาก-ถอนเงินหรือไม่?",
+    a: "เว็บไซต์ของเราให้อิสระทางการเงินอย่างเต็มที่ ไม่มีขั้นต่ำในการฝาก-ถอน ทุน 1 บาทก็สามารถฝากเข้ามาเล่นได้ และรองรับการทำธุรกรรมผ่านทุกธนาคารชั้นนำ รวมถึง TrueMoney Wallet ด้วยระบบออโต้ที่รวดเร็วภายใน 5 วินาที",
   },
   {
-    q: "แพลตฟอร์มของ PAOTUNG รองรับการใช้งานผ่านช่องทางใดบ้าง?",
-    a: "ระบบอินเทอร์เฟซของเราถูกพัฒนามาเพื่อรองรับทุกอุปกรณ์ คุณสามารถเข้าใช้งานผ่านโทรศัพท์มือถือ (ทั้งระบบ iOS และ Android) แท็บเล็ต หรือคอมพิวเตอร์พีซี ได้อย่างไหลลื่น ภาพสวยคมชัดแบบพรีเมียมโดยไม่ต้องโหลดแอปพลิเคชัน",
+    q: "NEXT55 เป็นเว็บตรง ไม่ผ่านเอเย่นต์ จริงหรือไม่ ปลอดภัยแค่ไหน?",
+    a: "NEXT55 คือเว็บตรง 100% ที่ได้รับอนุญาตอย่างถูกต้อง ไม่ผ่านเอเย่นต์หรือตัวแทนใดๆ ทำให้มีความมั่นคงทางการเงินสูง จ่ายจริงทุกยอดบิล และมีระบบรักษาความปลอดภัยของข้อมูลสมาชิกระดับสากล",
   },
   {
-    q: "ระบบฝาก-ถอนเงินใช้เวลานานไหม?",
-    a: "PAOTUNG ใช้ระบบฝาก-ถอนเงินอัตโนมัติ (Auto) ที่รวดเร็วและปลอดภัยที่สุด ทำรายการเสร็จสิ้นภายใน 3-5 วินาที รองรับทุกธนาคารชั้นนำ และสามารถทำรายการได้ด้วยตัวเองตลอด 24 ชั่วโมง",
+    q: "สามารถเข้าเล่นเกมของ NEXT55 ผ่านมือถือได้ไหม?",
+    a: "ได้แน่นอนครับ แพลตฟอร์มของเราถูกพัฒนามาให้รองรับการใช้งานบนทุกอุปกรณ์ ทั้งสมาร์ทโฟน (iOS และ Android), แท็บเล็ต และคอมพิวเตอร์พีซี คุณสามารถเข้าเล่นผ่านเว็บบราว์เซอร์ได้ทันทีโดยไม่ต้องดาวน์โหลดแอปพลิเคชันให้ยุ่งยาก",
   },
 ];
 
-// The four game types the brief lists under H2 #2, as the sanctioned
+// The five game types the brief lists under H2 #2, as the sanctioned
 // FeatureHighlights sub-point shape — each label renders as an <h3> under that
 // section's single <h2>, and the descriptions are the docx's own sentences.
 const gameTypes = [
   {
-    icon: "🎰",
-    title: "สล็อตออนไลน์",
-    description: "รวมค่ายสล็อตระดับโลกที่มาพร้อมภาพกราฟิกคมชัด จัดเต็มด้วยแสงเงาสมจริงแบบ Cinematic Lighting ให้ทุกการสปินของคุณตื่นตาตื่นใจและลุ้นแจ็คพอตแตกง่ายกว่าเดิม",
-    accent: "gold" as const,
-  },
-  {
     icon: "🃏",
     title: "บาคาร่าและคาสิโนสด",
-    description: "สัมผัสบรรยากาศโต๊ะวีไอพีเสมือนจริง ส่งตรงสัญญาณภาพสดจากคาสิโนชั้นนำ เล่นง่าย จ่ายไว",
-    accent: "blue" as const,
+    description: "ถ่ายทอดสดจากคาสิโนชั้นนำ ภาพคมชัดระดับ Full HD สัมผัสบรรยากาศสมจริงเหมือนนั่งอยู่ในคาสิโนวีไอพี",
+    accent: "crimson" as const,
+  },
+  {
+    icon: "🎰",
+    title: "สล็อตออนไลน์",
+    description: "รวบรวมค่ายเกมสล็อตลิขสิทธิ์แท้ แจ็คพอตแตกง่าย ฟีเจอร์แน่น ภาพสวยงามตระการตา",
+    accent: "steel" as const,
+  },
+  {
+    icon: "🐟",
+    title: "เกมยิงปลา",
+    description: "สนุกไปกับเกมยิงปลาที่เล่นง่าย ตายไว กราฟิกสวยงาม ทำกำไรได้รวดเร็ว",
+    accent: "crimson" as const,
   },
   {
     icon: "🎫",
     title: "หวยออนไลน์",
-    description: "รับแทงหวยทุกประเภท ทั้งหวยรัฐบาล หวยลาว หวยฮานอย ให้อัตราจ่ายสูง จ่ายเต็มไม่มีอั้น",
-    accent: "gold" as const,
+    description: "รับแทงหวยทุกประเภท ทั้งหวยรัฐบาล ลาว ฮานอย จ่ายหนัก จ่ายเต็ม ไม่มีเลขอั้น",
+    accent: "steel" as const,
   },
   {
     icon: "⚽",
-    title: "เดิมพันกีฬา มวย และฟุตบอล",
-    description: "อัปเดตราคาค่าน้ำดีที่สุด ครบทุกแมตช์ ทุกลีกดัง ให้คอกีฬาได้ลุ้นมันส์ทุกวินาที",
-    accent: "blue" as const,
+    title: "แทงบอลและกีฬา",
+    description: "ค่าน้ำดีที่สุด เปิดรับเดิมพันทุกลีกดังทั่วโลก พร้อมรูปแบบการแทงที่หลากหลาย",
+    accent: "crimson" as const,
   },
 ];
 
@@ -111,7 +118,7 @@ const gameTypes = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's light gold (#f5e3b3); it marks a claim
+// The highlight colour is the palette's pale rose (#ffb3bf); it marks a claim
 // the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -129,71 +136,46 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxFloatingBadge as="h1" title="PAOTUNG รวมเกมออนไลน์ เดิมพันได้ครบทุกค่าย">
-    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
-      ก้าวสู่มิติใหม่แห่งการเดิมพันที่เหนือระดับกับ
-      <strong class="text-[#f5e3b3]">PAOTUNG (เป๋าตุง) ศูนย์รวมเกมออนไลน์ที่ตอบโจทย์ทุกไลฟ์สไตล์การลงทุน</strong>
-      เราได้ออกแบบแพลตฟอร์มในรูปแบบ
-      <strong class="text-[#f5e3b3]">Portal &amp; Privilege ที่เชื่อมต่อทุกความบันเทิงไว้ในที่เดียว</strong>
-      พร้อมยกระดับประสบการณ์ของผู้ใช้งาน
-      <strong class="text-[#f5e3b3]">ด้วยอินเทอร์เฟซสุดหรูหราในโทนสีกรมท่า (Navy Blue) สลับกับลวดลายสีทองเมทัลลิค (Gold Metallic)</strong>
-      มอบความรู้สึกพรีเมียมในทุกครั้งที่เข้าใช้งาน
-      <strong class="text-[#f5e3b3]">ให้คุณสัมผัสกับความลักชูรีพร้อมทำกำไรจากเกมลิขสิทธิ์แท้ครบทุกค่ายได้อย่างไร้ขีดจำกัด</strong>
+  <ContentBoxPremium as="h1" title="NEXT55 คาสิโนออนไลน์เว็บตรงครบวงจร ปลอดภัย เชื่อถือได้">
+    <p class="text-left text-base leading-relaxed text-[#d5dae2]">
+      ยินดีต้อนรับสู่ NEXT55
+      <strong class="text-[#ffb3bf]">ศูนย์รวมความบันเทิงและคาสิโนออนไลน์เว็บตรงที่มาแรงที่สุดในขณะนี้</strong>
+      <strong class="text-[#ffb3bf]">เราคือผู้ให้บริการแพลตฟอร์มเดิมพันครบวงจรที่ไม่ผ่านเอเย่นต์ มุ่งเน้นมาตรฐานความปลอดภัยระดับสากล</strong>
+      เพื่อให้ผู้เล่นทุกคนสัมผัสประสบการณ์การเดิมพันที่โปร่งใส
+      <strong class="text-[#ffb3bf]">ยุติธรรม และเชื่อถือได้ 100%</strong>
+      ไม่ว่าคุณจะชื่นชอบเกมประเภทไหน NEXT55 พร้อมมอบความสนุกและโอกาสในการทำกำไรให้คุณตลอดเวลา ด้วยระบบที่เสถียรและบริการที่เหนือระดับ
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBox as="h2" title="PAOTUNG สล็อต บาคาร่า หวย มวย บอล">
+  <ContentBoxCyberCut as="h2" title="NEXT55 รวมเกมคาสิโน บาคาร่า สล็อต ยิงปลา หวย บอล เริ่มต้น1บาท">
     <div>
-      <p class="text-left text-base leading-relaxed text-[#cfdeed]">
-        ที่ PAOTUNG
-        <strong class="text-[#f5e3b3]">เราคืออาณาจักรความบันเทิงแบบครบวงจร (One-Stop Service)</strong>
-        ที่รวบรวมเกมยอดฮิตจากทุกมุมโลกมาไว้ให้คุณเพลิดเพลินได้ในเว็บเดียว ที่สำคัญคือเปิดโอกาสให้ทุกคนเข้าถึงความสนุกได้ด้วย
-        <strong class="text-[#f5e3b3]">เดิมพันเริ่มต้นเพียง 1 บาท</strong>
+      <p class="text-left text-base leading-relaxed text-[#d5dae2]">
+        ที่ NEXT55
+        <strong class="text-[#ffb3bf]">เราตอบโจทย์ทุกไลฟ์สไตล์การเดิมพันด้วยการรวบรวมเกมยอดฮิตจากทุกค่ายดังทั่วโลกมาไว้ในเว็บเดียว (One-Stop Service)</strong>
+        เปิดโอกาสให้ทุกคนเข้าถึงความสนุกได้ง่ายๆ ด้วยเงินทุน
+        <strong class="text-[#ffb3bf]">เริ่มต้นเพียง 1 บาท</strong>
         เท่านั้น
       </p>
       <FeatureHighlights items={gameTypes} />
     </div>
-  </ContentBox>
+  </ContentBoxCyberCut>
 
   <ProviderGrid />
 
   <GameRankingBoard />
 
-  <ContentBoxSpecial as="h2" title="โปรโมชั่น PAOTUNG แจกทุกยูส ไม่มีล็อค" iconleft="🎁" iconright="🔓">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      เราให้ความสำคัญกับการมอบผลตอบแทนที่คุ้มค่าที่สุดให้กับสมาชิก PAOTUNG
-      <strong class="text-[#f5e3b3]">จัดเต็มโปรโมชั่นสุดพิเศษที่พร้อมแจกหนักให้กับทุกยูสเซอร์อย่างเท่าเทียม</strong>
+  <ContentBoxTwoPremium as="h2" title="โปรโมชั่น NEXT55 จัดเต็มทุกยูส รับได้ทุกวัน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      <strong class="text-[#ffb3bf]">เราพร้อมคืนกำไรและมอบความคุ้มค่าสูงสุดให้กับสมาชิกด้วยโปรโมชั่นสุดพิเศษที่แจกหนัก</strong>
+      จัดเต็มให้กับทุกยูสเซอร์
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      <strong class="text-[#f5e3b3]">ทำงานผ่านระบบอัตโนมัติ 100% การันตีไม่มีการล็อคยูส</strong>
-      ให้คุณมั่นใจในความโปร่งใสและรับสิทธิประโยชน์ได้อย่างเต็มที่
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      ไม่ว่าจะเป็นสมาชิกใหม่หรือเก่า
+      <strong class="text-[#ffb3bf]">ก็สามารถกดรับสิทธิประโยชน์ดีๆ จากเราได้ทุกวัน ไม่มีกั๊ก</strong>
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoPremium>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[240, 400, 600]}
-      sizes="(max-width: 767px) 92vw, 30vw"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ PAOTUNG พื้นหลังสีขาวตัดกับลวดลายลูกศรเฉียงสีน้ำเงินสดทางด้านขวา มุมซ้ายบนเป็นโลโก้ถุงเงินที่มีเครื่องหมายดอลลาร์และลูกศรชี้ขึ้น ใต้โลโก้เป็นตัวอักษร PAOTUNG สีน้ำเงินและคำว่า DIGITAL WALLET ด้านซ้ายเขียนว่า โปรโมชั่น ตัวใหญ่สีน้ำเงินเข้ม บรรทัดถัดมาเขียนว่า แนะนำเพื่อน วางคู่กับตัวเลข 0.8% สีน้ำเงินสด พร้อมไอคอนรูปคนสองคนที่มีลูกศรโยงถึงกัน มีเหรียญทองลอยกระจายอยู่รอบภาพ และด้านขวาเป็นหญิงสวมสูทสีกรมท่ายื่นมือทั้งสองข้างออกมาในท่าเชิญ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#226ca9]/45 shadow-[0_10px_30px_rgba(34,108,169,0.24)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      ยิ่งแชร์ยิ่งรับทรัพย์! เพียงคัดลอกลิงก์ส่วนตัวของคุณส่งให้เพื่อนสมัครและเข้าเล่น
-      <strong class="text-[#f5e3b3]">คุณก็จะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเดิมพันของเพื่อน</strong>
-      ถือเป็นการสร้างรายได้เสริมแบบ
-      <strong class="text-[#f5e3b3]">Passive Income ที่มั่นคงและสามารถถอนเป็นเงินสดได้ตลอดเวลา</strong>
-    </p>
-  </ContentBoxSevenThreeNeumorphism>
-
-  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -205,55 +187,83 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ PAOTUNG พื้นหลังโทนฟ้าอ่อนแบบฟินเทค มีภาพกระเป๋าสตางค์ เหรียญเครื่องหมายดอลลาร์ วงแหวน HUD และคำว่า BLOCKCHAIN จางอยู่ด้านหลัง มุมซ้ายบนเป็นโลโก้ถุงเงินที่มีเครื่องหมายดอลลาร์และลูกศรชี้ขึ้น ใต้โลโก้เป็นตัวอักษร PAOTUNG สีน้ำเงินและคำว่า DIGITAL WALLET ด้านซ้ายเขียนว่า โปรโมชั่นพิเศษ! สีขาว บรรทัดถัดมาเขียนว่า คืนยอดเสีย วางคู่กับตัวเลข 0.3% ตัวใหญ่สีขาว และบรรทัดล่างสุดเขียนว่า สำหรับทุกยอดการใช้งาน ด้านขวาเป็นหญิงสวมสูทสีกรมท่ายิ้มและแบมือออกมาทางซ้าย"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e0bd72]/45 shadow-[0_10px_30px_rgba(224,189,114,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ NEXT55 พื้นหลังโทนเทาอ่อนแบบออฟฟิศ มีลายเส้นวงจรจุดต่อสีแดงเข้มและเครื่องหมายกากบาทสีแดงจางอยู่ด้านหลัง มุมซ้ายบนเป็นโลโก้ NEXT55 ตัวอักษรสีเทากราไฟต์ที่แทนตัว X ด้วยลูกศรสีแดงสองอันประกบกัน ด้านซ้ายเขียนว่า โปรโมชั่น บรรทัดถัดมาเขียนว่า แนะนำเพื่อน และตัวเลข 0.8% ตัวใหญ่สีแดงสด ใต้ลงมาเขียนว่า เพื่อรับสิทธิพิเศษวันนี้! ด้านขวาเป็นหญิงสวมสูทสีเทาถือโทรศัพท์มือถือและชี้มือไปที่ตัวเลข"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#cd1437]/45 shadow-[0_10px_30px_rgba(205,20,55,0.24)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      เพื่อเป็นการดูแลสมาชิกในทุกจังหวะของการเดิมพัน เรามีระบบรองรับความเสี่ยงด้วยโปรโมชั่น
-      <strong class="text-[#f5e3b3]">คืนยอดเสีย 0.3% ในทุกยอดการเล่น</strong>
-      เพื่อให้คุณมีเครดิตสำรองสำหรับนำกลับไปต่อยอดสร้างกำไรในรอบถัดไปได้อย่างสบายใจ
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      สร้างรายได้เสริมแบบง่ายๆ เพียงนำลิงก์ส่วนตัวของคุณไปแชร์ให้เพื่อนสมัครและเข้าเล่น
+      <strong class="text-[#ffb3bf]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อนทันที</strong>
+      เป็นระบบ
+      <strong class="text-[#ffb3bf]">Passive Income ที่ยิ่งชวนมาก ยิ่งได้เงินมาก สามารถถอนเป็นเงินสดได้ตลอดเวลา</strong>
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreePremium>
+
+  <ContentBoxSevenThreeFloatingBadge as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ NEXT55 พื้นหลังสีเทากราไฟต์เข้ม มีลายเส้นเทคโนโลยีสีจางพาดทั่วภาพและเหรียญทองกระจายอยู่ทางซ้าย มุมซ้ายบนเป็นโลโก้ NEXT55 ตัวอักษรสีขาวที่แทนตัว X ด้วยลูกศรสีแดงสองอันประกบกัน ตรงกลางเขียนด้วยตัวอักษรสีขาวว่า โปรโมชั่น บรรทัดถัดมาเขียนว่า คืนยอดเสีย 0.3% ด้านขวาเป็นหญิงสวมสูทสีเทาทับเสื้อสีแดงกำลังชี้มือขึ้นไปทางขวาบน"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#cd1437]/45 shadow-[0_10px_30px_rgba(205,20,55,0.24)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      ทุกการเดิมพันมีจังหวะของมัน หากวันไหนมือไม่ขึ้น NEXT55 มีระบบเซฟตี้คอยดูแลคุณด้วยโปรโมชั่น
+      <strong class="text-[#ffb3bf]">คืนยอดเสีย 0.3% ในทุกยอดการเล่น</strong>
+      เพื่อให้คุณมีเครดิตเงินทุนสำรองไว้สำหรับนำไปต่อยอดและพลิกสถานการณ์กลับมาทำกำไรได้อีกครั้ง
+    </p>
+  </ContentBoxSevenThreeFloatingBadge>
 
   <LatestWinners />
 
-  <ContentBox as="h2" title="สมัครเดิมพัน PAOTUNG บนมือถือ 3ขั้นตอนง่ายๆ">
-    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
-      เริ่มต้นเส้นทางเศรษฐีและสัมผัสแพลตฟอร์มระดับพรีเมียมได้ง่ายๆ
-      <strong class="text-[#f5e3b3]">ผ่านระบบสมัครสมาชิกอัตโนมัติที่ออกแบบมาให้ใช้งานบนโทรศัพท์มือถือได้อย่างสมบูรณ์แบบ</strong>
-      ใช้เวลาเพียงไม่กี่วินาทีด้วย 3 ขั้นตอนดังนี้
+  <ContentBox as="h2" title="สมัคร NEXT55 ด้วยตัวเอง 3 ขั้นตอน">
+    <p class="text-left text-base leading-relaxed text-[#d5dae2]">
+      เริ่มต้นความสนุกและเปิดประสบการณ์การเดิมพันที่เหนือกว่าได้ง่ายๆ
+      <strong class="text-[#ffb3bf]">ผ่านระบบสมัครสมาชิกอัตโนมัติ (Auto) ที่รวดเร็ว ปลอดภัย ใช้เวลาไม่ถึง 1 นาที</strong>
+      เพียงทำตาม 3 ขั้นตอนดังนี้
     </p>
   </ContentBox>
 
-  <ContentBox3ThreeCyberCut as="h3" titleleft="กรอกเบอร์โทรศัพท์" titlecenter="ผูกบัญชีธนาคาร" titleright="ตั้งรหัสผ่าน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#cfdeed]">
+  <ContentBox3ThreePremium
+    as="h3"
+    label="สามขั้นตอนการสมัครสมาชิก NEXT55 ด้วยตัวเอง"
+    titleleft="กรอกเบอร์โทรศัพท์"
+    titlecenter="ผูกบัญชีธนาคาร/วอลเลท"
+    titleright="ตั้งรหัสผ่าน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5dae2]">
       ระบุเบอร์มือถือของคุณเพื่อรับรหัส
-      <strong class="text-[#f5e3b3]">OTP สำหรับยืนยันตัวตนและรักษาความปลอดภัยของบัญชี</strong>
+      <strong class="text-[#ffb3bf]">OTP สำหรับยืนยันตัวตน</strong>
     </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      เลือกธนาคารและกรอกเลขบัญชีที่ต้องการใช้ทำรายการฝาก-ถอน
-      <strong class="text-[#f5e3b3]">(ชื่อ-นามสกุล ต้องตรงกับชื่อบัญชีที่สมัครเท่านั้น)</strong>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      เลือกธนาคารหรือ TrueMoney Wallet พร้อมกรอกเลขบัญชี
+      <strong class="text-[#ffb3bf]">(ชื่อ-นามสกุลต้องตรงกับข้อมูลที่ใช้สมัคร เพื่อความปลอดภัยในการฝาก-ถอน)</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#cfdeed]">
-      กำหนด Username และ Password เพื่อความปลอดภัย จากนั้นล็อคอินเข้าสู่ระบบ
-      <strong class="text-[#f5e3b3]">เติมเงินเพียง 1 บาทก็เริ่มสนุกได้ทันที</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5dae2]">
+      กำหนด Username และ Password ของคุณ ล็อคอินเข้าสู่ระบบ
+      <strong class="text-[#ffb3bf]">ฝากเงินแบบไม่มีขั้นต่ำ แล้วเริ่มทำกำไรได้ทันที!</strong>
     </p>
-  </ContentBox3ThreeCyberCut>
+  </ContentBox3ThreePremium>
 
   <LoginRtpSection />
 
-  <ContentBox as="h2" title="เปิดช่องทางติดต่อ PAOTUNG 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#cfdeed]">
-      <strong class="text-[#f5e3b3]">การดูแลลูกค้าระดับ VIP คือมาตรฐานของเรา</strong>
-      PAOTUNG มีทีมงานแอดมินมืออาชีพที่พร้อมให้บริการและดูแลสมาชิกทุกท่านอย่างใกล้ชิด
-      <strong class="text-[#f5e3b3]">เปิดช่องทางติดต่อผ่าน Line Official ตลอด 24 ชั่วโมง</strong>
-      ไม่ว่าคุณจะต้องการสอบถามข้อมูล ติดปัญหาการเข้าใช้งาน หรือต้องการคำแนะนำเกี่ยวกับระบบแพลตฟอร์ม
-      <strong class="text-[#f5e3b3]">ทีมงานของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และใส่ใจ</strong>
-      เพื่อให้ทุกการเดิมพันของคุณลื่นไหลที่สุด
+  <ContentBoxNeumorphism as="h2" title="NEXT55 เปิดช่องทางติดต่อแอดมินได้ 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#d5dae2]">
+      เราใส่ใจในทุกรายละเอียดการให้บริการ NEXT55
+      <strong class="text-[#ffb3bf]">มีทีมงานแอดมินคุณภาพที่ผ่านการอบรมมาเป็นอย่างดี</strong>
+      พร้อมสแตนด์บายดูแลสมาชิกทุกท่านผ่านช่องทาง
+      <strong class="text-[#ffb3bf]">Line Official ตลอด 24 ชั่วโมง</strong>
+      ไม่ว่าคุณจะติดปัญหาเรื่องการใช้งาน สอบถามข้อมูลโปรโมชั่น หรือต้องการความช่วยเหลือเรื่องการฝาก-ถอน
+      <strong class="text-[#ffb3bf]">ทีมงานของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และคอยซัพพอร์ตคุณในทุกสถานการณ์</strong>
     </p>
-  </ContentBox>
+  </ContentBoxNeumorphism>
 
-  <Faq4 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+  <Faq3 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
 
   <ReviewCardSumo2 />
 

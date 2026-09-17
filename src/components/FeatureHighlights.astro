@@ -3,11 +3,12 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** "gold" is this brand's metallic accent, "blue" the logo's primary blue.
-   *  The older "silver"/"green"/"red" spellings stay accepted so an inventory
-   *  page that still passes them keeps building; "silver" maps to the blue
-   *  tone alongside "blue". */
-  accent?: "gold" | "silver" | "green" | "red" | "blue";
+  /** "crimson" is this brand's accent (the logo's interlocking red arrows),
+   *  "steel" the brushed-silver tone of the graphite wordmark. The older
+   *  "gold"/"red"/"green" and "silver"/"blue" spellings stay accepted so an
+   *  inventory page that still passes them keeps building — they map onto the
+   *  crimson and steel tones respectively. */
+  accent?: "crimson" | "steel" | "gold" | "silver" | "green" | "red" | "blue";
 }
 
 export interface Props {
@@ -21,41 +22,42 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// PAOTUNG palette: every card sits on the navy card surface (#04203c) inside a
-// primary-blue hairline. The two accents are the brief's own pair — gold
-// metallic for the accent plate, the logo's blue for the secondary one — so an
-// alternating items list reads as navy + gold rather than the previous brand's
-// deep-red/yellow set.
+// NEXT55 palette: every card sits on the graphite card surface (#17181c) inside
+// a neutral hairline (#3a3d45). The two accents are the logo's own pair —
+// crimson for the arrow plate, brushed silver for the wordmark plate — so an
+// alternating items list reads as graphite + red rather than the previous
+// brand's navy/gold set.
+const STEEL = new Set(["steel", "silver", "blue"]);
 ---
 
 <div class="mt-4 flex flex-col gap-5">
   {
     items.map((item) => {
-      const isAccent = item.accent !== "silver" && item.accent !== "blue";
+      const isAccent = !STEEL.has(item.accent ?? "crimson");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#226ca9]/50 bg-[#04203c]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#3a3d45] bg-[#17181c]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isAccent
-              ? "hover:border-[#e0bd72]/65 hover:bg-[#0a2036] hover:shadow-[0_10px_20px_rgba(224,189,114,0.22)]"
-              : "hover:border-[#3b9ddd]/65 hover:bg-[#0a2036] hover:shadow-[0_10px_20px_rgba(59,157,221,0.22)]"
+              ? "hover:border-[#cd1437]/70 hover:bg-[#22242a] hover:shadow-[0_10px_20px_rgba(205,20,55,0.24)]"
+              : "hover:border-[#e7eaef]/45 hover:bg-[#22242a] hover:shadow-[0_10px_20px_rgba(231,234,239,0.16)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isAccent
-                ? "border border-[#e0bd72]/55 bg-gradient-to-br from-[#f5e3b3] to-[#a5813a] text-[#020f1e] shadow-[0_0_15px_rgba(224,189,114,0.45)] group-hover:rotate-3"
-                : "border border-[#3b9ddd]/55 bg-gradient-to-br from-[#7fc4f0] to-[#054e83] text-[#eef6fd] shadow-[0_0_15px_rgba(59,157,221,0.45)]"
+                ? "border border-[#cd1437]/60 bg-gradient-to-br from-[#f0435f] to-[#7a0a20] text-[#0c0d10] shadow-[0_0_15px_rgba(205,20,55,0.45)] group-hover:rotate-3"
+                : "border border-[#8d939e]/55 bg-gradient-to-br from-[#e7eaef] to-[#8d939e] text-[#0c0d10] shadow-[0_0_15px_rgba(231,234,239,0.35)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
             <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
-                isAccent ? "bg-gradient-to-r from-[#f5e3b3] to-[#e0bd72] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#eef6fd] to-[#3b9ddd] bg-clip-text text-transparent"
+                isAccent ? "bg-gradient-to-r from-[#ffb3bf] to-[#f0435f] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#e7eaef] to-[#8d939e] bg-clip-text text-transparent"
               }`}>
               {item.title}
             </TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#cfdeed]">{item.description}</p>}
+            {item.description && <p class="text-left text-base leading-relaxed text-[#d5dae2]">{item.description}</p>}
           </div>
         </div>
       );

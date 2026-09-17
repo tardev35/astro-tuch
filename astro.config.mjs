@@ -37,7 +37,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://paotung-vip.com",
+  site: "https://next55-online.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
