@@ -16,24 +16,26 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 
 // The section title's level comes from the page, because the docx decides it,
 // and its text arrives as a prop. The questions stay <span>: the docx marks no
-// heading for them, and a chrome accordion is not article structure.
+// heading for them, and a chrome accordion is not article structure. So this
+// file emits exactly one heading tag — the one the page asked for — and never a
+// second at any level.
 //
 // <details> carries the open/close state, the keyboard handling and the
 // expanded/collapsed announcement, so there is no JS in this file. The badge
 // and the arrow are aria-hidden, so a question's accessible name is the
 // question text itself.
 //
-// OCZPLUS palette: a metallic-gold hairline frame around a deep navy panel. The
-// question text runs gold (the logo's PLUS) and the answer body runs the
-// brand's body slate-blue, so an open card reads as gold headline over navy
-// prose. The chrome silver from the logo's OCZ carries the arrow.
+// JOKERSLOTZ palette: an antique-gold hairline frame around a near-black maroon
+// panel. The question text runs gold (the jester's hat) and the answer body runs
+// the brand's warm ivory, so an open card reads as gold headline over ivory
+// prose. The logo's crimson carries the arrow.
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
-      <header class="mb-8 text-center">
-        <HeadingTag class="bg-gradient-to-r from-[#f2dc9a] via-[#e6ebf0] to-[#d9b45e] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+      <header class="mb-6 text-center">
+        <HeadingTag class="bg-gradient-to-r from-[#f2dc9a] via-[#d9b45e] to-[#c81e1e] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
         <div class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#d9b45e] to-transparent" />
@@ -43,23 +45,23 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#0b2547] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+      <div class="group relative bg-[#6d0d0d] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
         <div class="absolute inset-0 bg-gradient-to-r from-[#f2dc9a] via-[#d9b45e] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
 
-        <details class="faq-item relative bg-[#03101f] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details class="faq-item relative bg-[#1c0202] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#f2dc9a] to-[#8a6b2c] font-black text-[#03101f] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#f2dc9a] to-[#bc9b5b] font-black text-[#1c0202] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#e4c67f]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#e6ebf0] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#d9b45e]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#c81e1e] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#8a6b2c]/75 pl-4 text-left text-base leading-relaxed text-[#ccd6e6]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#bc9b5b]/75 pl-4 text-left text-base leading-relaxed text-[#ecdfd0]">{faq.a}</p>
         </details>
       </div>
     ))

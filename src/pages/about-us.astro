@@ -1,43 +1,45 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ContentBox from "../components/ContentBoxHuay.astro";
-import ContentBoxPlain from "../components/ContentBox.astro";
+import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 import { pageGraph } from "../lib/schema";
 
-// LOTTOKA เป็น "เว็บแทงหวยออนไลน์" ล้วนๆ ไม่ใช่คาสิโน — หน้านี้เคยเป็นบทความของ
-// แบรนด์คาสิโนก่อนหน้า (บาคาร่า สล็อต ยิงปลา บอล) และถูกเขียนใหม่ทั้งหมดรอบนี้
+// JOKERSLOTZ เป็นเว็บเกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming — หน้านี้เคยเป็นบทความ
+// ของแบรนด์หวยก่อนหน้า (ตลาดหวย อัตราจ่ายบาทละ การส่งโพย) และถูกเขียนใหม่
+// ทั้งหมดรอบนี้ ไม่เหลือเนื้อหาหวยแม้แต่บรรทัดเดียว
 //
 // ข้อเท็จจริงทุกบรรทัดมาจาก src/assets/content.txt เท่านั้น:
-// แพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์ · ทุกยอดฝาก-ถอนโอนเข้าบัญชีของบริษัทโดยตรง
-// ไม่ใช้บัญชีม้าหรือผ่านบุคคลที่สาม ยอดเข้าเต็ม 100% ไม่หักค่าธรรมเนียม ·
-// เปิดรับหวยรัฐบาลไทย (1 และ 16 ของเดือน) · หวยลาวพัฒนา (จันทร์ พุธ ศุกร์) ·
-// หวยออมสิน · หวยฮานอย ปกติ/พิเศษ/VIP ออกทุกวัน · หวยหุ้นไทยและต่างประเทศ
-// (นิเคอิ ดาวโจนส์ ฮั่งเส็ง) · 2 ตัวบาทละ 100 · 3 ตัวตรงบาทละ 1,000 ·
-// จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ รับแทงทุกเลข ไม่มีเลขอั้น ·
-// สมัครออโต้ 3 ขั้นตอน · ทุกธนาคารและ TrueMoney Wallet ไม่มีขั้นต่ำในการฝาก ·
-// แอดมิน Line Official 24 ชั่วโมง
-// — ห้ามอ้างเลขใบอนุญาต ปีที่ก่อตั้ง เลขทะเบียนบริษัท จำนวนสมาชิก รางวัล
+// เว็บให้บริการเกมโจ๊กเกอร์สล็อตอันดับ 1 ในไทย ได้รับการยอมรับจากผู้เล่นทั่วประเทศ ·
+// อัปเดตทางเข้าสำรองล่าสุด แก้ปัญหาลิ้งก์เข้าไม่ได้หรือเว็บโดนบล็อก ·
+// เกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming · พัฒนาระบบเซิร์ฟเวอร์ใหม่ทั้งหมด
+// เข้ารหัสความปลอดภัย (Encryption) แน่นหนาขึ้น แนะนำให้สมัครใช้ยูสใหม่ ·
+// โปรแนะนำเพื่อน 0.8% จากทุกยอดเดิมพันของเพื่อน ถอนเป็นเงินสดได้ ·
+// โปรคืนยอดเสีย 0.3% ทุกรอบบิล · สมัครออโต้ 3 ขั้นตอน เสร็จใน 1 นาที ·
+// รองรับทุกธนาคารและ TrueMoney Wallet ระบบฝาก-ถอนออโต้ ·
+// แอดมิน Line Official 24 ชั่วโมง · เล่นผ่านเว็บบราว์เซอร์บนมือถือ iOS และ Android
+// ไม่ต้องดาวน์โหลดแอป
+// — ห้ามอ้างเลขใบอนุญาต ปีที่ก่อตั้ง เลขทะเบียนบริษัท จำนวนสมาชิก รางวัล ที่อยู่บริษัท
 // หรือการันตีผลกำไร เพราะบรีฟไม่ได้ระบุไว้เลย
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของ
-// ไฟล์นั้นเป็นคอปปี้ของ LOTTOKA อยู่แล้ว จึงเรียกแบบ bare ไม่ต้องส่ง prop
+// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของ
+// ไฟล์นั้นเป็นคอปปี้ของ JOKERSLOTZ อยู่แล้ว จึงเรียกแบบ bare ไม่ต้องส่ง prop
 //
-// พาเลตต์ LOTTOKA: แดงโลโก้ #c21e22 นำโครงสร้าง · แดงสว่าง #e2353a สำหรับ hover
-// ไอคอน และข้อควรระวัง · ชมพูอ่อน #ff9a9d เป็นสีเดียวที่ใช้กับ <strong> ·
-// ครีม #ffe9ea บนปุ่มแดง · เนื้อความ #ded9da — ไม่มีทองหรือน้ำเงินของแบรนด์หวยเก่า
+// พาเลตต์ JOKERSLOTZ: แดงโลโก้ #a51515 นำโครงสร้าง · แดงสว่าง #c81e1e สำหรับ hover
+// และตัวเลขลำดับ · แดงเข้ม #6d0d0d เป็นสต็อปล่างของเกรเดียนต์ · ทอง #d9b45e เป็นขอบ
+// และไอคอน · ทองอ่อน #f2dc9a เป็นสีเดียวที่ใช้กับ <strong> และตัวอักษรบนปุ่มแดง ·
+// เนื้อความ #ecdfd0 — ไม่มีชมพูหรือเทาของแบรนด์ก่อนหน้าหลงเหลือ
 //
 // 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ การนับไบต์จะยาวเกินจริง ~3 เท่า)
-// สตริงเดียว ใช้ทั้ง meta ของ MainLayout และ WebPage node — หน้านี้ยาว 157
+// สตริงเดียว ใช้ทั้ง meta ของ MainLayout และ WebPage node — หน้านี้ยาว 158
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์ ยอดฝากถอนเข้าบัญชีบริษัทโดยตรง เข้าเต็ม 100% เปิดรับหวยรัฐบาล ลาว ออมสิน ฮานอย หวยหุ้น จ่ายเต็มทุกบิล";
+const pageDescription = "เกี่ยวกับ JOKERSLOTZ เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย เกมลิขสิทธิ์แท้จากค่าย Joker Gaming ทางเข้าสำรองอัปเดตล่าสุด ฝาก-ถอนออโต้ทุกธนาคาร แอดมินดูแล 24 ชั่วโมง";
 
 const graph = pageGraph(Astro, {
   type: "AboutPage",
-  name: "เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์",
+  name: "เกี่ยวกับ JOKERSLOTZ เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -46,141 +48,136 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="เกี่ยวกับเรา LOTTOKA เว็บแทงหวยออนไลน์หลัก จ่ายเต็มทุกบิล" description={pageDescription}>
+<MainLayout title="เกี่ยวกับเรา JOKERSLOTZ เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="เกี่ยวกับ LOTTOKA เว็บแทงหวยออนไลน์หลัก ไม่ผ่านเอเย่นต์" as="h1">
+  <ContentBox title="เกี่ยวกับ JOKERSLOTZ เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย" as="h1">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#ff9a9d]">LOTTOKA (ลอตโตก้า)</strong> คือเว็บแทงหวยออนไลน์ที่เป็น<strong class="text-[#ff9a9d]">แพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์</strong>
-        เราดูแลระบบสมาชิก ระบบรับโพย และระบบการเงินด้วยตัวเองทั้งหมด สมาชิกจึงใช้บัญชีเดียวทำได้ครบตั้งแต่สมัครสมาชิก ฝากเครดิต เลือกตลาดหวยที่จะแทง ส่งโพย ตรวจผล ไปจนถึงถอนเงิน โดยไม่ต้องผ่านคนกลางคนใด
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">JOKERSLOTZ (โจ๊กเกอร์สล็อตซ์)</strong> คือเว็บให้บริการ<strong class="text-[#f2dc9a]">เกมโจ๊กเกอร์สล็อตอันดับ 1 ในไทย</strong>
+        ที่ได้รับการยอมรับจากผู้เล่นทั่วประเทศ เราเปิดให้เข้าถึงหน้าเกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming ได้โดยตรง สมาชิกใช้บัญชีเดียวทำได้ครบตั้งแต่สมัครสมาชิก ฝากเครดิต เลือกเกมที่จะหมุน กดรับโปรโมชั่น
+        ไปจนถึงถอนเงิน
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        สิ่งที่ทำให้ LOTTOKA ต่างจากเว็บทั่วไปคือระบบการเงินที่โปร่งใส ทุกยอดฝาก-ถอนของคุณจะถูกโอนเข้าสู่<strong class="text-[#ff9a9d]">บัญชีของบริษัทโดยตรง</strong>
-        ไม่มีการใช้บัญชีม้าหรือผ่านบุคคลที่สาม หน้านี้รวบรวมไว้ว่าเราเป็นใคร เปิดรับหวยตลาดไหนบ้าง จ่ายอย่างไร และติดต่อทีมงานได้ทางช่องทางใด
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        สิ่งที่เราให้ความสำคัญที่สุดคือความต่อเนื่องของการเข้าใช้งาน เราจึง<strong class="text-[#f2dc9a]">อัปเดตทางเข้าสำรองล่าสุด</strong>
+        ไว้แก้ปัญหาลิ้งก์เข้าใช้งานไม่ได้หรือเว็บโดนบล็อก ให้คุณเข้าถึงหน้าเกมได้อย่างรวดเร็วและเสถียรที่สุด หน้านี้รวบรวมไว้ว่าเราเป็นใคร ให้บริการเกมจากค่ายไหน ดูแลเรื่องความปลอดภัยและระบบการเงินอย่างไร
+        และติดต่อทีมงานได้ทางช่องทางใด
       </p>
     </div>
   </ContentBox>
 
-  <ContentBoxPlain title="ระบบการเงิน LOTTOKA โอนเข้าบัญชีของบริษัทโดยตรง ยอดเข้าเต็ม 100%" as="h2">
+  <ContentBox title="ทางเข้าสำรอง JOKERSLOTZ อัปเดตล่าสุด เซิร์ฟเวอร์ใหม่ ปลอดภัยขึ้น 100%" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        หัวใจของ LOTTOKA คือการที่ยอดการฝากและถอนทุกรายการวิ่งเข้า<strong class="text-[#ff9a9d]">บัญชีของบริษัทโดยตรง</strong> ไม่ผ่านบัญชีม้าและไม่ผ่านบุคคลที่สาม
-        วิธีนี้ช่วยเพิ่มความปลอดภัยให้สมาชิก ป้องกันปัญหาเว็บโดนบล็อกหรือการทุจริต และทำให้ทุกรายการถูกบันทึกอย่างถูกต้องและตรวจสอบย้อนกลับได้
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        การอัปเดตลิ้งก์ทางเข้าสำรองในครั้งนี้ไม่ได้เปลี่ยนแค่ที่อยู่เว็บ แต่เรา<strong class="text-[#f2dc9a]">พัฒนาระบบเซิร์ฟเวอร์ใหม่ทั้งหมดเพื่อยกระดับความปลอดภัยขั้นสูงสุด</strong>
+        ทางเข้าสำรองถูกสร้างขึ้นมาเพื่อป้องกันปัญหาลิ้งก์หลักเข้าไม่ได้ เนื่องจากบางครั้งเครือข่ายอินเทอร์เน็ตอาจมีการบล็อก การใช้ทางเข้าสำรองจึงช่วยให้คุณเข้าเล่นเกมสล็อตได้อย่างต่อเนื่องโดยไม่ต้องกลัวเว็บปลิว
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เมื่อเส้นทางเงินตรงแบบนี้ เราจึง<strong class="text-[#ff9a9d]">รับประกันยอดเงินเข้าเต็ม 100% ไม่มีหักค่าธรรมเนียม</strong> จ่ายไว จ่ายตรง
-        ระบบรองรับทุกธนาคารชั้นนำในประเทศไทยและ TrueMoney Wallet ดำเนินการด้วยระบบออโต้ที่รวดเร็วทันใจ และ<strong class="text-[#ff9a9d]">ไม่มีขั้นต่ำในการฝากเงิน</strong>
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เราแนะนำให้ผู้เล่นทำการสมัครสมาชิกเพื่อ<strong class="text-[#f2dc9a]">ใช้ยูสใหม่บนทางเข้าล่าสุดนี้</strong>
+        ซึ่งจะช่วยให้ข้อมูลส่วนตัวและข้อมูลทางการเงินของคุณได้รับการเข้ารหัสความปลอดภัย (Encryption) ที่แน่นหนาขึ้น 100% หมดปัญหาเรื่องยูสเซอร์ค้าง เครดิตหาย หรือโดนแฮ็ก ทั้งยังช่วยลดปัญหาเกมสะดุดหรือหลุดออกจากระบบระหว่างเล่น
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#e2353a]">ชื่อ-นามสกุลของบัญชีธนาคารหรือวอลเลทที่ผูกไว้ต้องตรงกับชื่อที่ใช้สมัคร</strong> เพราะระบบใช้ข้อมูลชุดนี้ในการโอนยอดเข้า-ออกบริษัท
-        หากข้อมูลไม่ตรงกัน รายการจะตรวจสอบได้ช้าลง ให้ยึดตัวเลขและสถานะที่ระบบแสดง ณ เวลาทำรายการเป็นหลักเสมอ
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">ให้ยึดลิ้งก์ทางเข้าที่ประกาศไว้บนเว็บไซต์นี้และบัญชี Line Official ของเราเป็นหลักเสมอ</strong>
+        ก่อนกรอกชื่อผู้ใช้หรือรหัสผ่านทุกครั้ง เพื่อไม่ให้กรอกข้อมูลลงบนหน้าเว็บที่ไม่ใช่ของเรา
       </p>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
-  <ContentBoxPlain title="ตลาดหวยที่ LOTTOKA เปิดรับ ครบทั้งไทย ลาว ออมสิน ฮานอย และหวยหุ้น" as="h2">
+  <ContentBox title="เกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming ที่ JOKERSLOTZ ให้บริการ" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        ที่ LOTTOKA เราคือ<strong class="text-[#ff9a9d]">ศูนย์รวมหวยออนไลน์ที่ครบครันที่สุด</strong> ตอบโจทย์คอหวยทุกสาย ไม่ว่าคุณจะชอบลุ้นรางวัลใหญ่หรือชอบทำกำไรทุกวัน
-        เราเปิดรับแทงครบทุกประเภท และแต่ละตลาดมีวันออกรางวัลกับรอบปิดรับโพยเป็นของตัวเอง
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เกมทุกเกมบน JOKERSLOTZ เป็น<strong class="text-[#f2dc9a]">เกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming</strong>
+        ไม่ใช่เกมที่ทำเลียนแบบหรือดัดแปลงมาอีกทอด คุณจึงได้ภาพ เสียง ไลน์การจ่าย และฟีเจอร์โบนัสตรงตามที่ค่ายเกมออกแบบไว้ทุกประการ
       </p>
 
-      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da]">
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ecdfd0]">
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">🏛️</span>
-          <span><strong class="text-[#ff9a9d]">หวยรัฐบาลไทย</strong> ลุ้นรวยทุกวันที่ 1 และ 16 ของเดือน เปิดรับแทงล่วงหน้า ปิดรับช้า ให้เวลาคุณหาเลขเด็ดได้อย่างเต็มที่</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">🃏</span>
+          <span><strong class="text-[#f2dc9a]">เกมจากค่าย Joker Gaming โดยตรง</strong> เข้าถึงหน้าเกมได้ทันทีผ่านทางเข้าล่าสุด ไม่ต้องสลับเว็บหรือสมัครหลายบัญชี</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#ff8a8d]">🌏</span>
-          <span><strong class="text-[#ff9a9d]">หวยลาว (ลาวพัฒนา)</strong> หวยยอดฮิตฝั่งโขง ออกรางวัลทุกวันจันทร์ พุธ ศุกร์ ลุ้นง่าย จ่ายหนัก</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">🎰</span>
+          <span><strong class="text-[#f2dc9a]">ทดลองเล่นได้ก่อนลงเครดิตจริง</strong> เปิดโหมดทดลองเพื่อดูไลน์การจ่ายและฟีเจอร์ของแต่ละเกมจนคุ้นเคย แล้วค่อยตัดสินใจเติมเงิน</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">🏦</span>
-          <span><strong class="text-[#ff9a9d]">หวยออมสิน</strong> อีกหนึ่งทางเลือกสำหรับคนชอบหวยไทย อ้างอิงผลสลากออมสิน มั่นใจได้ในความโปร่งใส</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">📱</span>
+          <span><strong class="text-[#f2dc9a]">รองรับมือถือทุกรุ่น ทั้ง iOS และ Android</strong> กดเข้าลิ้งก์ผ่านเว็บบราว์เซอร์ได้ทันที โดยไม่ต้องดาวน์โหลดหรือติดตั้งแอปพลิเคชันใด ๆ</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#ff8a8d]">🕐</span>
-          <span><strong class="text-[#ff9a9d]">หวยฮานอย (เวียดนาม)</strong> ลุ้นสนุกได้ทุกวันไม่มีวันหยุด มีทั้งฮานอยปกติ ฮานอยพิเศษ และฮานอย VIP</span>
-        </li>
-        <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">📈</span>
-          <span><strong class="text-[#ff9a9d]">หวยหุ้นต่างประเทศและหุ้นไทย</strong> ตอบสนองสายวิเคราะห์ด้วยหวยหุ้นชั้นนำ เช่น นิเคอิ ดาวโจนส์ ฮั่งเส็ง และอื่นๆ อีกมากมาย</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">⚡</span>
+          <span><strong class="text-[#f2dc9a]">ระบบเสถียรบนเซิร์ฟเวอร์ใหม่</strong> ทุกการหมุนสปินและทุกการทำธุรกรรมวิ่งบนระบบที่อัปเกรดใหม่ จึงลื่นไหลและลดอาการเกมสะดุดกลางรอบ</span>
         </li>
       </ul>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#e2353a]">รอบที่เปิดรับและเวลาปิดรับโพยของแต่ละตลาดเปลี่ยนแปลงได้ตามรอบออกรางวัล จึงควรตรวจรอบล่าสุดในหน้าเลือกหวยก่อนส่งโพยทุกครั้ง</strong>
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">รายชื่อเกมและฟีเจอร์ภายในเกมเปลี่ยนแปลงได้ตามรอบการอัปเดตของค่ายเกม</strong>
+        จึงควรตรวจรายการล่าสุดในหน้าเกมทุกครั้ง และอ่านตารางอัตราจ่ายของเกมนั้นก่อนวางเดิมพัน
       </p>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
-  <ContentBoxPlain title="อัตราจ่าย LOTTOKA จ่ายเต็มทุกบิล รับแทงทุกเลข ไม่มีเลขอั้น" as="h2">
+  <ContentBox title="ระบบฝาก-ถอนออโต้ JOKERSLOTZ รองรับทุกธนาคารและ TrueMoney Wallet" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เรากล้าให้มากกว่าใคร ด้วยความเป็นเว็บหลักที่มีฐานการเงินมั่นคงระดับประเทศ LOTTOKA จึงมอบ<strong class="text-[#ff9a9d]">อัตราการจ่ายที่สูงที่สุดในตลาด</strong>
-        แทงถูกปุ๊บ รับเงินเต็มจำนวนปั๊บ ไม่มีหักเปอร์เซ็นต์ใดๆ ทั้งสิ้น
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        การเปิดยูสใหม่ที่ JOKERSLOTZ ใช้<strong class="text-[#f2dc9a]">ระบบสมัครสมาชิกอัตโนมัติ (Auto)</strong> ที่ทำรายการเสร็จสิ้นภายใน 1 นาที ทำเองได้ทั้งหมดบนโทรศัพท์มือถือ ด้วยสามขั้นตอน คือกรอกเบอร์โทรศัพท์เพื่อรับรหัส
+        OTP ยืนยันตัวตน ผูกบัญชีธนาคาร แล้วตั้ง Username กับ Password จากนั้นล็อคอินเข้าสู่ลิ้งก์ใหม่และเติมเงินได้ทันที
       </p>
 
-      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da]">
-        <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">🎯</span>
-          <span>
-            <strong class="text-[#ff9a9d]">ถูก 2 ตัวจ่าย 100 บาท</strong> คุ้มค่าสุดๆ กับการแทงหวย 2 ตัวบนและ 2 ตัวล่าง รับอัตราจ่ายสูงสุดถึงบาทละ 100 ลงทุนเพียงเล็กน้อยก็สร้างกำไรก้อนโตได้ง่ายๆ
-          </span>
-        </li>
-        <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#ff8a8d]">💰</span>
-          <span>
-            <strong class="text-[#ff9a9d]">ถูก 3 ตัวจ่าย 1,000 บาท</strong> สัมผัสประสบการณ์รวยพริบตาเมื่อทายผล 3 ตัวตรงถูกต้อง รับเงินรางวัลไปเลยในเรทสูงสุดบาทละ 1,000 จ่ายจริง จ่ายเต็ม ทุกบิลการเดิมพัน
-          </span>
-        </li>
-      </ul>
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        ระบบฝากและถอน<strong class="text-[#f2dc9a]">รองรับทุกธนาคารและ TrueMoney Wallet</strong> ทำงานด้วยระบบออโต้ที่รวดเร็วทันใจ และบนเซิร์ฟเวอร์ใหม่นี้ระบบฝาก-ถอนทำงานได้เร็วกว่าเดิม ทุกการทำธุรกรรมถูกเข้ารหัสความปลอดภัยและบันทึกไว้ให้ตรวจสอบย้อนกลับได้
+      </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เรื่องเลขดังหรือเลขอั้นก็เช่นกัน LOTTOKA มีนโยบาย<strong class="text-[#ff9a9d]">รับแทงทุกเลข ไม่มีปิดกั้น</strong> หากคุณทำรายการแทงสำเร็จก่อนที่ระบบจะปิดรับโพย
-        และถูกรางวัล เราการันตีจ่ายเต็มจำนวนตามเรทราคาที่กำหนดไว้ในบิล โดยไม่มีการหักเปอร์เซ็นต์ย้อนหลัง
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">ชื่อ-นามสกุลของบัญชีธนาคารหรือวอลเลทที่ผูกไว้ต้องตรงกับชื่อที่ใช้สมัคร</strong> เพราะระบบใช้ข้อมูลชุดนี้ในการโอนยอดเข้า-ออก หากข้อมูลไม่ตรงกัน รายการจะตรวจสอบได้ช้าลง
+        ให้ยึดตัวเลขและสถานะที่ระบบแสดง ณ เวลาทำรายการเป็นหลักเสมอ
       </p>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
-  <ContentBoxPlain title="ทีมงาน LOTTOKA ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง" as="h2">
+  <ContentBox title="ทีมงาน JOKERSLOTZ ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#ff9a9d]">เราให้ความสำคัญกับการบริการลูกค้าเป็นอันดับหนึ่ง</strong> ทีมงานแอดมินคุณภาพของ LOTTOKA พร้อมสแตนด์บายดูแลคุณผ่าน Line Official ตลอด 24 ชั่วโมง
-        ไม่ว่าคุณจะต้องการคำแนะนำในการแทงหวย สอบถามเรื่องระบบการโอนเงินตรงเข้าบริษัท หรือแจ้งปัญหาการใช้งาน แอดมินของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และแก้ปัญหาให้อย่างมืออาชีพ
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">เราให้ความสำคัญกับการบริการสมาชิกเป็นอันดับหนึ่ง</strong> ทีมงานแอดมินมืออาชีพของ JOKERSLOTZ พร้อมดูแลและให้บริการทุกท่านผ่านช่องทาง Line Official ตลอด 24 ชั่วโมง
+        ไม่ว่าคุณจะพบปัญหาในการเข้าใช้งานลิ้งก์สำรอง ต้องการสอบถามวิธีการรับโปรโมชั่น หรือมีข้อสงสัยเกี่ยวกับการฝาก-ถอนเครดิต ทักหาทีมงานได้ตลอดเวลา เราพร้อมตอบกลับอย่างรวดเร็วและแก้ไขปัญหาให้ทันที
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เวลาแจ้งปัญหา ควรระบุเวลาทำรายการ จำนวนเงิน และเลขบิลที่เกี่ยวข้องให้ครบ เพื่อให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
-        <strong class="text-[#e2353a]">และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อเจ้าหน้าที่ไม่ว่ากรณีใด</strong>
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        สมาชิกที่ใช้งานอยู่ยังกดรับโปรโมชั่นได้ทุกวัน ทั้ง<strong class="text-[#f2dc9a]">แนะนำเพื่อนรับคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเดิมพันของเพื่อน</strong>
+        ซึ่งถอนเป็นเงินสดได้ตลอดเวลา และ<strong class="text-[#f2dc9a]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong> เป็นเงินทุนสำรองให้กลับไปแก้มือในเกมสล็อตที่คุณชื่นชอบได้ใหม่
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#e2353a]">การแทงหวยมีความเสี่ยงและผลรางวัลของแต่ละงวดไม่แน่นอน ไม่มีเลขใดรับประกันผลล่วงหน้า</strong> สมาชิกจึงควรกำหนดงบประมาณก่อนส่งโพยทุกครั้ง
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เวลาแจ้งปัญหา ควรระบุเวลาทำรายการ จำนวนเงิน และชื่อผู้ใช้ที่เกี่ยวข้องให้ครบ เพื่อให้เจ้าหน้าที่ตรวจสอบได้ตรงจุด
+        <strong class="text-[#f2dc9a]">และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อเจ้าหน้าที่ไม่ว่ากรณีใด</strong>
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">เกมสล็อตตัดสินผลแต่ละสปินแบบสุ่ม ไม่มีสูตรหรือจังหวะใดรับประกันว่าจะชนะ</strong>
+        สมาชิกจึงควรกำหนดงบประมาณก่อนเริ่มเล่นทุกครั้ง และหยุดเมื่อถึงขีดที่ตั้งไว้
       </p>
 
       <div class="flex flex-wrap justify-center gap-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก LOTTOKA"
-          class="flex items-center justify-center rounded-lg border border-[#c21e22]/70 bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] px-8 py-3 font-black text-[#ffe9ea] shadow-[0_0_15px_rgba(194,30,34,0.38)] transition-transform hover:scale-105">
+          aria-label="สมัครสมาชิก JOKERSLOTZ"
+          class="flex items-center justify-center rounded-lg border border-[#d9b45e]/60 bg-gradient-to-r from-[#c81e1e] via-[#a51515] to-[#6d0d0d] px-8 py-3 font-black text-[#f2dc9a] shadow-[0_0_15px_rgba(165,21,21,0.38)] transition-transform hover:scale-105">
           สมัครสมาชิก
         </a>
 
         <a
           href="/login"
-          aria-label="เข้าสู่ระบบ LOTTOKA"
-          class="flex items-center justify-center rounded-lg border border-[#c21e22]/60 bg-[#1c0d0f] px-8 py-3 font-bold text-[#ff9a9d] transition-all hover:scale-105 hover:border-[#e2353a] hover:bg-[#3a0709]">
+          aria-label="เข้าสู่ระบบ JOKERSLOTZ"
+          class="flex items-center justify-center rounded-lg border border-[#a51515]/60 bg-[#1c0202] px-8 py-3 font-bold text-[#f2dc9a] transition-all hover:scale-105 hover:border-[#d9b45e] hover:bg-[#2b0204]">
           เข้าสู่ระบบ
         </a>
       </div>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
+
   <Navfoot />
 </MainLayout>

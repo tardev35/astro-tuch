@@ -1,46 +1,45 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ContentBox from "../components/ContentBoxHuay.astro";
-import ContentBoxPlain from "../components/ContentBox.astro";
+import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { pageGraph } from "../lib/schema";
 
-// LOTTOKA เป็นเว็บแทงหวยออนไลน์ล้วนๆ ไม่มีสล็อต บาคาร่า ยิงปลา หรือกีฬา —
-// หน้านี้จึงไม่ใช่ "ทดลองเล่นสล็อต" อีกต่อไป แต่คือการพาผู้เริ่มต้นดูว่า
-// การแทงหวยที่นี่ทำงานอย่างไรตั้งแต่เลือกตลาดจนถึงเช็กบิลย้อนหลัง
-// ก่อนตัดสินใจเติมเครดิตจริง (เนื้อหาคาสิโนของแบรนด์ก่อนหน้าถูกเขียนใหม่ทั้งหน้ารอบนี้)
+// JOKERSLOTZ เป็นเว็บเกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming — หน้านี้จึงกลับมาเป็น
+// "ทดลองเล่นสล็อต" อีกครั้ง หลังจากแบรนด์ก่อนหน้าเคยเขียนหน้านี้เป็นบทความสอนแทงหวย
+// เนื้อหาหวยทั้งหน้าถูกเขียนใหม่ทั้งหมดรอบนี้ ไม่เหลือร่องรอยของตลาดหวย อัตราจ่ายบาทละ
+// หรือการส่งโพย
 //
-// ไม่มีรูปในหน้านี้โดยตั้งใจ: แบรนด์เก่าเคยวางแกลเลอรีเดโมสล็อต 12 การ์ด
-// (gamedemo7..18.webp) ไว้ที่นี่ ถูกถอด import ออกไปหลายรอบรีแบรนด์แล้ว และ
-// เว็บหวยไม่มีเกมให้เดโมจึงไม่มีอะไรให้ภาพชุดนั้นอธิบาย — อย่านำกลับมา
-// ลำพังการ import ก็ทำให้ไฟล์ถูก emit ลง dist/ และ verify-build จะแดง
-// ถ้ามีรูปที่ไม่มีใคร render ทั้งชุด (ไฟล์ยังอยู่บนดิสก์ ห้ามลบ เป็นอินเวนทอรี)
+// ไม่มีรูปในหน้านี้โดยตั้งใจ: แกลเลอรีเดโม 12 การ์ด (gamedemo7..18.webp, 2026-08-04)
+// ยังอยู่บนดิสก์แต่เป็นอาร์ตเวิร์กของลูกค้าเจ้าอื่น — ตัวภาพพิมพ์โลโก้แบรนด์อื่นไว้กลางรูป
+// จึงห้ามนำกลับมา import เด็ดขาด (ไฟล์ยังอยู่บนดิสก์ ห้ามลบ เป็นอินเวนทอรี)
+// ลำพังการ import ก็ทำให้ไฟล์ถูก emit ลง dist/ และ verify-build จะแดงถ้ามีรูปที่ไม่มีใคร render
 //
 // ข้อเท็จจริงทุกบรรทัดมาจาก src/assets/content.txt เท่านั้น:
-// แพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์ · ยอดฝาก-ถอนเข้าบัญชีของบริษัทโดยตรง
-// ไม่ใช้บัญชีม้า เข้าเต็ม 100% ไม่หักค่าธรรมเนียม · หวยรัฐบาลไทยออกวันที่ 1 และ 16 ·
-// หวยลาวพัฒนาออกจันทร์ พุธ ศุกร์ · หวยออมสินอ้างอิงผลสลากออมสิน ·
-// หวยฮานอยออกทุกวัน มีปกติ/พิเศษ/VIP · หวยหุ้นไทยและต่างประเทศ นิเคอิ ดาวโจนส์
-// ฮั่งเส็ง · 2 ตัวบาทละ 100 · 3 ตัวตรงบาทละ 1,000 · จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ ·
-// รับแทงทุกเลข ไม่มีเลขอั้น จ่ายตามเรทในบิล ไม่หักย้อนหลัง · สมัครออโต้ 3 ขั้นตอน
-// (OTP · ผูกบัญชีธนาคารหรือ TrueMoney Wallet ชื่อตรงกับผู้สมัคร · ตั้งรหัสผ่าน) ·
-// ทุกธนาคารและวอลเลท ระบบออโต้ ไม่มีขั้นต่ำในการฝาก · แอดมิน Line Official 24 ชั่วโมง
-// — ห้ามอ้างเลขใบอนุญาต ปีที่ก่อตั้ง จำนวนสมาชิก หรือการันตีว่าถูกรางวัล
+// เกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming · ทางเข้าสำรองอัปเดตล่าสุด แก้ปัญหาลิ้งก์โดนบล็อก ·
+// เซิร์ฟเวอร์ใหม่ เข้ารหัสความปลอดภัย (Encryption) แน่นหนาขึ้น แนะนำให้ใช้ยูสใหม่ ·
+// โปรแนะนำเพื่อน 0.8% จากยอดเดิมพันของเพื่อน · โปรคืนยอดเสีย 0.3% ทุกรอบบิล ·
+// สมัครออโต้ 3 ขั้นตอน เสร็จใน 1 นาที (OTP · ผูกบัญชีธนาคารหรือ TrueMoney Wallet
+// ชื่อ-นามสกุลตรงกับผู้สมัคร · ตั้ง Username และ Password) · ฝาก-ถอนออโต้ ·
+// เล่นผ่านเว็บบราว์เซอร์บนมือถือทุกรุ่น ทั้ง iOS และ Android ไม่ต้องติดตั้งแอป ·
+// แอดมิน Line Official 24 ชั่วโมง
+// — ห้ามอ้างเลขใบอนุญาต ปีที่ก่อตั้ง จำนวนสมาชิก ค่า RTP ชื่อเกมเฉพาะ ขั้นต่ำการฝาก
+// หรือการันตีว่าจะชนะ เพราะบรีฟไม่ได้ระบุไว้
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของ
-// ไฟล์นั้นเป็นข้อความของ LOTTOKA อยู่แล้ว จึงเรียกแบบ bare ห้ามส่ง prop message
+// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของ
+// ไฟล์นั้นเป็นข้อความของ JOKERSLOTZ อยู่แล้ว จึงเรียกแบบ bare ห้ามส่ง prop message
 //
-// พาเลตต์ LOTTOKA: แดงโลโก้ #c21e22 นำโครงสร้าง แดงสว่าง #e2353a สำหรับ hover
-// ไอคอน และข้อควรระวัง ชมพูอ่อน #ff9a9d เป็นสีเดียวที่ใช้กับ <strong>
-// ครีม #ffe9ea บนปุ่มแดง เนื้อความ #ded9da — ไม่มีทองหรือน้ำเงิน
+// พาเลตต์ JOKERSLOTZ: แดงโลโก้ #a51515 นำโครงสร้าง แดงสว่าง #c81e1e สำหรับ hover
+// และตัวเลขลำดับ แดงเข้ม #6d0d0d เป็นสต็อปล่างของเกรเดียนต์ ทอง #d9b45e เป็นขอบ
+// ทองอ่อน #f2dc9a เป็นสีเดียวที่ใช้กับ <strong> และตัวอักษรบนปุ่มแดง เนื้อความ #ecdfd0
+// — ไม่มีชมพูหรือเทาของแบรนด์ก่อนหน้าหลงเหลือ
 //
 // 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 156
-const pageDescription = "ทดลองเล่น LOTTOKA ทำความรู้จักวิธีแทงหวยออนไลน์ทีละขั้นตอน ตั้งแต่เลือกประเภทหวย เลือกเลข ตรวจอัตราจ่ายที่ระบบแสดง ยืนยันโพย ไปจนถึงสมัครสมาชิกด้วยระบบออโต้";
+const pageDescription = "ทดลองเล่นสล็อต JOKERSLOTZ ฟรี ไม่ต้องสมัครสมาชิก เปิดเล่นเกมค่าย Joker Gaming ผ่านเว็บบราว์เซอร์บนมือถือได้ทันที ดูวิธีเล่น อัตราจ่าย และขั้นตอนสมัครยูสใหม่";
 
 const graph = pageGraph(Astro, {
-  name: "ทดลองเล่น LOTTOKA ทำความรู้จักวิธีแทงหวยก่อนลงเงินจริง",
+  name: "ทดลองเล่นสล็อต JOKERSLOTZ ฟรี ก่อนลงเครดิตจริง",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -49,157 +48,162 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="ทดลองเล่น LOTTOKA เรียนรู้วิธีแทงหวยออนไลน์ก่อนลงเงินจริง" description={pageDescription}>
+<MainLayout title="ทดลองเล่นสล็อต JOKERSLOTZ ฟรี เล่นเกม Joker Gaming ไม่ต้องสมัคร" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="ทดลองเล่น LOTTOKA ทำความรู้จักวิธีแทงหวยก่อนลงเงินจริง" as="h1">
+  <ContentBox title="ทดลองเล่นสล็อต JOKERSLOTZ ฟรี ก่อนลงเครดิตจริง" as="h1">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#ff9a9d]">LOTTOKA</strong> คือเว็บแทงหวยออนไลน์ที่เป็นแพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์ เปิดรับครบทั้งหวยรัฐบาลไทย หวยลาวพัฒนา หวยออมสิน หวยฮานอย และหวยหุ้นไทยกับต่างประเทศ
-        หน้านี้เปิดไว้ให้คนที่ยังไม่เคยแทงหวยออนไลน์ได้<strong class="text-[#ff9a9d]">เห็นภาพรวมทั้งกระบวนการก่อนเติมเครดิตจริง</strong>
-        ตั้งแต่เลือกตลาดหวย เลือกเลข อ่านอัตราจ่ายที่ระบบแสดง ยืนยันโพย ไปจนถึงย้อนกลับมาเช็กบิลของตัวเองได้ทุกเมื่อ
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">JOKERSLOTZ</strong> คือเว็บที่ให้บริการเกมสล็อตลิขสิทธิ์แท้จากค่าย Joker Gaming โดยตรง และหน้านี้เปิดไว้ให้คนที่ยังไม่เคยหมุนสปินมาก่อนได้<strong
+          class="text-[#f2dc9a]">
+          ลองเล่นด้วยเครดิตทดลองฟรีก่อนตัดสินใจเติมเงินจริง
+        </strong>
+        โหมดทดลองเล่นไม่ต้องสมัครสมาชิกและไม่ต้องกรอกข้อมูลใด ๆ เพียงกดเข้าเกมผ่านทางเข้าสำรองล่าสุดก็เริ่มหมุนได้ทันที
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        ขอให้เข้าใจตรงกันว่าการอ่านหน้านี้เป็นการทำความคุ้นเคยกับระบบเท่านั้น
-        <strong class="text-[#e2353a]">ผลรางวัลของแต่ละงวดไม่แน่นอน และไม่มีเลขใดรับประกันว่าจะถูกรางวัล</strong>
-        สิ่งที่เรารับประกันได้คืออัตราจ่ายตามเรทในบิลและยอดเงินที่เข้าเต็มจำนวน หากติดปัญหาระหว่างใช้งาน แจ้งแอดมิน LOTTOKA ผ่าน Line Official ได้ตลอด 24 ชั่วโมง
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เครดิตในโหมดทดลองเป็นเครดิตเสมือนสำหรับทำความคุ้นเคยกับตัวเกมเท่านั้น
+        <strong class="text-[#f2dc9a]">เล่นแล้วไม่เสียเงินจริง และในทางกลับกันก็ถอนออกมาเป็นเงินจริงไม่ได้เช่นกัน</strong>
+        สิ่งที่ได้จากหน้านี้คือความเข้าใจในไลน์การจ่าย ฟีเจอร์ของแต่ละเกม และจังหวะการวางเดิมพันที่เหมาะกับทุนของคุณ ก่อนจะย้ายไปเล่นด้วยยูสใหม่บนระบบจริง หากติดปัญหาระหว่างลองเล่น ทักแอดมิน JOKERSLOTZ
+        ผ่าน Line Official ได้ตลอด 24 ชั่วโมง
       </p>
     </div>
   </ContentBox>
 
-  <ContentBoxPlain title="วิธีแทงหวยกับ LOTTOKA ทีละขั้นตอนตั้งแต่เลือกเลขจนถึงเช็กบิล" as="h2">
+  <ContentBox title="วิธีทดลองเล่นสล็อต JOKERSLOTZ ทีละขั้นตอนบนมือถือ" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        ขั้นตอนการส่งโพยหนึ่งใบใช้เวลาไม่ถึงหนึ่งนาที และเป็นลำดับเดียวกันไม่ว่าคุณจะเลือกตลาดหวยแบบไหน
-        <strong class="text-[#ff9a9d]">ตัวเลขทุกอย่างที่ใช้ตัดสินใจจะถูกแสดงบนหน้าจอก่อนกดยืนยันเสมอ</strong> ให้อ่านให้ครบก่อนตัดสินใจว่าจะลงเท่าไร
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        การเข้าโหมดทดลองเล่นใช้เวลาไม่ถึงหนึ่งนาที และเป็นลำดับเดียวกันไม่ว่าคุณจะเปิดจากคอมพิวเตอร์หรือโทรศัพท์มือถือ
+        <strong class="text-[#f2dc9a]">ทุกอย่างทำงานบนเว็บบราว์เซอร์ ไม่ต้องดาวน์โหลดหรือติดตั้งแอปพลิเคชันใด ๆ</strong> รองรับทั้ง iOS และ Android
       </p>
 
-      <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ded9da]">
+      <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ecdfd0]">
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">1.</span>
-          <span><strong class="text-[#ff9a9d]">เลือกประเภทหวย</strong> เปิดรายการตลาดหวยที่ยังเปิดรับอยู่ในรอบนั้น แล้วเลือกงวดที่ต้องการ ระบบจะแสดงเวลาปิดรับโพยของงวดนั้นไว้ให้เห็นชัดเจน</span>
+          <span class="font-bold text-[#c81e1e]">1.</span>
+          <span><strong class="text-[#f2dc9a]">เปิดลิ้งก์ทางเข้าสำรองล่าสุด</strong> ใช้ลิ้งก์ที่ประกาศไว้บนหน้าเว็บนี้ เพื่อให้แน่ใจว่าเข้าถึงหน้าเกมได้จริงแม้ลิ้งก์หลักจะโดนบล็อกอยู่</span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">2.</span>
+          <span class="font-bold text-[#c81e1e]">2.</span>
           <span>
-            <strong class="text-[#ff9a9d]">เลือกเลขและประเภทการแทง</strong> ระบุตัวเลขที่ต้องการ พร้อมเลือกว่าจะแทงแบบ 2 ตัวบน 2 ตัวล่าง หรือ 3 ตัวตรง แล้วใส่ยอดเงินที่จะลงในแต่ละเลข
+            <strong class="text-[#f2dc9a]">เลือกเกมสล็อตจากค่าย Joker Gaming</strong> เปิดรายการเกมแล้วเลือกเกมที่สนใจ แต่ละเกมมีจำนวนวงล้อ ไลน์การจ่าย และฟีเจอร์พิเศษไม่เหมือนกัน
           </span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">3.</span>
+          <span class="font-bold text-[#c81e1e]">3.</span>
           <span>
-            <strong class="text-[#ff9a9d]">ตรวจอัตราจ่ายและวงเงินที่ระบบแสดง</strong> ก่อนยืนยัน ระบบจะสรุปเรทที่ใช้กับเลขแต่ละตัวและยอดรวมทั้งโพยให้ดู ให้ยึดตัวเลขชุดนี้เป็นหลัก เพราะเป็นเรทที่ผูกกับบิลใบนั้นจริง
+            <strong class="text-[#f2dc9a]">กดเข้าโหมดทดลองเล่น</strong> ระบบจะเติมเครดิตเสมือนมาให้ชุดหนึ่งโดยไม่ต้องล็อกอิน ใช้หมุนทดสอบได้อิสระ และรีเซ็ตใหม่ได้ด้วยการเปิดเกมอีกครั้ง
           </span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">4.</span>
+          <span class="font-bold text-[#c81e1e]">4.</span>
           <span>
-            <strong class="text-[#ff9a9d]">ยืนยันโพย</strong> เมื่อกดยืนยันและระบบบันทึกสำเร็จก่อนเวลาปิดรับ ถือว่าโพยใบนั้นสมบูรณ์ หากถูกรางวัล เราจ่ายเต็มจำนวนตามเรทที่กำหนดไว้ในบิล โดยไม่หักเปอร์เซ็นต์ย้อนหลัง
+            <strong class="text-[#f2dc9a]">อ่านตารางอัตราจ่ายของเกมก่อนหมุน</strong> ทุกเกมมีหน้าสรุปสัญลักษณ์และอัตราจ่ายของตัวเอง เปิดดูให้ครบว่าสัญลักษณ์ไหนจ่ายเท่าไร และฟีเจอร์โบนัสเข้าเงื่อนไขใด
           </span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">5.</span>
-          <span><strong class="text-[#ff9a9d]">เช็กบิลย้อนหลังได้เอง</strong> โพยทุกใบถูกเก็บไว้ในบัญชีของคุณ เปิดดูเลขที่แทง เรทที่ได้ และผลของงวดนั้นย้อนหลังได้เองโดยไม่ต้องถามแอดมิน</span>
+          <span class="font-bold text-[#c81e1e]">5.</span>
+          <span><strong class="text-[#f2dc9a]">ลองปรับยอดเดิมพันต่อสปิน</strong> ไล่จากยอดต่ำสุดขึ้นไป เพื่อดูว่าทุนเท่าไรอยู่ได้กี่สปิน แล้วค่อยนำจังหวะที่ถนัดไปใช้ตอนเล่นด้วยเครดิตจริง</span>
         </li>
       </ol>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#e2353a]">รอบที่เปิดรับและเวลาปิดรับโพยเปลี่ยนไปตามงวดของแต่ละตลาด จึงควรตรวจรอบล่าสุดในหน้าเลือกหวยก่อนส่งโพยทุกครั้ง</strong>
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">รายชื่อเกมที่เปิดให้ทดลองเล่นเปลี่ยนแปลงได้ตามรอบการอัปเดตของค่ายเกม จึงควรตรวจรายการล่าสุดในหน้าเกมทุกครั้งก่อนเริ่มเล่น</strong>
       </p>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
-  <ContentBoxPlain title="ตลาดหวยที่ LOTTOKA เปิดรับและวันออกรางวัลของแต่ละแบบ" as="h2">
+  <ContentBox title="จุดที่ควรสังเกตระหว่างทดลองเล่นสล็อตโจ๊กเกอร์" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        สิ่งแรกที่ควรรู้ก่อนลองแทงคือแต่ละตลาดหวยออกรางวัลคนละวันกัน คนที่อยากลุ้นทุกวันกับคนที่รอลุ้นเดือนละสองครั้งจึงเลือกตลาดไม่เหมือนกัน
-        <strong class="text-[#ff9a9d]">LOTTOKA เปิดรับครบทุกแนวในเว็บเดียว</strong> ใช้บัญชีเดียวสลับไปมาระหว่างตลาดได้ทันที
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        โหมดทดลองเล่นมีประโยชน์ที่สุดเมื่อคุณดูมันเหมือนการอ่านคู่มือ ไม่ใช่การลุ้นรางวัล
+        <strong class="text-[#f2dc9a]">เป้าหมายคือรู้จักเกมให้ครบก่อนที่เงินจริงจะเข้ามาเกี่ยวข้อง</strong> ห้าเรื่องด้านล่างคือสิ่งที่ควรเก็บข้อมูลไว้ระหว่างหมุนทดลอง
       </p>
 
-      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da]">
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ecdfd0]">
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">🏛️</span>
-          <span><strong class="text-[#ff9a9d]">หวยรัฐบาลไทย</strong> ออกรางวัลวันที่ 1 และ 16 ของเดือน เปิดรับแทงล่วงหน้า ปิดรับช้า ให้เวลาคุณหาเลขเด็ดได้อย่างเต็มที่</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">🎰</span>
+          <span><strong class="text-[#f2dc9a]">รูปแบบวงล้อและไลน์การจ่าย</strong> ดูว่าเกมนั้นใช้กี่วงล้อ นับไลน์จากทางซ้ายหรือนับทุกทิศทาง เพราะรูปแบบนี้เป็นตัวกำหนดว่ารางวัลจะเกิดบ่อยแค่ไหน</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#ff8a8d]">🌏</span>
-          <span><strong class="text-[#ff9a9d]">หวยลาว (ลาวพัฒนา)</strong> หวยยอดฮิตฝั่งโขง ออกรางวัลทุกวันจันทร์ พุธ และศุกร์ ลุ้นง่าย จ่ายหนัก เหมาะกับคนที่อยากมีงวดให้ลุ้นกลางสัปดาห์</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">🃏</span>
+          <span><strong class="text-[#f2dc9a]">สัญลักษณ์ไวลด์และสแคทเทอร์</strong> จำให้ได้ว่าสัญลักษณ์ไหนแทนตัวอื่นได้ และสัญลักษณ์ไหนเป็นตัวเรียกฟีเจอร์ เพราะสองตัวนี้ต่างกันคนละแบบในทุกเกม</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">🏦</span>
-          <span><strong class="text-[#ff9a9d]">หวยออมสิน</strong> อีกหนึ่งทางเลือกสำหรับคนชอบหวยไทย อ้างอิงผลสลากออมสิน จึงตรวจผลย้อนกลับได้และมั่นใจได้ในความโปร่งใส</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">🎁</span>
+          <span>
+            <strong class="text-[#f2dc9a]">เงื่อนไขการเข้าฟีเจอร์โบนัส</strong> ลองหมุนจนเข้าโบนัสอย่างน้อยหนึ่งครั้ง เพื่อดูว่าต้องได้สัญลักษณ์กี่ตัว และในรอบโบนัสมีอะไรเปลี่ยนไปจากรอบปกติบ้าง
+          </span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#ff8a8d]">🕐</span>
-          <span><strong class="text-[#ff9a9d]">หวยฮานอย (เวียดนาม)</strong> ลุ้นสนุกได้ทุกวันไม่มีวันหยุด มีทั้งฮานอยปกติ ฮานอยพิเศษ และฮานอย VIP ให้เลือกรอบที่ถนัด</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">📱</span>
+          <span><strong class="text-[#f2dc9a]">ความลื่นไหลบนเครื่องของคุณเอง</strong> เปิดจากบราว์เซอร์บนมือถือเครื่องที่ใช้จริง แล้วดูว่าภาพและปุ่มตอบสนองดีไหม จะได้รู้ก่อนว่าเกมไหนเล่นถนัดมือ</span>
         </li>
         <li class="flex gap-3">
-          <span aria-hidden="true" class="text-[#e2353a]">📈</span>
-          <span><strong class="text-[#ff9a9d]">หวยหุ้นต่างประเทศและหุ้นไทย</strong> ตอบสนองสายวิเคราะห์ด้วยหวยหุ้นชั้นนำ เช่น นิเคอิ ดาวโจนส์ ฮั่งเส็ง และอื่นๆ อีกมากมาย</span>
+          <span aria-hidden="true" class="text-[#d9b45e]">💡</span>
+          <span><strong class="text-[#f2dc9a]">งบที่คุณรับความเสี่ยงได้</strong> ใช้เครดิตทดลองจำลองทุนก้อนที่ตั้งใจจะเติมจริง แล้วสังเกตว่ายอดเดิมพันระดับไหนทำให้เล่นได้นานพอจะสนุก</span>
         </li>
       </ul>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เรื่องอัตราจ่ายไม่ต้องคิดเผื่อ ทุกตลาดยึดหลักเดียวกันคือ<strong class="text-[#ff9a9d]">2 ตัวบนและ 2 ตัวล่างสูงสุดบาทละ 100 ส่วน 3 ตัวตรงสูงสุดบาทละ 1,000</strong>
-        จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์ และรับแทงทุกเลข ไม่มีปิดกั้นเลขอั้น
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">ผลของโหมดทดลองเล่นไม่ใช่เครื่องบ่งชี้ผลของการเล่นด้วยเครดิตจริง</strong> เกมสล็อตตัดสินผลแต่ละสปินแบบสุ่ม ไม่มีสูตร ไม่มีจังหวะ และไม่มีเวลาไหนที่รับประกันว่าจะชนะ
+        ควรกำหนดงบล่วงหน้าและหยุดเมื่อถึงขีดที่ตั้งไว้เสมอ
       </p>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
-  <ContentBoxPlain title="สมัคร LOTTOKA ด้วยระบบออโต้ 3 ขั้นตอน แล้วเริ่มแทงหวยได้ทันที" as="h2">
+  <ContentBox title="สมัคร JOKERSLOTZ ด้วยระบบออโต้ 3 ขั้นตอน แล้วเล่นด้วยเครดิตจริง" as="h2">
     <div class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        เมื่อเห็นภาพรวมแล้วและอยากลงสนามจริง เริ่มต้นได้ง่ายๆ ผ่าน<strong class="text-[#ff9a9d]">ระบบสมัครสมาชิกอัตโนมัติ (Auto)</strong> ที่ใช้เวลาเพียงไม่กี่วินาที
-        ทำเองได้ทั้งหมดบนโทรศัพท์มือถือ ไม่ต้องรอแอดมินเปิดบัญชีให้
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เมื่อคุ้นเคยกับเกมแล้วและอยากลงสนามจริง เริ่มต้นได้ผ่าน<strong class="text-[#f2dc9a]">ระบบสมัครสมาชิกอัตโนมัติ (Auto)</strong> ที่ทำรายการเสร็จภายใน 1 นาที ทำเองได้ทั้งหมดบนโทรศัพท์มือถือ ไม่ต้องรอแอดมินเปิดบัญชีให้
+        และแนะนำให้สมัครยูสใหม่บนทางเข้าล่าสุด เพราะเชื่อมกับเซิร์ฟเวอร์ใหม่ที่เข้ารหัสความปลอดภัยแน่นหนาขึ้น
       </p>
 
-      <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ded9da]">
+      <ol class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#ecdfd0]">
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">1.</span>
-          <span><strong class="text-[#ff9a9d]">กรอกเบอร์โทรศัพท์</strong> ระบุเบอร์มือถือที่ใช้งานจริง เพื่อรับรหัส OTP สำหรับการยืนยันตัวตนและความปลอดภัยของข้อมูล</span>
+          <span class="font-bold text-[#c81e1e]">1.</span>
+          <span><strong class="text-[#f2dc9a]">กรอกเบอร์โทรศัพท์</strong> ระบุเบอร์มือถือปัจจุบันที่ใช้งานจริง เพื่อรับรหัส OTP สำหรับยืนยันตัวตน</span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">2.</span>
+          <span class="font-bold text-[#c81e1e]">2.</span>
           <span>
-            <strong class="text-[#ff9a9d]">ผูกบัญชีธนาคารหรือวอลเลท</strong> เลือกธนาคารหรือ TrueMoney Wallet แล้วระบุเลขบัญชี โดยชื่อ-นามสกุลต้องตรงกับชื่อที่สมัคร เพื่อให้ระบบโอนยอดเข้า-ออกบริษัทโดยตรงได้อย่างถูกต้อง
+            <strong class="text-[#f2dc9a]">ผูกบัญชีธนาคาร</strong> กรอกชื่อ-นามสกุลและเลขบัญชีธนาคาร รองรับทุกธนาคารและ TrueMoney Wallet ข้อมูลต้องตรงกันเพื่อใช้กับระบบฝาก-ถอนออโต้
           </span>
         </li>
         <li class="flex gap-3">
-          <span class="font-bold text-[#e2353a]">3.</span>
-          <span><strong class="text-[#ff9a9d]">ตั้งรหัสผ่าน</strong> กำหนดรหัสผ่านที่รัดกุม ล็อคอินเข้าสู่ระบบ เติมเงินฝากเครดิต แล้วเริ่มแทงหวยได้ทันที</span>
+          <span class="font-bold text-[#c81e1e]">3.</span>
+          <span><strong class="text-[#f2dc9a]">ตั้งรหัสผ่าน</strong> กำหนด Username และ Password จากนั้นล็อคอินเข้าสู่ลิ้งก์ใหม่ เติมเงินแล้วเริ่มหมุนสปินด้วยเครดิตจริงได้ทันที</span>
         </li>
       </ol>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        การฝากและถอนรองรับทุกธนาคารชั้นนำในประเทศไทยรวมถึง TrueMoney Wallet ทำงานด้วยระบบออโต้ที่รวดเร็วทันใจ และ<strong class="text-[#ff9a9d]">ไม่มีขั้นต่ำในการฝากเงิน</strong>
-        ทุกยอดวิ่งเข้าบัญชีของบริษัทโดยตรง ไม่ผ่านบัญชีม้า จึงรับเงินเข้าเต็ม 100% ไม่มีหักค่าธรรมเนียม
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        เมื่อเป็นสมาชิกแล้วจะกดรับโปรโมชั่นได้ด้วย ทั้ง<strong class="text-[#f2dc9a]">แนะนำเพื่อนรับคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเดิมพันของเพื่อน</strong>
+        และ<strong class="text-[#f2dc9a]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong> เป็นเงินทุนสำรองให้กลับไปแก้มือในเกมสล็อตที่คุณชื่นชอบได้ใหม่
       </p>
 
-      <p class="text-left text-base leading-relaxed text-[#ded9da]">
-        <strong class="text-[#e2353a]">ตั้งรหัสผ่านที่คาดเดายาก ไม่ใช้รหัสเดียวกับบริการอื่น และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
-        รวมถึงตรวจสอบให้แน่ใจว่าเป็นบัญชี Line Official ที่ประกาศไว้บนเว็บไซต์ก่อนส่งข้อมูลใดๆ หากเครดิตไม่เข้าหรือรายการถอนค้าง ให้เปิดดูประวัติรายการในบัญชีก่อนแล้วแจ้งแอดมินพร้อมเวลาและจำนวนเงิน
+      <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+        <strong class="text-[#f2dc9a]">ตั้งรหัสผ่านที่คาดเดายาก ไม่ใช้รหัสเดียวกับบริการอื่น และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
+        รวมถึงตรวจสอบให้แน่ใจว่าเป็นบัญชี Line Official ที่ประกาศไว้บนเว็บไซต์ก่อนส่งข้อมูลใด ๆ หากเครดิตไม่เข้าหรือรายการถอนค้าง ให้เปิดดูประวัติรายการในบัญชีก่อนแล้วแจ้งแอดมินพร้อมเวลาและจำนวนเงิน
       </p>
 
       <div class="flex flex-wrap justify-center gap-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก LOTTOKA"
-          class="flex items-center justify-center rounded-lg border border-[#c21e22]/70 bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] px-8 py-3 font-black text-[#ffe9ea] shadow-[0_0_15px_rgba(194,30,34,0.30)] transition-transform hover:scale-105">
+          aria-label="สมัครสมาชิก JOKERSLOTZ"
+          class="flex items-center justify-center rounded-lg border border-[#d9b45e]/60 bg-gradient-to-r from-[#c81e1e] via-[#a51515] to-[#6d0d0d] px-8 py-3 font-black text-[#f2dc9a] shadow-[0_0_15px_rgba(165,21,21,0.35)] transition-transform hover:scale-105">
           สมัครสมาชิก
         </a>
 
         <a
           href="/login"
-          aria-label="เข้าสู่ระบบ LOTTOKA"
-          class="flex items-center justify-center rounded-lg border border-[#c21e22]/60 bg-[#1c0d0f] px-8 py-3 font-bold text-[#ff9a9d] transition-all hover:scale-105 hover:border-[#e2353a] hover:bg-[#3a0709]">
+          aria-label="เข้าสู่ระบบ JOKERSLOTZ"
+          class="flex items-center justify-center rounded-lg border border-[#a51515]/60 bg-[#1c0202] px-8 py-3 font-bold text-[#f2dc9a] transition-all hover:scale-105 hover:border-[#d9b45e] hover:bg-[#2b0204]">
           เข้าสู่ระบบ
         </a>
       </div>
     </div>
-  </ContentBoxPlain>
+  </ContentBox>
 
   <Navfoot />
 </MainLayout>

@@ -3,12 +3,12 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** "crimson" is this brand's accent (the logo's interlocking red arrows),
-   *  "steel" the brushed-silver tone of the graphite wordmark. The older
-   *  "gold"/"red"/"green" and "silver"/"blue" spellings stay accepted so an
-   *  inventory page that still passes them keeps building — they map onto the
-   *  crimson and steel tones respectively. */
-  accent?: "crimson" | "steel" | "gold" | "silver" | "green" | "red" | "blue";
+  /** "crimson" is this brand's primary (the logo's red JOKER wordmark) and
+   *  "gold" the jester hat's antique gold. The older "steel"/"silver"/"blue"
+   *  and "red"/"green" spellings stay accepted so an inventory page that still
+   *  passes them keeps building — they map onto the gold and crimson tones
+   *  respectively. */
+  accent?: "crimson" | "gold" | "steel" | "silver" | "green" | "red" | "blue";
 }
 
 export interface Props {
@@ -22,42 +22,47 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// NEXT55 palette: every card sits on the graphite card surface (#17181c) inside
-// a neutral hairline (#3a3d45). The two accents are the logo's own pair —
-// crimson for the arrow plate, brushed silver for the wordmark plate — so an
-// alternating items list reads as graphite + red rather than the previous
-// brand's navy/gold set.
-const STEEL = new Set(["steel", "silver", "blue"]);
+// JOKERSLOTZ palette: every card sits on the maroon card surface (#2b0204)
+// inside a deep-crimson hairline (#6d0d0d). The two accents are the logo's own
+// pair — crimson for the wordmark plate, antique gold for the jester hat — so an
+// alternating items list reads as blood-red + gold rather than the previous
+// brand's graphite/silver set.
+//
+// The block is its own top-level container (max width + gutter): under docx H2
+// #6 it renders as a sibling of the ContentBox holding that heading, not inside
+// its slot, because a ContentBox* slot takes exactly one element and no wrapper
+// <div> may be re-added inside one.
+const GOLD = new Set(["gold", "steel", "silver", "blue"]);
 ---
 
-<div class="mt-4 flex flex-col gap-5">
+<div class="relative z-10 mx-auto mb-8 flex w-full max-w-[1400px] flex-col gap-5 px-4 font-sans">
   {
     items.map((item) => {
-      const isAccent = !STEEL.has(item.accent ?? "crimson");
+      const isCrimson = !GOLD.has(item.accent ?? "crimson");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#3a3d45] bg-[#17181c]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
-            isAccent
-              ? "hover:border-[#cd1437]/70 hover:bg-[#22242a] hover:shadow-[0_10px_20px_rgba(205,20,55,0.24)]"
-              : "hover:border-[#e7eaef]/45 hover:bg-[#22242a] hover:shadow-[0_10px_20px_rgba(231,234,239,0.16)]"
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#6d0d0d] bg-[#2b0204]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+            isCrimson
+              ? "hover:border-[#c81e1e]/75 hover:bg-[#3d0507] hover:shadow-[0_10px_20px_rgba(165,21,21,0.28)]"
+              : "hover:border-[#f2dc9a]/60 hover:bg-[#3d0507] hover:shadow-[0_10px_20px_rgba(217,180,94,0.22)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
-              isAccent
-                ? "border border-[#cd1437]/60 bg-gradient-to-br from-[#f0435f] to-[#7a0a20] text-[#0c0d10] shadow-[0_0_15px_rgba(205,20,55,0.45)] group-hover:rotate-3"
-                : "border border-[#8d939e]/55 bg-gradient-to-br from-[#e7eaef] to-[#8d939e] text-[#0c0d10] shadow-[0_0_15px_rgba(231,234,239,0.35)]"
+              isCrimson
+                ? "border border-[#a51515]/70 bg-gradient-to-br from-[#c81e1e] to-[#6d0d0d] text-[#f2dc9a] shadow-[0_0_15px_rgba(165,21,21,0.45)] group-hover:rotate-3"
+                : "border border-[#bc9b5b]/60 bg-gradient-to-br from-[#f2dc9a] to-[#bc9b5b] text-[#1c0202] shadow-[0_0_15px_rgba(217,180,94,0.35)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
             <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
-                isAccent ? "bg-gradient-to-r from-[#ffb3bf] to-[#f0435f] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#e7eaef] to-[#8d939e] bg-clip-text text-transparent"
+                isCrimson ? "bg-gradient-to-r from-[#f2dc9a] to-[#c81e1e] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#f2dc9a] to-[#bc9b5b] bg-clip-text text-transparent"
               }`}>
               {item.title}
             </TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#d5dae2]">{item.description}</p>}
+            {item.description && <p class="text-left text-base leading-relaxed text-[#ecdfd0]">{item.description}</p>}
           </div>
         </div>
       );

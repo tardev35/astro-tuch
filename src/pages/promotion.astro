@@ -1,13 +1,13 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ContentBox from "../components/ContentBoxHuay.astro";
+import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 
-// อาร์ตเวิร์กของ LOTTOKA รอบนี้มีแค่ slide1/slide2 (ลงวันที่ 2026-09-17) — ตรวจจากตัวภาพจริง:
-// slide1 คือโปสเตอร์ "แนะนำเพื่อน 0.8%" ส่วน slide2 คือ "คืนยอดเสีย 0.3%"
+// อาร์ตเวิร์กของ JOKERSLOTZ รอบนี้มีแค่ slide1/slide2 (ลงวันที่ 2026-09-17) — ตรวจจากตัวภาพจริง:
+// slide1 คือโปสเตอร์ "โปรโมชั่น แนะนำเพื่อน 0.8%" ส่วน slide2 คือ "โปรโมชั่น คืนยอดเสีย 0.3%"
 // slide3/slide4 (2026-08-13) กับ banner2/banner3 ยังค้างอยู่บนดิสก์แต่เป็นอาร์ตเวิร์ก
 // ของลูกค้าเจ้าอื่น — ห้าม import ที่นี่ทั้งรอบนี้และรอบถัดไป
 // (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ verify-build จะแดง)
@@ -20,20 +20,21 @@ import { pageGraph } from "../lib/schema";
 // ของแต่ละโปรโมชั่นไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
 // ลำดับในกริดตามบรีฟ: แนะนำเพื่อน 0.8% มาก่อน คืนยอดเสีย 0.3%
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของไฟล์นั้น
-// เป็นข้อความของ LOTTOKA อยู่แล้ว จึงเรียกแบบ bare ได้ ห้ามส่ง prop message
+// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของไฟล์นั้น
+// เป็นข้อความของ JOKERSLOTZ อยู่แล้ว จึงเรียกแบบ bare ได้ ห้ามส่ง prop message
 //
-// พาเลตต์ LOTTOKA: แดงโลโก้ #c21e22 นำ (ขอบ/เงา) แดงสว่าง #e2353a สำหรับ hover
-// ชมพูอ่อน #ff9a9d สำหรับ <strong> แดงเข้ม #7d1114 เป็นขอบ/สต็อปล่างของเกรเดียนต์
-// ครีม #ffe9ea เป็นตัวอักษรบนปุ่มแดง เนื้อความ #ded9da — ไม่มีทองหรือน้ำเงินในแบรนด์นี้
+// พาเลตต์ JOKERSLOTZ: แดงโลโก้ #a51515 นำ (ขอบ/เงา) แดงสว่าง #c81e1e สำหรับ hover
+// แดงเข้ม #6d0d0d เป็นขอบและสต็อปล่างของเกรเดียนต์ ทองหมวกตัวตลก #d9b45e เป็นขอบทอง
+// ทองอ่อน #f2dc9a เป็นสีเดียวที่ใช้กับ <strong> และตัวอักษรบนปุ่มแดง เนื้อความ #ecdfd0
+// — ไม่มีชมพู เทา หรือน้ำเงินของแบรนด์ก่อนหน้าหลงเหลือ
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 152
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 159
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "หน้ารวมโปรโมชั่นของ LOTTOKA ทั้งแนะนำเพื่อนรับ 0.8% และคืนยอดเสีย 0.3% สำหรับคอหวยทุกคน ดูเงื่อนไข รอบการคำนวณ และวิธีรับสิทธิ์ได้จากภาพโปรโมชั่นแต่ละใบ";
+const pageDescription = "รวมโปรโมชั่น JOKERSLOTZ ทั้งแนะนำเพื่อนรับคอมมิชชั่น 0.8% และคืนยอดเสีย 0.3% ทุกรอบบิล สมาชิกกดรับได้ทุกวัน ดูเงื่อนไขและวิธีรับสิทธิ์ได้จากภาพโปรโมชั่นแต่ละใบ";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น LOTTOKA",
+  name: "โปรโมชั่น JOKERSLOTZ",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -43,29 +44,29 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="โปรโมชั่น LOTTOKA แนะนำเพื่อนรับ 0.8% และคืนยอดเสียรับ 0.3%" description={pageDescription}>
+<MainLayout title="โปรโมชั่น JOKERSLOTZ แนะนำเพื่อนรับ 0.8% และคืนยอดเสียรับ 0.3%" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น LOTTOKA" as="h1">
+  <ContentBox title="โปรโมชั่น JOKERSLOTZ" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#ded9da]">
-        หน้านี้รวมโปรโมชั่นที่ LOTTOKA แจกให้คอหวยทุกคน ทั้งสมาชิกใหม่และสมาชิกเก่า ทั้งแนะนำเพื่อนรับ
-        <strong class="text-[#ff9a9d]">0.8%</strong> และคืนยอดเสีย <strong class="text-[#ff9a9d]">0.3%</strong>
-        โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และวิธีกดรับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
-        <strong class="text-[#e2353a]">แต่ละรายการมีเงื่อนไขต่างกัน จึงควรอ่านรอบการคำนวณและเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง</strong>
+      <p class="mb-8 text-left text-base leading-relaxed text-[#ecdfd0]">
+        หน้านี้รวมโปรโมชั่นที่ JOKERSLOTZ แจกให้สมาชิกทุกคนบนทางเข้าสำรองล่าสุด ทั้งแนะนำเพื่อนรับคอมมิชชั่น
+        <strong class="text-[#f2dc9a]">0.8%</strong> จากทุกยอดการเดิมพันของเพื่อน และคืนยอดเสีย
+        <strong class="text-[#f2dc9a]">0.3%</strong> ในทุกรอบบิล โดยเปอร์เซ็นต์ ยอดที่นำมาคำนวณ และวิธีกดรับสิทธิ์ระบุไว้บนภาพโปรโมชั่นแต่ละใบ
+        <strong class="text-[#f2dc9a]">แต่ละรายการมีเงื่อนไขต่างกัน จึงควรอ่านรอบการคำนวณและเงื่อนไขล่าสุดก่อนกดรับทุกครั้ง</strong>
       </p>
 
       <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
           src={promoReferral}
-          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% พื้นหลังสีขาวอมเทามีลายเส้นโค้งสีแดงและเหรียญสัญลักษณ์เงินกระจายอยู่ มุมซ้ายบนเป็นโลโก้ LOTTOKA โดยคำว่า LOTTO เป็นสีแดงและ KA เป็นสีเทา ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น และบรรทัดล่างว่า แนะนำเพื่อน 0.8% ด้านขวาเป็นหญิงสาวในสูทสีแดงสลับดำยิ้มและแบมือทั้งสองข้าง"
+          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% พื้นหลังสีขาวครีมมีกรอบลายเพชรสีทองและเหรียญทองลอยกระจาย มุมซ้ายบนเป็นโลโก้ JOKERSLOTZ พร้อมหมวกตัวตลกสีแดงสลับทอง ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น บรรทัดล่างว่า แนะนำเพื่อน และตัวเลขสีทองขนาดใหญ่ 0.8% ด้านขวาเป็นโจ๊กเกอร์สวมหมวกตัวตลกสามแฉกสีแดงทองและสูทสีแดงลายทองกำลังยิ้ม"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#7d1114]/70 object-contain shadow-[0_10px_30px_rgba(10,6,8,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#c21e22]/75 hover:shadow-[0_15px_40px_rgba(194,30,34,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#6d0d0d]/70 object-contain shadow-[0_10px_30px_rgba(6,2,2,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#d9b45e]/75 hover:shadow-[0_15px_40px_rgba(217,180,94,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -74,12 +75,12 @@ const graph = pageGraph(Astro, {
 
         <Picture
           src={promoCashback}
-          alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% พื้นหลังสีขาวอมเทามีลายเส้นและเหรียญสีแดงเรียงอยู่ด้านซ้าย ตรงกลางเป็นโลโก้ LOTTOKA โดยคำว่า LOTTO เป็นสีแดงและ KA เป็นสีเทา ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น และบรรทัดล่างว่า คืนยอดเสีย 0.3% ด้านขวาเป็นหญิงสาวในเดรสสูทสีแดงยิ้มและยกมือชี้ไปทางข้อความ"
+          alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% พื้นหลังสีขาวครีมมีกรอบลายเพชรสีทองและเหรียญทองลอยกระจาย ด้านซ้ายบนเป็นโลโก้ JOKERSLOTZ พร้อมหมวกตัวตลกสีแดงสลับทอง ถัดลงมาเป็นข้อความสีแดงขนาดใหญ่ว่า โปรโมชั่น และบรรทัดล่างว่า คืนยอดเสีย 0.3% ด้านขวาเป็นโจ๊กเกอร์ในสูทสีแดงลายทองกำลังยิ้มและถือเหรียญทองไว้ในมือทั้งสองข้าง"
           loading="lazy"
           fetchpriority="low"
           widths={[200, 300, 400, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#7d1114]/70 object-contain shadow-[0_10px_30px_rgba(10,6,8,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#c21e22]/75 hover:shadow-[0_15px_40px_rgba(194,30,34,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#6d0d0d]/70 object-contain shadow-[0_10px_30px_rgba(6,2,2,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#d9b45e]/75 hover:shadow-[0_15px_40px_rgba(217,180,94,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -90,9 +91,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก LOTTOKA"
-          class="flex items-center justify-center rounded-lg border border-[#c21e22]/70 bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] px-10 py-3.5 text-lg font-black text-[#ffe9ea] shadow-[0_0_15px_rgba(194,30,34,0.45)] transition-transform hover:scale-105">
-          สมัครสมาชิก LOTTOKA
+          aria-label="สมัครสมาชิก JOKERSLOTZ"
+          class="flex items-center justify-center rounded-lg border border-[#d9b45e]/60 bg-gradient-to-r from-[#c81e1e] via-[#a51515] to-[#6d0d0d] px-10 py-3.5 text-lg font-black text-[#f2dc9a] shadow-[0_0_15px_rgba(165,21,21,0.45)] transition-transform hover:scale-105">
+          สมัครสมาชิก JOKERSLOTZ
         </a>
       </div>
     </div>

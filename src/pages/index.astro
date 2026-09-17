@@ -1,75 +1,107 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxHuay from "../components/ContentBoxHuay.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
-import ContentBox3ThreeHuay from "../components/ContentBox3ThreeHuay.astro";
-import LottoGrid from "../components/LottoGrid.astro";
-import LatestWinners from "../components/LatestWinnersHuay.astro";
-import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
+import ProviderGridPremium from "../components/ProviderGridPremium.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import Faq4 from "../components/Faq4.astro";
+import ReviewCardSumo2 from "../components/ReviewCardSumo2.astro";
+import Faq2 from "../components/Faq2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
+import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
+import imgSlide1 from "../assets/slide1.png";
+import imgSlide2 from "../assets/slide2.png";
 
-// NO IMAGES ON THIS PAGE BEYOND THE HERO — deliberate, and here is why, so the
-// next rebrand does not "fix" it by wiring a slide back in:
+// SLIDE ROLES FOR JOKERSLOTZ — READ BEFORE REUSING THESE IMPORTS.
+// Verified against the artwork on the 2026-09-17 drop: slide1.png is the
+// แนะนำเพื่อน 0.8% poster and slide2.png is the คืนยอดเสีย 0.3% one, which is the
+// order the docx puts them in (H3 #4 then H3 #5), so slide1 sits in the first
+// SevenThree block and slide2 in the second. Re-check the actual posters on the
+// next rebrand rather than trusting this order — a previous brand shipped the
+// two swapped, which builds clean and reads wrong.
+//
+// Nothing else on this page carries an image, deliberately:
 //   banner1 / banner1-mobile  = MainLayout's own pinned globs. A page never
-//                               references them.
+//                               references them, and nothing here gets
+//                               loading="eager" fetchpriority="high" — the hero
+//                               is the LCP element and it belongs to the layout.
 //   banner2.png (2026-08-20), banner3.png (2026-08-11), slide3.png and
 //   slide4.png (2026-08-13) all predate the 2026-09-17 asset drop -> stale
 //   inventory from earlier clients, must stay unimported.
-//   slide1.png (แนะนำเพื่อน 0.8%) and slide2.png (คืนยอดเสีย 0.3%) ARE from this
-//   drop, but LOTTOKA's brief has no promotion section at all, so neither maps
-//   onto a docx heading. Per the SevenThree rule a slide with no matching
-//   section is left unused rather than forced into another box — so this round
-//   ships ZERO ContentBoxSevenThree* blocks on the index. Both slides render on
-//   /promotion, which is their page.
+// A slide may only ever live inside a ContentBoxSevenThree*; two of them is the
+// family's hard cap per rebrand and this page uses exactly two.
 //
 // Dropped from the previous brand's index and NOT deleted from disk (they are
-// inventory for the next brand): ProviderGrid (casino provider logos — off
-// topic for a pure lottery brand), GameRankingBoard (slot-game popularity board
-// — would duplicate LottoGrid), FeatureHighlights (its sub-point role under
-// docx H2 #2 is carried by LottoGrid instead).
+// inventory for the next brand): LottoGrid, Faq4, AnnouncementHuay,
+// ContentBoxHuay / FloatingBadge / Special / TwoHuay / 3ThreeHuay and
+// LatestWinnersHuay — the whole Huay kit is the next lottery brand's, and
+// JOKERSLOTZ is a slot brand.
 
 // Title and description are the brief's own Title/Meta Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "LOTTOKA แทงหวยลอตโต้เว็บหลัก ยอดเข้าบัญชีบริษัทโดยตรง";
+const pageTitle = "ทางเข้าสำรอง JOKERSLOTZ โจ๊กเกอร์สล็อตอันดับ 1 ในไทย";
 
-const pageDescription = "LOTTOKA แทงหวยลอตโต้เว็บหลัก รัฐบาลไทย ลาว ออมสิน ฮานอย หวยหุ้น จ่ายตรง ฝากถอนวอลเลทและทุกธนาคาร รับยอดฝากถอนเข้าเต็ม100%";
+const pageDescription = "JOKERSLOTZ ทางเข้าสำรอง ล่าสุด เว็บโจ๊กเกอร์สล็อตอันดับ 1 ในไทย สมัครสมาชิกรับ User เข้าเล่น ลิ้งก์ใหม่ได้ทันที";
 
-// <Announcement /> runs bare: AnnouncementHuay's default message is already this
-// brand's copy, and every casino-side sub-page calls it bare too — passing an
-// override here is how the ticker ends up saying two different things on two
-// pages.
+// <Announcement /> runs bare: AnnouncementPremium's default message is already
+// this brand's copy, and every sub-page calls it bare too — passing an override
+// here is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H1 -> H2 -> H3 hierarchy this round (#4 and #5 are genuine
 // H3 sub-points of #3), so the page is NOT flattened to H2-only. The only other
-// H3s are the three signup steps under #6, carried by ContentBox3ThreeHuay.
-// The five lottery markets under #2 are a bullet list in the docx, not headings,
-// so LottoGrid renders them as chrome — <p> labels plus an aria-label, no
-// heading tag.
+// H3s are the three signup steps under #6, carried by FeatureHighlights.
+// Everything else on the page is chrome — ProviderGridPremium, LatestWinners,
+// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span>
+// with an aria-label on the section, so none of them emits a heading tag.
+// Final inventory for this page: h1 x1, h2 x5, h3 x5.
 
-// One array, used by both <Faq4> and the FAQPage node — never the component's
+// The three signup steps are the brief's L15-L17, split at the colon into the
+// step name and its instruction. Nothing is added or reworded.
+const signupSteps = [
+  {
+    icon: "📱",
+    accent: "crimson" as const,
+    title: "กรอกเบอร์โทรศัพท์",
+    description: "ระบุเบอร์มือถือปัจจุบันของคุณ เพื่อรับรหัส OTP สำหรับยืนยันตัวตน",
+  },
+  {
+    icon: "🏦",
+    accent: "gold" as const,
+    title: "ผูกบัญชีธนาคาร",
+    description: "กรอกชื่อ-นามสกุล และเลขบัญชีธนาคาร (รองรับทุกธนาคารและ TrueMoney Wallet) ข้อมูลต้องตรงกันเพื่อใช้สำหรับระบบฝาก-ถอนออโต้",
+  },
+  {
+    icon: "🔑",
+    accent: "crimson" as const,
+    title: "ตั้งรหัสผ่าน",
+    description: "กำหนด Username และ Password จากนั้นล็อคอินเข้าสู่ลิ้งก์ใหม่ เติมเงินแล้วเริ่มทำกำไรกับ JOKERSLOTZ ได้ทันที",
+  },
+];
+
+// One array, used by both <Faq2> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's Q1-Q3, verbatim, with only the "Q1:"/"A:" prefixes removed.
 const faqs = [
   {
-    q: 'ระบบโอนเงิน "เข้าบัญชีบริษัทโดยตรง" ดีอย่างไร?',
-    a: "การฝาก-ถอนเงินเข้าบัญชีบริษัทโดยตรง (ไม่ผ่านบัญชีม้า) ช่วยเพิ่มความปลอดภัยขั้นสูงสุดให้กับสมาชิก ป้องกันปัญหาเว็บโดนบล็อกหรือการทุจริต ยอดเงินของคุณจะถูกทำรายการอย่างถูกต้อง โปร่งใส และได้รับเงินเต็ม 100% อย่างรวดเร็ว",
+    q: "ทำไมถึงต้องใช้ลิ้งก์ทางเข้าสำรอง JOKERSLOTZ?",
+    a: "ทางเข้าสำรองถูกสร้างขึ้นมาเพื่อป้องกันปัญหาลิ้งก์หลักเข้าไม่ได้ เนื่องจากบางครั้งเครือข่ายอินเทอร์เน็ตอาจมีการบล็อก การใช้ทางเข้าสำรองจะช่วยให้คุณเข้าเล่นเกมสล็อตได้อย่างต่อเนื่องและเสถียรที่สุด",
   },
   {
-    q: "LOTTOKA รองรับการฝาก-ถอนผ่านช่องทางไหนบ้าง มีขั้นต่ำไหม?",
-    a: "เรารองรับการทำธุรกรรมผ่านทุกธนาคารชั้นนำในประเทศไทย และระบบ TrueMoney Wallet ดำเนินการด้วยระบบออโต้ที่รวดเร็วทันใจ และที่สำคัญคือ ไม่มีขั้นต่ำ ในการฝากเงิน",
+    q: "สมัครยูสใหม่บนทางเข้าสำรอง ดียังไง?",
+    a: "การใช้ยูสเซอร์ใหม่บนระบบทางเข้าล่าสุด จะช่วยให้คุณเชื่อมต่อกับเซิร์ฟเวอร์ใหม่ที่มีความปลอดภัยสูงขึ้น 100% ระบบฝาก-ถอนทำงานได้รวดเร็วกว่าเดิม และลดปัญหาเกมสะดุดหรือหลุดออกจากระบบ",
   },
   {
-    q: "ถ้ามีเลขดัง หรือเลขอั้น ทางเว็บจะจ่ายเต็มหรือไม่?",
-    a: "LOTTOKA มีนโยบายรับแทงทุกเลข ไม่มีปิดกั้น หากคุณทำรายการแทงสำเร็จก่อนที่ระบบจะปิดรับโพย หากถูกรางวัล เราการันตีจ่ายเต็มจำนวนตามเรทราคาที่กำหนดไว้ในบิล โดยไม่มีการหักเปอร์เซ็นต์ย้อนหลัง",
+    q: "ลิ้งก์ทางเข้าใหม่ สามารถเล่นผ่านมือถือได้ไหม?",
+    a: "รองรับการเล่นผ่านมือถือทุกรุ่น ทุกระบบปฏิบัติการ (iOS และ Android) อย่างสมบูรณ์แบบ คุณสามารถกดเข้าลิ้งก์ผ่านเว็บบราว์เซอร์ได้ทันทีโดยไม่ต้องดาวน์โหลดหรือติดตั้งแอปพลิเคชันใดๆ",
   },
 ];
 
@@ -77,7 +109,7 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's pale rose (#ff9a9d); it marks a claim
+// The highlight colour is the palette's light gold (#f2dc9a); it marks a claim
 // the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -95,88 +127,115 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxHuay as="h1" title="LOTTOKA แทงหวยลอตโต้เว็บหลัก จ่ายไว จ่ายตรง ยอดเต็ม100%">
-    <p class="text-left text-base leading-relaxed text-[#ded9da]">
-      ยินดีต้อนรับสู่ LOTTOKA (ลอตโตก้า)
-      <strong class="text-[#ff9a9d]">เว็บแทงหวยออนไลน์ที่เป็นแพลตฟอร์มหลักเว็บตรง ไม่ผ่านเอเย่นต์</strong>
-      โดดเด่นด้วยระบบการเงินที่โปร่งใสและปลอดภัยที่สุดในยุคนี้ เพราะทุกยอดการฝาก-ถอนของคุณจะถูกโอนเข้าสู่
-      <strong class="text-[#ff9a9d]">บัญชีของบริษัทโดยตรง ไม่มีการใช้บัญชีม้าหรือผ่านบุคคลที่สาม</strong>
-      <strong class="text-[#ff9a9d]">รับประกันยอดเงินเข้าเต็ม 100% ไม่มีหักค่าธรรมเนียม จ่ายไว จ่ายตรง</strong>
-      ให้คุณสนุกกับการลุ้นตัวเลขได้อย่างสบายใจไร้กังวล
+  <ContentBoxPremium as="h1" title="JOKERSLOTZ ทางเข้าสำรอง โจ๊กเกอร์สล็อตอันดับ 1 ในไทย">
+    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      พบกับความสนุกที่ไม่มีวันสะดุดกับ
+      <strong class="text-[#f2dc9a]">JOKERSLOTZ เว็บให้บริการเกมโจ๊กเกอร์สล็อตอันดับ 1 ในไทย</strong>
+      ที่ได้รับการยอมรับจากผู้เล่นทั่วประเทศ เราได้ทำการอัปเดต
+      <strong class="text-[#f2dc9a]">ทางเข้าสำรอง ล่าสุด</strong>
+      เพื่อแก้ปัญหาลิ้งก์เข้าใช้งานไม่ได้หรือเว็บโดนบล็อก ให้คุณสามารถเข้าถึงหน้าเกมสล็อตลิขสิทธิ์แท้จากค่าย
+      <strong class="text-[#f2dc9a]">Joker Gaming ได้อย่างรวดเร็ว เสถียรที่สุด</strong>
+      และพร้อมทำกำไรได้ตลอดเวลาโดยไม่ต้องกลัวเว็บปลิว
     </p>
-  </ContentBoxHuay>
+  </ContentBoxPremium>
 
-  <ContentBoxFloatingBadge as="h2" title="LOTTOKA รัฐบาลไทย ลาว ออมสิน ฮานอย หวยหุ้น ครบทุกแนว">
-    <p class="text-left text-base leading-relaxed text-[#ded9da]">
-      ที่ LOTTOKA
-      <strong class="text-[#ff9a9d]">เราคือศูนย์รวมหวยออนไลน์ที่ครบครันที่สุด ตอบโจทย์คอหวยทุกสาย</strong>
-      ไม่ว่าคุณจะชอบลุ้นรางวัลใหญ่หรือชอบทำกำไรทุกวัน
-      <strong class="text-[#ff9a9d]">เรามีเปิดรับแทงครบทุกประเภท:</strong>
-    </p>
-  </ContentBoxFloatingBadge>
+  <ProviderGridPremium />
 
-  <LottoGrid />
+  <ContentBoxNeumorphism as="h2" title="ลิ้งก์ทางเข้าสำรอง JOKERSLOTZ ใช้ยูสใหม่ ปลอดภัยขึ้น100%">
+    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      การอัปเดตลิ้งก์ทางเข้าสำรองในครั้งนี้
+      <strong class="text-[#f2dc9a]">เราได้พัฒนาระบบเซิร์ฟเวอร์ใหม่ทั้งหมดเพื่อยกระดับความปลอดภัยขั้นสูงสุด</strong>
+      ขอแนะนำให้ผู้เล่นทำการสมัครสมาชิกเพื่อ
+      <strong class="text-[#f2dc9a]">ใช้ยูสใหม่</strong>
+      บนทางเข้าล่าสุดนี้ ซึ่งจะช่วยให้ข้อมูลส่วนตัวและข้อมูลทางการเงินของคุณได้รับการเข้ารหัสความปลอดภัย (Encryption)
+      <strong class="text-[#f2dc9a]">ที่แน่นหนาขึ้น 100%</strong>
+      หมดปัญหาเรื่องยูสเซอร์ค้าง เครดิตหาย หรือโดนแฮ็ก ให้คุณมั่นใจได้ว่าทุกการหมุนสปินและการทำธุรกรรมบนระบบใหม่นี้จะลื่นไหล ปลอดภัย และได้เงินจริงแน่นอน
+    </p>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSpecial as="h2" title="อัตราจ่าย LOTTOKA เต็มทุกบิล ไม่หักเปอร์เซ็นต์" iconleft="💰" iconright="💯">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ded9da]">
-      เรากล้าให้มากกว่าใคร!
-      <strong class="text-[#ff9a9d]">ด้วยความเป็นเว็บหลักที่มีฐานการเงินมั่นคงระดับประเทศ</strong>
-      LOTTOKA จึงสามารถมอบอัตราการจ่ายที่สูงที่สุดในตลาด
+  <ContentBoxCyberCut as="h2" title="โปรสล็อต JOKERSLOTZ มาแรง สมาชิกกดรับทุกวัน">
+    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      เพื่อต้อนรับสมาชิกที่เข้ามาใช้งานผ่านลิ้งก์ทางเข้าสำรองใหม่ JOKERSLOTZ
+      <strong class="text-[#f2dc9a]">จัดเตรียมโปรโมชั่นสุดคุ้มที่ฮิตที่สุดในตอนนี้</strong>
+      มอบสิทธิพิเศษให้สมาชิกกดรับได้ทุกวัน
+      <strong class="text-[#f2dc9a]">นำไปต่อยอดการทำกำไรในเกมสล็อตได้อย่างไร้ขีดจำกัด</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ded9da]">
-      แทงถูกปุ๊บ
-      <strong class="text-[#ff9a9d]">รับเงินเต็มจำนวนปั๊บ ไม่มีหักเปอร์เซ็นต์ใดๆ ทั้งสิ้น</strong>
-    </p>
-  </ContentBoxSpecial>
+  </ContentBoxCyberCut>
 
-  <ContentBoxTwoHuay as="h3" titleleft="ถูก 2ตัวจ่าย 100บาท" titleright="ถูก 3ตัวจ่าย 1,000บาท" iconleft="🎯" iconright="🏆">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ded9da]">
-      คุ้มค่าสุดๆ กับการแทงหวย 2 ตัวบน และ 2 ตัวล่าง
-      <strong class="text-[#ff9a9d]">รับอัตราจ่ายสูงสุดถึง บาทละ 100</strong>
-      ลงทุนเพียงเล็กน้อยก็สามารถสร้างกำไรก้อนโตได้ง่ายๆ
+  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
+    <Picture
+      slot="left"
+      src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ JOKERSLOTZ พื้นหลังสีครีมขาวมีลายเส้นเรขาคณิตสีทองเป็นกรอบ มุมซ้ายบนเป็นโลโก้ JOKER SLOTZ ตัวอักษรสีแดงเลือดหมูขอบทอง มีหมวกตัวตลกสามแฉกสีแดงสลับทองวางอยู่ด้านบน ถัดลงมาเป็นคำว่า โปรโมชั่น สีแดง และ แนะนำเพื่อน สีแดง วางเหนือตัวเลข 0.8% ขนาดใหญ่สีทองเงาที่มีเหรียญทองกระจายอยู่รอบ ด้านขวาเป็นตัวตลกโจ๊กเกอร์หน้าขาวยิ้มกว้าง สวมหมวกตัวตลกสามแฉกสีแดงแต่งทองและชุดสูทสีแดงเลือดหมูปักลายทอง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#a51515]/55 shadow-[0_10px_30px_rgba(165,21,21,0.28)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      สร้างรายได้เสริมง่ายๆ
+      <strong class="text-[#f2dc9a]">โดยไม่ต้องลงทุน</strong>
+      เพียงคัดลอกลิ้งก์แนะนำส่วนตัวของคุณส่งให้เพื่อนสมัครสมาชิกผ่านทางเข้าใหม่ เมื่อเพื่อนมีการเข้าเล่น
+      <strong class="text-[#f2dc9a]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8%</strong>
+      จากทุกยอดการเดิมพันของเพื่อน เป็นช่องทางรับเงินแบบ
+      <strong class="text-[#f2dc9a]">Passive Income ที่สามารถถอนเป็นเงินสดได้ตลอดเวลา</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ded9da]">
-      สัมผัสประสบการณ์รวยพริบตาเมื่อทายผล 3 ตัวตรงถูกต้อง รับเงินรางวัลไปเลยในเรทสูงสุด
-      <strong class="text-[#ff9a9d]">บาทละ 1,000 จ่ายจริง จ่ายเต็ม ทุกบิลการเดิมพัน</strong>
+  </ContentBoxSevenThreePremium>
+
+  <ContentBoxSevenThree as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[240, 400, 600]}
+      sizes="(max-width: 767px) 92vw, 30vw"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ JOKERSLOTZ พื้นหลังสีครีมขาวมีลายเส้นเรขาคณิตสีทองเป็นกรอบ ตรงกลางค่อนไปทางซ้ายเป็นโลโก้ JOKER SLOTZ ตัวอักษรสีแดงเลือดหมูขอบทอง มีหมวกตัวตลกสามแฉกสีแดงสลับทองวางอยู่ด้านบน ถัดลงมาเป็นคำว่า โปรโมชั่น สีแดง และ คืนยอดเสีย สีแดง ต่อด้วยตัวเลข 0.3% ขนาดใหญ่สีทองเงา ด้านขวาเป็นตัวตลกโจ๊กเกอร์หน้าขาวยิ้มกว้าง สวมหมวกตัวตลกสามแฉกสีแดงแต่งทอง ชุดสูทสามชิ้นสีแดงเลือดหมูปักลายทองกับเนกไทสีทอง กำลังแบมือถือเหรียญทองทั้งสองข้าง และมีเหรียญทองปลิวอยู่รอบภาพ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#bc9b5b]/55 shadow-[0_10px_30px_rgba(217,180,94,0.24)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      ทุกการเล่นมีหลักประกัน เราพร้อมดูแลสมาชิกด้วยโปรโมชั่น
+      <strong class="text-[#f2dc9a]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong>
+      เพื่อเป็นเงินทุนสำรองให้คุณสามารถกดรับและนำกลับไปแก้มือในเกมสล็อตโจ๊กเกอร์ที่คุณชื่นชอบได้ใหม่
+      <strong class="text-[#f2dc9a]">ช่วยลดความเสี่ยงในการลงทุนได้อย่างดีเยี่ยม</strong>
     </p>
-  </ContentBoxTwoHuay>
+  </ContentBoxSevenThree>
 
   <LatestWinners />
 
-  <ContentBox as="h2" title="สมัคร LOTTOKA ด้วยตัวเอง 3 ขั้นตอน">
-    <p class="text-left text-base leading-relaxed text-[#ded9da]">
-      เริ่มต้นรับความคุ้มค่าและปลอดภัยกับ LOTTOKA ได้ง่ายๆ
-      <strong class="text-[#ff9a9d]">ผ่านระบบสมัครสมาชิกอัตโนมัติ (Auto) ใช้เวลาเพียงไม่กี่วินาที:</strong>
+  <ContentBox as="h2" title="สมัคร JOKERSLOTZ บนทางเข้าใหม่ 3 ขั้นตอน">
+    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      เปิดประสบการณ์ความสนุกและรับยูสเซอร์ใหม่ผ่านลิ้งก์ทางเข้าสำรองได้อย่างรวดเร็ว
+      ด้วยระบบสมัครสมาชิกอัตโนมัติ (Auto) ที่ใช้งานง่าย
+      <strong class="text-[#f2dc9a]">ทำรายการเสร็จสิ้นภายใน 1 นาที</strong>
+      ด้วย 3 ขั้นตอนดังนี้:
     </p>
   </ContentBox>
 
-  <ContentBox3ThreeHuay as="h3" label="สามขั้นตอนการสมัครสมาชิก LOTTOKA ด้วยตัวเอง" titleleft="กรอกเบอร์โทรศัพท์" titlecenter="ผูกบัญชีธนาคารหรือวอลเลท" titleright="ตั้งรหัสผ่าน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ded9da]">
-      ระบุเบอร์มือถือที่ใช้งานจริง
-      <strong class="text-[#ff9a9d]">เพื่อรับรหัส OTP สำหรับการยืนยันตัวตนและความปลอดภัยของข้อมูล</strong>
-    </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#ded9da]">
-      เลือกธนาคารหรือ TrueMoney Wallet แล้วระบุเลขบัญชี
-      <strong class="text-[#ff9a9d]">(ชื่อ-นามสกุลต้องตรงกับชื่อที่สมัคร เพื่อให้ระบบโอนยอดเข้า-ออกบริษัทโดยตรงได้อย่างถูกต้อง)</strong>
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ded9da]">
-      กำหนดรหัสผ่านที่รัดกุม ล็อคอินเข้าสู่ระบบ เติมเงินฝากเครดิต
-      <strong class="text-[#ff9a9d]">แล้วเริ่มแทงหวยได้ทันที</strong>
-    </p>
-  </ContentBox3ThreeHuay>
+  <FeatureHighlights items={signupSteps} />
 
   <LoginRtpSection />
 
-  <ContentBoxHuay as="h2" title="ช่องทางติดต่อแอดมิน LOTTOKA ได้ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#ded9da]">
-      เราให้ความสำคัญกับการบริการลูกค้าเป็นอันดับหนึ่ง ทีมงานแอดมินคุณภาพของ LOTTOKA
-      <strong class="text-[#ff9a9d]">พร้อมสแตนด์บายดูแลคุณผ่าน Line Official ตลอด 24 ชั่วโมง</strong>
-      ไม่ว่าคุณจะต้องการคำแนะนำในการแทงหวย สอบถามเรื่องระบบการโอนเงินตรงเข้าบริษัท หรือแจ้งปัญหาการใช้งาน
-      <strong class="text-[#ff9a9d]">แอดมินของเราพร้อมตอบกลับอย่างรวดเร็ว สุภาพ และแก้ปัญหาให้อย่างมืออาชีพ</strong>
+  <ContentBoxPremium as="h2" title="ติดต่อแอดมิน JOKERSLOTZ ได้ 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#ecdfd0]">
+      เรามีทีมงานแอดมินมืออาชีพที่พร้อมดูแลและให้บริการสมาชิกทุกท่านผ่านช่องทาง
+      <strong class="text-[#f2dc9a]">Line Official ตลอด 24 ชั่วโมง</strong>
+      หากคุณพบปัญหาในการเข้าใช้งานลิ้งก์สำรอง ต้องการสอบถามวิธีการรับโปรโมชั่น หรือมีข้อสงสัยเกี่ยวกับการฝาก-ถอนเครดิต สามารถทักหาทีมงานได้ตลอดเวลา
+      <strong class="text-[#f2dc9a]">เราพร้อมตอบกลับอย่างรวดเร็วและแก้ไขปัญหาให้คุณทันที</strong>
+      เพื่อให้การเล่นสล็อตของคุณราบรื่นที่สุด
     </p>
-  </ContentBoxHuay>
+  </ContentBoxPremium>
 
-  <Faq4 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+  <Faq2 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
 
   <ReviewCardSumo2 />
 
