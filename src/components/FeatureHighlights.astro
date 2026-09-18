@@ -3,10 +3,10 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** GODBET88 has a single identity hue, so the two accents are two
+  /** ENTER55 has a single identity hue, so the two accents are two
    *  BRIGHTNESSES of the same gold rather than two colours: "sheen" is the
-   *  bright plate (#f6e7b8 -> #c2a55c, dark glyph) and "deep" the dark one
-   *  (#c2a55c -> #5c4418, gold glyph). Every earlier brand's spelling stays
+   *  bright plate (#ebd484 -> #c4a255, dark glyph) and "deep" the dark one
+   *  (#c4a255 -> #8a6d2c, gold glyph). Every earlier brand's spelling stays
    *  accepted so an inventory page that still passes one keeps building —
    *  "gold"/"steel"/"silver"/"blue" render as the sheen plate and
    *  "crimson"/"red"/"green" as the deep plate. */
@@ -24,15 +24,14 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// GODBET88 palette: every card sits on the card surface (#0a0806) inside a deep
-// gold hairline (#9a7f3f), and the icon plate alternates between the sheen and
-// deep golds above. Where the previous brand told the two accents apart with
-// crimson against gold, this one does it with light gold against dark gold —
-// same rhythm down an alternating list, one hue.
+// ENTER55 palette: every card sits on the card surface (#0b0b0a) inside a deep
+// gold hairline (#8a6d2c), hovering onto the raised surface (#16140f), and the
+// icon plate alternates between the sheen and deep golds above — one hue, told
+// apart by brightness down an alternating list.
 //
-// The block is its own top-level container (max width + gutter): under docx H2
-// #6 it renders as a sibling of the ContentBox holding that heading, not inside
-// its slot, because a ContentBox* slot takes exactly one element and no wrapper
+// The block is its own top-level container (max width + gutter): under a docx H2
+// it renders as a sibling of the ContentBox holding that heading, not inside its
+// slot, because a ContentBox* slot takes exactly one element and no wrapper
 // <div> may be re-added inside one.
 const SHEEN = new Set(["sheen", "gold", "steel", "silver", "blue"]);
 ---
@@ -43,28 +42,28 @@ const SHEEN = new Set(["sheen", "gold", "steel", "silver", "blue"]);
       const isDeep = !SHEEN.has(item.accent ?? "deep");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#9a7f3f] bg-[#0a0806]/85 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#8a6d2c] bg-[#0b0b0a]/88 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isDeep
-              ? "hover:border-[#c2a55c]/75 hover:bg-[#161208] hover:shadow-[0_10px_20px_rgba(194,165,92,0.28)]"
-              : "hover:border-[#f6e7b8]/60 hover:bg-[#161208] hover:shadow-[0_10px_20px_rgba(246,231,184,0.22)]"
+              ? "hover:border-[#c4a255]/75 hover:bg-[#16140f] hover:shadow-[0_10px_20px_rgba(196,162,85,0.28)]"
+              : "hover:border-[#ebd484]/60 hover:bg-[#16140f] hover:shadow-[0_10px_20px_rgba(235,212,132,0.22)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isDeep
-                ? "border border-[#9a7f3f]/70 bg-gradient-to-br from-[#c2a55c] to-[#5c4418] text-[#f6e7b8] shadow-[0_0_15px_rgba(154,127,63,0.45)] group-hover:rotate-3"
-                : "border border-[#f6e7b8]/60 bg-gradient-to-br from-[#f6e7b8] to-[#c2a55c] text-[#050403] shadow-[0_0_15px_rgba(246,231,184,0.35)]"
+                ? "border border-[#8a6d2c]/70 bg-gradient-to-br from-[#c4a255] to-[#8a6d2c] text-[#ebd484] shadow-[0_0_15px_rgba(138,109,44,0.5)] group-hover:rotate-3"
+                : "border border-[#ebd484]/60 bg-gradient-to-br from-[#ebd484] to-[#c4a255] text-[#000000] shadow-[0_0_15px_rgba(235,212,132,0.35)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
             <TitleTag
               class={`text-xl font-black tracking-wide drop-shadow-sm ${
-                isDeep ? "bg-gradient-to-r from-[#e2c87f] to-[#9a7f3f] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#f6e7b8] to-[#c2a55c] bg-clip-text text-transparent"
+                isDeep ? "bg-gradient-to-r from-[#d2b262] to-[#8a6d2c] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#ebd484] to-[#c4a255] bg-clip-text text-transparent"
               }`}>
               {item.title}
             </TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#ece1cc]">{item.description}</p>}
+            {item.description && <p class="text-left text-base leading-relaxed text-[#ded8cb]">{item.description}</p>}
           </div>
         </div>
       );

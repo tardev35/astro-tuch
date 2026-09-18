@@ -14,20 +14,21 @@ const bankPool = [
 
 // Pre-formatted, because the shared module treats a market as one opaque label
 // rather than a name/type pair it has to know how to join. The labels stay
-// inside the five lottery types the brief names — รัฐบาลไทย / ลาวพัฒนา / ออมสิน /
-// ฮานอย / หวยหุ้นไทยและต่างประเทศ — plus เลข 2 ตัว / เลข 3 ตัว.
+// inside the four lottery types the brief names — หวยรัฐบาลไทย / หวยลาว /
+// หวยฮานอย / หวยหุ้น — plus เลข 2 ตัว / เลข 3 ตัว. ประเภทที่บรีฟไม่ได้ระบุ
+// (ออมสิน, ฮานอย VIP, ชื่อตลาดหุ้นรายตัว) ถูกถอดออกแล้ว
 // ไม่มีตัวเลขอัตราจ่ายใน pool นี้ — ป้ายในฟีดเป็นชื่อประเภทหวย/ประเภทเลขเท่านั้น
-// เรทของแบรนด์นี้ (2 ตัวบาทละ 100 · 3 ตัวบาทละ 1,000) อยู่ในหัวข้อ #4/#5 ของบทความ
+// เรทของแบรนด์นี้ (2 ตัว บาทละ 100 · 3 ตัวตรง บาทละ 1,000) อยู่ในตัวบทความ
 // ไม่ใช่ในฟีดที่ตัวเลขสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
   "หวยรัฐบาลไทย · เลข 2 ตัว",
   "หวยรัฐบาลไทย · เลข 3 ตัว",
-  "หวยลาวพัฒนา · เลข 2 ตัว",
-  "หวยออมสิน · เลข 3 ตัว",
+  "หวยลาว · เลข 2 ตัว",
+  "หวยลาว · เลข 3 ตัว",
   "หวยฮานอย · เลข 2 ตัว",
-  "หวยฮานอย VIP · เลข 3 ตัว",
-  "หวยหุ้นไทย · เลข 2 ตัว",
-  "หวยหุ้นนิเคอิ · เลข 3 ตัว",
+  "หวยฮานอย · เลข 3 ตัว",
+  "หวยหุ้น · เลข 2 ตัว",
+  "หวยหุ้น · เลข 3 ตัว",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -39,9 +40,9 @@ const marketPool = [
 // rebrand, and a widget that supplies its own h2 breaks that check on every
 // page it appears on. Do not promote it again to "fix" the missing name.
 //
-// LOTTOKA is a lottery brand, so the row states ถอน/ถูกรางวัล rather than a
-// casino win, and the done state reads โอนเข้าบัญชีแล้ว — the brief's own
-// "ยอดเข้าบัญชีบริษัทโดยตรง" claim is what this feed is illustrating.
+// This feed renders on /ตรวจหวย only, so the row states ถอน/ถูกรางวัล rather
+// than a casino win, and the done state reads โอนเข้าบัญชีแล้ว — the brief's own
+// "ถอนได้ 100% เต็มจำนวน ไม่มีอั้นยอดถอนต่อวัน" claim is what it illustrates.
 // Palette is red on near-black only: the pending state is pale rose and the
 // completed state is cream, so no second hue (gold or green) survives here.
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
@@ -61,7 +62,7 @@ const DONE_CLASS = "text-[#ffe9ea]";
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
-    aria-label="ยอดถูกรางวัลและรายการถอนล่าสุดของสมาชิก LOTTOKA"
+    aria-label="ยอดถูกรางวัลและรายการถอนล่าสุดของสมาชิก ENTER55"
     class="relative rounded-3xl border border-[#c21e22]/55 bg-[#140a0c]/75 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl md:p-8">
     <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#c21e22]/50 pb-4">
       <div class="flex items-center gap-3">

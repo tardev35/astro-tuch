@@ -1,110 +1,142 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/Announcement3.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import FeatureHighlights from "../components/FeatureHighlights.astro";
-import ProviderGrid from "../components/ProviderGrid.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import ProviderGrid from "../components/ProviderGridPremium.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
-import Faq3 from "../components/Faq3.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import Faq from "../components/Faq2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgSlide1 from "../assets/slide1.png";
+import imgSlide3 from "../assets/slide3.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR GODBET88 — READ BEFORE REUSING THESE IMPORTS.
-// Verified against the artwork on the 2026-09-17 drop, and they are the OPPOSITE
-// WAY ROUND from the brand before this one: slide1.png is the คืนยอดเสีย 0.3%
-// poster (docx H3 #5) and slide2.png is the แนะนำเพื่อน 0.8% poster (docx H3 #4).
-// So slide2 sits in the FIRST SevenThree block and slide1 in the second. Copying
-// the previous brand's import order across builds clean and reads wrong —
-// re-check the actual posters on the next rebrand rather than trusting either
-// order.
+// SLIDE ROLES FOR ENTER55 — READ BEFORE REUSING THESE IMPORTS.
+// Checked against the 2026-09-18 drop: slide3.png is the หวย rate poster
+// (2ตัว จ่าย 100 / 3ตัว จ่าย 1,000) so it belongs to docx H2 #3, and slide2.png
+// is the แนะนำเพื่อน 0.8% poster so it belongs to the promo section, H2 #6.
+// The order is NOT stable across brands — re-read the posters next rebrand
+// rather than copying this order forward.
 //
-// Nothing else on this page carries an image, deliberately:
+// slide1.png (คืนยอดเสีย 0.3%) is deliberately NOT imported here: it is
+// MainLayout's og:image and it belongs to /promotion's grid. Nothing else on
+// this page carries an image either —
 //   banner1 / banner1-mobile  = MainLayout's own pinned globs. A page never
 //                               references them, and nothing here gets
 //                               loading="eager" fetchpriority="high" — the hero
 //                               is the LCP element and it belongs to the layout.
-//   og.png                    = MainLayout's og:image, never an article image.
-//   banner2.png (2026-08-20), banner3.png (2026-08-11), slide3.png and
-//   slide4.png (2026-08-13) all predate the 2026-09-17 asset drop -> stale
-//   inventory from earlier clients, must stay unimported.
+//   banner2.png (2026-08-20), banner3.png (2026-08-11) and slide4.png
+//   (2026-08-13) all predate the 2026-09-18 asset drop -> stale inventory from
+//   earlier clients, must stay unimported.
 // A slide may only ever live inside a ContentBoxSevenThree*; two of them is the
 // family's hard cap per rebrand and this page uses exactly two.
 //
 // Dropped from the previous brand's index and NOT deleted from disk (they are
-// inventory for the next brand): AnnouncementPremium, ContentBoxPremium,
-// ContentBoxNeumorphism, ContentBoxCyberCut, ContentBoxSevenThreePremium,
-// ContentBoxSevenThree, ProviderGridPremium, LatestWinnersPremium,
-// ReviewCardSumo2 and Faq2 — the whole Premium family went out with JOKERSLOTZ
-// and none of it may be reused this round.
+// inventory for the next brand): Announcement5, ContentBoxFloatingBadge,
+// ContentBoxSpecial, ContentBoxSevenThreeCyberCut,
+// ContentBoxSevenThreeNeumorphism, ProviderGrid, LatestWinners3, ReviewCardSumo
+// and Faq3 — that whole mix went out with the outgoing brand and none of it may
+// be reused this round.
 
 // Title and description are the brief's own Title/Meta Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "GODBET88 เว็บสล็อตไม่ติดเทิร์น ถอนได้ทุกยอด ไม่มีขั้นต่ำ";
+const pageTitle = "ENTER55 เว็บเล่นสล็อตและหวยออนไลน์ รวมครบในทางเข้าเดียว";
 
-const pageDescription = "GODBET88 เว็บสล็อตไม่ติดเทิร์น เริ่มต้น 1บาท เล่นได้ทุกค่าย ไม่มีขั้นต่ำ ถอนได้ทุกยอดแม้หลักล้าน";
+const pageDescription = "ENTER55 เว็บเล่นสล็อตและหวยออนไลน์ เรทจ่ายสูง ให้ความมั่นใจทุกการเดิมพัน นำมารวมให้เลือกเล่นครบในทางเข้าเดียว ปลอดภัยแน่นอน";
 
-// <Announcement /> runs bare: Announcement5's default message is already this
+// <Announcement /> runs bare: Announcement3's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
-// The docx has a real H1 -> H2 -> H3 hierarchy this round (#4 and #5 are genuine
-// H3 sub-points of #3), so the page is NOT flattened to H2-only. The only other
-// H3s are the three signup steps under #6, carried by FeatureHighlights.
-// Everything else on the page is chrome — ProviderGrid, LatestWinners,
-// LoginRtpSection and ReviewCardSumo all render their titles as <p>/<span> with
-// an aria-label on the section, so none of them emits a heading tag.
-// Final inventory for this page: h1 x1, h2 x5, h3 x5.
+// The docx has a real H1 -> H2 -> H3 hierarchy this round: #4/#5 are genuine H3
+// sub-points of H2 #3, and #7/#8 of H2 #6, so the page is NOT flattened to
+// H2-only. Both pairs are carried by FeatureHighlights, which is the only place
+// an <h3> comes from. Everything else on the page is chrome — ProviderGrid,
+// LatestWinners, LoginRtpSection and ReviewCardSumo all render their titles as
+// <p>/<span> with an aria-label on the section, so none of them emits a heading.
+// Final inventory for this page: h1 x1, h2 x5, h3 x4.
 
-// The three signup steps are the brief's L16-L18, split at the colon into the
-// step name and its instruction. Nothing is added or reworded. The accents are
-// two brightnesses of the one gold, alternating down the list.
-const signupSteps = [
+// docx H3 #4 and #5 — the two หวย payout rates under H2 #3, each with the full
+// paragraph the brief puts under it. The accents are two brightnesses of the one
+// gold, alternating down the list.
+const lottoRates = [
   {
-    icon: "📱",
+    icon: "🎯",
     accent: "deep" as const,
-    title: "กรอกเบอร์โทรศัพท์มือถือ",
-    description: "เพื่อรับรหัส OTP สำหรับยืนยันตัวตน (เพิ่มความปลอดภัยให้บัญชีของคุณ)",
+    title: "แทงหวย 2ตัว จ่าย 100บาท",
+    description: "ให้คุณทำกำไรได้มากกว่าที่เคย กับอัตราการจ่ายรางวัลหวยประเภท 2 ตัวบน และ 2 ตัวล่าง ที่เรากล้าให้สูงสุดถึง บาทละ 100 ลงทุนเพียงหลักสิบก็สามารถเปลี่ยนเป็นเงินหลักพันได้ง่ายๆ",
   },
   {
-    icon: "🏦",
+    icon: "💎",
     accent: "sheen" as const,
-    title: "ผูกบัญชีธนาคาร",
-    description: "กรอกชื่อ-นามสกุล และเลขบัญชีธนาคารที่ต้องการใช้ทำรายการ (ต้องตรงกัน) รองรับทุกธนาคารชั้นนำ รวมถึง TrueMoney Wallet",
-  },
-  {
-    icon: "🔑",
-    accent: "deep" as const,
-    title: "ตั้งรหัสผ่าน",
-    description: "กำหนดรหัสผ่านเข้าใช้งาน ล็อคอิน ฝากเงินแบบไม่มีขั้นต่ำ แล้วเริ่มปั่นสล็อตได้เลย!",
+    title: "แทงหวย 3ตัว จ่าย 1,000บาท",
+    description: "สัมผัสความรวยแบบก้าวกระโดดเมื่อทายผลเลข 3 ตัวตรงถูกต้อง รับเงินรางวัลไปเลยในอัตราที่สูงที่สุดในตลาดถึง บาทละ 1,000 แทงถูกปุ๊บ ระบบปรับยอดเครดิตให้ปั๊บ ถอนเงินไปใช้ได้ทันที",
   },
 ];
 
-// One array, used by both <Faq3> and the FAQPage node — never the component's
+// docx H3 #7 and #8 — the two slot promotions under H2 #6, same shape.
+const slotPromos = [
+  {
+    icon: "🤝",
+    accent: "deep" as const,
+    title: "โปรโมชั่น แนะนำเพื่อน 0.8%",
+    description:
+      "ชวนเพื่อนมาสนุกด้วยกัน รับเงินฟรีทุกวัน! เพียงนำลิงก์ส่วนตัวของคุณไปแชร์ให้เพื่อนสมัครและเข้าเล่นสล็อต คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8% จากทุกยอดการเล่นของเพื่อน ยิ่งชวนมากยิ่งได้มาก เป็นรายได้แบบ Passive Income ที่ถอนเป็นเงินสดได้จริง",
+  },
+  {
+    icon: "💰",
+    accent: "sheen" as const,
+    title: "โปรโมชั่น คืนยอดเสีย 0.3%",
+    description:
+      "ทุกการเดิมพันมีหลักประกันเสมอ หากโชคไม่เข้าข้าง เรามีระบบดูแลด้วยโปรโมชั่น คืนยอดเสีย 0.3% ในทุกรอบบิล เพื่อให้คุณมีทุนสำรองไว้สำหรับนำไปแก้มือและต่อยอดสร้างกำไรในเกมสล็อตได้อย่างต่อเนื่อง ไร้กังวล",
+  },
+];
+
+// The brief's three auto-signup steps (its L21-L23), split at the colon into the
+// step name and its instruction. Nothing is added or reworded. They sit under
+// docx H2 #9 as a list, not as headings — the docx marks no heading for them.
+const signupSteps = [
+  {
+    icon: "📱",
+    name: "กรอกเบอร์โทรศัพท์",
+    detail: "ระบุเบอร์มือถือของคุณเพื่อรับรหัส OTP ยืนยันตัวตน",
+  },
+  {
+    icon: "🏦",
+    name: "ผูกบัญชีธนาคาร",
+    detail: "เลือกธนาคารและกรอกเลขบัญชีที่ตรงกับชื่อ-นามสกุลของคุณ (รองรับการฝาก-ถอนทุกธนาคารชั้นนำ และ TrueMoney Wallet)",
+  },
+  {
+    icon: "🔑",
+    name: "ตั้งรหัสผ่าน",
+    detail: "กำหนด Username และ Password เพื่อล็อคอินเข้าสู่ระบบ เติมเงินและเริ่มต้นทำกำไรได้ครบทุกเกมในทางเข้าเดียว!",
+  },
+];
+
+// One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's Q1-Q3, verbatim, with only the "Q1:"/"A:" prefixes removed.
 const faqs = [
   {
-    q: '"สล็อตไม่ติดเทิร์น" คืออะไร?',
-    a: 'คือการที่คุณฝากเงินเข้ามาเล่นเกมสล็อต เมื่อเล่นได้กำไรตามที่พอใจแล้ว สามารถกดทำรายการ "ถอนเงิน" ได้ทันที 100% โดยไม่จำเป็นต้องทำยอดเล่นสะสม (ยอดเทิร์น) ให้ถึงเป้าตามที่เว็บกำหนดเหมือนเว็บทั่วไป',
+    q: "กระเป๋าเดียว (Single Wallet) ของ ENTER55 คืออะไร?",
+    a: "คือระบบที่อำนวยความสะดวกให้ผู้เล่น โดยยอดเครดิตทั้งหมดของคุณจะรวมอยู่ในกระเป๋าเดียว คุณสามารถสลับหน้าไปเล่นเกมสล็อต หรือเปลี่ยนไปแทงหวยออนไลน์ได้ทันที โดยไม่จำเป็นต้องกดย้ายเงินหรือโยกเครดิตระหว่างค่ายเกม",
   },
   {
-    q: "ทุนน้อย มีเงินแค่ 50 บาท สามารถฝากเล่นได้ไหม?",
-    a: "ฝากได้แน่นอนครับ! GODBET88 ใช้ระบบฝาก-ถอนไม่มีขั้นต่ำ 1 บาทก็ฝากได้ และเกมสล็อตของเราเริ่มต้นเบท (Bet) เพียงแค่ 1 บาทเท่านั้น ทุน 50 บาทก็สามารถปั่นสล็อตลุ้นแจ็คพอตหลักหมื่นได้",
+    q: "ENTER55 มีขั้นต่ำในการฝาก-ถอนเงินหรือไม่?",
+    a: "เว็บไซต์ของเราให้อิสระทางการเงินกับผู้เล่นทุกคน ด้วยระบบฝาก-ถอนอัตโนมัติที่ไม่มีขั้นต่ำ ทุน 1 บาทก็สามารถฝากเข้ามาเดิมพันได้ และสามารถทำรายการได้ตลอด 24 ชั่วโมง ใช้เวลาเพียง 3-5 วินาที",
   },
   {
-    q: "ถ้าเล่นสล็อตแตกหลักล้าน ทางเว็บจะจ่ายจริงและถอนได้เลยไหม?",
-    a: "จ่ายจริงและถอนได้ทันทีครับ! GODBET88 คือเว็บตรงที่มีฐานการเงินแข็งแกร่งระดับประเทศ เราการันตีถอนได้ทุกยอดแม้หลักล้าน ไม่มีการแบ่งจ่าย ไม่ต้องรอคิว ระบบออโต้โอนเงินเข้าบัญชีคุณเต็มจำนวนอย่างรวดเร็ว",
+    q: "ถ้าแทงหวยถูก และสล็อตแตกในวันเดียวกัน สามารถถอนเงินทั้งหมดได้เลยไหม?",
+    a: "ถอนได้ทั้งหมด 100% ทันที ENTER55 เป็นเว็บตรงที่มีฐานการเงินแข็งแกร่ง ไม่ว่ายอดถอนของคุณจะรวมกันหลักหมื่น หลักแสน หรือหลักล้าน เราก็พร้อมโอนจ่ายให้เต็มจำนวน ไม่มีอั้นยอดถอนต่อวัน",
   },
 ];
 
@@ -112,8 +144,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's sheen gold (#f6e7b8); it marks a claim
-// the brief states outright and nothing else.
+// The highlight colour is the palette's bright champagne gold (#ebd484); it
+// marks a claim the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -130,48 +162,35 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxFloatingBadge as="h1" title="GODBET88 เว็บสล็อตไม่ติดเทิร์น ปั่นได้ทั้งวัน ไม่จำกัดรอบถอน">
-    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
-      ปลดล็อคทุกข้อจำกัดของการเล่นสล็อตออนไลน์ที่
-      <strong class="text-[#f6e7b8]">GODBET88 เว็บสล็อตเว็บตรงที่เข้าใจคอสล็อตมากที่สุด!</strong>
-      เรามาพร้อมกับจุดเด่นที่ทุกคนตามหาคือการเป็น
-      <strong class="text-[#f6e7b8]">"เว็บสล็อตไม่ติดเทิร์น" เล่นได้เท่าไหร่ ถอนออกได้ทันทีโดยไม่ต้องทำยอดเทิร์นโอเวอร์ให้วุ่นวายและเสียเวลา</strong>
-      ให้คุณสนุกกับการปั่นสล็อตได้ทั้งวัน ทำกำไรได้ต่อเนื่อง พร้อมอิสระทางการเงินสูงสุดด้วยระบบที่ให้คุณสั่งถอนเงินได้ตลอดเวลา
-      <strong class="text-[#f6e7b8]">ไม่จำกัดรอบบิลต่อวัน ถอนกี่ครั้งก็ได้ตามใจคุณ!</strong>
+  <ContentBoxPremium as="h1" title="ENTER55 เว็บเล่นสล็อตและหวยออนไลน์ รวมครบในทางเข้าเดียว">
+    <p class="text-left text-base leading-relaxed text-[#ded8cb]">
+      เปิดประสบการณ์ใหม่แห่งการเดิมพันที่สะดวกสบายและคุ้มค่าที่สุดกับ
+      <strong class="text-[#ebd484]">ENTER55 อาณาจักรความบันเทิงที่ตอบโจทย์ทั้งสายปั่นสล็อตและคอหวยออนไลน์ในที่เดียว</strong>
+      เราได้รวบรวมค่ายเกมสล็อตชั้นนำระดับโลกและหวยออนไลน์ทุกประเภทมาไว้ให้คุณเลือกเล่นอย่างจุใจ
+      <strong class="text-[#ebd484]">ไม่ต้องเสียเวลาสมัครหลายเว็บ ไม่ต้องจำหลายรหัสผ่าน</strong>
+      เพราะที่นี่ให้คุณเข้าถึงทุกความสนุกได้ง่ายๆ
+      <strong class="text-[#ebd484]">"ครบจบในทางเข้าเดียว"</strong>
+      มั่นใจได้ด้วยระบบที่เสถียร ปลอดภัย และได้มาตรฐานสากล
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxSpecial as="h2" title="เล่นสล็อต GODBET88 เริ่มต้น 1บาท เล่นได้ทุกค่าย ไม่มีขั้นต่ำ" iconleft="🪙" iconright="💸">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ece1cc]">
-      ไม่ว่าคุณจะมีทุนหลักสิบหรือหลักหมื่น ก็สามารถเข้ามาสร้างกำไรก้อนโตกับ GODBET88 ได้อย่างเท่าเทียม เราเปิดโอกาสให้ทุกคนเข้าถึงความสนุกด้วยเงินลงทุน
-      <strong class="text-[#f6e7b8]">เริ่มต้นเพียง 1 บาท</strong>
-      แต่สามารถเลือกเล่นเกมสล็อตลิขสิทธิ์แท้ได้ครบทุกค่ายดังระดับโลก ไม่ว่าจะเป็น
-      <strong class="text-[#f6e7b8]">PG SLOT, Pragmatic Play, Joker Gaming, JILI</strong>
-      และอื่นๆ อีกมากมาย
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
-      นอกจากนี้ เรายังให้อิสระขั้นสุดด้วยระบบฝาก-ถอน
-      <strong class="text-[#f6e7b8]">ไม่มีขั้นต่ำ ทุนน้อยก็ฝากเล่นได้</strong>
-      และเมื่อแจ็คพอตแตก ไม่ว่ายอดถอนของคุณจะหลักร้อย หลักหมื่น หรือทะลุถึง "หลักล้าน" เราก็พร้อมโอนจ่ายให้เต็มจำนวน
-      <strong class="text-[#f6e7b8]">ถอนได้ทุกยอดทันที ไม่มีกั๊ก ไม่มีอั้น</strong>
-    </p>
-  </ContentBoxSpecial>
-
-  <ProviderGrid />
-
-  <ContentBox as="h2" title="โปรสล็อต GODBET88 มาแรง 2 อันดับ">
-    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
-      เพื่อเพิ่มความคุ้มค่าให้กับการลงทุนของคุณ
-      <strong class="text-[#f6e7b8]">GODBET88 ได้คัดสรรโปรโมชั่นสุดพิเศษที่แจกจริง</strong>
-      และมอบสิทธิประโยชน์ให้กับสมาชิกทุกคนอย่างยุติธรรม
-      <strong class="text-[#f6e7b8]">โดยไม่ต้องทำเงื่อนไขยุ่งยาก</strong>
+  <ContentBox as="h2" title="ENTER55 เว็บเดิมพันออนไลน์ เรทจ่ายสูง ให้ความมั่นใจทุกการเดิมพัน">
+    <p class="text-left text-base leading-relaxed text-[#ded8cb]">
+      ที่ ENTER55
+      <strong class="text-[#ebd484]">เราคือเว็บตรงไม่ผ่านเอเย่นต์ที่มีความมั่นคงทางการเงินระดับประเทศ</strong>
+      ทำให้เรากล้าให้เรทอัตราจ่ายที่สูงกว่าเว็บทั่วไปในตลาด ไม่ว่าคุณจะเข้ามาทำกำไรจากโบนัสแจ็คพอตสล็อตที่แตกหนัก แตกง่าย หรือจะเข้ามาลุ้นรวยกับตัวเลขหวยออนไลน์ เราก็พร้อมจ่ายให้คุณแบบไม่อั้น
+      <strong class="text-[#ebd484]">การันตีความปลอดภัย 100%</strong>
+      <strong class="text-[#ebd484]">ทุกยอดการชนะของคุณสามารถถอนออกได้จริงเต็มจำนวน</strong>
+      ให้ความมั่นใจในทุกการเดิมพัน ไม่มีประวัติการโกง
     </p>
   </ContentBox>
 
-  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น แนะนำเพื่อน 0.8%">
+  <ProviderGrid />
+
+  <ContentBoxSevenThreePremium as="h2" title="อัตราจ่าย ENTER55 ให้เต็มทุกบิล ไม่หักเปอร์เซ็นต์">
     <Picture
       slot="left"
-      src={imgSlide2}
+      src={imgSlide3}
       loading="lazy"
       fetchpriority="low"
       widths={[260, 400, 700]}
@@ -180,66 +199,80 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ GODBET88 พื้นหลังแบ่งสองฝั่ง ฝั่งซ้ายสีดำและฝั่งขวาสีขาวครีม มีกรอบมุมเป็นเส้นทองบาง โลโก้เหรียญกลมสีทอง GODBET88 วางอยู่ที่มุมซ้ายบน ด้านซ้ายเป็นผู้หญิงสวมชุดราตรีสีทองสลับขาวพลิ้วไหว มีปีกนางฟ้าขนนกสีขาวแต่งทองขนาดใหญ่แผ่อยู่ด้านหลัง ด้านขวาเป็นตัวอักษรสีทองคำว่า โปรโมชั่น อยู่เหนือคำว่า แนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่มากสีทองเมทัลลิก"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#c2a55c]/55 shadow-[0_10px_30px_rgba(194,165,92,0.28)]"
+      alt="โปสเตอร์อัตราจ่ายหวยของ ENTER55 พื้นหลังสีดำลายวงจรเส้นทอง ด้านบนเป็นตัวอักษรสีทองเมทัลลิกคำว่า ENTER55 ใต้ลงมาเป็นข้อความสองบรรทัดว่า แทงหวย 2ตัว จ่าย 100บาท และ แทงหวย 3ตัว จ่าย 1,000บาท มีลูกบอลหวยกลมสีทองวางประกอบ และมีผู้หญิงผมยาวสวมชุดราตรีสีทองยืนอยู่ด้านข้าง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#c4a255]/55 shadow-[0_10px_30px_rgba(196,162,85,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
-      เปลี่ยนช่องทางโซเชียลของคุณให้เป็นเครื่องผลิตเงิน! เพียงแค่นำลิงก์ส่วนตัวไปแชร์และชวนเพื่อนมาสมัครเล่นสล็อตกับเรา
-      <strong class="text-[#f6e7b8]">คุณจะได้รับค่าคอมมิชชั่นสูงถึง 0.8%</strong>
-      จากทุกยอดการเล่นของเพื่อน ยิ่งเพื่อนเล่นมาก คุณยิ่งได้มาก รับรายได้แบบ
-      <strong class="text-[#f6e7b8]">Passive Income ตลอดชีพ ถอนเป็นเงินสดได้เลย</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded8cb]">
+      สำหรับคอหวยที่กำลังมองหาเว็บที่จ่ายหนักและซื่อตรง ENTER55 คือคำตอบที่ดีที่สุด เราเปิดรับแทงหวยทุกประเภท
+      <strong class="text-[#ebd484]">ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้น</strong>
+      โดยมีนโยบาย
+      <strong class="text-[#ebd484]">จ่ายเต็มทุกบิล ไม่หักเปอร์เซ็นต์</strong>
+      แม้จะเป็นเลขเด็ด เลขดัง หรือเลขอั้น เราก็พร้อมให้เรทราคาที่ยุติธรรมและคุ้มค่าที่สุด
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3%">
+  <FeatureHighlights items={lottoRates} />
+
+  <LatestWinners />
+
+  <ContentBoxSevenThree as="h2" title="โปรโมชั่นเกมสล็อต ENTER55">
     <Picture
       slot="left"
-      src={imgSlide1}
+      src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
-      widths={[260, 400, 780]}
-      sizes="(max-width: 767px) 92vw, 389px"
+      widths={[280, 420, 760]}
+      sizes="(max-width: 767px) 92vw, 380px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% ของ GODBET88 พื้นหลังสีดำสนิทมีลำแสงสีทองพาดเฉียง และมีตราสัญลักษณ์พวงหรีดใบลอเรลสีขาวสลับทองอยู่ด้านหลังโลโก้เหรียญกลมสีทอง GODBET88 ที่มุมซ้ายบน ด้านขวาเป็นผู้หญิงสวมชุดราตรีสีดำปักลายดวงอาทิตย์และดาวสีทอง คาดผ้าคาดเอวสีทอง มีปีกนางฟ้าขนนกสีขาวแต่งทองขนาดใหญ่แผ่อยู่ด้านหลัง ตรงกลางด้านล่างเป็นตัวอักษรสีทองคำว่า โปรโมชั่น อยู่เหนือคำว่า คืนยอดเสีย ข้างตัวเลข 0.3% ขนาดใหญ่สีทองเมทัลลิก"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#f6e7b8]/45 shadow-[0_10px_30px_rgba(246,231,184,0.22)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% ของ ENTER55 พื้นหลังสีดำทอง ด้านบนเป็นตัวอักษรสีทองเมทัลลิกคำว่า ENTER55 ใต้ลงมาเป็นข้อความว่า โปรโมชั่น แนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่สีทอง ด้านข้างเป็นผู้หญิงผมยาวสวมชุดราตรีสีดำปักลายทอง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#ebd484]/45 shadow-[0_10px_30px_rgba(235,212,132,0.22)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cc]">
-      เล่นสล็อตแบบไม่ต้องกลัวหมดตัว เพราะ GODBET88 มีระบบเซฟตี้คืนทุนให้กับผู้เล่นทุกคน ด้วยโปรโมชั่น
-      <strong class="text-[#f6e7b8]">คืนยอดเสีย 0.3% ในทุกรอบบิล</strong>
-      เพื่อให้คุณมีเครดิตสำรองไว้สำหรับแก้มือและนำไปต่อยอดทำกำไรในเกมสล็อตค่ายโปรดของคุณได้อีกครั้ง
-      <strong class="text-[#f6e7b8]">กดรับสิทธิ์ได้ง่ายๆ ผ่านหน้าเว็บ</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ded8cb]">
+      นอกจากหวยแล้ว ในส่วนของเกมสล็อตออนไลน์
+      <strong class="text-[#ebd484]">ENTER55 ก็จัดเต็มความคุ้มค่าให้สมาชิกแบบไม่มีกั๊ก</strong>
+      ด้วยโปรโมชั่นสุดพิเศษที่ออกแบบมาเพื่อคืนกำไรและเพิ่มโอกาสในการชนะให้กับทุกยูสเซอร์
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThree>
 
-  <LatestWinners />
+  <FeatureHighlights items={slotPromos} />
 
-  <ContentBox as="h2" title="สมัคร GODBET88 เล่นสล็อต">
-    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
-      เข้าสู่โลกของการทำกำไรแบบไม่ติดเทิร์นได้ง่ายๆ ผ่านระบบสมัครสมาชิกอัตโนมัติ (Auto) ที่รวดเร็วและปลอดภัย
-      <strong class="text-[#f6e7b8]">ใช้เวลาไม่ถึง 1 นาที</strong>
-      เพียงทำตามขั้นตอนดังนี้:
-    </p>
-  </ContentBox>
-
-  <FeatureHighlights items={signupSteps} />
+  <ContentBoxCyberCut as="h2" title="สมัครสมาชิก ENTER55 เข้าเล่นได้ครบในทางเข้าเดียว">
+    <div class="flex flex-col gap-5">
+      <p class="text-left text-base leading-relaxed text-[#ded8cb]">
+        สมัครสมาชิกกับ ENTER55 วันนี้ สัมผัสความสะดวกสบายขั้นสุดด้วยระบบ
+        <strong class="text-[#ebd484]">"กระเป๋าเดียว (Single Wallet)"</strong>
+        ที่ให้คุณฝากเงินเพียงครั้งเดียว แต่สามารถนำเครดิตไปเล่นได้ทั้งสล็อตและหวย
+        <strong class="text-[#ebd484]">โดยไม่ต้องโยกเงินไปมาให้ยุ่งยาก</strong>
+        สมัครฟรีด้วยตัวเองผ่านระบบออโต้เพียง 3 ขั้นตอน:
+      </p>
+      <ol class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded8cb]">
+        {
+          signupSteps.map((step, i) => (
+            <li class="flex items-start gap-4 rounded-xl border border-[#26200f] bg-[#000000]/70 p-4 transition-colors hover:border-[#c4a255]/70 hover:bg-[#16140f]">
+              <span
+                aria-hidden="true"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#c4a255]/60 bg-gradient-to-br from-[#c4a255] to-[#8a6d2c] text-xl text-[#ebd484] shadow-[0_0_12px_rgba(196,162,85,0.35)]">
+                {step.icon}
+              </span>
+              <span class="flex flex-col gap-1">
+                <span class="font-black tracking-wide text-[#ebd484]">
+                  ขั้นตอนที่ {i + 1} — {step.name}
+                </span>
+                <span class="text-[#ded8cb]">{step.detail}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </ContentBoxCyberCut>
 
   <LoginRtpSection />
 
-  <ContentBoxFloatingBadge as="h2" title="ช่องทางติดต่อแอดมิน GODBET88 เกี่ยวกับเกมสล็อต 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#ece1cc]">
-      เราพร้อมให้บริการและดูแลสมาชิกทุกท่านระดับ VIP หากคุณมีข้อสงสัยเกี่ยวกับเกมสล็อตค่ายต่างๆ ต้องการสอบถามเรื่องระบบการไม่ติดเทิร์น หรือพบปัญหาในการฝาก-ถอนเงิน
-      สามารถติดต่อทีมงานแอดมินมืออาชีพของเราได้ผ่านช่องทาง
-      <strong class="text-[#f6e7b8]">Line Official ตลอด 24 ชั่วโมง</strong>
-      แอดมินสแตนด์บายตอบไว
-      <strong class="text-[#f6e7b8]">แก้ไขปัญหาตรงจุด สุภาพ</strong>
-      และพร้อมดูแลคุณตลอดการเดิมพัน
-    </p>
-  </ContentBoxFloatingBadge>
-
-  <Faq3 as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อย (FAQ)" faqs={faqs} />
 
   <ReviewCardSumo />
 
