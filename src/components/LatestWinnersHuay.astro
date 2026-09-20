@@ -13,22 +13,21 @@ const bankPool = [
 ];
 
 // Pre-formatted, because the shared module treats a market as one opaque label
-// rather than a name/type pair it has to know how to join. The labels stay
-// inside the four lottery types the brief names — หวยรัฐบาลไทย / หวยลาว /
-// หวยฮานอย / หวยหุ้น — plus เลข 2 ตัว / เลข 3 ตัว. ประเภทที่บรีฟไม่ได้ระบุ
-// (ออมสิน, ฮานอย VIP, ชื่อตลาดหุ้นรายตัว) ถูกถอดออกแล้ว
-// ไม่มีตัวเลขอัตราจ่ายใน pool นี้ — ป้ายในฟีดเป็นชื่อประเภทหวย/ประเภทเลขเท่านั้น
-// เรทของแบรนด์นี้ (2 ตัว บาทละ 100 · 3 ตัวตรง บาทละ 1,000) อยู่ในตัวบทความ
-// ไม่ใช่ในฟีดที่ตัวเลขสุ่มเปลี่ยนทุกไม่กี่วินาที
+// rather than a name/type pair it has to know how to join. บรีฟของ MHEEPOOH168
+// ระบุเพียงว่ามีหมวด "หวย" อยู่ในระบบเดียวกับบาคาร่า สล็อต และบอล โดยไม่ได้ระบุ
+// ชื่อตลาดหวยรายตัว ป้ายในฟีดจึงเป็นประเภทของเลขที่แทงเท่านั้น ห้ามเติมชื่อตลาด
+// (รัฐบาลไทย ลาว ฮานอย หุ้น ออมสิน ฯลฯ) กลับเข้ามาโดยไม่มีบรีฟรองรับ
+// และห้ามใส่ตัวเลขอัตราจ่ายลงใน pool นี้ — เรทเป็นค่าที่ระบบแสดงต่อรอบ ไม่ใช่
+// ตัวเลขคงที่ที่จะโชว์ในฟีดซึ่งสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
-  "หวยรัฐบาลไทย · เลข 2 ตัว",
-  "หวยรัฐบาลไทย · เลข 3 ตัว",
-  "หวยลาว · เลข 2 ตัว",
-  "หวยลาว · เลข 3 ตัว",
-  "หวยฮานอย · เลข 2 ตัว",
-  "หวยฮานอย · เลข 3 ตัว",
-  "หวยหุ้น · เลข 2 ตัว",
-  "หวยหุ้น · เลข 3 ตัว",
+  "หวย · เลข 2 ตัวบน",
+  "หวย · เลข 2 ตัวล่าง",
+  "หวย · เลข 3 ตัวตรง",
+  "หวย · เลข 3 ตัวโต๊ด",
+  "หวย · เลขวิ่งบน",
+  "หวย · เลขวิ่งล่าง",
+  "หวย · ชุดเลข 2 ตัว",
+  "หวย · ชุดเลข 3 ตัว",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -40,11 +39,12 @@ const marketPool = [
 // rebrand, and a widget that supplies its own h2 breaks that check on every
 // page it appears on. Do not promote it again to "fix" the missing name.
 //
-// This feed renders on /ตรวจหวย only, so the row states ถอน/ถูกรางวัล rather
-// than a casino win, and the done state reads โอนเข้าบัญชีแล้ว — the brief's own
-// "ถอนได้ 100% เต็มจำนวน ไม่มีอั้นยอดถอนต่อวัน" claim is what it illustrates.
-// Palette is red on near-black only: the pending state is pale rose and the
-// completed state is cream, so no second hue (gold or green) survives here.
+// This feed renders on /ตรวจหวย only, so the row states ถูกรางวัล/โอนเข้าบัญชี
+// rather than a casino win — it illustrates the brief's own "ตรวจสอบสถานะรายการ
+// และยอดผ่านบัญชีของตัวเองได้" line, not a payout guarantee.
+// Palette is red on near-black only (ธีม Huay ของหน้าหวย ซึ่ง playbook ยกเว้นไว้
+// ใน Phase 4.5): the pending state is pale rose and the completed state is cream,
+// so no second hue (gold or green) survives here.
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
@@ -62,7 +62,7 @@ const DONE_CLASS = "text-[#ffe9ea]";
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
-    aria-label="ยอดถูกรางวัลและรายการถอนล่าสุดของสมาชิก ENTER55"
+    aria-label="ยอดถูกรางวัลและรายการถอนล่าสุดของสมาชิก MHEEPOOH168"
     class="relative rounded-3xl border border-[#c21e22]/55 bg-[#140a0c]/75 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl md:p-8">
     <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#c21e22]/50 pb-4">
       <div class="flex items-center gap-3">
