@@ -4,7 +4,7 @@ import scbLogo from "../assets/banks/scb.png";
 import krungsriLogo from "../assets/banks/krungsri.png";
 import ktbLogo from "../assets/banks/ktb.png";
 import ttbLogo from "../assets/banks/ttb.png";
-import { brandFlag, brandPick } from "../lib/brandProfile";
+import { BRAND_NAME, brandFlag, brandPick } from "../lib/brandProfile";
 
 // The bg-[#...] values here are the banks' own brand colours and stay put
 // through every rebrand — they are not part of the palette swap.
@@ -30,11 +30,14 @@ const bankPool = [
 // the live site's markup for nothing. brandPick()/brandFlag() make two builds of
 // the same domain byte-identical.
 //
-// GODBET88 palette: the panel is the card surface (#0a0806) inside a deep-gold
-// border (#9a7f3f), the timeline rule and its dots are the primary gold
-// (#c2a55c), and the two auras are primary and sheen (#f6e7b8) — one hue at
-// three brightnesses. The status pills keep their semantic colours (neutral
-// slate while pending, green when transferred) and are set in the <style> below.
+// The block title is a <p> and the <section> carries an aria-label — a live
+// transaction feed is chrome and never emits a heading tag at any level.
+//
+// HENG35 (ดำ-ทอง 2026-09-21): แผงคือพื้นเพจดำ #070605 ในกรอบบรอนซ์ #a3732c
+// เส้นไทม์ไลน์และจุดบนเส้นเป็นทองหลัก #ecc55c ออร่าสองมุมเป็นทองหลักกับทองสว่าง
+// #fefac4 — ทองสีเดียวสามระดับความสว่าง ป้ายสถานะยังคงสีเชิงความหมายไว้
+// (เทากลางระหว่างรอตรวจสอบ เขียวเมื่อโอนสำเร็จ) และถูกกำหนดใน <style> ด้านล่าง
+// ชุดทองของ GODBET88 (#c2a55c #9a7f3f #f6e7b8 #e2c87f #161208) หายไปทั้งหมด
 const AMOUNT_MIN = 15000;
 const AMOUNT_MAX = 95000;
 
@@ -51,14 +54,16 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
 
 <div class="mx-auto w-full max-w-[900px] p-4 font-sans">
   <section
-    aria-label="ประวัติการถอนเงินล่าสุดของสมาชิก GODBET88"
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#9a7f3f]/70 bg-[#0a0806]/92 px-4 py-8 shadow-[0_10px_30px_rgba(194,165,92,0.18)] backdrop-blur-md md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-[#c2a55c]/22 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-[#f6e7b8]/12 blur-[60px]"></div>
+    aria-label={`ประวัติการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#a3732c]/70 bg-[#070605]/92 px-4 py-8 shadow-[0_10px_30px_rgba(236,197,92,0.18)] backdrop-blur-md md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-[#ecc55c]/22 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-[#fefac4]/12 blur-[60px]"></div>
 
     <div class="relative z-10 mb-8 text-center">
-      <p class="bg-gradient-to-b from-[#f6e7b8] to-[#9a7f3f] bg-clip-text text-xl font-black text-transparent md:text-3xl">ประวัติการถอนเงินของสมาชิก GODBET88 แบบเรียลไทม์</p>
-      <p class="mt-2 text-base leading-relaxed text-[#ece1cc]">ระบบฝาก-ถอนออโต้ไม่มีขั้นต่ำเปิดทำรายการตลอด 24 ชั่วโมง ตัวเลขด้านล่างเป็นข้อมูลตัวอย่างสำหรับแสดงรูปแบบรายการเท่านั้น</p>
+      <p class="bg-gradient-to-b from-[#fefac4] to-[#a3732c] bg-clip-text text-xl font-black text-transparent md:text-3xl">ประวัติการถอนเงินของสมาชิก {BRAND_NAME} แบบเรียลไทม์</p>
+      <p class="mt-2 text-base leading-relaxed text-[#ece1cb]">
+        รองรับช่องทางธนาคารและวอลเลทตามรายการที่เว็บไซต์เปิดให้ใช้งาน ฝากถอนไม่จำกัด ตัวเลขด้านล่างเป็นข้อมูลตัวอย่างสำหรับแสดงรูปแบบรายการเท่านั้น
+      </p>
     </div>
 
     <div
@@ -70,13 +75,13 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
       data-pending-chance="0.4"
       data-user-style="letters"
       data-user-digits="4"
-      class="relative z-10 ml-4 border-l-2 border-[#9a7f3f]/70 pl-6 md:ml-8 md:pl-8">
+      class="relative z-10 ml-4 border-l-2 border-[#a3732c]/70 pl-6 md:ml-8 md:pl-8">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row relative mb-6 transition-all duration-500 ease-out">
-            <div aria-hidden="true" class="absolute top-2 -left-[35px] h-4 w-4 rounded-full border-2 border-[#050403] bg-[#c2a55c] shadow-[0_0_10px_rgba(194,165,92,0.8)] md:-left-[43px]" />
+            <div aria-hidden="true" class="absolute top-2 -left-[35px] h-4 w-4 rounded-full border-2 border-[#070605] bg-[#ecc55c] shadow-[0_0_10px_rgba(236,197,92,0.8)] md:-left-[43px]" />
 
-            <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#161208]/75 to-transparent p-4 transition-colors hover:from-[#161208]">
+            <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#1c1710]/75 to-transparent p-4 transition-colors hover:from-[#1c1710]">
               <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
               </div>
@@ -84,11 +89,11 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
               <div class="min-w-0 flex-1">
                 <div class="text-sm text-[#b9ad98]">
                   ยูสเซอร์:{" "}
-                  <span data-winner-user class="font-bold text-[#ece1cc]">
+                  <span data-winner-user class="font-bold text-[#ece1cb]">
                     {row.user}
                   </span>
                 </div>
-                <div class="text-xl font-black text-[#e2c87f]">
+                <div class="text-xl font-black text-[#ffdf8a]">
                   <span data-winner-amount>{row.amount}</span> THB
                 </div>
               </div>
