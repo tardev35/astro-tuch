@@ -1,16 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ProviderGridPremium from "../components/ProviderGridPremium.astro";
+import Announcement from "../components/Announcement3.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ProviderGrid from "../components/ProviderGrid.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import Faq from "../components/Faq3.astro";
+import Faq from "../components/Faq2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -20,76 +20,65 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR FAH999 — READ BEFORE REUSING THESE IMPORTS.
-// Checked against the 2026-09-21 drop by opening both posters: slide2.png reads
-// "โปรโมชั่น คืนยอดเสีย 0.3%" so it belongs to docx H3 #4, and slide1.png reads
-// "โปรโมชั่นแนะนำเพื่อน 0.8%" so it belongs to docx H3 #5. That is the REVERSE of
-// the order the previous brand's index used — the pairing is not stable across
-// brands, so re-open the posters next rebrand rather than copying this forward.
-// Both posters are black + gold; any alt text describing a red background is
-// left over from an earlier brand's artwork.
+// SLIDE ROLES FOR THIS DROP (2026-09-21) — READ BEFORE REUSING THESE IMPORTS.
+// Both posters were opened and read: slide2.png prints "โปรโมชั่นคืนยอดเสีย 0.3%"
+// so it belongs to docx H3 #4, and slide1.png prints "โปรโมชั่นแนะนำเพื่อน 0.8%"
+// so it belongs to docx H3 #5. The pairing is NOT stable across brands — re-open
+// the posters next rebrand instead of copying this forward. This drop's artwork
+// is ROYAL PURPLE + GOLD; any alt text on this page describing a black-and-gold
+// or red poster is left over from an earlier brand and is wrong.
 //
 // slide3.png (2026-09-18) and slide4.png (2026-08-13) are deliberately NOT
-// imported: both predate this drop and print a PREVIOUS brand's name in large
-// type on the artwork itself. Nothing else on this page carries an image —
-//   banner1 / banner1-mobile  = MainLayout's own pinned globs. A page never
-//                               references them, and nothing here gets
-//                               loading="eager" fetchpriority="high" — the hero
-//                               is the LCP element and it belongs to the layout.
-//   banner2.png (2026-08-20) and banner3.png (2026-08-11) predate the
-//   2026-09-21 asset drop -> stale inventory from earlier clients, must stay
-//   unimported. With no current banner2/3/4 there are no single-column
-//   ContentBox inline illustrations this round.
-// A slide may only ever live inside a ContentBoxSevenThree*; two of them is the
-// family's hard cap per rebrand and this page uses exactly two, which is the
-// whole budget for this rebrand.
+// imported: both predate this drop and carry a previous client's artwork.
+// banner2.png (2026-08-20) and banner3.png (2026-08-11) are stale for the same
+// reason, so there is no single-column ContentBox inline illustration this
+// round. banner1 / banner1-mobile belong to MainLayout's own pinned globs and
+// are never referenced from a page — the hero is the LCP element, so nothing
+// here gets loading="eager" fetchpriority="high".
 //
-// Dropped from the previous brand's index and NOT deleted from disk (they are
-// inventory for the next brand): AnnouncementPremium, ContentBoxFloatingBadge,
-// ContentBoxSevenThreeCyberCut, ContentBoxSevenThreeNeumorphism,
-// ContentBoxSpecial, ProviderGrid, LatestWinners2 and Faq4 — that whole mix went
-// out with the outgoing brand and none of it may be reused this round.
+// A slide may only ever live inside a ContentBoxSevenThree*. Two of them is the
+// family's hard cap per rebrand and this page spends the whole budget.
+//
+// Rotated out of this round's mix and NOT deleted from disk (they are inventory
+// for the next brand): Announcement5, ContentBoxCyberCut, ContentBoxTwoPremium,
+// ContentBoxSevenThreePremium, ContentBoxSevenThree, ContentBoxNeumorphism,
+// ContentBoxPremium, ProviderGridPremium, LatestWinners4 and Faq3.
 
-// The artwork in this drop prints a different wordmark than the operator's
-// instruction. The operator's instruction wins: every brand string on this page
-// is FAH999, and no alt transcribes the literal wordmark off the poster.
-
-// Title and description are the brief's own Title/Meta Description lines, used
+// Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "FAH999 สมัครสล็อตยูสใหม่ ไม่ล็อค โบนัสฝากแรก ไม่อั้น";
+const pageTitle = "FAH999 สล็อตออโต้Top3 เว็บตรง ติดอันดับมาแรง";
 
-const pageDescription =
-  "FAH999 สมัครสล็อตยูสใหม่ รับสิทธิพิเศษเพียบ ไม่ล็อคยูส ฝากถอนไม่จำกัด ได้โบนัสฝากแรก ทั้งวอลเลทและธนาคาร เดิมพันไม่อั้น ไม่จำกัดยอดเดิมพัน";
+const pageDescription = "FAH999 สล็อตออโต้Top3 รวมเกมยอดนิยม แตกง่าย แจ็คพอตเข้าไว การันตีเชื่อถือได้ สมัครเว็บตรงติดอันดับมาแรงต้องที่นี่ที่เดียว";
 
-// <Announcement /> runs bare: Announcement5's default message is already this
+// <Announcement /> runs bare: Announcement3's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H1 -> H2 -> H3 hierarchy this round: #4 and #5 are genuine
-// H3 sub-points of H2 #3, so the page is NOT flattened to H2-only. They are the
-// only <h3> on the site and they are carried by the two SevenThree blocks.
-// Everything else on the page is chrome — ProviderGridPremium, LatestWinners4,
+// H3 sub-points of H2 #3 (โปรโมชั่น), so the page is NOT flattened to H2-only.
+// They are the only <h3> on the site and they are carried by the two SevenThree
+// blocks. Everything else here is chrome — ProviderGrid, LatestWinnersPremium,
 // LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span> with
-// an aria-label on the section, and Faq3's questions stay <p> inside <summary>,
-// so none of them emits a heading.
+// an aria-label on the section, and Faq2's questions stay <span> inside
+// <summary>, so none of them emits a heading.
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
-// are the brief's L17-L22, verbatim with the brand name substituted.
+// are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "สมัคร FAH999 ยูสใหม่ได้รับโบนัสฝากแรกหรือไม่?",
-    a: "ยูสใหม่สามารถตรวจสอบสิทธิ์โบนัสฝากแรกได้จากหน้าโปรโมชั่น โดยรายละเอียดของโบนัส ยอดที่เข้าเกณฑ์ และเงื่อนไขการรับอาจแตกต่างกันตามรายการที่เปิดให้ใช้งานในช่วงนั้น",
+    q: "FAH999 มีเกมสล็อตประเภทไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีเกมสล็อตจากหลายค่าย ทั้งเกมยอดนิยม เกมโบนัส เกมแจ็คพอต และเกมใหม่ที่อัปเดตตามช่วงเวลา สมาชิกสามารถเลือกดูตามหมวดหมู่และตรวจสอบรายละเอียดของแต่ละเกมได้ก่อนเข้าเล่น",
   },
   {
-    q: "FAH999 มีการล็อคยูสหรือจำกัดการเข้าเล่นหรือไม่?",
-    a: "ตามข้อมูลที่กำหนด จุดเด่นของระบบคือการใช้งานแบบไม่ล็อคยูส สมาชิกสามารถเลือกเกมและค่ายที่ต้องการได้ตามรายการที่รองรับ โดยควรตรวจสอบเงื่อนไขของแต่ละเกมก่อนเข้าเล่น",
+    q: "โปรโมชั่น FAH999 มีอะไรบ้าง?",
+    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8% โดยแต่ละรายการมีเงื่อนไขและวิธีรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
   },
   {
-    q: "FAH999 รองรับธนาคารและวอลเลทหรือไม่?",
-    a: "ระบบรองรับช่องทางธนาคารและวอลเลทตามรายการที่เปิดให้ใช้งาน สมาชิกสามารถตรวจสอบช่องทางที่รองรับ รวมถึงสถานะฝากถอนและรายละเอียดของบัญชีได้จากหน้าเว็บไซต์โดยตรง",
+    q: "หากฝากถอนหรือเข้าเว็บไม่ได้ควรทำอย่างไร?",
+    a: "แนะนำให้ตรวจสอบอินเทอร์เน็ตและเลือกใช้ทางเข้า FAH999 ที่เว็บไซต์ประกาศไว้ หากยังพบปัญหา สามารถติดต่อแอดมินเพื่อให้ช่วยตรวจสอบบัญชี ช่องทางทำรายการ หรือปัญหาการเข้าใช้งานได้โดยตรง",
   },
 ];
 
@@ -97,8 +86,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's highlight gold (#f7e7a8); it marks a
-// claim the brief states outright and nothing else.
+// The highlight colour is the palette's soft gold (#ffdf6b); it marks a claim
+// the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -115,105 +104,110 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxCyberCut as="h1" title="FAH999 สมัครสล็อตยูสใหม่ ไม่ล็อค รับโบนัสฝากแรก ไม่อั้น">
-    <p class="text-left text-base leading-relaxed text-[#e7dcc4]">
-      <strong class="text-[#f7e7a8]">FAH999 เปิดรับสมาชิกใหม่ที่ต้องการเริ่มเล่นสล็อตผ่านระบบที่ใช้งานง่าย ไม่ล็อคยูส</strong>
-      <strong class="text-[#f7e7a8]">พร้อมสิทธิ์โบนัสฝากแรกตามเงื่อนไขที่กำหนด</strong>
-      รองรับทั้งมือถือและคอมพิวเตอร์ มีเกมจากหลายค่ายให้เลือก พร้อมระบบบัญชีที่จัดการได้สะดวก เหมาะกับยูสใหม่ที่ต้องการเริ่มต้นโดยไม่จำกัดรูปแบบการเล่นมากเกินไป
+  <ContentBoxFloatingBadge as="h1" title="FAH999 สล็อตออโต้Top3 เว็บตรง ติดอันดับมาแรง">
+    <p class="text-left text-base leading-relaxed text-[#ecdcff]">
+      FAH999
+      <strong class="text-[#ffdf6b]">สล็อตออโต้Top3 ที่รวมเกมสล็อตจากหลายค่ายไว้ในระบบเดียว</strong>
+      <strong class="text-[#ffdf6b]">เน้นทางเข้าเว็บตรง</strong>
+      ใช้งานง่าย และจัดหมวดเกมไว้อย่างชัดเจน เหมาะกับคนที่ต้องการค้นหาเกมยอดนิยมจากหน้าเดียว พร้อมระบบออโต้ที่ช่วยให้จัดการบัญชีและเข้าเล่นได้สะดวกมากขึ้นบนทั้งมือถือและคอมพิวเตอร์
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxFloatingBadge>
 
-  <ContentBoxTwoPremium as="h2" title="สล็อต FAH999 รับสิทธิพิเศษเฉพาะสมาชิก ไม่มีล็อคยูส">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e7dcc4]">
-      สล็อต FAH999
-      <strong class="text-[#f7e7a8]">มีสิทธิพิเศษสำหรับสมาชิกทั้งยูสใหม่และยูสเดิม โดยเน้นการใช้งานแบบไม่มีล็อคยูส</strong>
-      สามารถเลือกเกมจากหลายค่ายและตรวจสอบเงื่อนไขก่อนเข้าเล่นได้จากหน้าเดียว
+  <ContentBoxTwoCyberCut as="h2" title="FAH999 เกมยอดนิยม แตกง่าย แจ็คพอตเข้าไว การันตีเชื่อถือได้">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ecdcff]">
+      FAH999
+      <strong class="text-[#ffdf6b]">รวบรวมเกมยอดนิยมหลายสไตล์</strong>
+      ทั้งสล็อตโบนัส เกมฟีเจอร์
+      <strong class="text-[#ffdf6b]">และเกมแจ็คพอตจากหลายค่าย</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e7dcc4]">
-      <strong class="text-[#f7e7a8]">ระบบจัดหมวดเกมชัดเจน</strong>
-      ช่วยให้ค้นหาเกมที่ต้องการได้ง่าย
-      <strong class="text-[#f7e7a8]">พร้อมตัวเลือกการเดิมพันที่หลากหลายตามแต่ละเกม</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdcff]">
+      <strong class="text-[#ffdf6b]">สมาชิกสามารถเปิดดูข้อมูลของแต่ละเกมก่อนเลือกเล่น</strong>
+      พร้อมตรวจสอบรายละเอียดของรอบโบนัสและระดับเดิมพันได้จากหน้าเกมโดยตรง ช่วยให้เลือกเกมที่เหมาะกับสไตล์ของตัวเองได้ง่ายขึ้น
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoCyberCut>
 
-  <ProviderGridPremium />
+  <ProviderGrid />
 
-  <ContentBox as="h2" title="โปรโมชั่นสล็อต FAH999 รับได้ทุกฝากไม่จำกัด">
-    <p class="text-left text-base leading-relaxed text-[#e7dcc4]">
-      โปรโมชั่นสล็อต FAH999 มีสิทธิ์ให้เลือกหลายรูปแบบตามเงื่อนไขของระบบ
-      <strong class="text-[#f7e7a8]">ทั้งโบนัสคืนยอดเสียและโบนัสแนะนำเพื่อน</strong>
-      <strong class="text-[#f7e7a8]">สมาชิกสามารถตรวจสอบรายละเอียดก่อนกดรับได้จากหน้าโปรโมชั่น</strong>
-      เพื่อดูยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และเงื่อนไขของแต่ละรายการก่อนนำไปใช้งาน
+  <ContentBoxSpecial as="h2" title="โปรโมชั่นสล็อต FAH999 กดรับได้ทุกฝาก ไม่จำกัด" iconleft="🎁" iconright="📋">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ecdcff]">
+      โปรโมชั่นสล็อต FAH999
+      <strong class="text-[#ffdf6b]">มีสิทธิ์ให้สมาชิกเลือกตามเงื่อนไขของแต่ละรายการ</strong>
+      <strong class="text-[#ffdf6b]">ทั้งโบนัสคืนยอดเสียและโบนัสแนะนำเพื่อน</strong>
     </p>
-  </ContentBox>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdcff]">
+      <strong class="text-[#ffdf6b]">โดยสามารถตรวจสอบรายละเอียดก่อนกดรับได้จากหน้าโปรโมชั่น</strong>
+      ช่วยให้รู้เงื่อนไข ยอดที่เข้าเกณฑ์ และรอบรับสิทธิ์ได้ชัดเจนก่อนใช้งานจริง
+    </p>
+  </ContentBoxSpecial>
 
-  <ContentBoxSevenThreePremium as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
-      widths={[260, 400, 700]}
-      sizes="(max-width: 767px) 92vw, 346px"
+      widths={[264, 382, 764]}
+      sizes="(max-width: 767px) calc(100vw - 96px), 382px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ FAH999 พื้นหลังสีดำตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีดำสลับทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทองของ FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย และตัวเลข 0.3% ขนาดใหญ่สีทอง รอบข้างมีเหรียญทองและชิปโป๊กเกอร์สีดำขอบทอง"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e8c25a]/55 shadow-[0_10px_30px_rgba(232,194,90,0.28)]"
+      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ FAH999 พื้นหลังสีม่วงเข้มตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีขาวสลับม่วงทองกำลังชี้นิ้วขึ้น ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นคืนยอดเสีย และตัวเลข 0.3% ขนาดใหญ่สีทอง มีมงกุฎทองประดับอยู่ด้านบน"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#fbbf13]/55 shadow-[0_10px_30px_rgba(251,191,19,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e7dcc4]">
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdcff]">
       สมาชิก FAH999
-      <strong class="text-[#f7e7a8]">สามารถรับโบนัสคืนยอดเสีย 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
-      โดยระบบจะแสดงรายละเอียดของรอบคำนวณและยอดที่เข้าเกณฑ์ให้ตรวจสอบก่อนรับสิทธิ์ ช่วยให้ติดตามโบนัสของตัวเองได้ง่ายขึ้น
-      <strong class="text-[#f7e7a8]">และสามารถวางแผนการใช้เครดิตในแต่ละรอบได้อย่างชัดเจน</strong>
+      <strong class="text-[#ffdf6b]">สามารถรับโบนัสคืนยอดเสีย 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
+      <strong class="text-[#ffdf6b]">โดยสามารถตรวจสอบรอบคำนวณและรายละเอียดของยอดที่เข้าเกณฑ์ได้ก่อนรับสิทธิ์</strong>
+      ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและวางแผนการใช้งานเครดิตได้เป็นระบบมากขึ้น
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSevenThree as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
-      widths={[280, 420, 760]}
-      sizes="(max-width: 767px) 92vw, 380px"
+      widths={[264, 346, 692]}
+      sizes="(max-width: 767px) calc(100vw - 96px), 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ FAH999 พื้นหลังสีดำตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีดำสลับทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทองของ FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นแนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่สีทอง ด้านขวามีไพ่โพดำกับเหรียญทองและชิปโป๊กเกอร์ มุมขวาบนมีข้อความว่า PLAY BIGGER TOGETHER และด้านล่างมีข้อความว่า MORE FRIENDS MORE WINS"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#f7e7a8]/50 shadow-[0_10px_30px_rgba(247,231,168,0.22)]"
+      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ FAH999 พื้นหลังสีม่วงเข้มตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีขาวสลับม่วงทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นแนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่สีทอง รอบข้างมีเหรียญทองและกล่องของขวัญสีม่วงผูกโบทอง มุมซ้ายบนมีข้อความว่า GOOD FRIENDS BIG BONUS และมุมขวาบนมีข้อความลายมือว่า Play Win Together"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#a855f7]/55 shadow-[0_10px_30px_rgba(168,85,247,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e7dcc4]">
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdcff]">
       โปรโมชั่นแนะนำเพื่อนของ FAH999
-      <strong class="text-[#f7e7a8]">ให้โบนัส 0.8% ตามเงื่อนไขของกิจกรรม</strong>
-      สมาชิกสามารถชวนคนรู้จักเข้ามาสมัครผ่านช่องทางที่ระบบรองรับ
-      <strong class="text-[#f7e7a8]">พร้อมตรวจสอบยอดสิทธิ์และรายละเอียดของโบนัสได้จากบัญชีสมาชิก</strong>
-      ช่วยให้ติดตามผลของการแนะนำเพื่อนได้สะดวกมากขึ้น
+      <strong class="text-[#ffdf6b]">ให้โบนัส 0.8% ตามเงื่อนไขที่กำหนด</strong>
+      <strong class="text-[#ffdf6b]">สมาชิกสามารถชวนคนรู้จักเข้ามาสมัครผ่านช่องทางที่ระบบรองรับ</strong>
+      พร้อมตรวจสอบยอดสิทธิ์และรายละเอียดของโบนัสจากบัญชีสมาชิกได้ ช่วยให้ติดตามผลของกิจกรรมแนะนำเพื่อนได้สะดวก
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxNeumorphism as="h2" title="FAH999 รับทุกธนาคารและวอลเลท ฝากถอนไม่จำกัด">
-    <p class="text-left text-base leading-relaxed text-[#e7dcc4]">
+  <ContentBoxTwoNeumorphism as="h2" title="FAH999 รับทุกธนาคารและวอลเลท ไม่จำกัดยอดฝากถอน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ecdcff]">
       ระบบ FAH999
-      <strong class="text-[#f7e7a8]">รองรับช่องทางธนาคารและวอลเลทตามรายการที่เว็บไซต์เปิดให้ใช้งาน</strong>
-      สมาชิกสามารถเลือกช่องทางที่เหมาะกับตัวเอง
-      <strong class="text-[#f7e7a8]">พร้อมตรวจสอบยอดและสถานะฝากถอนจากบัญชีได้โดยตรง</strong>
-      ขั้นตอนถูกจัดให้เข้าใจง่าย และรองรับการทำรายการตามวงเงินและเงื่อนไขที่ระบบกำหนด
+      <strong class="text-[#ffdf6b]">รองรับช่องทางธนาคารและวอลเลทตามรายการที่เว็บไซต์เปิดให้ใช้งาน</strong>
+      <strong class="text-[#ffdf6b]">สมาชิกสามารถเลือกช่องทางที่เหมาะกับตัวเอง</strong>
     </p>
-  </ContentBoxNeumorphism>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ecdcff]">
+      <strong class="text-[#ffdf6b]">พร้อมตรวจสอบสถานะฝากถอนและยอดเครดิตจากบัญชีได้โดยตรง</strong>
+      ขั้นตอนถูกออกแบบให้ใช้งานง่ายและลดความซับซ้อนในการจัดการรายการแต่ละครั้ง
+    </p>
+  </ContentBoxTwoNeumorphism>
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h2" title="ติดต่อแอดมิน FAH999 พร้อมให้บริการ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#e7dcc4]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร โบนัสฝากแรก โปรโมชั่น การเข้าเกม หรือระบบฝากถอน
-      <strong class="text-[#f7e7a8]">สามารถติดต่อแอดมิน FAH999 ได้ตลอด 24 ชั่วโมง</strong>
-      ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนใช้งานตามปัญหาที่แจ้ง
-      <strong class="text-[#f7e7a8]">ช่วยให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา</strong>
+  <ContentBox as="h2" title="ติดต่อแอดมินสล็อต FAH999 ได้ทันทีที่ต้องการ">
+    <p class="text-left text-base leading-relaxed text-[#ecdcff]">
+      หากพบปัญหาเกี่ยวกับการสมัคร ทางเข้าเว็บ โปรโมชั่น เกม หรือระบบฝากถอน
+      <strong class="text-[#ffdf6b]">สามารถติดต่อแอดมินสล็อต FAH999 เพื่อสอบถามข้อมูลได้โดยตรง</strong>
+      <strong class="text-[#ffdf6b]">ทีมงานพร้อมช่วยตรวจสอบรายละเอียดและแนะนำขั้นตอนใช้งานตามปัญหาที่แจ้ง</strong>
+      ช่วยให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกขึ้น
     </p>
-  </ContentBoxPremium>
+  </ContentBox>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 

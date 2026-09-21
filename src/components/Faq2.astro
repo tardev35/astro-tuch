@@ -21,45 +21,48 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // second at any level.
 //
 // <details> carries the open/close state, the keyboard handling and the
-// expanded/collapsed announcement, so there is no JS in this file. The badge
-// and the arrow are aria-hidden, so a question's accessible name is the
-// question text itself.
+// expanded/collapsed announcement, so there is no JS in this file. The shared
+// `name` makes the group exclusive — opening one answer closes the others, again
+// with no script. The badge and the arrow are aria-hidden, so a question's
+// accessible name is the question text itself.
 //
-// ENTER55: กรอบทองบางรอบแผงดำ #0b0b0a มุมตัดเฉียงแบบลายวงจร คำถามเป็นทองประกาย
-// #ebd484 คำตอบเป็นสีเนื้อความ #ded8cb ลูกศรเป็นทองหลัก #c4a255
+// FAH999 (รอบม่วง-ทอง 2026-09-21): กรอบทอง #fbbf13 บางๆ มุมตัดเฉียงแบบลายวงจร
+// รอบแผงม่วงเข้ม #180430 คำถามเป็นทองอ่อน #ffdf6b คำตอบเป็นสีเนื้อความ #ecdcff
+// เส้นคั่นคำตอบเป็นม่วงกลาง #7c2fd4 ลูกศรเป็นทองหลัก #fbbf13 — โทนทองบนดำของ
+// รอบก่อนหายไปทั้งหมด
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
-      <header class="mb-6 text-center">
-        <HeadingTag class="bg-gradient-to-r from-[#ebd484] via-[#d2b262] to-[#c4a255] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+      <header class="mb-6">
+        <HeadingTag class="bg-gradient-to-r from-[#fef354] via-[#fbbf13] to-[#ffdf6b] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#c4a255] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fbbf13] to-transparent" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#5a4e34] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div class="absolute inset-0 bg-gradient-to-r from-[#ebd484] via-[#c4a255] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#4a1188] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#fef354] via-[#fbbf13] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
 
-        <details class="faq-item relative bg-[#0b0b0a] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details name="faq-fah999" class="faq-item relative bg-[#180430] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ebd484] to-[#c4a255] font-black text-[#0b0b0a] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#fef354] to-[#fbbf13] font-black text-[#180430] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#ebd484]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#c4a255] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#ffdf6b]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#fbbf13] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#8a6d2c]/75 pl-4 text-left text-base leading-relaxed text-[#ded8cb]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#7c2fd4]/75 pl-4 text-left text-base leading-relaxed text-[#ecdcff]">{faq.a}</p>
         </details>
       </div>
     ))

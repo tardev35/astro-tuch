@@ -10,7 +10,8 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ PAOTUNG รูปถุงเงินสีน้ำเงินที่มีเครื่องหมายดอลลาร์สีขาวอยู่กลางถุง ด้านบนมีเหรียญและลูกศรชี้ขึ้น ใต้ถุงเงินเป็นตัวอักษร PAOTUNG สีน้ำเงินไล่เฉด และบรรทัดล่างสุดเขียนว่า DIGITAL WALLET";
+const logoAlt =
+  "โลโก้ FAH999 มงกุฎทองประดับอัญมณีสีม่วงอยู่ด้านบนสุด ใต้ลงมาเป็นตัวอักษร FAH สีทองสามมิติวางบนแผ่นสีม่วงเข้ม และตัวเลข 999 สีขาวเงินขอบทอง ขนาบสองข้างด้วยดาวทองบนวงแหวนทองโค้ง";
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -19,30 +20,42 @@ const logoAlt = "โลโก้ PAOTUNG รูปถุงเงินสีน
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
 // และมีลิงก์จาก footer)
 //
-// ไม่มี ตรวจหวย/แนวทาง: PAOTUNG เป็นพอร์ทัลรวมเกม (หวยเป็นหนึ่งในสี่หมวด)
-// ไม่ใช่เว็บหวยเฉพาะทาง ทั้งสองหน้าจอดอยู่ใน src/pages-disabled/ ลิงก์ที่ค้าง
-// ไว้จะกลายเป็น 404
+// ไม่มี /ตรวจหวย กับ /แนวทาง: FAH999 เป็นเว็บสล็อตออโต้ ไม่ใช่เว็บหวย ทั้งสอง
+// หน้าจอดอยู่ใน src/pages-disabled/ ลิงก์ที่ค้างไว้จะกลายเป็น 404
+//
+// เมนูชุดนี้ถูกประกาศครั้งเดียวตรงนี้ แล้ว render ทั้งแถบ desktop และ drawer
+// มือถือจากตัวเดียวกัน — ถ้าแยกสองชุดเมื่อไหร่ มันจะเพี้ยนกันเองรอบถัดไป
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👛" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👑" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 
-// PAOTUNG: พื้นกรมท่าเกือบดำ #020f1e เส้นคั่นและจุดนำเป็นน้ำเงินโลโก้ #226ca9
-// ตัวอักษรที่ active เป็นฟ้าอ่อน #7fc4f0 ส่วนปุ่มสมัครสมาชิกเป็นทองเมทัลลิค
-// ตัวเดียวที่ใช้ทองในแถบนี้ เพื่อให้ปุ่ม conversion เด่นออกจากน้ำเงินทั้งแถบ
+// FAH999: ม่วงรอยัล + ทอง
+// พื้นแถบไล่จาก #180430 → #2a0a4d → #180430 (ม่วงเข้มของ card base/surface)
+// ม่านมือถือใช้ #0d0119 ซึ่งเป็นสีพื้นหน้าเว็บ เส้นคั่น/ขอบทุกเส้นเป็นทอง
+// #fbbf13 ที่อัลฟาต่ำ ข้อความ active เป็นทองอ่อน #ffdf6b ข้อความปกติเป็นสี
+// เนื้อความ #ecdcff เรืองแสงใต้โลโก้และปุ่มแฮมเบอร์เกอร์เป็นม่วง
+// rgba(168,85,247,α) ส่วนเงาปุ่มทองเป็น rgba(251,191,19,α)
+//
+// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้นทองทึบ (#ffdf6b→#fef354→
+// #fbbf13) เพื่อให้ปุ่ม conversion เด่นออกจากม่วงทั้งแถบ ส่วน "เข้าสู่ระบบ"
+// เป็นปุ่มโครงทองไม่ทึบ จะได้ไม่แย่งสายตากันเอง
+//
+// โลโก้คง loading="eager" + fetchpriority="high" ตามเดิม (มีอยู่ก่อนแล้ว)
+// ไม่เพิ่ม priority ให้รูปอื่นในไฟล์นี้ — LCP คือ hero banner ใน MainLayout
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-50 w-full border-b border-[#226ca9]/45 bg-gradient-to-r from-[#020f1e] via-[#04203c] to-[#020f1e] shadow-[0_4px_25px_rgba(2,15,30,0.8)]">
+  <nav class="relative z-50 w-full border-b border-[#fbbf13]/30 bg-gradient-to-r from-[#180430] via-[#2a0a4d] to-[#180430] shadow-[0_4px_25px_rgba(13,1,25,0.85)]">
     <div class="mx-auto flex h-[70px] w-full max-w-[1600px] items-center justify-between px-4 lg:h-[85px] lg:px-8">
       <div class="flex items-center">
         <a href="/" class="relative flex-shrink-0 transition-transform hover:scale-105">
-          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#226ca9]/30 blur-xl"></div>
+          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#a855f7]/30 blur-xl"></div>
           <Picture
             src={mainLogo!}
             alt={logoAlt}
@@ -50,7 +63,7 @@ const links = [
             fetchpriority="high"
             widths={[110, 220, 330]}
             sizes="110px"
-            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(59,157,221,0.5)] lg:h-[50px]"
+            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(251,191,19,0.5)] lg:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
@@ -62,17 +75,17 @@ const links = [
           links.map((link) => (
             <a
               href={link.path}
-              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#7fc4f0]" : "text-[#97aec4]/85 hover:text-[#7fc4f0]"}`}>
+              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#ffdf6b]" : "text-[#ecdcff]/80 hover:text-[#ffdf6b]"}`}>
               <div
                 aria-hidden="true"
-                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#0a325a]/75 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#4a1188]/75 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
               />
               <span aria-hidden="true" class="relative z-10 text-base">
                 {link.icon}
               </span>
               <span class="relative z-10">{link.name}</span>
               <div
-                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#e0bd72] via-[#3b9ddd] to-[#226ca9] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#fef354] via-[#fbbf13] to-[#7c2fd4] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
               />
             </a>
           ))
@@ -82,28 +95,28 @@ const links = [
       <div class="flex items-center gap-3 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#226ca9]/75 px-6 py-2.5 text-sm font-bold text-[#7fc4f0] shadow-[0_0_10px_rgba(34,108,169,0.35)] transition-all hover:bg-[#0a325a] hover:text-[#eef6fd] xl:flex">
+          class="hidden items-center justify-center rounded-full border border-[#fbbf13]/60 px-6 py-2.5 text-sm font-bold text-[#ffdf6b] shadow-[0_0_10px_rgba(251,191,19,0.3)] transition-all hover:bg-[#4a1188] hover:text-[#fef354] xl:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#f5e3b3] via-[#e0bd72] to-[#a5813a] px-6 py-2.5 text-sm font-extrabold text-[#020f1e] shadow-[0_0_20px_rgba(224,189,114,0.4)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
+          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#ffdf6b] via-[#fef354] to-[#fbbf13] px-6 py-2.5 text-sm font-extrabold text-[#180430] shadow-[0_0_20px_rgba(251,191,19,0.45)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
           สมัครสมาชิก
         </a>
 
         <button
           id="hamburger-btn"
-          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#226ca9] bg-gradient-to-tr from-[#04203c] to-[#054e83] shadow-[0_0_15px_rgba(34,108,169,0.6)] lg:hidden"
+          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#fbbf13] bg-gradient-to-tr from-[#2a0a4d] to-[#7c2fd4] shadow-[0_0_15px_rgba(168,85,247,0.6)] lg:hidden"
           aria-label="เปิดเมนู">
-          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#eef6fd] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#eef6fd] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#eef6fd] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#ffdf6b] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#ffdf6b] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#ffdf6b] transition-all duration-300"></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#020f1e]/98 backdrop-blur-2xl lg:hidden">
+  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#0d0119]/98 backdrop-blur-2xl lg:hidden">
     <div class="flex w-full flex-col items-center space-y-3 px-6 py-8">
       <Picture
         src={mainLogo!}
@@ -111,7 +124,7 @@ const links = [
         aria-hidden="true"
         widths={[110, 220, 330]}
         sizes="110px"
-        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(59,157,221,0.6)]"
+        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]"
         formats={["avif", "webp"]}
         fallbackFormat="webp"
       />
@@ -120,29 +133,29 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#7fc4f0] drop-shadow-[0_0_8px_rgba(59,157,221,0.85)]" : "text-[#97aec4]/85 hover:text-[#eef6fd]"}`}>
+            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#ffdf6b] drop-shadow-[0_0_8px_rgba(251,191,19,0.85)]" : "text-[#ecdcff]/80 hover:text-[#fef354]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {link.icon}
             </span>
-            {link.name}
+            <span>{link.name}</span>
           </a>
         ))
       }
 
-      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#226ca9]/60 pt-6 opacity-0">
+      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#fbbf13]/45 pt-6 opacity-0">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f5e3b3] via-[#e0bd72] to-[#a5813a] py-3.5 text-lg font-extrabold text-[#020f1e] shadow-[0_0_20px_rgba(224,189,114,0.4)]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffdf6b] via-[#fef354] to-[#fbbf13] py-3.5 text-lg font-extrabold text-[#180430] shadow-[0_0_20px_rgba(251,191,19,0.45)]">
+          <span aria-hidden="true">📝</span>
+          <span>สมัครสมาชิก</span>
         </a>
-        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#226ca9]/60 py-3.5 text-lg font-bold text-[#7fc4f0] hover:bg-[#0a325a]/50">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#fbbf13]/60 py-3.5 text-lg font-bold text-[#ffdf6b] hover:bg-[#4a1188]/50">เข้าสู่ระบบ</a>
       </div>
     </div>
   </div>
 </header>
 
 <style is:global>
-  /* อนิเมชั่น Hamburger กลายเป็น X (ตัวเส้นเป็น absolute เลยต้องกำหนดองศาใหม่) */
   #hamburger-btn.active .hamburger-line:nth-child(1) {
     transform: translateY(0) rotate(45deg);
   }
@@ -153,35 +166,28 @@ const links = [
     transform: translateY(0) rotate(-45deg);
   }
 
-  /* หัวใจสำคัญ: อนิเมชั่น Circular Reveal ด้วย clip-path */
-  /* วงกลมเริ่มต้นอยู่ที่มุมขวาบน (ซ่อนไว้ขนาด 0%) */
   #mobile-circular-menu {
     clip-path: circle(0% at calc(100% - 35px) 35px);
     transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* เมื่อใส่คลาส open วงกลมจะขยายตัวเป็น 150% กินพื้นที่เต็มจอ */
   #mobile-circular-menu.menu-open {
     clip-path: circle(150% at calc(100% - 35px) 35px);
-    pointer-events: auto; /* อนุญาตให้คลิกได้ตอนเปิด */
+    pointer-events: auto;
   }
 
-  /* อนิเมชั่นเด้งไล่ระดับของเมนู (ลอยขึ้นมาจากข้างล่าง) */
   .menu-item {
     transform: translateY(30px);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .menu-item.item-show {
-    opacity: 1 !important; /* บังคับทับ opacity-0 ของ Tailwind */
+    opacity: 1 !important;
     transform: translateY(0);
   }
 
-  /* หน่วงเวลาให้ข้อความเด้งขึ้นมาทีละอัน — ต้องมีให้ครบทุกลูก ไม่งั้นตัวที่เกิน
-     รายการนี้จะ delay 0 แล้วเด้งพร้อมกันหมด (โลโก้ + 7 เมนู + กล่องปุ่ม = 9
-     สำหรับ PAOTUNG ซึ่งเป็นพอร์ทัลรวมเกม ไม่มี /ตรวจหวย กับ /แนวทาง) */
   .menu-item:nth-child(1) {
     transition-delay: 0.2s;
-  } /* โลโก้ */
+  }
   .menu-item:nth-child(2) {
     transition-delay: 0.24s;
   }
@@ -205,7 +211,7 @@ const links = [
   }
   .menu-item:nth-child(9) {
     transition-delay: 0.52s;
-  } /* กล่องปุ่ม */
+  }
 
   @media (prefers-reduced-motion: reduce) {
     #mobile-circular-menu,

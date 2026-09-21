@@ -2,41 +2,45 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement3.astro";
 
 import { Picture } from "astro:assets";
 
-// อาร์ตเวิร์กของ FAH999 รอบนี้มีสองใบ (ลงวันที่ 2026-09-21) และเปิดดูยืนยันแล้ว
-// ทั้งคู่ — การแมปสลับด้านกับแบรนด์ก่อนหน้า ห้ามคัดลำดับเดิมมาใช้:
-// slide1 = "โปรโมชั่นแนะนำเพื่อน 0.8%" · slide2 = "โปรโมชั่น คืนยอดเสีย 0.3%"
+// อาร์ตเวิร์กของ FAH999 ดรอป 2026-09-21 มีสองใบและเปิดดูยืนยันแล้วทั้งคู่ —
+// การแมปสลับด้านกับแบรนด์ก่อนหน้า ห้ามคัดลำดับเดิมมาใช้:
+// slide1 = "โปรโมชั่นแนะนำเพื่อน 0.8%" · slide2 = "โปรโมชั่นคืนยอดเสีย 0.3%"
 // กริดของหน้านี้คือสองใบนี้เท่านั้น เรียงตามลำดับในบรีฟ (คืนยอดเสีย → แนะนำเพื่อน)
 //
-// slide3.png (2026-09-18) และ slide4.png (2026-08-13) เป็นอาร์ตเวิร์กของลูกค้า
-// เจ้าก่อน ๆ และ "พิมพ์ชื่อแบรนด์ของเจ้าของเดิมไว้เป็นตัวอักษรขนาดใหญ่กลางรูป" —
-// รอบนี้ถอด import ทั้งสองออกแล้ว ห้ามใส่กลับ และห้ามลบไฟล์ทิ้งด้วยเพราะเป็น
-// อินเวนทอรีของแบรนด์เจ้าของเดิม ก่อนเพิ่ม slide ใบใหม่ให้เช็กวันที่ไฟล์เทียบกับ
-// drop ปัจจุบันเสมอ
+// slide3.png (2026-09-18) และ slide4.png (2026-08-13) เก่ากว่าดรอปรอบนี้ และ
+// "พิมพ์ชื่อแบรนด์ของเจ้าของเดิมไว้เป็นตัวอักษรขนาดใหญ่บนตัวรูป" — ห้าม import
+// กลับมา และห้ามลบไฟล์ทิ้งเพราะเป็นอินเวนทอรีของแบรนด์เจ้าของเดิม ก่อนเพิ่ม slide
+// ใบใหม่ให้เช็กวันที่ไฟล์เทียบกับ drop ปัจจุบันเสมอ
 // (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ verify-build จะแดง)
 import promoCashback from "../assets/slide2.png";
 import promoReferral from "../assets/slide1.png";
 import { pageGraph } from "../lib/schema";
 
-// หน้านี้เป็น IMAGE page: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า, กริดโปสเตอร์,
-// ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุเงื่อนไข
-// ของแต่ละโปรโมชั่นไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
+// widths ของโปสเตอร์เริ่มที่ 320 ไม่ใช่ 200: กริดเป็น 1 คอลัมน์ต่ำกว่า 640px ภาพจึงถูก
+// วาดที่ 100vw และ viewport ที่แคบที่สุดจริง ๆ ก็ราว 320 CSS px — candidate 200w ไม่มีวัน
+// ถูกเลือก แต่ AVIF ที่ขนาดเล็กขนาดนั้นกลับใหญ่กว่า WebP ของตัวเอง (overhead ของ
+// คอนเทนเนอร์ชนะ) ซึ่ง verify-build จับแล้ว build แดง — ตัดทิ้งดีกว่าลด quality
 //
-// Announcement รอบนี้หมุนมาใช้ Announcement5 ทั้งเว็บ — default message ของ
-// ไฟล์นั้นเป็นข้อความของ FAH999 อยู่แล้ว จึงเรียกแบบ bare ห้ามส่ง prop message
+// หน้านี้เป็น IMAGE page ไม่ใช่บทความ: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า,
+// กริดโปสเตอร์, ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์
+// ระบุเงื่อนไขของแต่ละโปรโมชั่นไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
 //
-// พาเลตต์ FAH999 (ทองบนดำ สีเดียว แยกชิ้นส่วนด้วยความสว่าง ไม่ใช่ด้วยสีที่สอง):
-// ทองประกาย #f7e7a8 เป็นสี <strong> และสต็อปบนของเกรเดียนต์ · ทองหลัก #e8c25a
-// เป็นขอบและออร่า · ทองบรอนซ์ #a3732c เป็นสต็อปล่าง · ตัวอักษรบนปุ่มทอง #140f06 ·
-// เนื้อความครีม #e7dcc4 — ไม่มีแดงของแบรนด์ก่อนหน้าหลงเหลือในไฟล์นี้
+// Announcement รอบนี้หมุนมาใช้ Announcement3 ทั้งเว็บ — default message ของไฟล์นั้น
+// เป็นข้อความของ FAH999 รอบนี้อยู่แล้ว จึงเรียกแบบ bare ห้ามส่ง prop message
+//
+// พาเลตต์ FAH999 รอบ 2026-09-21 (ม่วงรอยัล + ทอง แทนดำ+ทองของรอบก่อน):
+// ทองสว่าง #fef354 และทองหลัก #fbbf13 เป็นเกรเดียนต์/ขอบ/ออร่า · ทองอ่อน #ffdf6b
+// เป็นสี <strong> · ผิวการ์ดม่วง #180430 / #1f0639 / #2a0a4d · ตัวอักษรบนปุ่มทอง
+// #1f0639 · เนื้อความ #ecdcff — ไม่มีครีม/ทองบรอนซ์ของรอบดำ+ทองหลงเหลือในไฟล์นี้
 //
 // 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 153
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมโปรโมชั่นสล็อต FAH999 ทั้งโบนัสคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8% พร้อมยอดที่เข้าเกณฑ์ รอบคำนวณ และขั้นตอนตรวจสอบสิทธิ์ของแต่ละรายการในหน้าเดียว";
+const pageDescription = "รวมโปรโมชั่นสล็อต FAH999 ทั้งโบนัสคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8% พร้อมเงื่อนไข ยอดที่เข้าเกณฑ์ และรอบรับสิทธิ์ของแต่ละรายการให้ตรวจสอบก่อนกดรับ";
 
 const graph = pageGraph(Astro, {
   name: "โปรโมชั่น FAH999",
@@ -49,29 +53,29 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="โปรโมชั่น FAH999 คืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% รับได้ทุกฝาก" description={pageDescription}>
+<MainLayout title="โปรโมชั่น FAH999 คืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% กดรับได้ทุกฝาก" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
   <ContentBox title="โปรโมชั่น FAH999" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#e7dcc4]">
-        โปรโมชั่นสล็อตของ FAH999 รับได้ทุกฝากไม่จำกัด โดยรอบนี้มีสองรายการหลักคือ
-        <strong class="text-[#f7e7a8]">โบนัสคืนยอดเสีย 0.3%</strong> และ<strong class="text-[#f7e7a8]">โบนัสแนะนำเพื่อน 0.8%</strong>
-        เปอร์เซ็นต์ ยอดที่เข้าเกณฑ์ และขั้นตอนรับสิทธิ์ของแต่ละรายการระบุไว้บนภาพด้านล่าง
-        <strong class="text-[#f7e7a8]">แต่ละโปรโมชั่นมีเงื่อนไขและรอบคำนวณต่างกัน จึงควรตรวจสอบสิทธิ์จากบัญชีสมาชิกก่อนกดรับทุกครั้ง</strong>
+      <p class="mb-8 text-left text-base leading-relaxed text-[#ecdcff]">
+        โปรโมชั่นสล็อต FAH999 กดรับได้ทุกฝาก ไม่จำกัด โดยรอบนี้มีสองรายการหลักคือ
+        <strong class="text-[#ffdf6b]">โบนัสคืนยอดเสีย 0.3%</strong> และ<strong class="text-[#ffdf6b]">โบนัสแนะนำเพื่อน 0.8%</strong>
+        เปอร์เซ็นต์ ยอดที่เข้าเกณฑ์ และรอบรับสิทธิ์ของแต่ละรายการระบุไว้บนภาพด้านล่าง
+        <strong class="text-[#ffdf6b]">แต่ละรายการมีเงื่อนไขและรอบคำนวณต่างกัน จึงควรตรวจสอบรายละเอียดจากบัญชีสมาชิกก่อนกดรับทุกครั้ง</strong>
       </p>
 
       <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
           src={promoCashback}
-          alt="โปสเตอร์โปรโมชั่นคืนยอดเสีย 0.3% พื้นหลังสีดำประดับเหรียญทองและริบบิ้นทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทองพร้อมโลโก้ตัวอักษรทองของ FAH999 ถัดลงมาเป็นข้อความทองว่า โปรโมชั่น คืนยอดเสีย และตัวเลขทองขนาดใหญ่มาก 0.3% ด้านซ้ายเป็นหญิงสาวผมยาวสีดำในชุดสีดำสลับทองยืนยิ้ม"
+          alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ FAH999 พื้นหลังสีม่วงเข้มตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีขาวสลับม่วงทองกำลังชี้นิ้วขึ้น ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นคืนยอดเสีย และตัวเลข 0.3% ขนาดใหญ่สีทอง มีมงกุฎทองประดับอยู่ด้านบน"
           loading="lazy"
           fetchpriority="low"
-          widths={[200, 300, 400, 600]}
+          widths={[320, 400, 500, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#e8c25a]/45 object-contain shadow-[0_10px_30px_rgba(0,0,0,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f7e7a8]/75 hover:shadow-[0_15px_40px_rgba(232,194,90,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fbbf13]/45 object-contain shadow-[0_10px_30px_rgba(13,1,25,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ffdf6b]/75 hover:shadow-[0_15px_40px_rgba(251,191,19,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -80,12 +84,12 @@ const graph = pageGraph(Astro, {
 
         <Picture
           src={promoReferral}
-          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อน 0.8% พื้นหลังสีดำประดับเหรียญทอง ชิปคาสิโน และไพ่โพดำ ด้านบนเป็นตราสัญลักษณ์มงกุฎทองพร้อมโลโก้ตัวอักษรทองของ FAH999 ถัดลงมาเป็นข้อความทองว่า โปรโมชั่นแนะนำเพื่อน ตัวเลขทองขนาดใหญ่มาก 0.8% และบรรทัดตัวอักษรทองว่า MORE FRIENDS MORE WINS ด้านซ้ายเป็นหญิงสาวผมยาวสีดำในชุดสีดำสลับทองยืนกอดอก"
+          alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ FAH999 พื้นหลังสีม่วงเข้มตัดทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีขาวสลับม่วงทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง FAH999 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นแนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่สีทอง รอบข้างมีเหรียญทองและกล่องของขวัญสีม่วงผูกโบทอง มุมซ้ายบนมีข้อความว่า GOOD FRIENDS BIG BONUS และมุมขวาบนมีข้อความลายมือว่า Play Win Together"
           loading="lazy"
           fetchpriority="low"
-          widths={[200, 300, 400, 600]}
+          widths={[320, 400, 500, 600]}
           sizes="(max-width: 640px) 100vw, 50vw"
-          class="mx-auto h-auto w-full rounded-xl border border-[#e8c25a]/45 object-contain shadow-[0_10px_30px_rgba(0,0,0,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f7e7a8]/75 hover:shadow-[0_15px_40px_rgba(232,194,90,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fbbf13]/45 object-contain shadow-[0_10px_30px_rgba(13,1,25,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ffdf6b]/75 hover:shadow-[0_15px_40px_rgba(251,191,19,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -97,7 +101,7 @@ const graph = pageGraph(Astro, {
         <a
           href="/register"
           aria-label="สมัครสมาชิก FAH999"
-          class="flex items-center justify-center rounded-lg border border-[#f7e7a8]/60 bg-gradient-to-r from-[#f7e7a8] via-[#e8c25a] to-[#a3732c] px-10 py-3.5 text-lg font-black text-[#140f06] shadow-[0_0_15px_rgba(232,194,90,0.45)] transition-transform hover:scale-105">
+          class="flex items-center justify-center rounded-lg border border-[#ffdf6b]/60 bg-gradient-to-r from-[#fef354] via-[#fbbf13] to-[#ffdf6b] px-10 py-3.5 text-lg font-black text-[#1f0639] shadow-[0_0_15px_rgba(251,191,19,0.45)] transition-transform hover:scale-105">
           สมัครสมาชิก FAH999
         </a>
       </div>
