@@ -1,0 +1,207 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import Navfoot from "../components/Navfoot.astro";
+import { pageGraph } from "../lib/schema";
+
+// หน้านี้เป็น "แนวทางและวิธีจัดโพย" ไม่ใช่การทำนายผล — เว็บไม่ประกาศผลรางวัลเองและ
+// ไม่รับประกันเลขใด ทุกการ์ดจึงพูดถึงสิ่งที่ตรวจสอบได้จริงก่อนกดยืนยัน (รายการหวย
+// รอบที่เปิดรับ ประเภทเลข อัตราจ่าย เวลาปิดรับ) ไม่ใช่ "เลขเด่นงวดนี้"
+//
+// ข้อเท็จจริงทั้งหมดยึดตาม src/assets/content.txt เท่านั้น: หวยพยัคฆ์รวมรายการ
+// แทงหวยหลายประเภทไว้ในระบบเดียว ทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ ·
+// เลือกดูรอบที่เปิดรับ ตรวจสอบเลข และจัดการรายการได้จากหน้าเดียว · แสดงอัตราจ่าย
+// ของแต่ละประเภทเลขก่อนยืนยัน เลข 2 ตัวจ่าย 100 เลข 3 ตัวจ่าย 1,000 ตามเงื่อนไข
+// ของแต่ละรายการ · สมัครเองได้ใน 3 ขั้นตอน · แอดมิน 24 ชั่วโมง
+// ห้ามเติมสถิติ ผลย้อนหลัง วันที่ เลขเด็ด เวลาออกรางวัลรายตลาด หรือเงื่อนไข
+// ฝาก-ถอนที่บรีฟรอบนี้ไม่ได้ระบุ
+//
+// การ์ดเหล่านี้เป็น chrome ไม่ใช่หัวข้อบทความ ชื่อการ์ดจึงเรนเดอร์เป็น span ไม่ใช่
+// แท็กหัวข้อ และ label ของ grid ย้ายไปอยู่บน aria-label ของ container แทน
+//
+// ข้อยกเว้น "หน้าหวยคงธีมแดง" ใน Phase 4.5 ไม่มีผลกับรอบนี้ — ทั้งเว็บคือเว็บหวย
+// พาเลตต์กรมท่า-ทอง (§2 ของ brand spec) จึงเป็นสีของหน้าหวยเองอยู่แล้ว
+const tips = [
+  {
+    title: "เปิดดูรอบที่เปิดรับก่อนคัดเลข",
+    desc: "รายการที่เปิดรับต่างกันได้ตามวันและช่วงเวลา ให้เปิดหน้ารวมหวยดูก่อนว่ารอบไหนกำลังเปิดรับ แล้วตรวจว่าโพยถูกส่งเข้ารอบที่ตั้งใจจริง",
+    type: "รอบที่เปิดรับ",
+    note: "ต่างกันตามวัน",
+  },
+  {
+    title: "เลือกรายการหวยให้ตรงกับเลขที่คิดไว้",
+    desc: "ระบบรวมรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศไว้ในที่เดียว เลือกรายการที่ตั้งใจแทงให้ชัดก่อน แล้วค่อยลงเลขในรอบของรายการนั้น",
+    type: "รายการหวย",
+    note: "ไทย · ฮานอย · ลาว · หุ้น",
+  },
+  {
+    title: "อ่านอัตราจ่ายของประเภทที่เลือก",
+    desc: "เลข 2 ตัวจ่าย 100 และเลข 3 ตัวจ่าย 1,000 ตามเงื่อนไขของแต่ละรายการ ให้เปิดดูอัตราที่ระบบแสดงของรอบนั้นก่อน แทนการใช้ตัวเลขที่จำมาจากรอบก่อน",
+    type: "อัตราจ่าย",
+    note: "บันทึกไว้ในบิลทุกครั้ง",
+  },
+  {
+    title: "แบ่งยอดไว้ล่วงหน้าก่อนลงเลข",
+    desc: "แบ่งงบออกเป็นหน่วยย่อยไว้ก่อนแทนการเทไปที่เลขเดียว แล้วเทียบยอดรวมในโพยกับงบที่ตั้งไว้อีกครั้งก่อนส่งรายการ",
+    type: "คุมงบ",
+    note: "ตั้งงบก่อนทุกครั้ง",
+  },
+  {
+    title: "เผื่อเวลาก่อนถึงเวลาปิดรับ",
+    desc: "การส่งโพยชิดเวลาปิดทำให้ไม่เหลือจังหวะแก้ไขเมื่อกรอกผิด ให้ดูเวลาปิดรับที่ระบบแสดงของรอบนั้นแล้วเผื่อเวลาไว้ตรวจทานอีกรอบ",
+    type: "เวลาปิดรับ",
+    note: "ต่างกันตามรอบ",
+  },
+  {
+    title: "ตรวจบิลย้อนหลังจากบัญชีสมาชิก",
+    desc: "เปิดดูรายการย้อนหลังได้เองจากบัญชีสมาชิก ทั้งเลขที่ส่ง ยอดแทง อัตราจ่ายที่บันทึกไว้ และสถานะที่อัปเดตหลังระบบตรวจสอบเสร็จ",
+    type: "ตรวจรายการ",
+    note: "ทุกรอบ",
+  },
+];
+
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). ปัจจุบัน 155 ตัวอักษร
+const pageDescription = "แนวทางหวย หวยพยัคฆ์ วิธีคัดเลขและจัดโพยสำหรับรัฐบาลไทย ฮานอย ลาวพัฒนา พร้อมจุดที่ควรตรวจทั้งอัตราจ่าย รอบที่เปิดรับ และเวลาปิดรับก่อนกดยืนยันรายการทุกครั้ง";
+
+const graph = pageGraph(Astro, {
+  name: "แนวทางหวย หวยพยัคฆ์ วิธีคัดเลขและจัดโพยก่อนรอบปิดรับ",
+  description: pageDescription,
+  breadcrumb: [
+    { name: "หน้าแรก", path: "/" },
+    { name: "แนวทาง", path: "/แนวทาง" },
+  ],
+});
+---
+
+<MainLayout title="แนวทางหวย หวยพยัคฆ์ วิธีจัดโพยและตรวจข้อมูลก่อนรอบปิดรับ" description={pageDescription}>
+  <script type="application/ld+json" set:html={graph} />
+
+  <Announcement />
+
+  <section class="mx-auto my-8 w-full max-w-7xl px-4">
+    <div class="mb-10 flex flex-col items-center">
+      <span aria-hidden="true" class="mb-2 text-4xl drop-shadow-[0_0_10px_rgba(250,219,108,0.8)]">🐯</span>
+      <h1 class="bg-gradient-to-r from-[#e8eef8] via-[#fadb6c] to-[#ab6d13] bg-clip-text text-center text-4xl font-black tracking-widest text-transparent uppercase">
+        แนวทางหวย หวยพยัคฆ์ คัดเลขและจัดโพยก่อนรอบปิดรับ
+      </h1>
+      <p class="mt-3 w-full text-left text-base leading-relaxed text-[#dbe4f7]">
+        หน้านี้รวบรวมแนวทางการคัดเลขและจัดโพยของ <strong class="text-[#fadb6c]">หวยพยัคฆ์</strong> ให้สมาชิกวางแผนได้ก่อนรอบปิดรับ โดยระบบรวมรายการแทงหวยหลายประเภทไว้ในที่เดียว
+        ทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ จึงเลือกรายการที่ต้องการและติดตามหลายรอบได้จากหน้าเดียวโดยไม่ต้องสลับหลายเว็บไซต์ ส่วนรอบที่เปิดรับ เวลาปิดรับ อัตราจ่าย
+        และรายละเอียดของแต่ละประเภทจะแสดงอยู่บนหน้ายืนยันรายการของรอบนั้น จึงให้ยึดตัวเลขที่ระบบแสดงจริงเป็นหลักก่อนกดยืนยันทุกครั้ง เว็บไซต์ไม่ได้เป็นผู้ประกาศผลรางวัลเอง
+        และไม่ทำนายเลขใด ๆ
+      </p>
+    </div>
+
+    <h2 class="mb-6 text-center text-2xl leading-normal font-black tracking-widest text-[#fadb6c] uppercase">จุดที่ควรตรวจให้ครบก่อนถึงรอบปิดรับ</h2>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-label="แนวทางจัดโพยแยกตามจุดที่ต้องตรวจ">
+      {
+        tips.map((tip) => (
+          <div class="group relative isolate flex flex-col overflow-hidden rounded-2xl border border-[#ab6d13]/40 bg-[#08152f]/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#fadb6c]/60 hover:shadow-[0_15px_30px_rgba(250,219,108,0.22)]">
+            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#1c3566]/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <span class="rounded-full border border-[#ab6d13]/55 bg-[#0f2149] px-3 py-1 text-xs font-bold text-[#fadb6c]">{tip.type}</span>
+              <span class="text-right text-xs font-medium text-[#9fb0d0]">{tip.note}</span>
+            </div>
+
+            <span class="mb-2 block text-xl font-bold text-[#e8eef8] transition-colors group-hover:text-[#fadb6c]">{tip.title}</span>
+
+            <p class="mb-6 text-left text-base leading-relaxed text-[#9fb0d0]">{tip.desc}</p>
+
+            <div class="mt-auto flex items-center gap-2 border-t border-[#1c3566] pt-4 text-sm font-bold text-[#fadb6c]">
+              <span aria-hidden="true">💰</span>
+              ตรวจอัตราจ่ายที่ระบบแสดงก่อนยืนยัน
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <ContentBoxHuay title="คัดเลขและคุมยอดให้ตรวจสอบได้จริงก่อนส่งโพย" as="h2">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        แนวทางที่ใช้ได้จริงคือแนวทางที่ตรวจสอบได้ก่อนกดยืนยัน ไม่ใช่การเดาผลล่วงหน้า สิ่งที่ควรเปิดดูให้ครบทุกครั้งคือ
+        <strong class="text-[#fadb6c]">รายการหวยและรอบที่เลือก ประเภทเลขที่แทง อัตราจ่ายของประเภทนั้น และเวลาปิดรับ</strong>
+        เพราะสี่อย่างนี้เป็นตัวกำหนดว่ารายการจะคิดผลอย่างไรและยอดรวมในโพยจะออกมาเท่าไร ส่วนเลขที่คิดไว้ล่วงหน้าเป็นเพียงจุดตั้งต้น
+        <strong class="text-[#fadb6c]">ไม่มีเลขหรือสูตรใดรับประกันผลได้เสียล่วงหน้า</strong> การเดิมพันจึงมีความเสี่ยง ควรกำหนดงบประมาณให้เหมาะสมทุกครั้ง
+      </p>
+
+      <ul class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#dbe4f7]">
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#fadb6c]">🎯</span>
+          <span>
+            <strong class="text-[#fadb6c]">คัดเลขก่อน แล้วค่อยเลือกรายการและประเภท</strong> เลือกเลขที่มีในใจให้ครบก่อน จากนั้นเปิดหน้ารวมหวยดูว่ารอบนี้เปิดรับรายการใด
+            และเรทของประเภทที่เลือกแสดงไว้เท่าไร
+          </span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#fadb6c]">🎱</span>
+          <span>
+            <strong class="text-[#fadb6c]">กระจายยอด อย่ากระจุกตัวเดียว</strong> แบ่งยอดออกเป็นหน่วยย่อยไว้ล่วงหน้า แล้ววางต่อเลขให้อยู่ในระดับที่รับความผันผวนของรอบนั้นได้
+          </span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#fadb6c]">⏱️</span>
+          <span>
+            <strong class="text-[#fadb6c]">เผื่อเวลาก่อนรอบปิดรับ</strong> แต่ละรายการปิดรับคนละเวลา การส่งโพยชิดเวลาปิดทำให้ไม่เหลือจังหวะแก้ไขเมื่อกรอกผิด
+          </span>
+        </li>
+        <li class="flex gap-3">
+          <span aria-hidden="true" class="text-[#fadb6c]">🧾</span>
+          <span>
+            <strong class="text-[#fadb6c]">เก็บบิลไว้ทุกครั้ง</strong> เมื่อส่งโพยสำเร็จ ระบบบันทึกรายการ รอบ เลข ยอดแทง และอัตราจ่ายที่แสดงตอนยืนยันไว้ให้
+            เช็กประวัติย้อนหลังได้เองจากบัญชีสมาชิก
+          </span>
+        </li>
+      </ul>
+    </div>
+  </ContentBoxHuay>
+
+  <ContentBoxHuay title="หวยพยัคฆ์ เปิดรับรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ" as="h2">
+    <div class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        สายหวยที่มีเลขในใจเข้ามาส่งโพยกับ หวยพยัคฆ์ ได้จากเมนูรวมหวยของเว็บไซต์โดยตรง โดยแต่ละรายการถูกแยกไว้อย่างชัดเจนทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ
+        ตามรอบที่เปิดให้บริการ สมาชิกเลือกรายการ เลือกประเภทเลข ส่งโพย และเช็กประวัติได้ด้วยตัวเอง ระบบจะแสดงรายละเอียดของรายการก่อนยืนยัน ทำให้เห็นเลขและยอดเดิมพันอย่างชัดเจนก่อนกดส่ง
+        และบิลจะถูกเก็บไว้ในประวัติให้เทียบย้อนหลังได้เสมอ เหมาะกับคนที่ต้องการติดตามหวยหลายประเภทโดยไม่ต้องสลับหลายเว็บไซต์
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        ก่อนตัดสินใจทุกครั้ง ให้เปิดดู <strong class="text-[#fadb6c]">ตัวเลขที่ระบบแสดงจริงบนหน้ายืนยันรายการ</strong> ของรอบนั้นก่อน แล้วคำนวณยอดจากอัตราที่เห็นจริง ไม่ใช่จากเรทที่จำมาจากรอบก่อน
+        ข้อมูลที่กำหนดไว้คือเลข 2 ตัวจ่าย 100 และเลข 3 ตัวจ่าย 1,000 ตามเงื่อนไขของแต่ละรายการ ส่วนเวลาเปิด-ปิดรับและรายละเอียดของแต่ละประเภทต่างกันไปตามรอบ
+        อัตราที่ใช้ตอนกดยืนยันจะถูกบันทึกไว้ในบิล จึงเปิดดูย้อนหลังได้เสมอว่ารายการนั้นคิดจากเรทเท่าไร
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        ผู้ที่ยังไม่มีบัญชีสมัครเองได้ผ่านหน้าเว็บไซต์ใน <strong class="text-[#fadb6c]">3 ขั้นตอน</strong> คือกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน
+        แล้วยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกรัฐบาลไทย ฮานอย ลาวพัฒนา หรือรายการอื่นที่ต้องการได้ทันที ขั้นตอนไม่ซับซ้อนและทำได้จากทั้งมือถือและคอมพิวเตอร์
+        เมื่อเข้าสู่ระบบแล้วจะเห็นรอบที่เปิดรับทั้งหมดจากหน้าเดียว
+      </p>
+
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        หากมีข้อสงสัยเกี่ยวกับการสมัคร รอบหวย อัตราจ่าย วิธีเลือกเลข หรือการใช้งานเมนูภายในเว็บไซต์ ติดต่อแอดมินหวยพยัคฆ์ได้ตลอด 24 ชั่วโมง ทีมงานพร้อมช่วยให้ข้อมูลและตรวจสอบปัญหา
+        ตามรายละเอียดที่แจ้ง หากส่งโพยไม่สำเร็จหรือพบยอดในบิลไม่ตรงกับรายการ ให้ตรวจสอบประวัติในบัญชีก่อน แล้วแจ้งรายการที่แทง รอบ เวลา และจำนวนเงินไปพร้อมกัน เพื่อให้ตรวจสอบได้ตรงจุด
+        และไม่ควรเปิดเผยรหัสผ่านหรือ OTP แก่บุคคลอื่นไม่ว่ากรณีใด
+      </p>
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="/register"
+          aria-label="สมัครสมาชิก หวยพยัคฆ์"
+          class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#ab6d13] via-[#fadb6c] to-[#ab6d13] px-8 py-4 font-black text-[#030b1c] shadow-[0_5px_15px_rgba(250,219,108,0.4)] transition-transform hover:scale-105">
+          <span aria-hidden="true">⚡</span> สมัครสมาชิก หวยพยัคฆ์
+        </a>
+        <a
+          href="/ตรวจหวย"
+          aria-label="ตรวจผลและเช็กสถานะรายการ หวยพยัคฆ์"
+          class="flex items-center justify-center gap-2 rounded-xl border border-[#ab6d13]/60 bg-[#0f2149] px-8 py-4 font-bold text-[#fadb6c] shadow-[0_5px_15px_rgba(3,11,28,0.55)] transition-colors hover:bg-[#1c3566]">
+          <span aria-hidden="true">🧾</span> ตรวจรายการของคุณ
+        </a>
+      </div>
+    </div>
+  </ContentBoxHuay>
+
+  <Navfoot />
+</MainLayout>

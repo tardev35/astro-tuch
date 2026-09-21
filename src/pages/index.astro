@@ -1,68 +1,67 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ProviderGrid from "../components/ProviderGridPremium.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import LottoGrid from "../components/LottoGrid.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
 import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
+import LatestWinners from "../components/LatestWinners4.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq4.astro";
+import Faq from "../components/Faq3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
+import imgBanner2 from "../assets/banner2.png";
 import imgSlide1 from "../assets/slide1.png";
-import imgSlide2 from "../assets/slide2.png";
 
-// SLIDE ROLES FOR THIS DROP (2026-09-21) — READ BEFORE REUSING THESE IMPORTS.
-// slide2.png prints "โปรโมชั่นคืนยอดเสีย 0.3%" so it belongs to docx H3 #4, and
-// slide1.png prints "โปรโมชั่นแนะนำเพื่อน 0.8%" so it belongs to docx H3 #5. The
-// pairing is NOT stable across brands — re-open the posters next rebrand instead
-// of copying this forward. This drop's artwork is BLACK + GOLD (crown emblem,
-// gold chips, black aces); any alt text on this page describing a purple or red
-// poster is left over from an earlier brand and is wrong.
+// IMAGE ROLES FOR THIS DROP (2026-09-22) — READ BEFORE REUSING THESE IMPORTS.
+// Two files are referenced from this page and only two:
+//   banner2.png (1254x1254) — the square navy poster with the four flag badges
+//     รัฐบาลไทย / ลาว / ฮานอย / หวยหุ้น. It is a single-column ContentBox inline
+//     illustration, width-capped at max-w-2xl, never a hero and never a
+//     SevenThree column.
+//   slide1.png (600x200) — the only usable slide in this drop. It prints
+//     "อัตราจ่ายหวย 2 ตัว 100 / 3 ตัวจ่าย 1,000", so it belongs to docx H2 #3
+//     (อัตราจ่าย) and lives in the page's ONE ContentBoxSevenThree* block.
+//     Two of those is the family's hard cap per rebrand; this page spends one.
 //
-// slide3.png (2026-09-18) and slide4.png (2026-08-13) are deliberately NOT
-// imported: both predate this drop and carry a previous client's artwork.
-// banner2.png (2026-08-20) and banner3.png (2026-08-11) are stale for the same
-// reason, so there is no single-column ContentBox inline illustration this
-// round. banner1 / banner1-mobile belong to MainLayout's own pinned globs and
-// are never referenced from a page — the hero is the LCP element, so nothing
-// here gets loading="eager" fetchpriority="high".
-//
-// A slide may only ever live inside a ContentBoxSevenThree*. Two of them is the
-// family's hard cap per rebrand and this page spends the whole budget.
+// Deliberately NOT imported, and all still on disk as inventory:
+//   banner3.png (2026-08-11, HSOD red), slide2.png (2026-09-21, HENG35 black +
+//   gold), slide3.png (2026-09-18, ENTER55), slide4.png (2026-08-13) — every one
+//   predates this drop and carries a previous client's artwork.
+//   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
+//   and are never referenced from a page — the hero is the LCP element, so
+//   nothing here gets loading="eager" fetchpriority="high".
 //
 // Rotated out of this round's mix and NOT deleted from disk (they are inventory
-// for the next brand): Announcement3, ContentBoxFloatingBadge,
-// ContentBoxTwoCyberCut, ContentBoxSpecial, ContentBoxSevenThreeNeumorphism,
-// ContentBoxSevenThreeCyberCut, ContentBoxTwoNeumorphism, ProviderGrid,
-// LatestWinnersPremium and Faq2.
+// for the next brand): AnnouncementPremium, ContentBoxPremium,
+// ContentBoxTwoPremium, ContentBoxCyberCut, ContentBoxSevenThreePremium,
+// ContentBoxSevenThree, ProviderGridPremium, LatestWinners3 and Faq4.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "HENG35 สมัครสล็อตยูสใหม่ ไม่ล็อค โบนัสฝากแรก ไม่อั้น";
+const pageTitle = "หวยพยัคฆ์ แทงหวย อันดับ1 รัฐบาลไทย ฮานอย ลาวพัฒนา จ่ายเต็ม";
 
-const pageDescription = "HENG35 สมัครสล็อตยูสใหม่ รับสิทธิพิเศษเพียบ ไม่ล็อคยูส ฝากถอนไม่จำกัด ได้โบนัสฝากแรก ทั้งวอลเลทและธนาคาร เดิมพันไม่อั้น ไม่จำกัดยอดเดิมพัน";
+const pageDescription = "หวยพยัคฆ์ แทงหวย อันดับ1 เปิดรับ รัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ รับทุกเลข จ่ายเต็ม ไม่อั้นเลข";
 
-// <Announcement /> runs bare: AnnouncementPremium's default message is already
-// this brand's copy, and every sub-page calls it bare too — passing an override
-// here is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: AnnouncementHuay's default message is already this
+// brand's copy, and every sub-page calls it bare too — passing an override here
+// is how the ticker ends up saying two different things on two pages.
 
-// The docx has a real H1 -> H2 -> H3 hierarchy this round: #4 and #5 are genuine
-// H3 sub-points of H2 #3 (โปรโมชั่น), so the page is NOT flattened to H2-only.
-// They are the only <h3> on the site and they are carried by the two SevenThree
-// blocks. Everything else here is chrome — ProviderGridPremium, LatestWinners3,
-// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span> with
-// an aria-label on the section, and Faq4's questions stay <span> inside
-// <summary>, so none of them emits a heading.
+// The docx has a real H1 -> H2 -> H3 hierarchy this round: "2 ตัวจ่าย 100" and
+// "3 ตัวจ่าย 1,000" are genuine H3 sub-points of the H2 อัตราจ่าย section, so the
+// page is NOT flattened to H2-only. They are the only <h3> here and they are
+// carried by ContentBoxSpecial and ContentBoxNeumorphism. Everything else is
+// chrome — LottoGrid, LatestWinners4, LoginRtpSection and ReviewCardSumo2 all
+// render their titles as <p>/<span> with an aria-label on the section, and
+// Faq3's questions stay <p> inside <summary>, so none of them emits a heading.
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
@@ -70,25 +69,32 @@ const pageDescription = "HENG35 สมัครสล็อตยูสใหม
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "สมัคร HENG35 ยูสใหม่ได้รับโบนัสฝากแรกหรือไม่?",
-    a: "ยูสใหม่สามารถตรวจสอบสิทธิ์โบนัสฝากแรกได้จากหน้าโปรโมชั่น โดยรายละเอียดของโบนัส ยอดที่เข้าเกณฑ์ และเงื่อนไขการรับอาจแตกต่างกันตามรายการที่เปิดให้ใช้งานในช่วงนั้น",
+    q: "หวยพยัคฆ์ มีหวยประเภทไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ โดยรายการที่เปิดรับอาจแตกต่างกันตามวันและช่วงเวลา สามารถตรวจสอบรอบล่าสุดได้จากหน้ารวมหวยก่อนทำรายการ",
   },
   {
-    q: "HENG35 มีการล็อคยูสหรือจำกัดการเข้าเล่นหรือไม่?",
-    a: "ตามข้อมูลที่กำหนด จุดเด่นของระบบคือการใช้งานแบบไม่ล็อคยูส สมาชิกสามารถเลือกเกมและค่ายที่ต้องการได้ตามรายการที่รองรับ โดยควรตรวจสอบเงื่อนไขของแต่ละเกมก่อนเข้าเล่น",
+    q: "หวยพยัคฆ์ เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
+    a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขและรายละเอียดของแต่ละรอบก่อนยืนยันรายการทุกครั้ง",
   },
   {
-    q: "HENG35 รองรับธนาคารและวอลเลทหรือไม่?",
-    a: "ระบบรองรับช่องทางธนาคารและวอลเลทตามรายการที่เปิดให้ใช้งาน สมาชิกสามารถตรวจสอบช่องทางที่รองรับ รวมถึงสถานะฝากถอนและรายละเอียดของบัญชีได้จากหน้าเว็บไซต์โดยตรง",
+    q: "สมัครหวยพยัคฆ์ ต้องทำอย่างไร?",
+    a: "เริ่มจากกรอกข้อมูลในหน้าสมัคร ตรวจสอบรายละเอียดให้ถูกต้อง แล้วกดยืนยันบัญชี เมื่อสมัครเสร็จสามารถเข้าสู่ระบบเพื่อเลือกรายการหวย รอบที่เปิดรับ และเลขที่ต้องการได้จากหน้าเว็บไซต์",
   },
+];
+
+// The brief's own three registration steps, verbatim, in its own order.
+const registerSteps = [
+  "เปิดหน้าสมัครหวยพยัคฆ์ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน",
+  "ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน",
+  "ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกรัฐบาลไทย ฮานอย ลาวพัฒนา หรือรายการอื่นที่ต้องการได้ทันที",
 ];
 
 // Every <strong> below wraps a whole space-delimited chunk of the brief's own
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's soft gold (#ffdf8a); it marks a claim
-// the brief states outright and nothing else.
+// The highlight colour is the palette's primary gold (#fadb6c); it marks a
+// claim the brief states outright and nothing else.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -105,104 +111,101 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxPremium as="h1" title="HENG35 สมัครสล็อตยูสใหม่ ไม่ล็อค รับโบนัสฝากแรก ไม่อั้น">
-    <p class="text-left text-base leading-relaxed text-[#ece1cb]">
-      HENG35 เปิดรับสมาชิกใหม่ที่ต้องการเริ่มเล่นสล็อตผ่านระบบที่ใช้งานง่าย
-      <strong class="text-[#ffdf8a]">ไม่ล็อคยูส</strong>
-      <strong class="text-[#ffdf8a]">พร้อมสิทธิ์โบนัสฝากแรกตามเงื่อนไขที่กำหนด</strong>
-      รองรับทั้งมือถือและคอมพิวเตอร์ มีเกมจากหลายค่ายให้เลือก พร้อมระบบบัญชีที่จัดการได้สะดวก เหมาะกับยูสใหม่ที่ต้องการเริ่มต้นโดยไม่จำกัดรูปแบบการเล่นมากเกินไป
+  <ContentBoxHuay as="h1" title="หวยพยัคฆ์ แทงหวย อันดับ1 รัฐบาลไทย ฮานอย ลาวพัฒนา ครบทุกประเภท">
+    <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+      หวยพยัคฆ์
+      <strong class="text-[#fadb6c]">รวมรายการแทงหวยหลายประเภทไว้ในระบบเดียว</strong>
+      <strong class="text-[#fadb6c]">ทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ</strong>
+      ผู้ใช้งานสามารถเลือกดูรอบที่เปิดรับ ตรวจสอบเลขที่ต้องการ และจัดการรายการได้จากหน้าเดียว เหมาะกับคนที่ต้องการติดตามหวยหลายประเภทโดยไม่ต้องสลับหลายเว็บไซต์
     </p>
-  </ContentBoxPremium>
+  </ContentBoxHuay>
 
-  <ContentBoxTwoPremium as="h2" title="สล็อต HENG35 รับสิทธิพิเศษเฉพาะสมาชิก ไม่มีล็อคยูส">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ece1cb]">
-      สล็อต HENG35
-      <strong class="text-[#ffdf8a]">มีสิทธิพิเศษสำหรับสมาชิกทั้งยูสใหม่และยูสเดิม</strong>
-      <strong class="text-[#ffdf8a]">โดยเน้นการใช้งานแบบไม่มีล็อคยูส</strong>
-      สามารถเลือกเกมจากหลายค่ายและตรวจสอบเงื่อนไขก่อนเข้าเล่นได้จากหน้าเดียว
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cb]">
-      <strong class="text-[#ffdf8a]">ระบบจัดหมวดเกมชัดเจน</strong>
-      ช่วยให้ค้นหาเกมที่ต้องการได้ง่าย
-      <strong class="text-[#ffdf8a]">พร้อมตัวเลือกการเดิมพันที่หลากหลายตามแต่ละเกม</strong>
-    </p>
-  </ContentBoxTwoPremium>
+  <ContentBoxFloatingBadge as="h2" title="หวยพยัคฆ์ แทงหวย อันดับ1 เปิดรับทุกเลขเด็ด เลขดัง ไม่อั้นเลข จ่ายเต็ม">
+    <div class="flex flex-col gap-6">
+      <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+        หวยพยัคฆ์
+        <strong class="text-[#fadb6c]">เปิดให้เลือกเลขเด็ดและเลขดังจากหลายรายการตามรอบที่ระบบกำหนด</strong>
+        สามารถตรวจสอบเลขที่เปิดรับ ประเภทการแทง และรายละเอียดก่อนยืนยันได้ทุกครั้ง
+        <strong class="text-[#fadb6c]">พร้อมรองรับรายการจากหลายตลาด</strong>
+        ช่วยให้ผู้ใช้งานเลือกเลขและติดตามรอบที่สนใจได้สะดวกมากขึ้น
+      </p>
+      <Picture
+        src={imgBanner2}
+        loading="lazy"
+        fetchpriority="low"
+        widths={[336, 672, 1254]}
+        sizes="(max-width: 767px) calc(100vw - 96px), 672px"
+        decoding="async"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        quality={80}
+        alt="โปสเตอร์สี่เหลี่ยมจัตุรัสพื้นน้ำเงินกรมท่าของหวยพยัคฆ์ ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดคลุมสีขาวประดับเครื่องประดับทอง ด้านขวาเป็นคำว่า หวย สีเงินวางทับคำว่า พยัคฆ์ สีทอง ถัดลงมาเป็นคำว่า รวม สีทองคู่กับคำว่า หวย สีเงินที่มีมงกุฎอยู่ด้านบน ใต้ลงมาเป็นแคปซูลข้อความว่า รัฐบาลไทย ลาว ฮานอย หวยหุ้น และตราธงกลมสี่วงกำกับชื่อ รัฐบาลไทย ลาว ฮานอย หวยหุ้น ด้านล่างเป็นลูกบอลหวยสีน้ำเงินสลับขาวหมายเลข 3 6 และ 9 วางคู่กับใบสลากและเหรียญทอง พร้อมข้อความว่า แทงง่าย ปลอดภัย 100% จ่ายจริง ไม่มีอั้น และ อัตราจ่ายสูง มั่นคง เชื่อถือได้"
+        class="mx-auto h-auto w-full max-w-2xl rounded-2xl border border-[#ab6d13]/55 shadow-[0_10px_30px_rgba(250,219,108,0.26)]"
+      />
+    </div>
+  </ContentBoxFloatingBadge>
 
-  <ProviderGrid />
+  <LottoGrid />
 
-  <ContentBoxCyberCut as="h2" title="โปรโมชั่นสล็อต HENG35 รับได้ทุกฝากไม่จำกัด">
-    <p class="text-left text-base leading-relaxed text-[#ece1cb]">
-      โปรโมชั่นสล็อต HENG35
-      <strong class="text-[#ffdf8a]">มีสิทธิ์ให้เลือกหลายรูปแบบตามเงื่อนไขของระบบ</strong>
-      <strong class="text-[#ffdf8a]">ทั้งโบนัสคืนยอดเสียและโบนัสแนะนำเพื่อน</strong>
-      สมาชิกสามารถตรวจสอบรายละเอียดก่อนกดรับได้จากหน้าโปรโมชั่น เพื่อดูยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และเงื่อนไขของแต่ละรายการก่อนนำไปใช้งาน
-    </p>
-  </ContentBoxCyberCut>
-
-  <ContentBoxSevenThreePremium as="h3" title="คืนยอดเสีย โบนัส 0.3%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[264, 382, 764]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 382px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นคืนยอดเสียของ HENG35 พื้นหลังสีดำตัดทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง HENG35 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นคืนยอดเสีย และตัวเลข 0.3% ขนาดใหญ่สีทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดดำสลับทอง รอบข้างมีเหรียญทองกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#ecc55c]/55 shadow-[0_10px_30px_rgba(236,197,92,0.28)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cb]">
-      สมาชิก HENG35
-      <strong class="text-[#ffdf8a]">สามารถรับโบนัสคืนยอดเสีย 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
-      <strong class="text-[#ffdf8a]">โดยระบบจะแสดงรายละเอียดของรอบคำนวณและยอดที่เข้าเกณฑ์ให้ตรวจสอบก่อนรับสิทธิ์</strong>
-      ช่วยให้ติดตามโบนัสของตัวเองได้ง่ายขึ้น และสามารถวางแผนการใช้เครดิตในแต่ละรอบได้อย่างชัดเจน
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThree as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeHuay as="h2" titleright="อัตราจ่าย หวยพยัคฆ์ ให้ยอดสูงที่สุด ในวงการหวยออนไลน์">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
-      widths={[264, 346, 692]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 346px"
+      widths={[300, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), 377px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นแนะนำเพื่อนของ HENG35 พื้นหลังสีดำตัดทอง ด้านบนเป็นตราสัญลักษณ์มงกุฎทอง HENG35 ใต้ลงมาเป็นข้อความว่า โปรโมชั่นแนะนำเพื่อน และตัวเลข 0.8% ขนาดใหญ่สีทอง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดดำสลับทอง ด้านขวาเป็นไพ่โพดำสีดำ มุมขวาบนมีข้อความว่า PLAY BIGGER TOGETHER และตามขอบล่างมีข้อความว่า MORE FRIENDS MORE WINS"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a3732c]/55 shadow-[0_10px_30px_rgba(163,115,44,0.28)]"
+      alt="แบนเนอร์แนวนอนพื้นน้ำเงินกรมท่าของหวยพยัคฆ์ ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดขาวสลับน้ำเงินขลิบทอง ตรงกลางเป็นคำว่า หวย สีเงินวางทับคำว่า พยัคฆ์ สีทอง ถัดมาเป็นข้อความว่า อัตราจ่ายหวย และตัวเลขขนาดใหญ่สีทองสลับขาวว่า 2 ตัว 100 และ 3 ตัวจ่าย 1,000 ใต้ลงมาเป็นข้อความว่า จ่ายจริง เล่นง่าย มั่นใจได้ รอบข้างมีลูกบอลหวยสีทองหมายเลข 5 6 8 และ 9 ส่วนด้านขวาเป็นเงาหัวเสือสีทอง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#ab6d13]/55 shadow-[0_10px_30px_rgba(250,219,108,0.26)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece1cb]">
-      โปรโมชั่นแนะนำเพื่อนของ HENG35
-      <strong class="text-[#ffdf8a]">ให้โบนัส 0.8% ตามเงื่อนไขของกิจกรรม</strong>
-      <strong class="text-[#ffdf8a]">สมาชิกสามารถชวนคนรู้จักเข้ามาสมัครผ่านช่องทางที่ระบบรองรับ</strong>
-      พร้อมตรวจสอบยอดสิทธิ์และรายละเอียดของโบนัสได้จากบัญชีสมาชิก ช่วยให้ติดตามผลของการแนะนำเพื่อนได้สะดวกมากขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#dbe4f7]">
+      หวยพยัคฆ์
+      <strong class="text-[#fadb6c]">แสดงอัตราจ่ายของแต่ละประเภทเลขไว้อย่างชัดเจนก่อนยืนยันรายการ</strong>
+      <strong class="text-[#fadb6c]">ทั้งเลข 2 ตัวและเลข 3 ตัว</strong>
+      ผู้ใช้งานสามารถตรวจสอบอัตรา รอบหวย และประเภทบิลได้จากหน้าเดียว ช่วยให้เปรียบเทียบรายละเอียดและเลือกวิธีแทงที่เหมาะกับเลขที่ต้องการได้ง่ายขึ้น
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeHuay>
 
-  <ContentBoxNeumorphism as="h2" title="HENG35 รับทุกธนาคารและวอลเลท ฝากถอนไม่จำกัด">
-    <p class="text-left text-base leading-relaxed text-[#ece1cb]">
-      ระบบ HENG35
-      <strong class="text-[#ffdf8a]">รองรับช่องทางธนาคารและวอลเลทตามรายการที่เว็บไซต์เปิดให้ใช้งาน</strong>
-      สมาชิกสามารถเลือกช่องทางที่เหมาะกับตัวเอง
-      <strong class="text-[#ffdf8a]">พร้อมตรวจสอบยอดและสถานะฝากถอนจากบัญชีได้โดยตรง</strong>
-      ขั้นตอนถูกจัดให้เข้าใจง่าย และรองรับการทำรายการตามวงเงินและเงื่อนไขที่ระบบกำหนด
+  <ContentBoxSpecial as="h3" title="2 ตัวจ่าย 100" iconleft="2️⃣" iconright="🧾">
+    <p slot="left" class="min-w-0 flex-1 text-left text-base leading-relaxed text-[#dbe4f7]">
+      <strong class="text-[#fadb6c]">เลข 2 ตัวของหวยพยัคฆ์ระบุอัตราจ่ายไว้ที่ 100</strong>
+      ตามเงื่อนไขของแต่ละรายการ
+    </p>
+    <p slot="right" class="min-w-0 flex-1 text-left text-base leading-relaxed text-[#dbe4f7]">
+      ผู้ใช้งานสามารถเลือกเลขที่ต้องการ ตรวจสอบรอบเปิดรับ และเช็กรายละเอียดของบิลก่อนยืนยัน ช่วยให้จัดการเลขที่ติดตามได้เป็นขั้นตอนและลดความผิดพลาดก่อนส่งรายการ
+    </p>
+  </ContentBoxSpecial>
+
+  <ContentBoxNeumorphism as="h3" title="3 ตัวจ่าย 1,000">
+    <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+      สำหรับเลข 3 ตัว
+      <strong class="text-[#fadb6c]">หวยพยัคฆ์ระบุอัตราจ่ายไว้ที่ 1,000 ตามเงื่อนไขของระบบ</strong>
+      ก่อนยืนยันสามารถตรวจสอบเลข ประเภทหวย รอบเวลา และรายละเอียดของรายการได้อีกครั้ง เหมาะกับผู้ที่มีชุดเลข 3 ตัวและต้องการดูข้อมูลให้ครบก่อนส่งบิล
     </p>
   </ContentBoxNeumorphism>
 
+  <ContentBoxTwoHuay as="h2" titleleft="สมัครแทงหวย หวยพยัคฆ์ ได้ใน 3 ขั้นตอน" iconleft="📝">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#dbe4f7]">
+      <strong class="text-[#fadb6c]">การสมัครหวยพยัคฆ์สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
+      ขั้นตอนไม่ซับซ้อน และหลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อดูรายการหวยที่เปิดรับได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
+    </p>
+    <ol slot="right" class="list-decimal space-y-3 pl-6 text-left text-base leading-relaxed text-[#dbe4f7] marker:font-black marker:text-[#fadb6c]">
+      {registerSteps.map((step) => <li>{step}</li>)}
+    </ol>
+  </ContentBoxTwoHuay>
+
   <LatestWinners />
 
-  <ContentBox as="h2" title="ติดต่อแอดมิน HENG35 พร้อมให้บริการ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#ece1cb]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร โบนัสฝากแรก โปรโมชั่น การเข้าเกม หรือระบบฝากถอน
-      <strong class="text-[#ffdf8a]">สามารถติดต่อแอดมิน HENG35 ได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#ffdf8a]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนใช้งานตามปัญหาที่แจ้ง</strong>
-      ช่วยให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา
+  <ContentBox as="h2" title="แอดมิน หวยพยัคฆ์ ออนไลน์ 24 ชั่วโมง ติดต่อได้ทันที">
+    <p class="text-left text-base leading-relaxed text-[#dbe4f7]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร รอบหวย อัตราจ่าย วิธีเลือกเลข หรือการใช้งานเมนูภายในเว็บไซต์
+      <strong class="text-[#fadb6c]">สามารถติดต่อแอดมินหวยพยัคฆ์ได้ตลอด 24 ชั่วโมง</strong>
+      <strong class="text-[#fadb6c]">ทีมงานพร้อมช่วยให้ข้อมูลและตรวจสอบปัญหาตามรายละเอียดที่แจ้ง</strong>
+      เพื่อให้ทั้งสมาชิกใหม่และสมาชิกเดิมใช้งานระบบได้สะดวกขึ้น
     </p>
   </ContentBox>
 

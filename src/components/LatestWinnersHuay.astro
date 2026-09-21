@@ -13,21 +13,20 @@ const bankPool = [
 ];
 
 // Pre-formatted, because the shared module treats a market as one opaque label
-// rather than a name/type pair it has to know how to join. บรีฟของ MHEEPOOH168
-// ระบุเพียงว่ามีหมวด "หวย" อยู่ในระบบเดียวกับบาคาร่า สล็อต และบอล โดยไม่ได้ระบุ
-// ชื่อตลาดหวยรายตัว ป้ายในฟีดจึงเป็นประเภทของเลขที่แทงเท่านั้น ห้ามเติมชื่อตลาด
-// (รัฐบาลไทย ลาว ฮานอย หุ้น ออมสิน ฯลฯ) กลับเข้ามาโดยไม่มีบรีฟรองรับ
+// rather than a name/type pair it has to know how to join. บรีฟของหวยพยัคฆ์ระบุ
+// ตลาดไว้ชัดเจน — รัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ — ป้ายในฟีดจึง
+// เป็น "ตลาด · ประเภทเลข" ได้โดยมีบรีฟรองรับ ห้ามเติมตลาดอื่นที่บรีฟไม่ได้ระบุ
 // และห้ามใส่ตัวเลขอัตราจ่ายลงใน pool นี้ — เรทเป็นค่าที่ระบบแสดงต่อรอบ ไม่ใช่
 // ตัวเลขคงที่ที่จะโชว์ในฟีดซึ่งสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
-  "หวย · เลข 2 ตัวบน",
-  "หวย · เลข 2 ตัวล่าง",
-  "หวย · เลข 3 ตัวตรง",
-  "หวย · เลข 3 ตัวโต๊ด",
-  "หวย · เลขวิ่งบน",
-  "หวย · เลขวิ่งล่าง",
-  "หวย · ชุดเลข 2 ตัว",
-  "หวย · ชุดเลข 3 ตัว",
+  "รัฐบาลไทย · เลข 2 ตัวบน",
+  "รัฐบาลไทย · เลข 3 ตัวตรง",
+  "ฮานอย · เลข 2 ตัวล่าง",
+  "ฮานอย · เลข 3 ตัวตรง",
+  "ลาวพัฒนา · เลข 2 ตัวบน",
+  "ลาวพัฒนา · เลข 3 ตัวโต๊ด",
+  "หวยหุ้นต่างประเทศ · เลข 2 ตัวบน",
+  "หวยหุ้นต่างประเทศ · เลข 3 ตัวตรง",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -40,11 +39,12 @@ const marketPool = [
 // page it appears on. Do not promote it again to "fix" the missing name.
 //
 // This feed renders on /ตรวจหวย only, so the row states ถูกรางวัล/โอนเข้าบัญชี
-// rather than a casino win — it illustrates the brief's own "ตรวจสอบสถานะรายการ
-// และยอดผ่านบัญชีของตัวเองได้" line, not a payout guarantee.
-// Palette is red on near-black only (ธีม Huay ของหน้าหวย ซึ่ง playbook ยกเว้นไว้
-// ใน Phase 4.5): the pending state is pale rose and the completed state is cream,
-// so no second hue (gold or green) survives here.
+// rather than a casino win — it illustrates the page's own "เปิดดูสถานะรายการ
+// จากบัญชีสมาชิกได้เอง" line, not a payout guarantee.
+//
+// พาเลตต์: กรมท่า #030b1c/#08152f/#0f2149/#1c3566 + ทอง #fadb6c/#fdf5a4/#ab6d13
+// ตาม §2 ของ brand spec — แดงของแบรนด์ก่อนหน้าออกทั้งหมด สีเดียวที่ไม่ใช่ของ
+// แบรนด์คือโลโก้ธนาคารจริงใน bankPool ซึ่งต้องคงไว้
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
@@ -56,20 +56,20 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
   pending: brandFlag(Astro.site, `lotto-pending-${i}`),
 }));
 
-const PENDING_CLASS = "text-[#ff9a9d] animate-pulse";
-const DONE_CLASS = "text-[#ffe9ea]";
+const PENDING_CLASS = "text-[#fdf5a4] animate-pulse";
+const DONE_CLASS = "text-[#e8eef8]";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
-    aria-label="ยอดถูกรางวัลและรายการถอนล่าสุดของสมาชิก MHEEPOOH168"
-    class="relative rounded-3xl border border-[#c21e22]/55 bg-[#140a0c]/75 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl md:p-8">
-    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#c21e22]/50 pb-4">
+    aria-label="ยอดถูกรางวัลและรายการโอนล่าสุดของสมาชิกหวยพยัคฆ์"
+    class="relative rounded-3xl border border-[#ab6d13]/55 bg-[#08152f]/80 px-4 py-8 shadow-[0_10px_30px_rgba(3,11,28,0.65)] backdrop-blur-xl md:p-8">
+    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#ab6d13]/45 pb-4">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(226,53,58,0.8)]">🎉</span>
-        <p class="text-xl leading-normal font-black tracking-widest text-[#ffe9ea] drop-shadow-sm">ยอดถูกรางวัล · ถอนล่าสุด</p>
+        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(250,219,108,0.8)]">🐯</span>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#e8eef8] drop-shadow-sm">ยอดถูกรางวัล · โอนล่าสุด</p>
       </div>
-      <span class="animate-pulse rounded-full border border-[#e2353a]/60 bg-[#3a0709]/70 px-3 py-1 text-[10px] font-bold tracking-widest text-[#ff8a8d] shadow-[0_0_10px_rgba(226,53,58,0.25)]">
+      <span class="animate-pulse rounded-full border border-[#fadb6c]/55 bg-[#0f2149]/80 px-3 py-1 text-[10px] font-bold tracking-widest text-[#fadb6c] shadow-[0_0_10px_rgba(250,219,108,0.28)]">
         REAL-TIME
       </span>
     </div>
@@ -86,22 +86,22 @@ const DONE_CLASS = "text-[#ffe9ea]";
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-bottom transition-all duration-500 ease-out">
-            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#7d1114]/70 bg-[#0a0608]/45 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#e2353a]/45 hover:bg-[#1c0d0f]/70 sm:flex-row sm:items-center">
+            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#1c3566]/80 bg-[#030b1c]/55 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#fadb6c]/45 hover:bg-[#0f2149]/70 sm:flex-row sm:items-center">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain grayscale" />
                 </div>
                 <div class="flex flex-col">
-                  <span class="text-[10px] font-medium tracking-widest text-[#bdb4b6]">เบอร์สมาชิก</span>
-                  <span data-winner-user class="font-mono text-sm font-bold text-[#ded9da]">
+                  <span class="text-[10px] font-medium tracking-widest text-[#9fb0d0]">เบอร์สมาชิก</span>
+                  <span data-winner-user class="font-mono text-sm font-bold text-[#dbe4f7]">
                     {row.user}
                   </span>
-                  <span data-winner-market class="text-[10px] tracking-wide text-[#bdb4b6]">
+                  <span data-winner-market class="text-[10px] tracking-wide text-[#9fb0d0]">
                     {row.market}
                   </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between gap-6 border-t border-[#7d1114]/60 pt-3 sm:justify-end sm:border-none sm:pt-0">
+              <div class="flex items-center justify-between gap-6 border-t border-[#1c3566]/70 pt-3 sm:justify-end sm:border-none sm:pt-0">
                 <div
                   data-winner-status
                   data-pending-text="กำลังตรวจโพย"
@@ -111,8 +111,8 @@ const DONE_CLASS = "text-[#ffe9ea]";
                   class={`text-[11px] font-medium tracking-wider ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? "กำลังตรวจโพย" : "โอนเข้าบัญชีแล้ว"}
                 </div>
-                <div class="font-sans text-xl font-black text-[#e2353a] drop-shadow-[0_2px_5px_rgba(226,53,58,0.35)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#ff8a8d]">บาท</span>
+                <div class="font-sans text-xl font-black text-[#fadb6c] drop-shadow-[0_2px_5px_rgba(250,219,108,0.35)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#9fb0d0]">บาท</span>
                 </div>
               </div>
             </div>

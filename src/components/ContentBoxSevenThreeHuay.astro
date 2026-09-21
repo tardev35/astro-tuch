@@ -2,30 +2,44 @@
 export interface Props {
   titleleft?: string;
   titleright?: string;
+  /** Both column headings render at this level, set from the docx's outline.
+   *  Pass only the heading(s) the docx actually has — an unpassed title emits
+   *  no tag at all, so this box can carry one docx heading beside an image. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
-const { titleleft, titleright } = Astro.props;
+const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
+
+// Flattened columns: each <article> carries the text classes itself and the slot
+// is a direct child, so the headings need `leading-normal` to stop the hoisted
+// `leading-relaxed` leaking into them. Do not re-add a wrapper <div>.
+//
+// หวยพยัคฆ์ (รอบกรมท่า-ทอง 2026-09-22): การ์ดกรมท่า #08152f ในกรอบทองบรอนซ์
+// #ab6d13 ที่สว่างขึ้นเป็นทองหลัก #fadb6c ตอน hover ออร่ามุมขวาบนเป็นทองหลัก
+// เส้นคั่นระหว่างสองคอลัมน์เป็นน้ำเงินคั่น #1c3566 คอลัมน์ซ้าย (รูปสไลด์) ใช้สีรอง
+// #9fb0d0 ส่วนคอลัมน์ขวาเป็นเนื้อความ #dbe4f7 หัวข้อไล่เฉดเดียวกับคำว่า พยัคฆ์
+// บนโลโก้ — ทองสว่าง #fdf5a4 → ทองหลัก → ทองบรอนซ์
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#dfb455]/30 bg-[#04122b]/70 p-8 text-[#d5e3f7] shadow-[0_10px_30px_rgba(1,9,27,0.55)] backdrop-blur-xl transition-all duration-500 hover:border-[#f7d979]/50 hover:shadow-[0_15px_40px_rgba(223,180,85,0.2)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#12508f]/40 blur-[60px] transition-all duration-500 group-hover:bg-[#3d8fd8]/35">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#ab6d13]/35 bg-[#08152f]/80 p-8 text-[#dbe4f7] shadow-[0_10px_30px_rgba(3,11,28,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-[#fadb6c]/55 hover:shadow-[0_15px_40px_rgba(250,219,108,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#fadb6c]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#fadb6c]/30">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-2 border-b border-[#2c4d84]/50 pb-6 text-left text-base leading-relaxed font-medium text-[#8fa5c4] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-2 border-b border-[#1c3566]/70 pb-6 text-left text-base leading-relaxed font-medium text-[#9fb0d0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
-            <h2 class="bg-gradient-to-r from-[#fdf1cd] via-[#f7d979] to-[#a87a1e] bg-clip-text text-center text-3xl leading-normal font-black tracking-wider text-transparent uppercase drop-shadow-sm md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#ab6d13] bg-clip-text text-center text-3xl leading-normal font-black tracking-wider text-transparent uppercase drop-shadow-sm md:text-left">
               {titleleft}
-            </h2>
+            </HeadingTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#d5e3f7] md:pl-6">
-        {titleright && <h2 class="flex items-center gap-2 text-xl leading-normal font-black text-[#fdf1cd] drop-shadow-[0_0_5px_rgba(223,180,85,0.55)]">{titleright}</h2>}
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#dbe4f7] md:pl-6">
+        {titleright && <HeadingTag class="flex items-center gap-2 text-xl leading-normal font-black text-[#fdf5a4] drop-shadow-[0_0_5px_rgba(250,219,108,0.55)] md:text-2xl">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

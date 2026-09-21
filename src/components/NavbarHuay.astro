@@ -8,7 +8,7 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ LOTTOKA ตัวอักษรหนาคำว่า LOTTO สีแดงเข้ม ต่อด้วย KA สีขาวที่มีเส้นขอบบางล้อมรอบ";
+const logoAlt = "โลโก้ หวยพยัคฆ์ ตัวอักษรหนาคำว่า หวย สีเงินไล่เฉด วางทับคำว่า พยัคฆ์ สีทอง ทั้งสองคำมีขอบนูนสีน้ำเงินกรมท่า";
 
 // icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
 // ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
@@ -20,7 +20,9 @@ const logoAlt = "โลโก้ LOTTOKA ตัวอักษรหนาคำ
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
 // และมีลิงก์จาก footer)
 //
-// มี /ตรวจหวย และ /แนวทาง เพราะ LOTTOKA เป็นเว็บแทงหวยออนไลน์
+// มี /ตรวจหวย และ /แนวทาง เพราะ หวยพยัคฆ์ เป็นเว็บแทงหวยออนไลน์ —
+// สองหน้านี้ถูกย้ายกลับเข้า src/pages/ ในรอบนี้ ถ้าแบรนด์ถัดไปไม่ใช่เว็บหวย
+// ต้องเอาทั้งไฟล์และสองลิงก์นี้ออกพร้อมกัน
 const menu = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
@@ -35,15 +37,15 @@ const menu = [
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
-  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#7d1114]/55 bg-[#0a0608]/95 px-4 shadow-[0_5px_20px_rgba(0,0,0,0.55)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#e2353a]/25 bg-[#e2353a]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
+  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#ab6d13]/55 bg-[#030b1c]/95 px-4 shadow-[0_5px_20px_rgba(3,11,28,0.7)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#fadb6c]/25 bg-[#fadb6c]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
           <Picture src={mainLogo} alt={logoAlt} loading="eager" widths={[130, 260, 390]} sizes="130px" class="h-[45px] w-auto drop-shadow-md xl:h-[55px]" formats={["avif", "webp"]} fallbackFormat="webp" />
         ) : (
           <p class="text-2xl font-black tracking-widest text-white italic drop-shadow-md">
-            <span class="bg-gradient-to-r from-[#e2353a] to-[#7d1114] bg-clip-text text-transparent">LOTTO</span>
-            <span class="bg-gradient-to-r from-[#ffe9ea] to-[#bdb4b6] bg-clip-text text-transparent">KA</span>
+            <span class="bg-gradient-to-r from-[#e8eef8] to-[#9fb0d0] bg-clip-text text-transparent">หวย</span>
+            <span class="bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#ab6d13] bg-clip-text text-transparent">พยัคฆ์</span>
           </p>
         )
       }
@@ -54,11 +56,11 @@ const menu = [
         menu.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-2 px-1.5 text-sm font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "text-[#ff8a8d]" : "text-[#ded9da]/80 hover:text-white"}`}>
+            class={`group relative flex h-full items-center gap-2 px-1.5 text-sm font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "text-[#fadb6c]" : "text-[#dbe4f7]/80 hover:text-white"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#ff8a8d] to-[#7d1114] shadow-[0_-2px_10px_rgba(226,53,58,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#fdf5a4] to-[#ab6d13] shadow-[0_-2px_10px_rgba(250,219,108,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -68,32 +70,32 @@ const menu = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden rounded-full border-2 border-[#e2353a]/35 bg-[#1c0d0f]/60 px-6 py-2.5 text-sm font-bold text-[#ffe9ea] backdrop-blur-md transition-all hover:border-[#e2353a]/70 hover:bg-[#e2353a]/10 xl:flex">
+        class="hidden rounded-full border-2 border-[#fadb6c]/35 bg-[#0f2149]/60 px-6 py-2.5 text-sm font-bold text-[#dbe4f7] backdrop-blur-md transition-all hover:border-[#fadb6c]/70 hover:bg-[#fadb6c]/10 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] px-6 py-2.5 text-sm font-black text-[#ffe9ea] shadow-[0_4px_15px_rgba(194,30,34,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(226,53,58,0.65)] xl:flex">
+        class="hidden rounded-full bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#e3a92f] px-6 py-2.5 text-sm font-black text-[#030b1c] shadow-[0_4px_15px_rgba(250,219,108,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(250,219,108,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
-      <button id="hamburger-btn" class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#e2353a]/35 bg-[#1c0d0f]/70 lg:hidden" aria-label="Menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ff8a8d] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ff8a8d] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ff8a8d] transition-all duration-300"></span>
+      <button id="hamburger-btn" class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#fadb6c]/35 bg-[#0f2149]/70 lg:hidden" aria-label="Menu">
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fadb6c] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fadb6c] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fadb6c] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#7d1114]/60 bg-[#0a0608]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#ab6d13]/60 bg-[#030b1c]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         menu.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#e2353a] bg-[#e2353a]/10 text-[#ff8a8d]" : "text-[#ded9da]/80 hover:bg-[#e2353a]/5 hover:text-white"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#fadb6c] bg-[#fadb6c]/10 text-[#fadb6c]" : "text-[#dbe4f7]/80 hover:bg-[#fadb6c]/5 hover:text-white"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -103,10 +105,10 @@ const menu = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#e2353a] via-[#c21e22] to-[#7d1114] py-3.5 text-lg font-black text-[#ffe9ea] shadow-[0_5px_15px_rgba(194,30,34,0.45)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#e3a92f] py-3.5 text-lg font-black text-[#030b1c] shadow-[0_5px_15px_rgba(250,219,108,0.45)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#e2353a]/35 bg-[#1c0d0f]/60 py-3.5 text-lg font-bold text-[#ffe9ea]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#fadb6c]/35 bg-[#0f2149]/60 py-3.5 text-lg font-bold text-[#dbe4f7]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>
