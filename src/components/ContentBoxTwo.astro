@@ -10,26 +10,26 @@ export interface Props {
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright, label } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a service list),
+// Without a `title` this box carries chrome (a login widget, a game list),
 // never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// หวยพยัคฆ์ (รอบกรมท่า-ทอง 2026-09-22): โลโก้แบรนด์นี้มีสองสี — คำว่า หวย เป็นเงิน
-// ทับคำว่า พยัคฆ์ สีทอง สองครึ่งของกล่องจึงแยกกันด้วยคู่สีนั้นจริงๆ ป้ายไอคอนฝั่ง
-// ซ้ายไล่จากทองสว่าง #fdf5a4 ลงทองหลัก #fadb6c ไปหาทองบรอนซ์ #ab6d13 ตัวอักษร
-// บนป้ายทองใช้สีพื้นเพจ #030b1c ส่วนฝั่งขวาไล่จากเงิน #e8eef8 ลงสีรอง #9fb0d0
-// ไปหาน้ำเงินคั่น #1c3566 เส้นคั่นเป็นทองกับน้ำเงินคั่น ดำ-ทองของ HENG35 ออกหมด
+// HENG38 (รอบมรกต-ทอง 2026-09-22): โลโก้แบรนด์นี้เป็นตรามรกตเขียวเข้มกับมงกุฎและ
+// ลายกนกทอง สองครึ่งของกล่องจึงแยกกันด้วยคู่สีนั้นจริงๆ ป้ายไอคอนฝั่งซ้ายไล่จาก
+// ทองอ่อน #fbeeb0 ลงทองหลัก #f3cf63 ไปหาทองบรอนซ์ #a5761a ตัวอักษรบนป้ายทองใช้
+// สีพื้นเพจ #03140a ส่วนฝั่งขวาไล่จากมรกตสว่าง #1faa4e ลงมรกตสด #15833c ไปหา
+// มรกตกลาง #0f4423 เส้นคั่นเป็นทองกับมรกตกลาง — กรมท่า-ทองของรอบก่อนออกหมด
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#fadb6c]/40 pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdf5a4] via-[#fadb6c] to-[#ab6d13] shadow-[0_0_10px_rgba(250,219,108,0.55)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#e8eef8] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#f3cf63]/40 pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] shadow-[0_0_10px_rgba(243,207,99,0.55)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fbeeb0] via-[#f3cf63] to-[#e0b23c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -37,13 +37,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe4f7]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e2d2]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#fadb6c]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#fdf5a4] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#f3cf63]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#fbeeb0] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadb6c]/70 bg-gradient-to-br from-[#fdf5a4] via-[#fadb6c] to-[#ab6d13] text-sm text-[#030b1c] shadow-[0_5px_15px_rgba(250,219,108,0.35)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#f3cf63]/70 bg-gradient-to-br from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] text-sm text-[#03140a] shadow-[0_5px_15px_rgba(243,207,99,0.35)]">
               🔐
             </span>
             {titleleft}
@@ -53,14 +53,14 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe4f7]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e2d2]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#1c3566] pb-3 text-xl leading-normal font-black tracking-widest text-[#e8eef8] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#0f4423] pb-3 text-xl leading-normal font-black tracking-widest text-[#e0b23c] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e8eef8]/50 bg-gradient-to-br from-[#e8eef8] via-[#9fb0d0] to-[#1c3566] text-sm text-[#030b1c] shadow-[0_5px_15px_rgba(232,238,248,0.22)]">
-              🎯
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#1faa4e]/50 bg-gradient-to-br from-[#1faa4e] via-[#15833c] to-[#0f4423] text-sm text-[#03140a] shadow-[0_5px_15px_rgba(31,170,78,0.22)]">
+              🎰
             </span>
             {titleright}
           </p>

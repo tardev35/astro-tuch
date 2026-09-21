@@ -2,77 +2,91 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 
-// ดรอปอาร์ตเวิร์กของ หวยพยัคฆ์ คือ 2026-09-22 และมี slide เดียวคือ slide1.png
-// (แบนเนอร์แนวนอน กรมท่า-ทอง ระบุอัตราจ่าย 2 ตัว 100 / 3 ตัว 1,000)
+// ดรอปอาร์ตเวิร์กของ HENG38 คือ 2026-09-22 และมีสไลด์ที่ใช้ได้สองใบ:
+//   slide1.png (600x334) — "โปรโมชั่น แนะนำเพื่อน 0.8%"
+//   slide2.png (600x334) — "โปรโมชั่น คืนยอดเสีย 0.3%"
+// ทั้งคู่เป็นโปสเตอร์มรกต-ทองของแบรนด์นี้ กริดรอบนี้จึงมีสองใบ
 //
-// slide2.png (2026-09-21 · HENG35 "คืนยอดเสีย 0.3%"), slide3.png (2026-09-18 ·
-// ENTER55) และ slide4.png (2026-08-13) เก่ากว่าดรอปรอบนี้ทั้งหมด เป็นอาร์ตเวิร์ก
-// ของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้งเพราะเป็นอินเวนทอรี
-// (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ verify-build จะแดง)
-// กริดรอบนี้จึงมีภาพใบเดียว ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
-import promoRates from "../assets/slide1.png";
+// slide3.png (2026-09-18 · ENTER55) และ slide4.png (2026-08-13) เก่ากว่าดรอป
+// รอบนี้ เป็นอาร์ตเวิร์กของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้ง
+// เพราะเป็นอินเวนทอรี (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว
+// และ verify-build จะแดง) ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
+import promoReferral from "../assets/slide1.png";
+import promoCashback from "../assets/slide2.png";
 import { pageGraph } from "../lib/schema";
 //
 // หน้านี้เป็น IMAGE page ไม่ใช่บทความ: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า,
 // กริดโปสเตอร์, ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์
-// ระบุอัตราจ่ายและเงื่อนไขไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
+// ระบุชื่อโปรและเปอร์เซ็นต์โบนัสไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1×1, h2×0, h3×0
 //
-// slide1 เป็นแบนเนอร์แนวนอน ภาพจึงวางเป็นคอลัมน์เดียวคุมความกว้างที่ max-w-4xl
-// (896px) ไม่ใช่ครึ่งคอลัมน์ ซึ่งจะบีบแบนเนอร์แนวนอนจนอ่านตัวเลขไม่ออก
-// widths เริ่มที่ 640: candidate ที่เล็กกว่านั้นไม่มีทางถูกเลือกตาม sizes และ AVIF
-// ที่ขนาดเล็กมักใหญ่กว่า WebP ของตัวเอง ซึ่ง verify-build จับแล้ว build แดง
+// สไลด์เป็นแบนเนอร์แนวนอน 600px จึงวางเป็นกริดสองคอลัมน์คุมความกว้างรวมที่ max-w-5xl
+// (1024px) ทำให้ช่องละ ~488px ไม่ต้องอัปสเกลเกินขนาดไฟล์ต้นทาง widths หยุดที่ 600
+// ตามความกว้างจริงของไฟล์ (candidate ที่ใหญ่กว่านั้นไม่มีของให้ครอป)
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของไฟล์
-// นั้นเป็นคอปปี้ของ หวยพยัคฆ์ อยู่แล้ว จึงเรียกแบบ bare ห้ามส่ง prop message
+// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของไฟล์
+// นั้นเป็นคอปปี้ของ HENG38 อยู่แล้วและ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
 //
-// พาเลตต์ หวยพยัคฆ์ (กรมท่า + ทอง แทนดำ + ทองของ HENG35):
-// พื้น #030b1c · การ์ด #08152f · ผิวยก #0f2149 · ขอบบรอนซ์ #ab6d13 ·
-// ทองหลัก #fadb6c · ทองสว่าง #fdf5a4 · เนื้อความ #dbe4f7 · <strong> #fadb6c ·
-// เงาลึก rgba(3,11,28,α) · ออร่าทอง rgba(250,219,108,α)
+// พาเลตต์ HENG38 (มรกต + ทอง แทนกรมท่า + ทองของ หวยพยัคฆ์):
+// พื้น #03140a · การ์ด #061f0f · ผิวยก #0a2d16 · ขอบบรอนซ์ #a5761a ·
+// ทองหลัก #f3cf63 · ทองสว่าง #fbeeb0 · เนื้อความ #e6e2d2 · <strong> #f3cf63 ·
+// เงาลึก rgba(3,20,10,α) · ออร่าทอง rgba(243,207,99,α)
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 157
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 155
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมโปรโมชั่นและสิทธิพิเศษของ หวยพยัคฆ์ สำหรับสมาชิกแทงหวยรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ ดูภาพรายการที่เปิดรับและตรวจสอบเงื่อนไขก่อนกดรับสิทธิ์";
+const pageDescription = "รวมโปรโมชั่นของ HENG38 เว็บรวมสล็อตใหญ่ ทั้งโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ดูภาพรายการที่เปิดรับและตรวจสอบเงื่อนไขของแต่ละโปรก่อนกดรับสิทธิ์";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น หวยพยัคฆ์",
+  name: "โปรโมชั่น HENG38",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
     { name: "โปรโมชั่น", path: "/promotion" },
   ],
-  primaryImagePath: promoRates.src,
+  primaryImagePath: promoReferral.src,
 });
 ---
 
-<MainLayout title="โปรโมชั่น หวยพยัคฆ์ อัตราจ่าย 2 ตัว 100 และ 3 ตัว 1,000 จ่ายเต็ม" description={pageDescription}>
+<MainLayout title="โปรโมชั่น HENG38 แนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% กดรับได้จริง" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น หวยพยัคฆ์" as="h1">
+  <ContentBox title="โปรโมชั่น HENG38" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#dbe4f7]">
-        หน้านี้รวมภาพโปรโมชั่นและอัตราจ่ายที่ <strong class="text-[#fadb6c]">หวยพยัคฆ์</strong> เปิดรับในรอบปัจจุบัน
-        ครอบคลุมรายการรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ รายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว
-        ทั้งอัตราจ่ายของเลข 2 ตัวและเลข 3 ตัว
-        <strong class="text-[#fadb6c]">แต่ละรอบมีเงื่อนไขและเวลาเปิดรับต่างกัน จึงควรตรวจสอบรอบหวย ประเภทบิล และรายละเอียดของรายการจากหน้าเว็บไซต์ก่อนยืนยันทุกครั้ง</strong>
+      <p class="mb-8 text-left text-base leading-relaxed text-[#e6e2d2]">
+        หน้านี้รวมภาพโปรโมชั่นที่ <strong class="text-[#f3cf63]">HENG38</strong> เปิดรับในรอบปัจจุบัน ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
+        โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว ทั้งชื่อโปรโมชั่นและเปอร์เซ็นต์โบนัสที่ได้รับ
+        <strong class="text-[#f3cf63]">แต่ละรายการมีเงื่อนไข รอบคำนวณ และยอดที่เข้าเกณฑ์ต่างกัน จึงควรเปิดดูรายละเอียดของโปรโมชั่นนั้นจากหน้าเว็บไซต์ก่อนกดรับสิทธิ์ทุกครั้ง</strong>
       </p>
 
-      <div class="grid w-full grid-cols-1 gap-6">
+      <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
-          src={promoRates}
-          alt="โปสเตอร์อัตราจ่ายของ หวยพยัคฆ์ พื้นหลังสีน้ำเงินกรมท่า ด้านซ้ายเป็นผู้หญิงผมยาวในชุดขาวสลับกรมท่าขลิบทอง ตรงกลางเป็นคำว่า หวย สีเงินซ้อนอยู่เหนือคำว่า พยัคฆ์ สีทอง ถัดลงมาเป็นข้อความ อัตราจ่ายหวย และตัวเลข 2 ตัว 100 กับ 3 ตัวจ่าย 1,000 ตัวใหญ่สีทองสลับขาว ใต้ลงมาเขียนว่า จ่ายจริง เล่นง่าย มั่นใจได้ รอบข้างมีลูกบอลหวยสีทองหมายเลข 5 6 8 9 และเงาหัวเสือสีทองอยู่ทางขวา"
+          src={promoReferral}
+          alt="แบนเนอร์แนวนอนพื้นเขียวมรกตของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวขลิบทอง ด้านบนเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎ ถัดลงมาเป็นข้อความว่า โปรโมชั่น แนะนำเพื่อน และตัวเลขขนาดใหญ่สีทองว่า 0.8% รอบข้างมีเหรียญทองและมงกุฎกระจายอยู่"
           loading="lazy"
           fetchpriority="low"
-          widths={[640, 768, 896, 1280]}
-          sizes="(max-width: 960px) 100vw, 896px"
-          class="mx-auto h-auto w-full max-w-4xl rounded-xl border border-[#fadb6c]/45 object-contain shadow-[0_10px_30px_rgba(3,11,28,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#fdf5a4]/75 hover:shadow-[0_15px_40px_rgba(250,219,108,0.35)]"
+          widths={[300, 600]}
+          sizes="(max-width: 639px) calc(100vw - 96px), 488px"
+          class="mx-auto h-auto w-full rounded-xl border border-[#f3cf63]/45 object-contain shadow-[0_10px_30px_rgba(3,20,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#fbeeb0]/75 hover:shadow-[0_15px_40px_rgba(243,207,99,0.35)]"
+          decoding="async"
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          quality={80}
+        />
+
+        <Picture
+          src={promoCashback}
+          alt="แบนเนอร์แนวนอนพื้นเขียวมรกตของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวเข้มขลิบทอง ด้านบนเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎ ถัดลงมาเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย และตัวเลขขนาดใหญ่สีทองว่า 0.3% รอบข้างมีเหรียญทองและมงกุฎกระจายอยู่"
+          loading="lazy"
+          fetchpriority="low"
+          widths={[300, 600]}
+          sizes="(max-width: 639px) calc(100vw - 96px), 488px"
+          class="mx-auto h-auto w-full rounded-xl border border-[#f3cf63]/45 object-contain shadow-[0_10px_30px_rgba(3,20,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#fbeeb0]/75 hover:shadow-[0_15px_40px_rgba(243,207,99,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -83,9 +97,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก หวยพยัคฆ์"
-          class="flex items-center justify-center rounded-lg border border-[#fdf5a4]/60 bg-gradient-to-r from-[#fdf5a4] via-[#fadb6c] to-[#ab6d13] px-10 py-3.5 text-lg font-black text-[#030b1c] shadow-[0_0_15px_rgba(250,219,108,0.45)] transition-transform hover:scale-105">
-          สมัครสมาชิก หวยพยัคฆ์
+          aria-label="สมัครสมาชิก HENG38"
+          class="flex items-center justify-center rounded-lg border border-[#fbeeb0]/60 bg-gradient-to-r from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] px-10 py-3.5 text-lg font-black text-[#03140a] shadow-[0_0_15px_rgba(243,207,99,0.45)] transition-transform hover:scale-105">
+          สมัครสมาชิก HENG38
         </a>
       </div>
     </div>

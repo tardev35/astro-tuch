@@ -6,7 +6,7 @@ export interface FaqItem {
 
 export interface Props {
   title?: string;
-  /** The docx's own level for this section. HENG35's brief marks
+  /** The docx's own level for this section. HENG38's brief marks
    *  "คำถามที่พบบ่อย" as an H2, so index.astro passes as="h2".
    *  It defaults to <p> so a page that hangs a chrome FAQ here stays out of the
    *  heading inventory. */
@@ -26,11 +26,11 @@ export interface Props {
 // hand-written .rotate-45 override, which removes both a script and a
 // Tailwind-utility name collision.
 //
-// HENG35 palette (ดำ-ทอง 2026-09-21): แผงคำถามเป็นพื้นการ์ด #12100b ในเส้นขอบ
-// ทองหลัก #ecc55c ป้ายหัวข้อไล่จากแผงยก #1c1710 ไปจนโปร่ง มีสันทองนำหน้า และ
-// ตัวมาร์ก `>_` เป็นบรอนซ์ #a3732c สถานะเปิดสว่างขึ้นด้วยทองสว่าง #fefac4 —
-// แดง-ทองของ MHEEPOOH168 (#540202 #8f0505 #c4161c #f5b70a #fced74 #2b0101)
-// หายไปทั้งหมด
+// HENG38 palette (มรกต-ทอง 2026-09-22): แผงคำถามเป็นพื้นการ์ด #061f0f ในเส้นขอบ
+// ทองหลัก #f3cf63 ป้ายหัวข้อไล่จากพื้นยก #0a2d16 ไปจนโปร่ง มีสันทองนำหน้า และ
+// ตัวมาร์ก `>_` เป็นมรกตสว่าง #1faa4e ซึ่งเป็นสีที่สองของแบรนด์ สถานะเปิดสว่างขึ้น
+// ด้วยทองอ่อน #fbeeb0 — ชุดดำ-ทองของ HENG35 (#12100b #ecc55c #1c1710 #fefac4
+// #a3732c #ece1cb #070605) หายไปทั้งหมด
 const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
@@ -39,9 +39,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#ecc55c] bg-gradient-to-r from-[#1c1710] via-[#12100b]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#f3cf63] bg-gradient-to-r from-[#0a2d16] via-[#061f0f]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#fefac4] uppercase md:text-2xl">{title}</TitleTag>
+        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#fbeeb0] uppercase md:text-2xl">{title}</TitleTag>
       </div>
     )
   }
@@ -51,13 +51,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
       faqs.map((faq) => (
         <details
           name="faq-terminal"
-          class="faq-item group relative overflow-hidden border border-[#ecc55c]/50 bg-[#12100b]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#fefac4]/60 hover:shadow-[0_15px_40px_rgba(236,197,92,0.24)]"
+          class="faq-item group relative overflow-hidden border border-[#f3cf63]/50 bg-[#061f0f]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#fbeeb0]/60 hover:shadow-[0_15px_40px_rgba(243,207,99,0.24)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#fefac4] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#fbeeb0] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2 text-base font-bold text-[#ece1cb] transition-colors group-hover:text-[#fefac4] md:text-lg">
-              <span aria-hidden="true" class="font-mono text-[#a3732c]">
+            <span class="flex items-center gap-2 text-base font-bold text-[#e6e2d2] transition-colors group-hover:text-[#fbeeb0] md:text-lg">
+              <span aria-hidden="true" class="font-mono text-[#1faa4e]">
                 &gt;_
               </span>
               {faq.q}
@@ -65,13 +65,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#ecc55c]/40 bg-[#070605] text-lg font-black text-[#ece1cb] transition-all duration-300 group-hover:border-[#fefac4]/70 group-hover:text-[#fefac4]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#f3cf63]/40 bg-[#03140a] text-lg font-black text-[#e6e2d2] transition-all duration-300 group-hover:border-[#fbeeb0]/70 group-hover:text-[#fbeeb0]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#ecc55c]/45 p-5 pt-4 text-left text-base leading-relaxed text-[#ece1cb]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#f3cf63]/45 p-5 pt-4 text-left text-base leading-relaxed text-[#e6e2d2]">{faq.a}</div>
         </details>
       ))
     }
@@ -86,13 +86,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(254, 250, 196, 0.6);
-    box-shadow: 0 15px 40px rgba(236, 197, 92, 0.24);
+    border-color: rgba(251, 238, 176, 0.6);
+    box-shadow: 0 15px 40px rgba(243, 207, 99, 0.24);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #ecc55c;
-    color: #fefac4;
+    border-color: #f3cf63;
+    color: #fbeeb0;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

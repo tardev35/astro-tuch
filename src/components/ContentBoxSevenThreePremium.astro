@@ -1,35 +1,40 @@
 ---
 export interface Props {
+  /** The section's docx heading. Renders in the right (7fr) column unless a
+   *  `titleright` overrides it. */
   title?: string;
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titleright?: string;
+  /** Both columns render at this level, set from the docx's own outline — the
+   *  `as` prop is what decides the tag, never a hardcoded level in here. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // `title` is the shorthand for the right-hand column heading. Both columns only
 // ever carry docx article headings.
 //
-// HENG35: นี่คือครึ่ง "การ์ดมน" ของคู่บล็อกรูป+ข้อความ ส่วน ContentBoxSevenThree
-// ที่เป็นพี่น้องกันใช้ทรงเดียวกันแต่เป็นกรอบทองคมและหัวข้อทึบ สองบล็อกนี้วางติดกัน
-// บนหน้าแรก (คืนยอดเสีย แล้วค่อยแนะนำเพื่อน) จึงต้องไม่อ่านเป็นการ์ดใบเดียวกัน
-// ซ้ำสองรอบ ที่นี่ทองสว่าง #fefac4 เป็นหัวไล่เฉดของหัวข้อ ส่วนออร่าสองมุมเป็น
-// ทองหลัก #ecc55c กับบรอนซ์ #a3732c — แยกชั้นด้วยความสว่างของทองสีเดียว
+// HENG38 (รอบมรกต-ทอง 2026-09-22): นี่คือครึ่ง "การ์ดมน" ของคู่บล็อกรูป+ข้อความ
+// ส่วน ContentBoxSevenThreeCyberCut ที่เป็นคู่กันใช้มุมตัดเฉียงกับหัวข้อทึบ สอง
+// บล็อกนี้วางติดกันบนหน้าแรก (แนะนำเพื่อน 0.8% แล้วค่อยคืนยอดเสีย 0.3%) จึงต้อง
+// ไม่อ่านเป็นการ์ดใบเดียวกันซ้ำสองรอบ ที่นี่หัวข้อไล่จากทองอ่อน #fbeeb0 ลงทอง
+// หลัก #f3cf63 ไปหาทองบรอนซ์ #a5761a ส่วนออร่าสองมุมเป็นทองอ่อนกับมรกตสด
+// #15833c บนการ์ดที่ไล่จากพื้นการ์ด #061f0f ลงไปหาพื้นเพจ #03140a
 const rightHeading = titleright ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#ecc55c]/55 bg-gradient-to-br from-[#12100b]/94 to-[#070605]/96 p-8 text-[#ece1cb] shadow-[0_10px_30px_rgba(7,6,5,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#fefac4]/80 hover:shadow-[0_15px_40px_rgba(236,197,92,0.3)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#fefac4]/16 blur-[60px] transition-all duration-500 group-hover:bg-[#fefac4]/26">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f3cf63]/55 bg-gradient-to-br from-[#061f0f]/94 to-[#03140a]/96 p-8 text-[#e6e2d2] shadow-[0_10px_30px_rgba(3,20,10,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#fbeeb0]/80 hover:shadow-[0_15px_40px_rgba(243,207,99,0.3)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#fbeeb0]/16 blur-[60px] transition-all duration-500 group-hover:bg-[#fbeeb0]/26">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#a3732c]/30 blur-[60px] transition-all duration-500 group-hover:bg-[#ecc55c]/36">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#15833c]/30 blur-[60px] transition-all duration-500 group-hover:bg-[#1faa4e]/36">
     </div>
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece1cb]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e2d2]">
         {
           titleleft && (
-            <HeadingTag class="bg-gradient-to-r from-[#fefac4] via-[#ffdf8a] to-[#ecc55c] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#fbeeb0] via-[#e0b23c] to-[#f3cf63] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
               {titleleft}
             </HeadingTag>
           )
@@ -37,10 +42,10 @@ const rightHeading = titleright ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece1cb] md:border-l md:border-[#5e4418] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e6e2d2] md:border-l md:border-[#0f4423] md:pl-10">
         {
           rightHeading && (
-            <HeadingTag class="mb-2 bg-gradient-to-r from-[#fefac4] via-[#ecc55c] to-[#a3732c] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
+            <HeadingTag class="mb-2 bg-gradient-to-r from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
               {rightHeading}
             </HeadingTag>
           )

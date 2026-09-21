@@ -37,7 +37,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  site: "https://หวย-พยัคฆ์.net",
+  site: "https://heng38.co",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
