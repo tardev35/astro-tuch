@@ -34,10 +34,10 @@ export default defineConfig({
   },
 
   redirects: {
-    "/line": "https://tinyurl.com/linetddy",
+    "/line": "https://tinyurl.com/tog191",
   },
 
-  site: "https://abm96-plays.com",
+  site: "https://wy88-auto.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

@@ -3,32 +3,36 @@ export interface Props {
   title?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
-const { title, as: HeadingTag = "h1" } = Astro.props;
+const { title, as: HeadingTag = "h2" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
 // Flattened single-slot variant: `isolate` on the card, `-z-10` on the four
 // corner rules, slot renders as a direct child. Do not re-add a wrapper.
 //
-// HENG38 (รอบมรกต-ทอง 2026-09-22): พื้นการ์ดเขียวเข้ม #061f0f ในกรอบทองบรอนซ์
-// #a5761a มุมตัดเฉียง เส้นรูดสี่เส้นที่มุมจับคู่สองสีของแบรนด์ไขว้กัน — ทองอ่อน
-// #fbeeb0 คู่กับมรกตสว่าง #1faa4e บนแนวหนึ่ง และทองหลัก #f3cf63 คู่กับมรกตสด
-// #15833c บนอีกแนวหนึ่ง ซึ่งเป็นสิ่งที่ทำให้มุมตัดยังอ่านออกบนการ์ดเขียว
-// โทนดำ-ทองของรอบก่อนหายไปทั้งหมด
+// The default level is h2 — this variant never carries a page's H1 in the WY88
+// mix, and a level is never hardcoded in the markup below; `as` decides it.
+//
+// WY88 (รอบชมพูมาเจนตา-ทอง 2026-09-23): พื้นการ์ดพลัมเกือบดำ #170411 ในกรอบ
+// มาเจนตาเข้ม #a3145a มุมตัดเฉียง เส้นรูดสี่เส้นที่มุมจับคู่สองสีของแบรนด์ไขว้กัน —
+// ชมพูกุหลาบ #f9a8cd คู่กับทองประกาย #fced94 บนแนวหนึ่ง และมาเจนตาหลัก #ec2b84
+// คู่กับทองหลัก #e8b33a บนอีกแนวหนึ่ง ซึ่งเป็นสิ่งที่ทำให้มุมตัดยังอ่านออกบนการ์ด
+// พลัม หัวข้อไล่จากทองประกายไปหามาเจนตา สลับทิศกับ ContentBox ตัวหลักที่ไล่จาก
+// ชมพูไปหาทอง โทนมรกต-ทองของ HENG38 หายไปทั้งหมด
 ---
 
 <section class="my-6 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl border border-[#a5761a]/70 bg-[#061f0f]/94 p-8 text-left text-base leading-relaxed text-[#e6e2d2] shadow-[0_10px_30px_rgba(243,207,99,0.18)] backdrop-blur-md"
+    class="relative isolate w-full max-w-7xl border border-[#a3145a]/70 bg-[#170411]/94 p-8 text-left text-base leading-relaxed text-[#fce9f3] shadow-[0_10px_30px_rgba(236,43,132,0.2)] backdrop-blur-md"
     style="clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#fbeeb0] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#f3cf63] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#1faa4e] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#15833c] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#f9a8cd] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#ec2b84] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#fced94] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#e8b33a] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-6 border-l-4 border-[#f3cf63] pl-6">
-          <HeadingTag class={`bg-gradient-to-r from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
+        <header class="mb-6 border-l-4 border-[#e8b33a] pl-6">
+          <HeadingTag class={`bg-gradient-to-r from-[#fced94] via-[#e8b33a] to-[#ec2b84] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
         </header>
       )
     }

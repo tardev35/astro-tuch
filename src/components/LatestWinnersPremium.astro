@@ -23,7 +23,7 @@ const bankPool = [
 //     data-pending-chance, with its wording in data-pending-text/data-done-text
 //     and its classes in the matching -class pair.
 //   • data-winner-big — over BIG_WIN the row gets the bright-gold treatment,
-//     which is what reads as "big" on HENG38's emerald surface.
+//     which is what reads as "big" on WY88's plum surface.
 //
 // The HUD totals are server-rendered and the module continues from them via
 // data-seed — otherwise the figures would visibly reset to zero the moment JS
@@ -51,34 +51,33 @@ const initialRows = Array.from({ length: 5 }, (_, i) => {
 
 const seedTotal = initialRows.reduce((sum, row) => sum + row.amount, 0);
 
-// HENG38 palette (มรกต-ทอง): the panel is the card surface (#061f0f) inside a
-// gold hairline (#f3cf63), rows sit on the elevated surface (#0a2d16) with
-// mid-emerald (#0f4423) separators, and the amount runs the gold ramp — deep
-// gold normally, light gold (#fbeeb0) for a big withdrawal. The green "live"
-// dot and the settled-status green stay as Tailwind's own green: those are
-// success states, not the brand hue, and keeping them off the palette is what
-// stops "live" from disappearing into an emerald card. The previous brand's
-// royal purple is gone.
-const ROW_NORMAL = "border-[#0f4423]";
-const ROW_BIG = "border-[#f3cf63]/75 shadow-[0_0_15px_rgba(243,207,99,0.4)]";
-const AMOUNT_NORMAL = "from-[#e0b23c] to-[#f3cf63]";
-const AMOUNT_BIG = "from-[#fbeeb0] to-[#e0b23c] drop-shadow-[0_0_10px_rgba(243,207,99,0.45)]";
+// WY88 palette (ชมพูมาเจนตา-ทอง): แผงคือพื้นเพจพลัมเกือบดำ #170411 ในเส้นไรผมทอง
+// #e8b33a แถวนั่งบนพื้นการ์ด #24081a คั่นด้วยมาเจนตาเข้ม #a3145a และยอดเงินวิ่งบน
+// ไล่เฉดทอง — ทองเข้ม #c3832b ตอนปกติ ทองประกาย #fced94 เมื่อเป็นยอดถอนก้อนใหญ่
+// ตามเลข 88 สีทองบนโลโก้ จุดนำหน้าสถานะเป็นมาเจนตาหลัก #ec2b84 ส่วนจุด "live"
+// กับสีสถานะที่โอนสำเร็จยังเป็นเขียวของ Tailwind ตามเดิม: นั่นคือสีเชิงความหมาย
+// ไม่ใช่สีแบรนด์ และการไม่ดึงมันเข้าพาเลตต์คือสิ่งที่ทำให้คำว่า live ไม่จมหายไปใน
+// การ์ดพลัม ชุดมรกต-ทองของ HENG38 หายไปทั้งหมด
+const ROW_NORMAL = "border-[#a3145a]";
+const ROW_BIG = "border-[#e8b33a]/75 shadow-[0_0_15px_rgba(232,179,58,0.4)]";
+const AMOUNT_NORMAL = "from-[#c3832b] to-[#e8b33a]";
+const AMOUNT_BIG = "from-[#fced94] to-[#e8b33a] drop-shadow-[0_0_10px_rgba(232,179,58,0.45)]";
 const STATUS_DONE = "text-green-400 font-bold";
-const STATUS_PENDING = "text-[#e6e2d2] font-bold";
+const STATUS_PENDING = "text-[#fce9f3] font-bold";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-3xl border border-[#f3cf63]/45 bg-[#061f0f]/92 shadow-[0_10px_40px_rgba(3,20,10,0.85)] backdrop-blur-xl">
-    <div class="relative z-10 flex flex-col gap-4 border-b border-[#0f4423] px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
+    class="relative overflow-hidden rounded-3xl border border-[#e8b33a]/45 bg-[#170411]/92 shadow-[0_10px_40px_rgba(23,4,17,0.85)] backdrop-blur-xl">
+    <div class="relative z-10 flex flex-col gap-4 border-b border-[#a3145a] px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#f3cf63]/40 bg-[#0a2d16] text-2xl text-[#f3cf63]">🏆</span>
+        <span aria-hidden="true" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8b33a]/40 bg-[#24081a] text-2xl text-[#e8b33a]">🏆</span>
         <div class="flex flex-col">
-          <p class="text-2xl font-black tracking-widest text-[#e0b23c] drop-shadow-sm">
-            รายการถอนเงินล่าสุด <span class="text-[#fbeeb0]">{BRAND_NAME}</span>
+          <p class="text-2xl font-black tracking-widest text-[#e8b33a] drop-shadow-sm">
+            รายการถอนเงินล่าสุด <span class="text-[#fced94]">{BRAND_NAME}</span>
           </p>
-          <span class="text-[11px] font-medium tracking-wide text-[#b6c4ac]">อัปเดตอัตโนมัติจากรายการถอนของสมาชิก ตามช่องทางธนาคารและวอลเลทที่เว็บไซต์เปิดให้ใช้งาน</span>
+          <span class="text-[11px] font-medium tracking-wide text-[#fce9f3]/65">อัปเดตอัตโนมัติจากรายการถอนของสมาชิก ตามช่องทางธนาคารและวอลเลทที่เว็บไซต์เปิดให้ใช้งาน</span>
         </div>
       </div>
       <div class="flex items-center gap-2 self-start rounded-full border border-green-500/40 bg-green-900/20 px-3 py-1.5 sm:self-auto">
@@ -87,24 +86,24 @@ const STATUS_PENDING = "text-[#e6e2d2] font-bold";
       </div>
     </div>
 
-    <div class="relative z-10 grid grid-cols-2 gap-px overflow-hidden border-b border-[#0f4423] bg-[#0a2d16]/60 sm:grid-cols-3">
-      <div class="flex flex-col items-center gap-1 bg-[#061f0f] px-4 py-4">
-        <span class="text-[11px] font-medium tracking-wide text-[#b6c4ac]">ยอดถอนรวมวันนี้</span>
-        <span data-winners-total data-prefix="฿" data-seed={seedTotal} class="bg-gradient-to-r from-[#fbeeb0] to-[#f3cf63] bg-clip-text font-mono text-lg font-black text-transparent sm:text-xl">
+    <div class="relative z-10 grid grid-cols-2 gap-px overflow-hidden border-b border-[#a3145a] bg-[#24081a]/60 sm:grid-cols-3">
+      <div class="flex flex-col items-center gap-1 bg-[#170411] px-4 py-4">
+        <span class="text-[11px] font-medium tracking-wide text-[#fce9f3]/65">ยอดถอนรวมวันนี้</span>
+        <span data-winners-total data-prefix="฿" data-seed={seedTotal} class="bg-gradient-to-r from-[#fced94] to-[#e8b33a] bg-clip-text font-mono text-lg font-black text-transparent sm:text-xl">
           ฿{seedTotal.toLocaleString("en-US")}
         </span>
       </div>
-      <div class="flex flex-col items-center gap-1 bg-[#061f0f] px-4 py-4">
-        <span class="text-[11px] font-medium tracking-wide text-[#b6c4ac]">รายการสำเร็จวันนี้</span>
-        <span data-winners-count data-seed={initialRows.length} class="font-mono text-lg font-black text-[#e6e2d2] sm:text-xl">{initialRows.length}</span>
+      <div class="flex flex-col items-center gap-1 bg-[#170411] px-4 py-4">
+        <span class="text-[11px] font-medium tracking-wide text-[#fce9f3]/65">รายการสำเร็จวันนี้</span>
+        <span data-winners-count data-seed={initialRows.length} class="font-mono text-lg font-black text-[#fce9f3] sm:text-xl">{initialRows.length}</span>
       </div>
-      <div class="col-span-2 flex flex-col items-center gap-1 bg-[#061f0f] px-4 py-4 sm:col-span-1">
-        <span class="text-[11px] font-medium tracking-wide text-[#b6c4ac]">ช่องทางที่รองรับ</span>
-        <span class="font-mono text-lg font-black text-[#e6e2d2] sm:text-xl">ธนาคารและวอลเลท</span>
+      <div class="col-span-2 flex flex-col items-center gap-1 bg-[#170411] px-4 py-4 sm:col-span-1">
+        <span class="text-[11px] font-medium tracking-wide text-[#fce9f3]/65">ช่องทางที่รองรับ</span>
+        <span class="font-mono text-lg font-black text-[#fce9f3] sm:text-xl">ธนาคารและวอลเลท</span>
       </div>
     </div>
 
-    <div class="relative z-10 hidden grid-cols-[2fr_1.3fr_1fr_0.8fr] gap-4 px-8 pt-4 text-[11px] font-bold tracking-widest text-[#b6c4ac] uppercase sm:grid">
+    <div class="relative z-10 hidden grid-cols-[2fr_1.3fr_1fr_0.8fr] gap-4 px-8 pt-4 text-[11px] font-bold tracking-widest text-[#fce9f3]/65 uppercase sm:grid">
       <span>ผู้ใช้งาน</span>
       <span>สถานะ</span>
       <span class="text-right">จำนวนเงิน</span>
@@ -129,17 +128,17 @@ const STATUS_PENDING = "text-[#e6e2d2] font-bold";
               data-winner-big
               data-normal-class={ROW_NORMAL}
               data-big-class={ROW_BIG}
-              class={`grid grid-cols-[auto_1fr] items-center gap-4 rounded-xl border bg-[#0a2d16]/90 p-3.5 shadow-sm transition-colors duration-300 hover:border-[#f3cf63]/70 hover:bg-[#0f4423] sm:grid-cols-[2fr_1.3fr_1fr_0.8fr] ${row.big ? ROW_BIG : ROW_NORMAL}`}>
+              class={`grid grid-cols-[auto_1fr] items-center gap-4 rounded-xl border bg-[#24081a]/90 p-3.5 shadow-sm transition-colors duration-300 hover:border-[#e8b33a]/70 hover:bg-[#a3145a]/30 sm:grid-cols-[2fr_1.3fr_1fr_0.8fr] ${row.big ? ROW_BIG : ROW_NORMAL}`}>
               <div class="col-span-2 flex items-center gap-3 sm:col-span-1">
                 <div data-winner-bank class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
                 </div>
-                <span data-winner-user class="font-mono text-sm font-bold text-[#e6e2d2]">
+                <span data-winner-user class="font-mono text-sm font-bold text-[#fce9f3]">
                   {row.user}
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] tracking-wide sm:text-xs">
-                <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#f3cf63]" />
+                <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#ec2b84]" />
                 <span data-winner-status data-pending-text="กำลังตรวจสอบรายการถอน" data-done-text="ถอนสำเร็จแล้ว" data-pending-class={STATUS_PENDING} data-done-class={STATUS_DONE} class={STATUS_DONE}>
                   ถอนสำเร็จแล้ว
                 </span>
@@ -151,7 +150,7 @@ const STATUS_PENDING = "text-[#e6e2d2] font-bold";
                 class={`bg-gradient-to-r bg-clip-text text-right font-mono text-base font-black text-transparent sm:text-lg ${row.big ? AMOUNT_BIG : AMOUNT_NORMAL}`}>
                 ฿<span data-winner-amount>{row.amount.toLocaleString("en-US")}</span>
               </div>
-              <div class="text-right text-[11px] font-medium text-[#b6c4ac] sm:text-xs">เมื่อสักครู่</div>
+              <div class="text-right text-[11px] font-medium text-[#fce9f3]/65 sm:text-xs">เมื่อสักครู่</div>
             </div>
           </div>
         ))
