@@ -15,27 +15,37 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // viewport. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// Checked against NEXT55's section 5 title, "โปรโมชั่น คืนยอดเสีย 0.3%"
-// (24 characters):
-//   base  text-lg  (28px/line) — badge content ~313px on a 375px viewport, so
-//         the title fits on 1-2 lines; budgeted at 3 = 3x28 + 20 py + 4 border
-//         = 108px, bottom edge 84px, cleared by pt-28 (112px)
-//   sm    text-xl  (28px/line) — 1 line = 52px, edge 28px, cleared by 112px
-//   md    text-2xl (32px/line) — badge content ~608px at the max-w-2xl cap, so
-//         1 line = 56px, edge 32px, cleared by 112px
+// Checked against ABM96's section 6 title, "คืนยอดเสีย โบนัส 0.3%" — 21 code
+// points, ~18 advancing glyphs once the 3 zero-width marks (ื ี ั) are
+// discounted. The heading keeps `leading-normal` (1.5) and the badge adds
+// py-2.5 (20px) plus border-2 (4px); there are no spark spans in this variant,
+// so the full inner width is text:
+//   base  text-lg 18px -> 27px/line, ~266px of text width at 360px
+//         (w-[92%] 302 - px-4 32 - border 4) = ~26 glyphs/line, so 18 glyphs
+//         is 1 line. Budget 3 lines = 3x27 + 24 = 105px,
+//         bottom edge 81px vs pt-28/112px   -> 31px clear
+//   sm    text-xl 20px -> 30px/line, ~491px of text width -> 1 line.
+//         Budget 3 lines = 3x30 + 24 = 114px, edge 90px vs 112px -> 22px clear
+//   md    text-2xl 24px -> 36px/line, max-w-2xl caps text at ~604px -> 1 line.
+//         Budget 2 lines = 2x36 + 24 = 96px, edge 72px vs 112px  -> 40px clear
 // Do not shrink pt-28: it was sized for a three-line base title, not for this
 // brand's one.
+//
+// ABM96 palette (ชมพู-เหลือง): การ์ดไล่จากพื้นการ์ด #1d0611 ลงไปหาพื้นเพจชมพู
+// เกือบดำ #12030a ในกรอบชมพูเข้ม #b8325f ป้ายหัวข้อลอยบนพื้นเพจในกรอบชมพูหลัก
+// #fd6494 ไล่เฉดชมพูอ่อน #ffc9dc → ชมพูหลัก → ชมพูเข้มกลาง #ea5f92 ออร่าสองมุม
+// แยกกันด้วยคู่สีโลโก้คือชมพูหลักกับเหลือง #feda2a แดง #cd1437 ของรอบก่อนออกหมด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#cd1437]/45 bg-gradient-to-b from-[#17181c]/95 to-[#0c0d10]/95 p-8 pt-28 shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#cd1437]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e7eaef]/14 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#b8325f]/45 bg-gradient-to-b from-[#1d0611]/95 to-[#12030a]/95 p-8 pt-28 shadow-[0_10px_30px_rgba(18,3,10,0.7)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#fd6494]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#feda2a]/16 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#cd1437]/70 bg-[#0c0d10] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(205,20,55,0.32)] sm:px-8">
-          <HeadingTag class="bg-gradient-to-r from-[#ffb3bf] via-[#f0435f] to-[#cd1437] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#fd6494]/70 bg-[#12030a] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(253,100,148,0.32)] sm:px-8">
+          <HeadingTag class="bg-gradient-to-r from-[#ffc9dc] via-[#fd6494] to-[#ea5f92] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
         </div>
@@ -43,13 +53,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5dae2]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#e7eaef]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe3ee]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffe0ec]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#d5dae2] md:border-l md:border-[#cd1437]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#f0435f]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe3ee] md:border-l md:border-[#b8325f]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#feda2a]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

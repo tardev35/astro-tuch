@@ -2,19 +2,19 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/Announcement3.astro";
 
 import { Picture } from "astro:assets";
 
-// ดรอปอาร์ตเวิร์กของ HENG38 คือ 2026-09-22 และมีสไลด์ที่ใช้ได้สองใบ:
+// ดรอปอาร์ตเวิร์กของ ABM96 คือ 2026-09-22 และมีสไลด์ที่ใช้ได้สองใบ:
 //   slide1.png (600x334) — "โปรโมชั่น แนะนำเพื่อน 0.8%"
 //   slide2.png (600x334) — "โปรโมชั่น คืนยอดเสีย 0.3%"
-// ทั้งคู่เป็นโปสเตอร์มรกต-ทองของแบรนด์นี้ กริดรอบนี้จึงมีสองใบ
+// ทั้งคู่เป็นโปสเตอร์ชมพู-เหลืองของแบรนด์นี้ กริดรอบนี้จึงมีสองใบ
 //
-// slide3.png (2026-09-18 · ENTER55) และ slide4.png (2026-08-13) เก่ากว่าดรอป
-// รอบนี้ เป็นอาร์ตเวิร์กของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้ง
-// เพราะเป็นอินเวนทอรี (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว
-// และ verify-build จะแดง) ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
+// slide3.png (2026-09-18) และ slide4.png (2026-08-13) เก่ากว่าดรอปรอบนี้ เป็น
+// อาร์ตเวิร์กของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้งเพราะเป็น
+// อินเวนทอรี (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ
+// verify-build จะแดง) ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
 import promoReferral from "../assets/slide1.png";
 import promoCashback from "../assets/slide2.png";
 import { pageGraph } from "../lib/schema";
@@ -27,21 +27,21 @@ import { pageGraph } from "../lib/schema";
 // (1024px) ทำให้ช่องละ ~488px ไม่ต้องอัปสเกลเกินขนาดไฟล์ต้นทาง widths หยุดที่ 600
 // ตามความกว้างจริงของไฟล์ (candidate ที่ใหญ่กว่านั้นไม่มีของให้ครอป)
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementPremium ทั้งเว็บ — default message ของไฟล์
-// นั้นเป็นคอปปี้ของ HENG38 อยู่แล้วและ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
+// Announcement รอบนี้หมุนมาใช้ Announcement3 ทั้งเว็บ — default message ของไฟล์นั้น
+// เป็นคอปปี้ของ ABM96 อยู่แล้วและ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
 //
-// พาเลตต์ HENG38 (มรกต + ทอง แทนกรมท่า + ทองของ หวยพยัคฆ์):
-// พื้น #03140a · การ์ด #061f0f · ผิวยก #0a2d16 · ขอบบรอนซ์ #a5761a ·
-// ทองหลัก #f3cf63 · ทองสว่าง #fbeeb0 · เนื้อความ #e6e2d2 · <strong> #f3cf63 ·
-// เงาลึก rgba(3,20,10,α) · ออร่าทอง rgba(243,207,99,α)
+// พาเลตต์ ABM96 (บับเบิ้ลกัม ชมพู-เหลืองบนพื้นดำ แทนมรกต-ทองของรอบก่อน):
+// พื้น #12030a · การ์ด #1d0611 · ผิวยก #2a0a1a · ขอบเข้ม #b8325f ·
+// ชมพูหลัก #fd6494 · ชมพูอ่อน #ffc9dc · เนื้อความ #fbe3ee · <strong> #fd6494 ·
+// เงาลึก rgba(18,3,10,α) · ออร่าชมพู rgba(253,100,148,α) · เหลืองรอง #feda2a
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 155
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 157
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมโปรโมชั่นของ HENG38 เว็บรวมสล็อตใหญ่ ทั้งโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ดูภาพรายการที่เปิดรับและตรวจสอบเงื่อนไขของแต่ละโปรก่อนกดรับสิทธิ์";
+const pageDescription = "รวมโปรโมชั่นของ ABM96 เว็บเดิมพันออนไลน์เจ้าของเดิม ทั้งโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ดูภาพรายการที่เปิดรับ และตรวจสอบเงื่อนไขก่อนกดรับสิทธิ์";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น HENG38",
+  name: "โปรโมชั่น ABM96",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -51,28 +51,28 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="โปรโมชั่น HENG38 แนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% กดรับได้จริง" description={pageDescription}>
+<MainLayout title="โปรโมชั่น ABM96 แนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% กดรับได้ทุกโปร" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น HENG38" as="h1">
+  <ContentBox title="โปรโมชั่น ABM96" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#e6e2d2]">
-        หน้านี้รวมภาพโปรโมชั่นที่ <strong class="text-[#f3cf63]">HENG38</strong> เปิดรับในรอบปัจจุบัน ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
+      <p class="mb-8 text-left text-base leading-relaxed text-[#fbe3ee]">
+        หน้านี้รวมภาพโปรโมชั่นที่ <strong class="text-[#fd6494]">ABM96</strong> เปิดรับในรอบปัจจุบัน ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
         โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว ทั้งชื่อโปรโมชั่นและเปอร์เซ็นต์โบนัสที่ได้รับ
-        <strong class="text-[#f3cf63]">แต่ละรายการมีเงื่อนไข รอบคำนวณ และยอดที่เข้าเกณฑ์ต่างกัน จึงควรเปิดดูรายละเอียดของโปรโมชั่นนั้นจากหน้าเว็บไซต์ก่อนกดรับสิทธิ์ทุกครั้ง</strong>
+        <strong class="text-[#feda2a]">แต่ละรายการมีเงื่อนไข รอบคำนวณ และยอดที่เข้าเกณฑ์ต่างกัน จึงควรเปิดดูรายละเอียดของโปรโมชั่นนั้นจากหน้าเว็บไซต์ก่อนกดรับสิทธิ์ทุกครั้ง</strong>
       </p>
 
       <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
           src={promoReferral}
-          alt="แบนเนอร์แนวนอนพื้นเขียวมรกตของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวขลิบทอง ด้านบนเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎ ถัดลงมาเป็นข้อความว่า โปรโมชั่น แนะนำเพื่อน และตัวเลขขนาดใหญ่สีทองว่า 0.8% รอบข้างมีเหรียญทองและมงกุฎกระจายอยู่"
+          alt="แบนเนอร์แนวนอนพื้นชมพูหวาน ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีชมพูขาวยกกำปั้น ด้านขวาบนเป็นโลโก้ ABM96 ตัวอักษร ABM สีชมพูและเลข 96 สีเหลือง ถัดลงมาเป็นข้อความสีขาวขอบชมพูว่า โปรโมชั่น และข้อความสีเหลืองว่า แนะนำเพื่อน ใต้ลงมาเป็นตัวเลขสีเหลืองขนาดใหญ่ว่า 0.8% รอบภาพมีเหรียญทอง หัวใจ กล่องของขวัญ และโทรโข่งสีขาวชมพู"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#f3cf63]/45 object-contain shadow-[0_10px_30px_rgba(3,20,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#fbeeb0]/75 hover:shadow-[0_15px_40px_rgba(243,207,99,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fd6494]/45 object-contain shadow-[0_10px_30px_rgba(18,3,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ffc9dc]/75 hover:shadow-[0_15px_40px_rgba(253,100,148,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -81,12 +81,12 @@ const graph = pageGraph(Astro, {
 
         <Picture
           src={promoCashback}
-          alt="แบนเนอร์แนวนอนพื้นเขียวมรกตของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวเข้มขลิบทอง ด้านบนเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎ ถัดลงมาเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย และตัวเลขขนาดใหญ่สีทองว่า 0.3% รอบข้างมีเหรียญทองและมงกุฎกระจายอยู่"
+          alt="แบนเนอร์แนวนอนพื้นชมพูหวาน ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีชมพูขาวยกกำปั้น ด้านขวาบนเป็นโลโก้ ABM96 ตัวอักษร ABM สีชมพูและเลข 96 สีเหลือง ถัดลงมาเป็นข้อความสีขาวขอบชมพูว่า โปรโมชั่น และข้อความสีเหลืองว่า คืนยอดเสีย ใต้ลงมาเป็นตัวเลขสีเหลืองขนาดใหญ่ว่า 0.3% รอบภาพมีเหรียญทอง หัวใจ และกล่องของขวัญลอยอยู่"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#f3cf63]/45 object-contain shadow-[0_10px_30px_rgba(3,20,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#fbeeb0]/75 hover:shadow-[0_15px_40px_rgba(243,207,99,0.35)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fd6494]/45 object-contain shadow-[0_10px_30px_rgba(18,3,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ffc9dc]/75 hover:shadow-[0_15px_40px_rgba(253,100,148,0.35)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -97,9 +97,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก HENG38"
-          class="flex items-center justify-center rounded-lg border border-[#fbeeb0]/60 bg-gradient-to-r from-[#fbeeb0] via-[#f3cf63] to-[#a5761a] px-10 py-3.5 text-lg font-black text-[#03140a] shadow-[0_0_15px_rgba(243,207,99,0.45)] transition-transform hover:scale-105">
-          สมัครสมาชิก HENG38
+          aria-label="สมัครสมาชิก ABM96"
+          class="flex items-center justify-center rounded-lg border border-[#ffc9dc]/60 bg-gradient-to-r from-[#ffc9dc] via-[#fd6494] to-[#b8325f] px-10 py-3.5 text-lg font-black text-[#12030a] shadow-[0_0_15px_rgba(253,100,148,0.45)] transition-transform hover:scale-105">
+          สมัครสมาชิก ABM96
         </a>
       </div>
     </div>

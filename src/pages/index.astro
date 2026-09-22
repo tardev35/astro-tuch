@@ -1,15 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ProviderGrid from "../components/ProviderGrid.astro";
+import Announcement from "../components/Announcement3.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import Faq from "../components/Faq4.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import ProviderGrid from "../components/ProviderGrid.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import Faq from "../components/Faq2.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -20,61 +21,65 @@ import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
 // IMAGE ROLES FOR THIS DROP (2026-09-22) — READ BEFORE REUSING THESE IMPORTS.
-// Two files are referenced from this page and only two, both slides, both
-// 600x334 and both spent on a ContentBoxSevenThree* block — which is the
-// family's hard cap of two per rebrand, so there is no third SevenThree here:
-//   slide1.png — prints the HENG38 crown logo over "โปรโมชั่น แนะนำเพื่อน" and a
-//     giant gold "0.8%", so it belongs to docx H3 #4 (แนะนำเพื่อน โบนัส 0.8%).
+// Two files are referenced from this page and only two, both slides, both spent
+// on a ContentBoxSevenThree* block — which is the family's hard cap of two per
+// rebrand, so there is no third SevenThree here:
+//   slide1.png — pink bubblegum banner, ABM96 logo top right, reading
+//     "โปรโมชั่น แนะนำเพื่อน" over a giant yellow "0.8%", so it belongs to docx
+//     H3 #5 (แนะนำเพื่อน โบนัส 0.8%).
 //   slide2.png — the same artwork reading "โปรโมชั่น คืนยอดเสีย" over "0.3%",
-//     so it belongs to docx H3 #5 (คืนยอดเสีย โบนัส 0.3%).
+//     so it belongs to docx H3 #6 (คืนยอดเสีย โบนัส 0.3%).
 //
 // Deliberately NOT imported, and all still on disk as inventory:
-//   banner2.png (หวยพยัคฆ์'s navy lottery poster), banner3.png (2026-08-11),
-//   slide3.png (2026-09-18), slide4.png (2026-08-13) — every one predates this
-//   drop and carries a previous client's artwork. There is therefore NO usable
-//   banner2+ this round and NO single-column inline illustration, which is the
-//   expected outcome, not a gap to fill with a stale file.
+//   banner2.png (หวยพยัคฆ์'s navy lottery poster, 2026-09-22 00:41),
+//   banner3.png (2026-08-11), slide3.png (2026-09-18), slide4.png (2026-08-13)
+//   — every one predates this drop and carries a previous client's artwork.
+//   There is therefore NO usable banner2+ this round and NO single-column inline
+//   illustration, which is the expected outcome, not a gap to fill with a stale
+//   file.
 //   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
 //   and are never referenced from a page — the hero is the LCP element, so
 //   nothing here gets loading="eager" fetchpriority="high".
 //
 // Rotated out of this round's mix and NOT deleted from disk (they are inventory
-// for the next brand): AnnouncementHuay, ContentBoxHuay, ContentBoxFloatingBadge,
-// ContentBoxSpecial, ContentBoxNeumorphism, ContentBoxTwoHuay,
-// ContentBoxSevenThreeHuay, LatestWinners4, Faq3 — and LottoGrid, which is gone
-// for a reason rather than a rotation: HENG38 is a สล็อต brand and the brief
-// contains no lottery topic at all, so the lottery grid is replaced by
-// ProviderGrid. The file stays on disk for the next lottery client.
+// for the next brand): AnnouncementPremium, ContentBoxPremium,
+// ContentBoxCyberCut, ContentBoxSevenThreePremium, ContentBoxSevenThreeCyberCut,
+// ContentBoxTwoPremium, Faq4, LatestWinnersPremium — and LottoGrid, which stays
+// out for a reason rather than a rotation: ABM96 lists หวย as one of five game
+// categories in a single account, not as the site's subject, so the five
+// categories the brief names live in ProviderGrid instead of a lottery-only
+// grid. The file stays on disk for the next lottery client.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2.
-const pageTitle = "HENG38 เว็บรวมสล็อตใหญ่ เกมแท้ค่ายดัง ส่งตรงจากบริษัทแม่";
+const pageTitle = "ABM96 เว็บเดิมพันออนไลน์เจ้าของเดิม อัปเดตใหม่ ความปลอดภัยสูง";
 
-const pageDescription = "HENG38 เว็บรวมสล็อตใหญ่ แหล่งเดิมพันเกมแท้ค่ายดัง การันตีระบบAPI100% ส่งตรงจากบริษัทแม่ ปลอดภัย เชื่อถือได้ทุกขั้นตอน";
+const pageDescription =
+  "ABM96 เว็บเดิมพันออนไลน์เจ้าของเดิม ทางเข้าเกมอัปเดตใหม่ อัปเกรดระบบการใช้งานให้ดีมากขึ้น ความปลอดภัยได้มาตรฐานสูง ไม่โดนล้วงระบบหลังบ้านได้ง่ายๆ";
 
-// <Announcement /> runs bare: AnnouncementPremium's default message is already
-// this brand's copy, and every sub-page calls it bare too — passing an override
-// here is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: Announcement3's default message is already this
+// brand's copy, and every sub-page calls it bare too — passing an override here
+// is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H1 -> H2 -> H3 hierarchy this round: "แนะนำเพื่อน โบนัส
 // 0.8%" and "คืนยอดเสีย โบนัส 0.3%" are genuine H3 sub-points of the H2
 // โปรโมชั่น section, so the page is NOT flattened to H2-only. They are the only
 // <h3> here and they are carried by the two ContentBoxSevenThree* blocks.
-// Everything else is chrome — ProviderGrid, LatestWinnersPremium,
-// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span>
-// with an aria-label on the section, and Faq4's questions stay <span> inside
-// <summary>, so none of them emits a heading tag.
+// Everything else is chrome — ProviderGrid, LatestWinners3, LoginRtpSection and
+// ReviewCardSumo2 all render their titles as <p>/<span> with an aria-label on
+// the section, and Faq2's questions stay <span> inside <summary>, so none of
+// them emits a heading tag.
 //
 // The docx checklist, in order, and what carries each one:
-//   1 H1  HENG38 เว็บรวมสล็อตใหญ่ …            ContentBoxPremium
-//   2 H2  การันตี HENG38 ระบบAPI100% …         ContentBoxCyberCut  (+ ProviderGrid)
-//   3 H2  โปรโมชั่น HENG38 …                   ContentBox
-//   4 H3  แนะนำเพื่อน โบนัส 0.8%               ContentBoxSevenThreePremium  + slide1
-//   5 H3  คืนยอดเสีย โบนัส 0.3%                ContentBoxSevenThreeCyberCut + slide2
-//   6 H2  สมัคร HENG38 … 3 ขั้นตอน             ContentBoxTwoPremium
-//   7 H2  หากเกิดปัญหา … 24 ชั่วโมง            ContentBoxPremium
-//   8 H2  คำถามที่พบบ่อย                       Faq4
+//   1 H1  ABM96 เว็บเดิมพันออนไลน์เจ้าของเดิม …   ContentBoxNeumorphism
+//   2 H2  ABM96 อัปเกรดระบบการใช้งาน …           ContentBoxFloatingBadge
+//   3 H2  ABM96 รูปแบบเกมครบ …                   ContentBox  (+ ProviderGrid)
+//   4 H2  โปรโมชั่น ABM96 …                      ContentBoxSpecial
+//   5 H3  แนะนำเพื่อน โบนัส 0.8%                 ContentBoxSevenThreeNeumorphism  + slide1
+//   6 H3  คืนยอดเสีย โบนัส 0.3%                  ContentBoxSevenThreeFloatingBadge + slide2
+//   7 H2  สมัคร ABM96 เล่นเกมคาสิโน 3 ขั้นตอน     ContentBoxTwoNeumorphism
+//   8 H2  คำถามที่พบบ่อย                          Faq2
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
@@ -82,32 +87,34 @@ const pageDescription = "HENG38 เว็บรวมสล็อตใหญ่
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "HENG38 มีเกมสล็อตจากค่ายไหนให้เลือกบ้าง?",
-    a: "ภายในระบบมีเกมสล็อตจากหลายค่ายดัง ทั้งเกมยอดนิยม เกมใหม่ เกมโบนัส และสล็อตหลายรูปแบบ รายการเกมอาจมีการอัปเดตตามช่วงเวลา สามารถตรวจสอบค่ายและเกมที่เปิดให้ใช้งานได้จากหน้ารวมเกม",
+    q: "ABM96 เป็นเว็บเจ้าของเดิมหรือไม่?",
+    a: "ตามข้อมูลของเว็บไซต์ ABM96 ยังคงใช้รูปแบบบริการจากเจ้าของเดิม พร้อมอัปเดตทางเข้าและระบบการใช้งานใหม่ เพื่อให้รองรับการใช้งานบนอุปกรณ์ปัจจุบันได้สะดวกมากขึ้น",
   },
   {
-    q: "HENG38 มีสล็อตไม่มีขั้นต่ำหรือไม่?",
-    a: "เกมสล็อตหลายรายการรองรับการเดิมพันเริ่มต้นในระดับต่างกันตามที่แต่ละค่ายกำหนด สมาชิกสามารถตรวจสอบขั้นต่ำและรายละเอียดเดิมพันของเกมที่สนใจก่อนเข้าเล่นได้จากหน้าเกมโดยตรง",
+    q: "ABM96 มีเกมอะไรให้เลือกบ้าง?",
+    a: "ภายในระบบมีทั้งบาคาร่า สล็อต หวย ไฮโล และบอล รวมถึงเกมจากหลายค่ายที่เปิดให้เลือกตามหมวดหมู่ ผู้ใช้งานสามารถตรวจสอบรายการที่เปิดให้บริการได้จากหน้ารวมเกม",
   },
   {
-    q: "โปรโมชั่น HENG38 มีอะไรบ้าง?",
-    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและวิธีรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
+    q: "ABM96 มีโปรโมชั่นอะไรบ้าง?",
+    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
   },
 ];
 
 // The brief's own three registration steps, verbatim, in its own order.
 const registerSteps = [
-  "เปิดหน้าสมัคร HENG38 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน",
-  "ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน",
-  "ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกค่ายและเกมสล็อตที่ต้องการได้ทันที",
+  "เปิดหน้าสมัคร ABM96 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน",
+  "ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนยืนยัน",
+  "ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกสล็อต บาคาร่า หวย ไฮโล หรือบอลที่ต้องการได้ทันที",
 ];
 
 // Every <strong> below wraps a whole space-delimited chunk of the brief's own
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// The highlight colour is the palette's primary gold (#f3cf63); it marks a
-// claim the brief states outright and nothing else.
+// Two highlight colours, matching the logo and the slide artwork: the palette's
+// primary pink (#fd6494) marks a claim the brief states outright, and the logo
+// yellow (#feda2a) is reserved for the two bonus figures, which is exactly how
+// slide1 and slide2 print them.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -124,36 +131,52 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxPremium as="h1" title="HENG38 เว็บรวมสล็อตใหญ่ เกมแท้ค่ายดัง ครบทุกเกมฮิต">
-    <p class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      HENG38
-      <strong class="text-[#f3cf63]">เว็บรวมสล็อตใหญ่ที่รวบรวมเกมแท้จากค่ายดังไว้ในระบบเดียว</strong>
-      <strong class="text-[#f3cf63]">มีทั้งเกมยอดนิยม เกมใหม่ และสล็อตหลายรูปแบบให้เลือกตามสไตล์ที่ต้องการ</strong>
-      เมนูจัดหมวดหมู่ชัดเจน ใช้งานได้ทั้งมือถือและคอมพิวเตอร์ เหมาะกับคนที่ต้องการเลือกเกมฮิตจากหลายค่ายผ่านบัญชีเดียวโดยไม่ต้องสลับหลายเว็บไซต์
+  <ContentBoxNeumorphism as="h1" title="ABM96 เว็บเดิมพันออนไลน์เจ้าของเดิม อัปเดตระบบใหม่ ความปลอดภัยสูงขึ้น">
+    <p class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      ABM96
+      <strong class="text-[#fd6494]">เว็บเดิมพันออนไลน์เจ้าของเดิมที่ปรับระบบใหม่ให้ใช้งานได้สะดวกขึ้น</strong>
+      ทั้งหน้าเกม เมนูสมาชิก และการเข้าถึงผ่านมือถือ
+      <strong class="text-[#fd6494]">พร้อมยกระดับการดูแลข้อมูลและระบบหลังบ้านให้มีความเป็นระบบมากกว่าเดิม</strong>
+      เหมาะกับผู้ใช้งานที่ต้องการทางเข้าใหม่ แต่ยังคงรูปแบบบริการจากแบรนด์เดิม
     </p>
-  </ContentBoxPremium>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxCyberCut as="h2" title="การันตี HENG38 ระบบAPI100% ส่งตรงจากบริษัทแม่">
-    <p class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      HENG38 ชูจุดเด่นเรื่องระบบ API ที่เชื่อมต่อเกมจากค่ายตามที่เว็บไซต์ระบุ
-      <strong class="text-[#f3cf63]">ช่วยให้การเปิดเกมและสลับค่ายทำได้จากหน้าเดียว</strong>
-      <strong class="text-[#f3cf63]">พร้อมรูปแบบการเชื่อมต่อจากระบบบริษัทแม่เพื่อให้สมาชิกเข้าถึงรายการเกมได้สะดวก</strong>
-      ก่อนเข้าเล่นสามารถตรวจสอบชื่อค่าย รายละเอียดเกม และข้อมูลที่เกี่ยวข้องได้จากหน้าระบบ
+  <ContentBoxFloatingBadge as="h2" title="ABM96 อัปเกรดระบบการใช้งานให้ดีมากขึ้น ไม่โดนล้วงระบบหลังบ้านได้ง่ายๆ">
+    <p class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      ABM96
+      <strong class="text-[#fd6494]">อัปเกรดโครงสร้างเว็บไซต์และระบบหลังบ้านเพื่อให้การใช้งานมีความเสถียรและเป็นขั้นตอนมากขึ้น</strong>
+      มีการจัดการสิทธิ์บัญชีและข้อมูลภายในระบบอย่างเหมาะสม พร้อมปรับทางเข้าให้ทันสมัย
+      <strong class="text-[#fd6494]">ช่วยลดความเสี่ยงจากการเข้าถึงข้อมูลโดยไม่ได้รับอนุญาต</strong>
+      และเพิ่มความมั่นใจในการใช้งานแต่ละส่วน
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxFloatingBadge>
 
-  <ProviderGrid />
-
-  <ContentBox as="h2" title="โปรโมชั่น HENG38 เล่นสล็อตเว็บใหญ่ กดรับได้จริง">
-    <p class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      โปรโมชั่น HENG38 มีสิทธิ์สำหรับสมาชิกหลายรูปแบบ
-      <strong class="text-[#f3cf63]">โดยเน้นรายการที่ตรวจสอบเงื่อนไขและกดรับผ่านระบบได้</strong>
-      <strong class="text-[#f3cf63]">ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
-      สมาชิกสามารถเปิดดูรายละเอียดของแต่ละโปรโมชั่นก่อนรับ เพื่อเช็กยอดที่เข้าเกณฑ์ รอบคำนวณ และข้อกำหนดที่เกี่ยวข้องได้อย่างชัดเจน
+  <ContentBox as="h2" title="ABM96 รูปแบบเกมครบ ทั้ง บาคาร่า สล็อต หวย ไฮโล บอล">
+    <p class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      ภายใน ABM96
+      <strong class="text-[#fd6494]">รวมเกมเดิมพันหลายประเภทไว้ในบัญชีเดียว</strong>
+      <strong class="text-[#feda2a]">ทั้งบาคาร่า สล็อต หวย ไฮโล และบอล</strong>
+      ผู้ใช้งานสามารถเลือกหมวดที่สนใจได้จากหน้าเมนูหลัก พร้อมสลับระหว่างเกมแต่ละประเภทได้สะดวก
+      <strong class="text-[#fd6494]">ระบบจัดหมวดหมู่ชัดเจน</strong>
+      ช่วยให้ค้นหาเกมหรือรายการที่ต้องการได้ง่ายโดยไม่ต้องเปลี่ยนหลายเว็บไซต์
     </p>
   </ContentBox>
 
-  <ContentBoxSevenThreePremium as="h3" titleright="แนะนำเพื่อน โบนัส 0.8%">
+  <ProviderGrid />
+
+  <ContentBoxSpecial as="h2" title="โปรโมชั่น ABM96 เล่นสล็อตเว็บใหญ่กับเจ้าของเดิม กดรับได้ทุกโปร" iconleft="🎁" iconright="📋">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      โปรโมชั่น ABM96
+      <strong class="text-[#fd6494]">มีสิทธิ์ให้สมาชิกเลือกตามเงื่อนไขของแต่ละรายการ</strong>
+      ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      <strong class="text-[#fd6494]">โดยสามารถตรวจสอบรายละเอียดก่อนกดรับจากหน้าโปรโมชั่นได้โดยตรง</strong>
+      ช่วยให้รู้รอบรับสิทธิ์ ยอดที่เข้าเกณฑ์ และข้อกำหนดก่อนนำโบนัสไปใช้งาน
+    </p>
+  </ContentBoxSpecial>
+
+  <ContentBoxSevenThreeNeumorphism as="h3" titleright="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -165,17 +188,19 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์แนวนอนพื้นเขียวมรกตเข้มของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวมรกตขลิบทองพร้อมสร้อยและกำไลทอง ด้านบนขวาเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎทองประดับลายกนก ถัดลงมาเป็นข้อความว่า โปรโมชั่น แนะนำเพื่อน โดยคำว่า โปรโมชั่น เป็นสีทองและคำว่า แนะนำเพื่อน เป็นสีขาว ใต้ลงมาเป็นตัวเลขทองขนาดใหญ่ว่า 0.8% มีเหรียญทองกองอยู่ที่มุมล่างทั้งสองด้าน"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a5761a]/55 shadow-[0_10px_30px_rgba(243,207,99,0.26)]"
+      alt="แบนเนอร์แนวนอนพื้นชมพูหวาน ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีชมพูขาวยกกำปั้น ด้านขวาบนเป็นโลโก้ ABM96 ตัวอักษร ABM สีชมพูและเลข 96 สีเหลือง ถัดลงมาเป็นข้อความสีขาวขอบชมพูว่า โปรโมชั่น และข้อความสีเหลืองว่า แนะนำเพื่อน ใต้ลงมาเป็นตัวเลขสีเหลืองขนาดใหญ่ว่า 0.8% รอบภาพมีเหรียญทอง หัวใจ กล่องของขวัญ และโทรโข่งสีขาวชมพู"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#b8325f]/55 shadow-[0_10px_30px_rgba(253,100,148,0.26)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      สมาชิก HENG38
-      <strong class="text-[#f3cf63]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
-      ระบบมีรายละเอียดให้ตรวจสอบเกี่ยวกับการรับสิทธิ์และยอดที่เข้าเกณฑ์ ช่วยให้ติดตามโบนัสจากการแนะนำเพื่อนได้สะดวก และสามารถตรวจสอบข้อมูลผ่านบัญชีสมาชิกได้โดยตรง
+    <p slot="right" class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      สมาชิก ABM96
+      <strong class="text-[#fd6494]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส</strong>
+      <strong class="text-[#feda2a]">0.8%</strong>
+      <strong class="text-[#fd6494]">ตามเงื่อนไขที่กำหนด</strong>
+      ระบบมีข้อมูลให้ตรวจสอบทั้งยอดที่เข้าเกณฑ์และรายละเอียดสิทธิ์ ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวก และสามารถตรวจสอบรายการผ่านบัญชีสมาชิกได้โดยตรง
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSevenThreeCyberCut as="h3" titleright="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeFloatingBadge as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -187,35 +212,28 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์แนวนอนพื้นเขียวมรกตเข้มของ HENG38 ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีเขียวมรกตขลิบทองพร้อมเครื่องประดับทอง ด้านบนขวาเป็นโลโก้คำว่า HENG 38 สีทองใต้มงกุฎทอง ถัดลงมาเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย โดยคำว่า โปรโมชั่น เป็นสีทองและคำว่า คืนยอดเสีย เป็นสีขาว ใต้ลงมาเป็นตัวเลขทองขนาดใหญ่ว่า 0.3% รอบภาพมีเหรียญทองและมงกุฎทองลอยอยู่บนลำแสงสีเขียว"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a5761a]/55 shadow-[0_10px_30px_rgba(243,207,99,0.26)]"
+      alt="แบนเนอร์แนวนอนพื้นชมพูหวาน ด้านซ้ายเป็นผู้หญิงผมยาวสวมชุดสีชมพูขาวยกกำปั้น ด้านขวาบนเป็นโลโก้ ABM96 ตัวอักษร ABM สีชมพูและเลข 96 สีเหลือง ถัดลงมาเป็นข้อความสีขาวขอบชมพูว่า โปรโมชั่น และข้อความสีเหลืองว่า คืนยอดเสีย ใต้ลงมาเป็นตัวเลขสีเหลืองขนาดใหญ่ว่า 0.3% รอบภาพมีเหรียญทอง หัวใจ และกล่องของขวัญลอยอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#b8325f]/55 shadow-[0_10px_30px_rgba(253,100,148,0.26)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      โปรโมชั่นคืนยอดเสียของ HENG38
-      <strong class="text-[#f3cf63]">ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
-      สมาชิกสามารถตรวจสอบรอบคำนวณและรายละเอียดของยอดที่เข้าเกณฑ์ก่อนกดรับ ช่วยให้รู้ข้อมูลของโบนัสในแต่ละรอบได้ชัดเจนและติดตามสิทธิ์ของตัวเองได้ง่ายขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      โปรโมชั่นคืนยอดเสีย ABM96
+      <strong class="text-[#fd6494]">ให้โบนัส</strong>
+      <strong class="text-[#feda2a]">0.3%</strong>
+      <strong class="text-[#fd6494]">ตามยอดและเงื่อนไขของระบบ</strong>
+      สมาชิกสามารถตรวจสอบรอบคำนวณและยอดที่เข้าเกณฑ์ก่อนกดรับได้ ช่วยให้ติดตามสิทธิ์ของตัวเองในแต่ละรอบได้ง่ายขึ้น พร้อมดูรายละเอียดของโปรโมชั่นก่อนนำโบนัสไปใช้งาน
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreeFloatingBadge>
 
-  <ContentBoxTwoPremium as="h2" titleleft="สมัคร HENG38 เล่นสล็อตได้ไม่มีขั้นต่ำ 3 ขั้นตอน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      การสมัคร HENG38
-      <strong class="text-[#f3cf63]">สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
-      ใช้ขั้นตอนไม่ซับซ้อน หลังสมัครเสร็จสามารถเข้าสู่ระบบเพื่อเลือกเกมสล็อตที่รองรับการเดิมพันเริ่มต้นตามเงื่อนไขของแต่ละเกม โดยมี 3 ขั้นตอนหลักดังนี้
+  <ContentBoxTwoNeumorphism as="h2" title="สมัคร ABM96 เล่นเกมคาสิโน 3 ขั้นตอน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#fbe3ee]">
+      การสมัคร ABM96
+      <strong class="text-[#fd6494]">สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
+      ขั้นตอนถูกจัดไว้ให้เข้าใจง่าย หลังสมัครเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมคาสิโนประเภทอื่นที่ต้องการได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
     </p>
-    <ol slot="right" class="list-decimal space-y-3 pl-6 text-left text-base leading-relaxed text-[#e6e2d2] marker:font-black marker:text-[#f3cf63]">
+    <ol slot="right" class="list-decimal space-y-3 pl-6 text-left text-base leading-relaxed text-[#fbe3ee] marker:font-black marker:text-[#feda2a]">
       {registerSteps.map((step) => <li>{step}</li>)}
     </ol>
-  </ContentBoxTwoPremium>
-
-  <ContentBoxPremium as="h2" title="หากเกิดปัญหา สามารถติดต่อแอดมิน HENG38 ได้ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#e6e2d2]">
-      หากพบปัญหาเกี่ยวกับการสมัคร การเข้าเกม โปรโมชั่น ระบบเครดิต หรือการใช้งานภายในเว็บไซต์
-      <strong class="text-[#f3cf63]">สามารถติดต่อแอดมิน HENG38 ได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#f3cf63]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
-      เพื่อให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลที่ต้องการได้สะดวกทุกช่วงเวลา
-    </p>
-  </ContentBoxPremium>
+  </ContentBoxTwoNeumorphism>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 
