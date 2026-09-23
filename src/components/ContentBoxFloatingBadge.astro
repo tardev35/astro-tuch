@@ -11,52 +11,53 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
 // overflowing the card and forcing horizontal scroll on a phone.
 //
-// Clearance recomputed for THE88 (2026-09-23), which puts this box on the
-// homepage H2: "เว็บ THE88 บาคาร่า สล็อต หวย บอล ไฮโล แท้ได้มาตรฐานสากล ปลอดภัยชัวร์"
-// — 68 code points, ~60 advancing glyphs once the 8 zero-width Thai marks
-// (็ ่ ็ ้ ้ ั ั ์) are discounted. That is three glyphs longer than ABM96's
-// title, the previous longest this box has carried, so the arithmetic is redone
-// rather than inherited. The heading keeps `leading-normal` (1.5), the badge
-// adds py-2.5 (20px) plus border-2 (4px), and the two spark spans plus gap-2
-// take ~48px out of the line box. Budget is one line beyond the measured wrap at
-// every breakpoint:
+// Clearance recomputed for SAGAME66 (2026-09-23), which puts this box on the
+// homepage H2: "สมัคร SAGAME66 ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ" — 43 code points,
+// ~36 advancing glyphs once the 7 zero-width Thai marks (ั ้ ้ ั ่ ื ื) are
+// discounted. That is 24 glyphs SHORTER than THE88's title, the previous longest
+// this box has carried, so the padding is re-derived rather than inherited — the
+// old pt-36/pt-40 left ~63px of dead space above the slot at every breakpoint.
+// The heading keeps `leading-normal` (1.5), the badge adds py-2.5 (20px) plus
+// border-2 (4px), and the two spark spans plus gap-2 take ~48px out of the line
+// box. Budget is two lines beyond the measured wrap at every breakpoint:
 //   base  text-lg 18px -> 27px/line, ~218px of text width at 360px
 //         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~22 glyphs/line,
-//         so 60 glyphs wraps to 3. Budget 4 lines = 4x27 + 24 = 132px,
-//         bottom edge 108px vs pt-36/144px      -> 36px clear
+//         so 36 glyphs wraps to 2. Budget 4 lines = 4x27 + 24 = 132px,
+//         bottom edge 108px vs pt-32/128px      -> 20px clear
 //   sm    text-xl 20px -> 30px/line, ~443px of text width
 //         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~40 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x30 + 24 = 114px,
-//         bottom edge 90px vs pt-36/144px       -> 54px clear
+//         wraps to 1. Budget 3 lines = 3x30 + 24 = 114px,
+//         bottom edge 90px vs pt-32/128px       -> 38px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x36 + 24 = 132px,
-//         bottom edge 108px vs md:pt-40/160px   -> 52px clear
-// An H1 sits one size notch larger and still fits the same pt-36/pt-40. Do not
-// shrink this on the assumption the box keeps a short title.
+//         wraps to 1. Budget 3 lines = 3x36 + 24 = 132px,
+//         bottom edge 108px vs md:pt-36/144px   -> 36px clear
+// An H1 sits one size notch larger and still fits inside those budgets. Do NOT
+// shrink further on the assumption the box keeps a short title — redo the
+// arithmetic with the real docx sentence the next brand puts in here instead.
 //
-// THE88 palette (แดง-ทอง): การ์ดไล่จากพื้นยก #4a0d0b ลงไปหาพื้นเพจแดงเกือบดำ
-// #1c0504 ในกรอบแดงเข้ม #6b0302 ป้ายหัวข้อลอยอยู่บนพื้นการ์ด #2d0908 ในกรอบแดง
-// แบรนด์ #a40201 และประกายสองข้างแยกกันด้วยคู่สีของโลโก้ — ทองอ่อน #ffe7a6 ฝั่งซ้าย
-// ทอง #f2c14e ฝั่งขวา ออร่าสองมุมเป็นแดงแบรนด์กับทอง ตามโลโก้ที่ตัว THE เป็นแดง
-// ขอบทองและเลข 88 เป็นครีมขอบทอง ชมพู-เหลืองของรอบก่อนออกทั้งหมด
+// SAGAME66 palette (ทอง-เงินโครเมียม): การ์ดไล่จากพื้นการ์ด #171006 ลงไปหาพื้นเพจ
+// น้ำตาลเกือบดำ #0d0903 ในกรอบทองลึก #96671a ป้ายหัวข้อลอยอยู่บนพื้นยก #2a1d0b
+// ในกรอบทองหลัก #e8b93f และประกายสองข้างแยกกันด้วยคู่สีของโลโก้ — ทองสว่าง #ffe9a3
+// ฝั่งซ้าย เงินโครเมียม #eef3f8 ฝั่งขวา ออร่าสองมุมเป็นทองกับเงิน ตามโลโก้ที่ตัว SA
+// เป็นทองสามมิติ GAME เป็นเงินโครเมียม และ 66 กลับมาเป็นทอง แดง-ทองของ THE88 ออกหมด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#6b0302]/60 bg-gradient-to-b from-[#4a0d0b]/95 to-[#1c0504]/95 p-8 pt-36 text-left text-base leading-relaxed text-[#f7e3dd] shadow-[0_10px_30px_rgba(164,2,1,0.26)] md:pt-40">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#a40201]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f2c14e]/16 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#96671a]/60 bg-gradient-to-b from-[#171006]/95 to-[#0d0903]/95 p-8 pt-32 text-left text-base leading-relaxed text-[#e3d8c0] shadow-[0_10px_30px_rgba(232,185,63,0.22)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e8b93f]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#eef3f8]/16 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#a40201]/60 bg-[#2d0908] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(164,2,1,0.45)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffe7a6]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e8b93f]/60 bg-[#2a1d0b] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(13,9,3,0.75)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffe9a3]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#ffe7a6] via-[#f2c14e] to-[#dd0503] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ffe9a3] via-[#eef3f8] to-[#e8b93f] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#f2c14e]">
+          <span aria-hidden="true" class="shrink-0 text-[#eef3f8]">
             ✦
           </span>
         </div>

@@ -13,9 +13,12 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// The four markets the brief names, and nothing else. The module picks one per
-// row from this list through data-winners-markets / data-winner-market.
-const marketPool = ["รัฐบาลไทย", "ฮานอย", "ลาวพัฒนา", "หวยหุ้นต่างประเทศ"];
+// The four game categories the brief names, and nothing else. SAGAME66 is a live
+// casino brand, so the lottery markets the previous holder of this variant shipped
+// (รัฐบาลไทย / ฮานอย / ลาวพัฒนา / หวยหุ้นต่างประเทศ) are gone — the brief never
+// mentions lottery. The module picks one per row from this list through
+// data-winners-markets / data-winner-market.
+const marketPool = ["บาคาร่า", "รูเล็ต", "คาสิโนสด", "เกมโต๊ะ"];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -35,18 +38,20 @@ const initialRows = Array.from({ length: 8 }, (_, i) => ({
 // feed's title is a <p> and the <section> carries an aria-label — a withdrawal
 // feed is chrome and never emits a heading tag.
 //
-// หวยพยัคฆ์ (รอบกรมท่า-ทอง 2026-09-22): เม็ดยาแต่ละเม็ดเป็นพื้นเพจกรมท่าเข้ม
-// #030b1c ในกรอบน้ำเงินคั่น #1c3566 ที่สว่างขึ้นเป็นทองหลัก #fadb6c ตอน hover
-// ชิปชื่อตลาดเป็นทองบรอนซ์ #ab6d13 ยอดเงินเป็นทองสว่าง #fdf5a4 ส่วนกรอบนอกเป็น
-// พื้นการ์ด #08152f — ดำ-ทองของ FAH999 ออกทั้งหมด
+// SAGAME66 (รอบทอง-เงินโครเมียม 2026-09-23): เม็ดยาแต่ละเม็ดเป็นพื้นเพจน้ำตาลเกือบ
+// ดำ #0d0903 ในกรอบพื้นยก #2a1d0b ที่สว่างขึ้นเป็นทองหลัก #e8b93f ตอน hover ชิป
+// ชื่อหมวดเกมเป็นทองลึก #96671a ตัวอักษรเงินกลาง #b6c1cd ยอดเงินเป็นทองสว่าง
+// #ffe9a3 ชื่อผู้ถอนเป็น BRAND_TEXT #e3d8c0 ส่วนกรอบนอกเป็นพื้นการ์ด #171006 ใน
+// เส้นทองหลัก — ชุดกรมท่า-ทองของหวยพยัคฆ์ (#030b1c #08152f #1c3566 #fadb6c #ab6d13
+// #fdf5a4 #dbe4f7 #9fb0d0) ออกทั้งหมด
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#fadb6c]/35 bg-[#08152f]/90 px-4 py-8 shadow-[0_15px_40px_rgba(250,219,108,0.18)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#e8b93f]/35 bg-[#171006]/90 px-4 py-8 shadow-[0_15px_40px_rgba(232,185,63,0.18)] backdrop-blur-md">
     <div class="mb-6 text-center">
-      <p class="bg-gradient-to-b from-[#fdf5a4] to-[#ab6d13] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🐅</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#ffe9a3] to-[#96671a] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🃏</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -61,17 +66,17 @@ const initialRows = Array.from({ length: 8 }, (_, i) => ({
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#1c3566] bg-[#030b1c] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(250,219,108,0.20)] hover:border-[#fadb6c]/60">
+            <div class="flex items-center gap-3 rounded-full border border-[#2a1d0b] bg-[#0d0903] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(232,185,63,0.20)] hover:border-[#e8b93f]/60">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#dbe4f7]">
+              <div data-winner-user class="text-sm font-bold text-[#e3d8c0]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#ab6d13]/55 px-2 py-0.5 text-[10px] font-bold text-[#9fb0d0]">
+              <span data-winner-market class="rounded-full border border-[#96671a]/55 px-2 py-0.5 text-[10px] font-bold text-[#b6c1cd]">
                 {row.market}
               </span>
-              <div class="text-sm font-black text-[#fdf5a4] drop-shadow-sm">
+              <div class="text-sm font-black text-[#ffe9a3] drop-shadow-sm">
                 +<span data-winner-amount>{row.amount}</span> ฿
               </div>
             </div>
