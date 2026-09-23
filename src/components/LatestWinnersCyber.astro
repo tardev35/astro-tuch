@@ -4,7 +4,7 @@ import scbLogo from "../assets/banks/scb.png";
 import krungsriLogo from "../assets/banks/krungsri.png";
 import ktbLogo from "../assets/banks/ktb.png";
 import ttbLogo from "../assets/banks/ttb.png";
-import { brandFlag, brandPick } from "../lib/brandProfile";
+import { BRAND_NAME, brandFlag, brandPick } from "../lib/brandProfile";
 
 // Real bank brand colours — never rethemed with the palette.
 const bankPool = [
@@ -18,11 +18,20 @@ const bankPool = [
 // The two status labels live here and on the row's data-* attributes, so the
 // server-rendered text and the text the module swaps in can never drift apart.
 // Same for the two status classes: the module reads them off the row, so it
-// never has to learn what NEXT55's palette is.
+// never has to learn what THE88's palette is.
 const PENDING_TEXT = "[กำลังตรวจสอบ]";
 const DONE_TEXT = "[ถอนสำเร็จ]";
 const PENDING_CLASS = "is-pending";
 const DONE_CLASS = "is-verified";
+
+// Everything the rotation module needs is a data-* on the feed element below —
+// interval, row cap, amount range, pending chance, username shape. It is spelled
+// out rather than left to the module's defaults so the next rebrand can retune
+// the feed without opening src/lib, which a rebrand never does.
+const FEED_INTERVAL_MS = 4200;
+const FEED_MAX_ROWS = 5;
+const AMOUNT_MIN = 15000;
+const AMOUNT_MAX = 95000;
 
 // The first rows are rendered on the server. They used to be built by an inline
 // script, which left the container empty in the HTML: nothing for a crawler to
@@ -36,39 +45,55 @@ const DONE_CLASS = "is-verified";
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const pickFrom = (chars: string, salt: string) => chars.charAt(brandPick(Astro.site, salt, chars.length));
 
-const initialRows = Array.from({ length: 5 }, (_, i) => ({
+const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
   bank: bankPool[brandPick(Astro.site, `winner-bank-${i}`, bankPool.length)],
   user: `${pickFrom(LETTERS, `winner-a-${i}`)}${pickFrom(LETTERS, `winner-b-${i}`)}***${[0, 1, 2, 3].map((d) => brandPick(Astro.site, `winner-d${i}-${d}`, 10)).join("")}`,
-  amount: (15000 + brandPick(Astro.site, `winner-amount-${i}`, 80001)).toLocaleString("en-US"),
+  amount: (AMOUNT_MIN + brandPick(Astro.site, `winner-amount-${i}`, AMOUNT_MAX - AMOUNT_MIN + 1)).toLocaleString("en-US"),
   pending: brandFlag(Astro.site, `winner-pending-${i}`),
 }));
+
+// THE88 (รอบแดง-ทอง 2026-09-23): แผงเทอร์มินัลเป็นพื้นการ์ดแดงเข้ม #2d0908 ใน
+// สันแดงแบรนด์ #a40201 สองข้าง เส้นบนเป็นทองอ่อน #ffe7a6 เส้นล่างเป็นแดงแบรนด์
+// ยอดเงินรับทองหลัก #f2c14e ตามเลข 88 บนโลโก้ที่เป็นครีมขอบทอง เนื้อความใช้
+// #f7e3dd (BRAND_TEXT) — แดงเลือดหมู #cd1437 กับเทาอมน้ำเงิน #0c0d10 / #e7eaef /
+// #c3c8d1 / #8d939e / #22242a ของ NEXT55 ออกทั้งหมด ป้าย ONLINE กับสีสถานะ
+// pending/verified เป็นสีเชิงความหมาย ไม่ใช่สีแบรนด์ จึงคงไว้ตามเดิม
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4">
   <section
-    aria-label="รายการถอนล่าสุดของสมาชิก NEXT55 ผ่านระบบฝาก-ถอนอัตโนมัติที่ไม่มีขั้นต่ำ รองรับทุกธนาคารและ TrueMoney Wallet"
-    class="relative border-r-4 border-l-4 border-[#cd1437]/55 bg-[#0c0d10]/92 px-4 py-8 shadow-[0_0_30px_rgba(205,20,55,0.22)] md:p-10"
+    aria-label={`รายการถอนล่าสุดของสมาชิก ${BRAND_NAME} ผ่านช่องทางวอลเลทและธนาคารที่เว็บไซต์กำหนด ตรวจสอบยอดเครดิตและสถานะรายการได้จากบัญชีของตัวเอง`}
+    class="relative border-r-4 border-l-4 border-[#a40201]/55 bg-[#2d0908]/92 px-4 py-8 shadow-[0_0_30px_rgba(164,2,1,0.45)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#e7eaef] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#cd1437] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#ffe7a6] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#a40201] to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#cd1437]/45 pb-4">
-      <p class="text-xl font-black tracking-[0.2em] text-[#e7eaef] drop-shadow-[0_0_8px_rgba(205,20,55,0.55)]">/// NEXT55 · รายการถอนล่าสุด</p>
+    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#a40201]/45 pb-4">
+      <p class="text-xl font-black tracking-[0.2em] text-[#ffe7a6] drop-shadow-[0_0_8px_rgba(164,2,1,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
       <span class="shrink-0 animate-pulse border border-[#16a34a]/55 px-2 py-1 text-xs font-bold tracking-widest text-[#16a34a]">ONLINE</span>
     </div>
 
-    <div data-winners-feed class="relative z-10 flex flex-col gap-3">
+    <div
+      data-winners-feed
+      data-interval={FEED_INTERVAL_MS}
+      data-max-rows={FEED_MAX_ROWS}
+      data-amount-min={AMOUNT_MIN}
+      data-amount-max={AMOUNT_MAX}
+      data-pending-chance="0.35"
+      data-user-style="letters"
+      data-user-digits="4"
+      class="relative z-10 flex flex-col gap-3">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-left transform transition-all duration-500 ease-out">
-            <div class="flex items-center justify-between border-l-2 border-[#cd1437]/70 bg-gradient-to-r from-[#cd1437]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#22242a]">
+            <div class="flex items-center justify-between border-l-2 border-[#a40201]/70 bg-gradient-to-r from-[#a40201]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#4a0d0b]">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-white/10 bg-black/50 mix-blend-screen ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
                 </div>
-                <div class="font-mono text-sm text-[#c3c8d1]">
+                <div class="font-mono text-sm text-[#f7e3dd]/70">
                   USR_ID:{" "}
-                  <span data-winner-user class="font-bold text-[#e7eaef]">
+                  <span data-winner-user class="font-bold text-[#f7e3dd]">
                     {row.user}
                   </span>
                 </div>
@@ -83,8 +108,8 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
                   class={`winner-status font-mono text-[10px] tracking-widest ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? PENDING_TEXT : DONE_TEXT}
                 </div>
-                <div class="font-mono text-xl font-black text-[#ffb3bf] drop-shadow-[0_0_8px_rgba(205,20,55,0.55)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#8d939e]">THB</span>
+                <div class="font-mono text-xl font-black text-[#f2c14e] drop-shadow-[0_0_8px_rgba(164,2,1,0.45)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#f7e3dd]/60">THB</span>
                 </div>
               </div>
             </div>
