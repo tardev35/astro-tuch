@@ -4,7 +4,7 @@ import scbLogo from "../assets/banks/scb.png";
 import krungsriLogo from "../assets/banks/krungsri.png";
 import ktbLogo from "../assets/banks/ktb.png";
 import ttbLogo from "../assets/banks/ttb.png";
-import { brandFlag, brandPick } from "../lib/brandProfile";
+import { BRAND_NAME, brandFlag, brandPick } from "../lib/brandProfile";
 
 // Real bank brand colours — these stay as they are through every rebrand and
 // are never mapped onto the site palette.
@@ -22,7 +22,9 @@ const bankPool = [
 // builds of the same domain differ.
 //
 // The heading here is a <p>: this feed is chrome, not docx content, so the
-// <section> takes its accessible name from aria-label.
+// <section> takes its accessible name from aria-label. The brand name comes from
+// BRAND_NAME and is never typed into the markup — this file used to carry
+// MHEEPOOH168's name hardcoded in both the aria-label and the visible label.
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
@@ -34,23 +36,30 @@ const initialRows = Array.from({ length: 4 }, (_, i) => ({
   pending: brandFlag(Astro.site, `card-pending-${i}`),
 }));
 
-// Pending/verified stay semantic (muted / success green), not the gold accent —
+// Pending/verified stay semantic (muted / success green), not the brand red —
 // a status colour that matches the accent tells the reader nothing. The muted
-// state is the brand cream dimmed on the inner-panel red, so it reads as "not
-// finished yet" without borrowing the gold.
-const PENDING_CLASS = "text-[#f1dccd]/70 bg-[#2b0101] animate-pulse";
+// state is the body-text silver dimmed on the raised surface, so it reads as
+// "not finished yet" without borrowing the red.
+const PENDING_CLASS = "text-[#cdd5dd]/70 bg-[#241a1a] animate-pulse";
 const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e] to-[#15803d] font-black shadow-md";
+
+// UFAGOOL (รอบแดง-เงินโครเมียม 2026-09-23): แผงนอกเป็นพื้นการ์ด #16100f ในกรอบเงิน
+// โครเมียม #b8c3cf ออร่าบนหัวเป็นแดงแบรนด์ #c50d12 การ์ดแต่ละใบตกลงไปที่พื้นเพจ
+// #0a0708 ในเส้นแดงลึก #5e0507 แล้วยกเป็น #241a1a ตอน hover ยอดเงินเป็นขาวเงิน
+// #f4f7fa หัวข้อไล่ตามลำดับสีบนโลโก้ แดงสด #ef1f25 → ขาวเงิน → เงินหลัก
+// — ชุดทอง #f5b70a #fced74 #8a5a06 กับพื้นแดงเลือดหมู #2b0101 #120303 #540202
+// #8f0505 และครีม #f1dccd ของ MHEEPOOH168 หายไปทั้งหมด
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <section
-    aria-label="รายการถอนเงินล่าสุดของสมาชิก MHEEPOOH168"
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#f5b70a]/35 bg-[#2b0101]/92 px-4 py-8 shadow-[0_10px_30px_rgba(196,22,28,0.28)] backdrop-blur-md md:p-10">
-    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#c4161c]/40 blur-[50px]"></div>
+    aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#b8c3cf]/35 bg-[#16100f]/92 px-4 py-8 shadow-[0_10px_30px_rgba(197,13,18,0.28)] backdrop-blur-md md:p-10">
+    <div class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#c50d12]/40 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
       <span aria-hidden="true" class="text-2xl">💸</span>
-      <p class="bg-gradient-to-r from-[#fced74] via-[#f5b70a] to-[#8a5a06] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก MHEEPOOH168</p>
+      <p class="bg-gradient-to-r from-[#ef1f25] via-[#f4f7fa] to-[#b8c3cf] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}</p>
       <span aria-hidden="true" class="text-2xl">💸</span>
     </div>
 
@@ -58,7 +67,7 @@ const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e]
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-card transition-all duration-500 ease-out">
-            <div class="flex flex-col rounded-[20px] border border-[#8f0505]/70 bg-[#120303]/95 p-5 shadow-sm transition-all hover:border-[#f5b70a]/55 hover:bg-[#540202]/90">
+            <div class="flex flex-col rounded-[20px] border border-[#5e0507]/70 bg-[#0a0708]/95 p-5 shadow-sm transition-all hover:border-[#b8c3cf]/55 hover:bg-[#241a1a]/90">
               <div class="mb-4 flex items-start justify-between">
                 <div data-winner-bank class={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
@@ -74,14 +83,14 @@ const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e]
                 </div>
               </div>
               <div>
-                <div class="text-sm text-[#f1dccd]/70">
+                <div class="text-sm text-[#cdd5dd]/70">
                   ยูสเซอร์:{" "}
-                  <span data-winner-user class="font-bold text-[#f1dccd]">
+                  <span data-winner-user class="font-bold text-[#cdd5dd]">
                     {row.user}
                   </span>
                 </div>
-                <div class="mt-1 text-2xl font-black text-[#fced74]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#f1dccd]/70">THB</span>
+                <div class="mt-1 text-2xl font-black text-[#f4f7fa]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#cdd5dd]/70">THB</span>
                 </div>
               </div>
             </div>
@@ -90,7 +99,7 @@ const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e]
       }
     </div>
 
-    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#f1dccd]/70">
+    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#cdd5dd]/70">
       ก่อนฝากหรือถอนควรตรวจจำนวนเงิน ช่องทาง และรายละเอียดบัญชีให้ตรงกับข้อมูลสมาชิก หากรายการยังประมวลผลอยู่ไม่ควรกดซ้ำทันที และสามารถติดตามประวัติธุรกรรมได้จากบัญชีสมาชิก
     </p>
 

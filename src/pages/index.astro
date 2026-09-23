@@ -1,16 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement2.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import Announcement from "../components/Announcement3.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import Faq from "../components/Faq4.astro";
-import LatestWinners from "../components/LatestWinnersCyber.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import Faq from "../components/Faq2.astro";
+import LatestWinners from "../components/LatestWinners2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -24,11 +23,13 @@ import imgSlide2 from "../assets/slide2.png";
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — which is the family's hard cap of two per
 // rebrand, so there is no third SevenThree here:
-//   slide2.png — red promo banner reading "โปรโมชั่น แนะนำเพื่อน" over a giant
-//     gold "0.8%", with a ribboned gift box, so it belongs to docx H3 #4
-//     (แนะนำเพื่อน โบนัส 0.8%).
-//   slide1.png — the same artwork reading "โปรโมชั่น คืนยอดเสีย" over "0.3%",
+//   slide1.png — red promo banner reading "โปรโมชั่น แนะนำเพื่อน" over a giant
+//     white "0.8%", so it belongs to docx H3 #4 (แนะนำเพื่อน โบนัส 0.8%).
+//   slide2.png — the same artwork reading "โปรโมชั่น คืนยอดเสีย" over "0.3%",
 //     so it belongs to docx H3 #5 (คืนยอดเสีย โบนัส 0.3%).
+// The two roles are the REVERSE of the previous brand's round — the previous
+// drop had slide2 on 0.8% — so the alt text and the pairing were both rewritten
+// from the current artwork rather than carried over.
 // Both files are 600x333, so 600 is the top candidate width — nothing above it
 // would be a real pixel.
 //
@@ -43,22 +44,22 @@ import imgSlide2 from "../assets/slide2.png";
 //   nothing here gets loading="eager" fetchpriority="high".
 //
 // Rotated out of this round's mix and NOT deleted from disk (they are inventory
-// for the next brand): Announcement5, ContentBoxPremium, ContentBoxCyberCut,
-// ContentBoxSevenThreePremium, ContentBoxSevenThreeCyberCut, ContentBoxTwoPremium,
-// ContentBoxTwoCyberCut, Faq3, LatestWinnersPremium — and LottoGrid, which stays
-// out for a reason rather than a rotation: the brief names หวย only as one of
-// five game categories in a single list, never as a section of its own, so a
-// dedicated lottery grid would outweigh what the brief actually says. The file
-// stays on disk for the next lottery client.
+// for the next brand): Announcement2, ContentBoxNeumorphism,
+// ContentBoxFloatingBadge, ContentBoxSevenThreeNeumorphism,
+// ContentBoxSevenThreeFloatingBadge, ContentBoxSpecial, ContentBoxTwoNeumorphism,
+// Faq4, LatestWinnersCyber — and LottoGrid, which stays out for a reason rather
+// than a rotation: the UFAGOOL brief never mentions lottery at all, so that grid
+// would claim a category the brief does not have. The file stays on disk for the
+// next lottery client.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2.
-const pageTitle = "THE88 ผู้ให้บริการระบบพนันออนไลน์ จากบริษัทหลักโดยตรง ปลอดภัยชัวร์";
+// floor and never topped up from the H1/H2 — this one is 105 characters.
+const pageTitle = "UFAGOOL กีฬาคาสิโนเว็บตรง รวมพนันออนไลน์ ในเครือลิขสิทธิ์แท้";
 
-const pageDescription = "THE88 ผู้ให้บริการระบบพนันออนไลน์ รวมเกมครบ ทั้ง บาคาร่า สล็อต หวย บอล ไฮโล จากบริษัทหลักโดยตรง แท้ได้มาตรฐานสากล ปลอดภัยชัวร์";
+const pageDescription = "UFAGOOL กีฬาคาสิโนเว็บตรง แหล่งรวมเกมพนันออนไลน์ ครบทุกประเภท ในเครือตรงแบรนด์ลิขสิทธิ์แท้ ไม่ผ่านเอเย่นต์";
 
-// <Announcement /> runs bare: Announcement2's default message is already this
+// <Announcement /> runs bare: Announcement3's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
@@ -66,37 +67,40 @@ const pageDescription = "THE88 ผู้ให้บริการระบบ�
 // 0.8%" and "คืนยอดเสีย โบนัส 0.3%" are genuine H3 sub-points of the H2
 // โปรโมชั่น section, so the page is NOT flattened to H2-only. They are the only
 // <h3> here and they are carried by the two ContentBoxSevenThree* blocks.
-// Everything else is chrome — ProviderGrid, LatestWinnersCyber, LoginRtpSection
-// and ReviewCardSumo2 all render their titles as <p>/<span> with an aria-label
-// on the section, and Faq4's questions stay <span> inside <summary>, so none of
+// Everything else is chrome — ProviderGrid, LatestWinners2, LoginRtpSection and
+// ReviewCardSumo2 all render their titles as <p>/<span> with an aria-label on
+// the section, and Faq2's questions stay <span> inside <summary>, so none of
 // them emits a heading tag.
 //
 // The docx checklist, in order, and what carries each one:
-//   1 H1  THE88 ผู้ให้บริการระบบพนันออนไลน์ …   ContentBoxNeumorphism
-//   2 H2  เว็บ THE88 บาคาร่า สล็อต หวย บอล ไฮโล … ContentBoxFloatingBadge (+ ProviderGrid)
-//   3 H2  โปรโมชั่นสูงสุดในวงการ …               ContentBox
-//   4 H3  แนะนำเพื่อน โบนัส 0.8%                ContentBoxSevenThreeNeumorphism   + slide2
-//   5 H3  คืนยอดเสีย โบนัส 0.3%                 ContentBoxSevenThreeFloatingBadge + slide1
-//   6 H2  ระบบ THE88 ฝากถอนวอลเลทและธนาคารชั้นนำ ContentBoxSpecial
-//   7 H2  แอดมิน THE88 ดูแลสมาชิกตลอด 24 ชั่วโมง ContentBoxTwoNeumorphism
-//   8 H2  คำถามที่พบบ่อย                         Faq4
+//   1 H1  UFAGOOL กีฬาคาสิโนเว็บตรง รวมพนันออนไลน์ …  ContentBoxPremium
+//   2 H2  UFAGOOL รวมเกมพนันครบทุกประเภท …            ContentBoxCyberCut (+ ProviderGrid)
+//   3 H2  โปรโมชั่นสูง กดรับหลังสมัคร UFAGOOL …        ContentBox
+//   4 H3  แนะนำเพื่อน โบนัส 0.8%                      ContentBoxSevenThreePremium  + slide1
+//   5 H3  คืนยอดเสีย โบนัส 0.3%                       ContentBoxSevenThreeCyberCut + slide2
+//   6 H2  สมัคร UFAGOOL ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ    ContentBox (+ <ol> ของ 3 ขั้นตอน)
+//   7 H2  แอดมิน UFAGOOL ดูแลสมาชิกตลอด 24 ชั่วโมง     ContentBoxTwoPremium
+//   8 H2  คำถามที่พบบ่อย                              Faq2
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
+//
+// ContentBoxTwoPremium is passed `title` only — its titleleft/titleright props
+// emit HeadingTag too, so passing them here would put three <h2> on one section.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "THE88 มีเกมอะไรให้เลือกบ้าง?",
-    a: "ภายในระบบมีทั้งบาคาร่า สล็อต หวย บอล และไฮโล รวมถึงเกมจากหลายค่ายตามรายการที่เปิดให้บริการ สมาชิกสามารถตรวจสอบหมวดเกมและรายละเอียดของแต่ละรายการได้จากหน้าเว็บไซต์",
+    q: "UFAGOOL มีเกมประเภทไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีทั้งการเดิมพันกีฬา คาสิโนสด สล็อต และเกมออนไลน์ประเภทอื่นตามรายการที่เปิดให้บริการ สมาชิกสามารถตรวจสอบหมวดเกมและค่ายที่รองรับได้จากหน้าเว็บไซต์ก่อนเข้าใช้งาน",
   },
   {
-    q: "โปรโมชั่น THE88 สมัครแล้วรับได้เลยหรือไม่?",
-    a: "โปรโมชั่นบางรายการสามารถกดรับหลังสมัครได้ตามเงื่อนไขที่กำหนด ขณะที่บางสิทธิ์อาจมีข้อกำหนดเพิ่มเติม แนะนำให้ตรวจสอบรายละเอียดของแต่ละโปรโมชั่นก่อนกดรับทุกครั้ง",
+    q: "โปรโมชั่น UFAGOOL สมัครแล้วรับได้เลยหรือไม่?",
+    a: "โปรโมชั่นบางรายการสามารถกดรับหลังสมัครได้โดยไม่ต้องฝากก่อนตามเงื่อนไขที่กำหนด ส่วนสิทธิ์อื่นอาจมีข้อกำหนดเพิ่มเติม แนะนำให้ตรวจสอบรายละเอียดของแต่ละโปรโมชั่นก่อนกดรับทุกครั้ง",
   },
   {
-    q: "THE88 รองรับการฝากถอนช่องทางใด?",
-    a: "ระบบรองรับวอลเลทและธนาคารตามรายการที่เว็บไซต์เปิดให้ใช้งาน สมาชิกสามารถตรวจสอบช่องทางที่รองรับ สถานะรายการ และรายละเอียดบัญชีได้จากหน้าฝากถอนโดยตรง",
+    q: "สมัคร UFAGOOL ผ่านมือถือได้หรือไม่?",
+    a: "สามารถสมัครผ่านมือถือได้โดยกรอกข้อมูล ตรวจสอบความถูกต้อง และยืนยันบัญชี เมื่อสมัครเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกกีฬา คาสิโน สล็อต หรือเกมที่เปิดให้บริการได้จากหน้าเว็บไซต์",
   },
 ];
 
@@ -104,9 +108,9 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Two highlight colours, matching the logo and both slides: the palette's gold
-// light (#ffe7a6) marks a claim the brief states outright, and the gold mid
-// (#f2c14e) is reserved for the two bonus figures, which is exactly how slide1
+// Two highlight colours, matching the logo and both slides: the chrome silver
+// (#f4f7fa) marks a claim the brief states outright, and the number accent
+// (#ff5a5f) is reserved for the two bonus figures, which is exactly how slide1
 // and slide2 print them.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -124,109 +128,112 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxNeumorphism as="h1" title="THE88 ผู้ให้บริการระบบพนันออนไลน์ จากบริษัทหลักโดยตรง">
-    <p class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      THE88
-      <strong class="text-[#ffe7a6]">ผู้ให้บริการระบบพนันออนไลน์ที่รวมเกมหลายประเภทไว้ในระบบเดียว</strong>
-      พร้อมรูปแบบการเชื่อมต่อจากบริษัทหลักตามข้อมูลของเว็บไซต์
-      <strong class="text-[#ffe7a6]">สมาชิกสามารถเลือกเล่นได้ทั้งบาคาร่า สล็อต หวย บอล และไฮโล ผ่านบัญชีเดียว</strong>
-      รองรับการใช้งานบนมือถือและคอมพิวเตอร์ พร้อมเมนูที่จัดหมวดหมู่ชัดเจนและเข้าถึงง่าย
+  <ContentBoxPremium as="h1" title="UFAGOOL กีฬาคาสิโนเว็บตรง รวมพนันออนไลน์ ในเครือลิขสิทธิ์แท้">
+    <p class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      UFAGOOL
+      <strong class="text-[#f4f7fa]">กีฬาคาสิโนเว็บตรงที่รวมเกมพนันออนไลน์หลายประเภทไว้ในระบบเดียว</strong>
+      ทั้งกีฬา คาสิโน สล็อต และเกมยอดนิยมจากหลายค่าย
+      <strong class="text-[#f4f7fa]">พร้อมรูปแบบการเชื่อมต่อเครือตรงตามข้อมูลของเว็บไซต์ ไม่ผ่านเอเย่นต์</strong>
+      ช่วยให้สมาชิกเข้าถึงเกมต่าง ๆ
+      <strong class="text-[#f4f7fa]">ได้สะดวกผ่านบัญชีเดียวทั้งบนมือถือและคอมพิวเตอร์</strong>
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxPremium>
 
-  <ContentBoxFloatingBadge as="h2" title="เว็บ THE88 บาคาร่า สล็อต หวย บอล ไฮโล แท้ได้มาตรฐานสากล ปลอดภัยชัวร์">
-    <p class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      เว็บ THE88
-      <strong class="text-[#ffe7a6]">รวมเกมยอดนิยมไว้ครบทั้งบาคาร่า สล็อต หวย บอล และไฮโล</strong>
-      โดยแบ่งหมวดหมู่ให้เลือกอย่างชัดเจน พร้อมระบบที่ออกแบบให้รองรับการใช้งานหลายอุปกรณ์
-      <strong class="text-[#ffe7a6]">สมาชิกสามารถตรวจสอบรายละเอียดเกมและค่ายที่เปิดให้บริการก่อนเข้าเล่น</strong>
-      เพื่อเลือกประเภทที่เหมาะกับรูปแบบการใช้งานของตัวเอง
+  <ContentBoxCyberCut as="h2" title="UFAGOOL รวมเกมพนันครบทุกประเภท เครือตรงแบรนด์ลิขสิทธิ์แท้ ไม่ผ่านเอเย่นต์">
+    <p class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      UFAGOOL
+      <strong class="text-[#f4f7fa]">รวมเกมพนันหลายหมวดให้เลือกจากหน้าเดียว</strong>
+      ทั้งการเดิมพันกีฬา คาสิโนสด สล็อต และเกมรูปแบบอื่นตามรายการที่เปิดให้บริการ
+      <strong class="text-[#f4f7fa]">โดยเน้นการเชื่อมต่อผ่านเครือแบรนด์โดยตรงตามข้อมูลของเว็บไซต์</strong>
+      <strong class="text-[#f4f7fa]">ช่วยลดขั้นตอนการใช้งานและทำให้สมาชิกเลือกเกมจากหลายค่ายได้โดยไม่ต้องสลับหลายระบบ</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxCyberCut>
 
   <ProviderGrid />
 
-  <ContentBox as="h2" title="โปรโมชั่นสูงสุดในวงการ กดรับหลังสมัคร THE88 ไม่ต้องฝาก">
-    <p class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      โปรโมชั่น THE88
-      <strong class="text-[#ffe7a6]">มีสิทธิ์สำหรับสมาชิกให้เลือกหลายรูปแบบ</strong>
-      โดยบางรายการสามารถตรวจสอบและกดรับหลังสมัครได้ตามเงื่อนไขที่กำหนด
-      <strong class="text-[#ffe7a6]">มีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
-      พร้อมรายละเอียดของแต่ละรายการให้ตรวจสอบก่อนรับ เพื่อให้สมาชิกเลือกสิทธิ์ได้ตรงกับความต้องการมากขึ้น
+  <ContentBox as="h2" title="โปรโมชั่นสูง กดรับหลังสมัคร UFAGOOL ไม่ต้องฝาก">
+    <p class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      โปรโมชั่น UFAGOOL
+      <strong class="text-[#f4f7fa]">มีสิทธิ์สำหรับสมาชิกใหม่และสมาชิกเดิมให้เลือกตามเงื่อนไขของแต่ละรายการ</strong>
+      <strong class="text-[#f4f7fa]">โดยบางโปรโมชั่นสามารถตรวจสอบและกดรับหลังสมัครได้โดยไม่ต้องฝากก่อนตามที่ระบบกำหนด</strong>
+      พร้อมโบนัสแนะนำเพื่อนและคืนยอดเสียที่สามารถดูรายละเอียดก่อนรับสิทธิ์ได้จากหน้าโปรโมชั่น
     </p>
   </ContentBox>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" titleright="แนะนำเพื่อน โบนัส 0.8%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 382px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="แบนเนอร์โปรโมชั่นพื้นแดง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีแดงสลับขาวที่มีคำว่า THE88 อยู่บนชุด กำหมัดชูขึ้นหนึ่งข้าง ด้านขวาเป็นโลโก้ THE88 ตัวอักษร THE สีแดงเงาขอบทองและเลข 88 สีครีมขอบทอง ถัดลงมาเป็นข้อความสีขาวขอบทองว่า โปรโมชั่น และคำว่า แนะนำเพื่อน ล่างสุดเป็นตัวเลขสีทองขนาดใหญ่ว่า 0.8% รอบภาพมีเหรียญทอง กล่องของขวัญผูกโบว์แดง และเหรียญคาสิโนแดงทองลายมงกุฎลอยอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#6b0302]/55 shadow-[0_10px_30px_rgba(164,2,1,0.45)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      สมาชิก THE88
-      <strong class="text-[#ffe7a6]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส</strong>
-      <strong class="text-[#f2c14e]">0.8%</strong>
-      <strong class="text-[#ffe7a6]">ตามเงื่อนไขของกิจกรรม</strong>
-      ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ ช่วยให้ติดตามโบนัสจากการแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก
-    </p>
-  </ContentBoxSevenThreeNeumorphism>
-
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreePremium as="h3" titleright="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 353px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 338px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์โปรโมชั่นพื้นแดง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดสีแดงสลับขาวที่มีคำว่า THE88 อยู่บนชุด ยกมือขึ้นหนึ่งข้างแบบแบมือ ด้านขวาเป็นโลโก้ THE88 ตัวอักษร THE สีแดงเงาขอบทองและเลข 88 สีครีมขอบทอง ถัดลงมาเป็นข้อความสีขาวขอบทองว่า โปรโมชั่น และคำว่า คืนยอดเสีย ล่างสุดเป็นตัวเลขสีทองขนาดใหญ่ว่า 0.3% รอบภาพมีเหรียญทอง ไพ่โพดำ และเหรียญคาสิโนแดงทองลายมงกุฎลอยอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#6b0302]/55 shadow-[0_10px_30px_rgba(164,2,1,0.45)]"
+      alt="แบนเนอร์โปรโมชั่นพื้นแดงเข้มมีลูกฟุตบอลและเส้นแสง ด้านซ้ายเป็นนักกีฬาชายผมสีเข้มสวมเสื้อแดงที่มีคำว่า UFAGOOL กอดอก ด้านบนเป็นโลโก้ UFAGOOL ตัวอักษร UFA สีแดงเงาและ GOOL สีเงินโครเมียม ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น และป้ายสีแดงเขียนว่า แนะนำเพื่อน ล่างสุดเป็นตัวเลขสีขาวขนาดใหญ่ว่า 0.8% รอบภาพมีเหรียญทองและกล่องของขวัญสีแดง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#5e0507]/55 shadow-[0_10px_30px_rgba(197,13,18,0.45)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      โปรโมชั่นคืนยอดเสียของ THE88
-      <strong class="text-[#ffe7a6]">ให้โบนัส</strong>
-      <strong class="text-[#f2c14e]">0.3%</strong>
-      <strong class="text-[#ffe7a6]">ตามยอดและเงื่อนไขที่กำหนด</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      สมาชิก UFAGOOL
+      <strong class="text-[#f4f7fa]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส</strong>
+      <strong class="text-[#ff5a5f]">0.8%</strong>
+      <strong class="text-[#f4f7fa]">ตามเงื่อนไขของกิจกรรม</strong>
+      ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ ช่วยให้ติดตามโบนัสจากการแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิกโดยตรง
+    </p>
+  </ContentBoxSevenThreePremium>
+
+  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[340, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), 346px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="แบนเนอร์โปรโมชั่นพื้นแดงเข้มมีลูกฟุตบอลและเส้นแสง ด้านซ้ายเป็นผู้หญิงผมยาวสีเข้มสวมชุดเชียร์สีแดงขาวที่มีคำว่า UFAGOOL ด้านขวาเป็นนักกีฬาชายสวมเสื้อแดงคำว่า UFAGOOL ด้านบนเป็นโลโก้ UFAGOOL ตัวอักษร UFA สีแดงเงาและ GOOL สีเงินโครเมียม ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น และป้ายสีแดงเขียนว่า คืนยอดเสีย ล่างสุดเป็นตัวเลขสีขาวขนาดใหญ่ว่า 0.3%"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#5e0507]/55 shadow-[0_10px_30px_rgba(197,13,18,0.45)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      โปรโมชั่นคืนยอดเสียของ UFAGOOL
+      <strong class="text-[#f4f7fa]">ให้โบนัส</strong>
+      <strong class="text-[#ff5a5f]">0.3%</strong>
+      <strong class="text-[#f4f7fa]">ตามยอดและเงื่อนไขที่กำหนด</strong>
       สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับได้จากหน้าโปรโมชั่น ช่วยให้ติดตามสิทธิ์ของตัวเองในแต่ละรอบได้ชัดเจนมากขึ้น
     </p>
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSpecial as="h2" title="ระบบ THE88 ฝากถอนวอลเลทและธนาคารชั้นนำ" iconleft="💳" iconright="🏦">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      ระบบ THE88
-      <strong class="text-[#ffe7a6]">รองรับช่องทางฝากถอนผ่านวอลเลทและธนาคารที่เว็บไซต์กำหนด</strong>
-      สมาชิกสามารถเลือกช่องทางที่สะดวก
-      <strong class="text-[#ffe7a6]">พร้อมตรวจสอบยอดเครดิตและสถานะรายการผ่านบัญชีของตัวเองได้</strong>
-    </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      <strong class="text-[#ffe7a6]">ขั้นตอนถูกจัดให้เข้าใจง่าย</strong>
-      ช่วยให้จัดการรายการต่าง ๆ ได้จากหน้าเว็บไซต์โดยไม่ต้องสลับหลายระบบ
-    </p>
-  </ContentBoxSpecial>
+  <ContentBox as="h2" title="สมัคร UFAGOOL ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ">
+    <div class="flex flex-col gap-5">
+      <p class="text-left text-base leading-relaxed text-[#cdd5dd]">
+        การสมัคร UFAGOOL
+        <strong class="text-[#f4f7fa]">สามารถทำผ่านมือถือได้ด้วยตัวเอง</strong>
+        <strong class="text-[#f4f7fa]">ขั้นตอนไม่ซับซ้อนและใช้เวลาไม่นาน</strong>
+        หลังสมัครเสร็จสามารถเข้าสู่ระบบเพื่อเลือกกีฬา คาสิโน หรือเกมประเภทที่สนใจได้ทันที โดยมีขั้นตอนหลักดังนี้
+      </p>
+      <ol class="list-decimal space-y-2 pl-6 text-left text-base leading-relaxed text-[#cdd5dd] marker:font-black marker:text-[#ef1f25]">
+        <li>เปิดหน้าสมัคร UFAGOOL ผ่านมือถือ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
+        <li>ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
+        <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกหมวดกีฬา คาสิโน สล็อต หรือเกมที่ต้องการได้ทันที</li>
+      </ol>
+    </div>
+  </ContentBox>
 
-  <ContentBoxTwoNeumorphism as="h2" title="แอดมิน THE88 ดูแลสมาชิกตลอด 24 ชั่วโมง" titleleft="ติดต่อแอดมินได้ทุกช่วงเวลา" titleright="ทีมงานช่วยตรวจสอบและแนะนำขั้นตอน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร โปรโมชั่น เกม การเข้าใช้งาน หรือระบบฝากถอน
-      <strong class="text-[#ffe7a6]">สามารถติดต่อแอดมิน THE88 ได้ตลอด 24 ชั่วโมง</strong>
+  <ContentBoxTwoPremium as="h2" title="แอดมิน UFAGOOL ดูแลสมาชิกตลอด 24 ชั่วโมง">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร ทางเข้า โปรโมชั่น การเลือกเกม หรือการใช้งานบัญชี
+      <strong class="text-[#f4f7fa]">สามารถติดต่อแอดมิน UFAGOOL ได้ตลอด 24 ชั่วโมง</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f7e3dd]">
-      <strong class="text-[#ffe7a6]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#cdd5dd]">
+      <strong class="text-[#f4f7fa]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
       เพื่อให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลที่ต้องการได้สะดวกทุกช่วงเวลา
     </p>
-  </ContentBoxTwoNeumorphism>
+  </ContentBoxTwoPremium>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 
