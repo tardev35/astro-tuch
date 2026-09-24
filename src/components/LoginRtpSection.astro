@@ -4,139 +4,148 @@
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// 888PARUAY เป็นแบรนด์หวยล้วน ไม่มีสล็อตและไม่มีคาสิโนอยู่ในบรีฟเลย แผงฝั่งขวาจึง
-// ถูกเปลี่ยนจากตาราง RTP/ความผันผวนของเกมสล็อต (ซึ่งเป็นแนวคิดของเว็บสล็อต) มาเป็น
-// สองกลุ่มที่บรีฟระบุไว้จริง คือ อัตราจ่ายที่เอกสารให้ไว้เป็นตัวเลข (เลข 2 ตัวจ่าย
-// 100 · เลข 3 ตัวจ่าย 1,000) และรอบเปิด–ปิดรับของสี่ตลาด (รัฐบาลไทย ฮานอย ลาวพัฒนา
-// หุ้นต่างประเทศ)
+// MAHAGAME66 เป็นเว็บพนันรวมเกม ไม่ใช่เว็บหวยล้วนอย่างแบรนด์รอบก่อน แผงฝั่งขวาจึง
+// ถูกเปลี่ยนจากตารางอัตราจ่ายหวยกับรอบเปิด–ปิดรับของตลาดหวย มาเป็นสองกลุ่มที่บรีฟ
+// ระบุไว้จริง คือ หมวดเกมที่เปิดให้บริการ (บาคาร่า สล็อต หวย บอล รูเล็ต และหมวด
+// เกมไลฟ์สด) และสิ่งที่สมาชิกตรวจสอบได้ก่อนเข้าเล่น (ค่ายเกม รายละเอียดโต๊ะ
+// รูปแบบเดิมพัน)
 //
-// ไม่มีแถวไหนระบุเวลาเปิด–ปิดเป็นตัวเลขนาฬิกา เพราะบรีฟเขียนไว้แค่ว่า "แต่ละประเภท
-// จะมีช่วงเวลาเปิดและปิดรับแตกต่างกันตามรอบที่ระบบกำหนด" การเติมเวลาเองคือการแต่ง
-// ข้อมูลขึ้นมา เช่นเดียวกับวันออกรางวัล ใบอนุญาต จำนวนสมาชิก และชื่อค่ายเกม
-const payouts = [
+// ไม่มีแถวไหนระบุชื่อค่ายเกม ชื่อเกม ค่า RTP ความผันผวน ขั้นต่ำการเดิมพัน หรือ
+// ตัวเลขอัตราจ่ายใดๆ เพราะบรีฟไม่ได้ให้ไว้เลย — ตัวเลขสองตัวเดียวที่บรีฟให้คือ
+// โบนัสแนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% ซึ่งอยู่ในหัวข้อ H3 ของหน้าแล้ว การเติม
+// ตัวเลขหรือชื่อค่ายลงตารางนี้คือการแต่งข้อมูลขึ้นมา
+const categories = [
   {
-    icon: "💯",
-    name: "เลข 2 ตัว",
-    detail: "ระบุอัตราจ่ายไว้ที่ 100 ตามเงื่อนไขของรายการ เลือกเลขที่ต้องการ ตรวจสอบรอบเปิดรับ และเช็กรายละเอียดของบิลก่อนกดยืนยันได้",
-    rate: "จ่าย 100",
+    icon: "🃏",
+    name: "บาคาร่า",
+    detail: "อยู่ในหมวดที่ระบบจัดไว้ ตรวจสอบรายละเอียดโต๊ะและรูปแบบเดิมพันก่อนเข้าเล่นได้",
+    tag: "เลือกจากเมนูหมวดหมู่",
   },
   {
-    icon: "🔢",
-    name: "เลข 3 ตัว",
-    detail: "ระบุอัตราจ่ายไว้ที่ 1,000 ตามเงื่อนไขที่กำหนด ก่อนส่งรายการตรวจสอบตัวเลข ประเภทหวย รอบเวลา และอัตราจ่ายได้อีกครั้ง",
-    rate: "จ่าย 1,000",
-  },
-];
-
-const markets = [
-  {
-    icon: "🏛️",
-    name: "หวยรัฐบาลไทย",
-    detail: "ตรวจสอบรอบเปิดรับ เลือกตัวเลข และดูรายละเอียดของรายการได้จากหน้าเดียว",
-    rate: "แยกรอบเปิด–ปิดรับ",
-  },
-  {
-    icon: "🏮",
-    name: "หวยฮานอย",
-    detail: "ช่วงเวลาเปิดและปิดรับของรายการนี้เป็นไปตามรอบที่ระบบกำหนดในแต่ละวัน",
-    rate: "รอบตามที่ระบบกำหนด",
+    icon: "🎰",
+    name: "สล็อต",
+    detail: "เปิดให้เลือกจากหน้ารวมเกม ตรวจสอบค่ายที่รองรับได้ก่อนเข้าใช้งาน",
+    tag: "ดูค่ายที่รองรับได้",
   },
   {
     icon: "🎫",
-    name: "หวยลาวพัฒนา",
-    detail: "อยู่ในหน้ารวมหวยเดียวกับตลาดอื่น เลือกตัวเลขและดูรายละเอียดได้โดยไม่ต้องสลับหน้า",
-    rate: "ดูจากหน้าเดียว",
+    name: "หวย",
+    detail: "เป็นหนึ่งในหมวดที่รวมอยู่ในระบบเดียว เข้าถึงได้จากบัญชีสมาชิกเดียวกัน",
+    tag: "อยู่ในบัญชีเดียว",
   },
   {
-    icon: "📈",
-    name: "หวยหุ้นต่างประเทศ",
-    detail: "เปิดรับในระบบเดียวกัน ตรวจสอบรอบและรายละเอียดของแต่ละรายการก่อนยืนยันได้",
-    rate: "ตรวจก่อนยืนยัน",
+    icon: "⚽",
+    name: "บอล",
+    detail: "จัดอยู่ในเมนูหมวดหมู่เดียวกับเกมอื่น เลือกรายการที่ต้องการได้จากหน้ารวมเกม",
+    tag: "เมนูจัดหมวดหมู่ชัดเจน",
+  },
+  {
+    icon: "🎡",
+    name: "รูเล็ต",
+    detail: "เปิดให้บริการตามรายการที่เว็บไซต์ระบุ ตรวจสอบรูปแบบเดิมพันก่อนเข้าเล่นได้",
+    tag: "ตรวจก่อนเข้าเล่น",
+  },
+  {
+    icon: "📺",
+    name: "หมวดเกมไลฟ์สด",
+    detail: "เชื่อมต่อจากผู้ให้บริการตามข้อมูลของเว็บไซต์ และเปิดตามรายการที่ให้บริการ",
+    tag: "ตามรายการที่เปิดให้บริการ",
   },
 ];
 
-const chips = [
-  "หวยรัฐบาลไทย",
-  "หวยฮานอย",
-  "ลาวพัฒนา",
-  "หุ้นต่างประเทศ",
-  "แทงได้ 24 ชั่วโมง",
-  "2 ตัวจ่าย 100",
-  "3 ตัวจ่าย 1,000",
-  "ตรวจหวยจากหน้าเดียว",
-  "สมัครผ่านมือถือ 3 ขั้นตอน",
-  "แอดมิน 24 ชั่วโมง",
+const checks = [
+  {
+    icon: "🏷️",
+    name: "ค่ายเกมที่รองรับ",
+    detail: "ตรวจสอบได้จากหน้ารวมเกมก่อนเข้าใช้งาน ตามรายการที่เว็บไซต์ระบุไว้",
+    tag: "ดูจากหน้ารวมเกม",
+  },
+  {
+    icon: "🪑",
+    name: "รายละเอียดโต๊ะ",
+    detail: "เปิดดูได้ก่อนกดเข้าเล่น ช่วยให้เลือกเกมที่ตรงกับความสนใจได้สะดวกขึ้น",
+    tag: "ดูก่อนกดเข้าเล่น",
+  },
+  {
+    icon: "🧾",
+    name: "รูปแบบเดิมพัน",
+    detail: "แสดงไว้ให้ตรวจสอบก่อนเข้าเล่น ตามข้อมูลที่เว็บไซต์กำหนดของแต่ละรายการ",
+    tag: "ตามข้อมูลของเว็บไซต์",
+  },
 ];
 
-// 888PARUAY palette (ทอง-เขียวเข้ม-แดง): ทั้งสองแผงวางบนพื้นการ์ดเขียวเข้ม #0d2312
-// เหนือพื้นเพจ #07130a แผงล็อกอินอยู่ในกรอบทองหลัก #fcdc2b ส่วนแผงรายการอยู่ในกรอบ
-// ทองลึก #a87d0c — แยกสองแผงด้วยความสว่างของกรอบ ช่องกรอกและชิปตกลงไปที่พื้นเพจใน
-// เส้นพื้นยก #143a1c ตัวเน้นที่เป็นตัวเลขรับไล่เฉดทอง-เขียว-แดงตามลำดับสีในโลโก้
-// ปุ่มเข้าสู่ระบบเป็นทองเต็มตัว (#fff6ae → #fcdc2b → #a87d0c) บนตัวอักษรสีพื้นเพจ
-// เพราะทองคือวงแหวนของโลโก้ เขียวกับแดงเป็นคู่สีของตัวอักษร ปุ่ม LINE ยังคงสีเขียว
-// #00B900 ของแพลตฟอร์ม
+const chips = ["บาคาร่า", "สล็อต", "หวย", "บอล", "รูเล็ต", "หมวดเกมไลฟ์สด", "รองรับมือถือและคอมพิวเตอร์", "เมนูจัดหมวดหมู่ชัดเจน", "เข้าใช้งานจากบัญชีเดียว", "แอดมิน 24 ชั่วโมง"];
+
+// MAHAGAME66 palette (แดง-ดำ-เงินโครเมียม): ทั้งสองแผงวางบนผิวการ์ด #16090a เหนือ
+// พื้นเพจเกือบดำ #080506 แผงล็อกอินอยู่ในกรอบแดงแบรนด์ #de161d ส่วนแผงหมวดเกมอยู่ใน
+// กรอบแดงลึก #7a0a0e — แยกสองแผงด้วยความสว่างของกรอบ ช่องกรอกและชิปตกลงไปที่พื้นเพจ
+// ในเส้นผิวการ์ดยก #26100f ตัวเน้นที่เป็นชื่อหมวดรับไล่เฉดเงิน-แดงตามลำดับสีในโลโก้
+// ที่ MAHA เป็นเงิน GAME เป็นแดง และ 66 กลับมาเป็นเงิน ปุ่มเข้าสู่ระบบเป็นแดงเต็มตัว
+// (#ff4d52 → #de161d → #7a0a0e) บนตัวอักษรสีพื้นเพจ ปุ่ม LINE ยังคงสีเขียว #00B900
+// ของแพลตฟอร์ม — ชุดทอง-เขียวของ 888PARUAY (#fcdc2b #fff6ae #a87d0c #1fae1c
+// #cf1111 #0d2312 #07130a #143a1c #e8e4c6 #fffdf0) ออกทั้งหมด
 ---
 
 <ContentBoxTwo
   titleleft={`เข้าสู่ระบบ ${BRAND_NAME}`}
-  titleright={`อัตราจ่ายและรอบเปิด–ปิดรับที่ ${BRAND_NAME} ระบุไว้`}
-  label={`เข้าสู่ระบบ ${BRAND_NAME} พร้อมอัตราจ่ายเลข 2 ตัวและ 3 ตัว และรอบเปิด–ปิดรับของหวยรัฐบาลไทย ฮานอย ลาวพัฒนา และหุ้นต่างประเทศ ตามเงื่อนไขที่เว็บระบุไว้`}>
+  titleright={`หมวดเกมที่ ${BRAND_NAME} เปิดให้บริการ`}
+  label={`เข้าสู่ระบบ ${BRAND_NAME} พร้อมรายการหมวดเกมที่เปิดให้บริการ ทั้งบาคาร่า สล็อต หวย บอล รูเล็ต และหมวดเกมไลฟ์สด พร้อมสิ่งที่ตรวจสอบได้ก่อนเข้าเล่นตามข้อมูลของเว็บไซต์`}>
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#fcdc2b]/45 bg-[#0d2312]/94 p-6 shadow-[0_10px_30px_rgba(7,19,10,0.72)] backdrop-blur-md">
-      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#fcdc2b]/28 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#de161d]/45 bg-[#16090a]/94 p-6 shadow-[0_10px_30px_rgba(8,5,6,0.8)] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#de161d]/28 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#fcdc2b]/70 bg-gradient-to-br from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] text-xl shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#de161d]/70 bg-gradient-to-br from-[#ff4d52] via-[#de161d] to-[#7a0a0e] text-xl shadow-inner">
           👋
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#fff6ae]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#e8e4c6]/75">
-            ล็อคอินเข้า {BRAND_NAME} เพื่อเลือกหวยรัฐบาลไทย ฮานอย ลาวพัฒนา หรือหุ้นต่างประเทศ ตรวจสอบรอบเปิดรับและผลหวยได้จากหน้าเดียว รองรับการใช้งานผ่านมือถือ
+          <p class="text-base font-black text-[#fff6f5]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#e8e3e1]/75">
+            ล็อคอินเข้า {BRAND_NAME} เพื่อเลือกบาคาร่า สล็อต หวย บอล รูเล็ต หรือหมวดเกมไลฟ์สด ตรวจสอบค่ายเกมและรูปแบบเดิมพันก่อนเข้าเล่นได้จากบัญชีเดียว รองรับทั้งมือถือและคอมพิวเตอร์
           </span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e8e4c6]/70">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e8e3e1]/70">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#143a1c] bg-[#07130a]/95 py-3 pr-4 pl-12 text-[#e8e4c6] transition-all outline-none placeholder:text-[#e8e4c6]/50 focus:border-[#fcdc2b] focus:ring-1 focus:ring-[#1fae1c]/60"
+            class="w-full rounded-xl border border-[#26100f] bg-[#080506]/95 py-3 pr-4 pl-12 text-[#e8e3e1] transition-all outline-none placeholder:text-[#e8e3e1]/50 focus:border-[#de161d] focus:ring-1 focus:ring-[#ff4d52]/60"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e8e4c6]/70">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e8e3e1]/70">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#143a1c] bg-[#07130a]/95 py-3 pr-4 pl-12 text-[#e8e4c6] transition-all outline-none placeholder:text-[#e8e4c6]/50 focus:border-[#fcdc2b] focus:ring-1 focus:ring-[#1fae1c]/60"
+            class="w-full rounded-xl border border-[#26100f] bg-[#080506]/95 py-3 pr-4 pl-12 text-[#e8e3e1] transition-all outline-none placeholder:text-[#e8e3e1]/50 focus:border-[#de161d] focus:ring-1 focus:ring-[#ff4d52]/60"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#e8e4c6]/75">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#143a1c] bg-[#07130a] accent-[#fcdc2b]" />
+          <label class="flex items-center gap-2 text-[#e8e3e1]/75">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#26100f] bg-[#080506] accent-[#de161d]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#e8e4c6]/75 transition-colors hover:text-[#fff6ae]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#e8e3e1]/75 transition-colors hover:text-[#ff4d52]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#fff6ae]/70 bg-gradient-to-r from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] p-3.5 text-center font-black text-[#07130a] shadow-[0_10px_30px_rgba(252,220,43,0.42)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(255,246,174,0.34)]">
+          class="mt-1 block w-full rounded-xl border border-[#ff4d52]/70 bg-gradient-to-r from-[#ff4d52] via-[#de161d] to-[#7a0a0e] p-3.5 text-center font-black text-[#080506] shadow-[0_10px_30px_rgba(222,22,29,0.45)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(255,77,82,0.36)]">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#e8e4c6]/75">
-          <span aria-hidden="true" class="h-px flex-1 bg-[#143a1c]"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#e8e3e1]/75">
+          <span aria-hidden="true" class="h-px flex-1 bg-[#26100f]"></span>
           หรือ
-          <span aria-hidden="true" class="h-px flex-1 bg-[#143a1c]"></span>
+          <span aria-hidden="true" class="h-px flex-1 bg-[#26100f]"></span>
         </div>
 
         <a
@@ -147,83 +156,83 @@ const chips = [
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#143a1c] bg-[#07130a] px-2.5 py-1 text-[10px] font-bold text-[#e8e4c6]"><span aria-hidden="true">🎫</span> แทงหวยและตรวจหวยในระบบเดียว</span>
-            <span class="rounded-full border border-[#cf1111]/45 bg-[#07130a]/85 px-2.5 py-1 text-[10px] font-bold text-[#fff6ae]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
+            <span class="rounded-full border border-[#26100f] bg-[#080506] px-2.5 py-1 text-[10px] font-bold text-[#e8e3e1]"><span aria-hidden="true">🎴</span> รวมทุกหมวดเกมในระบบเดียว</span>
+            <span class="rounded-full border border-[#de161d]/45 bg-[#080506]/85 px-2.5 py-1 text-[10px] font-bold text-[#e2e8ef]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#fff6ae] transition-colors hover:text-[#fffdf0]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#e2e8ef] transition-colors hover:text-[#fff6f5]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#a87d0c]/70 bg-[#0d2312]/94 p-5 shadow-[0_10px_30px_rgba(7,19,10,0.68)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#7a0a0e]/70 bg-[#16090a]/94 p-5 shadow-[0_10px_30px_rgba(8,5,6,0.78)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#e8e4c6]/75">อัตราจ่ายที่เว็บระบุไว้ ตรวจสอบได้ก่อนยืนยันรายการทุกครั้ง</span>
-          <div class="bg-gradient-to-r from-[#fff6ae] via-[#1fae1c] to-[#cf1111] bg-clip-text text-3xl font-black text-transparent sm:text-4xl">2 ตัวจ่าย 100 · 3 ตัวจ่าย 1,000</div>
+          <span class="text-xs font-bold tracking-wide text-[#e8e3e1]/75">หมวดเกมที่ระบบจัดไว้ ตรวจสอบค่ายและรายละเอียดได้ก่อนเข้าเล่นทุกครั้ง</span>
+          <div class="bg-gradient-to-r from-[#e2e8ef] via-[#ff4d52] to-[#de161d] bg-clip-text text-2xl font-black text-transparent sm:text-3xl">บาคาร่า · สล็อต · หวย · บอล · รูเล็ต</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#143a1c] bg-[#07130a]/85 px-2.5 py-1">
-          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1fae1c] shadow-[0_0_8px_rgba(31,174,28,0.85)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#fff6ae] uppercase">รอบที่เปิดรับ</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#26100f] bg-[#080506]/85 px-2.5 py-1">
+          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#de161d] shadow-[0_0_8px_rgba(222,22,29,0.85)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-[#e2e8ef] uppercase">หมวดเกมไลฟ์สด</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e8e4c6]/75 uppercase">
-        <span>อัตราจ่ายตามเงื่อนไขของรายการ</span>
-        <span>เรทที่ระบุ</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e8e3e1]/75 uppercase">
+        <span>หมวดเกมตามรายการที่เปิดให้บริการ</span>
+        <span>การเข้าถึง</span>
       </div>
 
       <div class="mb-4 flex flex-col gap-2.5">
         {
-          payouts.map((p) => (
-            <div class="rounded-xl border border-[#fcdc2b]/35 bg-[#07130a]/95 px-3.5 py-2.5 transition-colors hover:border-[#fcdc2b]/70 hover:bg-[#143a1c]/85">
+          categories.map((c) => (
+            <div class="rounded-xl border border-[#de161d]/35 bg-[#080506]/95 px-3.5 py-2.5 transition-colors hover:border-[#de161d]/70 hover:bg-[#26100f]/85">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#fff6ae]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#fff6f5]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
-                    {p.icon}
+                    {c.icon}
                   </span>{" "}
-                  <span class="truncate">{p.name}</span>
+                  <span class="truncate">{c.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#fcdc2b]/60 bg-gradient-to-r from-[#fff6ae] to-[#a87d0c] px-2.5 py-0.5 text-[10px] font-black text-[#07130a]">{p.rate}</span>
+                <span class="shrink-0 rounded-full border border-[#de161d]/60 bg-gradient-to-r from-[#ff4d52] to-[#7a0a0e] px-2.5 py-0.5 text-[10px] font-black text-[#080506]">{c.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#e8e4c6]/75">{p.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#e8e3e1]/75">{c.detail}</div>
             </div>
           ))
         }
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e8e4c6]/75 uppercase">
-        <span>รอบเปิด–ปิดรับของแต่ละตลาด</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e8e3e1]/75 uppercase">
+        <span>ตรวจสอบได้ก่อนเข้าเล่น</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="flex flex-1 flex-col gap-2.5">
         {
-          markets.map((m) => (
-            <div class="rounded-xl border border-[#143a1c] bg-[#07130a]/95 px-3.5 py-2.5 transition-colors hover:border-[#fcdc2b]/70 hover:bg-[#143a1c]/85">
+          checks.map((k) => (
+            <div class="rounded-xl border border-[#26100f] bg-[#080506]/95 px-3.5 py-2.5 transition-colors hover:border-[#de161d]/70 hover:bg-[#26100f]/85">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#e8e4c6]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#e8e3e1]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
-                    {m.icon}
+                    {k.icon}
                   </span>{" "}
-                  <span class="truncate">{m.name}</span>
+                  <span class="truncate">{k.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#a87d0c]/60 bg-[#07130a] px-2.5 py-0.5 text-[10px] font-bold text-[#fff6ae]">{m.rate}</span>
+                <span class="shrink-0 rounded-full border border-[#7a0a0e]/70 bg-[#080506] px-2.5 py-0.5 text-[10px] font-bold text-[#e2e8ef]">{k.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#e8e4c6]/75">{m.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#e8e3e1]/75">{k.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#143a1c] bg-[#07130a] px-3 py-1 text-[10px] font-bold text-[#e8e4c6]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#26100f] bg-[#080506] px-3 py-1 text-[10px] font-bold text-[#e8e3e1]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#e8e4c6]/75">
-        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมหวยรัฐบาลไทย ฮานอย ลาวพัฒนา และหุ้นต่างประเทศ ไว้ในระบบเดียว อัตราจ่ายเลข 2 ตัวที่ 100 และเลข 3 ตัวที่ 1,000 ส่วนรายการที่เปิดรับและช่วงเวลาเปิด–ปิดรับของแต่ละรอบอาจแตกต่างกันตามที่ระบบกำหนด
-        ให้ยึดรายละเอียดล่าสุดที่ปรากฏในหน้ารวมหวยและหน้าตรวจผลก่อนยืนยันรายการ และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#e8e3e1]/75">
+        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมบาคาร่า สล็อต หวย บอล รูเล็ต และหมวดเกมไลฟ์สดไว้ในระบบเดียว การเชื่อมต่อจากผู้ให้บริการตามข้อมูลของเว็บไซต์ และการตรวจสอบค่ายเกม รายละเอียดโต๊ะ
+        กับรูปแบบเดิมพันก่อนเข้าเล่น ส่วนรายการที่เปิดให้บริการในแต่ละช่วงอาจแตกต่างกันตามที่ระบบกำหนด ให้ยึดรายละเอียดล่าสุดที่ปรากฏในหน้ารวมเกมก่อนเข้าใช้งาน และไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
       </div>
     </div>
   </div>

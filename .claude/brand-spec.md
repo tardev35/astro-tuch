@@ -1,272 +1,223 @@
-# BRAND SPEC — MGM9 (rebrand 2026-08-26)
+# BRAND SPEC — MAHAGAME66 (รอบ 2026-09-24)
 
-**This file is the single source of truth for this rebrand.**
-Do NOT re-extract the docx. Do NOT re-choose variants. Read this, then edit only the
-files your brief assigns you.
+ไฟล์นี้คือ **แหล่งความจริงเดียว** ของรอบรีแบรนด์นี้ ทุก subagent อ่านไฟล์นี้
+**ห้ามแตกเนื้อหาจาก docx ใหม่เอง และห้ามเลือก variant เอง** (orchestrator เลือกไว้แล้ว §5)
 
 ---
 
-## 1. Brand identity
+## 1. แบรนด์ + โดเมน
 
-| | |
-|---|---|
-| Brand name | **MGM9** |
-| Real URL | `https://mgm9-vip.com` |
-| Previous brand (remove every trace) | **หวยกินดี365** (also written `หวยกินดี 365`, `กินดี365`) |
-| Genre | Full-service Thai casino — บาคาร่า / สล็อต / บอล / หวย |
-| Mood | Electric chrome-blue neon on deep navy. Glass, ice-white glow, motion streaks. **NOT gold.** |
-| Font | `google-sans` (rotated from `kanit`) |
-
-The outgoing brand was navy **+ GOLD**. MGM9 is navy **+ ELECTRIC BLUE / ICE WHITE**.
-Dropping the gold is the single most important visual change — if a component still
-has amber/gold accents when you are done, the rebrand failed.
-
-## 2. Palette — exact hex mapping
-
-Replace **every** occurrence of a left-hand value with its right-hand value.
-
-### Gold family → electric blue (the critical swap)
-
-| old (gold) | new (blue) | role |
+| ค่า | ของรอบนี้ | รอบก่อน (ต้องหายไปให้หมด) |
 |---|---|---|
-| `#f6db6b` | `#4aa4f4` | primary accent |
-| `#fbe473` | `#9ad4ff` | bright accent / strong text |
-| `#e9c55d` | `#4aa4f4` | primary accent (alt spelling) |
-| `#fbeeb8` | `#c9e8ff` | gradient light stop |
-| `#f3db5b` | `#4aa4f4` | primary accent (navbar/footer spelling) |
-| `#fff3bf` | `#c9e8ff` | gradient light stop |
-| `#e3c56a` | `#4aa4f4` | primary accent (Special/3Three spelling) |
-| `#f7e8b4` | `#c9e8ff` | gradient light stop |
-| `#f6da73` | `#9ad4ff` | bright accent |
-| `#d0a63a` | `#1f74d6` | mid accent |
-| `#c9a23a` | `#1f74d6` | mid accent |
-| `#a37c14` | `#0b4ea8` | dark accent / gradient dark stop |
-| `#7e5f1f` | `#0b4ea8` | dark accent / gradient dark stop |
-| `#8a6a26` | `#0b4ea8` | dark accent |
-| `#6b5316` | `#083a80` | deepest accent |
-| `#5c4415` | `#083a80` | deepest accent |
-| `#d4af37` | `#4aa4f4` | metallic gold |
-| `#bdb08c` | `#a8c8ea` | muted gold-grey → muted blue-grey |
-| `#e6dcc2` | `#dbeaff` | pale gold-grey → pale blue-grey |
-| `#3a2a0c` | `#062a5e` | very dark gold-brown |
-| `#241a08` | `#04203f` | very dark gold-brown |
-| `#fcd34d` | `#4aa4f4` | tailwind amber-300 hex |
+| ชื่อแบรนด์ | **MAHAGAME66** | 888PARUAY |
+| โดเมนจริง | **https://maha-game66.co** | https://888-paruay.co |
+| `wrangler.toml` name | `maha-game66` | `888-paruay` |
+| ฟอนต์ (`BRAND_FONT`) | **`kanit`** | `google-sans` |
+| `BRAND_TEXT` | **`#e8e3e1`** | `#e8e4c6` |
 
-### Blue / surface family → MGM9 blues
+โดเมนถูกระบุมาในพรอมต์ชัดเจน → แก้ **3 ไฟล์**: `astro.config.mjs` (`site:`),
+`wrangler.toml` (`name`), และ schema `url:` ใน index (รอบนี้ index ใช้ `pageGraph`
+ซึ่งดึงจาก `site:` เองอยู่แล้ว จึงไม่มี string literal ให้แก้) — `account_id` **ห้ามแตะ**
 
-| old | new | role |
+---
+
+## 2. พาเลตต์ MAHAGAME66 — แดง + ดำ + เงินโครเมียม
+
+มาจากโลโก้จริง: ตัวอักษร `MAHA`/`66` เป็นดำ-เงิน ส่วน `GAME` เป็นแดงสด `#de161d`
+(palette.json → `logo.webp.vivid[0]`) บนพื้นเกือบดำ (`dominant` = `#030303`/`#0c0c0c`)
+แบนเนอร์ยืนยันโทนเดียวกัน: โต๊ะคาสิโนดำ ไฟแดง ตัวอักษรโครเมียมเงิน
+
+| บทบาท | hex | ใช้ตรงไหน |
 |---|---|---|
-| `#dce7fb` | `#d3e6ff` | body text (= `BRAND_TEXT`) |
-| `#dbe4f5` | `#d3e6ff` | body text (alt spelling) |
-| `#d6e2f5` | `#d3e6ff` | body text (alt spelling) |
-| `#cfe4ff` / `#cfd8e6` / `#cfd8c8` / `#e4e7d8` | `#d3e6ff` | body text (alt spellings) |
-| `#a9c4e8` / `#a9bda9` | `#a8c8ea` | muted text |
-| `#5ec2f5` | `#5ee7ff` | cyan spark / secondary accent |
-| `#1baafa` | `#5ee7ff` | cyan spark |
-| `#7df3f5` | `#5ee7ff` | cyan spark |
-| `#0bcacd` | `#4aa4f4` | teal → primary blue |
-| `#0a7c8c` | `#0b4ea8` | dark teal |
-| `#eafcff` | `#e8f5ff` | near-white |
-| `#3f9ae0` / `#6fb4ff` / `#8ec5ff` | `#6fb4ff` | mid blue (keep) |
-| `#1e7bf5` / `#0a6dfb` | `#1f74d6` | mid blue |
-| `#0a3fa8` / `#1c47a8` / `#0534ba` / `#0a2f7a` | `#0b4ea8` | deep blue |
-| `#062a6b` / `#062052` | `#062a72` | card gradient TOP |
-| `#03153b` / `#031234` / `#0d1730` / `#16305e` | `#01102e` | card gradient BOTTOM |
-| `#041b44` | `#021b43` | panel surface |
-| `#00081f` / `#00040f` / `#010422` / `#060c1c` / `#01030a` / `#020617` / `#0b1633` / `#050d16` | `#010c26` | deepest surface |
-| `#04161d` | `#010c26` | deepest surface |
-| `#050403` | `#010c26` | near-black |
+| พื้นเพจ | `#080506` | `body { background-color }`, พื้นแถบมืด |
+| ผิวการ์ด | `#16090a` | การ์ด ContentBox*, navbar, footer, announcement |
+| ผิวการ์ดยก (hover/nested) | `#26100f` | การ์ดซ้อนใน, hover state |
+| **แดงแบรนด์ (หลัก)** | `#de161d` | เส้นขอบ, หัวข้อ, ปุ่มหลัก, จุด active |
+| แดงสว่าง (hover/เน้น) | `#ff4d52` | hover border, glow ที่สว่างขึ้น |
+| แดงลึก | `#7a0a0e` | ปลายไล่เฉด, พื้นปุ่มรอง, เงาลึก |
+| **เงินโครเมียม (สว่าง)** | `#e2e8ef` | ปลายบนของไล่เฉดหัวข้อ, ตัวอักษรเน้นบนแถบ |
+| เงินหม่น | `#9ba3ad` | ตัวอักษรรอง, ลิงก์ที่ยังไม่ active |
+| **เนื้อความ (`BRAND_TEXT`)** | `#e8e3e1` | ย่อหน้าทั้งเว็บ |
+| เน้นข้อความใน `<strong>` | `#fff6f5` | ไฮไลต์ในย่อหน้า |
 
-### Green family (ContentBoxSpecial / ContentBox3ThreeFloatingBadge only)
+rgba สำหรับ glow/เงา:
+`rgba(222,22,29,0.xx)` (แดง) · `rgba(226,232,239,0.xx)` (เงิน) · `rgba(8,5,6,0.xx)` (เงาดำ)
 
-| old | new |
-|---|---|
-| `#2a9d5c` / `#1c6b3f` | `#1f74d6` |
-| `#0d3a22` | `#062a72` |
-| `#082013` / `#03130a` / `#020c06` | `#010c26` |
+**สีที่ต้องหายให้หมดทั้งไฟล์ที่รีธีม** (ของ 888PARUAY + แบรนด์ก่อนหน้าที่ค้างในไฟล์
+inventory ที่เพิ่งถูกดึงมาใช้): ทอง `#fcdc2b` `#fff6ae` `#a87d0c` `#fadc64` `#e8b93f`
+`#ffe9a3` `#96671a` `#f3cf63` `#f2c14e` `#ffe7a6` `#e3c56a` · เขียว `#1fae1c` `#0c4402`
+`#07130a` `#0d2312` `#143a1c` `#03140a` `#0d3a22` · ครีม `#e8e4c6` `#e3d8c0` `#f0ddc4`
+`#e6e2d2` `#fffdf0` · น้ำตาล `#0d0903` `#171006` `#2a1d0b` · ชมพู `#fd6494` `#feda2a`
+`#12030a` `#fbe3ee` `#ffc9dc` `#d79ab4` `#2a0a1a` `#5c0e2e` `#b8325f` · แดงเก่า
+`#cf1111` `#8a0303` `#e01f26` `#a40201` `#dd0503` `#1c0504` `#2d0908` `#4a0d0b`
+`#c99b93` `#120406` `#12060a` `#e11015` `#1a0709`
 
-### Purple / grey strays
+**สีที่ห้ามแตะ**: LINE เขียว `#00B900` · โลโก้ธนาคารใน `BankStrip` · สีเขียว
+"live/สำเร็จ" ในฟีดถอนเงิน (เป็น semantic ไม่ใช่สีแบรนด์)
 
-| old | new |
-|---|---|
-| `#4e1c80` | `#0b4ea8` |
+---
 
-### rgba() glow values
+## 3. รูปภาพของดรอปนี้ (mtime 2026-09-24 19:33)
 
-| old | new |
-|---|---|
-| `rgba(246,219,107, …)` | `rgba(74,164,244, …)` |
-| `rgba(233,197,93, …)` | `rgba(74,164,244, …)` |
-| `rgba(227,197,106, …)` | `rgba(74,164,244, …)` |
-| `rgba(2,10,30, …)` / `rgba(2,12,6, …)` | `rgba(1,12,38, …)` |
-
-### Tailwind utility classes
-
-- `amber-*` / `yellow-*` → `sky-*` (same shade number)
-- `emerald-*` / `green-*` → `sky-*` (same shade number) — **except** real semantic
-  "live/online/success" dots, which stay green
-- `purple-*` / `violet-*` / `fuchsia-*` / `rose-*` / `red-*` → `sky-*` / `blue-*`
-- existing `blue-*` / `sky-*` / `cyan-*` may stay, but re-check the shade reads as
-  electric blue, not muddy
-
-### DO NOT CHANGE (semantic, not brand)
-
-- LINE green `#00B900`
-- real bank brand colours in `src/assets/banks/`, `src/assets/bank-footer/`
-- genuine success/live-indicator greens (`#16a34a`, `bg-green-500` pulse dots)
-- neutral greys used for disabled/secondary UI (`#9ca3af`, `#4b5563`)
-
-## 3. Quick reference — the MGM9 palette
-
-```
-accent      #4aa4f4   electric blue      (was gold #f6db6b)
-accentLite  #9ad4ff   ice blue           (was #fbe473)
-accentPale  #c9e8ff   near-white blue    (was #fbeeb8)
-accentMid   #1f74d6
-accentDark  #0b4ea8
-cyan        #5ee7ff   secondary spark
-text        #d3e6ff   body copy  (= BRAND_TEXT)
-textMuted   #a8c8ea
-surfaceTop  #062a72   card gradient top
-surfaceBot  #01102e   card gradient bottom
-panel       #021b43
-deepest     #010c26
-glow        rgba(74,164,244,0.25)
-```
-
-## 4. Variant rotation (ALREADY DECIDED — do not re-choose)
-
-| family | outgoing (หวยกินดี365) | **MGM9** |
+| ไฟล์ | บทบาท | ใครใช้ |
 |---|---|---|
-| Navbar | `NavbarStyle9` | **`NavbarStyle6`** |
-| Footer | `FooterStyle2` | **`FooterStyle3`** |
-| Announcement (all non-lottery pages) | `AnnouncementPremium` | **`AnnouncementCyber`** |
+| `logo.webp` | โลโก้ — ตัวอักษร `MAHA` สีดำ `GAME` สีแดง `66` สีดำ บนพื้นโปร่งใส | navbar + footer (glob เอง) |
+| `banner1.png` | **hero** — โต๊ะคาสิโนดำแดง ดีลเลอร์หญิงชุดสูทขาวคาดแถบแดง วงล้อรูเล็ต ไพ่ A โพดำ/โพแดง กองชิปเรืองแสงแดง โลโก้ MAHAGAME66 โครเมียม-แดง ข้อความ "พนันออนไลน์ / เว็บตรง ปลอดภัย / ระบบแท้100%" และคำว่า PLAY BIGGER LIVE BETTER | `MainLayout` glob เท่านั้น |
+| `banner1-mobile.png` | hero ฉบับครอปมือถือ (ดรอปเดียวกัน ✓ ไม่ใช่ของค้าง) | `MainLayout` glob เท่านั้น |
+| `slide1.png` | โปสเตอร์ **"โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%"** พื้นแดง-ดำ ริบบิ้นของขวัญแดง หญิงสาวชุดขาวคาดแดงถือโทรโข่ง ชายหนุ่มสูทขาวเนกไทแดง มุมขวาบนมีสัญลักษณ์ `%` สีแดง โลโก้ MAHAGAME66 ด้านบน | index H3 #4 + `/promotion` |
+| `slide2.png` | โปสเตอร์ **"โปรโมชั่น คืนยอดเสีย โบนัส 0.3%"** องค์ประกอบเดียวกับ slide1 แต่ข้อความเป็นคืนยอดเสีย มีชิปคาสิโนขาว-แดงมุมขวา | index H3 #5 + `/promotion` |
+| `og.png` | og:image 1200x630 | `MainLayout` glob |
+
+**ของค้างจากแบรนด์ก่อน — ห้าม import และห้ามลบทิ้ง (เป็น inventory):**
+`banner2.png` (2026-09-22) · `banner3.png` (2026-08-11) · `slide3.png` (2026-09-18) ·
+`slide4.png` (2026-08-13) → **รอบนี้ไม่มี `banner2+` ที่ใช้ได้ จึงไม่มีภาพประกอบ
+ในกล่องคอลัมน์เดียว** นั่นคือผลลัพธ์ที่ถูกต้อง ไม่ใช่ช่องว่างที่ต้องหาของมาเติม
+
+`slide*` วางได้เฉพาะใน `ContentBoxSevenThree*` เท่านั้น (และหน้า `/promotion` ที่เป็น
+image page) — ห้ามลงกล่องคอลัมน์เดียว ห้ามเป็นแถบเต็มจอ ห้ามเป็น hero
+
+---
+
+## 4. เช็กลิสต์หัวข้อจาก docx (เรียงตามเอกสาร) — index.astro
+
+บรีฟรอบนี้มี **ลำดับชั้นจริง**: H3 #4 และ #5 เป็นหัวข้อย่อยของ H2 #3 (โปรโมชั่น)
+จึงไม่แบนเป็น H2 ล้วน — สอง `<h3>` นี้คือ `<h3>` เดียวที่อนุญาตทั้งหน้า
+
+| # | ระดับ | หัวข้อ | กล่องที่รับ |
+|---|---|---|---|
+| 1 | H1 | MAHAGAME66 พนันออนไลน์ เว็บตรง ปลอดภัย ระบบแท้100% | `ContentBoxFloatingBadge` |
+| 2 | H2 | MAHAGAME66 เว็บตรง บาคาร่า สล็อต หวย บอล รูเล็ต ไลฟ์สดตรงจากบริษัทแม่ | `ContentBoxTwoNeumorphism` |
+| 3 | H2 | โปรโมชั่นกดรับหลังสมัคร MAHAGAME66 เล่นคาสิโน | `ContentBoxSpecial` |
+| 4 | H3 | แนะนำเพื่อน โบนัส 0.8% | `ContentBoxSevenThreeNeumorphism` + **slide1** |
+| 5 | H3 | คืนยอดเสีย โบนัส 0.3% | `ContentBoxSevenThree` + **slide2** |
+| 6 | H2 | ระบบ MAHAGAME66 ฝากถอนวอลเลท ธนาคารชั้นนำ | `ContentBoxTwoFloatingBadge` + `BankStrip` ต่อท้าย |
+| 7 | H2 | มีแอดมิน MAHAGAME66 คอยให้บริการ 24 ชั่วโมง | `ContentBox` (ไฟล์กลาง — orchestrator รีธีมให้แล้ว) |
+| 8 | H2 | คำถามที่พบบ่อย | `Faq4` (ส่ง prop `faqs` เสมอ) |
+
+**อินเวนทอรีหัวข้อที่ต้องได้: `h1 x1`, `h2 x5`, `h3 x2`** — ไม่มากไม่น้อยกว่านี้
+widget ทุกตัว (LatestWinners, LoginRtpSection, ReviewCard, ticker, ปุ่ม) ต้อง render
+ป้ายเป็น `<p>`/`<span>` + `aria-label` บน `<section>` **ห้ามเป็น heading**
+
+### ย่อหน้าเต็มจาก docx (ใช้คำต่อคำ ห้ามย่อ ห้ามรวบ)
+
+**§1 (H1):**
+> MAHAGAME66 รวมเกมพนันออนไลน์หลายประเภทไว้ในระบบเดียว ทั้งบาคาร่า สล็อต หวย บอล และรูเล็ต พร้อมรูปแบบไลฟ์สดตามรายการที่เปิดให้บริการ รองรับการใช้งานผ่านมือถือและคอมพิวเตอร์ เมนูจัดหมวดหมู่ชัดเจน ช่วยให้สมาชิกเลือกเกมที่ต้องการได้ง่ายจากบัญชีเดียว
+
+**§2 (H2)** — แบ่งลง slot ซ้าย/ขวา ตามรอยต่อประโยค:
+> ซ้าย: MAHAGAME66 รวมเกมยอดนิยมไว้ครบทั้งบาคาร่า สล็อต หวย บอล และรูเล็ต พร้อมหมวดเกมไลฟ์สดที่เชื่อมต่อจากผู้ให้บริการตามข้อมูลของเว็บไซต์
+> ขวา: สมาชิกสามารถตรวจสอบค่ายเกม รายละเอียดโต๊ะ และรูปแบบเดิมพันก่อนเข้าเล่น ช่วยให้เลือกเกมที่ตรงกับความสนใจได้สะดวกมากขึ้น
+
+**§3 (H2)** — แบ่งลงสองครึ่งของ `ContentBoxSpecial`:
+> ซ้าย: โปรโมชั่น MAHAGAME66 มีสิทธิ์ให้สมาชิกเลือกหลายรูปแบบตามเงื่อนไขของแต่ละรายการ โดยสามารถตรวจสอบรายละเอียดได้หลังสมัคร ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
+> ขวา: ระบบแสดงข้อมูลเกี่ยวกับยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และเงื่อนไขก่อนกดรับอย่างชัดเจน
+
+**§4 (H3):**
+> สมาชิก MAHAGAME66 ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น ระบบมีรายละเอียดให้ตรวจสอบเกี่ยวกับยอดที่เข้าเกณฑ์และวิธีรับสิทธิ์ ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้ง่ายผ่านบัญชีสมาชิก
+
+**§5 (H3):**
+> โปรโมชั่นคืนยอดเสียของ MAHAGAME66 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับ ช่วยให้ติดตามสิทธิ์ของตัวเองในแต่ละรอบได้ชัดเจนมากขึ้น
+
+**§6 (H2)** — แบ่ง slot ซ้าย/ขวา:
+> ซ้าย: ระบบ MAHAGAME66 รองรับช่องทางฝากถอนผ่านวอลเลทและธนาคารตามรายการที่เว็บไซต์เปิดให้ใช้งาน สมาชิกสามารถเลือกช่องทางที่สะดวก พร้อมตรวจสอบยอดและสถานะรายการผ่านบัญชีได้โดยตรง
+> ขวา: ขั้นตอนถูกจัดให้เข้าใจง่าย ช่วยให้จัดการเครดิตได้จากหน้าเดียว
+
+**§7 (H2):**
+> หากมีข้อสงสัยเกี่ยวกับการสมัคร ทางเข้าเกม โปรโมชั่น บาคาร่า สล็อต หวย บอล รูเล็ต หรือระบบฝากถอน สามารถติดต่อแอดมิน MAHAGAME66 ได้ตลอด 24 ชั่วโมง ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง เพื่อให้สมาชิกเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา
+
+**§8 (H2 คำถามที่พบบ่อย)** — array `faqs` ส่งเข้าทั้ง `<Faq4>` และ `pageGraph`:
+1. Q: `MAHAGAME66 มีเกมประเภทไหนให้เลือกบ้าง?`
+   A: `ภายในระบบมีทั้งบาคาร่า สล็อต หวย บอล รูเล็ต และเกมไลฟ์สดตามรายการที่เปิดให้บริการ สมาชิกสามารถตรวจสอบหมวดเกมและค่ายที่รองรับได้จากหน้ารวมเกมก่อนเข้าใช้งาน`
+2. Q: `MAHAGAME66 มีโปรโมชั่นอะไรบ้าง?`
+   A: `โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง`
+3. Q: `MAHAGAME66 ฝากถอนผ่านช่องทางใดได้บ้าง?`
+   A: `ระบบรองรับวอลเลทและธนาคารตามรายการที่เว็บไซต์กำหนด สมาชิกสามารถตรวจสอบช่องทางที่เปิดใช้งาน ยอดเครดิต และสถานะรายการได้จากหน้าฝากถอนของบัญชี`
+
+### Title / Description ของหน้าแรก — ใช้ของบรีฟคำต่อคำ
+
+- Title: `MAHAGAME66 พนันออนไลน์ เว็บตรง ปลอดภัย ระบบแท้100%`
+- Description: `MAHAGAME66 พนันออนไลน์ เว็บตรง บาคาร่า สล็อต หวย บอล รูเล็ต ไลฟ์สดตรงจากบริษัทแม่ ฝากถอนวอเลลท ธนาคารชั้นนำ ปลอดภัย ระบบแท้100%`
+
+> หมายเหตุ: บรีฟสะกด "วอเลลท" (พิมพ์ผิดของ "วอลเลท") — **description ของหน้าแรกใช้
+> ตามบรีฟคำต่อคำ ห้ามแก้** ส่วนคอปปี้ในเนื้อหน้าที่บรีฟเขียนว่า "วอลเลท" ก็ใช้
+> "วอลเลท" ตามบรีฟเช่นกัน
+
+### ข้อเท็จจริงที่บรีฟระบุ — เขียนได้เท่านี้
+
+บาคาร่า · สล็อต · หวย · บอล · รูเล็ต · หมวดเกมไลฟ์สด · เชื่อมต่อจากผู้ให้บริการตาม
+ข้อมูลของเว็บไซต์ · ตรวจสอบค่ายเกม รายละเอียดโต๊ะ รูปแบบเดิมพันก่อนเข้าเล่น ·
+โบนัสแนะนำเพื่อน 0.8% · โบนัสคืนยอดเสีย 0.3% · ตรวจสอบยอดที่เข้าเกณฑ์ รอบรับสิทธิ์
+และเงื่อนไขก่อนกดรับ · ฝากถอนผ่านวอลเลทและธนาคาร · ตรวจสอบยอดและสถานะรายการผ่านบัญชี ·
+รองรับมือถือและคอมพิวเตอร์ · เมนูจัดหมวดหมู่ชัดเจน · บัญชีเดียว · แอดมิน 24 ชั่วโมง
+
+**ห้ามแต่งเพิ่มเด็ดขาด**: ชื่อค่ายเกม/ค่ายสล็อตเฉพาะเจาะจง (Pragmatic, PG, SA ฯลฯ) ·
+เลขใบอนุญาต · ปีที่ก่อตั้ง · เลขทะเบียนบริษัท · จำนวนสมาชิก · ค่า RTP ตัวเลข ·
+ชื่อเกมเฉพาะ · "ฝากถอนไม่มีขั้นต่ำ" · "ออโต้ 10 วินาที" · ขั้นต่ำการเดิมพัน ·
+ชื่อธนาคารเจาะจง · การันตีว่าจะชนะ
+
+---
+
+## 5. Variant ที่เลือกรอบนี้ (orchestrator เลือกแล้ว — ห้ามเปลี่ยน)
+
+| ตระกูล | รอบก่อน (888PARUAY) | **รอบนี้ (MAHAGAME66)** |
+|---|---|---|
+| Navbar | `NavbarStyle6` | **`NavbarStyle8`** |
+| Footer | `FooterStyle3` | **`FooterStyle2`** |
+| Announcement | `Announcement3` | **`Announcement5`** |
 | LatestWinners | `LatestWinners2` | **`LatestWinnersCyber`** |
 | Faq | `Faq2` | **`Faq4`** |
-| Font | `kanit` | **`google-sans`** |
-| ContentBox mix | Neumorphism / TwoFloatingBadge / SevenThreeCyberCut / Premium / SevenThreeFloatingBadge / CyberCut | **ContentBox (plain) / ContentBoxTwoPremium / ContentBoxFloatingBadge / ContentBoxSevenThreePremium / ContentBoxSevenThreeNeumorphism / ContentBoxSpecial / ContentBoxTwoNeumorphism** |
-| Game widget | `LottoGrid` | **`ProviderGridPremium`** |
+| ContentBox mix | Premium + TwoCyberCut + CyberCut + Neumorphism + SevenThreePremium + SevenThreeCyberCut + 3ThreePremium | **FloatingBadge + TwoNeumorphism + Special + SevenThreeNeumorphism + SevenThree + TwoFloatingBadge + ContentBox(กลาง)** |
+| ReviewCard | `ReviewCardSumo2` | **`ReviewCardSumo2`** (ไม่หมุน — เป็นตัวเดียวในตระกูลที่มี `aria-label` บน `<section>` และป้ายเป็น `<p>` ส่วน `ReviewCardSumo` ตัวเก่ายังไม่ผ่านกฎนั้น การสลับไปใช้จะทำให้ build แดง) |
+| LoginRtpSection | ใช้ | **ใช้** (shell เดียวในตระกูล) |
 
-Lottery pages keep `AnnouncementHuay` + the `Huay` red/gold theme **on purpose**
-(sanctioned Phase 4.5 exception). Only their brand name changes.
+**widget ที่ตัดออกรอบนี้ และ *ไม่ลบไฟล์*** (เป็น inventory ของแบรนด์ถัดไป):
+`LottoGrid` (ของแบรนด์หวยล้วนรอบก่อน) · `ProviderGrid` / `ProviderGridPremium` /
+`FeaturedGames` / `PopularGamesStrip` / `GameRankingBoard` (ทุกตัวต้องระบุชื่อค่าย/
+ชื่อเกมเฉพาะ ซึ่งบรีฟรอบนี้ไม่ได้ระบุไว้เลย การใส่ = แต่งข้อมูลขึ้นเอง) ·
+`SmoothCarousel` (ต้องใช้ `slide*` นอก `ContentBoxSevenThree*` ซึ่งผิดกฎ) ·
+`FeatureHighlights` (H3 รอบนี้มีกล่อง SevenThree รับอยู่แล้ว) · ทุกไฟล์ `*Huay`
 
-## 5. Numbered docx heading checklist (document order — ALL must survive)
+---
 
-Source: `src/assets/content.txt`.
+## 6. หน้าหวย — ปิด (OFF)
 
-| # | level | heading | body paragraphs (content.txt lines) |
-|---|---|---|---|
-| 1 | **H1** | MGM9 เล่นบาคาร่าออนไลน์บนเว็บ คาสิโนเกมครบวงจร | 4 |
-| 2 | **H2** | MGM9 เปิดบริการ บาคาร่า สล็อต บอล หวย ไม่อั้นจ่าย ไม่มีขั้นต่ำ | 6, 7 |
-| 3 | **H2** | MGM9 ฝากถอนวอลเลท รองรับทุกธนาคาร โปรโมชั่นครบทุกรูปแบบ | 9 |
-| 4 | **H3** | โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% | 11 |
-| 5 | **H3** | โปรโมชั่นคืนยอดเสีย โบนัส 0.3% | 13 |
-| 6 | **H2** | สมัคร MGM9 ด้วย 3 ขั้นตอนง่าย ๆ | 15, (16/17/18 = 3 steps), 19 |
-| 7 | **H2** | แอดมิน MGM9 ให้บริการออนไลน์ตลอด 24 ชั่วโมง | 21, 22 |
-| 8 | **H2** | คำถามที่พบบ่อยเกี่ยวกับ MGM9 | FAQ pairs on lines 24–29 |
+MAHAGAME66 เป็นเว็บพนันรวมเกม (คาสิโน/สล็อต/กีฬา) **ไม่ใช่เว็บหวยเฉพาะทาง** และ
+พรอมต์ไม่มีคำว่า `เว็บหวย` → `ตรวจหวย.astro` และ `แนวทาง.astro` ถูกย้ายกลับไป
+`src/pages-disabled/` โดย orchestrator แล้ว (รอบก่อนเปิดอยู่)
 
-The docx has a **real H1→H2→H3 hierarchy** (items 4 and 5 are sub-points of item 3),
-so the page keeps that hierarchy. `h1×1, h2×5, h3×2` on `/`.
+ผลที่ตามมา: **ห้ามมีลิงก์ `/ตรวจหวย` หรือ `/แนวทาง` ในหน้าไหนเลย** ไม่งั้น
+`verify-build.mjs` จะทำให้ build แดงเพราะ href ชี้ route ที่ไม่มีใน `dist/`
+(navbar/footer เป็นของ orchestrator — ตรวจแล้วว่าไม่มีทั้งคู่)
 
-Home page Title / Description come from the brief **verbatim** (do not pad):
+หน้า `register.astro` / `login.astro` เป็น **button page** (toggle เปิดอยู่) →
+`/ทางเข้า` ยังถูก route + index แต่ **ไม่อยู่ในเมนู navbar** โดยตั้งใจ
 
-- Title: `MGM9 เล่นบาคาร่า สล็อต บอล หวย ไม่อั้นจ่าย ไม่มีขั้นต่ำ`
-- Description: `MGM9 คาสิโนเกมครบวงจร เล่นบาคาร่า สล็อต บอล หวย ครบทุกรูปแบบเกม ไม่อั้นจ่าย ไม่มีขั้นต่ำ สมัครรับโปรโมชั่นได้ตลอดทั้งวัน`
+---
 
-There is **no `SUB-PAGES` section** in the brief — every sub-page's title/description
-is yours to write, at **150–160 characters** (characters, not bytes).
+## 7. ข้อความ Announcement (default ของ `Announcement5.astro`)
 
-## 6. Image assets — roles are fixed
+ทุกหน้าเรียก `<Announcement />` แบบ bare ทั้งเว็บ ข้อความจึงตรงกันหมด
+**ห้ามส่ง prop `message` จากหน้าไหนเลย** (orchestrator ตั้ง default ไว้แล้ว)
 
-| file | mtime | role |
-|---|---|---|
-| `banner1.png` | 2026-08-26 ✅ current | hero — handled by `MainLayout` glob, nothing to do but the `alt` |
-| `banner1-mobile.png` | 2026-08-26 ✅ current | phone crop of the hero — `MainLayout` only |
-| `slide1.png` | 2026-08-26 ✅ current | **โปรโมชั่นแนะนำเพื่อน 0.8%** artwork → SevenThree block for heading #4 |
-| `slide2.png` | 2026-08-26 ✅ current | **โปรโมชั่นคืนยอดเสีย 0.3%** artwork → SevenThree block for heading #5 |
-| `banner2.png` | 2026-08-20 ⛔ STALE | previous brand — **do not use anywhere** |
-| `banner3.png` | 2026-08-11 ⛔ STALE | previous brand — **do not use anywhere** |
-| `slide3.png` / `slide4.png` | 2026-08-13 ⛔ STALE | previous brand — **do not use on index**; `/promotion` already imports them, see the promotion note below |
-| `og.png` | 2026-08-26 ✅ current | og:image, handled by `MainLayout` |
+---
 
-**What slide1 actually shows** (for `alt`): deep blue casino scene, `MGM9` logo top
-centre, a blue banner reading `โปรโมชั่น`, huge white text `แนะนำเพื่อน` above
-`0.8%`, a woman in a white-and-red cheongsam pointing at the number, playing cards,
-blue poker chips and a roulette wheel around her, three small blue chips along the
-bottom reading `ชวนเพื่อนง่าย รับโบนัสทันที` / `รับโบนัส จากยอดเล่นเพื่อน` /
-`ปลอดภัย มั่นคง 100%`.
+## 8. กฎที่ใช้กับทุก agent
 
-**What slide2 actually shows** (for `alt`): same deep blue casino scene, `MGM9` logo
-top centre, blue banner reading `โปรโมชั่น`, huge white text `คืนยอดเสีย` above
-`0.3%`, a woman in a white-and-red cheongsam pointing at the number, playing cards,
-a roulette wheel, slot reels and blue chips around her, three small blue chips along
-the bottom reading `คืนยอดเสีย ทุกวัน` / `มั่นคง ปลอดภัย` / `ฝาก-ถอน ออโต้ 24 ชม.`.
-
-**What banner1 shows** (for the hero `alt`, already the orchestrator's job): wide deep
-blue casino banner, `MGM9` chrome logo top centre, a glowing blue plaque reading
-`MGM9 เล่นบาคาร่า สล็อต บอล หวย` over `ไม่อั้นจ่าย ไม่มีขั้นต่ำ`, three aces and blue
-poker chips at left, a baccarat table below, a footballer and ball centre, lottery
-tickets and lottery balls right of centre, a slot machine showing 777 at top right,
-and a woman in a red-and-white cheongsam with an `MGM9` badge at right.
-
-## 7. Rules that trip people up on this repo
-
-Read `.claude/skills/rebrand-site/SKILL.md` for the full set. The ones that bite:
-
-1. **Unused component variants are INVENTORY — never delete one.** Not dead code.
-2. **Only article content may produce a heading.** Chrome (navbar, footer, ticker,
-   winners feed, provider grid, card labels, badges) renders its label as `<p>` or
-   `<span>` with the same classes, plus `aria-label` on the section. A second `<h1>`
-   anywhere fails the build.
-3. **No HTML comments (`<!-- … -->`) in anything that renders.** Astro ships them
-   verbatim into `dist/`. Strip them while rethemeing. Frontmatter `//` comments are
-   fine — they are stripped.
-4. **Body copy is `text-left text-base leading-relaxed <colour>`.** Never `text-sm`,
-   never `text-lg`, never `mx-auto max-w-4xl` on a `<p>` in a page.
-5. **One element per slot.** `<p slot="left">…</p>` or `<div slot="left">…</div>` —
-   never two siblings into one slot.
-6. **Do not re-add wrapper `<div>`s inside ContentBox variants** — they were
-   deliberately flattened (`isolate` on the card + `-z-10` on decorative layers).
-7. **Never write `isActive` by hand in a navbar** — import `isActivePath` from
-   `../lib/nav`.
-8. **Never use `define:vars`** on an indexable page. Fails the build.
-9. **Decorative emoji need `aria-hidden="true"` on their own element**, never inside
-   a text node, never baked into a text prop.
-10. **No `href="#"`, no `onclick=`.** Back-to-top is `<a href="#top">`.
-11. **`alt` must describe the picture** — for a promo banner the alt is the text
-    printed on it (see §6 above).
-12. **JSON-LD only via `pageGraph()`** from `src/lib/schema.ts`. Never type a domain,
-    never build a URL with `+`. Never add `Review`, `AggregateRating`, `sameAs`, or
-    `address`/`PostalAddress`.
-13. **Contact address/email come from `BRAND_ADDRESS`** in `src/lib/brandProfile.ts`.
-    Never retype the lines. Never put them in structured data.
-14. **`<Image>`/`<Picture>` need `widths` + `sizes`** describing how wide the image is
-    *drawn*. Only the LCP image gets `loading="eager" fetchpriority="high"`.
-15. **DO NOT run `npm run build`.** The orchestrator runs the single build in Phase 5.
-
-## 8. Menu order (active navbar — orchestrator owns this file)
-
-```
-หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · <everything else>
-```
-
-Every menu item gets exactly one icon, rendered as a sibling
-`<span aria-hidden="true">`, never inside the label text.
-
-## 9. Page inventory & routing decisions (already made)
-
-| route | state | owner |
-|---|---|---|
-| `/` | active | Agent A |
-| `/about-us` | **stays ON** — full rebrand (note: a stale JEDI66 copy sits in `src/pages-disabled/`; leave it parked) | Agent B |
-| `/ทดลองเล่น` | active | Agent B |
-| `/promotion` | active — **image page, ~4 lines of prose, zero `<h2>`** | Agent B |
-| `/contact-us` | active — **button page, zero `<h2>`** | Agent B |
-| `/ทางเข้า` | active — **button page, zero `<h2>`** | Agent C |
-| `/login`, `/register` | active **button pages** (cta toggle ON) — zero `<h2>`, never edit `targetUrl` | Agent C |
-| `/terms`, `/privacy` | permanent, brand-neutral via `BRAND_NAME` — render through `ContentBox.astro` | Agent C |
-| `/404` | permanent | Agent C |
-| `/ตรวจหวย`, `/แนวทาง` | **stay ON** — MGM9 sells หวย as a headline category (title, H1 game list, FAQ, and the hero artwork all feature it). Keep the `Huay` red/gold theme + `AnnouncementHuay`; change brand name only. | Agent C |
-
-Because `/login` and `/register` are ON, `/ทางเข้า` has **no navbar menu entry** by
-design. The page stays routed and indexed.
+1. **ห้ามลบ component variant ที่ไม่ได้ใช้** — เป็น inventory ของแบรนด์ถัดไป
+2. **ห้ามรัน `npm run build`** — orchestrator build ครั้งเดียวใน Phase 5
+3. **ห้ามแก้ไฟล์นอกลิสต์ที่ตัวเองเป็นเจ้าของ**
+4. **ห้ามมี HTML comment `<!-- -->`** ในไฟล์ที่ render จริง (Astro ส่งออกไปที่ dist)
+   — คอมเมนต์อธิบายใส่ใน frontmatter เท่านั้น
+5. **ย่อหน้า**: `text-left text-base leading-relaxed` เสมอ · ห้าม `mx-auto max-w-*`
+   บนย่อหน้าในหน้า · หัวข้ออาจ center ได้แต่ต้องใส่บน header ไม่ใช่บนการ์ด
+6. **emoji ตกแต่งต้องอยู่ใน element ที่มี `aria-hidden="true"`** และเป็น sibling ของ
+   ข้อความ ไม่ใช่อยู่ในข้อความ · ห้าม `href="#"` · ห้าม `onclick=`
+7. **`alt` ต้องบรรยายภาพจริง** (อ่านจาก §3) ห้ามใช้ `"banner"` หรือเลขลำดับ
+8. **ห้ามเขียน JSON-LD มือ** — ใช้ `pageGraph()` · ห้ามพิมพ์โดเมน · ห้ามต่อ URL ด้วย `+`
+   · ห้ามใส่ `Review` / `AggregateRating` / `sameAs` / `address`
+9. **ห้ามใช้ `define:vars`** · ห้ามเอา logic กลับเข้า component `<script>`
+   (`nav.ts` / `winnersFeed.ts` / `liveCounter.ts` อยู่ที่ `src/lib/`)
+10. **description ที่เขียนเอง = 150–160 อักขระ** (นับอักขระ ไม่ใช่ไบต์) ·
+    ห้ามใส่ `&` ในสตริง description (Astro escape เป็น `&#38;` ตัวนับจะเห็นเป็น 5 ตัว)
+11. **ห้ามแตะ `MainLayout` `<head>`** · ห้ามเรียงบล็อกใหม่ · ห้ามเติม
+    `google-site-verification` · ห้ามถอด `?v=` ออกจากลิงก์ไอคอน
+12. **ห้าม `<h1>` ตัวที่สอง** ในหน้าเดียว · chrome ห้ามถือ heading tag ทุกระดับ

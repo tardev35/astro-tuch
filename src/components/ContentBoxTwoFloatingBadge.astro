@@ -15,42 +15,46 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // viewport and forcing horizontal scroll on a phone.
 //
 // It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. Redone for HERO1688's H2,
-// "HERO1688 เดิมพันไม่มีขั้นต่ำ รองรับทุกธนาคาร ฝากถอนวอลเลท" (57 chars). The
-// heading carries `leading-normal` (1.5), the badge adds py-2.5 (20px) and
-// border-2 (4px), and the two ✦ spans plus gap-2 take ~48px of the line box.
-// Budget is one line beyond the measured wrap at every breakpoint:
+// the badge's own height minus that 24px offset. Redone for MAHAGAME66's H2,
+// "ระบบ MAHAGAME66 ฝากถอนวอลเลท ธนาคารชั้นนำ" — 41 code points, ~39 advancing
+// glyphs once the 2 zero-width Thai marks (ั ้) are discounted, i.e. 18 shorter
+// than HERO1688's title, which is why the padding is re-derived rather than
+// inherited. The heading carries `leading-normal` (1.5), the badge adds py-2.5
+// (20px) and border-2 (4px), and the two ✦ spans plus gap-2 take ~48px of the
+// line box. Budget is one line beyond the measured wrap at every breakpoint:
 //   base  text-base 16px -> 24px/line, ~247px of text width at 360px
-//         (w-[92%] 331 - px-4 32 - border 4 - sparks 48) = ~27 chars/line,
-//         so 57 chars wraps to 3. Budget 4 lines = 4x24 + 24 = 120px,
-//         bottom edge 96px vs pt-32/128px            -> 32px clear
-//   sm    text-xl 20px -> 30px/line, ~473px of text width = ~43 chars/line,
-//         wraps to 2. Budget 3 lines = 3x30 + 24 = 114px,
-//         bottom edge 90px vs pt-32/128px            -> 38px clear
-//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~41 chars/line,
-//         wraps to 2. Budget 3 lines = 3x36 + 24 = 132px,
-//         bottom edge 108px vs pt-32/128px           -> 20px clear
-// It was pt-28 with md:pt-24 — md was NEGATIVE (96px of padding under a 108px
-// badge edge) the moment the title took three lines. Do not push it back down
-// without redoing the arithmetic above.
+//         (w-[92%] 331 - px-4 32 - border 4 - sparks 48) = ~30 glyphs/line,
+//         so 39 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
+//         bottom edge 72px vs pt-32/128px            -> 56px clear
+//   sm    text-xl 20px -> 30px/line, ~473px of text width = ~47 glyphs/line,
+//         wraps to 1. Budget 2 lines = 2x30 + 24 = 84px,
+//         bottom edge 60px vs pt-32/128px            -> 68px clear
+//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~46 glyphs/line,
+//         wraps to 1. Budget 2 lines = 2x36 + 24 = 96px,
+//         bottom edge 72px vs pt-32/128px            -> 56px clear
+// It was once pt-28 with md:pt-24 — md was NEGATIVE the moment the title took
+// three lines. Do not push it back down without redoing the arithmetic above.
 //
-// HERO1688 palette: the card is the brand's near-black-to-crimson gradient and
-// the badge is the red wordmark hue over the panel black, with the left spark
-// red and the right one chrome silver to echo the logo's HERO / 1688 pairing.
+// MAHAGAME66 palette (แดง-ดำ-เงินโครเมียม 2026-09-24): การ์ดไล่จากผิวการ์ด
+// #16090a ลงพื้นเพจเกือบดำ #080506 ในกรอบแดงแบรนด์ #de161d ป้ายหัวข้อวางบนผิว
+// การ์ดยก #26100f ประกายซ้ายเป็นแดงสว่าง #ff4d52 ประกายขวาเป็นเงินโครเมียม
+// #e2e8ef ตามคู่สีของโลโก้ที่ GAME เป็นแดงและ MAHA/66 เป็นเงิน — แดงเก่า #e11015
+// #ff5a5d #7d0507 พื้น #1a0509/#04060d/#12060a เทา #c4c5ca และเนื้อความ #dbe1ea
+// ของ HERO1688 ออกทั้งหมด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#e11015]/40 bg-gradient-to-b from-[#1a0509] to-[#04060d] p-8 pt-32 shadow-[0_10px_40px_rgba(1,2,7,0.7)]">
+  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#de161d]/45 bg-gradient-to-b from-[#16090a] to-[#080506] p-8 pt-32 shadow-[0_10px_40px_rgba(8,5,6,0.85)]">
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e11015]/70 bg-[#12060a] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(225,16,21,0.30)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ff5a5d]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#de161d]/70 bg-[#26100f] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(222,22,29,0.32)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ff4d52]">
             ✦
           </span>
-          <HeadingTag class="bg-gradient-to-r from-[#ff5a5d] via-[#e11015] to-[#7d0507] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+          <HeadingTag class="bg-gradient-to-r from-[#e2e8ef] via-[#ff4d52] to-[#de161d] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#c4c5ca]">
+          <span aria-hidden="true" class="shrink-0 text-[#e2e8ef]">
             ✦
           </span>
         </div>
@@ -58,13 +62,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ff5a5d] drop-shadow-[0_0_5px_rgba(225,16,21,0.30)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8e3e1]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ff4d52] drop-shadow-[0_0_5px_rgba(222,22,29,0.32)]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe1ea] md:border-l md:border-[#e11015]/30 md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#ff5a5d] drop-shadow-[0_0_5px_rgba(225,16,21,0.30)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8e3e1] md:border-l md:border-[#de161d]/35 md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#ff4d52] drop-shadow-[0_0_5px_rgba(222,22,29,0.32)]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

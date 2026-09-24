@@ -2,82 +2,84 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement5.astro";
 
 import { Picture } from "astro:assets";
 
-// ดรอปอาร์ตเวิร์กของ 888PARUAY คือ 2026-09-24 และมีสไลด์ที่ใช้ได้สองใบเท่านั้น:
-//   slide1.png — ป้ายแดง "อัตราจ่ายหวย" + แผ่นป้ายทอง "2 ตัวจ่าย 100"
-//   slide2.png — ป้ายแดง "อัตราจ่ายหวย" + แผ่นป้ายทอง "3 ตัวจ่าย 1,000"
+// ดรอปอาร์ตเวิร์กของ MAHAGAME66 คือ 2026-09-24 และมีสไลด์ที่ใช้ได้สองใบเท่านั้น:
+//   slide1.png — โปสเตอร์ "โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%"
+//   slide2.png — โปสเตอร์ "โปรโมชั่น คืนยอดเสีย โบนัส 0.3%"
 // บทบาทของสองไฟล์นี้เคย "สลับกัน" ระหว่างแบรนด์มาแล้ว อย่าเชื่อชื่อตัวแปรที่ตกทอดมา
-// รอบนี้ยึดตามคำอธิบายอาร์ตเวิร์กในสเปกแบรนด์ §4 และตั้งชื่อตัวแปรให้ตรงกับภาพจริง
+// (รอบก่อนสองตัวแปรนี้ชื่อ promoTwoDigit/promoThreeDigit ตามอัตราจ่ายหวยของ
+// 888PARUAY ซึ่งไม่ใช่ภาพในไฟล์อีกต่อไปแล้ว) รอบนี้ยึดตามคำอธิบายอาร์ตเวิร์กใน
+// brand-spec §3 และตั้งชื่อตัวแปรให้ตรงกับภาพจริงที่เปิดดูแล้ว
 //
 // slide3.png (2026-09-18) และ slide4.png (2026-08-13) เก่ากว่าดรอปรอบนี้ เป็น
 // อาร์ตเวิร์กของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้งเพราะเป็น
 // อินเวนทอรี (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ
 // verify-build จะแดง) ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
-import promoTwoDigit from "../assets/slide1.png";
-import promoThreeDigit from "../assets/slide2.png";
+import promoReferral from "../assets/slide1.png";
+import promoCashback from "../assets/slide2.png";
 import { pageGraph } from "../lib/schema";
 //
 // หน้านี้เป็น IMAGE page ไม่ใช่บทความ: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า
 // (ประมาณสี่บรรทัด คือโควตาตัวหนังสือทั้งหมดของหน้านี้), กริดโปสเตอร์, ปุ่ม CTA หนึ่งปุ่ม
-// — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุอัตราจ่ายไว้ด้วยตัวอักษร
-// ขนาดใหญ่อยู่แล้ว เป้าหมาย h1x1, h2x0, h3x0
+// — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุชื่อโปรและเปอร์เซ็นต์โบนัส
+// ไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1x1, h2x0, h3x0
 //
 // สไลด์เป็นแบนเนอร์แนวนอน 600px จึงวางเป็นกริดสองคอลัมน์คุมความกว้างรวมที่ max-w-5xl
 // (1024px) ทำให้ช่องละ ~488px ไม่ต้องอัปสเกลเกินขนาดไฟล์ต้นทาง widths หยุดที่ 600
 // ตามความกว้างจริงของไฟล์ (candidate ที่ใหญ่กว่านั้นไม่มีของให้ครอป)
 //
-// Announcement รอบนี้หมุนมาใช้ Announcement3 ทั้งเว็บ — default message ของไฟล์นั้น
-// ถูกตั้งเป็นคอปปี้ของ 888PARUAY แล้ว และ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
+// Announcement รอบนี้หมุนมาใช้ Announcement5 ทั้งเว็บ — default message ของไฟล์นั้น
+// ถูกตั้งเป็นคอปปี้ของ MAHAGAME66 แล้ว และ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
 //
-// พาเลตต์ 888PARUAY (ทอง + เขียวเข้ม + แดง ตามโลโก้ที่เลข 888 เป็นเขียวสด คำว่า
-// PARUAY เป็นแดง อยู่ในวงแหวนทอง): พื้น #07130a · ผิวการ์ด #0d2312 · ผิวยก #143a1c ·
-// ทองหลัก #fcdc2b · ทองสว่าง #fff6ae · ทองลึก #a87d0c · เขียวสด #1fae1c ·
-// เขียวลึก #0c4402 · แดงสด #cf1111 · แดงลึก #8a0303 · เนื้อความ #e8e4c6 (BRAND_TEXT)
-// — พาเลตต์แดง-ทอง-เงินของแบรนด์รอบก่อนถูกถอดออกครบแล้ว ห้ามนำกลับมา
+// พาเลตต์ MAHAGAME66 (แดง + ดำ + เงินโครเมียม ตามโลโก้ที่คำว่า MAHA/66 เป็นดำ-เงิน
+// และ GAME เป็นแดงสด): พื้นเพจ #080506 · ผิวการ์ด #16090a · ผิวยก #26100f ·
+// แดงแบรนด์ #de161d · แดงสว่าง #ff4d52 · แดงลึก #7a0a0e · เงินโครเมียม #e2e8ef ·
+// เนื้อความ #e8e3e1 (BRAND_TEXT) — พาเลตต์ทอง-เขียวของ 888PARUAY (#fcdc2b #fff6ae
+// #a87d0c #1fae1c #0c4402 #07130a #0d2312 #143a1c #e8e4c6) ถูกแทนครบทุกจุดแล้ว
 //
 // ย่อหน้าในการ์ดไม่ระบุสีเอง ให้สืบทอดสีเนื้อความจาก ContentBox (ไฟล์กลางที่ orchestrator
 // รีธีมรอบนี้) — มีแค่ปุ่มกับกรอบรูปเท่านั้นที่ถือสีของพาเลตต์
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 159
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 155
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมภาพโปรโมชั่นและอัตราจ่ายหวยของ 888PARUAY ทั้งเลข 2 ตัวจ่าย 100 และเลข 3 ตัวจ่าย 1,000 พร้อมรายละเอียดของแต่ละรายการให้ตรวจสอบเงื่อนไขจากหน้าเว็บก่อนทำรายการ";
+const pageDescription = "รวมโปรโมชั่น MAHAGAME66 ทั้งโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ดูรายละเอียดยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และเงื่อนไขของแต่ละรายการก่อนกดรับสิทธิ์";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น 888PARUAY",
+  name: "โปรโมชั่น MAHAGAME66",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
     { name: "โปรโมชั่น", path: "/promotion" },
   ],
-  primaryImagePath: promoTwoDigit.src,
+  primaryImagePath: promoReferral.src,
 });
 ---
 
-<MainLayout title="โปรโมชั่น 888PARUAY อัตราจ่ายหวย 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000" description={pageDescription}>
+<MainLayout title="โปรโมชั่น MAHAGAME66 แนะนำเพื่อน โบนัส 0.8% และคืนยอดเสีย โบนัส 0.3%" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น 888PARUAY" as="h1">
+  <ContentBox title="โปรโมชั่น MAHAGAME66" as="h1">
     <div>
       <p class="mb-8 text-left text-base leading-relaxed">
-        หน้านี้รวมภาพอัตราจ่ายหวยที่ <strong>888PARUAY</strong> เปิดรับในรอบปัจจุบัน ทั้งเลข 2 ตัวและเลข 3 ตัว โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว
-        <strong>รอบเปิดรับและเงื่อนไขของหวยแต่ละประเภทแตกต่างกัน</strong> จึงควรตรวจสอบรายการล่าสุดจากหน้าเว็บไซต์อีกครั้งก่อนยืนยันรายการทุกครั้ง
+        หน้านี้รวมภาพโปรโมชั่นที่ <strong>MAHAGAME66</strong> เปิดให้สมาชิกกดรับหลังสมัคร ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว
+        <strong>ยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และเงื่อนไขของแต่ละรายการแตกต่างกัน</strong> จึงควรตรวจสอบรายละเอียดล่าสุดจากหน้าเว็บไซต์อีกครั้งก่อนกดรับสิทธิ์ทุกครั้ง
       </p>
 
       <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
-          src={promoTwoDigit}
-          alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มประกายทอง มีเหรียญทองและลูกบอลหวยสีแดง เขียว ขาว กระจายรอบภาพ ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ในวงแหวนทอง เลข 888 สีเขียวกับคำว่า PARUAY สีแดง ด้านซ้ายเป็นหญิงสาวชุดแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มเสื้อแจ็กเก็ตขาวผูกโบว์แดง กลางภาพเป็นป้ายแดงข้อความไทยว่า อัตราจ่ายหวย และใต้ป้ายเป็นแผ่นป้ายขอบทองข้อความว่า 2 ตัวจ่าย 100"
+          src={promoReferral}
+          alt="โปสเตอร์โปรโมชั่นพื้นแดงสลับดำ มีริบบิ้นของขวัญสีแดงที่ขอบภาพ ด้านบนกลางภาพเป็นโลโก้ MAHAGAME66 ตัวอักษร MAHA และ 66 สีเงินโครเมียม คำว่า GAME สีแดง มุมขวาบนเป็นสัญลักษณ์เปอร์เซ็นต์สีแดง ด้านซ้ายเป็นหญิงสาวชุดขาวคาดแดงกำลังชี้นิ้วเข้าหาข้อความและถือโทรโข่ง ด้านขวาเป็นชายหนุ่มสูทขาวผูกเนกไทแดง กลางภาพเป็นข้อความไทยว่า โปรโมชั่น แนะนำเพื่อน และใต้ลงมาเป็นแผ่นป้ายข้อความว่า โบนัส 0.8%"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#fcdc2b]/55 object-contain shadow-[0_10px_30px_rgba(7,19,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#1fae1c]/75 hover:shadow-[0_15px_40px_rgba(252,220,43,0.45)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#de161d]/55 object-contain shadow-[0_10px_30px_rgba(8,5,6,0.80)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ff4d52]/75 hover:shadow-[0_15px_40px_rgba(222,22,29,0.45)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -85,13 +87,13 @@ const graph = pageGraph(Astro, {
         />
 
         <Picture
-          src={promoThreeDigit}
-          alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มประกายทอง มีเหรียญทองและลูกบอลหวยสีแดง เขียว ขาว กระจายรอบภาพ ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ในวงแหวนทอง เลข 888 สีเขียวกับคำว่า PARUAY สีแดง ด้านซ้ายเป็นหญิงสาวชุดแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มเสื้อแจ็กเก็ตขาวผูกโบว์แดง กลางภาพเป็นป้ายแดงข้อความไทยว่า อัตราจ่ายหวย และใต้ป้ายเป็นแผ่นป้ายขอบทองข้อความว่า 3 ตัวจ่าย 1,000"
+          src={promoCashback}
+          alt="โปสเตอร์โปรโมชั่นพื้นแดงสลับดำ องค์ประกอบเดียวกับภาพแรก ด้านบนกลางภาพเป็นโลโก้ MAHAGAME66 ตัวอักษร MAHA และ 66 สีเงินโครเมียม คำว่า GAME สีแดง ด้านซ้ายเป็นหญิงสาวชุดขาวคาดแดงชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มสูทขาวผูกเนกไทแดงและมีชิปคาสิโนสีขาวแดงลอยอยู่ริมขวา กลางภาพเป็นข้อความไทยว่า โปรโมชั่น คืนยอดเสีย และใต้ลงมาเป็นแผ่นป้ายข้อความว่า โบนัส 0.3%"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#fcdc2b]/55 object-contain shadow-[0_10px_30px_rgba(7,19,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#1fae1c]/75 hover:shadow-[0_15px_40px_rgba(252,220,43,0.45)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#de161d]/55 object-contain shadow-[0_10px_30px_rgba(8,5,6,0.80)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#ff4d52]/75 hover:shadow-[0_15px_40px_rgba(222,22,29,0.45)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -102,9 +104,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก 888PARUAY"
-          class="flex items-center justify-center rounded-lg border border-[#fff6ae]/60 bg-gradient-to-r from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] px-10 py-3.5 text-lg font-black text-[#07130a] shadow-[0_0_15px_rgba(252,220,43,0.50)] transition-transform hover:scale-105">
-          สมัครสมาชิก 888PARUAY
+          aria-label="สมัครสมาชิก MAHAGAME66"
+          class="flex items-center justify-center rounded-lg border border-[#ff4d52]/60 bg-gradient-to-r from-[#ff4d52] via-[#de161d] to-[#7a0a0e] px-10 py-3.5 text-lg font-black text-[#fff6f5] shadow-[0_0_15px_rgba(222,22,29,0.50)] transition-transform hover:scale-105">
+          สมัครสมาชิก MAHAGAME66
         </a>
       </div>
     </div>
