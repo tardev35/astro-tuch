@@ -1,16 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
+import LottoGrid from "../components/LottoGrid.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
 import ProviderGrid from "../components/ProviderGrid.astro";
+import ContentBox3ThreeHuay from "../components/ContentBox3ThreeHuay.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import Faq from "../components/Faq3.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
+import Faq from "../components/FaqHuay.astro";
+import LatestWinners from "../components/LatestWinnersHuay.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -20,18 +21,20 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// IMAGE ROLES FOR THIS DROP (2026-09-23) — READ BEFORE REUSING THESE IMPORTS.
+// IMAGE ROLES FOR THIS DROP (2026-09-24) — READ BEFORE REUSING THESE IMPORTS.
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — which is the family's hard cap of two per
 // rebrand, so there is no third SevenThree here:
-//   slide1.png — gold promo artwork reading "โปรโมชั่น แนะนำเพื่อน" over a giant
-//     "0.8%", so it belongs to docx H3 #4 (แนะนำเพื่อน โบนัส 0.8%).
-//   slide2.png — the same artwork reading "โปรโมชั่น คืนยอดเสีย" over "0.3%",
-//     so it belongs to docx H3 #5 (คืนยอดเสีย โบนัส 0.3%).
+//   slide1.png — gold-and-red artwork reading "อัตราจ่ายหวย / 2 ตัวจ่าย 100 /
+//     3 ตัวจ่าย 1,000", so it belongs to docx H2 #3 (อัตราจ่ายหวย 365LOTTO).
+//   slide2.png — the same two models over "แนะนำเพื่อน โบนัส 0.8% / คืนยอดเสีย
+//     โบนัส 0.3%", so it belongs to docx H2 #6 (โปรเล่นสล็อต 365LOTTO), whose
+//     two H3 sub-points are exactly those two bonuses.
 // Both files are 600x333, so 600 is the top candidate width — nothing above it
-// would be a real pixel. The alt text was written from the current artwork (gold
-// coins, the two models in white-and-gold, the SA-gold / GAME-chrome / 66-gold
-// logo), not carried over from the previous brand's red banners.
+// would be a real pixel. The alt text was written from the current artwork (the
+// gold 365 / chrome LOTTO logo with its red O rings, red-and-white lotto balls,
+// the two models in white-red-gold kit), not carried over from a previous
+// brand's banners.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
 //   banner2.png (2026-09-22), banner3.png (2026-08-11), slide3.png
@@ -44,65 +47,108 @@ import imgSlide2 from "../assets/slide2.png";
 //   nothing here gets loading="eager" fetchpriority="high".
 //
 // Rotated out of this round's mix and NOT deleted from disk (they are inventory
-// for the next brand): Announcement3, ContentBoxPremium, ContentBoxCyberCut,
-// ContentBoxSevenThreePremium, ContentBoxSevenThreeCyberCut, ContentBoxTwoPremium,
-// Faq2, LatestWinners2 — and LottoGrid, which stays out for a reason rather than
-// a rotation: the SAGAME66 brief is live casino / baccarat / roulette and never
-// mentions lottery, so that grid would claim a category the brief does not have.
-// The file stays on disk for the next lottery client.
+// for the next brand): Announcement5, ContentBoxNeumorphism, ContentBoxSpecial,
+// ContentBoxFloatingBadge, ContentBoxSevenThreeFloatingBadge,
+// ContentBoxSevenThreeNeumorphism, ContentBoxTwoNeumorphism, Faq3 and
+// LatestWinners4. LottoGrid comes back IN for the opposite reason it went out
+// last round: SAGAME66 was live casino only, while this brief's H2 #2 is
+// "บริการหลัก หวยรัฐบาลไทย ฮานอย ลาวพัฒนา" — the grid now names those three
+// markets and nothing else.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 133 characters.
-const pageTitle = "SAGAME66 เว็บบาคาร่า รูเล็ต คาสิโน รวมครบทุกค่ายแท้";
+// floor and never topped up from the H1/H2 — this one is 145 characters.
+const pageTitle = "365LOTTO หวยคาสิโนในเว็บเดียว หวย บาคาร่า ไพ่ สล็อต เดิมพันครบวงจร";
 
-const pageDescription = "SAGAME66 เว็บบาคาร่า รูเล็ต คาสิโน แหล่งรวมเกมเดิมพัน ค่ายมาตรฐานสากล ฝากถอนได้ทุกยอด ไม่มีขั้นต่ำ ครบทุกค่ายแท้ ไม่มีขีดจำกัดการเล่น";
+const pageDescription = "365LOTTO หวยคาสิโนในเว็บเดียว เข้าเล่น หวย บาคาร่า ไพ่ สล็อต รวมถึงเกมรูปแบบอื่นๆ อีกมากมาย แบบครบวงจร สมัครทดลองเล่นตามแบบเกมที่คุณต้องการได้เลย";
 
-// <Announcement /> runs bare: Announcement5's default message is already this
+// <Announcement /> runs bare: AnnouncementHuay's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
-// The docx has a real H1 -> H2 -> H3 hierarchy this round: "แนะนำเพื่อน โบนัส
-// 0.8%" and "คืนยอดเสีย โบนัส 0.3%" are genuine H3 sub-points of the H2
-// โปรโมชั่น section, so the page is NOT flattened to H2-only. They are the only
-// <h3> here and they are carried by the two ContentBoxSevenThree* blocks.
-// Everything else is chrome — ProviderGrid, LatestWinners4, LoginRtpSection and
-// ReviewCardSumo2 all render their titles as <p>/<span> with an aria-label on
-// the section, and Faq3's questions stay <p> inside <summary>, so none of them
-// emits a heading tag.
+// The docx has a real H1 -> H2 -> H3 hierarchy this round: "2 ตัวจ่าย 100" and
+// "3 ตัวจ่าย 1,000" are genuine sub-points of the อัตราจ่ายหวย H2, and
+// "แนะนำเพื่อน โบนัส 0.8%" / "คืนยอดเสีย โบนัส 0.3%" of the โปรเล่นสล็อต H2, so
+// the page is NOT flattened to H2-only. Those four are the only <h3> here and
+// both pairs are carried by FeatureHighlights, which renders each item title as
+// an <h3> under the H2 it follows.
+// Everything else is chrome — LottoGrid, ProviderGrid, LatestWinnersHuay,
+// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span>
+// with an aria-label on the section, and FaqHuay's questions stay <p> inside
+// <summary>, so none of them emits a heading tag.
 //
 // The docx checklist, in order, and what carries each one:
-//   1 H1  SAGAME66 เว็บบาคาร่า รูเล็ต คาสิโน …        ContentBoxNeumorphism
-//   2 H2  SAGAME66 แหล่งรวมเกมเดิมพัน ค่ายมาตรฐาน …    ContentBoxSpecial (+ ProviderGrid)
-//   3 H2  โปรโมชั่นสูง กดรับหลังสมัคร SAGAME66 …       ContentBox
-//   4 H3  แนะนำเพื่อน โบนัส 0.8%                      ContentBoxSevenThreeFloatingBadge + slide1
-//   5 H3  คืนยอดเสีย โบนัส 0.3%                       ContentBoxSevenThreeNeumorphism  + slide2
-//   6 H2  สมัคร SAGAME66 ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ   ContentBoxFloatingBadge (+ <ol> ของ 3 ขั้นตอน)
-//   7 H2  แอดมิน SAGAME66 ดูแลสมาชิกตลอด 24 ชั่วโมง    ContentBoxTwoNeumorphism
-//   8 H2  คำถามที่พบบ่อย                              Faq3
-// Final inventory for this page: h1 x1, h2 x5, h3 x2.
+//    1 H1  365LOTTO หวยคาสิโนในเว็บเดียว …          ContentBoxHuay
+//    2 H2  365LOTTO บริการหลัก หวยรัฐบาลไทย …        ContentBoxTwoHuay (+ LottoGrid)
+//    3 H2  อัตราจ่ายหวย 365LOTTO ยอดสูง …            ContentBoxSevenThreeHuay + slide1
+//    4 H3  2 ตัวจ่าย 100                            FeatureHighlights #1 item 1
+//    5 H3  3 ตัวจ่าย 1,000                          FeatureHighlights #1 item 2
+//    6 H2  โปรเล่นสล็อต 365LOTTO ที่ดีที่สุด           ContentBoxSevenThree + slide2 (+ ProviderGrid)
+//    7 H3  แนะนำเพื่อน โบนัส 0.8%                    FeatureHighlights #2 item 1
+//    8 H3  คืนยอดเสีย โบนัส 0.3%                     FeatureHighlights #2 item 2
+//    9 H2  สมัครแทงหวย 365LOTTO ด้วย 3 ขั้นตอน …      ContentBox3ThreeHuay (intro slot + 3 คอลัมน์)
+//   10 H2  แอดมินเว็บ 365LOTTO ดูแลตลอด 24 ชั่วโมง    ContentBox
+//   11 H2  คำถามที่พบบ่อย                            FaqHuay
+// Final inventory for this page: h1 x1, h2 x6, h3 x4.
 //
-// ContentBoxSevenThreeFloatingBadge is passed `title` only (the floating badge)
-// and ContentBoxTwoNeumorphism is passed `title` only — their titleleft/titleright
-// props emit HeadingTag too, so passing them here would put three <h3>/<h2> on
-// one section. ContentBoxSevenThreeNeumorphism has no badge, so its `title`
-// falls through to the right column's single heading.
+// ContentBoxTwoHuay and ContentBox3ThreeHuay both changed shape this round:
+// their per-column titles used to render at the `as` level, which would have
+// put two or three tags on one docx section. Each now takes one `title` for the
+// section header and drops its column labels to <p>, so a docx heading maps to
+// exactly one tag.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "SAGAME66 มีเกมประเภทไหนให้เลือกบ้าง?",
-    a: "ภายในระบบมีทั้งบาคาร่า รูเล็ต คาสิโนสด และเกมเดิมพันประเภทอื่นตามรายการที่เปิดให้บริการ ผู้ใช้งานสามารถตรวจสอบค่ายเกมและรายละเอียดของแต่ละเกมได้จากหน้ารวมเกมก่อนเลือกเข้าเล่น",
+    q: "365LOTTO มีหวยประเภทไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และรายการอื่นตามรอบที่เปิดรับ ผู้ใช้งานสามารถตรวจสอบเวลา ประเภทหวย และรายละเอียดของแต่ละรายการได้จากหน้ารวมหวยก่อนทำรายการ",
   },
   {
-    q: "โปรโมชั่น SAGAME66 สมัครแล้วกดรับได้เลยหรือไม่?",
-    a: "โปรโมชั่นบางรายการสามารถกดรับหลังสมัครได้ตามเงื่อนไขที่กำหนดโดยไม่ต้องทำรายการฝากก่อน ส่วนสิทธิ์อื่นอาจมีข้อกำหนดเพิ่มเติม ควรตรวจสอบรายละเอียดของแต่ละโปรโมชั่นก่อนกดรับทุกครั้ง",
+    q: "365LOTTO เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
+    a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขของแต่ละรอบก่อนยืนยัน เนื่องจากรายละเอียดอาจแตกต่างกันตามประเภทหวย",
   },
   {
-    q: "สมัคร SAGAME66 ผ่านมือถือได้หรือไม่?",
-    a: "สามารถสมัครผ่านมือถือได้โดยกรอกข้อมูล ตรวจสอบความถูกต้อง และยืนยันบัญชี เมื่อสมัครเสร็จสามารถเข้าสู่ระบบเพื่อเลือกบาคาร่า รูเล็ต คาสิโน หรือเกมอื่นที่เปิดให้บริการได้จากหน้าเว็บไซต์",
+    q: "365LOTTO มีเฉพาะหวยหรือไม่?",
+    a: "ไม่ใช่ ภายในระบบยังมีบาคาร่า ไพ่ สล็อต และเกมรูปแบบอื่นตามรายการที่เปิดให้บริการ ผู้ใช้งานสามารถเลือกดูแต่ละหมวดผ่านบัญชีเดียวได้จากหน้าเว็บไซต์",
+  },
+];
+
+// The four docx sub-points, each with the full paragraph that follows it. They
+// are passed as two separate FeatureHighlights calls so each pair sits directly
+// under the H2 it belongs to.
+const payoutItems = [
+  {
+    icon: "💯",
+    title: "2 ตัวจ่าย 100",
+    description:
+      "สำหรับเลข 2 ตัว 365LOTTO ระบุอัตราจ่ายไว้ที่ 100 ตามเงื่อนไขของรายการ ผู้ใช้งานสามารถเลือกชุดตัวเลข ตรวจสอบรอบที่กำลังเปิดรับ และเช็กรายละเอียดของบิลได้ก่อนยืนยัน ช่วยให้จัดการรายการได้ง่ายและลดความผิดพลาดก่อนส่งบิลจริง",
+    accent: "gold" as const,
+  },
+  {
+    icon: "🔢",
+    title: "3 ตัวจ่าย 1,000",
+    description:
+      "เลข 3 ตัวของ 365LOTTO ระบุอัตราจ่ายไว้ที่ 1,000 ตามเงื่อนไขที่กำหนด ก่อนทำรายการสามารถตรวจสอบเลข ประเภทหวย รอบเวลา และรายละเอียดอัตราจ่ายได้อีกครั้ง เหมาะสำหรับผู้ที่ต้องการติดตามชุดเลข 3 ตัวในหลายรายการผ่านระบบเดียว",
+    accent: "red" as const,
+  },
+];
+
+const bonusItems = [
+  {
+    icon: "👥",
+    title: "แนะนำเพื่อน โบนัส 0.8%",
+    description:
+      "สมาชิก 365LOTTO ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้ง่ายผ่านบัญชีสมาชิก",
+    accent: "gold" as const,
+  },
+  {
+    icon: "↩️",
+    title: "คืนยอดเสีย โบนัส 0.3%",
+    description:
+      "โปรโมชั่นคืนยอดเสียของ 365LOTTO ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับได้ ช่วยให้ติดตามสิทธิ์ในแต่ละรอบได้ชัดเจนมากขึ้น",
+    accent: "red" as const,
   },
 ];
 
@@ -111,9 +157,9 @@ const faqs = [
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
 // Two highlight colours, matching the logo and both slides: the chrome silver
-// (#eef3f8) marks a claim the brief states outright, and the bright gold
-// (#ffe9a3) is reserved for the two bonus figures, which is exactly how slide1
-// and slide2 print them.
+// (#eef3f8) marks a claim the brief states outright, and the number gold
+// (#ffe9a3) is reserved for the payout and bonus figures, which is where
+// FeatureHighlights puts it on all four H3 cards.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -130,41 +176,32 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxNeumorphism as="h1" title="SAGAME66 เว็บบาคาร่า รูเล็ต คาสิโน รวมครบทุกค่ายแท้">
-    <p class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      SAGAME66
-      <strong class="text-[#eef3f8]">เว็บรวมเกมคาสิโนที่มีทั้งบาคาร่า รูเล็ต และเกมโต๊ะยอดนิยมจากหลายค่ายให้เลือกในระบบเดียว</strong>
-      <strong class="text-[#eef3f8]">รองรับการใช้งานผ่านมือถือและคอมพิวเตอร์</strong>
-      เมนูจัดหมวดหมู่ชัดเจน ช่วยให้ผู้ใช้งานค้นหาเกมที่ต้องการได้ง่าย
-      <strong class="text-[#eef3f8]">พร้อมตัวเลือกการเดิมพันหลายระดับตามเงื่อนไขของแต่ละเกม</strong>
+  <ContentBoxHuay as="h1" title="365LOTTO หวยคาสิโนในเว็บเดียว รวมถึงเกมรูปแบบอื่นๆ ครบวงจร">
+    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      365LOTTO
+      <strong class="text-[#eef3f8]">รวมทั้งหวยและคาสิโนไว้ในระบบเดียว</strong>
+      <strong class="text-[#eef3f8]">มีให้เลือกตั้งแต่หวย บาคาร่า ไพ่ สล็อต ไปจนถึงเกมรูปแบบอื่นอีกหลายประเภท</strong>
+      ผู้ใช้งานสามารถเลือกหมวดที่สนใจผ่านบัญชีเดียว
+      <strong class="text-[#eef3f8]">รองรับทั้งมือถือและคอมพิวเตอร์</strong>
+      พร้อมเมนูที่จัดหมวดชัดเจน ช่วยให้เข้าถึงรายการต่าง ๆ ได้สะดวกมากขึ้น
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxHuay>
 
-  <ContentBoxSpecial as="h2" title="SAGAME66 แหล่งรวมเกมเดิมพัน ค่ายมาตรฐานสากล 2026" iconleft="🃏" iconright="🔎">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      SAGAME66
-      <strong class="text-[#eef3f8]">รวมเกมเดิมพันจากหลายค่ายที่มีรูปแบบการเล่นแตกต่างกัน</strong>
-      <strong class="text-[#eef3f8]">ทั้งบาคาร่า รูเล็ต คาสิโนสด และเกมยอดนิยมอื่น ๆ ภายในปี 2026</strong>
+  <ContentBoxTwoHuay as="h2" title="365LOTTO บริการหลัก หวยรัฐบาลไทย ฮานอย ลาวพัฒนา" titleleft="ตลาดหวยที่เปิดรับ" titleright="ตรวจสอบก่อนยืนยัน" iconleft="🎫" iconright="🔎">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      365LOTTO
+      <strong class="text-[#eef3f8]">มีรายการหวยยอดนิยมให้เลือกทั้งรัฐบาลไทย หวยฮานอย และลาวพัฒนา</strong>
+      <strong class="text-[#eef3f8]">พร้อมแยกรอบเปิดรับของแต่ละประเภทไว้อย่างชัดเจน</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      <strong class="text-[#eef3f8]">ระบบจัดหน้าเกมให้ค้นหาได้ง่าย</strong>
-      <strong class="text-[#eef3f8]">สามารถตรวจสอบชื่อค่าย รายละเอียดเกม และระดับเดิมพันก่อนเข้าเล่น</strong>
-      ช่วยให้เลือกเกมที่ตรงกับสไตล์ของตัวเองได้สะดวกขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      <strong class="text-[#eef3f8]">ผู้ใช้งานสามารถตรวจสอบเลข รอบเวลา และรายละเอียดของรายการก่อนยืนยัน</strong>
+      ช่วยให้ติดตามหวยหลายประเภทได้จากหน้าเดียวโดยไม่ต้องเปลี่ยนหลายเว็บไซต์
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoHuay>
 
-  <ProviderGrid />
+  <LottoGrid />
 
-  <ContentBox as="h2" title="โปรโมชั่นสูง กดรับหลังสมัคร SAGAME66 ฝากไม่จำเป็น">
-    <p class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      โปรโมชั่น SAGAME66
-      <strong class="text-[#eef3f8]">มีสิทธิ์ให้สมาชิกเลือกหลายรูปแบบตามเงื่อนไขของแต่ละรายการ</strong>
-      <strong class="text-[#eef3f8]">โดยบางโปรโมชั่นสามารถตรวจสอบและกดรับหลังสมัครได้โดยไม่ต้องทำรายการฝากก่อน</strong>
-      พร้อมสิทธิ์แนะนำเพื่อนและคืนยอดเสีย ซึ่งมีรายละเอียดให้ตรวจสอบก่อนกดรับจากหน้าโปรโมชั่นโดยตรง
-    </p>
-  </ContentBox>
-
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeHuay as="h2" titleright="อัตราจ่ายหวย 365LOTTO ยอดสูง กดรับได้ทันที">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -176,68 +213,74 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์โปรโมชั่นพื้นทองเข้มโรยด้วยเหรียญทอง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดขาว-ทองที่มีคำว่า SAGAME66 กำลังชี้นิ้วทั้งสองข้างเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสีเข้มสวมเสื้อกีฬาขาว-ทองที่มีคำว่า SAGAME66 ยืนกอดอก ด้านบนเป็นโลโก้ SAGAME66 ตัวอักษร SA สีทองสามมิติ GAME สีเงินโครเมียม และเลข 66 สีทอง ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น และ แนะนำเพื่อน ล่างสุดเป็นตัวเลขสีเงินโครเมียมขนาดใหญ่ว่า 0.8% รอบภาพมีไพ่เอซโพดำ ลูกฟุตบอลสีทอง และกองชิปคาสิโน"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#96671a]/55 shadow-[0_10px_30px_rgba(232,185,63,0.35)]"
+      alt="แบนเนอร์อัตราจ่ายหวยพื้นทองเข้มอมแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดกีฬาขาว-แดงที่มีคำว่า 365LOTTO กำลังชี้นิ้วทั้งสองข้างเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงที่มีคำว่า 365LOTTO ยืนกอดอก ด้านบนเป็นโลโก้ 365LOTTO ที่เลข 365 เป็นทองสามมิติและคำว่า LOTTO เป็นสีขาวโครเมียมโดยมีวง O สองวงเป็นสีแดง ถัดลงมาเป็นข้อความสีขาวบนแถบแดงว่า อัตราจ่ายหวย แล้วเป็นแถบทองสองแถบเขียนว่า 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 รอบภาพมีลูกบอลหวยสีแดงและขาวพิมพ์ตัวเลข พร้อมกองเหรียญทองที่ฐานภาพ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#9c6a12]/60 shadow-[0_10px_30px_rgba(224,31,38,0.32)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      สมาชิก SAGAME66
-      <strong class="text-[#eef3f8]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส</strong>
-      <strong class="text-[#ffe9a3]">0.8%</strong>
-      <strong class="text-[#eef3f8]">ตามเงื่อนไขของโปรโมชั่น</strong>
-      ระบบจะแสดงรายละเอียดของยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก
+    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      365LOTTO
+      <strong class="text-[#eef3f8]">แสดงอัตราจ่ายหวยแต่ละประเภทให้ตรวจสอบก่อนทำรายการ</strong>
+      <strong class="text-[#eef3f8]">ทั้งเลข 2 ตัวและเลข 3 ตัว</strong>
+      พร้อมรายละเอียดของรอบที่เปิดรับ ผู้ใช้งานสามารถตรวจสอบตัวเลข อัตราจ่าย และข้อมูลบิลก่อนยืนยัน ช่วยให้เลือกประเภทการซื้อได้ตรงกับรูปแบบที่ต้องการมากขึ้น
     </p>
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThreeHuay>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <FeatureHighlights items={payoutItems} />
+
+  <ContentBoxSevenThree as="h2" title="โปรเล่นสล็อต 365LOTTO ที่ดีที่สุด">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 391px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์โปรโมชั่นพื้นทองเข้มมีกองเหรียญทองและชิปคาสิโนวางซ้อนกันด้านล่าง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดขาว-ทองที่มีคำว่า SAGAME66 กำลังชี้นิ้วทั้งสองข้าง ด้านขวาเป็นชายหนุ่มผมสั้นสีเข้มสวมเสื้อกีฬาขาว-ทองที่มีคำว่า SAGAME66 ยืนกอดอกข้างลูกฟุตบอลสีทอง ด้านบนเป็นโลโก้ SAGAME66 ตัวอักษร SA สีทองสามมิติ GAME สีเงินโครเมียม และเลข 66 สีทอง ถัดลงมาเป็นข้อความสีขาวว่า โปรโมชั่น และ คืนยอดเสีย ล่างสุดเป็นตัวเลขสีเงินโครเมียมขนาดใหญ่ว่า 0.3%"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#96671a]/55 shadow-[0_10px_30px_rgba(232,185,63,0.35)]"
+      alt="แบนเนอร์โปรโมชั่นพื้นทองเข้มอมแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดกีฬาขาว-แดงที่มีคำว่า 365LOTTO กำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงที่มีคำว่า 365LOTTO ยืนกอดอก ด้านบนเป็นโลโก้ 365LOTTO ที่เลข 365 เป็นทองสามมิติและคำว่า LOTTO เป็นสีขาวโครเมียมโดยมีวง O สองวงเป็นสีแดง ถัดลงมาเป็นแถบแดงขอบทองสองแถบเขียนว่า แนะนำเพื่อน โบนัส 0.8% และ คืนยอดเสีย โบนัส 0.3% รอบภาพมีลูกบอลหวยสีแดงและขาวพิมพ์ตัวเลข พร้อมกองเหรียญทองที่ฐานภาพ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e01f26]/55 shadow-[0_10px_30px_rgba(250,220,100,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      โปรโมชั่นคืนยอดเสียของ SAGAME66
-      <strong class="text-[#eef3f8]">ให้โบนัส</strong>
-      <strong class="text-[#ffe9a3]">0.3%</strong>
-      <strong class="text-[#eef3f8]">ตามยอดและเงื่อนไขที่กำหนด</strong>
-      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์ได้ ช่วยให้ติดตามโบนัสในแต่ละรอบได้ชัดเจนและจัดการสิทธิ์ของตัวเองได้ง่ายขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      โปรโมชั่นสล็อต 365LOTTO
+      <strong class="text-[#eef3f8]">มีสิทธิ์สำหรับสมาชิกหลายรูปแบบ</strong>
+      <strong class="text-[#eef3f8]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+      แต่ละรายการมีรายละเอียดและเงื่อนไขให้ตรวจสอบก่อนกดรับ สมาชิกจึงสามารถเลือกโปรโมชั่นให้เหมาะกับลักษณะการใช้งานของตัวเอง และติดตามสิทธิ์ผ่านบัญชีได้สะดวก
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThree>
 
-  <ContentBoxFloatingBadge as="h2" title="สมัคร SAGAME66 ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ">
-    <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#e3d8c0]">
-        การสมัคร SAGAME66
-        <strong class="text-[#eef3f8]">สามารถทำผ่านมือถือได้ด้วยตัวเอง</strong>
-        <strong class="text-[#eef3f8]">ขั้นตอนถูกจัดไว้ให้เข้าใจง่าย</strong>
-        และหลังจากยืนยันบัญชีเรียบร้อยก็สามารถเข้าสู่ระบบเพื่อเลือกบาคาร่า รูเล็ต หรือคาสิโนที่ต้องการได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
-      </p>
-      <ol class="list-decimal space-y-2 pl-6 text-left text-base leading-relaxed text-[#e3d8c0] marker:font-black marker:text-[#e8b93f]">
-        <li>เปิดหน้าสมัคร SAGAME66 บนมือถือ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
-        <li>ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
-        <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกบาคาร่า รูเล็ต คาสิโน หรือเกมที่ต้องการได้ทันที</li>
-      </ol>
-    </div>
-  </ContentBoxFloatingBadge>
+  <ProviderGrid />
 
-  <ContentBoxTwoNeumorphism as="h2" title="แอดมิน SAGAME66 ดูแลสมาชิกตลอด 24 ชั่วโมง">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e3d8c0]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร โปรโมชั่น ทางเข้าเกม บาคาร่า รูเล็ต หรือการใช้งานบัญชี
-      <strong class="text-[#eef3f8]">สามารถติดต่อแอดมิน SAGAME66 ได้ตลอด 24 ชั่วโมง</strong>
+  <FeatureHighlights items={bonusItems} />
+
+  <ContentBox3ThreeHuay
+    as="h2"
+    title="สมัครแทงหวย 365LOTTO ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ"
+    titleleft="ขั้นตอนที่ 1"
+    titlecenter="ขั้นตอนที่ 2"
+    titleright="ขั้นตอนที่ 3"
+    iconleft="📱"
+    iconcenter="✅"
+    iconright="🎫">
+    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      การสมัคร 365LOTTO
+      <strong class="text-[#eef3f8]">สามารถทำผ่านมือถือได้ด้วยตัวเอง</strong>
+      <strong class="text-[#eef3f8]">ขั้นตอนไม่ซับซ้อน</strong>
+      หลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกหวยหรือเกมประเภทที่สนใจได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e3d8c0]">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#f0ddc4]">เปิดหน้าสมัคร 365LOTTO บนมือถือ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</p>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#f0ddc4]">ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกหวยรัฐบาลไทย ฮานอย ลาวพัฒนา หรือเกมที่ต้องการได้ทันที</p>
+  </ContentBox3ThreeHuay>
+
+  <ContentBox as="h2" title="แอดมินเว็บ 365LOTTO ดูแลตลอด 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร อัตราจ่ายหวย โปรโมชั่น สล็อต หรือการใช้งานบัญชี
+      <strong class="text-[#eef3f8]">สามารถติดต่อแอดมินเว็บ 365LOTTO ได้ตลอด 24 ชั่วโมง</strong>
       <strong class="text-[#eef3f8]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
-      เพื่อให้สมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกในทุกช่วงเวลา
+      เพื่อให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา
     </p>
-  </ContentBoxTwoNeumorphism>
+  </ContentBox>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 

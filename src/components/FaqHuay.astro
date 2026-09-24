@@ -5,15 +5,22 @@ export interface FAQ {
 }
 export interface Props {
   title?: string;
+  /** The docx level of "คำถามที่พบบ่อย" on the page rendering this. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   faqs?: FAQ[];
 }
 
-// Rendered only by /ตรวจหวย, which always passes an explicit `faqs` array built
-// from this brand's brief. The defaults below exist so the component can never
-// render empty — they are kept in step with the current brand for the same
-// reason AnnouncementHuay's default message is: a stale default is the classic
-// place a previous brand's copy survives a rebrand unnoticed. These three are
-// the brief's own Q/A pairs, verbatim.
+// Every consumer passes an explicit `faqs` array built from this brand's brief.
+// The defaults below exist so the component can never render empty — they are
+// kept in step with the current brand for the same reason AnnouncementHuay's
+// default message is: a stale default is the classic place a previous brand's
+// copy survives a rebrand unnoticed. These three are the brief's own Q/A pairs,
+// verbatim.
+//
+// The question used to be an <h3>. It is a <p> inside the <summary> now: the
+// h2/h3 inventory is diffed against the docx checklist every rebrand, and this
+// brand's brief has exactly four H3s, none of them a question. The accordion
+// still works — <summary> is the control, not the tag inside it.
 //
 // No <script> here on purpose. The one this file used to carry queried `.icon`,
 // `.faq-content` and `.faq-item` across the WHOLE document rather than its own
@@ -21,21 +28,27 @@ export interface Props {
 // and its icons reset by this one. `name` on <details> gives the browser the
 // exclusive behaviour it was reaching for, scoped to this group.
 //
-// พาเลตต์กรมท่า-ทองตาม §2 ของ brand spec — แดงของแบรนด์ก่อนหน้าออกทั้งหมด
+// 365LOTTO (รอบแดง-ทอง-เงินโครเมียม 2026-09-24): แถวคำถามเป็นพื้นยก #2a0b0e ใน
+// กรอบทองลึก #9c6a12 คำตอบตกลงไปที่พื้นการ์ด #1a0709 ปุ่ม + เป็นทองสว่าง #fdf3b4
+// บนพื้นยก แล้วกลับสีเป็นทองหลัก #fadc64 บนตัวอักษรสีพื้นเพจ #120406 ตอนเปิด
+// หัวข้อไล่เงินโครเมียม #f3f6fa → ทองหลัก → แดงสด #e01f26 ตามลำดับสีบนโลโก้ —
+// ชุดกรมท่า-ทองของหวยพยัคฆ์ (#030b1c #08152f #0f2149 #1c3566 #dbe4f7 #e8eef8
+// #fadb6c #fdf5a4 #ab6d13) ออกทั้งหมด
 const {
-  title = "คำถามที่พบบ่อย (FAQ)",
+  title = "คำถามที่พบบ่อย",
+  as: HeadingTag = "h2",
   faqs = [
     {
-      q: "หวยพยัคฆ์ มีหวยประเภทไหนให้เลือกบ้าง?",
-      a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ โดยรายการที่เปิดรับอาจแตกต่างกันตามวันและช่วงเวลา สามารถตรวจสอบรอบล่าสุดได้จากหน้ารวมหวยก่อนทำรายการ",
+      q: "365LOTTO มีหวยประเภทไหนให้เลือกบ้าง?",
+      a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และรายการอื่นตามรอบที่เปิดรับ ผู้ใช้งานสามารถตรวจสอบเวลา ประเภทหวย และรายละเอียดของแต่ละรายการได้จากหน้ารวมหวยก่อนทำรายการ",
     },
     {
-      q: "หวยพยัคฆ์ เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
-      a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขและรายละเอียดของแต่ละรอบก่อนยืนยันรายการทุกครั้ง",
+      q: "365LOTTO เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
+      a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขของแต่ละรอบก่อนยืนยัน เนื่องจากรายละเอียดอาจแตกต่างกันตามประเภทหวย",
     },
     {
-      q: "สมัครหวยพยัคฆ์ ต้องทำอย่างไร?",
-      a: "เริ่มจากกรอกข้อมูลในหน้าสมัคร ตรวจสอบรายละเอียดให้ถูกต้อง แล้วกดยืนยันบัญชี เมื่อสมัครเสร็จสามารถเข้าสู่ระบบเพื่อเลือกรายการหวย รอบที่เปิดรับ และเลขที่ต้องการได้จากหน้าเว็บไซต์",
+      q: "365LOTTO มีเฉพาะหวยหรือไม่?",
+      a: "ไม่ใช่ ภายในระบบยังมีบาคาร่า ไพ่ สล็อต และเกมรูปแบบอื่นตามรายการที่เปิดให้บริการ ผู้ใช้งานสามารถเลือกดูแต่ละหมวดผ่านบัญชีเดียวได้จากหน้าเว็บไซต์",
     },
   ],
 } = Astro.props;
@@ -43,7 +56,9 @@ const {
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
   <div class="mb-6 text-center">
-    <h2 class="bg-gradient-to-r from-[#e8eef8] via-[#fadb6c] to-[#ab6d13] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm">{title}</h2>
+    <HeadingTag class="bg-gradient-to-r from-[#f3f6fa] via-[#fadc64] to-[#e01f26] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm"
+      >{title}</HeadingTag
+    >
   </div>
 
   <div class="flex flex-col gap-3">
@@ -51,16 +66,16 @@ const {
       faqs.map((faq) => (
         <details
           name="faq-huay"
-          class="faq-item group overflow-hidden rounded-xl border border-[#ab6d13]/45 bg-[#0f2149]/90 backdrop-blur-md transition-all duration-300 hover:border-[#fadb6c]/60 hover:shadow-[0_10px_25px_rgba(250,219,108,0.18)]">
+          class="faq-item group overflow-hidden rounded-xl border border-[#9c6a12]/55 bg-[#2a0b0e]/90 backdrop-blur-md transition-all duration-300 hover:border-[#fadc64]/65 hover:shadow-[0_10px_25px_rgba(250,220,100,0.2)]">
           <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left">
-            <h3 class="text-base leading-normal font-bold text-[#dbe4f7] transition-colors group-hover:text-[#fadb6c]">{faq.q}</h3>
+            <p class="text-base leading-normal font-bold text-[#f0ddc4] transition-colors group-hover:text-[#fadc64]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#ab6d13]/70 bg-[#1c3566] text-sm font-bold text-[#fdf5a4] transition-all duration-300 group-hover:bg-[#fadb6c] group-hover:text-[#030b1c]">
+              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#9c6a12]/70 bg-[#1a0709] text-sm font-bold text-[#fdf3b4] transition-all duration-300 group-hover:bg-[#fadc64] group-hover:text-[#120406]">
               +
             </span>
           </summary>
-          <p class="faq-answer border-t border-[#ab6d13]/40 bg-[#08152f]/85 p-5 text-left text-base leading-relaxed text-[#dbe4f7]">{faq.a}</p>
+          <p class="faq-answer border-t border-[#9c6a12]/45 bg-[#1a0709]/90 p-5 text-left text-base leading-relaxed text-[#f0ddc4]">{faq.a}</p>
         </details>
       ))
     }
@@ -75,12 +90,12 @@ const {
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(250, 219, 108, 0.6);
+    border-color: rgba(250, 220, 100, 0.65);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    background-color: #fadb6c;
-    color: #030b1c;
+    background-color: #fadc64;
+    color: #120406;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

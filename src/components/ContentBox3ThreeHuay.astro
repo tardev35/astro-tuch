@@ -1,66 +1,109 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the ONLY heading this box ever emits.
+   *  The three column labels are chrome (they name a card, not a section of the
+   *  brief), so they render as <p> whatever `as` says. */
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titlecenter?: string;
   titleright?: string;
-  /** All three column headings render at this level, set from the docx's
-   *  outline. The file used to hardcode <h3>; it is a prop now so the level
-   *  follows the brief instead of the component. */
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  /** Accessible name for the <section>. The columns carry real docx headings,
-   *  so this only names the group they belong to. */
+  /** Accessible name for the <section> when no `title` is passed. */
   label?: string;
   iconleft?: string;
   iconcenter?: string;
   iconright?: string;
 }
-const { titleleft, titlecenter, titleright, as: HeadingTag = "h3", label, iconleft = "📱", iconcenter = "🏦", iconright = "🔐" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, iconleft = "📱", iconcenter = "🏦", iconright = "🔐" } = Astro.props;
 
-// LOTTOKA: การ์ดดำอมแดง #140a0c ในกรอบแดงโลโก้ หัวข้อคอลัมน์เป็นชมพูอ่อน #ff8a8d
-// เส้นคั่นเป็นแดงโลโก้ — ทองของแบรนด์หวยรุ่นก่อนถูกถอดออกทั้งหมด
+const sectionLabel = label ?? title ?? "ข้อมูลประกอบ";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
+// The default slot is the section's lead paragraph, above the three columns.
+// It is conditional so an unused intro cannot leave an empty spaced <div>.
+const hasIntro = Astro.slots.has("default");
+
+// Shape change 2026-09-24: the three column titles used to render at `as`
+// level, which put three tags on one docx section whose sub-points are plain
+// sentences rather than headings. One section header carries the docx heading
+// now, the columns dropped to <p>, and the lead paragraph has a slot of its own
+// instead of being folded into a column.
+//
+// 365LOTTO (รอบแดง-ทอง-เงินโครเมียม 2026-09-24): การ์ดแดงเกือบดำ #1a0709 ในกรอบ
+// ทองลึก #9c6a12 ที่สว่างขึ้นเป็นทองหลัก #fadc64 ตอน hover ป้ายลำดับขั้นตอนไล่
+// ทองสว่าง #fdf3b4 → ทองลึก #e0b03a บนตัวอักษรสีพื้นเพจ #120406 เส้นคั่นคอลัมน์
+// เป็นทองลึก ชื่อขั้นตอนเป็นทองสว่าง เนื้อความ #f0ddc4 (BRAND_TEXT) — ชุดดำอมแดง
+// ของ LOTTOKA (#140a0c #c21e22 #e2353a #ff8a8d #ded9da) ออกทั้งหมด
 ---
 
-<section aria-label={label} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#c21e22]/45 bg-[#140a0c]/85 p-8 text-[#ded9da] shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-500 hover:border-[#e2353a]/55 hover:shadow-[0_15px_40px_rgba(226,53,58,0.2)] md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9c6a12]/50 bg-[#1a0709]/90 p-8 text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#fadc64]/60 hover:shadow-[0_15px_40px_rgba(250,220,100,0.24)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#e01f26]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#fadc64]/26">
+    </div>
+
+    {
+      title && (
+        <header class="mb-6 flex items-center gap-4 border-b border-[#9c6a12]/45 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdf3b4] via-[#fadc64] to-[#e01f26] shadow-[0_0_10px_rgba(250,220,100,0.55)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#fdf3b4] via-[#f3f6fa] to-[#e01f26] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+            {title}
+          </HeadingTag>
+        </header>
+      )
+    }
+
+    {
+      hasIntro && (
+        <div class="mb-8 text-left text-base leading-relaxed text-[#f0ddc4]">
+          <slot />
+        </div>
+      )
+    }
+
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-[#c21e22]/40 pb-8 text-left text-base leading-relaxed text-[#ded9da] md:border-r md:border-b-0 md:pr-8 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-8 text-left text-base leading-relaxed text-[#f0ddc4] md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+              <span
+                aria-hidden="true"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
                 {iconleft}
-              </span>{" "}
+              </span>
               {titleleft}
-            </HeadingTag>
+            </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-[#c21e22]/40 pb-8 text-left text-base leading-relaxed text-[#ded9da] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-8 text-left text-base leading-relaxed text-[#f0ddc4] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+              <span
+                aria-hidden="true"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
                 {iconcenter}
-              </span>{" "}
+              </span>
               {titlecenter}
-            </HeadingTag>
+            </p>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ded9da] md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f0ddc4] md:pl-8">
         {
           titleright && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8a8d] uppercase">
-              <span aria-hidden="true" class="text-xl drop-shadow-[0_0_5px_rgba(226,53,58,0.8)]">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+              <span
+                aria-hidden="true"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
                 {iconright}
-              </span>{" "}
+              </span>
               {titleright}
-            </HeadingTag>
+            </p>
           )
         }
         <slot name="right" />

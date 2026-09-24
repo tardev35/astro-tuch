@@ -1,54 +1,79 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the ONLY heading this box ever emits.
+   *  The two column labels below are chrome (they name a card, not a section
+   *  of the brief), so they render as <p> no matter what is passed here. */
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titleright?: string;
-  /** Both column headings render at this level, set from the docx's outline.
-   *  Pass only the heading(s) the docx actually has — an unpassed title emits
-   *  no tag at all, so this box can carry one docx heading across two columns. */
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  /** Accessible name for the <section> when no `title` is passed. With a
+   *  `title` the heading names the region and the aria-label is dropped. */
+  label?: string;
   iconleft?: string;
   iconright?: string;
 }
-const { titleleft, titleright, as: HeadingTag = "h2", iconleft = "🎯", iconright = "🏆" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🎫", iconright = "🔎" } = Astro.props;
 
-// หวยพยัคฆ์ (รอบกรมท่า-ทอง 2026-09-22): การ์ดสองใบเป็นกรมท่า ใบซ้ายอยู่ในกรอบ
-// ทองบรอนซ์ #ab6d13 บนพื้นการ์ด #08152f ใบขวาอยู่ในกรอบทองหลัก #fadb6c บนพื้นยก
-// #0f2149 — แยกสองใบด้วยความสว่างในโทนเดียวกัน หัวข้อเป็นทองสว่าง #fdf5a4 ตาม
-// คำว่า พยัคฆ์ บนโลโก้ ส่วนป้ายไอคอนไล่ทองสว่าง → ทองบรอนซ์ ตัวอักษรบนป้ายใช้
-// สีพื้นเพจ #030b1c แดง LOTTOKA เดิมออกทั้งหมด
+const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
+
+// Shape change 2026-09-24: the docx heading used to be duplicated into both
+// column headings, which put two tags on one brief section. One section header
+// above the grid carries it now, and the per-card labels dropped to <p>.
+//
+// 365LOTTO (รอบแดง-ทอง-เงินโครเมียม 2026-09-24): สองใบแยกกันด้วยคู่สีจริงของโลโก้
+// ใบซ้ายเป็นพื้นการ์ดแดงเกือบดำ #1a0709 ในกรอบทองลึก #9c6a12 ป้ายไอคอนไล่ทองสว่าง
+// #fdf3b4 → ทองลึก #e0b03a บนตัวอักษรสีพื้นเพจ #120406 ส่วนใบขวาเป็นพื้นยก #2a0b0e
+// ในกรอบทองหลัก #fadc64 ป้ายไอคอนไล่แดงสด #e01f26 → แดงเข้ม #a40304 ตามวง O สองวง
+// ของคำว่า LOTTO หัวข้อหลักไล่ทองสว่าง → เงินโครเมียม #f3f6fa → แดงสด ตามลำดับสี
+// บนโลโก้ เนื้อความ #f0ddc4 (BRAND_TEXT) — ชุดกรมท่า-ทองของหวยพยัคฆ์ (#030b1c
+// #08152f #0f2149 #1c3566 #dbe4f7 #9fb0d0 #e8eef8 #fadb6c #fdf5a4 #ab6d13)
+// ออกทั้งหมด
 ---
 
-<section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+  {
+    title && (
+      <header class="mb-6 flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-4">
+        <HeadingTag class={`bg-gradient-to-r from-[#fdf3b4] via-[#f3f6fa] to-[#e01f26] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          {title}
+        </HeadingTag>
+        <div aria-hidden="true" class="h-[3px] w-24 rounded-full bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e01f26] shadow-[0_0_10px_rgba(250,220,100,0.55)]" />
+      </header>
+    )
+  }
+
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
     <article
-      class="flex flex-col gap-4 rounded-2xl border border-[#ab6d13]/70 bg-[#08152f]/85 p-6 text-left text-base leading-relaxed text-[#dbe4f7] shadow-[0_10px_30px_rgba(3,11,28,0.6)] backdrop-blur-md md:p-7">
+      class="flex flex-col gap-4 rounded-2xl border border-[#9c6a12]/70 bg-[#1a0709]/90 p-6 text-left text-base leading-relaxed text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.6)] backdrop-blur-md md:p-7">
       {
         titleleft && (
-          <div class="flex items-center gap-3 border-b border-[#fadb6c]/35 pb-3">
+          <p class="flex items-center gap-3 border-b border-[#fadc64]/35 pb-3 text-xl leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#fdf5a4] to-[#ab6d13] text-sm text-[#030b1c] shadow-[0_0_10px_rgba(250,219,108,0.5)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
               {iconleft}
             </span>
-            <HeadingTag class="text-xl leading-normal font-black tracking-widest text-[#fdf5a4] uppercase drop-shadow-md">{titleleft}</HeadingTag>
-          </div>
+            {titleleft}
+          </p>
         )
       }
       <slot name="left" />
     </article>
 
     <article
-      class="flex flex-col gap-4 rounded-2xl border border-[#fadb6c]/45 bg-[#0f2149]/80 p-6 text-left text-base leading-relaxed text-[#dbe4f7] shadow-[0_10px_30px_rgba(3,11,28,0.6)] backdrop-blur-md md:p-7">
+      class="flex flex-col gap-4 rounded-2xl border border-[#fadc64]/45 bg-[#2a0b0e]/85 p-6 text-left text-base leading-relaxed text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.6)] backdrop-blur-md md:p-7">
       {
         titleright && (
-          <div class="flex items-center gap-3 border-b border-[#fadb6c]/35 pb-3">
+          <p class="flex items-center gap-3 border-b border-[#fadc64]/35 pb-3 text-xl leading-normal font-black tracking-widest text-[#f3f6fa] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#fadb6c] to-[#ab6d13] text-sm text-[#030b1c] shadow-[0_0_10px_rgba(250,219,108,0.5)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e01f26]/70 bg-gradient-to-br from-[#e01f26] to-[#a40304] text-sm text-[#fdf3b4] shadow-[0_0_10px_rgba(224,31,38,0.45)]">
               {iconright}
             </span>
-            <HeadingTag class="text-xl leading-normal font-black tracking-widest text-[#fdf5a4] uppercase drop-shadow-md">{titleright}</HeadingTag>
-          </div>
+            {titleright}
+          </p>
         )
       }
       <slot name="right" />

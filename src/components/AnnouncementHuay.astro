@@ -1,28 +1,31 @@
 ---
-// /ตรวจหวย and /แนวทาง both pass an explicit `message` — that is the copy that
-// actually renders. This default is the same brand's copy kept in step, so a
-// bare <Announcement /> can never fall back to a previous brand's slogan; if you
-// rebrand, update all three together.
+// ทุกหน้าเรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่วิ่งจริงจึงเป็น default
+// ตัวนี้ — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ไม่งั้นทั้งเว็บจะพูดแทนแบรนด์ก่อนหน้า
 // No emoji in it: an emoji baked into a text prop cannot be given its own
 // aria-hidden span, and this marquee prints the string twice.
+//
+// 365LOTTO (รอบแดง-ทอง 2026-09-24): แคปซูลพื้นแดงเกือบดำ #1a0709 ขอบทองลึก
+// #9c6a12 ป้าย "ประกาศ" ไล่เฉดทอง #9c6a12 → #fadc64 → #9c6a12 จุดนำหน้าข้อความ
+// เป็นทอง #fadc64 กับแดงสด #e01f26 ตามคู่สีในโลโก้ — สีกรมท่า #030b1c/#08152f
+// และ #dbe4f7/#e8eef8 ของ หวยพยัคฆ์ รอบก่อนถูกแทนครบแล้ว
 const {
-  message = "หวยพยัคฆ์ รวมรายการแทงหวยหลายประเภทไว้ในระบบเดียว ทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ เลือกดูรอบที่เปิดรับและตรวจสอบเลขที่ต้องการได้จากหน้าเดียว อัตราจ่ายเลข 2 ตัวอยู่ที่ 100 และเลข 3 ตัวอยู่ที่ 1,000 ตามเงื่อนไขของแต่ละรายการ ควรตรวจสอบรอบหวย ประเภทบิล และรายละเอียดของรายการก่อนยืนยันทุกครั้ง สมัครสมาชิกทำเองได้ผ่านหน้าเว็บไซต์ใน 3 ขั้นตอน กรอกข้อมูล ตรวจสอบความถูกต้อง แล้วยืนยันบัญชีเพื่อเข้าสู่ระบบ แอดมินหวยพยัคฆ์ ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง",
+  message = "365LOTTO รวมหวยและคาสิโนไว้ในระบบเดียว ทั้งหวยรัฐบาลไทย ฮานอย ลาวพัฒนา พร้อมบาคาร่า ไพ่ และสล็อต เลือกหมวดที่สนใจผ่านบัญชีเดียวได้จากหน้าเดียว อัตราจ่ายเลข 2 ตัวอยู่ที่ 100 และเลข 3 ตัวอยู่ที่ 1,000 ตามเงื่อนไขของแต่ละรายการ ควรตรวจสอบรอบที่เปิดรับ ประเภทหวย และรายละเอียดของบิลก่อนยืนยันทุกครั้ง โปรโมชั่นมีทั้งแนะนำเพื่อนโบนัส 0.8% และคืนยอดเสียโบนัส 0.3% สมัครสมาชิกทำเองได้บนมือถือใน 3 ขั้นตอน กรอกข้อมูล ตรวจสอบความถูกต้อง แล้วยืนยันบัญชีเพื่อเข้าสู่ระบบ แอดมินเว็บ 365LOTTO ดูแลผ่าน Line Official ตลอด 24 ชั่วโมง",
 } = Astro.props;
 ---
 
 <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-3">
-  <div class="relative flex overflow-hidden rounded-full border border-[#ab6d13]/60 bg-[#08152f]/90 shadow-[0_5px_15px_rgba(3,11,28,0.7)] backdrop-blur-md">
+  <div class="relative flex overflow-hidden rounded-full border border-[#9c6a12]/60 bg-[#1a0709]/90 shadow-[0_5px_15px_rgba(18,4,6,0.7)] backdrop-blur-md">
     <div
-      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#ab6d13] via-[#fadb6c] to-[#ab6d13] px-6 py-2.5 font-black text-[#030b1c] shadow-[4px_0_15px_rgba(3,11,28,0.7)]">
+      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#9c6a12] via-[#fadc64] to-[#9c6a12] px-6 py-2.5 font-black text-[#120406] shadow-[4px_0_15px_rgba(18,4,6,0.7)]">
       <span aria-hidden="true" class="mr-2 animate-pulse text-lg">📢</span> ประกาศ
     </div>
 
     <div class="marquee-container relative flex-1 overflow-hidden py-2.5 pr-6">
-      <div class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#08152f] to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#1a0709] to-transparent"></div>
 
-      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#dbe4f7]">
-        <span class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#fadb6c] shadow-[0_0_8px_rgba(250,219,108,0.8)]"></span>{message}</span>
-        <span class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e8eef8] shadow-[0_0_8px_rgba(232,238,248,0.8)]"></span>{message}</span>
+      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#f0ddc4]">
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#fadc64] shadow-[0_0_8px_rgba(250,220,100,0.8)]"></span>{message}</span>
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#e01f26] shadow-[0_0_8px_rgba(224,31,38,0.8)]"></span>{message}</span>
       </div>
     </div>
   </div>
