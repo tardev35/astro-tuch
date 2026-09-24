@@ -10,26 +10,38 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ UFAGOOL คำว่า UFA เป็นตัวอักษรเอียงหนาสีแดงเงาวาว ต่อด้วยคำว่า GOOL สีเงินโครเมียมไล่เฉด";
+const logoAlt = "โลโก้ 888PARUAY เป็นวงกลมขอบทองหนาบนพื้นขาว ภายในมีเลข 888 สีเขียวเงาสามมิติ ต่อด้วยคำว่า PARUAY ตัวหนาสีแดงไล่เฉดทอง";
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
 //
-// ไม่มี ตรวจหวย/แนวทาง: UFAGOOL เป็นแบรนด์กีฬา/คาสิโน/สล็อต ไม่ใช่เว็บหวย
-// ทั้งสองหน้าถูกย้ายไป src/pages-disabled/ แล้ว ลิงก์จึงต้องไม่มีในเมนู
+// มี ตรวจหวย/แนวทาง: 888PARUAY เป็นเว็บหวยโดยตรง ทั้งสองหน้าถูกย้ายกลับจาก
+// src/pages-disabled/ มาที่ src/pages/ รอบนี้ ลิงก์จึงต้องมีครบทั้งเมนู
+// เดสก์ท็อปและเมนูมือถือ (ใช้ links ชุดเดียวกัน จึงแก้ที่เดียวพอ)
 // ไม่มี ทางเข้า: toggle cta เปิดอยู่ /register กับ /login จึงเป็นหน้าจริงในเมนูแล้ว
 // ทางเข้าจะกลายเป็นลิงก์ที่สามที่พาไปที่เดียวกัน (หน้ายังถูก route และ index อยู่)
 //
-// UFAGOOL (รอบแดง-เงินโครเมียม 2026-09-23): พื้นเกือบดำ #0a0708 การ์ด/สถานะ
-// active เป็น #241a1a ขอบแดงแบรนด์ #c50d12 ตัวหนังสือเงิน #b8c3cf → ขาวเงิน
-// #f4f7fa ตอน active ปุ่มสมัครเป็นไล่เฉดแดง #ef1f25 → #7a0103 ตัวหนังสือขาวเงิน
-// — ทอง #ecc964/#ba8219/#fff8e2 กับพื้น #1b140b ของ SUPERMAX168 ถูกถอดออกหมด
+// 888PARUAY (รอบทอง-เขียว-แดง 2026-09-24): พื้นเขียวเข้มเกือบดำ #07130a
+// การ์ด/สถานะ active เป็น #143a1c ขอบทองแบรนด์ #fcdc2b ตัวหนังสือเขียวอ่อน
+// #bfc9a8 → ครีมสว่าง #fffdf0 ตอน active แถบไฮไลต์ซ้ายไล่ทอง → เขียว → แดง
+// ตามสามสีในโลโก้ ปุ่มสมัครเป็นไล่เฉดทอง #fff6ae → #a87d0c ตัวหนังสือสีพื้น
+// — แดง #c50d12/#ef1f25 กับเงินโครเมียม #b8c3cf/#f4f7fa ของ UFAGOOL ถูกถอดหมด
+//
+// รางเมนูเดสก์ท็อปขยายจาก 640px เป็น 700px เพราะรอบนี้มี 9 เมนู (เพิ่ม
+// ตรวจหวย/แนวทาง) — ที่ความสูงเดิมไอคอนกับป้ายชื่อจะเบียดกัน
+//
+// โลโก้ทั้งสองตัวคง loading="eager" ไว้ (อยู่เหนือ fold บน header ที่ sticky
+// ถ้า lazy จะเห็นภาพโผล่ทีหลัง) แต่ถอด fetchpriority="high" ออกแล้ว — ของเดิม
+// ในไฟล์ใส่ไว้ทั้งคู่ ทำให้โลโก้สองตัวแย่ง priority สูงสุดกับ hero banner ซึ่ง
+// เป็น LCP จริงของทุกหน้า กติกาคือมีแค่ภาพ LCP ตัวเดียวที่ได้ high
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔍" },
+  { name: "แนวทาง", path: "/แนวทาง", icon: "📊" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎫" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
@@ -38,13 +50,12 @@ const links = [
 <header class="sticky top-0 z-50 w-full font-sans shadow-lg">
   <div class="pointer-events-none absolute top-0 left-0 z-50 hidden h-0 w-full items-start justify-center lg:flex">
     <div
-      class="pointer-events-auto flex h-[65px] w-[130px] items-center justify-center rounded-b-3xl border-x border-b border-[#c50d12] bg-gradient-to-b from-[#241a1a] to-[#0a0708] shadow-[0_5px_18px_rgba(197,13,18,0.4)]">
-      <a href="/" class="drop-shadow-[0_0_8px_rgba(184,195,207,0.45)] transition-transform hover:scale-110">
+      class="pointer-events-auto flex h-[65px] w-[130px] items-center justify-center rounded-b-3xl border-x border-b border-[#fcdc2b] bg-gradient-to-b from-[#143a1c] to-[#07130a] shadow-[0_5px_18px_rgba(252,220,43,0.4)]">
+      <a href="/" class="drop-shadow-[0_0_8px_rgba(252,220,43,0.5)] transition-transform hover:scale-110">
         <Picture
           src={mainLogo!}
           alt={logoAlt}
           loading="eager"
-          fetchpriority="high"
           widths={[75, 150, 225]}
           sizes="75px"
           class="h-[38px] w-auto"
@@ -57,20 +68,20 @@ const links = [
   </div>
 
   <aside
-    class="fixed top-1/2 left-3 z-40 hidden h-[640px] max-h-[88vh] w-[92px] -translate-y-1/2 flex-col items-center justify-center rounded-2xl border border-[#5e0507]/85 bg-[#0a0708]/95 p-2 shadow-[5px_0_22px_rgba(0,0,0,0.65)] backdrop-blur-md lg:flex">
+    class="fixed top-1/2 left-3 z-40 hidden h-[700px] max-h-[90vh] w-[92px] -translate-y-1/2 flex-col items-center justify-center rounded-2xl border border-[#1fae1c]/70 bg-[#07130a]/95 p-2 shadow-[5px_0_22px_rgba(0,0,0,0.65)] backdrop-blur-md lg:flex">
     <div class="relative flex h-full w-full flex-col gap-2 overflow-hidden rounded-xl">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg transition-all ${isActive(link.path) ? "bg-[#241a1a]" : "hover:bg-[#241a1a]/70"}`}>
+            class={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg transition-all ${isActive(link.path) ? "bg-[#143a1c]" : "hover:bg-[#143a1c]/70"}`}>
             <span aria-hidden="true" class="mb-1 text-2xl drop-shadow-md transition-transform group-hover:scale-110">
               {link.icon ?? "🔗"}
             </span>
-            <span class={`text-xs font-bold transition-colors ${isActive(link.path) ? "text-[#f4f7fa]" : "text-[#b8c3cf] group-hover:text-[#f4f7fa]"}`}>{link.name}</span>
+            <span class={`text-xs font-bold transition-colors ${isActive(link.path) ? "text-[#fffdf0]" : "text-[#bfc9a8] group-hover:text-[#fffdf0]"}`}>{link.name}</span>
             <div
               aria-hidden="true"
-              class={`absolute top-0 left-0 h-full w-[3px] origin-top bg-gradient-to-b from-[#f4f7fa] via-[#ef1f25] to-[#7a0103] transition-transform duration-300 ${isActive(link.path) ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`}
+              class={`absolute top-0 left-0 h-full w-[3px] origin-top bg-gradient-to-b from-[#fcdc2b] via-[#1fae1c] to-[#cf1111] transition-transform duration-300 ${isActive(link.path) ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`}
             />
           </a>
         ))
@@ -78,11 +89,11 @@ const links = [
     </div>
   </aside>
 
-  <nav class="relative z-40 flex h-[60px] items-center justify-between border-b border-[#c50d12]/45 bg-[#0a0708] px-3 shadow-xl lg:hidden">
+  <nav class="relative z-40 flex h-[60px] items-center justify-between border-b border-[#fcdc2b]/45 bg-[#07130a] px-3 shadow-xl lg:hidden">
     <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2" aria-label="เปิดเมนู">
-      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#b8c3cf] transition-all duration-300"></span>
-      <span class="hamburger-line h-0.5 w-6 bg-[#b8c3cf] transition-all duration-300"></span>
-      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#b8c3cf] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#fcdc2b] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 bg-[#fcdc2b] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#fcdc2b] transition-all duration-300"></span>
     </button>
 
     <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
@@ -90,7 +101,6 @@ const links = [
         src={mainLogo!}
         alt={logoAlt}
         loading="eager"
-        fetchpriority="high"
         widths={[75, 150, 225]}
         sizes="62px"
         class="h-[32px] w-auto drop-shadow-md"
@@ -102,7 +112,7 @@ const links = [
 
     <a
       href="/login"
-      class="flex h-[32px] items-center justify-center rounded border border-[#7a0103] bg-gradient-to-r from-[#ef1f25] to-[#7a0103] px-4 text-xs font-bold text-[#f4f7fa] shadow-[0_0_12px_rgba(197,13,18,0.4)] transition-transform active:scale-95">
+      class="flex h-[32px] items-center justify-center rounded border border-[#a87d0c] bg-gradient-to-r from-[#fff6ae] to-[#a87d0c] px-4 text-xs font-bold text-[#07130a] shadow-[0_0_12px_rgba(252,220,43,0.4)] transition-transform active:scale-95">
       เข้าสู่ระบบ
     </a>
   </nav>
@@ -111,13 +121,13 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 left-0 z-50 h-screen w-[260px] -translate-x-full transform overflow-y-auto border-r border-[#5e0507]/70 bg-[#0a0708] shadow-[10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out lg:hidden">
+    class="fixed top-0 left-0 z-50 h-screen w-[260px] -translate-x-full transform overflow-y-auto border-r border-[#1fae1c]/70 bg-[#07130a] shadow-[10px_0_30px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out lg:hidden">
     <div class="flex flex-col space-y-2.5 px-4 pt-16 pb-8">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center rounded-lg border px-4 py-3 transition-all ${isActive(link.path) ? "border-[#c50d12] bg-[#241a1a] text-[#f4f7fa] shadow-inner" : "border-transparent bg-white/5 text-[#b8c3cf] hover:bg-white/10 hover:text-[#f4f7fa]"}`}>
+            class={`sidebar-item flex items-center rounded-lg border px-4 py-3 transition-all ${isActive(link.path) ? "border-[#fcdc2b] bg-[#143a1c] text-[#fffdf0] shadow-inner" : "border-transparent bg-white/5 text-[#bfc9a8] hover:bg-white/10 hover:text-[#fffdf0]"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon ?? "🔗"}
             </span>
@@ -126,10 +136,10 @@ const links = [
         ))
       }
 
-      <div class="mt-5 flex flex-col gap-2 border-t border-[#5e0507]/85 pt-5">
+      <div class="mt-5 flex flex-col gap-2 border-t border-[#1fae1c]/60 pt-5">
         <a
           href="/register"
-          class="sidebar-item flex items-center justify-center gap-2 rounded border border-[#7a0103] bg-gradient-to-r from-[#ef1f25] via-[#c50d12] to-[#7a0103] py-3 text-sm font-bold text-[#f4f7fa] shadow-md transition-transform active:scale-95">
+          class="sidebar-item flex items-center justify-center gap-2 rounded border border-[#a87d0c] bg-gradient-to-r from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] py-3 text-sm font-bold text-[#07130a] shadow-md transition-transform active:scale-95">
           <span aria-hidden="true">⚡</span>
           <span>สมัครสมาชิกใหม่</span>
         </a>
@@ -140,13 +150,13 @@ const links = [
   <div class="fixed top-4 right-6 z-50 hidden items-center gap-3 lg:flex">
     <a
       href="/login"
-      class="group flex items-center gap-1.5 rounded border border-[#b8c3cf]/55 bg-[#16100f]/90 px-6 py-2 text-sm font-bold text-[#f4f7fa] shadow-md backdrop-blur-sm transition-all hover:border-[#f4f7fa] hover:bg-[#241a1a]/90">
+      class="group flex items-center gap-1.5 rounded border border-[#1fae1c]/60 bg-[#0d2312]/90 px-6 py-2 text-sm font-bold text-[#e8e4c6] shadow-md backdrop-blur-sm transition-all hover:border-[#fcdc2b] hover:bg-[#143a1c]/90">
       <span aria-hidden="true">🔒</span>
       <span>เข้าสู่ระบบ</span>
     </a>
     <a
       href="/register"
-      class="group flex items-center gap-1.5 rounded border border-[#7a0103] bg-gradient-to-r from-[#ef1f25] via-[#c50d12] to-[#7a0103] px-6 py-2 text-sm font-bold text-[#f4f7fa] shadow-[0_0_15px_rgba(197,13,18,0.4)] transition-all hover:scale-105">
+      class="group flex items-center gap-1.5 rounded border border-[#a87d0c] bg-gradient-to-r from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] px-6 py-2 text-sm font-bold text-[#07130a] shadow-[0_0_15px_rgba(252,220,43,0.4)] transition-all hover:scale-105">
       <span aria-hidden="true">👤</span>
       <span>สมัครสมาชิก</span>
     </a>
@@ -200,6 +210,9 @@ const links = [
   }
   .sidebar-item:nth-child(8) {
     transition-delay: 0.45s;
+  }
+  .sidebar-item:nth-child(9) {
+    transition-delay: 0.5s;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,17 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
-import ContentBoxHuay from "../components/ContentBoxHuay.astro";
-import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
+import Announcement from "../components/Announcement3.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
 import LottoGrid from "../components/LottoGrid.astro";
-import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import FeatureHighlights from "../components/FeatureHighlights.astro";
-import ProviderGrid from "../components/ProviderGrid.astro";
-import ContentBox3ThreeHuay from "../components/ContentBox3ThreeHuay.astro";
-import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/FaqHuay.astro";
-import LatestWinners from "../components/LatestWinnersHuay.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import Faq from "../components/Faq2.astro";
+import LatestWinners from "../components/LatestWinners2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -25,15 +24,15 @@ import imgSlide2 from "../assets/slide2.png";
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — which is the family's hard cap of two per
 // rebrand, so there is no third SevenThree here:
-//   slide1.png — gold-and-red artwork reading "อัตราจ่ายหวย / 2 ตัวจ่าย 100 /
-//     3 ตัวจ่าย 1,000", so it belongs to docx H2 #3 (อัตราจ่ายหวย 365LOTTO).
-//   slide2.png — the same two models over "แนะนำเพื่อน โบนัส 0.8% / คืนยอดเสีย
-//     โบนัส 0.3%", so it belongs to docx H2 #6 (โปรเล่นสล็อต 365LOTTO), whose
-//     two H3 sub-points are exactly those two bonuses.
+//   slide1.png — deep-green artwork whose gold-edged plaque reads "อัตราจ่ายหวย /
+//     2 ตัวจ่าย 100", so it belongs to docx H3 #4.
+//   slide2.png — the same two models over "อัตราจ่ายหวย / 3 ตัวจ่าย 1,000", so it
+//     belongs to docx H3 #5.
 // Both files are 600x333, so 600 is the top candidate width — nothing above it
 // would be a real pixel. The alt text was written from the current artwork (the
-// gold 365 / chrome LOTTO logo with its red O rings, red-and-white lotto balls,
-// the two models in white-red-gold kit), not carried over from a previous
+// round gold-ringed 888PARUAY logo with its green 888 and red PARUAY, the woman
+// in the red dress, the man in the white jacket with the red bow tie, the red,
+// green and white numbered lottery balls), not carried over from a previous
 // brand's banners.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
@@ -46,109 +45,63 @@ import imgSlide2 from "../assets/slide2.png";
 //   and are never referenced from a page — the hero is the LCP element, so
 //   nothing here gets loading="eager" fetchpriority="high".
 //
+// ProviderGrid is DROPPED this round and NOT deleted from disk: it lists slot
+// and casino studios, and this brief names no games at all — 888PARUAY is a
+// lottery-only brand. LottoGrid stays and carries the four markets the H2 names.
+//
 // Rotated out of this round's mix and NOT deleted from disk (they are inventory
-// for the next brand): Announcement5, ContentBoxNeumorphism, ContentBoxSpecial,
-// ContentBoxFloatingBadge, ContentBoxSevenThreeFloatingBadge,
-// ContentBoxSevenThreeNeumorphism, ContentBoxTwoNeumorphism, Faq3 and
-// LatestWinners4. LottoGrid comes back IN for the opposite reason it went out
-// last round: SAGAME66 was live casino only, while this brief's H2 #2 is
-// "บริการหลัก หวยรัฐบาลไทย ฮานอย ลาวพัฒนา" — the grid now names those three
-// markets and nothing else.
+// for the next brand): AnnouncementHuay, ContentBoxHuay, ContentBoxTwoHuay,
+// ContentBoxSevenThreeHuay, ContentBoxSevenThree, ContentBox3ThreeHuay,
+// FaqHuay, LatestWinnersHuay, FeatureHighlights and ProviderGrid.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 145 characters.
-const pageTitle = "365LOTTO หวยคาสิโนในเว็บเดียว หวย บาคาร่า ไพ่ สล็อต เดิมพันครบวงจร";
+// floor and never topped up from the H1/H2 — this one is 125 characters.
+const pageTitle = "888PARUAY แทงหวย ตรวจหวย เว็บตรงอันดับ1 แทงได้ 24 ชั่วโมง";
 
-const pageDescription = "365LOTTO หวยคาสิโนในเว็บเดียว เข้าเล่น หวย บาคาร่า ไพ่ สล็อต รวมถึงเกมรูปแบบอื่นๆ อีกมากมาย แบบครบวงจร สมัครทดลองเล่นตามแบบเกมที่คุณต้องการได้เลย";
+const pageDescription = "888PARUAY แทงหวย ตรวจหวย เว็บอันดับ1 สมาชิกเข้าแทงหวยออนไลน์ ทุกประเภท รัฐบาลไทย ฮานอย ลาวพัฒนา หุ้นต่างประเทศ ได้ 24 ชั่วโมง";
 
-// <Announcement /> runs bare: AnnouncementHuay's default message is already this
+// <Announcement /> runs bare: Announcement3's default message is already this
 // brand's copy, and every sub-page calls it bare too — passing an override here
 // is how the ticker ends up saying two different things on two pages.
 
-// The docx has a real H1 -> H2 -> H3 hierarchy this round: "2 ตัวจ่าย 100" and
-// "3 ตัวจ่าย 1,000" are genuine sub-points of the อัตราจ่ายหวย H2, and
-// "แนะนำเพื่อน โบนัส 0.8%" / "คืนยอดเสีย โบนัส 0.3%" of the โปรเล่นสล็อต H2, so
-// the page is NOT flattened to H2-only. Those four are the only <h3> here and
-// both pairs are carried by FeatureHighlights, which renders each item title as
-// an <h3> under the H2 it follows.
-// Everything else is chrome — LottoGrid, ProviderGrid, LatestWinnersHuay,
-// LoginRtpSection and ReviewCardSumo2 all render their titles as <p>/<span>
-// with an aria-label on the section, and FaqHuay's questions stay <p> inside
-// <summary>, so none of them emits a heading tag.
+// The docx has a real H2 -> H3 nesting this round: "2 ตัวจ่าย 100" and
+// "3 ตัวจ่าย 1,000" are genuine sub-points of the อัตราจ่ายหวย H2, so the page is
+// NOT flattened to H2-only. Those two are the only <h3> here, and each one is
+// carried by its own ContentBoxSevenThree* block together with the slide whose
+// artwork states that exact figure.
+// Everything else is chrome — LottoGrid, LatestWinners2, LoginRtpSection and
+// ReviewCardSumo2 all render their titles as <p>/<span> with an aria-label on
+// the section, ContentBox3ThreePremium is passed heading={false} so its three
+// ขั้นตอน labels stay <p>, and Faq2's questions live in a <span> inside
+// <summary> — so none of them emits a heading tag.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  365LOTTO หวยคาสิโนในเว็บเดียว …          ContentBoxHuay
-//    2 H2  365LOTTO บริการหลัก หวยรัฐบาลไทย …        ContentBoxTwoHuay (+ LottoGrid)
-//    3 H2  อัตราจ่ายหวย 365LOTTO ยอดสูง …            ContentBoxSevenThreeHuay + slide1
-//    4 H3  2 ตัวจ่าย 100                            FeatureHighlights #1 item 1
-//    5 H3  3 ตัวจ่าย 1,000                          FeatureHighlights #1 item 2
-//    6 H2  โปรเล่นสล็อต 365LOTTO ที่ดีที่สุด           ContentBoxSevenThree + slide2 (+ ProviderGrid)
-//    7 H3  แนะนำเพื่อน โบนัส 0.8%                    FeatureHighlights #2 item 1
-//    8 H3  คืนยอดเสีย โบนัส 0.3%                     FeatureHighlights #2 item 2
-//    9 H2  สมัครแทงหวย 365LOTTO ด้วย 3 ขั้นตอน …      ContentBox3ThreeHuay (intro slot + 3 คอลัมน์)
-//   10 H2  แอดมินเว็บ 365LOTTO ดูแลตลอด 24 ชั่วโมง    ContentBox
-//   11 H2  คำถามที่พบบ่อย                            FaqHuay
-// Final inventory for this page: h1 x1, h2 x6, h3 x4.
-//
-// ContentBoxTwoHuay and ContentBox3ThreeHuay both changed shape this round:
-// their per-column titles used to render at the `as` level, which would have
-// put two or three tags on one docx section. Each now takes one `title` for the
-// section header and drops its column labels to <p>, so a docx heading maps to
-// exactly one tag.
+//    1 H1  888PARUAY แทงหวย ตรวจหวย เว็บตรงอันดับ1 …   ContentBoxPremium
+//    2 H2  888PARUAY แทงหวย รัฐบาลไทย ฮานอย …          ContentBoxTwoCyberCut (+ LottoGrid)
+//    3 H2  อัตราจ่ายหวย 888PARUAY กดรับได้ทันที         ContentBoxNeumorphism
+//    4 H3  2 ตัวจ่าย 100                              ContentBoxSevenThreePremium + slide1
+//    5 H3  3 ตัวจ่าย 1,000                            ContentBoxSevenThreeCyberCut + slide2
+//    6 H2  สมัครแทงหวย 888PARUAY 3 ขั้นตอนง่ายๆ …       ContentBox3ThreePremium (intro slot + 3 คอลัมน์)
+//    7 H2  แอดมินเว็บ 888PARUAY ออนไลน์ตลอด 24 ชั่วโมง  ContentBoxCyberCut
+//    8 H2  คำถามที่พบบ่อย                              Faq2
+// Final inventory for this page: h1 x1, h2 x5, h3 x2.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "365LOTTO มีหวยประเภทไหนให้เลือกบ้าง?",
-    a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และรายการอื่นตามรอบที่เปิดรับ ผู้ใช้งานสามารถตรวจสอบเวลา ประเภทหวย และรายละเอียดของแต่ละรายการได้จากหน้ารวมหวยก่อนทำรายการ",
+    q: "888PARUAY มีหวยประเภทไหนให้แทงบ้าง?",
+    a: "ภายในระบบมีทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และหุ้นต่างประเทศ โดยรายการที่เปิดรับและช่วงเวลาของแต่ละรอบอาจแตกต่างกัน ผู้ใช้งานสามารถตรวจสอบข้อมูลล่าสุดจากหน้ารวมหวยก่อนยืนยันรายการ",
   },
   {
-    q: "365LOTTO เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
-    a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขของแต่ละรอบก่อนยืนยัน เนื่องจากรายละเอียดอาจแตกต่างกันตามประเภทหวย",
+    q: "888PARUAY เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
+    a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวมีอัตราจ่าย 1,000 โดยควรตรวจสอบเงื่อนไขและรายละเอียดของแต่ละรอบอีกครั้งก่อนทำรายการ",
   },
   {
-    q: "365LOTTO มีเฉพาะหวยหรือไม่?",
-    a: "ไม่ใช่ ภายในระบบยังมีบาคาร่า ไพ่ สล็อต และเกมรูปแบบอื่นตามรายการที่เปิดให้บริการ ผู้ใช้งานสามารถเลือกดูแต่ละหมวดผ่านบัญชีเดียวได้จากหน้าเว็บไซต์",
-  },
-];
-
-// The four docx sub-points, each with the full paragraph that follows it. They
-// are passed as two separate FeatureHighlights calls so each pair sits directly
-// under the H2 it belongs to.
-const payoutItems = [
-  {
-    icon: "💯",
-    title: "2 ตัวจ่าย 100",
-    description:
-      "สำหรับเลข 2 ตัว 365LOTTO ระบุอัตราจ่ายไว้ที่ 100 ตามเงื่อนไขของรายการ ผู้ใช้งานสามารถเลือกชุดตัวเลข ตรวจสอบรอบที่กำลังเปิดรับ และเช็กรายละเอียดของบิลได้ก่อนยืนยัน ช่วยให้จัดการรายการได้ง่ายและลดความผิดพลาดก่อนส่งบิลจริง",
-    accent: "gold" as const,
-  },
-  {
-    icon: "🔢",
-    title: "3 ตัวจ่าย 1,000",
-    description:
-      "เลข 3 ตัวของ 365LOTTO ระบุอัตราจ่ายไว้ที่ 1,000 ตามเงื่อนไขที่กำหนด ก่อนทำรายการสามารถตรวจสอบเลข ประเภทหวย รอบเวลา และรายละเอียดอัตราจ่ายได้อีกครั้ง เหมาะสำหรับผู้ที่ต้องการติดตามชุดเลข 3 ตัวในหลายรายการผ่านระบบเดียว",
-    accent: "red" as const,
-  },
-];
-
-const bonusItems = [
-  {
-    icon: "👥",
-    title: "แนะนำเพื่อน โบนัส 0.8%",
-    description:
-      "สมาชิก 365LOTTO ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้ง่ายผ่านบัญชีสมาชิก",
-    accent: "gold" as const,
-  },
-  {
-    icon: "↩️",
-    title: "คืนยอดเสีย โบนัส 0.3%",
-    description:
-      "โปรโมชั่นคืนยอดเสียของ 365LOTTO ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับได้ ช่วยให้ติดตามสิทธิ์ในแต่ละรอบได้ชัดเจนมากขึ้น",
-    accent: "red" as const,
+    q: "สามารถตรวจหวยผ่าน 888PARUAY ได้หรือไม่?",
+    a: "สามารถตรวจสอบผลหวยตามรายการที่เว็บไซต์เปิดให้บริการได้ โดยเลือกประเภทหวยและรอบที่ต้องการจากหน้าตรวจผล ช่วยให้ติดตามทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และรายการอื่นได้จากหน้าเดียว",
   },
 ];
 
@@ -156,10 +109,9 @@ const bonusItems = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// Two highlight colours, matching the logo and both slides: the chrome silver
-// (#eef3f8) marks a claim the brief states outright, and the number gold
-// (#ffe9a3) is reserved for the payout and bonus figures, which is where
-// FeatureHighlights puts it on all four H3 cards.
+// One highlight colour only this round: the emphasis cream #fffdf0 against the
+// body cream #e8e4c6, so the gold stays the page's structural accent and the
+// paragraphs never compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -176,32 +128,41 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxHuay as="h1" title="365LOTTO หวยคาสิโนในเว็บเดียว รวมถึงเกมรูปแบบอื่นๆ ครบวงจร">
-    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      365LOTTO
-      <strong class="text-[#eef3f8]">รวมทั้งหวยและคาสิโนไว้ในระบบเดียว</strong>
-      <strong class="text-[#eef3f8]">มีให้เลือกตั้งแต่หวย บาคาร่า ไพ่ สล็อต ไปจนถึงเกมรูปแบบอื่นอีกหลายประเภท</strong>
-      ผู้ใช้งานสามารถเลือกหมวดที่สนใจผ่านบัญชีเดียว
-      <strong class="text-[#eef3f8]">รองรับทั้งมือถือและคอมพิวเตอร์</strong>
-      พร้อมเมนูที่จัดหมวดชัดเจน ช่วยให้เข้าถึงรายการต่าง ๆ ได้สะดวกมากขึ้น
+  <ContentBoxPremium as="h1" title="888PARUAY แทงหวย ตรวจหวย เว็บตรงอันดับ1 ปลอดภัยแน่นอน">
+    <p class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      888PARUAY
+      <strong class="text-[#fffdf0]">รวมบริการแทงหวยและตรวจหวยออนไลน์ไว้ในระบบเดียว</strong>
+      <strong class="text-[#fffdf0]">รองรับรายการยอดนิยมทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหุ้นต่างประเทศ</strong>
+      พร้อมแสดงรอบเปิดรับและข้อมูลผลหวยให้ตรวจสอบได้สะดวก ระบบจัดหมวดหมู่ชัดเจนและ
+      <strong class="text-[#fffdf0]">รองรับการใช้งานผ่านมือถือ</strong>
+      ช่วยให้สมาชิกเข้าถึงรายการที่ต้องการได้ง่ายขึ้น
     </p>
-  </ContentBoxHuay>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoHuay as="h2" title="365LOTTO บริการหลัก หวยรัฐบาลไทย ฮานอย ลาวพัฒนา" titleleft="ตลาดหวยที่เปิดรับ" titleright="ตรวจสอบก่อนยืนยัน" iconleft="🎫" iconright="🔎">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      365LOTTO
-      <strong class="text-[#eef3f8]">มีรายการหวยยอดนิยมให้เลือกทั้งรัฐบาลไทย หวยฮานอย และลาวพัฒนา</strong>
-      <strong class="text-[#eef3f8]">พร้อมแยกรอบเปิดรับของแต่ละประเภทไว้อย่างชัดเจน</strong>
+  <ContentBoxTwoCyberCut as="h2" title="888PARUAY แทงหวย รัฐบาลไทย ฮานอย ลาวพัฒนา หุ้นต่างประเทศ ได้ 24 ชั่วโมง" titleleft="ตลาดหวยที่เปิดรับ" titleright="ตรวจรอบก่อนยืนยัน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      888PARUAY
+      <strong class="text-[#fffdf0]">รวมรายการหวยหลายประเภทให้เลือก</strong>
+      ทั้งรัฐบาลไทย หวยฮานอย ลาวพัฒนา และหุ้นต่างประเทศ
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      <strong class="text-[#eef3f8]">ผู้ใช้งานสามารถตรวจสอบเลข รอบเวลา และรายละเอียดของรายการก่อนยืนยัน</strong>
-      ช่วยให้ติดตามหวยหลายประเภทได้จากหน้าเดียวโดยไม่ต้องเปลี่ยนหลายเว็บไซต์
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      <strong class="text-[#fffdf0]">ผู้ใช้งานสามารถตรวจสอบรอบเปิดรับ เลือกตัวเลข และดูรายละเอียดของแต่ละรายการจากหน้าเดียว</strong>
+      โดยแต่ละประเภทจะมีช่วงเวลาเปิดและปิดรับแตกต่างกันตามรอบที่ระบบกำหนด
     </p>
-  </ContentBoxTwoHuay>
+  </ContentBoxTwoCyberCut>
 
   <LottoGrid />
 
-  <ContentBoxSevenThreeHuay as="h2" titleright="อัตราจ่ายหวย 365LOTTO ยอดสูง กดรับได้ทันที">
+  <ContentBoxNeumorphism as="h2" title="อัตราจ่ายหวย 888PARUAY กดรับได้ทันที">
+    <p class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      888PARUAY
+      <strong class="text-[#fffdf0]">แสดงอัตราจ่ายของเลขแต่ละประเภทให้ตรวจสอบก่อนยืนยันรายการ</strong>
+      <strong class="text-[#fffdf0]">ทั้งเลข 2 ตัวและเลข 3 ตัว</strong>
+      ผู้ใช้งานสามารถเช็กตัวเลข รอบหวย และรายละเอียดของบิลได้อย่างเป็นขั้นตอน ช่วยให้ทราบอัตราจ่ายล่วงหน้าและเลือกประเภทการแทงได้ตรงกับรูปแบบที่ต้องการ
+    </p>
+  </ContentBoxNeumorphism>
+
+  <ContentBoxSevenThreePremium as="h3" title="2 ตัวจ่าย 100">
     <Picture
       slot="left"
       src={imgSlide1}
@@ -213,20 +174,18 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์อัตราจ่ายหวยพื้นทองเข้มอมแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดกีฬาขาว-แดงที่มีคำว่า 365LOTTO กำลังชี้นิ้วทั้งสองข้างเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงที่มีคำว่า 365LOTTO ยืนกอดอก ด้านบนเป็นโลโก้ 365LOTTO ที่เลข 365 เป็นทองสามมิติและคำว่า LOTTO เป็นสีขาวโครเมียมโดยมีวง O สองวงเป็นสีแดง ถัดลงมาเป็นข้อความสีขาวบนแถบแดงว่า อัตราจ่ายหวย แล้วเป็นแถบทองสองแถบเขียนว่า 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 รอบภาพมีลูกบอลหวยสีแดงและขาวพิมพ์ตัวเลข พร้อมกองเหรียญทองที่ฐานภาพ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#9c6a12]/60 shadow-[0_10px_30px_rgba(224,31,38,0.32)]"
+      alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มที่มีแสงโบเก้สีทองและเหรียญทองกระจายทั่วภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดเดรสสีแดงกำลังชี้นิ้วทั้งสองข้างเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มสวมสูทสีขาวผูกโบว์ไทสีแดงยืนยิ้ม ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ทรงกลมในวงแหวนทอง โดยเลข 888 เป็นสีเขียวและคำว่า PARUAY เป็นสีแดง ถัดลงมามีมงกุฎทองและข้อความบนแถบแดงว่า อัตราจ่ายหวย แล้วเป็นแผ่นป้ายขอบทองเขียนว่า 2 ตัวจ่าย 100 รอบภาพมีลูกบอลหวยสีแดง เขียว และขาวพิมพ์ตัวเลข พร้อมสลากกินแบ่งและกองเหรียญทองที่ฐานภาพ"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#a87d0c]/60 shadow-[0_10px_30px_rgba(252,220,43,0.28)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      365LOTTO
-      <strong class="text-[#eef3f8]">แสดงอัตราจ่ายหวยแต่ละประเภทให้ตรวจสอบก่อนทำรายการ</strong>
-      <strong class="text-[#eef3f8]">ทั้งเลข 2 ตัวและเลข 3 ตัว</strong>
-      พร้อมรายละเอียดของรอบที่เปิดรับ ผู้ใช้งานสามารถตรวจสอบตัวเลข อัตราจ่าย และข้อมูลบิลก่อนยืนยัน ช่วยให้เลือกประเภทการซื้อได้ตรงกับรูปแบบที่ต้องการมากขึ้น
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      สำหรับเลข 2 ตัว 888PARUAY
+      <strong class="text-[#fffdf0]">ระบุอัตราจ่ายไว้ที่ 100 ตามเงื่อนไขของรายการ</strong>
+      สามารถเลือกเลขที่ต้องการ ตรวจสอบรอบเปิดรับ และเช็กรายละเอียดของบิลก่อนกดยืนยัน
+      <strong class="text-[#fffdf0]">ช่วยให้จัดชุดเลขและติดตามรายการของตัวเองได้ง่ายขึ้นจากบัญชีสมาชิก</strong>
     </p>
-  </ContentBoxSevenThreeHuay>
+  </ContentBoxSevenThreePremium>
 
-  <FeatureHighlights items={payoutItems} />
-
-  <ContentBoxSevenThree as="h2" title="โปรเล่นสล็อต 365LOTTO ที่ดีที่สุด">
+  <ContentBoxSevenThreeCyberCut as="h3" title="3 ตัวจ่าย 1,000">
     <Picture
       slot="left"
       src={imgSlide2}
@@ -238,49 +197,36 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="แบนเนอร์โปรโมชั่นพื้นทองเข้มอมแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดกีฬาขาว-แดงที่มีคำว่า 365LOTTO กำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงที่มีคำว่า 365LOTTO ยืนกอดอก ด้านบนเป็นโลโก้ 365LOTTO ที่เลข 365 เป็นทองสามมิติและคำว่า LOTTO เป็นสีขาวโครเมียมโดยมีวง O สองวงเป็นสีแดง ถัดลงมาเป็นแถบแดงขอบทองสองแถบเขียนว่า แนะนำเพื่อน โบนัส 0.8% และ คืนยอดเสีย โบนัส 0.3% รอบภาพมีลูกบอลหวยสีแดงและขาวพิมพ์ตัวเลข พร้อมกองเหรียญทองที่ฐานภาพ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e01f26]/55 shadow-[0_10px_30px_rgba(250,220,100,0.28)]"
+      alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มที่มีเหรียญทองและสลากกินแบ่งเรียงอยู่ด้านหลัง ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดเดรสสีแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มสวมสูทสีขาวผูกโบว์ไทสีแดงกำลังชี้นิ้วกลับมาที่ข้อความเช่นกัน ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ทรงกลมในวงแหวนทอง โดยเลข 888 เป็นสีเขียวและคำว่า PARUAY เป็นสีแดง ถัดลงมาเป็นข้อความบนแถบแดงว่า อัตราจ่ายหวย แล้วเป็นแผ่นป้ายขอบทองเขียนว่า 3 ตัวจ่าย 1,000 รอบภาพมีลูกบอลหวยสีแดง เขียว และขาวพิมพ์ตัวเลขวางอยู่ทั้งสองฝั่ง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#cf1111]/55 shadow-[0_10px_30px_rgba(252,220,43,0.24)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      โปรโมชั่นสล็อต 365LOTTO
-      <strong class="text-[#eef3f8]">มีสิทธิ์สำหรับสมาชิกหลายรูปแบบ</strong>
-      <strong class="text-[#eef3f8]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
-      แต่ละรายการมีรายละเอียดและเงื่อนไขให้ตรวจสอบก่อนกดรับ สมาชิกจึงสามารถเลือกโปรโมชั่นให้เหมาะกับลักษณะการใช้งานของตัวเอง และติดตามสิทธิ์ผ่านบัญชีได้สะดวก
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      เลข 3 ตัวของ 888PARUAY
+      <strong class="text-[#fffdf0]">ระบุอัตราจ่ายไว้ที่ 1,000 ตามเงื่อนไขที่กำหนด</strong>
+      ก่อนส่งรายการสามารถตรวจสอบตัวเลข ประเภทหวย รอบเวลา และอัตราจ่ายได้อีกครั้ง
+      <strong class="text-[#fffdf0]">เหมาะสำหรับผู้ที่ต้องการติดตามเลข 3 ตัวจากหลายตลาดผ่านระบบเดียว</strong>
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ProviderGrid />
-
-  <FeatureHighlights items={bonusItems} />
-
-  <ContentBox3ThreeHuay
-    as="h2"
-    title="สมัครแทงหวย 365LOTTO ด้วย 3 ขั้นตอนง่ายๆ บนมือถือ"
-    titleleft="ขั้นตอนที่ 1"
-    titlecenter="ขั้นตอนที่ 2"
-    titleright="ขั้นตอนที่ 3"
-    iconleft="📱"
-    iconcenter="✅"
-    iconright="🎫">
-    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      การสมัคร 365LOTTO
-      <strong class="text-[#eef3f8]">สามารถทำผ่านมือถือได้ด้วยตัวเอง</strong>
-      <strong class="text-[#eef3f8]">ขั้นตอนไม่ซับซ้อน</strong>
-      หลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกหวยหรือเกมประเภทที่สนใจได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
+  <ContentBox3ThreePremium as="h2" title="สมัครแทงหวย 888PARUAY 3 ขั้นตอนง่ายๆ บนมือถือ" heading={false} titleleft="ขั้นตอนที่ 1" titlecenter="ขั้นตอนที่ 2" titleright="ขั้นตอนที่ 3">
+    <p class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      การสมัครแทงหวย 888PARUAY
+      <strong class="text-[#fffdf0]">สามารถทำผ่านมือถือได้ด้วยตัวเอง</strong>
+      ขั้นตอนถูกจัดไว้ให้เข้าใจง่าย และหลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกหวยที่กำลังเปิดรับได้ทันที โดยมี 3 ขั้นตอนหลักดังนี้
     </p>
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f0ddc4]">เปิดหน้าสมัคร 365LOTTO บนมือถือ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#f0ddc4]">ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f0ddc4]">ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกหวยรัฐบาลไทย ฮานอย ลาวพัฒนา หรือเกมที่ต้องการได้ทันที</p>
-  </ContentBox3ThreeHuay>
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e4c6]">เปิดหน้าสมัคร 888PARUAY บนมือถือ แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</p>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#e8e4c6]">ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e4c6]">ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกรัฐบาลไทย ฮานอย ลาวพัฒนา หรือหุ้นต่างประเทศที่ต้องการได้ทันที</p>
+  </ContentBox3ThreePremium>
 
-  <ContentBox as="h2" title="แอดมินเว็บ 365LOTTO ดูแลตลอด 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#f0ddc4]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร อัตราจ่ายหวย โปรโมชั่น สล็อต หรือการใช้งานบัญชี
-      <strong class="text-[#eef3f8]">สามารถติดต่อแอดมินเว็บ 365LOTTO ได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#eef3f8]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
-      เพื่อให้ทั้งสมาชิกใหม่และสมาชิกเดิมเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา
+  <ContentBoxCyberCut as="h2" title="แอดมินเว็บ 888PARUAY ออนไลน์ตลอด 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#e8e4c6]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร รอบหวย อัตราจ่าย การตรวจหวย หรือการใช้งานบัญชี
+      <strong class="text-[#fffdf0]">สามารถติดต่อแอดมินเว็บ 888PARUAY ได้ตลอด 24 ชั่วโมง</strong>
+      <strong class="text-[#fffdf0]">ทีมงานพร้อมให้ข้อมูลเกี่ยวกับเมนูและช่วยตรวจสอบปัญหาตามรายละเอียดที่แจ้ง</strong>
+      เพื่อให้สมาชิกเข้าถึงข้อมูลที่ต้องการได้สะดวกทุกช่วงเวลา
     </p>
-  </ContentBox>
+  </ContentBoxCyberCut>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 

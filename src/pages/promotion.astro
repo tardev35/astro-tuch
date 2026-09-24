@@ -2,83 +2,82 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/Announcement3.astro";
 
 import { Picture } from "astro:assets";
 
-// ดรอปอาร์ตเวิร์กของ 365LOTTO คือ 2026-09-24 และมีสไลด์ที่ใช้ได้สองใบ (600x333):
-//   slide1.png — "อัตราจ่ายหวย / 2 ตัวจ่าย 100 / 3 ตัวจ่าย 1,000"
-//   slide2.png — "แนะนำเพื่อน โบนัส 0.8% / คืนยอดเสีย โบนัส 0.3%"
-// บทบาทของสองไฟล์นี้เคย "สลับกัน" ระหว่างแบรนด์มาแล้ว จึงต้องเปิดดูภาพจริงทุกครั้ง
-// อย่าเชื่อชื่อตัวแปรที่ตกทอดมา (รอบนี้เปิดดูแล้ว และเปลี่ยนชื่อตัวแปรให้ตรงกับภาพจริง
-// เพราะรอบก่อนสองใบนี้เป็นภาพโปรแนะนำเพื่อน/คืนยอดเสียคนละแบบ)
-// กริดเรียงตามลำดับ docx (อัตราจ่ายหวยก่อน โปรโมชั่นโบนัสทีหลัง)
+// ดรอปอาร์ตเวิร์กของ 888PARUAY คือ 2026-09-24 และมีสไลด์ที่ใช้ได้สองใบเท่านั้น:
+//   slide1.png — ป้ายแดง "อัตราจ่ายหวย" + แผ่นป้ายทอง "2 ตัวจ่าย 100"
+//   slide2.png — ป้ายแดง "อัตราจ่ายหวย" + แผ่นป้ายทอง "3 ตัวจ่าย 1,000"
+// บทบาทของสองไฟล์นี้เคย "สลับกัน" ระหว่างแบรนด์มาแล้ว อย่าเชื่อชื่อตัวแปรที่ตกทอดมา
+// รอบนี้ยึดตามคำอธิบายอาร์ตเวิร์กในสเปกแบรนด์ §4 และตั้งชื่อตัวแปรให้ตรงกับภาพจริง
 //
 // slide3.png (2026-09-18) และ slide4.png (2026-08-13) เก่ากว่าดรอปรอบนี้ เป็น
 // อาร์ตเวิร์กของลูกค้าเจ้าก่อน — ห้าม import กลับมา และห้ามลบไฟล์ทิ้งเพราะเป็น
 // อินเวนทอรี (ลำพังการ import ที่ไม่ได้ render ก็ถูก emit ลง dist/ แล้ว และ
 // verify-build จะแดง) ถ้ามีสไลด์ใหม่เข้ามาให้เช็ก mtime เทียบดรอปก่อนเพิ่ม
-import promoPayout from "../assets/slide1.png";
-import promoBonus from "../assets/slide2.png";
+import promoTwoDigit from "../assets/slide1.png";
+import promoThreeDigit from "../assets/slide2.png";
 import { pageGraph } from "../lib/schema";
 //
-// หน้านี้เป็น IMAGE page ไม่ใช่บทความ: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า,
-// กริดโปสเตอร์, ปุ่ม CTA หนึ่งปุ่ม — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์
-// ระบุอัตราจ่ายและเปอร์เซ็นต์โบนัสไว้ด้วยตัวอักษรขนาดใหญ่อยู่แล้ว เป้าหมาย h1x1, h2x0, h3x0
+// หน้านี้เป็น IMAGE page ไม่ใช่บทความ: ContentBox title, ย่อหน้าเกริ่นสั้น ๆ หนึ่งย่อหน้า
+// (ประมาณสี่บรรทัด คือโควตาตัวหนังสือทั้งหมดของหน้านี้), กริดโปสเตอร์, ปุ่ม CTA หนึ่งปุ่ม
+// — ไม่มีหัวข้อย่อยและไม่มีย่อหน้าเพิ่ม เพราะตัวโปสเตอร์ระบุอัตราจ่ายไว้ด้วยตัวอักษร
+// ขนาดใหญ่อยู่แล้ว เป้าหมาย h1x1, h2x0, h3x0
 //
 // สไลด์เป็นแบนเนอร์แนวนอน 600px จึงวางเป็นกริดสองคอลัมน์คุมความกว้างรวมที่ max-w-5xl
 // (1024px) ทำให้ช่องละ ~488px ไม่ต้องอัปสเกลเกินขนาดไฟล์ต้นทาง widths หยุดที่ 600
 // ตามความกว้างจริงของไฟล์ (candidate ที่ใหญ่กว่านั้นไม่มีของให้ครอป)
 //
-// Announcement รอบนี้หมุนมาใช้ AnnouncementHuay ทั้งเว็บ — default message ของไฟล์นั้น
-// ถูกตั้งเป็นคอปปี้ของ 365LOTTO แล้ว และ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
+// Announcement รอบนี้หมุนมาใช้ Announcement3 ทั้งเว็บ — default message ของไฟล์นั้น
+// ถูกตั้งเป็นคอปปี้ของ 888PARUAY แล้ว และ index ก็เรียกแบบ bare เหมือนกัน จึงห้ามส่ง prop
 //
-// พาเลตต์ 365LOTTO (แดงเข้ม + ทองสว่าง + เงินโครเมียม บนพื้นแดงเกือบดำ แทนทองอุ่น-
-// น้ำตาลของ SAGAME66 รอบก่อน): พื้น #120406 · ผิวการ์ด #1a0709 · ผิวยก #33100f ·
-// ทองหลัก #fadc64 · ทองสว่าง #ffe9a3 · ทองลึก #9c6a12 · แดงสด #e01f26 ·
-// เงินโครเมียม #f3f6fa · เนื้อความ #f0ddc4 (BRAND_TEXT) · เงาลึก rgba(18,4,6,α) ·
-// ออร่าทอง rgba(250,220,100,α) — ตัวเลข (100 / 1,000 / 0.8% / 0.3%) ใช้ทองสว่าง
-// #ffe9a3 ส่วนข้อความเน้นทั่วไปใช้เงินโครเมียม #f3f6fa
+// พาเลตต์ 888PARUAY (ทอง + เขียวเข้ม + แดง ตามโลโก้ที่เลข 888 เป็นเขียวสด คำว่า
+// PARUAY เป็นแดง อยู่ในวงแหวนทอง): พื้น #07130a · ผิวการ์ด #0d2312 · ผิวยก #143a1c ·
+// ทองหลัก #fcdc2b · ทองสว่าง #fff6ae · ทองลึก #a87d0c · เขียวสด #1fae1c ·
+// เขียวลึก #0c4402 · แดงสด #cf1111 · แดงลึก #8a0303 · เนื้อความ #e8e4c6 (BRAND_TEXT)
+// — พาเลตต์แดง-ทอง-เงินของแบรนด์รอบก่อนถูกถอดออกครบแล้ว ห้ามนำกลับมา
 //
-// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 158
+// ย่อหน้าในการ์ดไม่ระบุสีเอง ให้สืบทอดสีเนื้อความจาก ContentBox (ไฟล์กลางที่ orchestrator
+// รีธีมรอบนี้) — มีแค่ปุ่มกับกรอบรูปเท่านั้นที่ถือสีของพาเลตต์
+//
+// 150–160 CHARACTERS (ไม่ใช่ไบต์ — ภาษาไทย 3 ไบต์ต่ออักขระ) หน้านี้ยาว 159
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "รวมภาพโปรโมชั่นของ 365LOTTO ทั้งอัตราจ่ายหวย 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 กับโบนัสแนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3% ตรวจสอบเงื่อนไขจากหน้าเว็บก่อนกดรับ";
+const pageDescription = "รวมภาพโปรโมชั่นและอัตราจ่ายหวยของ 888PARUAY ทั้งเลข 2 ตัวจ่าย 100 และเลข 3 ตัวจ่าย 1,000 พร้อมรายละเอียดของแต่ละรายการให้ตรวจสอบเงื่อนไขจากหน้าเว็บก่อนทำรายการ";
 
 const graph = pageGraph(Astro, {
-  name: "โปรโมชั่น 365LOTTO",
+  name: "โปรโมชั่น 888PARUAY",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
     { name: "โปรโมชั่น", path: "/promotion" },
   ],
-  primaryImagePath: promoPayout.src,
+  primaryImagePath: promoTwoDigit.src,
 });
 ---
 
-<MainLayout title="โปรโมชั่น 365LOTTO อัตราจ่ายหวย แนะนำเพื่อน 0.8% และคืนยอดเสีย 0.3%" description={pageDescription}>
+<MainLayout title="โปรโมชั่น 888PARUAY อัตราจ่ายหวย 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="โปรโมชั่น 365LOTTO" as="h1">
+  <ContentBox title="โปรโมชั่น 888PARUAY" as="h1">
     <div>
-      <p class="mb-8 text-left text-base leading-relaxed text-[#f0ddc4]">
-        หน้านี้รวมภาพของสิทธิ์ที่ <strong class="text-[#f3f6fa]">365LOTTO</strong> เปิดรับในรอบปัจจุบัน ทั้งอัตราจ่ายหวยที่เลข 2 ตัวอยู่ที่
-        <strong class="text-[#ffe9a3]">100</strong> และเลข 3 ตัวอยู่ที่ <strong class="text-[#ffe9a3]">1,000</strong> กับโบนัสแนะนำเพื่อน
-        <strong class="text-[#ffe9a3]">0.8%</strong> และโบนัสคืนยอดเสีย <strong class="text-[#ffe9a3]">0.3%</strong> โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว
-        <strong class="text-[#f3f6fa]">แต่ละรายการมีเงื่อนไข รอบคำนวณ และยอดที่เข้าเกณฑ์ต่างกัน จึงควรเปิดดูรายละเอียดของรายการนั้นจากหน้าเว็บไซต์ก่อนกดรับสิทธิ์ทุกครั้ง</strong>
+      <p class="mb-8 text-left text-base leading-relaxed">
+        หน้านี้รวมภาพอัตราจ่ายหวยที่ <strong>888PARUAY</strong> เปิดรับในรอบปัจจุบัน ทั้งเลข 2 ตัวและเลข 3 ตัว โดยรายละเอียดของแต่ละรายการระบุไว้บนภาพด้านล่างแล้ว
+        <strong>รอบเปิดรับและเงื่อนไขของหวยแต่ละประเภทแตกต่างกัน</strong> จึงควรตรวจสอบรายการล่าสุดจากหน้าเว็บไซต์อีกครั้งก่อนยืนยันรายการทุกครั้ง
       </p>
 
       <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2">
         <Picture
-          src={promoPayout}
-          alt="แบนเนอร์อัตราจ่ายหวยพื้นแดงประกายทอง มีเหรียญทองกองอยู่ด้านล่างและลูกบอลหวยสีแดงเลข 6 8 3 1 9 กระจายรอบภาพ ด้านบนเป็นโลโก้ 365LOTTO ตัวเลข 365 สีทองกับคำว่า LOTTO สีเงินโครเมียมที่มีตัว O สีแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดขาว-แดงคำว่า 365LOTTO กำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงคำว่า 365LOTTO กอดอก กลางภาพเป็นป้ายทองข้อความไทยว่า อัตราจ่ายหวย 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000"
+          src={promoTwoDigit}
+          alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มประกายทอง มีเหรียญทองและลูกบอลหวยสีแดง เขียว ขาว กระจายรอบภาพ ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ในวงแหวนทอง เลข 888 สีเขียวกับคำว่า PARUAY สีแดง ด้านซ้ายเป็นหญิงสาวชุดแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มเสื้อแจ็กเก็ตขาวผูกโบว์แดง กลางภาพเป็นป้ายแดงข้อความไทยว่า อัตราจ่ายหวย และใต้ป้ายเป็นแผ่นป้ายขอบทองข้อความว่า 2 ตัวจ่าย 100"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#fadc64]/55 object-contain shadow-[0_10px_30px_rgba(18,4,6,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f3f6fa]/75 hover:shadow-[0_15px_40px_rgba(250,220,100,0.45)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fcdc2b]/55 object-contain shadow-[0_10px_30px_rgba(7,19,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#1fae1c]/75 hover:shadow-[0_15px_40px_rgba(252,220,43,0.45)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -86,13 +85,13 @@ const graph = pageGraph(Astro, {
         />
 
         <Picture
-          src={promoBonus}
-          alt="แบนเนอร์โปรโมชั่นโบนัสพื้นแดงประกายทอง มีเหรียญทองและลูกบอลหวยสีแดงเลข 6 3 9 8 กระจายรอบภาพ ด้านบนเป็นโลโก้ 365LOTTO ตัวเลข 365 สีทองกับคำว่า LOTTO สีเงินโครเมียมที่มีตัว O สีแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดขาว-แดงคำว่า 365LOTTO กำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มผมสั้นสวมเสื้อกีฬาขาว-แดงคำว่า 365LOTTO กอดอก กลางภาพเป็นป้ายทองข้อความไทยว่า แนะนำเพื่อน โบนัส 0.8% และ คืนยอดเสีย โบนัส 0.3%"
+          src={promoThreeDigit}
+          alt="แบนเนอร์อัตราจ่ายหวยพื้นเขียวเข้มประกายทอง มีเหรียญทองและลูกบอลหวยสีแดง เขียว ขาว กระจายรอบภาพ ด้านบนกลางภาพเป็นโลโก้ 888PARUAY ในวงแหวนทอง เลข 888 สีเขียวกับคำว่า PARUAY สีแดง ด้านซ้ายเป็นหญิงสาวชุดแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มเสื้อแจ็กเก็ตขาวผูกโบว์แดง กลางภาพเป็นป้ายแดงข้อความไทยว่า อัตราจ่ายหวย และใต้ป้ายเป็นแผ่นป้ายขอบทองข้อความว่า 3 ตัวจ่าย 1,000"
           loading="lazy"
           fetchpriority="low"
           widths={[300, 600]}
           sizes="(max-width: 639px) calc(100vw - 96px), 488px"
-          class="mx-auto h-auto w-full rounded-xl border border-[#fadc64]/55 object-contain shadow-[0_10px_30px_rgba(18,4,6,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#f3f6fa]/75 hover:shadow-[0_15px_40px_rgba(250,220,100,0.45)]"
+          class="mx-auto h-auto w-full rounded-xl border border-[#fcdc2b]/55 object-contain shadow-[0_10px_30px_rgba(7,19,10,0.75)] transition-transform duration-300 hover:-translate-y-1 hover:border-[#1fae1c]/75 hover:shadow-[0_15px_40px_rgba(252,220,43,0.45)]"
           decoding="async"
           formats={["avif", "webp"]}
           fallbackFormat="webp"
@@ -103,9 +102,9 @@ const graph = pageGraph(Astro, {
       <div class="mt-12 flex justify-center pb-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก 365LOTTO"
-          class="flex items-center justify-center rounded-lg border border-[#ffe9a3]/60 bg-gradient-to-r from-[#ffe9a3] via-[#fadc64] to-[#9c6a12] px-10 py-3.5 text-lg font-black text-[#120406] shadow-[0_0_15px_rgba(250,220,100,0.50)] transition-transform hover:scale-105">
-          สมัครสมาชิก 365LOTTO
+          aria-label="สมัครสมาชิก 888PARUAY"
+          class="flex items-center justify-center rounded-lg border border-[#fff6ae]/60 bg-gradient-to-r from-[#fff6ae] via-[#fcdc2b] to-[#a87d0c] px-10 py-3.5 text-lg font-black text-[#07130a] shadow-[0_0_15px_rgba(252,220,43,0.50)] transition-transform hover:scale-105">
+          สมัครสมาชิก 888PARUAY
         </a>
       </div>
     </div>
