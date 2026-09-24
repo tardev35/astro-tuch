@@ -6,41 +6,53 @@ export interface FaqItem {
 
 export interface Props {
   title?: string;
+  /** The docx level this section's own heading sits at. Never hardcoded below. */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   faqs?: FaqItem[];
 }
 
-const { title, faqs = [] } = Astro.props;
+const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 
 // The question used to be an <h3>. A FAQ question is not a docx heading, so it
 // renders as a <p> with the same classes and the section takes its accessible
-// name from aria-label. The prop-driven <h2> below is the docx's own FAQ
-// heading, so it stays a heading.
+// name from aria-label. The prop-driven heading below is the docx's own FAQ
+// heading, so it stays a heading — at whatever level `as` says.
 //
 // State comes from the [open] attribute, not from an `active` class a script
 // toggles — that is why this variant has no <script> at all.
 //
-// Closed rows sit on gold; an open row switches its plus-sign to brushed
-// silver, which is the second half of the MEPAY77 wordmark and gives the open
-// state a colour change rather than only a rotation.
+// UWIN33 (รอบทอง-โครเมียม-ดำ 2026-09-24): แถวที่ปิดอยู่นั่งบนพื้นการ์ดดำอมน้ำตาล
+// #161106 ที่ไล่ลงไปหาพื้นเพจ #080602 ในกรอบทองลึก #7a5407 เครื่องหมายบวกเป็นทอง
+// สว่าง #fbd564 แล้วสลับเป็นเงินโครเมียม #dfe4ec ตอนแถวถูกเปิด ซึ่งเป็นครึ่งหลัง
+// ของโลโก้ (คำว่า WIN) และทำให้สถานะเปิดมีการเปลี่ยนสี ไม่ใช่แค่หมุนเครื่องหมาย
+// หัวข้อไล่จากเงินโครเมียม → ทองสว่าง → ทองแบรนด์ #e0b429 ตามลำดับสีบนโลโก้
+// เนื้อความ #ece6d8 (BRAND_TEXT) — ชุดทอง-ส้มของ MEPAY77 (#f2ae35 #fdcc5c
+// #fff6e0 #5c3a08 #1b1206 #130c01 #f1e5cd #dfe3e8) ออกทั้งหมด
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
 <section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
-  {title && <h2 class="mb-8 bg-gradient-to-b from-[#fff6e0] to-[#f2ae35] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">{title}</h2>}
+  {
+    title && (
+      <HeadingTag class="mb-8 bg-gradient-to-r from-[#dfe4ec] via-[#fbd564] to-[#e0b429] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
+        {title}
+      </HeadingTag>
+    )
+  }
 
   <div class="space-y-4">
     {
       faqs.map((faq) => (
-        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#5c3a08]/70 bg-gradient-to-br from-[#1b1206] to-[#130c01] transition-all hover:border-[#f2ae35]/55">
+        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#7a5407]/70 bg-gradient-to-br from-[#161106] to-[#080602] transition-all hover:border-[#e0b429]/55">
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <p class="text-base leading-normal font-bold text-[#fff6e0]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#fff8e6]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#f2ae35]/50 text-lg leading-none font-black text-[#fdcc5c] transition-transform duration-300">
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#e0b429]/50 text-lg leading-none font-black text-[#fbd564] transition-transform duration-300">
               +
             </span>
           </summary>
-          <div class="faq-answer border-t border-[#5c3a08]/70 p-5 pt-0 text-left text-base leading-relaxed text-[#f1e5cd]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#7a5407]/70 p-5 pt-0 text-left text-base leading-relaxed text-[#ece6d8]">{faq.a}</div>
         </details>
       ))
     }
@@ -55,13 +67,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(242, 174, 53, 0.6);
-    box-shadow: 0 0 20px rgba(253, 204, 92, 0.28);
+    border-color: rgba(224, 180, 41, 0.6);
+    box-shadow: 0 0 20px rgba(251, 213, 100, 0.28);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #dfe3e8;
-    color: #dfe3e8;
+    border-color: #dfe4ec;
+    color: #dfe4ec;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

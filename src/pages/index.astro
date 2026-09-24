@@ -1,16 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
-import BankStrip from "../components/BankStrip.astro";
-import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq4.astro";
-import LatestWinners from "../components/LatestWinnersCyber.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import Faq from "../components/Faq.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -24,16 +23,16 @@ import imgSlide2 from "../assets/slide2.png";
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — the family's hard cap of two per rebrand,
 // so there is no third SevenThree here:
-//   slide1.png — the red-and-black poster whose type reads "โปรโมชั่น แนะนำเพื่อน
+//   slide1.png — the black-and-gold poster whose type reads "โปรโมชั่น แนะนำเพื่อน
 //     / โบนัส 0.8%", so it belongs to docx H3 #4.
-//   slide2.png — the same two models over "โปรโมชั่น คืนยอดเสีย / โบนัส 0.3%",
-//     so it belongs to docx H3 #5.
+//   slide2.png — the same set with two models over "โปรโมชั่น คืนยอดเสีย /
+//     โบนัส 0.3%", so it belongs to docx H3 #5.
 // Both files are 600x333, so 600 is the top candidate width — nothing above it
-// would be a real pixel. The alt text was written from the current artwork (the
-// MAHAGAME66 wordmark with chrome MAHA, red GAME and chrome 66, the woman in the
-// white dress with red trim beside the red megaphone, the man in the white suit
-// with the red tie, the red gift ribbons, the red % glyph on slide1 and the
-// white-and-red casino chips on slide2), not carried over from a previous brand.
+// would be a real pixel. The alt text was written from the CURRENT artwork (the
+// UWIN33 wordmark with a gold U, chrome WIN and gold 33, the woman in the white
+// blazer with black-and-gold trim, the man in the black suit, the gold chips,
+// the ace of spades and the gold crown), never carried over from MAHAGAME66's
+// red-and-chrome strings.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
 //   banner2.png (2026-09-22), banner3.png (2026-08-11), slide3.png
@@ -49,44 +48,45 @@ import imgSlide2 from "../assets/slide2.png";
 // GameRankingBoard are DROPPED this round and NOT deleted from disk: each one
 // has to name specific studios or game titles, and this brief names none —
 // filling them in would be inventing facts. SmoothCarousel is out because it
-// would put slide* outside a ContentBoxSevenThree*, LottoGrid because this is a
-// mixed casino brand rather than a lottery one, FeatureHighlights because the
-// two H3 sub-points already have SevenThree blocks carrying them, and every
-// *Huay file with it.
+// would put slide* outside a ContentBoxSevenThree*, LottoGrid because UWIN33 is
+// a mixed casino brand rather than a lottery one, FeatureHighlights because the
+// 3-step signup list has no per-step headings in the brief (it emits <h3> per
+// item, which would break the heading inventory), BankStrip because the brief
+// names no deposit or withdrawal channel at all.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 127 characters. The
-// brief spells "วอเลลท" in the description; that is its own copy and is kept
-// exactly as written, while the body copy uses the brief's "วอลเลท".
-const pageTitle = "MAHAGAME66 พนันออนไลน์ เว็บตรง ปลอดภัย ระบบแท้100%";
+// floor and never topped up from the H1/H2 — this one is 131 characters.
+const pageTitle = "UWIN33 พนันเว็บตรงยอดนิยมอันดับ1 เกมเดิมพันสำหรับนักเล่นชาวไทย";
 
-const pageDescription = "MAHAGAME66 พนันออนไลน์ เว็บตรง บาคาร่า สล็อต หวย บอล รูเล็ต ไลฟ์สดตรงจากบริษัทแม่ ฝากถอนวอเลลท ธนาคารชั้นนำ ปลอดภัย ระบบแท้100%";
+const pageDescription = "UWIN33 พนันเว็บตรงยอดนิยมอันดับ1 บาคาร่า รูเล็ต ไฮโล สล็อต บอล หวย เกมเดิมพันสำหรับนักเล่นชาวไทย รวมครบไว้ให้ในเว็บเดียว แบบครบวงจร";
 
-// <Announcement /> runs bare: Announcement5's default message is already this
-// brand's copy, and every sub-page calls it bare too — passing an override here
-// is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: AnnouncementPremium's default message is already
+// this brand's copy, and every sub-page calls it bare too — passing an override
+// here is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H2 -> H3 nesting this round: "แนะนำเพื่อน โบนัส 0.8%" and
 // "คืนยอดเสีย โบนัส 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page
 // is NOT flattened to H2-only. Those two are the only <h3> here, and each one is
 // carried by its own ContentBoxSevenThree* block together with the slide whose
 // artwork states that exact figure.
-// Everything else is chrome — LatestWinnersCyber, LoginRtpSection and
+// Everything else is chrome — LatestWinnersPremium, LoginRtpSection and
 // ReviewCardSumo2 render their titles as <p>/<span> with an aria-label on the
-// section, ContentBoxTwoNeumorphism and ContentBoxTwoFloatingBadge render their
-// column labels as <p>, and Faq4's questions live in a <span> inside <summary>
-// — so none of them emits a heading tag.
+// section, ContentBoxTwo renders its column labels as <p>, and Faq's questions
+// live in a <p> inside <summary> — so none of them emits a heading tag.
+// ContentBox3ThreePremium is passed heading={false} because its three column
+// captions are this page's own wording for splitting one docx paragraph into
+// three readable columns, not docx sub-headings; they render as <p>.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  MAHAGAME66 พนันออนไลน์ เว็บตรง ปลอดภัย …      ContentBoxFloatingBadge
-//    2 H2  MAHAGAME66 เว็บตรง บาคาร่า สล็อต หวย …        ContentBoxTwoNeumorphism
-//    3 H2  โปรโมชั่นกดรับหลังสมัคร MAHAGAME66 …           ContentBoxSpecial
-//    4 H3  แนะนำเพื่อน โบนัส 0.8%                        ContentBoxSevenThreeNeumorphism + slide1
-//    5 H3  คืนยอดเสีย โบนัส 0.3%                         ContentBoxSevenThree + slide2
-//    6 H2  ระบบ MAHAGAME66 ฝากถอนวอลเลท ธนาคารชั้นนำ      ContentBoxTwoFloatingBadge (+ BankStrip)
-//    7 H2  มีแอดมิน MAHAGAME66 คอยให้บริการ 24 ชั่วโมง    ContentBox
-//    8 H2  คำถามที่พบบ่อย                                Faq4
+//    1 H1  UWIN33 พนันเว็บตรงยอดนิยมอันดับ1 เกมเดิมพัน …   ContentBoxPremium
+//    2 H2  UWIN33 บาคาร่า รูเล็ต ไฮโล สล็อต บอล หวย …     ContentBox3ThreePremium
+//    3 H2  อัปเดตโปรโมชั่น สำหรับสมาชิก UWIN33 …           ContentBoxCyberCut
+//    4 H3  แนะนำเพื่อน โบนัส 0.8%                        ContentBoxSevenThreePremium + slide1
+//    5 H3  คืนยอดเสีย โบนัส 0.3%                         ContentBoxSevenThreeCyberCut + slide2
+//    6 H2  สมัคร UWIN33 รับโปรโมชั่นทุกวัน แค่ 3 ขั้นตอน    ContentBoxTwoPremium (intro + <ol>)
+//    7 H2  ติดต่อเจ้าหน้าที่ UWIN33 ผ่าน LINE OFFICIAL …    ContentBoxNeumorphism
+//    8 H2  คำถามที่พบบ่อย                                Faq
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
@@ -94,16 +94,16 @@ const pageDescription = "MAHAGAME66 พนันออนไลน์ เว็�
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "MAHAGAME66 มีเกมประเภทไหนให้เลือกบ้าง?",
-    a: "ภายในระบบมีทั้งบาคาร่า สล็อต หวย บอล รูเล็ต และเกมไลฟ์สดตามรายการที่เปิดให้บริการ สมาชิกสามารถตรวจสอบหมวดเกมและค่ายที่รองรับได้จากหน้ารวมเกมก่อนเข้าใช้งาน",
+    q: "UWIN33 มีเกมประเภทไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีทั้งบาคาร่า รูเล็ต ไฮโล สล็อต บอล และหวย รวมถึงรายการจากหลายค่ายตามหมวดที่เว็บไซต์เปิดให้บริการ สมาชิกสามารถตรวจสอบเกมและรายละเอียดที่เกี่ยวข้องได้จากหน้ารวมเกมก่อนเข้าใช้งาน",
   },
   {
-    q: "MAHAGAME66 มีโปรโมชั่นอะไรบ้าง?",
-    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง",
+    q: "UWIN33 มีโปรโมชั่นอะไรให้สมาชิกบ้าง?",
+    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยสิทธิ์และเงื่อนไขของแต่ละรายการอาจแตกต่างกัน แนะนำให้ตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
   },
   {
-    q: "MAHAGAME66 ฝากถอนผ่านช่องทางใดได้บ้าง?",
-    a: "ระบบรองรับวอลเลทและธนาคารตามรายการที่เว็บไซต์กำหนด สมาชิกสามารถตรวจสอบช่องทางที่เปิดใช้งาน ยอดเครดิต และสถานะรายการได้จากหน้าฝากถอนของบัญชี",
+    q: "ติดต่อแอดมิน UWIN33 ได้ตลอด 24 ชั่วโมงหรือไม่?",
+    a: "สามารถติดต่อเจ้าหน้าที่ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง เพื่อสอบถามเรื่องบัญชี ทางเข้าเกม โปรโมชั่น หรือปัญหาการใช้งาน โดยทีมงานจะช่วยตรวจสอบข้อมูลตามรายละเอียดที่แจ้งเข้ามา",
   },
 ];
 
@@ -111,8 +111,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only this round: #fff6f5 against the body colour
-// #e8e3e1, so the brand red stays the page's structural accent and the
+// One highlight colour only this round: #fff8e6 against the body colour
+// #ece6d8, so the brand gold stays the page's structural accent and the
 // paragraphs never compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -130,111 +130,114 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxFloatingBadge as="h1" title="MAHAGAME66 พนันออนไลน์ เว็บตรง ปลอดภัย ระบบแท้100%">
-    <p class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      MAHAGAME66
-      <strong class="text-[#fff6f5]">รวมเกมพนันออนไลน์หลายประเภทไว้ในระบบเดียว</strong>
-      <strong class="text-[#fff6f5]">ทั้งบาคาร่า สล็อต หวย บอล และรูเล็ต</strong>
-      พร้อมรูปแบบไลฟ์สดตามรายการที่เปิดให้บริการ
-      <strong class="text-[#fff6f5]">รองรับการใช้งานผ่านมือถือและคอมพิวเตอร์</strong>
-      เมนูจัดหมวดหมู่ชัดเจน ช่วยให้สมาชิกเลือกเกมที่ต้องการได้ง่ายจากบัญชีเดียว
+  <ContentBoxPremium as="h1" title="UWIN33 พนันเว็บตรงยอดนิยมอันดับ1 เกมเดิมพัน สำหรับนักเล่นชาวไทย">
+    <p class="text-left text-base leading-relaxed text-[#ece6d8]">
+      UWIN33
+      <strong class="text-[#fff8e6]">รวมเกมเดิมพันหลายประเภทสำหรับผู้ใช้งานชาวไทยไว้ในระบบเดียว</strong>
+      <strong class="text-[#fff8e6]">ทั้งบาคาร่า รูเล็ต ไฮโล สล็อต บอล และหวย</strong>
+      พร้อมเมนูที่แบ่งหมวดชัดเจน
+      <strong class="text-[#fff8e6]">รองรับการเข้าใช้งานผ่านมือถือและคอมพิวเตอร์</strong>
+      ช่วยให้เลือกเกมที่สนใจและจัดการบัญชีได้สะดวกโดยไม่ต้องสลับใช้งานหลายเว็บไซต์
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoNeumorphism as="h2" title="MAHAGAME66 เว็บตรง บาคาร่า สล็อต หวย บอล รูเล็ต ไลฟ์สดตรงจากบริษัทแม่" titleleft="หมวดเกมที่เปิดให้บริการ" titleright="ตรวจก่อนเข้าเล่น">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      MAHAGAME66
-      <strong class="text-[#fff6f5]">รวมเกมยอดนิยมไว้ครบทั้งบาคาร่า สล็อต หวย บอล และรูเล็ต</strong>
-      พร้อมหมวดเกมไลฟ์สดที่เชื่อมต่อจากผู้ให้บริการตามข้อมูลของเว็บไซต์
+  <ContentBox3ThreePremium
+    as="h2"
+    title="UWIN33 บาคาร่า รูเล็ต ไฮโล สล็อต บอล หวย รวมครบไว้ให้ในเว็บเดียว"
+    heading={false}
+    titleleft="เกมครบทุกหมวดในบัญชีเดียว"
+    titlecenter="เลือกดูและสลับหมวดได้ง่าย"
+    titleright="เมนูอ่านชัดบนมือถือ">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ece6d8]">
+      UWIN33
+      <strong class="text-[#fff8e6]">มีตัวเลือกเกมครบทั้งบาคาร่า รูเล็ต ไฮโล สล็อต บอล และหวย</strong>
+      พร้อมรวบรวมแต่ละหมวดไว้ในบัญชีเดียว
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      <strong class="text-[#fff6f5]">สมาชิกสามารถตรวจสอบค่ายเกม รายละเอียดโต๊ะ และรูปแบบเดิมพันก่อนเข้าเล่น</strong>
-      ช่วยให้เลือกเกมที่ตรงกับความสนใจได้สะดวกมากขึ้น
+    <p slot="center" class="text-left text-base leading-relaxed text-[#ece6d8]">
+      <strong class="text-[#fff8e6]">ผู้ใช้งานสามารถเลือกดูเกมตามประเภท</strong>
+      ตรวจสอบรายละเอียด
+      <strong class="text-[#fff8e6]">และสลับไปยังหมวดที่สนใจได้ง่าย</strong>
     </p>
-  </ContentBoxTwoNeumorphism>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece6d8]">ระบบออกแบบให้เมนูอ่านชัดและเหมาะกับการใช้งานผ่านมือถือของสมาชิกชาวไทย</p>
+  </ContentBox3ThreePremium>
 
-  <ContentBoxSpecial as="h2" title="โปรโมชั่นกดรับหลังสมัคร MAHAGAME66 เล่นคาสิโน" iconleft="🎁" iconright="📋">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      โปรโมชั่น MAHAGAME66
-      <strong class="text-[#fff6f5]">มีสิทธิ์ให้สมาชิกเลือกหลายรูปแบบตามเงื่อนไขของแต่ละรายการ</strong>
-      โดยสามารถตรวจสอบรายละเอียดได้หลังสมัคร
-      <strong class="text-[#fff6f5]">ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+  <ContentBoxCyberCut as="h2" title="อัปเดตโปรโมชั่น สำหรับสมาชิก UWIN33 ตลอดทั้งเดือน">
+    <p class="text-left text-base leading-relaxed text-[#ece6d8]">
+      โปรโมชั่น UWIN33
+      <strong class="text-[#fff8e6]">มีการจัดสิทธิ์สำหรับสมาชิกตามรายการและช่วงเวลาที่กำหนด</strong>
+      <strong class="text-[#fff8e6]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+      สมาชิกสามารถตรวจสอบรายละเอียด ยอดที่เข้าเงื่อนไข
+      <strong class="text-[#fff8e6]">และวิธีรับสิทธิ์จากหน้าโปรโมชั่น</strong>
+      เพื่อเลือกใช้สิทธิ์ให้เหมาะกับรูปแบบการใช้งานของตัวเองในแต่ละเดือน
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      ระบบแสดงข้อมูลเกี่ยวกับยอดที่เข้าเกณฑ์
-      <strong class="text-[#fff6f5]">รอบรับสิทธิ์ และเงื่อนไขก่อนกดรับอย่างชัดเจน</strong>
-    </p>
-  </ContentBoxSpecial>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreePremium as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 390px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 340px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นแดง-ดำ มีริบบิ้นของขวัญสีแดงกระจายอยู่ด้านหลัง ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดสีขาวคาดแถบแดงกำลังชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มสวมสูทสีขาวผูกเนกไทสีแดงชี้นิ้วกลับมาที่ข้อความเช่นกัน ด้านบนกลางภาพเป็นโลโก้ MAHAGAME66 ที่คำว่า MAHA และเลข 66 เป็นสีเงินโครเมียม ส่วนคำว่า GAME เป็นสีแดง มุมขวาบนมีสัญลักษณ์เปอร์เซ็นต์สีแดง กลางภาพมีโทรโข่งสีแดงวางอยู่หน้าข้อความว่า โปรโมชั่น แนะนำเพื่อน และแผ่นป้ายด้านล่างเขียนว่า โบนัส 0.8%"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#de161d]/55 shadow-[0_10px_30px_rgba(222,22,29,0.3)]"
+      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทอง ด้านซ้ายเป็นหญิงสาวสวมเบลเซอร์สีขาวปกสีดำยืนชี้มือมาที่ข้อความ ด้านหลังมีชิปคาสิโนสีทองกับไพ่โพดำเอซวางซ้อนกัน ด้านบนกลางภาพเป็นโลโก้ UWIN33 ที่ตัว U และเลข 33 เป็นทองนูน ส่วนคำว่า WIN เป็นสีเงินโครเมียม กลางภาพเป็นตัวอักษรสีทองว่า โปรโมชั่น แนะนำเพื่อน โดยมีมงกุฎสีทองอยู่เหนือข้อความ และแผ่นป้ายด้านล่างเขียนว่า โบนัส 0.8%"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#e0b429]/55 shadow-[0_10px_30px_rgba(224,180,41,0.3)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      สมาชิก MAHAGAME66
-      <strong class="text-[#fff6f5]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
-      ระบบมีรายละเอียดให้ตรวจสอบเกี่ยวกับยอดที่เข้าเกณฑ์และวิธีรับสิทธิ์
-      <strong class="text-[#fff6f5]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้ง่ายผ่านบัญชีสมาชิก</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece6d8]">
+      สมาชิก UWIN33
+      <strong class="text-[#fff8e6]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
+      ระบบมีข้อมูลเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ
+      <strong class="text-[#fff8e6]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิกโดยตรง</strong>
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThree as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 362px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นแดง-ดำชุดเดียวกัน ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดสีขาวคาดแถบแดงชี้นิ้วเข้าหาข้อความ ด้านขวาเป็นชายหนุ่มสวมสูทสีขาวผูกเนกไทสีแดง และมีชิปคาสิโนสีขาวสลับแดงพิมพ์สัญลักษณ์โพดำวางซ้อนกันอยู่ริมขวาของภาพ ด้านบนกลางภาพเป็นโลโก้ MAHAGAME66 ที่คำว่า MAHA และเลข 66 เป็นสีเงินโครเมียม ส่วนคำว่า GAME เป็นสีแดง กลางภาพเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย และแผ่นป้ายด้านล่างเขียนว่า โบนัส 0.3% ล้อมด้วยริบบิ้นของขวัญสีแดง"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e2e8ef]/35 shadow-[0_10px_30px_rgba(8,5,6,0.8)]"
+      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทองชุดเดียวกัน ด้านซ้ายเป็นหญิงสาวสวมเบลเซอร์สีขาวคาดขอบดำ-ทอง ด้านขวาเป็นชายหนุ่มสวมสูทสีดำผูกเนกไทสีดำ ทั้งคู่ชี้มือเข้าหาข้อความกลางภาพ ด้านล่างมีชิปคาสิโนสีทองสลับดำวางซ้อนกันเป็นกอง ด้านบนเป็นโลโก้ UWIN33 ที่ตัว U และเลข 33 เป็นทองนูน ส่วนคำว่า WIN เป็นสีเงินโครเมียม กลางภาพเป็นข้อความว่า โปรโมชั่น คืนยอดเสีย และแผ่นป้ายด้านล่างเขียนว่า โบนัส 0.3%"
+      class="mx-auto h-auto w-full rounded-xl border border-[#dfe4ec]/35 shadow-[0_10px_30px_rgba(8,6,2,0.8)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      <strong class="text-[#fff6f5]">โปรโมชั่นคืนยอดเสียของ MAHAGAME66 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
-      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับ
-      <strong class="text-[#fff6f5]">ช่วยให้ติดตามสิทธิ์ของตัวเองในแต่ละรอบได้ชัดเจนมากขึ้น</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#ece6d8]">
+      <strong class="text-[#fff8e6]">โปรโมชั่นคืนยอดเสีย UWIN33 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
+      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์
+      <strong class="text-[#fff8e6]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้เงื่อนไขก่อนนำสิทธิ์ไปใช้งาน</strong>
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxTwoFloatingBadge as="h2" title="ระบบ MAHAGAME66 ฝากถอนวอลเลท ธนาคารชั้นนำ" titleleft="ช่องทางฝากถอน" titleright="จัดการเครดิตจากหน้าเดียว">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      ระบบ MAHAGAME66
-      <strong class="text-[#fff6f5]">รองรับช่องทางฝากถอนผ่านวอลเลทและธนาคารตามรายการที่เว็บไซต์เปิดให้ใช้งาน</strong>
-      สมาชิกสามารถเลือกช่องทางที่สะดวก
-      <strong class="text-[#fff6f5]">พร้อมตรวจสอบยอดและสถานะรายการผ่านบัญชีได้โดยตรง</strong>
+  <ContentBoxTwoPremium as="h2" title="สมัคร UWIN33 รับโปรโมชั่นทุกวัน แค่ 3 ขั้นตอน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#ece6d8]">
+      <strong class="text-[#fff8e6]">การสมัคร UWIN33 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
+      ใช้ขั้นตอนไม่ซับซ้อน หลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้รับได้
+      <strong class="text-[#fff8e6]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
     </p>
-    <div slot="right" class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#e8e3e1]">
-        <strong class="text-[#fff6f5]">ขั้นตอนถูกจัดให้เข้าใจง่าย</strong>
-        ช่วยให้จัดการเครดิตได้จากหน้าเดียว
-      </p>
-      <BankStrip size={36} limit={12} class="rounded-2xl border border-[#de161d]/30 bg-[#080506]/70 p-3" />
-    </div>
-  </ContentBoxTwoFloatingBadge>
+    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#ece6d8] marker:font-black marker:text-[#e0b429]">
+      <li>เปิดหน้าสมัคร UWIN33 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
+      <li>ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
+      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้สมาชิกได้ทันที</li>
+    </ol>
+  </ContentBoxTwoPremium>
 
-  <ContentBox as="h2" title="มีแอดมิน MAHAGAME66 คอยให้บริการ 24 ชั่วโมง">
-    <p class="text-left text-base leading-relaxed text-[#e8e3e1]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร ทางเข้าเกม โปรโมชั่น บาคาร่า สล็อต หวย บอล รูเล็ต หรือระบบฝากถอน
-      <strong class="text-[#fff6f5]">สามารถติดต่อแอดมิน MAHAGAME66 ได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#fff6f5]">ทีมงานพร้อมช่วยตรวจสอบข้อมูลและแนะนำขั้นตอนตามปัญหาที่แจ้ง</strong>
-      เพื่อให้สมาชิกเข้าถึงข้อมูลได้สะดวกทุกช่วงเวลา
+  <ContentBoxNeumorphism as="h2" title="ติดต่อเจ้าหน้าที่ UWIN33 ผ่าน LINE OFFICIAL 24 ชั่วโมง">
+    <p class="text-left text-base leading-relaxed text-[#ece6d8]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร โปรโมชั่น ทางเข้าเกม หรือการใช้งานบัญชี
+      <strong class="text-[#fff8e6]">สามารถติดต่อเจ้าหน้าที่ UWIN33 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง</strong>
+      ทีมงานพร้อมช่วยให้ข้อมูลเกี่ยวกับบาคาร่า รูเล็ต ไฮโล สล็อต บอล หวย
+      <strong class="text-[#fff8e6]">และตรวจสอบปัญหาการใช้งานตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
     </p>
-  </ContentBox>
+  </ContentBoxNeumorphism>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 
