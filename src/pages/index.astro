@@ -1,15 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementCyber.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBox3ThreeNeumorphism from "../components/ContentBox3ThreeNeumorphism.astro";
-import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
-import Faq from "../components/Faq3.astro";
-import LatestWinners from "../components/LatestWinners3.astro";
+import Announcement from "../components/Announcement5.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import Faq from "../components/Faq4.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -23,17 +23,19 @@ import imgSlide2 from "../assets/slide2.png";
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — the family's hard cap of two per rebrand,
 // so there is no third SevenThree here:
-//   slide1.png — the black-and-gold poster whose type reads "โปรโมชั่น แนะนำเพื่อน
-//     / โบนัส 0.8%", so it belongs to docx H3 #4.
-//   slide2.png — the same pair of models over "โปรโมชั่น คืนยอดเสีย / โบนัส 0.3%",
-//     so it belongs to docx H3 #5.
+//   slide2.png — the poster whose gold Thai type reads "โปรโมชั่น แนะนำเพื่อน" over
+//     a gold badge "โบนัส 0.8%", so it belongs to docx H3 #4.
+//   slide1.png — the matching poster reading "โปรโมชั่น คืนยอดเสีย" with "โบนัส 0.3%"
+//     in large gold numerals, so it belongs to docx H3 #5.
+// Note the pairing is the reverse of KINGDOM66's round, where slide1 carried the
+// 0.8% artwork — the numbers printed on this drop's files are swapped, so these
+// two imports must not be copied over from git history without reading the art.
 // Both files are 600x400, so 600 is the top candidate width — nothing above it
 // would be a real pixel. The alt text was written from the CURRENT artwork (the
-// engraved gold KINGDOM66 wordmark, the woman in the white blazer with black
-// lapels, the man in the black tuxedo, the gold crown, the gold megaphone, the
-// gold chips and gift boxes, the aces and gold coins), never carried over from
-// UWIN33's "gold U / chrome WIN / gold 33" strings — this brand's logo has no
-// chrome or silver in it at all.
+// two-metal MIRACLE55 wordmark, the woman in the white blazer, the small gold
+// crown, the black-and-gold chips, the gold coins and the printed aces), never
+// carried over from KINGDOM66's "engraved gold wordmark / man in a black tuxedo
+// / gold megaphone / red plaque" strings — none of that is in these pictures.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
 //   banner2.png (2026-09-22), banner3.png (2026-08-11), slide3.png
@@ -45,77 +47,77 @@ import imgSlide2 from "../assets/slide2.png";
 //   and are never referenced from a page — the hero is the LCP element, so
 //   nothing here gets loading="eager" fetchpriority="high".
 //
-// ProviderGrid / ProviderGridPremium / FeaturedGames / PopularGamesStrip /
-// GameRankingBoard are DROPPED this round and NOT deleted from disk: each one
-// has to name specific studios or game titles, and this brief names none — the
-// closest it comes is "ผู้ให้บริการต่างประเทศตามรายการที่เปิดให้บริการ", so filling
-// them in would be inventing facts. SmoothCarousel is out because it would put
-// slide* outside a ContentBoxSevenThree*, LottoGrid because KINGDOM66 is a mixed
-// casino brand rather than a lottery one (so /ตรวจหวย and /แนวทาง also stay
-// parked), FeatureHighlights because the 3-step signup list has no per-step
-// headings in the brief (it emits <h3> per item, which would break the heading
-// inventory), BankStrip because the brief names no deposit or withdrawal channel
-// at all.
+// DROPPED THIS ROUND, and none of the files deleted — every one is inventory for
+// the next brand: ProviderGrid / ProviderGridPremium / FeaturedGames /
+// PopularGamesStrip / GameRankingBoard each have to name specific studios, game
+// titles or payout figures, and this brief names none at all. BankStrip needs a
+// deposit/withdrawal channel, which the brief also never mentions.
+// SmoothCarousel is out because it would put slide* outside a
+// ContentBoxSevenThree*. LottoGrid is out because MIRACLE55 is a casino brand,
+// not เว็บหวย (which is also why /ตรวจหวย and /แนวทาง stay parked).
+// FeatureHighlights is out because it emits an <h3> per item and the brief gives
+// its 3 signup steps no per-step headings — the steps ship as a plain <ol>
+// instead. Filling any of these in would be inventing facts.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 121 characters.
-const pageTitle = "KINGDOM66 เล่นบาคาร่าฟรีเครดิต เกมคาสิโน ไลฟ์สดส่งตรงครบ";
+// floor and never topped up from the H1/H2 — this one is 107 characters.
+const pageTitle = "MIRACLE55 คาสิโนฐานหลัก เล่นผ่านบริษัทตรง ปลอดภัยทุกการเล่น100%";
 
-const pageDescription = "KINGDOM66 เล่นบาคาร่าฟรีเครดิต แหล่งรวมเกมคาสิโน ไพ่ สล็อต หวย บอล เดิมพันไลฟ์สดส่งตรงจากบริษัทต่างประเทศ ครบทุกแบรนด์ดัง";
+const pageDescription = "MIRACLE55 คาสิโนฐานหลัก เข้าเล่นผ่านบริษัทแม่โดยตรง สนุกทุกค่าย ใช้งานปลอดภัย ตลอดทั้งการเดิมพัน100%";
 
-// <Announcement /> runs bare: AnnouncementCyber's default message is already
-// this brand's copy, and every sub-page calls it bare too — passing an override
-// here is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: Announcement5's default message is already this
+// brand's copy, and every sub-page calls it bare too — passing an override here
+// is how the ticker ends up saying two different things on two pages.
 
-// The rendered H1 fixes one typo in the brief, and only that one: the docx line
-// reads "เล่นบาคาร่าสเครดิตฟรี" with a stray ส between บาคาร่า and เครดิตฟรี. It
-// ships as "เล่นบาคาร่าเครดิตฟรี"; the brief's own Title line spells the same
-// phrase without the ส, which is what makes it a typo rather than a variant.
-//
 // The docx has a real H2 -> H3 nesting this round: "แนะนำเพื่อน โบนัส 0.8%" and
 // "คืนยอดเสีย โบนัส 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page
 // is NOT flattened to H2-only. Those two are the only <h3> here, and each one is
 // carried by its own ContentBoxSevenThree* block together with the slide whose
 // artwork states that exact figure.
-// Everything else is chrome — LatestWinners3, LoginRtpSection and
-// ReviewCardSumo2 render their titles as <p>/<span> with an aria-label on the
-// section, ContentBoxTwo renders its column labels as <p>, and Faq3's questions
-// live in a <p> inside <summary> — so none of them emits a heading tag.
-// ContentBox3ThreeNeumorphism is passed heading={false} because its three column
-// captions are this page's own wording for splitting one docx paragraph into
-// three readable columns, not docx sub-headings; they render as <p>. That file
-// used to hardcode <h3> on all three, which was fixed in this round's retheme.
-// ContentBoxTwoCyberCut's two column labels are <p> in the component already —
-// the docx paragraph sits whole in its left column and the right column is a CTA
-// pair, so nothing is summarised to make it fit.
+// Everything else is chrome and emits no heading tag: LatestWinnersPremium,
+// LoginRtpSection and ReviewCardSumo2 render their titles as <p>/<span> with an
+// aria-label on the section, and Faq4's questions live inside <summary>.
+// ContentBox3ThreePremium's three column captions are this page's own wording for
+// splitting one docx paragraph into three readable columns, not docx sub-points,
+// so heading={false} renders them as <p> (that file's default is now false too).
+// ContentBoxTwoPremium's two column labels were hardcoded headings and were
+// downgraded to <p> inside the component this round, keeping their classes;
+// ContentBoxTwoNeumorphism's were already <p>.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  KINGDOM66 เล่นบาคาร่าเครดิตฟรี เกมคาสิโน ไลฟ์สดส่งตรงครบ   ContentBoxFloatingBadge
-//    2 H2  KINGDOM66 รวมเกมคาสิโน ไพ่ สล็อต หวย บอล ไลฟ์สด …          ContentBox3ThreeNeumorphism
-//    3 H2  KINGDOM66 จัดโปรโมชั่น แจกโบนัส 0.8% ให้สมาชิกทุกยูส        ContentBox
-//    4 H3  แนะนำเพื่อน โบนัส 0.8%                                  ContentBoxSevenThreeNeumorphism + slide1
-//    5 H3  คืนยอดเสีย โบนัส 0.3%                                   ContentBoxSevenThreeFloatingBadge + slide2
-//    6 H2  สมัคร KINGDOM66 รับโปรโมชั่นได้ทุกวัน ง่ายๆ แค่ 3 ขั้นตอน     ContentBoxSpecial (intro + <ol>)
-//    7 H2  ติดต่อเจ้าหน้าที่ KINGDOM66 ผ่าน LINE OFFICIAL 24 ชั่วโมง    ContentBoxTwoCyberCut
-//    8 H2  คำถามที่พบบ่อย                                          Faq3
+//    1 H1  MIRACLE55 คาสิโนฐานหลัก เล่นผ่านบริษัทตรง ครบทุกแบรนด์แน่นอน      ContentBoxPremium
+//    2 H2  เกมคาสิโน MIRACLE55 สนุกทุกค่าย ปลอดภัย ตลอดทั้งการเดิมพัน100%    ContentBox3ThreePremium
+//    3 H2  สมาชิก MIRACLE55 รับการอัปเดตโปรโมชั่นก่อนใครตลอดทั้งเดือน         ContentBoxCyberCut
+//    4 H3  แนะนำเพื่อน โบนัส 0.8%                                      ContentBoxSevenThreePremium + slide2
+//    5 H3  คืนยอดเสีย โบนัส 0.3%                                       ContentBoxSevenThree (plain) + slide1
+//    6 H2  สมัคร MIRACLE55 รับโปรโมชั่นจัดเต็มได้ทุกวัน แค่ 3 ขั้นตอน          ContentBoxTwoPremium (intro + <ol>)
+//    7 H2  ติดต่อเจ้าหน้าที่ MIRACLE55 ผ่านไลน์แอด 24 ชั่วโมง                 ContentBoxTwoNeumorphism
+//    8 H2  คำถามที่พบบ่อย                                              Faq4
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
+//
+// Every docx paragraph ships in full. The one place a paragraph is split is item
+// 2, whose single brief paragraph fills the three columns in order — reading the
+// columns left, centre, right reproduces that sentence word for word.
+//
+// Vocabulary: this brief says ไลน์แอด, never "LINE OFFICIAL" (KINGDOM66's word),
+// and never เครดิตฟรี / บาคาร่า / หวย / บอล — MIRACLE55 is a คาสิโนฐานหลัก brand.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "KINGDOM66 มีเกมประเภทไหนให้เลือกบ้าง?",
-    a: "ภายในระบบมีทั้งบาคาร่า ไพ่ สล็อต หวย บอล และคาสิโนไลฟ์สดตามรายการที่เปิดให้บริการ สมาชิกสามารถตรวจสอบหมวดเกมและค่ายที่รองรับได้จากหน้ารวมเกมก่อนเลือกเข้าใช้งาน",
+    q: "MIRACLE55 มีเกมคาสิโนจากค่ายไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีเกมคาสิโนจากหลายค่ายตามรายการที่เว็บไซต์เปิดให้บริการ ทั้งเกมสด เกมโต๊ะ และหมวดเกมยอดนิยม สมาชิกสามารถตรวจสอบค่ายและรายละเอียดของแต่ละเกมได้จากหน้ารวมเกมก่อนเข้าใช้งาน",
   },
   {
-    q: "KINGDOM66 มีเครดิตฟรีและโปรโมชั่นอะไรบ้าง?",
-    a: "สิทธิ์โปรโมชั่นขึ้นอยู่กับรายการที่ระบบเปิดให้รับ โดยโปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ส่วนเครดิตฟรีควรตรวจสอบรายละเอียดและเงื่อนไขของโปรโมชั่นที่หน้าเว็บไซต์ก่อนรับสิทธิ์",
+    q: "MIRACLE55 มีโปรโมชั่นอะไรสำหรับสมาชิกบ้าง?",
+    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยรายละเอียดและเงื่อนไขของแต่ละรายการอาจแตกต่างกัน ควรตรวจสอบหน้าโปรโมชั่นก่อนกดรับสิทธิ์ทุกครั้ง",
   },
   {
-    q: "ติดต่อแอดมิน KINGDOM66 ผ่านช่องทางใด?",
-    a: "สามารถติดต่อเจ้าหน้าที่ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง เพื่อสอบถามเรื่องบัญชี โปรโมชั่น เครดิตฟรี ทางเข้าเกม หรือปัญหาการใช้งาน โดยทีมงานจะช่วยตรวจสอบตามข้อมูลที่แจ้งเข้ามา",
+    q: "ติดต่อแอดมิน MIRACLE55 ได้ตลอด 24 ชั่วโมงหรือไม่?",
+    a: "สามารถติดต่อเจ้าหน้าที่ผ่านไลน์แอดได้ตลอด 24 ชั่วโมง เพื่อสอบถามเรื่องบัญชี โปรโมชั่น ทางเข้าเกม หรือปัญหาการใช้งาน โดยทีมงานจะช่วยตรวจสอบข้อมูลตามรายละเอียดที่แจ้งเข้ามา",
   },
 ];
 
@@ -123,13 +125,14 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only this round: #fdf6e0 against the body colour
-// #ebe3d3, so the brand gold stays the page's structural accent and the
-// paragraphs never compete with a heading for it.
+// One highlight colour only: chrome #fcfcfc against the body colour #e8e6e1, so
+// the brand gold stays the page's structural accent and the paragraphs never
+// compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
-// by pageGraph from `site:` — no domain is typed out in this file.
+// by pageGraph from `site:` — no domain is typed out in this file, and no
+// Review / AggregateRating / sameAs / address node is passed.
 const graph = pageGraph(Astro, {
   name: pageTitle,
   description: pageDescription,
@@ -142,76 +145,71 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxFloatingBadge as="h1" title="KINGDOM66 เล่นบาคาร่าเครดิตฟรี เกมคาสิโน ไลฟ์สดส่งตรงครบ">
-    <p class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      KINGDOM66
-      <strong class="text-[#fdf6e0]">รวมเกมคาสิโนหลายรูปแบบไว้ในระบบเดียว</strong>
-      <strong class="text-[#fdf6e0]">ทั้งบาคาร่า ไพ่ สล็อต หวย บอล และเกมไลฟ์สดจากผู้ให้บริการต่างประเทศตามรายการที่เปิดให้บริการ</strong>
-      สมาชิกสามารถเลือกหมวดเกมที่สนใจได้จากบัญชีเดียว
-      <strong class="text-[#fdf6e0]">พร้อมสิทธิ์เครดิตฟรีและโปรโมชั่นตามเงื่อนไขที่กำหนด</strong>
-      รองรับการใช้งานทั้งบนมือถือและคอมพิวเตอร์
+  <ContentBoxPremium as="h1" title="MIRACLE55 คาสิโนฐานหลัก เล่นผ่านบริษัทตรง ครบทุกแบรนด์แน่นอน">
+    <p class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      MIRACLE55
+      <strong class="text-[#fcfcfc]">คาสิโนฐานหลักที่รวมเกมจากหลายแบรนด์ไว้ในระบบเดียว</strong>
+      พร้อมรูปแบบการเข้าเล่นผ่านระบบบริษัทตรงตามข้อมูลของเว็บไซต์ สมาชิกสามารถเลือกเกมที่สนใจได้จากหลายค่าย ทั้งคาสิโนสดและเกมรูปแบบอื่น
+      <strong class="text-[#fcfcfc]">พร้อมเมนูที่จัดไว้ชัดเจน รองรับการใช้งานผ่านมือถือและคอมพิวเตอร์ได้สะดวก</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBox3ThreeNeumorphism
+  <ContentBox3ThreePremium
     as="h2"
-    title="KINGDOM66 รวมเกมคาสิโน ไพ่ สล็อต หวย บอล ไลฟ์สดจากบริษัทต่างประเทศ"
+    title="เกมคาสิโน MIRACLE55 สนุกทุกค่าย ปลอดภัย ตลอดทั้งการเดิมพัน100%"
     heading={false}
-    titleleft="หมวดเกมที่รวมไว้ครบ"
-    titlecenter="จัดหมวดหมู่ค้นหาง่าย"
-    titleright="ตรวจสอบก่อนเข้าเล่น">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      KINGDOM66
-      <strong class="text-[#fdf6e0]">รวมเกมยอดนิยมจากหลายหมวดไว้ครบ</strong>
-      <strong class="text-[#fdf6e0]">ทั้งบาคาร่า ไพ่ สล็อต หวย บอล และคาสิโนไลฟ์สดจากผู้ให้บริการต่างประเทศตามข้อมูลของเว็บไซต์</strong>
+    titleleft="ตัวเลือกจากหลายค่าย"
+    titlecenter="ค้นหาและตรวจสอบง่าย"
+    titleright="จัดการผ่านระบบเดียว">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      เกมคาสิโน MIRACLE55
+      <strong class="text-[#fcfcfc]">มีตัวเลือกจากหลายค่ายและหลายรูปแบบ</strong>
+      ทั้งเกมสด เกมโต๊ะ และหมวดที่ได้รับความนิยม
     </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      <strong class="text-[#fdf6e0]">ระบบจัดหมวดหมู่ให้ค้นหาได้ง่าย</strong>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      <strong class="text-[#fcfcfc]">ระบบจัดแยกแต่ละค่ายให้ค้นหาได้ง่าย</strong>
+      พร้อมรายละเอียดเกมก่อนเข้าใช้งาน
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      สามารถตรวจสอบรายละเอียดเกม ค่ายที่ให้บริการ
-      <strong class="text-[#fdf6e0]">และรูปแบบเดิมพันก่อนเข้าเล่นได้จากหน้าเดียว</strong>
-    </p>
-  </ContentBox3ThreeNeumorphism>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e6e1]">ช่วยให้สมาชิกเลือกประเภทที่เหมาะกับตัวเองและจัดการบัญชีผ่านระบบเดียวได้สะดวกมากขึ้น</p>
+  </ContentBox3ThreePremium>
 
-  <ContentBox as="h2" title="KINGDOM66 จัดโปรโมชั่น แจกโบนัส 0.8% ให้สมาชิกทุกยูส">
-    <p class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      โปรโมชั่น KINGDOM66
-      <strong class="text-[#fdf6e0]">มีสิทธิ์ให้สมาชิกเลือกตามเงื่อนไขของแต่ละรายการ</strong>
-      <strong class="text-[#fdf6e0]">โดยมีทั้งโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3%</strong>
-      สมาชิกสามารถตรวจสอบยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และข้อกำหนดต่าง ๆ
-      <strong class="text-[#fdf6e0]">ได้จากหน้าโปรโมชั่นก่อนกดรับ</strong>
-      เพื่อเลือกสิทธิ์ให้เหมาะกับการใช้งานของตัวเอง
+  <ContentBoxCyberCut as="h2" title="สมาชิก MIRACLE55 รับการอัปเดตโปรโมชั่นก่อนใครตลอดทั้งเดือน">
+    <p class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      สมาชิก MIRACLE55
+      <strong class="text-[#fcfcfc]">สามารถตรวจสอบโปรโมชั่นที่อัปเดตตามช่วงเวลาผ่านหน้าเว็บไซต์ได้ตลอดทั้งเดือน</strong>
+      <strong class="text-[#fcfcfc]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+      พร้อมรายละเอียดของยอดที่เข้าเงื่อนไขและวิธีรับสิทธิ์
+      <strong class="text-[#fcfcfc]">ช่วยให้ติดตามโปรโมชั่นที่เปิดให้ใช้งานได้ง่ายและไม่พลาดสิทธิ์สำคัญ</strong>
     </p>
-  </ContentBox>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreePremium as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
-      src={imgSlide1}
+      src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 380px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 340px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทอง ด้านซ้ายเป็นหญิงสาวสวมเบลเซอร์สีขาวปกสีดำถือโทรโข่งสีทอง ด้านขวาเป็นชายหนุ่มสวมทักซิโด้สีดำ ด้านบนกลางภาพเป็นโลโก้ KINGDOM66 ตัวอักษรทองแกะสลัก ถัดลงมามีมงกุฎสีทองอยู่เหนือข้อความสีทองว่า โปรโมชั่น แนะนำเพื่อน และแผ่นป้ายสีแดงด้านล่างเขียนว่า โบนัส 0.8% รอบข้างมีชิปคาสิโนสีทองกับกล่องของขวัญสีทองวางประกอบ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#e6bf4e]/55 shadow-[0_10px_30px_rgba(230,191,78,0.3)]"
+      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทอง มุมซ้ายบนเป็นโลโก้ MIRACLE55 ตัวอักษรทองสลับเงินโครเมียม ถัดลงมาเป็นตัวอักษรไทยสีทองว่า โปรโมชั่น แนะนำเพื่อน และป้ายสีทองด้านล่างเขียนว่า โบนัส 0.8% ด้านขวาเป็นหญิงสาวผมยาวสีเข้มสวมเบลเซอร์สีขาว ยิ้มและยื่นสองมือเสนอโปรโมชั่น มุมซ้ายล่างมีชิปคาสิโนสีดำขอบทอง มุมขวาบนมีไพ่เอซพิมพ์ลายทอง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#d9a62b]/55 shadow-[0_10px_30px_rgba(252,218,101,0.3)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      สมาชิก KINGDOM66
-      <strong class="text-[#fdf6e0]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      สมาชิก MIRACLE55
+      <strong class="text-[#fcfcfc]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
       ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และวิธีรับสิทธิ์ให้ตรวจสอบ
-      <strong class="text-[#fdf6e0]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
+      <strong class="text-[#fcfcfc]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThree as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
-      src={imgSlide2}
+      src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
@@ -220,50 +218,50 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทองชุดเดียวกัน ด้านซ้ายเป็นหญิงสาวสวมเบลเซอร์สีขาวปกสีดำ ด้านขวาเป็นชายหนุ่มสวมทักซิโด้สีดำ ทั้งคู่ชี้มือเข้าหาข้อความกลางภาพ ด้านหลังมีไพ่โพดำเอซกับเหรียญทองกระจายอยู่ ด้านบนเป็นโลโก้ KINGDOM66 ตัวอักษรทองแกะสลัก และมีมงกุฎสีทองอยู่เหนือข้อความสีทองว่า โปรโมชั่น คืนยอดเสีย โดยแผ่นป้ายด้านล่างเขียนว่า โบนัส 0.3%"
-      class="mx-auto h-auto w-full rounded-xl border border-[#efe6cf]/35 shadow-[0_10px_30px_rgba(5,4,3,0.85)]"
+      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำ-ทอง ด้านบนกลางภาพเป็นโลโก้ MIRACLE55 พร้อมมงกุฎทองดวงเล็ก ถัดลงมาเป็นตัวอักษรไทยสีทองว่า โปรโมชั่น คืนยอดเสีย และตัวเลขทองขนาดใหญ่ว่า โบนัส 0.3% ด้านซ้ายเป็นหญิงสาวสวมเบลเซอร์สีขาว ยิ้มและชี้มือขึ้นไปที่ข้อความ รอบขอบภาพมีชิปคาสิโนสีดำขอบทอง เหรียญทอง และไพ่โพดำเอซกระจายอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#d2d3d4]/35 shadow-[0_10px_30px_rgba(5,4,3,0.85)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      <strong class="text-[#fdf6e0]">โปรโมชั่นคืนยอดเสียของ KINGDOM66 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
-      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับได้
-      <strong class="text-[#fdf6e0]">ช่วยให้ติดตามสิทธิ์ของตัวเองในแต่ละรอบได้ง่ายและเป็นขั้นตอนมากขึ้น</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      <strong class="text-[#fcfcfc]">โปรโมชั่นคืนยอดเสีย MIRACLE55 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
+      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์
+      <strong class="text-[#fcfcfc]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้ข้อมูลก่อนนำสิทธิ์ไปใช้งาน</strong>
     </p>
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThree>
 
-  <ContentBoxSpecial as="h2" title="สมัคร KINGDOM66 รับโปรโมชั่นได้ทุกวัน ง่ายๆ แค่ 3 ขั้นตอน" iconleft="📝" iconright="🔢">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      <strong class="text-[#fdf6e0]">การสมัคร KINGDOM66 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
-      ขั้นตอนไม่ซับซ้อน และหลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้รับในแต่ละวันได้ทันที
-      <strong class="text-[#fdf6e0]">โดยมี 3 ขั้นตอนหลักดังนี้</strong>
+  <ContentBoxTwoPremium as="h2" title="สมัคร MIRACLE55 รับโปรโมชั่นจัดเต็มได้ทุกวัน แค่ 3 ขั้นตอน" titleleft="รายละเอียดการสมัคร" titleright="3 ขั้นตอนหลัก">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      <strong class="text-[#fcfcfc]">การสมัคร MIRACLE55 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
+      ขั้นตอนไม่ซับซ้อน หลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้รับในแต่ละวันได้
+      <strong class="text-[#fcfcfc]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
     </p>
-    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#ebe3d3] marker:font-black marker:text-[#e6bf4e]">
-      <li>เปิดหน้าสมัคร KINGDOM66 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
-      <li>ตรวจสอบข้อมูลและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
-      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้รับได้ทันที</li>
+    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#e8e6e1] marker:font-black marker:text-[#fcda65]">
+      <li>เปิดหน้าสมัคร MIRACLE55 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
+      <li>ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
+      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้สมาชิกได้ทันที</li>
     </ol>
-  </ContentBoxSpecial>
+  </ContentBoxTwoPremium>
 
-  <ContentBoxTwoCyberCut as="h2" title="ติดต่อเจ้าหน้าที่ KINGDOM66 ผ่าน LINE OFFICIAL 24 ชั่วโมง" titleleft="รายละเอียดการติดต่อ" titleright="ช่องทางติดต่อด่วน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ebe3d3]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร เครดิตฟรี โปรโมชั่น เกมไลฟ์สด หรือการใช้งานบัญชี
-      <strong class="text-[#fdf6e0]">สามารถติดต่อเจ้าหน้าที่ KINGDOM66 ผ่าน LINE OFFICIAL ได้ตลอด 24 ชั่วโมง</strong>
-      ทีมงานพร้อมช่วยให้ข้อมูลและตรวจสอบปัญหาตามรายละเอียดที่แจ้ง
-      <strong class="text-[#fdf6e0]">เพื่อให้สมาชิกเข้าถึงช่องทางช่วยเหลือได้สะดวกในทุกช่วงเวลา</strong>
+  <ContentBoxTwoNeumorphism as="h2" title="ติดต่อเจ้าหน้าที่ MIRACLE55 ผ่านไลน์แอด 24 ชั่วโมง" titleleft="รายละเอียดการติดต่อ" titleright="ช่องทางติดต่อด่วน">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e8e6e1]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร โปรโมชั่น ทางเข้าเกม หรือการใช้งานบัญชี
+      <strong class="text-[#fcfcfc]">สามารถติดต่อเจ้าหน้าที่ MIRACLE55 ผ่านไลน์แอดได้ตลอด 24 ชั่วโมง</strong>
+      ทีมงานพร้อมช่วยให้ข้อมูลเกี่ยวกับเกม โปรโมชั่น และขั้นตอนต่าง ๆ ภายในเว็บไซต์
+      <strong class="text-[#fcfcfc]">รวมถึงช่วยตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
     </p>
     <div slot="right" class="flex flex-col gap-3">
       <a
         href="/line"
         class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">💬</span> ติดต่อเจ้าหน้าที่ผ่าน LINE OFFICIAL
+        <span aria-hidden="true">💬</span> ติดต่อเจ้าหน้าที่ผ่านไลน์แอด
       </a>
       <a
         href="/register"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#f2d683]/70 bg-gradient-to-r from-[#f2d683] via-[#e6bf4e] to-[#5c4113] p-3.5 text-center font-black text-[#1a1206] shadow-[0_10px_30px_rgba(230,191,78,0.4)] transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">👑</span> สมัครสมาชิก KINGDOM66
+        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fee47b]/70 bg-gradient-to-r from-[#fee47b] via-[#fcda65] to-[#d9a62b] p-3.5 text-center font-black text-[#0d0a06] shadow-[0_10px_30px_rgba(252,218,101,0.35)] transition-all hover:scale-[1.02]">
+        <span aria-hidden="true">✨</span> สมัครสมาชิก MIRACLE55
       </a>
-      <p class="text-left text-base leading-relaxed text-[#ebe3d3]">แจ้งรายละเอียดที่ต้องการสอบถามเข้ามาในแชท ทีมงานจะตรวจสอบและตอบกลับตามข้อมูลที่แจ้ง</p>
+      <p class="text-left text-base leading-relaxed text-[#e8e6e1]">แจ้งรายละเอียดที่ต้องการสอบถามเข้ามาในแชท ทีมงานจะตรวจสอบและตอบกลับตามข้อมูลที่แจ้ง</p>
     </div>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoNeumorphism>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 

@@ -6,7 +6,7 @@ export interface FaqItem {
 
 export interface Props {
   title?: string;
-  /** The docx's own level for this section. MAHAGAME66's brief marks
+  /** The docx's own level for this section. MIRACLE55's brief marks
    *  "คำถามที่พบบ่อย" as an H2, so index.astro passes as="h2".
    *  It defaults to <p> so a page that hangs a chrome FAQ here stays out of the
    *  heading inventory. */
@@ -22,16 +22,18 @@ export interface Props {
 // against the brief on every rebrand. The <section> keeps its aria-label either
 // way, so nothing is lost for assistive tech.
 //
-// The open state is keyed off [open] in the stylesheet rather than a
-// hand-written .rotate-45 override, which removes both a script and a
-// Tailwind-utility name collision.
+// <details name="faq-miracle"> keeps a single panel open at a time with no
+// script, and the open state is keyed off [open] in the stylesheet rather than
+// a hand-written .rotate-45 override.
 //
-// MAHAGAME66 palette (แดง-ดำ-เงินโครเมียม 2026-09-24): แผงคำถามเป็นผิวการ์ดเกือบดำ
-// #16090a ในเส้นขอบแดงแบรนด์ #de161d ป้ายหัวข้อไล่จากผิวการ์ดยก #26100f ไปจนโปร่ง
-// มีสันแดงนำหน้า และตัวมาร์ก `>_` เป็นแดงสว่าง #ff4d52 สถานะเปิดสว่างขึ้นด้วยเงิน
-// โครเมียม #e2e8ef ซึ่งเป็นสีของคำว่า MAHA และเลข 66 บนโลโก้ ส่วนกล่อง + ตกลงไปที่
-// พื้นเพจ #080506 เนื้อความใช้ #e8e3e1 (BRAND_TEXT) — ชุดแดง-ทองของ THE88
-// (#2d0908 #f2c14e #4a0d0b #ffe7a6 #dd0503 #1c0504 #f7e3dd) หายไปทั้งหมด
+// MIRACLE55 palette (ทอง-โครเมียม-ดำ 2026-09-25): โลโก้แบรนด์นี้เป็นเวิร์ดมาร์กสองโลหะ
+// — MI กับ 55 เป็นทอง ส่วน RACLE เป็นโครเมียมขัดเงา แผงคำถามจึงเดินสองโลหะจริง คือ
+// ผิวการ์ดเกือบดำ #14100a ในกรอบทองแบรนด์ #d9a62b แต่เส้นไรผมมุมบนซ้ายกับสถานะเปิด
+// เป็นเงินโครเมียม #d2d3d4 หัวข้อ (ที่หน้าเพจส่งมาเป็น prop) ไล่ทอง #fee47b → ขาว
+// โครเมียม #fcfcfc → ทองแบรนด์ #fcda65 ตามลำดับสีบนโลโก้ มาร์กนำหน้าคำถามเป็นทอง
+// #fcda65 กล่อง + ตกลงไปที่พื้นเพจ #050403 เนื้อความใช้ #e8e6e1 (BRAND_TEXT)
+// — ชุดแดง-ดำ-เงินของ MAHAGAME66 (#de161d #16090a #26100f #ff4d52 #e2e8ef #080506
+// #e8e3e1) หายไปทั้งหมด
 const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
@@ -40,9 +42,11 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#de161d] bg-gradient-to-r from-[#26100f] via-[#16090a]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#fcda65] bg-gradient-to-r from-[#1b140b] via-[#14100a]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <TitleTag class="text-xl leading-normal font-black tracking-widest text-[#e2e8ef] uppercase md:text-2xl">{title}</TitleTag>
+        <TitleTag class="bg-gradient-to-r from-[#fee47b] via-[#fcfcfc] to-[#fcda65] bg-clip-text text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-2xl">
+          {title}
+        </TitleTag>
       </div>
     )
   }
@@ -51,28 +55,28 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     {
       faqs.map((faq) => (
         <details
-          name="faq-terminal"
-          class="faq-item group relative overflow-hidden border border-[#de161d]/50 bg-[#16090a]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#e2e8ef]/55 hover:shadow-[0_15px_40px_rgba(222,22,29,0.42)]"
+          name="faq-miracle"
+          class="faq-item group relative overflow-hidden border border-[#d9a62b]/50 bg-[#14100a]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#d2d3d4]/55 hover:shadow-[0_15px_40px_rgba(252,218,101,0.35)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#e2e8ef] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#d2d3d4] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2 text-base font-bold text-[#e8e3e1] transition-colors group-hover:text-[#e2e8ef] md:text-lg">
-              <span aria-hidden="true" class="font-mono text-[#ff4d52]">
-                &gt;_
+            <span class="flex items-center gap-2.5 text-base font-bold text-[#e8e6e1] transition-colors group-hover:text-[#fcfcfc] md:text-lg">
+              <span aria-hidden="true" class="text-xs text-[#fcda65]">
+                ◆
               </span>
               {faq.q}
             </span>
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#de161d]/45 bg-[#080506] text-lg font-black text-[#e8e3e1] transition-all duration-300 group-hover:border-[#e2e8ef]/70 group-hover:text-[#e2e8ef]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#d9a62b]/45 bg-[#050403] text-lg font-black text-[#e8e6e1] transition-all duration-300 group-hover:border-[#d2d3d4]/70 group-hover:text-[#fcfcfc]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#de161d]/45 p-5 pt-4 text-left text-base leading-relaxed text-[#e8e3e1]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#8c5f14]/60 p-5 pt-4 text-left text-base leading-relaxed text-[#e8e6e1]">{faq.a}</div>
         </details>
       ))
     }
@@ -87,13 +91,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(226, 232, 239, 0.55);
-    box-shadow: 0 15px 40px rgba(222, 22, 29, 0.42);
+    border-color: rgba(210, 211, 212, 0.55);
+    box-shadow: 0 15px 40px rgba(252, 218, 101, 0.35);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #de161d;
-    color: #e2e8ef;
+    border-color: #d9a62b;
+    color: #fcfcfc;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

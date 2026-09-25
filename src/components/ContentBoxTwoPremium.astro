@@ -1,62 +1,73 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the only heading this box emits. */
   title?: string;
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  /** Column labels. On this template a two-column split is the page's own
+   *  wording for laying one docx section out side by side, not a docx
+   *  sub-heading — so they render as <p> carrying exactly the classes a heading
+   *  would. Do not promote them back to HeadingTag. */
   titleleft?: string;
   titleright?: string;
+  /** Names the <section> for assistive tech on the rare call that passes column
+   *  labels with no `title`, since <p> labels leave it with no accessible
+   *  name. */
+  label?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label } = Astro.props;
+const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
 
-// titleleft / titleright emit HeadingTag, so they carry docx sub-headings only.
-// A chrome two-column widget belongs in ContentBoxTwo, whose column labels are
-// <p> and whose <section> takes an aria-label instead. On the UWIN33 homepage
-// this box is passed `title` alone — the left column is the docx's intro
-// paragraph and the right column is its numbered 3-step <ol>, neither of which
-// has a label in the brief — so it emits exactly one docx heading.
+// The column labels used to emit HeadingTag, which put this page's own layout
+// wording into the h2/h3 inventory that gets diffed against the docx. They are
+// <p> now — same size, weight, tracking and colour, no heading tag. On the
+// MIRACLE55 homepage this box carries docx H2 #6: the left column is the brief's
+// intro paragraph and the right column its numbered 3-step <ol>, so the block
+// emits exactly one docx heading.
 //
-// UWIN33 (รอบทอง-โครเมียม-ดำ 2026-09-24): โลโก้แบรนด์นี้เขียนตัว U เป็นทองนูน คำว่า
-// WIN เป็นเงินโครเมียม แล้วเลข 33 กลับมาเป็นทอง สองครึ่งของกล่องจึงแยกกันด้วยคู่สี
-// นั้นจริงๆ สันฝั่งซ้ายไล่จากทองสว่าง #fbd564 ลงทองแบรนด์ #e0b429 ไปหาทองลึก
-// #7a5407 ส่วนฝั่งขวาไล่จากเงินโครเมียม #dfe4ec ลงเงินหม่น #a6adb9 ไปหาทองลึก
-// หัวข้อฝั่งซ้ายเป็นทองสว่าง ฝั่งขวาเป็นเงินโครเมียม บนพื้นการ์ด #161106 เหนือพื้น
-// เพจ #080602 เนื้อความ #ece6d8 (BRAND_TEXT) — ชุดแดง-เงินโครเมียมของ UFAGOOL
-// (#c50d12 #ef1f25 #7a0103 #241a1a #b8c3cf #f4f7fa #5c6672 #cdd5dd) ออกทั้งหมด
+// MIRACLE55 (รอบทอง-เงินโครเมียม-ดำ 2026-09-25): โลโก้แบรนด์นี้เขียน MI เป็นทอง
+// คำว่า RACLE เป็นเงินโครเมียม แล้วเลข 55 กลับมาเป็นทอง สองครึ่งของกล่องจึงแยกกัน
+// ด้วยคู่โลหะนั้นจริงๆ สันฝั่งซ้ายไล่จากทองสว่าง #fee47b ลงทองแบรนด์ #d9a62b ไปหา
+// ทองลึก #8c5f14 ส่วนฝั่งขวาไล่จากขาวโครเมียม #fcfcfc ลงเงินหม่น #a8acb1 ไปหาทองลึก
+// ป้ายฝั่งซ้ายเป็นทองสว่าง ฝั่งขวาเป็นเงินโครเมียม #d2d3d4 บนพื้นการ์ด #14100a
+// เหนือพื้นเพจ #050403 เนื้อความ #e8e6e1 (BRAND_TEXT) — ชุดทอง-โครเมียมของ UWIN33
+// (#e0b429 #fbd564 #7a5407 #dfe4ec #a6adb9 #161106 #ece6d8) ออกทั้งหมด
+const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-normal font-black tracking-widest uppercase";
 ---
 
-<section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7a5407] bg-[#161106]/92 p-8 text-[#ece6d8] shadow-[0_10px_30px_rgba(8,6,2,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#dfe4ec]/60 hover:shadow-[0_15px_40px_rgba(223,228,236,0.2)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#e0b429]/22 to-transparent opacity-70"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8c5f14] bg-[#14100a]/92 p-8 text-[#e8e6e1] shadow-[0_10px_30px_rgba(5,4,3,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#d2d3d4]/60 hover:shadow-[0_15px_40px_rgba(210,211,212,0.28)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#d9a62b]/22 to-transparent opacity-70"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-3 border-b border-[#dfe4ec]/25 pb-4">
-          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fbd564] via-[#e0b429] to-[#7a5407] shadow-[0_0_10px_rgba(224,180,41,0.55)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#dfe4ec] via-[#fbd564] to-[#e0b429] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-3 border-b border-[#d2d3d4]/25 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fee47b] via-[#d9a62b] to-[#8c5f14] shadow-[0_0_10px_rgba(252,218,101,0.55)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#fee47b] via-[#fcfcfc] to-[#d9a62b] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece6d8]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8e6e1]">
         {
           titleleft && (
-            <HeadingTag class="flex items-center gap-3 border-b border-[#e0b429]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#fbd564] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fbd564] via-[#e0b429] to-[#7a5407] shadow-[0_0_10px_rgba(251,213,100,0.55)]" />
+            <p class={`${columnLabel} border-[#d9a62b]/40 text-[#fee47b]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fee47b] via-[#d9a62b] to-[#8c5f14] shadow-[0_0_10px_rgba(252,218,101,0.55)]" />
               {titleleft}
-            </HeadingTag>
+            </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece6d8] md:border-l md:border-[#7a5407] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8e6e1] md:border-l md:border-[#8c5f14] md:pl-10">
         {
           titleright && (
-            <HeadingTag class="flex items-center gap-3 border-b border-[#dfe4ec]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#dfe4ec] uppercase">
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#dfe4ec] via-[#a6adb9] to-[#7a5407] shadow-[0_0_10px_rgba(223,228,236,0.45)]" />
+            <p class={`${columnLabel} border-[#d2d3d4]/30 text-[#d2d3d4]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fcfcfc] via-[#a8acb1] to-[#8c5f14] shadow-[0_0_10px_rgba(210,211,212,0.45)]" />
               {titleright}
-            </HeadingTag>
+            </p>
           )
         }
         <slot name="right" />
