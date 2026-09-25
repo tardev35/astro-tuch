@@ -13,12 +13,14 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// The four game categories the brief names, and nothing else. SAGAME66 is a live
-// casino brand, so the lottery markets the previous holder of this variant shipped
-// (รัฐบาลไทย / ฮานอย / ลาวพัฒนา / หวยหุ้นต่างประเทศ) are gone — the brief never
-// mentions lottery. The module picks one per row from this list through
-// data-winners-markets / data-winner-market.
-const marketPool = ["บาคาร่า", "รูเล็ต", "คาสิโนสด", "เกมโต๊ะ"];
+// Only what the brief actually names. BRAZIL999's brief lists NO game studios,
+// no game titles and no game-type list — it says คาสิโนออนไลน์ and names exactly
+// two promotions (แนะนำเพื่อน 0.8%, คืนยอดเสีย 0.3%). So the four chips are the
+// genre plus the promotions the brief states, and the บาคาร่า / รูเล็ต / เกมโต๊ะ
+// list the previous holder of this variant shipped is gone — inventing a game
+// list here would contradict the page above it. The module picks one per row
+// through data-winners-markets / data-winner-market.
+const marketPool = ["คาสิโนออนไลน์", "โบนัสแนะนำเพื่อน", "โบนัสคืนยอดเสีย", "โปรโมชั่น"];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -38,20 +40,21 @@ const initialRows = Array.from({ length: 8 }, (_, i) => ({
 // feed's title is a <p> and the <section> carries an aria-label — a withdrawal
 // feed is chrome and never emits a heading tag.
 //
-// SAGAME66 (รอบทอง-เงินโครเมียม 2026-09-23): เม็ดยาแต่ละเม็ดเป็นพื้นเพจน้ำตาลเกือบ
-// ดำ #0d0903 ในกรอบพื้นยก #2a1d0b ที่สว่างขึ้นเป็นทองหลัก #e8b93f ตอน hover ชิป
-// ชื่อหมวดเกมเป็นทองลึก #96671a ตัวอักษรเงินกลาง #b6c1cd ยอดเงินเป็นทองสว่าง
-// #ffe9a3 ชื่อผู้ถอนเป็น BRAND_TEXT #e3d8c0 ส่วนกรอบนอกเป็นพื้นการ์ด #171006 ใน
-// เส้นทองหลัก — ชุดกรมท่า-ทองของหวยพยัคฆ์ (#030b1c #08152f #1c3566 #fadb6c #ab6d13
-// #fdf5a4 #dbe4f7 #9fb0d0) ออกทั้งหมด
+// BRAZIL999 (รอบเขียว-โครเมียม-ดำ 2026-09-25): เม็ดยาแต่ละเม็ดเป็นพื้นเพจดำอมเขียว
+// #040a05 ในกรอบผิวการ์ดยก #123a18 ที่สว่างขึ้นเป็นเขียวแบรนด์ #22c55e ตอน hover
+// ชิปหมวดเป็นเขียวลึก #1c5a26 ตัวอักษรโครเมียมกลาง #aab4bf ยอดเงินเป็นเขียวสว่าง
+// #b6ff9c ชื่อผู้ถอนเป็น BRAND_TEXT #dfeadd ส่วนกรอบนอกเป็นผิวการ์ด #0a1a0c ใน
+// เส้นเขียวแบรนด์ และหัวแถบไล่เขียวสว่าง → เขียวแบรนด์ตามเลข 999 บนโลโก้ — ชุด
+// ทอง-เงินของ SAGAME66 (#e8b93f #96671a #ffe9a3 #2a1d0b #171006 #0d0903 #b6c1cd
+// #e3d8c0) ออกทั้งหมด
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#e8b93f]/35 bg-[#171006]/90 px-4 py-8 shadow-[0_15px_40px_rgba(232,185,63,0.18)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#22c55e]/35 bg-[#0a1a0c]/90 px-4 py-8 shadow-[0_15px_40px_rgba(34,197,94,0.18)] backdrop-blur-md">
     <div class="mb-6 text-center">
-      <p class="bg-gradient-to-b from-[#ffe9a3] to-[#96671a] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🃏</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#b6ff9c] to-[#22c55e] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🃏</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -66,17 +69,17 @@ const initialRows = Array.from({ length: 8 }, (_, i) => ({
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#2a1d0b] bg-[#0d0903] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(232,185,63,0.20)] hover:border-[#e8b93f]/60">
+            <div class="flex items-center gap-3 rounded-full border border-[#123a18] bg-[#040a05] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(34,197,94,0.20)] hover:border-[#22c55e]/60">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#e3d8c0]">
+              <div data-winner-user class="text-sm font-bold text-[#dfeadd]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#96671a]/55 px-2 py-0.5 text-[10px] font-bold text-[#b6c1cd]">
+              <span data-winner-market class="rounded-full border border-[#1c5a26]/55 px-2 py-0.5 text-[10px] font-bold text-[#aab4bf]">
                 {row.market}
               </span>
-              <div class="text-sm font-black text-[#ffe9a3] drop-shadow-sm">
+              <div class="text-sm font-black text-[#b6ff9c] drop-shadow-sm">
                 +<span data-winner-amount>{row.amount}</span> ฿
               </div>
             </div>

@@ -6,27 +6,35 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// /ตรวจหวย and /แนวทาง are NOT listed: this is a sports/casino brand, so those
-// two pages sit in src/pages-disabled/ and the routes do not exist. Linking them
-// here would be a dead href, which verify-build.mjs fails the build on.
+// /ตรวจหวย and /แนวทาง are NOT listed: this is a casino brand, so those two pages
+// sit in src/pages-disabled/ and the routes do not exist. Linking them here would
+// be a dead href, which verify-build.mjs fails the build on.
 //
 // /ทางเข้า IS listed: the page is still routed and indexed, it is only absent
 // from the navbar because the cta toggle made /register and /login real pages.
 //
-// UFAGOOL (รอบแดง-เงินโครเมียม 2026-09-23): พื้นเกือบดำ #0a0708 ตารางพื้นหลัง
-// เป็นแดงลึก #3a0404 / #5e0507 ขอบบนและเส้นคั่นแดงแบรนด์ #c50d12 หัวคอลัมน์
-// ขาวเงิน #f4f7fa ลิงก์เงิน #b8c3cf hover เป็นแดงสด #ef1f25 ชิปสถานะใช้แดงกับ
-// เงิน — เขียว #5cc23f/#8fe06f/#d4e8cb/#040d04 ของ YADOM168 ถูกถอดออกหมด
-// บล็อก <address> ไม่แตะสีโดยตั้งใจ (border-white/15 + opacity ลงได้ทุกธีม)
+// BRAZIL999 (รอบเขียวมรกต-เงินโครเมียม 2026-09-25): พื้นเกือบดำอมเขียว #040a05
+// ตารางพื้นหลังเป็นเขียวลึก #04380c / #0a6b18 ขอบบนและเส้นคั่นเขียวแบรนด์
+// #22c55e หัวคอลัมน์เงินสว่าง #f1f5f9 ลิงก์เนื้อความ #dfeadd hover เป็นเขียวสว่าง
+// #7cf25c ชิปสถานะใช้เขียวคู่กับเงิน #aab4bf ตามโลโก้ที่ BRAZIL เป็นเงินโครเมียม
+// และ 999 เป็นเขียว — แดง #c50d12/#ef1f25/#ff5a5f กับพื้น #0a0708/#3a0404/#5e0507
+// และเงิน #b8c3cf/#cdd5dd ของ UFAGOOL ถูกถอดออกหมด
+//
+// เนื้อความทุกย่อหน้ามาจากบรีฟรอบนี้เท่านั้น: คาสิโนจากบริษัทโดยตรง ไม่มีประวัติ
+// โกง ตรวจสอบได้ โบนัสแนะนำเพื่อน 0.8% คืนยอดเสีย 0.3% และไลน์ 24 ชั่วโมง —
+// บรีฟไม่ได้ระบุค่ายเกม ใบอนุญาต หรือช่องทางฝากถอนใดเป็นชื่อๆ จึงไม่มีในไฟล์นี้
+//
+// บล็อก <address> ตั้งใจไม่ทาสีแบรนด์ — border-white/15 + bg-black/20 + opacity
+// บนสีตัวอักษรที่ inherit มา ลงตัวกับ footer ทุกตัวในไลบรารี ห้าม retheme
 ---
 
 <footer
-  class="relative mt-10 w-full overflow-hidden border-t border-[#c50d12]/40 bg-[#0a0708] pt-16 pb-8 font-sans text-[#cdd5dd]"
+  class="relative mt-10 w-full overflow-hidden border-t border-[#22c55e]/40 bg-[#040a05] pt-16 pb-8 font-sans text-[#dfeadd]"
   style="clip-path: polygon(0 30px, 50vw 0, 100% 30px, 100% 100%, 0 100%);">
   <div
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 opacity-[0.14]"
-    style="background-image: linear-gradient(#3a0404 1px, transparent 1px), linear-gradient(90deg, #5e0507 1px, transparent 1px); background-size: 30px 30px;">
+    style="background-image: linear-gradient(#04380c 1px, transparent 1px), linear-gradient(90deg, #0a6b18 1px, transparent 1px); background-size: 30px 30px;">
   </div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
@@ -37,44 +45,45 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="โลโก้ UFAGOOL คำว่า UFA เป็นตัวอักษรเอียงหนาสีแดงเงาวาว ต่อด้วยคำว่า GOOL สีเงินโครเมียมไล่เฉด"
+                alt="โลโก้ BRAZIL999 คำว่า BRAZIL เป็นตัวอักษรหนาสามมิติสีเงินโครเมียมขัดเงา ต่อด้วยเลข 999 สีเขียวมรกตเงาวาว"
                 widths={[160, 320, 480]}
                 sizes="160px"
                 loading="lazy"
-                class="h-[60px] w-auto drop-shadow-[0_4px_12px_rgba(197,13,18,0.45)]"
+                class="h-[60px] w-auto drop-shadow-[0_4px_12px_rgba(34,197,94,0.45)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="text-3xl font-black tracking-widest text-[#f4f7fa]">{BRAND_NAME}</span>
+              <span class="text-3xl font-black tracking-widest text-[#f1f5f9]">{BRAND_NAME}</span>
             )
           }
         </a>
-        <p class="border-l-2 border-[#c50d12]/70 pl-4 text-sm leading-relaxed text-[#cdd5dd]/80">
-          {BRAND_NAME} กีฬาคาสิโนเว็บตรงที่รวมเกมพนันออนไลน์หลายประเภทไว้ในระบบเดียว ทั้งการเดิมพันกีฬา คาสิโนสด สล็อต และเกมยอดนิยมจากหลายค่าย พร้อมรูปแบบการเชื่อมต่อเครือตรงตามข้อมูลของเว็บไซต์ ไม่ผ่านเอเย่นต์ สมาชิกเข้าถึงเกมได้สะดวกผ่านบัญชีเดียวทั้งบนมือถือและคอมพิวเตอร์
+        <p class="border-l-2 border-[#22c55e]/70 pl-4 text-sm leading-relaxed text-[#dfeadd]/80">
+          {BRAND_NAME} นำเสนอระบบคาสิโนออนไลน์ที่เชื่อมต่อจากบริษัทโดยตรงตามข้อมูลของเว็บไซต์ พร้อมรวมเกมหลายประเภทไว้ให้เลือกจากบัญชีเดียว ผู้ใช้งานสามารถตรวจสอบรายละเอียดเกม โปรโมชั่น
+          และข้อมูลการใช้งานก่อนเริ่มเล่น ช่วยให้เข้าถึงแต่ละเมนูได้ง่ายทั้งบนมือถือและคอมพิวเตอร์
         </p>
         <div class="mt-4 flex gap-3">
-          <span class="border border-[#c50d12]/50 bg-[#241a1a] px-3 py-1 font-mono text-xs text-[#ff5a5f]">DIRECT_LICENSE</span>
-          <span class="border border-[#b8c3cf]/45 bg-[#241a1a] px-3 py-1 font-mono text-xs text-[#b8c3cf]">ADMIN_24H</span>
+          <span class="border border-[#22c55e]/50 bg-[#0a1a0c] px-3 py-1 font-mono text-xs text-[#7cf25c]">DIRECT_COMPANY</span>
+          <span class="border border-[#aab4bf]/45 bg-[#0a1a0c] px-3 py-1 font-mono text-xs text-[#aab4bf]">ADMIN_24H</span>
         </div>
       </div>
 
       <nav aria-label="ลิงก์หน้าเว็บ" class="flex flex-col gap-4 md:col-span-3 lg:pl-8">
-        <p class="text-lg font-black tracking-widest text-[#f4f7fa] uppercase">/// DIRECTORY</p>
-        <ul class="flex flex-col gap-3 font-mono text-sm text-[#cdd5dd]/80">
-          <li><a href="/" class="transition-colors hover:text-[#ff5a5f]">&gt; หน้าแรก</a></li>
-          <li><a href="/promotion" class="transition-colors hover:text-[#ff5a5f]">&gt; โปรโมชั่น</a></li>
-          <li><a href="/register" class="transition-colors hover:text-[#ff5a5f]">&gt; สมัครสมาชิก</a></li>
-          <li><a href="/login" class="transition-colors hover:text-[#ff5a5f]">&gt; เข้าสู่ระบบ</a></li>
-          <li><a href="/ทดลองเล่น" class="transition-colors hover:text-[#ff5a5f]">&gt; ทดลองเล่น</a></li>
-          <li><a href="/ทางเข้า" class="transition-colors hover:text-[#ff5a5f]">&gt; ทางเข้า</a></li>
-          <li><a href="/about-us" class="transition-colors hover:text-[#ff5a5f]">&gt; เกี่ยวกับเรา</a></li>
-          <li><a href="/contact-us" class="transition-colors hover:text-[#ff5a5f]">&gt; ติดต่อเรา</a></li>
+        <p class="text-lg font-black tracking-widest text-[#f1f5f9] uppercase">/// DIRECTORY</p>
+        <ul class="flex flex-col gap-3 font-mono text-sm text-[#dfeadd]/80">
+          <li><a href="/" class="transition-colors hover:text-[#7cf25c]">&gt; หน้าแรก</a></li>
+          <li><a href="/promotion" class="transition-colors hover:text-[#7cf25c]">&gt; โปรโมชั่น</a></li>
+          <li><a href="/register" class="transition-colors hover:text-[#7cf25c]">&gt; สมัครสมาชิก</a></li>
+          <li><a href="/login" class="transition-colors hover:text-[#7cf25c]">&gt; เข้าสู่ระบบ</a></li>
+          <li><a href="/ทดลองเล่น" class="transition-colors hover:text-[#7cf25c]">&gt; ทดลองเล่น</a></li>
+          <li><a href="/ทางเข้า" class="transition-colors hover:text-[#7cf25c]">&gt; ทางเข้า</a></li>
+          <li><a href="/about-us" class="transition-colors hover:text-[#7cf25c]">&gt; เกี่ยวกับเรา</a></li>
+          <li><a href="/contact-us" class="transition-colors hover:text-[#7cf25c]">&gt; ติดต่อเรา</a></li>
         </ul>
       </nav>
 
       <div class="flex flex-col gap-5 md:col-span-4">
-        <p class="text-lg font-black tracking-widest text-[#f4f7fa] uppercase">/// SUPPORT_LINK</p>
+        <p class="text-lg font-black tracking-widest text-[#f1f5f9] uppercase">/// SUPPORT_LINK</p>
 
         <a
           href="/line"
@@ -105,21 +114,21 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
         <a
           href="#top"
-          class="flex w-full items-center justify-center gap-2 border border-[#b8c3cf]/60 bg-transparent py-3 font-bold text-[#b8c3cf] transition-all hover:bg-[#241a1a]/80 hover:text-[#f4f7fa]"
+          class="flex w-full items-center justify-center gap-2 border border-[#aab4bf]/60 bg-transparent py-3 font-bold text-[#aab4bf] transition-all hover:bg-[#123a18]/80 hover:text-[#f1f5f9]"
           style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
           <span aria-hidden="true">↑</span> กลับขึ้นบน
         </a>
 
-        <div class="mt-2 font-mono text-xs text-[#cdd5dd]/60">ACCEPTED_PAYMENTS</div>
+        <div class="mt-2 font-mono text-xs text-[#dfeadd]/60">ACCEPTED_PAYMENTS</div>
         <BankStrip size={28} />
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#c50d12]/25 pt-6 font-mono text-xs text-[#cdd5dd]/60 md:flex-row">
+    <div class="flex flex-col items-center justify-between border-t border-[#22c55e]/25 pt-6 font-mono text-xs text-[#dfeadd]/60 md:flex-row">
       <p>SYSTEM_COPYRIGHT &copy; {new Date().getFullYear()} {BRAND_NAME}</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/terms/" class="hover:text-[#ff5a5f]">TERMS_OF_SERVICE</a>
-        <a href="/privacy/" class="hover:text-[#ff5a5f]">PRIVACY_POLICY</a>
+        <a href="/terms/" class="hover:text-[#7cf25c]">TERMS_OF_SERVICE</a>
+        <a href="/privacy/" class="hover:text-[#7cf25c]">PRIVACY_POLICY</a>
       </div>
     </div>
   </div>
