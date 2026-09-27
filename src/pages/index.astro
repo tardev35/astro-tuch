@@ -1,15 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement2.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBox3ThreeNeumorphism from "../components/ContentBox3ThreeNeumorphism.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
-import Faq from "../components/Faq2.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import Faq from "../components/Faq4.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -19,23 +19,20 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// IMAGE ROLES FOR THIS DROP (2026-09-25) — READ BEFORE REUSING THESE IMPORTS.
+// IMAGE ROLES FOR THIS DROP (2026-09-27) — READ BEFORE REUSING THESE IMPORTS.
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — the family's hard cap of two per rebrand,
 // so there is no third SevenThree here:
-//   slide1.png — the poster whose Thai type reads "โปรโมชั่น แนะนำเพื่อน" over a
-//     green badge "โบนัส 0.8%", so it belongs to docx H3 #4.
-//   slide2.png — the mirrored poster reading "โปรโมชั่น คืนยอดเสีย" with a large
-//     green-and-gold badge "โบนัส 0.3%", so it belongs to docx H3 #5.
-// This pairing is the REVERSE of MIRACLE55's round, where slide1 carried the
-// 0.3% artwork — the numbers printed on this drop's files are swapped, so these
-// two imports must not be copied over from git history without reading the art.
+//   slide1.png — the poster whose Thai type reads "โปรโมชั่น แนะนำเพื่อน" above a
+//     large "โบนัส 0.8%", so it belongs to docx H3 #4.
+//   slide2.png — the mirrored poster reading "โปรโมชั่น คืนยอดเสีย" above
+//     "โบนัส 0.3%", so it belongs to docx H3 #5.
 // Both files are 600x400, so 600 is the top candidate width — nothing above it
-// would be a real pixel. The alt text was written from the CURRENT artwork (the
-// chrome BRAZIL / green 999 wordmark, the woman in the white blazer, the green
-// and black chips, the fan of ace cards, the gold coins and small gold crown),
-// never carried over from the previous brand's gold-wordmark strings — none of
-// that is in these pictures.
+// would be a real pixel. The alt text was written from the CURRENT artwork
+// (black-and-gold ground, the PKG44 wordmark with a chrome K between gold
+// letters, the woman in the white suit pointing at the type, the gold coins,
+// the black-and-gold chips and the ribboned gift box) and never carried over
+// from BRAZIL999's green/chrome strings — none of that is in these pictures.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
 //   banner2.png (2026-09-22), banner3.png (2026-08-11), slide3.png
@@ -52,77 +49,80 @@ import imgSlide2 from "../assets/slide2.png";
 // the next brand: ProviderGrid / ProviderGridPremium / FeaturedGames /
 // PopularGamesStrip / GameRankingBoard each have to name specific studios, game
 // titles or payout figures, and this brief names none at all — it says only
-// "รวมเกมหลายประเภทไว้ให้เลือกจากบัญชีเดียว". BankStrip needs a deposit/withdrawal
-// channel, which the brief also never mentions. SmoothCarousel is out because it
-// would put slide* outside a ContentBoxSevenThree*. LottoGrid is out because
-// BRAZIL999 is a casino brand, not เว็บหวย (which is also why /ตรวจหวย and
-// /แนวทาง stay parked). FeatureHighlights is out because it emits an <h3> per
-// item and the brief gives its 3 signup steps no per-step headings — the steps
-// ship as a plain <ol> instead. Filling any of these in would be inventing facts.
+// "รวมเกมปั่นสล็อตจากหลายค่ายไว้ในระบบเดียว". BankStrip needs a bank or a
+// deposit channel, which the brief also never mentions. SmoothCarousel is out
+// because it would put slide* outside a ContentBoxSevenThree*. LottoGrid is out
+// because PKG44 is a slot brand, not เว็บหวย (which is also why /ตรวจหวย and
+// /แนวทาง stay parked and are never linked from here). FeatureHighlights is out
+// because it emits an <h3> per item and the brief gives its 3 signup steps no
+// per-step headings — the steps ship as a plain <ol> instead. Filling any of
+// these in would be inventing facts.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one is 129 characters.
-const pageTitle = "BRAZIL999 คาสิโนแท้ จากบริษัทโดยตรง เว็บนี้ไม่มีประวัติโกง ตรวจสอบได้";
+// floor and never topped up from the H1/H2 — this one ships at the length the
+// brief wrote it (116 characters), which is a passing build, not a gap to fill.
+const pageTitle = "PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ ปลอดภัยแน่นอน";
 
-const pageDescription = "BRAZIL999 คาสิโนแท้ จากบริษัทโดยตรง เว็บนี้ไม่มีประวัติโกง สมาชิกสามารถเดิมพันได้อย่างมั่นใจ การันตีความปลอดภัย ตรวจสอบได้ทุกขั้นตอน";
+const pageDescription = "PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของโดยตรง ทางเข้าใช้งานง่าย สนุกทุกค่าย ปลอดภัยทุกการเดิมพันแน่นอน";
 
-// <Announcement /> runs bare: Announcement2's default message is already this
-// brand's copy, and every sub-page calls it bare too — passing an override here
-// is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: AnnouncementPremium's default message is already
+// this brand's copy, and every sub-page calls it bare too — passing an override
+// here is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H2 -> H3 nesting this round: "แนะนำเพื่อน โบนัส 0.8%" and
-// "คืนยอดเสีย โบนัส 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page
-// is NOT flattened to H2-only. Those two are the only <h3> here, and each one is
+// "คืนยอดเสีย 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page is
+// NOT flattened to H2-only. Those two are the only <h3> here, and each one is
 // carried by its own ContentBoxSevenThree* block together with the slide whose
 // artwork states that exact figure.
-// Everything else is chrome and emits no heading tag: LatestWinners4,
+// Everything else is chrome and emits no heading tag: LatestWinnersPremium,
 // LoginRtpSection and ReviewCardSumo2 render their titles as <p>/<span> with an
-// aria-label on the section, and Faq2's questions live inside <summary>.
-// ContentBox3ThreeNeumorphism's three column captions are this page's own wording
-// for splitting one docx paragraph into three readable columns, not docx
-// sub-points, so heading={false} renders them as <p>.
-// ContentBoxTwoFloatingBadge's and ContentBoxTwoCyberCut's column labels are <p>
+// aria-label on the section, and Faq4's questions live inside <summary>.
+// ContentBox3ThreePremium's three column captions are this page's own wording for
+// splitting one docx paragraph into three readable columns, not docx sub-points,
+// so heading={false} renders them as <p>.
+// ContentBoxTwoPremium's and ContentBoxTwoNeumorphism's column labels are <p>
 // inside those components already.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  BRAZIL999 คาสิโนแท้ จากบริษัทโดยตรง เว็บนี้ไม่มีประวัติโกง        ContentBoxFloatingBadge
-//    2 H2  เดิมพัน BRAZIL999 การันตีความปลอดภัยทุกยูส                   ContentBox3ThreeNeumorphism
-//    3 H2  สมาชิก BRAZIL999 รับการอัปเดตข่าวสารและโปรโมชั่นได้ก่อนใคร      ContentBoxSpecial
-//    4 H3  แนะนำเพื่อน โบนัส 0.8%                                  ContentBoxSevenThreeNeumorphism + slide1
-//    5 H3  คืนยอดเสีย โบนัส 0.3%                                   ContentBoxSevenThreeCyberCut + slide2
-//    6 H2  สมัคร BRAZIL999 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน                ContentBoxTwoFloatingBadge (intro + <ol>)
-//    7 H2  ติดต่อเจ้าหน้าที่ผ่านไลน์ BRAZIL999 ได้ 24 ชั่วโมง               ContentBoxTwoCyberCut
-//    8 H2  คำถามที่พบบ่อย                                          Faq2
+//    1 H1  PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ        ContentBoxPremium
+//    2 H2  ทางเข้า PKG44 ใช้งานง่าย สนุกทุกค่าย ปลอดภัย ทุกการเดิมพัน    ContentBox3ThreePremium
+//    3 H2  อัปเดตข่าวสารและโปรโมชั่น PKG44 ได้ก่อนใคร                ContentBoxCyberCut
+//    4 H3  แนะนำเพื่อน โบนัส 0.8%                                ContentBoxSevenThreePremium + slide1
+//    5 H3  คืนยอดเสีย โบนัส 0.3%                                 ContentBoxSevenThree + slide2
+//    6 H2  สมัคร PKG44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน                ContentBoxTwoPremium (intro + <ol>)
+//    7 H2  ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง                  ContentBoxTwoNeumorphism
+//    8 H2  คำถามที่พบบ่อย                                        Faq4
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// Every docx paragraph ships in full. Two blocks are multi-column shells, so the
-// paragraph that fills each is split across its columns and nowhere else:
-// item 2's single paragraph fills the three Neumorphism columns in order, and
-// item 3's fills ContentBoxSpecial's two halves. Reading the columns left ->
-// centre -> right (and left -> right) reproduces each sentence word for word;
-// nothing is summarised, merged or repeated.
+// Every docx paragraph ships in full. One block is a multi-column shell, so the
+// paragraph that fills it is split across its columns and nowhere else: item 2's
+// single paragraph fills the three Premium columns in order. Reading them left ->
+// centre -> right reproduces the sentence word for word; nothing is summarised,
+// merged or repeated.
 //
-// Vocabulary: this brief says ไลน์ / ช่องทางไลน์ — never "ไลน์แอด" (MIRACLE55's
-// word) and never "LINE OFFICIAL" (KINGDOM66's). It names no game studio, no
-// game type, no payout table, no license body, no deposit channel and no
-// ฝากถอนไม่มีขั้นต่ำ, so neither does this page.
+// Vocabulary: this brief says only "ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง"
+// and never names LINE, so no paragraph on this page writes ไลน์ / ไลน์แอด /
+// LINE OFFICIAL — only the button that actually links to /line carries that
+// wording, because that is the button's real destination. It names no game
+// studio, no game title, no RTP figure, no licence number, no bank and no
+// deposit channel, so neither does this page.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "BRAZIL999 เป็นคาสิโนจากบริษัทโดยตรงหรือไม่?",
-    a: "ตามข้อมูลที่เว็บไซต์ระบุ BRAZIL999 ใช้รูปแบบการเชื่อมต่อจากบริษัทโดยตรง ผู้ใช้งานควรตรวจสอบข้อมูลบริษัท ช่องทางอย่างเป็นทางการ และรายละเอียดของระบบเพิ่มเติมก่อนสมัครหรือทำรายการ",
+    q: "PKG44 มีเกมสล็อตจากหลายค่ายหรือไม่?",
+    a: "ภายในระบบมีเกมสล็อตจากหลายค่ายตามรายการที่เว็บไซต์เปิดให้บริการ ทั้งเกมยอดนิยม เกมโบนัส และเกมใหม่ที่อัปเดตตามช่วงเวลา สมาชิกสามารถตรวจสอบรายชื่อค่ายและรายละเอียดของแต่ละเกมได้จากหน้ารวมเกม",
   },
   {
-    q: "BRAZIL999 มีโปรโมชั่นอะไรบ้าง?",
+    q: "PKG44 ใช้ระบบ API จากเจ้าของเกมโดยตรงหรือไม่?",
+    a: "ตามข้อมูลที่เว็บไซต์ระบุ PKG44 ใช้รูปแบบการเชื่อมต่อ API และมีข้อมูลเกี่ยวกับลิขสิทธิ์ของเกมจากผู้ให้บริการ สมาชิกควรตรวจสอบรายละเอียดค่ายและข้อมูลที่เกี่ยวข้องจากช่องทางอย่างเป็นทางการเพิ่มเติมก่อนใช้งาน",
+  },
+  {
+    q: "PKG44 มีโปรโมชั่นอะไรบ้าง?",
     a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
-  },
-  {
-    q: "ติดต่อเจ้าหน้าที่ BRAZIL999 ได้ตอนไหน?",
-    a: "สามารถติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง เพื่อสอบถามเรื่องบัญชี โปรโมชั่น ทางเข้าเกม หรือปัญหาการใช้งาน โดยทีมงานจะช่วยตรวจสอบตามข้อมูลที่แจ้งเข้ามา",
   },
 ];
 
@@ -130,8 +130,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: near-white #f4fbf2 against the body colour
-// #dfeadd, so the brand green stays the page's structural accent and the
+// One highlight colour only: near-white gold #fff8e1 against the body colour
+// #efe6d2, so the brand gold stays the page's structural accent and the
 // paragraphs never compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
@@ -150,121 +150,126 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxFloatingBadge as="h1" title="BRAZIL999 คาสิโนแท้ จากบริษัทโดยตรง เว็บนี้ไม่มีประวัติโกง">
-    <p class="text-left text-base leading-relaxed text-[#dfeadd]">
-      BRAZIL999
-      <strong class="text-[#f4fbf2]">นำเสนอระบบคาสิโนออนไลน์ที่เชื่อมต่อจากบริษัทโดยตรงตามข้อมูลของเว็บไซต์</strong>
-      พร้อมรวมเกมหลายประเภทไว้ให้เลือกจากบัญชีเดียว ผู้ใช้งานสามารถตรวจสอบรายละเอียดเกม โปรโมชั่น และข้อมูลการใช้งานก่อนเริ่มเล่น
-      <strong class="text-[#f4fbf2]">ช่วยให้เข้าถึงแต่ละเมนูได้ง่ายทั้งบนมือถือและคอมพิวเตอร์</strong>
+  <ContentBoxPremium as="h1" title="PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ">
+    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
+      PKG44
+      <strong class="text-[#fff8e1]">รวมเกมปั่นสล็อตจากหลายค่ายไว้ในระบบเดียว พร้อมรูปแบบการเชื่อมต่อ API และข้อมูลลิขสิทธิ์ตามที่เว็บไซต์ระบุ</strong>
+      สมาชิกสามารถเลือกเกมได้หลายแนว ทั้งสล็อตยอดนิยม เกมโบนัส และเกมใหม่ที่อัปเดตตามช่วงเวลา
+      <strong class="text-[#fff8e1]">รองรับการใช้งานบนมือถือและคอมพิวเตอร์ผ่านเมนูที่จัดไว้ชัดเจน</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBox3ThreeNeumorphism as="h2" title="เดิมพัน BRAZIL999 การันตีความปลอดภัยทุกยูส" heading={false} titleleft="ระบบบัญชีสมาชิก" titlecenter="ตรวจสอบก่อนทำรายการ" titleright="ลดความเสี่ยง">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      BRAZIL999
-      <strong class="text-[#f4fbf2]">ให้ความสำคัญกับระบบบัญชีและการจัดการข้อมูลของสมาชิก</strong>
+  <ContentBox3ThreePremium
+    as="h2"
+    title="ทางเข้า PKG44 ใช้งานง่าย สนุกทุกค่าย ปลอดภัย ทุกการเดิมพัน"
+    heading={false}
+    titleleft="บัญชีเดียวทุกค่าย"
+    titlecenter="เมนูแบ่งหมวดหมู่"
+    titleright="ระบบบัญชีสมาชิก">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#efe6d2]">
+      ทางเข้า PKG44
+      <strong class="text-[#fff8e1]">ออกแบบให้เข้าถึงเกมสล็อตแต่ละค่ายได้สะดวกจากบัญชีเดียว</strong>
     </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      โดยมีขั้นตอนเข้าสู่ระบบและจัดการรายการผ่านบัญชีส่วนตัว
-      <strong class="text-[#f4fbf2]">ผู้ใช้งานควรตรวจสอบข้อมูล เงื่อนไข และช่องทางอย่างเป็นทางการของเว็บไซต์ก่อนทำรายการทุกครั้ง</strong>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#efe6d2]">
+      เมนูแบ่งหมวดหมู่ชัดเจนและรองรับการใช้งานผ่านมือถือ
+      <strong class="text-[#fff8e1]">สามารถตรวจสอบชื่อค่าย รายละเอียดเกม และข้อมูลที่เกี่ยวข้องก่อนเริ่มเล่น</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dfeadd]">เพื่อช่วยลดความเสี่ยงจากการเข้าใช้งานผ่านช่องทางที่ไม่ถูกต้อง</p>
-  </ContentBox3ThreeNeumorphism>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">พร้อมระบบบัญชีที่ช่วยให้จัดการรายการต่าง ๆ ได้เป็นขั้นตอนมากขึ้น</p>
+  </ContentBox3ThreePremium>
 
-  <ContentBoxSpecial as="h2" title="สมาชิก BRAZIL999 รับการอัปเดตข่าวสารและโปรโมชั่นได้ก่อนใคร" iconleft="📣" iconright="🎁">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      สมาชิก BRAZIL999 สามารถติดตามข่าวสารและโปรโมชั่นที่เว็บไซต์อัปเดตตามช่วงเวลา
-      <strong class="text-[#f4fbf2]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+  <ContentBoxCyberCut as="h2" title="อัปเดตข่าวสารและโปรโมชั่น PKG44 ได้ก่อนใคร">
+    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
+      สมาชิก PKG44 สามารถติดตามข่าวสาร เกมใหม่ และโปรโมชั่นที่เว็บไซต์อัปเดตตามช่วงเวลาได้จากหน้าเดียว
+      <strong class="text-[#fff8e1]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
+      พร้อมรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และ
+      <strong class="text-[#fff8e1]">เงื่อนไขที่ควรตรวจสอบก่อนกดรับโปรโมชั่นแต่ละรายการ</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      พร้อมรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และวิธีรับสิทธิ์
-      <strong class="text-[#f4fbf2]">ช่วยให้ตรวจสอบโปรโมชั่นล่าสุดและเลือกใช้สิทธิ์ได้ตรงกับเงื่อนไขของแต่ละรายการ</strong>
-    </p>
-  </ContentBoxSpecial>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreePremium as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 384px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 348px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นดำ-เขียว ด้านบนกลางภาพเป็นโลโก้ BRAZIL999 ตัวอักษร BRAZIL สีโครเมียมเงินและเลข 999 สีเขียวสด ใต้ลงมามีมงกุฎทองดวงเล็กเหนือตัวอักษรไทยสีขาวและเขียวว่า โปรโมชั่น แนะนำเพื่อน และป้ายสีเขียวเขียนว่า โบนัส 0.8% ด้านขวาเป็นหญิงสาวผมยาวสีเข้มสวมเบลเซอร์สีขาว ยิ้มและชี้นิ้วชี้ทั้งสองข้างมาที่ข้อความ รอบตัวมีชิปคาสิโนสีเขียวสลับดำและไพ่เอซกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#22c55e]/55 shadow-[0_10px_30px_rgba(34,197,94,0.3)]"
+      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทอง ด้านขวาบนเป็นโลโก้ PKG44 ตัวอักษร P G และเลข 44 เป็นทองเมทัลลิก ส่วนตัว K เป็นเงินโครเมียม ใต้ลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น แนะนำเพื่อน แล้วปิดท้ายด้วยตัวเลขขนาดใหญ่ว่า โบนัส 0.8% ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ยิ้มและชี้นิ้วชี้ทั้งสองข้างมาที่ข้อความ มุมซ้ายบนมีกล่องของขวัญผูกโบว์ทอง รอบภาพมีเหรียญทองลอยอยู่และมีชิปคาสิโนสีดำขอบทองกองอยู่ที่ขอบล่าง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#fdd32a]/55 shadow-[0_10px_30px_rgba(253,211,42,0.3)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      สมาชิก BRAZIL999
-      <strong class="text-[#f4fbf2]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">
+      สมาชิก PKG44
+      <strong class="text-[#fff8e1]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
       ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ
-      <strong class="text-[#f4fbf2]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
+      <strong class="text-[#fff8e1]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
     </p>
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThree as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 352px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 360px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำ-เขียวแต่สลับด้าน ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมเบลเซอร์สีขาว ถือไพ่เอซคลี่เป็นพัดและชี้มืออีกข้างไปที่ข้อความ มุมขวาบนเป็นโลโก้ BRAZIL999 ตัวอักษร BRAZIL สีโครเมียมเงินและเลข 999 สีเขียวสด ถัดลงมาเป็นตัวอักษรไทยว่า โปรโมชั่น คืนยอดเสีย และป้ายสีเขียวขอบทองขนาดใหญ่เขียนว่า โบนัส 0.3% ตามขอบล่างมีเหรียญทอง มงกุฎทอง และชิปคาสิโนสีเขียวสลับดำ"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#aab4bf]/40 shadow-[0_10px_30px_rgba(4,10,5,0.85)]"
+      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำ-ทองแต่สลับด้าน ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ชี้นิ้วมือทั้งสองข้างไปที่ข้อความ มุมขวาบนเป็นโลโก้ PKG44 ตัวอักษร P G และเลข 44 เป็นทองเมทัลลิก ส่วนตัว K เป็นเงินโครเมียม ถัดลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น คืนยอดเสีย และตัวเลขขนาดใหญ่ว่า โบนัส 0.3% ด้านขวามีกล่องของขวัญผูกโบว์ทอง ตามขอบภาพมีเหรียญทองและชิปคาสิโนสีดำขอบทองลายมงกุฎกระจายอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#c2c8d0]/40 shadow-[0_10px_30px_rgba(8,6,2,0.85)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      <strong class="text-[#f4fbf2]">โปรโมชั่นคืนยอดเสียของ BRAZIL999 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">
+      <strong class="text-[#fff8e1]">โปรโมชั่นคืนยอดเสีย PKG44 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
       สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์
-      <strong class="text-[#f4fbf2]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้เงื่อนไขก่อนนำไปใช้งาน</strong>
+      <strong class="text-[#fff8e1]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้เงื่อนไขก่อนนำสิทธิ์ไปใช้งาน</strong>
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThree>
 
-  <ContentBoxTwoFloatingBadge as="h2" title="สมัคร BRAZIL999 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน" titleleft="รายละเอียดการสมัคร" titleright="3 ขั้นตอนหลัก">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#dfeadd]">
-      <strong class="text-[#f4fbf2]">การสมัคร BRAZIL999 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
-      ขั้นตอนไม่ซับซ้อน หลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อตรวจสอบเกมและโปรโมชั่นที่เปิดให้รับได้
-      <strong class="text-[#f4fbf2]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
+  <ContentBoxTwoPremium as="h2" title="สมัคร PKG44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน" titleleft="รายละเอียดการสมัคร" titleright="3 ขั้นตอนหลัก">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#efe6d2]">
+      <strong class="text-[#fff8e1]">การสมัคร PKG44 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
+      ขั้นตอนไม่ซับซ้อน หลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมสล็อตและตรวจสอบโปรโมชั่นที่กำลังเปิดให้รับได้ทันที
+      <strong class="text-[#fff8e1]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
     </p>
-    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#dfeadd] marker:font-black marker:text-[#7cf25c]">
-      <li>เปิดหน้าสมัคร BRAZIL999 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
+    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#efe6d2] marker:font-black marker:text-[#ffe27a]">
+      <li>เปิดหน้าสมัคร PKG44 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
       <li>ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
-      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกเกมและตรวจสอบโปรโมชั่นที่เปิดให้สมาชิกได้ทันที</li>
+      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกค่ายสล็อต เกมที่สนใจ และโปรโมชั่นที่เปิดให้รับได้ทันที</li>
     </ol>
-  </ContentBoxTwoFloatingBadge>
+  </ContentBoxTwoPremium>
 
-  <ContentBoxTwoCyberCut as="h2" title="ติดต่อเจ้าหน้าที่ผ่านไลน์ BRAZIL999 ได้ 24 ชั่วโมง" titleleft="ช่องทางไลน์ตลอด 24 ชั่วโมง" titleright="สมัครสมาชิกและเริ่มใช้งาน">
-    <p class="text-left text-base leading-relaxed text-[#dfeadd]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร โปรโมชั่น ทางเข้าเกม หรือการใช้งานบัญชี
-      <strong class="text-[#f4fbf2]">สามารถติดต่อเจ้าหน้าที่ BRAZIL999 ผ่านช่องทางไลน์ที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#f4fbf2]">ทีมงานพร้อมช่วยให้ข้อมูลและตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
+  <ContentBoxTwoNeumorphism as="h2" title="ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง" titleleft="สอบถามเจ้าหน้าที่" titleright="สมัครสมาชิกและเริ่มใช้งาน">
+    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
+      หากมีข้อสงสัยเกี่ยวกับการสมัคร ทางเข้า โปรโมชั่น เกม หรือการใช้งานบัญชี
+      <strong class="text-[#fff8e1]">สามารถติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง</strong>
+      <strong class="text-[#fff8e1]">ทีมงานพร้อมช่วยให้ข้อมูลเกี่ยวกับเมนูและค่ายสล็อต รวมถึงตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
+      เพื่อให้เข้าถึงข้อมูลที่ต้องการได้สะดวกยิ่งขึ้น
     </p>
 
     <div slot="left" class="flex flex-col gap-3">
       <a
         href="/line"
         class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">💬</span> ติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์
+        <span aria-hidden="true">💬</span> ติดต่อผ่าน Line Official
       </a>
-      <p class="text-left text-base leading-relaxed text-[#dfeadd]">แจ้งรายละเอียดที่ต้องการสอบถามเข้ามาในแชท ทีมงานจะตรวจสอบและตอบกลับตามข้อมูลที่แจ้ง</p>
+      <p class="text-left text-base leading-relaxed text-[#efe6d2]">แจ้งรายละเอียดที่ต้องการสอบถามเข้ามาได้ ทีมงานจะตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้ง</p>
     </div>
 
     <div slot="right" class="flex flex-col gap-3">
       <a
         href="/register"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#7cf25c]/70 bg-gradient-to-r from-[#7cf25c] via-[#22c55e] to-[#0a6b18] p-3.5 text-center font-black text-[#040a05] shadow-[0_10px_30px_rgba(34,197,94,0.35)] transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">✨</span> สมัครสมาชิก BRAZIL999
+        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffe27a]/70 bg-gradient-to-r from-[#ffe27a] via-[#fdd32a] to-[#c8920a] p-3.5 text-center font-black text-[#15110a] shadow-[0_10px_30px_rgba(253,211,42,0.35)] transition-all hover:scale-[1.02]">
+        <span aria-hidden="true">✨</span> สมัครสมาชิก PKG44
       </a>
-      <p class="text-left text-base leading-relaxed text-[#dfeadd]">สมัครด้วยตัวเองผ่านหน้าเว็บไซต์ได้ทันที แล้วเข้าสู่ระบบเพื่อตรวจสอบเกมและโปรโมชั่นที่เปิดให้รับ</p>
+      <p class="text-left text-base leading-relaxed text-[#efe6d2]">สมัครด้วยตัวเองผ่านหน้าเว็บไซต์ได้ทันที แล้วเข้าสู่ระบบเพื่อเลือกค่ายสล็อตและโปรโมชั่นที่เปิดให้รับ</p>
     </div>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoNeumorphism>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 
