@@ -16,14 +16,14 @@ const bankPool = [
   { name: "TTB", color: "bg-[#1279be]", icon: ttbLogo.src },
 ];
 
-// This component used to be a `<script define:vars={{ bankPool }}>` that built
-// five rows with innerHTML and then ran setInterval forever. define:vars forces
-// is:inline, which strips type/async/defer and leaves a parser-blocking script
-// three quarters of the way down the document — tools/verify-build.mjs fails the
-// build on it. The rows are server-rendered here, the bank list travels as inert
-// JSON below, and src/lib/winnersFeed.ts (shared with every other LatestWinners*
-// variant, and selector-driven so it needs no changes) takes over the rotation
-// with on-screen, hidden-tab and reduced-motion guards.
+// This component must never go back to a `<script define:vars={{ bankPool }}>`:
+// define:vars forces is:inline, which strips type/async/defer and leaves a
+// parser-blocking script three quarters of the way down the document —
+// tools/verify-build.mjs fails the build on it. The rows are server-rendered
+// here, the bank list travels as inert JSON below, and src/lib/winnersFeed.ts
+// (shared with every other LatestWinners* variant, and selector-driven so it
+// needs no changes) takes over the rotation with on-screen, hidden-tab and
+// reduced-motion guards.
 //
 // The values come from the brand's own domain hash, NOT Math.random(): a
 // Math.random() in frontmatter runs at BUILD time, so every deploy would churn
@@ -31,15 +31,17 @@ const bankPool = [
 // the same domain byte-identical.
 //
 // The block title is a <p> and the <section> carries an aria-label — a live
-// transaction feed is chrome and never emits a heading tag at any level.
+// transaction feed is chrome and never emits a heading tag at any level. The
+// sub-line claims nothing the brief does not: it says the numbers are a sample
+// of the row format, so no yield, payout rate or bank fact is being asserted.
 //
-// KINGDOM66 (ทอง-ดำ 2026-09-25): แผงคือพื้นเพจเกือบดำ #0c0b09 ในกรอบทองลึก #5c4113
-// เส้นไทม์ไลน์เป็นทองลึกเดียวกันและจุดบนเส้นเป็นทองแบรนด์ #e6bf4e ออร่าสองมุมแยกด้วย
-// คู่สีโลโก้คือทองแบรนด์กับครีมแพลตินัมอุ่น #efe6cf ยอดเงินรับทองสว่าง #f2d683 ไว้เป็น
-// ตัวเน้นแบบเลข 66 บนโลโก้จริง แถวรายการวางบนผิวการ์ดยก #241c13 ป้ายสถานะยังคงสีเชิง
-// ความหมายไว้ (เทากลางระหว่างรอตรวจสอบ เขียวเมื่อโอนสำเร็จ) และถูกกำหนดใน <style>
-// ด้านล่าง ชุดชมพู-เหลืองของ ABM96 (#b8325f #fd6494 #feda2a #12030a #2a0a1a #ffe0ec
-// #fbe3ee) หายไปทั้งหมด
+// PGW44 (รอบทอง-เขียว-ดำ 2026-09-27): แผงคือพื้นเพจ #050803 ในกรอบเขียวลึก #1f5a16
+// เส้นไทม์ไลน์เป็นเขียวลึกเดียวกันและจุดบนเส้นเป็นทองแบรนด์ #fde90e ออร่าสองมุมแยก
+// ด้วยคู่สีโลโก้คือทองแบรนด์กับเขียวแบรนด์ #35d413 ยอดเงินรับทองแบรนด์ไว้เป็นตัวเน้น
+// แบบเลข 44 บนโลโก้จริง แถวรายการวางบนผิวแผงยก #101a0b ป้ายสถานะยังคงสีเชิงความหมาย
+// ไว้ (เทากลางระหว่างรอตรวจสอบ เขียวเมื่อโอนสำเร็จ) และถูกกำหนดใน <style> ด้านล่าง
+// ชุดทอง-ครีมของ KINGDOM66 (#5c4113 #0c0b09 #e6bf4e #efe6cf #f2d683 #241c13
+// #fdf6e0 #ebe3d3) หายไปทั้งหมด
 const AMOUNT_MIN = 15000;
 const AMOUNT_MAX = 95000;
 
@@ -56,14 +58,14 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
 
 <div class="mx-auto w-full max-w-[900px] p-4 font-sans">
   <section
-    aria-label={`ประวัติการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#5c4113]/80 bg-[#0c0b09]/92 px-4 py-8 shadow-[0_10px_30px_rgba(230,191,78,0.18)] backdrop-blur-md md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-[#e6bf4e]/24 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-[#efe6cf]/14 blur-[60px]"></div>
+    aria-label={`ประวัติรายการถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#1f5a16]/80 bg-[#050803]/92 px-4 py-8 shadow-[0_10px_30px_rgba(253,233,14,0.18)] backdrop-blur-md md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-[#fde90e]/24 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-[#35d413]/16 blur-[60px]"></div>
 
     <div class="relative z-10 mb-8 text-center">
-      <p class="bg-gradient-to-b from-[#fdf6e0] to-[#e6bf4e] bg-clip-text text-xl font-black text-transparent md:text-3xl">ประวัติการถอนเงินของสมาชิก {BRAND_NAME} แบบเรียลไทม์</p>
-      <p class="mt-2 text-base leading-relaxed text-[#ebe3d3]">รองรับช่องทางธนาคารตามรายการที่เว็บไซต์เปิดให้ใช้งาน ตัวเลขด้านล่างเป็นข้อมูลตัวอย่างสำหรับแสดงรูปแบบรายการเท่านั้น</p>
+      <p class="bg-gradient-to-r from-[#fff89a] via-[#f5c518] to-[#35d413] bg-clip-text text-xl font-black text-transparent md:text-3xl">ประวัติรายการถอนของสมาชิก {BRAND_NAME} แบบเรียลไทม์</p>
+      <p class="mt-2 text-base leading-relaxed text-[#e9f0dd]">รายการด้านล่างเป็นข้อมูลตัวอย่างสำหรับแสดงรูปแบบรายการเท่านั้น ไม่ใช่ยอดจริงของสมาชิก</p>
     </div>
 
     <div
@@ -75,25 +77,25 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
       data-pending-chance="0.4"
       data-user-style="letters"
       data-user-digits="4"
-      class="relative z-10 ml-4 border-l-2 border-[#5c4113]/80 pl-6 md:ml-8 md:pl-8">
+      class="relative z-10 ml-4 border-l-2 border-[#1f5a16]/80 pl-6 md:ml-8 md:pl-8">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row relative mb-6 transition-all duration-500 ease-out">
-            <div aria-hidden="true" class="absolute top-2 -left-[35px] h-4 w-4 rounded-full border-2 border-[#0c0b09] bg-[#e6bf4e] shadow-[0_0_10px_rgba(230,191,78,0.8)] md:-left-[43px]" />
+            <div aria-hidden="true" class="absolute top-2 -left-[35px] h-4 w-4 rounded-full border-2 border-[#050803] bg-[#fde90e] shadow-[0_0_10px_rgba(253,233,14,0.85)] md:-left-[43px]" />
 
-            <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#241c13]/75 to-transparent p-4 transition-colors hover:from-[#241c13]">
+            <div class="flex items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#101a0b]/80 to-transparent p-4 transition-colors hover:from-[#101a0b]">
               <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
               </div>
 
               <div class="min-w-0 flex-1">
-                <div class="text-sm text-[#ebe3d3]/70">
+                <div class="text-sm text-[#e9f0dd]/70">
                   ยูสเซอร์:{" "}
-                  <span data-winner-user class="font-bold text-[#fdf6e0]">
+                  <span data-winner-user class="font-bold text-[#fbffe8]">
                     {row.user}
                   </span>
                 </div>
-                <div class="text-xl font-black text-[#f2d683]">
+                <div class="text-xl font-black text-[#fde90e]">
                   <span data-winner-amount>{row.amount}</span> THB
                 </div>
               </div>

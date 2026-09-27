@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/Announcement2.astro";
 import { pageGraph } from "../lib/schema";
 import CtaRedirect from "../components/CtaRedirect.astro";
 
@@ -11,29 +11,33 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // The hop to the operator happens on CLICK, not on page load — this page is
 // indexed and must not describe itself as an automatic redirect.
 // targetUrl is this brand's affiliate link — never edit it, and keep
-// rel="nofollow sponsored" on the anchor.
+// rel="nofollow sponsored" on the anchor. data-cta-redirect is what
+// CtaRedirect's script binds to; leave the attribute in place.
 //
-// PKG44 (รอบทองเมทัลลิก + เงินโครเมียมบนดำ 2026-09-27): ปุ่มนี้เป็นตัว PRIMARY ของ
-// คู่ จึงสวมไล่เฉดทองของแบรนด์เต็มใบ (#ffeeb8 → #fdd32a → #c8920a) บนตัวอักษร
-// เกือบดำ #15110a เพราะตัวหนังสือบนพื้นทองสว่างต้องเป็นสีเข้มจึงจะอ่านออก ห้ามใช้ขาว
-// ส่วน /login รับฝั่ง "K" ของโลโก้ที่เป็นเงินขัดเงา — ขอบเงินโครเมียม #c2c8d0
-// บนผิวยก #2a2110 แทน สองลำดับ หนึ่งสีต่อหนึ่งปุ่ม ตามโลโก้ที่ P G 44 เป็นทองและ
-// K เป็นเงิน ไม่ใช่ทองสองใบซึ่งจะอ่านเป็นปุ่มซ้ำกันสองปุ่ม
-// ชุดเขียวมรกตของ BRAZIL999 รอบก่อน (#22c55e #7cf25c #b6ff9c #0a6b18 #04380c บน
-// พื้น #0a1a0c #123a18 #040a05) ออกครบแล้ว ห้ามนำกลับมา
+// PGW44 (รอบทอง-เขียว-ดำ 2026-09-27): ปุ่มนี้เป็นตัว PRIMARY ของคู่ จึงสวมไล่เฉด
+// ประจำแบรนด์เต็มใบ (#fde90e → #f5c518 → #35d413 ทองไหลไปเขียวตามลำดับตัวอักษร
+// ในโลโก้) บนตัวอักษรหมึกเข้ม #10160a เพราะตัวหนังสือบนพื้นทองสว่างต้องเป็นสีเข้ม
+// จึงจะอ่านออก ห้ามใช้ขาว ส่วน /login รับฝั่ง "W" ของโลโก้ที่เป็นเขียวจัด — ขอบเขียว
+// #35d413 บนผิวยก #101a0b แทน สองลำดับ หนึ่งสีต่อหนึ่งปุ่ม ไม่ใช่ทองสองใบซึ่งจะ
+// อ่านเป็นปุ่มซ้ำกันสองปุ่ม
+// ชุดทอง+โครเมียมของแบรนด์ก่อนหน้า (#fdd32a #ffe27a #ffeeb8 #c8920a #15110a
+// #c2c8d0 #f2f4f7 #12100a #2a2110 #080602 #efe6d2 #fff8e1 rgba(253,211,42,*)
+// rgba(194,200,208,*)) ออกครบแล้ว ห้ามนำกลับมา
 //
-// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ — default message
-// ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index ก็เรียกแบบ bare จึงห้ามส่ง prop
+// Announcement หมุนจาก AnnouncementPremium มาเป็น Announcement2 ทั้งเว็บรอบนี้ —
+// default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index ก็เรียกแบบ bare
 //
-// PKG44 เป็นแบรนด์สล็อต — บรีฟพูดถึงเกมปั่นสล็อตหลายค่ายเท่านั้น คำศัพท์เฉพาะหมวด
-// ของแบรนด์ก่อนหน้า (คาสิโนสด เกมโต๊ะ บาคาร่า หวย) ห้ามหลงเหลือในหน้านี้
+// PGW44 เป็นแบรนด์สล็อตล้วน — บรีฟระบุการสมัครเองผ่านหน้าเว็บไซต์ได้ 3 ขั้นตอน
+// (กรอกข้อมูล → ตรวจสอบความถูกต้อง → ยืนยันและเข้าสู่ระบบ) คำศัพท์เฉพาะหมวดของ
+// แบรนด์ก่อนหน้า (คาสิโนสด เกมโต๊ะ บาคาร่า หวย) รวมถึง API/ใบอนุญาต/ชื่อค่าย/
+// ฝากถอนออโต้/เครดิตฟรี ห้ามหลงเหลือในหน้านี้
 //
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 158
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 151
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = "สมัครสมาชิก PKG44 กดปุ่มเดียวเปิดบัญชีใหม่ด้วยตัวเองใน 3 ขั้นตอน รองรับมือถือและคอมพิวเตอร์ จากนั้นเข้าสู่ระบบเลือกเกมสล็อตและตรวจสอบโปรโมชั่นได้จากบัญชีเดียว";
+const pageDescription = "สมัครสมาชิก PGW44 กดปุ่มเดียวเปิดบัญชีด้วยตัวเองใน 3 ขั้นตอน กรอกข้อมูล ตรวจสอบความถูกต้อง แล้วยืนยันเข้าสู่ระบบเพื่อเลือกเกมสล็อตจากค่ายย่อยได้ทั้งวัน";
 
 const graph = pageGraph(Astro, {
-  name: "สมัครสมาชิก PKG44",
+  name: "สมัครสมาชิก PGW44",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -44,19 +48,19 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title="สมัครสมาชิก PKG44 เปิดบัญชีใหม่ด้วยตัวเอง เล่นได้จากบัญชีเดียว" description={pageDescription}>
+<MainLayout title="สมัครสมาชิก PGW44 เปิดบัญชีเองได้ใน 3 ขั้นตอน เล่นจากบัญชีเดียว" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="สมัครสมาชิก PKG44" as="h1">
+  <ContentBox title="สมัครสมาชิก PGW44" as="h1">
     <div class="flex justify-center py-8">
       <a
         href={targetUrl}
         rel="nofollow sponsored"
         data-cta-redirect
-        aria-label="สมัครสมาชิก PKG44"
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fdd32a] bg-gradient-to-r from-[#ffeeb8] via-[#fdd32a] to-[#c8920a] px-6 py-4 text-lg font-black text-[#15110a] shadow-[0_10px_30px_rgba(253,211,42,0.50)] transition-all duration-300 hover:scale-105 hover:border-[#c2c8d0] hover:shadow-[0_15px_40px_rgba(194,200,208,0.28)]">
+        aria-label="สมัครสมาชิก PGW44"
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fde90e] bg-gradient-to-r from-[#fde90e] via-[#f5c518] to-[#35d413] px-6 py-4 text-lg font-black text-[#10160a] shadow-[0_10px_30px_rgba(253,233,14,0.50)] transition-all duration-300 hover:scale-105 hover:border-[#5df53a] hover:shadow-[0_15px_40px_rgba(53,212,19,0.30)]">
         สมัครสมาชิก
       </a>
     </div>

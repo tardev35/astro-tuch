@@ -1,15 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import Faq from "../components/Faq4.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
+import Announcement from "../components/Announcement2.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBox3ThreeCyberCut from "../components/ContentBox3ThreeCyberCut.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Faq from "../components/Faq2.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -19,27 +19,37 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
+// VARIANT ROTATION THIS ROUND (previous brand -> PGW44). Premium is out of the page
+// entirely: Announcement2 replaces AnnouncementPremium, LatestWinners3 replaces
+// LatestWinnersPremium, Faq2 replaces Faq4, and the ContentBox shape-mix moves
+// to FloatingBadge / 3ThreeCyberCut / Neumorphism / SevenThreeNeumorphism /
+// SevenThreeCyberCut / TwoCyberCut / Special. Nothing was deleted — every
+// outgoing variant file stays on disk as inventory for the next brand.
+//
 // IMAGE ROLES FOR THIS DROP (2026-09-27) — READ BEFORE REUSING THESE IMPORTS.
 // Two files are referenced from this page and only two, both slides, both spent
 // on a ContentBoxSevenThree* block — the family's hard cap of two per rebrand,
 // so there is no third SevenThree here:
 //   slide1.png — the poster whose Thai type reads "โปรโมชั่น แนะนำเพื่อน" above a
 //     large "โบนัส 0.8%", so it belongs to docx H3 #4.
-//   slide2.png — the mirrored poster reading "โปรโมชั่น คืนยอดเสีย" above
+//   slide2.png — the companion poster reading "โปรโมชั่น คืนยอดเสีย" above
 //     "โบนัส 0.3%", so it belongs to docx H3 #5.
 // Both files are 600x400, so 600 is the top candidate width — nothing above it
-// would be a real pixel. The alt text was written from the CURRENT artwork
-// (black-and-gold ground, the PKG44 wordmark with a chrome K between gold
-// letters, the woman in the white suit pointing at the type, the gold coins,
-// the black-and-gold chips and the ribboned gift box) and never carried over
-// from BRAZIL999's green/chrome strings — none of that is in these pictures.
+// would be a real pixel. The alt text was written from THIS drop's artwork
+// (green-and-gold on black, the PGW44 wordmark with a black-gold P, a gold G, a
+// vivid green W and 44 grading gold into green, the woman in the white suit
+// pointing at the type, gold coins, green-and-gold chips, the crown-marked
+// ingot) and is NOT the previous brand's text — that poster was gold-and-chrome with a chrome
+// K and a ribboned gift box, none of which is in these pictures.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
-//   banner2.png (2026-09-22), banner3.png (2026-08-11), slide3.png
-//   (2026-09-18), slide4.png (2026-08-13) — every one predates this drop and
-//   carries a previous client's artwork. There is therefore NO usable banner2+
-//   this round and NO single-column inline illustration, which is the expected
-//   outcome, not a gap to fill with a stale file.
+//   banner3.png is this drop's own file but is a byte-for-byte copy of the
+//   wordmark on a plain ground — it is the logo again, not article art, and
+//   dropping a logo into a ContentBox illustrates nothing. banner2.png
+//   (2026-09-22), slide3.png (2026-09-18) and slide4.png (2026-08-13) all
+//   predate this drop and carry a previous client's artwork. There is therefore
+//   NO usable article illustration this round and NO single-column inline image,
+//   which is the expected outcome, not a gap to fill with a stale file.
 //   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
 //   and are never referenced from a page — the hero is the LCP element, so
 //   nothing here gets loading="eager" fetchpriority="high". og.png is the same:
@@ -49,80 +59,82 @@ import imgSlide2 from "../assets/slide2.png";
 // the next brand: ProviderGrid / ProviderGridPremium / FeaturedGames /
 // PopularGamesStrip / GameRankingBoard each have to name specific studios, game
 // titles or payout figures, and this brief names none at all — it says only
-// "รวมเกมปั่นสล็อตจากหลายค่ายไว้ในระบบเดียว". BankStrip needs a bank or a
-// deposit channel, which the brief also never mentions. SmoothCarousel is out
-// because it would put slide* outside a ContentBoxSevenThree*. LottoGrid is out
-// because PKG44 is a slot brand, not เว็บหวย (which is also why /ตรวจหวย and
+// "รวบรวมค่ายสล็อตย่อยและเกมหลายแนวไว้ให้เลือกจากระบบเดียว". BankStrip needs a bank
+// or a deposit channel, which the brief also never mentions. SmoothCarousel is
+// out because it would put slide* outside a ContentBoxSevenThree*. LottoGrid is
+// out because PGW44 is a slot brand, not เว็บหวย (which is also why /ตรวจหวย and
 // /แนวทาง stay parked and are never linked from here). FeatureHighlights is out
-// because it emits an <h3> per item and the brief gives its 3 signup steps no
-// per-step headings — the steps ship as a plain <ol> instead. Filling any of
-// these in would be inventing facts.
+// because it emits an <h3> per item, and this round's two <h3> are real docx
+// headings with their own slides — the 3 signup steps get no per-step headings
+// in the brief, so they ship as a plain <ol> instead. Filling any of these in
+// would be inventing facts.
 
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
 // floor and never topped up from the H1/H2 — this one ships at the length the
-// brief wrote it (116 characters), which is a passing build, not a gap to fill.
-const pageTitle = "PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ ปลอดภัยแน่นอน";
+// brief wrote it, which is a passing build, not a gap to fill.
+const pageTitle = "PGW44 อัปเดตค่ายสล็อตย่อย ครบทุกแนวเกม เล่นได้ทั้งวัน ไม่จำกัดยอด";
 
-const pageDescription = "PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของโดยตรง ทางเข้าใช้งานง่าย สนุกทุกค่าย ปลอดภัยทุกการเดิมพันแน่นอน";
+const pageDescription = "PGW44 อัปเดตค่ายสล็อตย่อย มัดรวมมาให้ครบทุกแนวเกม เข้าเล่นเกมได้ทั้งวัน ฝากถอนไม่มีขั้นต่ำ เล่นสล็อตได้ไม่จำกัดยอด";
 
-// <Announcement /> runs bare: AnnouncementPremium's default message is already
-// this brand's copy, and every sub-page calls it bare too — passing an override
-// here is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: Announcement2's default message is already this
+// brand's copy, and every sub-page calls it bare too — passing an override here
+// is how the ticker ends up saying two different things on two pages.
 
 // The docx has a real H2 -> H3 nesting this round: "แนะนำเพื่อน โบนัส 0.8%" and
-// "คืนยอดเสีย 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page is
-// NOT flattened to H2-only. Those two are the only <h3> here, and each one is
+// "คืนยอดเสีย โบนัส 0.3%" are genuine sub-points of the โปรโมชั่น H2, so the page
+// is NOT flattened to H2-only. Those two are the only <h3> here, and each one is
 // carried by its own ContentBoxSevenThree* block together with the slide whose
 // artwork states that exact figure.
-// Everything else is chrome and emits no heading tag: LatestWinnersPremium,
+// Everything else is chrome and emits no heading tag: LatestWinners3,
 // LoginRtpSection and ReviewCardSumo2 render their titles as <p>/<span> with an
-// aria-label on the section, and Faq4's questions live inside <summary>.
-// ContentBox3ThreePremium's three column captions are this page's own wording for
-// splitting one docx paragraph into three readable columns, not docx sub-points,
-// so heading={false} renders them as <p>.
-// ContentBoxTwoPremium's and ContentBoxTwoNeumorphism's column labels are <p>
-// inside those components already.
+// aria-label on the section, and Faq2's questions live inside <summary>.
+// ContentBox3ThreeCyberCut's three column captions are this page's own wording
+// for splitting one docx paragraph into three readable columns, not docx
+// sub-points, so heading={false} renders them as <p>. That prop (and the box's
+// own `title`) is new: the file used to render all three captions as real
+// headings, which turned one docx section into three and made the inventory
+// unmatchable — fixed in the component, not worked around here.
+// ContentBoxTwoCyberCut's column labels are <p> inside that component already.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ        ContentBoxPremium
-//    2 H2  ทางเข้า PKG44 ใช้งานง่าย สนุกทุกค่าย ปลอดภัย ทุกการเดิมพัน    ContentBox3ThreePremium
-//    3 H2  อัปเดตข่าวสารและโปรโมชั่น PKG44 ได้ก่อนใคร                ContentBoxCyberCut
-//    4 H3  แนะนำเพื่อน โบนัส 0.8%                                ContentBoxSevenThreePremium + slide1
-//    5 H3  คืนยอดเสีย โบนัส 0.3%                                 ContentBoxSevenThree + slide2
-//    6 H2  สมัคร PKG44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน                ContentBoxTwoPremium (intro + <ol>)
-//    7 H2  ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง                  ContentBoxTwoNeumorphism
-//    8 H2  คำถามที่พบบ่อย                                        Faq4
+//    1 H1  PGW44 อัปเดตค่ายสล็อตย่อย จัดมาให้สมาชิก ครบทุกแนวเกม   ContentBoxFloatingBadge
+//    2 H2  เข้าเล่นเกม PGW44 ได้ทั้งวัน เล่นสล็อตได้ไม่จำกัดยอด      ContentBox3ThreeCyberCut
+//    3 H2  อัปเดตข่าวสารและโปรโมชั่น PGW44 ได้ก่อนใคร            ContentBoxNeumorphism
+//    4 H3  แนะนำเพื่อน โบนัส 0.8%                            ContentBoxSevenThreeNeumorphism + slide1
+//    5 H3  คืนยอดเสีย โบนัส 0.3%                             ContentBoxSevenThreeCyberCut + slide2
+//    6 H2  สมัครเล่นสล็อต PGW44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน      ContentBoxTwoCyberCut (intro + <ol>)
+//    7 H2  ติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ PGW44 ได้ 24 ชั่วโมง      ContentBoxSpecial
+//    8 H2  คำถามที่พบบ่อย                                    Faq2
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
 // Every docx paragraph ships in full. One block is a multi-column shell, so the
 // paragraph that fills it is split across its columns and nowhere else: item 2's
-// single paragraph fills the three Premium columns in order. Reading them left ->
-// centre -> right reproduces the sentence word for word; nothing is summarised,
-// merged or repeated.
+// single paragraph fills the three CyberCut columns in order. Reading them left
+// -> centre -> right reproduces the sentence word for word; nothing is
+// summarised, merged or repeated.
 //
-// Vocabulary: this brief says only "ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง"
-// and never names LINE, so no paragraph on this page writes ไลน์ / ไลน์แอด /
-// LINE OFFICIAL — only the button that actually links to /line carries that
-// wording, because that is the button's real destination. It names no game
-// studio, no game title, no RTP figure, no licence number, no bank and no
-// deposit channel, so neither does this page.
+// Vocabulary: this brief names ไลน์ itself in docx heading 7 ("ติดต่อเจ้าหน้าที่
+// ผ่านช่องทางไลน์ ... ได้ 24 ชั่วโมง"), unlike the previous round, so ไลน์ /
+// Line Official wording is allowed on this page and in the /line button label.
+// It still names no game studio, no game title, no RTP figure, no licence
+// number, no bank and no deposit channel, so neither does this page.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "PKG44 มีเกมสล็อตจากหลายค่ายหรือไม่?",
-    a: "ภายในระบบมีเกมสล็อตจากหลายค่ายตามรายการที่เว็บไซต์เปิดให้บริการ ทั้งเกมยอดนิยม เกมโบนัส และเกมใหม่ที่อัปเดตตามช่วงเวลา สมาชิกสามารถตรวจสอบรายชื่อค่ายและรายละเอียดของแต่ละเกมได้จากหน้ารวมเกม",
+    q: "PGW44 มีเกมสล็อตแบบไหนให้เลือกบ้าง?",
+    a: "ภายในระบบมีสล็อตหลายแนวจากค่ายย่อยและค่ายที่เปิดให้บริการตามช่วงเวลา ทั้งเกมคลาสสิก เกมโบนัส เกมธีมใหม่ และสล็อตรูปแบบอื่น สมาชิกสามารถตรวจสอบรายชื่อเกมล่าสุดได้จากหน้ารวมเกม",
   },
   {
-    q: "PKG44 ใช้ระบบ API จากเจ้าของเกมโดยตรงหรือไม่?",
-    a: "ตามข้อมูลที่เว็บไซต์ระบุ PKG44 ใช้รูปแบบการเชื่อมต่อ API และมีข้อมูลเกี่ยวกับลิขสิทธิ์ของเกมจากผู้ให้บริการ สมาชิกควรตรวจสอบรายละเอียดค่ายและข้อมูลที่เกี่ยวข้องจากช่องทางอย่างเป็นทางการเพิ่มเติมก่อนใช้งาน",
+    q: "PGW44 เล่นสล็อตได้ตลอดทั้งวันหรือไม่?",
+    a: "สามารถเข้าดูและเลือกเกมได้ตลอดทั้งวันตามรายการที่ระบบเปิดให้บริการ โดยระดับเดิมพันและเงื่อนไขของแต่ละเกมอาจแตกต่างกัน ควรตรวจสอบรายละเอียดก่อนเริ่มใช้งานทุกครั้ง",
   },
   {
-    q: "PKG44 มีโปรโมชั่นอะไรบ้าง?",
-    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน ควรตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
+    q: "PGW44 มีโปรโมชั่นอะไรบ้าง?",
+    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน แนะนำให้ตรวจสอบรายละเอียดจากหน้าโปรโมชั่นก่อนกดรับ",
   },
 ];
 
@@ -130,9 +142,9 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: near-white gold #fff8e1 against the body colour
-// #efe6d2, so the brand gold stays the page's structural accent and the
-// paragraphs never compete with a heading for it.
+// One highlight colour only: near-white #fbffe8 against the body colour
+// #e9f0dd, so the brand's gold and green stay the page's structural accents and
+// the paragraphs never compete with a heading for them.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -150,46 +162,71 @@ const graph = pageGraph(Astro, {
 
   <Announcement />
 
-  <ContentBoxPremium as="h1" title="PKG44 เกมปั่นสล็อตAPIแท้ รับอนุญาตลิขสิทธิ์จากเจ้าของ">
-    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
-      PKG44
-      <strong class="text-[#fff8e1]">รวมเกมปั่นสล็อตจากหลายค่ายไว้ในระบบเดียว พร้อมรูปแบบการเชื่อมต่อ API และข้อมูลลิขสิทธิ์ตามที่เว็บไซต์ระบุ</strong>
-      สมาชิกสามารถเลือกเกมได้หลายแนว ทั้งสล็อตยอดนิยม เกมโบนัส และเกมใหม่ที่อัปเดตตามช่วงเวลา
-      <strong class="text-[#fff8e1]">รองรับการใช้งานบนมือถือและคอมพิวเตอร์ผ่านเมนูที่จัดไว้ชัดเจน</strong>
+  <ContentBoxFloatingBadge as="h1" title="PGW44 อัปเดตค่ายสล็อตย่อย จัดมาให้สมาชิก ครบทุกแนวเกม">
+    <p class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      PGW44
+      <strong class="text-[#fbffe8]">รวบรวมค่ายสล็อตย่อยและเกมหลายแนวไว้ให้เลือกจากระบบเดียว</strong>
+      มีทั้งเกมคลาสสิก เกมโบนัส เกมธีมใหม่ และสล็อตที่อัปเดตตามช่วงเวลา
+      <strong class="text-[#fbffe8]">เมนูจัดหมวดหมู่ชัดเจน รองรับการใช้งานผ่านมือถือและคอมพิวเตอร์</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <ContentBox3ThreePremium
+  <ContentBox3ThreeCyberCut
     as="h2"
-    title="ทางเข้า PKG44 ใช้งานง่าย สนุกทุกค่าย ปลอดภัย ทุกการเดิมพัน"
+    title="เข้าเล่นเกม PGW44 ได้ทั้งวัน เล่นสล็อตได้ไม่จำกัดยอด"
     heading={false}
-    titleleft="บัญชีเดียวทุกค่าย"
-    titlecenter="เมนูแบ่งหมวดหมู่"
-    titleright="ระบบบัญชีสมาชิก">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#efe6d2]">
-      ทางเข้า PKG44
-      <strong class="text-[#fff8e1]">ออกแบบให้เข้าถึงเกมสล็อตแต่ละค่ายได้สะดวกจากบัญชีเดียว</strong>
+    titleleft="ค้นหาจากระบบเดียว"
+    titlecenter="เลือกได้ตลอดทั้งวัน"
+    titleright="ตรวจจากหน้าเกม">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      สมาชิก PGW44
+      <strong class="text-[#fbffe8]">ค้นหาเกมที่สนใจได้สะดวกโดยไม่ต้องเปลี่ยนหลายเว็บไซต์</strong>
     </p>
-    <p slot="center" class="text-left text-base leading-relaxed text-[#efe6d2]">
-      เมนูแบ่งหมวดหมู่ชัดเจนและรองรับการใช้งานผ่านมือถือ
-      <strong class="text-[#fff8e1]">สามารถตรวจสอบชื่อค่าย รายละเอียดเกม และข้อมูลที่เกี่ยวข้องก่อนเริ่มเล่น</strong>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      <strong class="text-[#fbffe8]">เข้าดูและเลือกเกมได้ตลอดทั้งวันตามรายการที่ระบบเปิดให้บริการ</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">พร้อมระบบบัญชีที่ช่วยให้จัดการรายการต่าง ๆ ได้เป็นขั้นตอนมากขึ้น</p>
-  </ContentBox3ThreePremium>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      แต่ละเกมมีระดับเดิมพันและรูปแบบการเล่นแตกต่างกัน
+      <strong class="text-[#fbffe8]">ตรวจสอบรายละเอียดก่อนเริ่มใช้งานได้จากหน้าเกมโดยตรง</strong>
+    </p>
+  </ContentBox3ThreeCyberCut>
 
-  <ContentBoxCyberCut as="h2" title="อัปเดตข่าวสารและโปรโมชั่น PKG44 ได้ก่อนใคร">
-    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
-      สมาชิก PKG44 สามารถติดตามข่าวสาร เกมใหม่ และโปรโมชั่นที่เว็บไซต์อัปเดตตามช่วงเวลาได้จากหน้าเดียว
-      <strong class="text-[#fff8e1]">โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย</strong>
-      พร้อมรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์ รอบรับสิทธิ์ และ
-      <strong class="text-[#fff8e1]">เงื่อนไขที่ควรตรวจสอบก่อนกดรับโปรโมชั่นแต่ละรายการ</strong>
+  <ContentBoxNeumorphism as="h2" title="อัปเดตข่าวสารและโปรโมชั่น PGW44 ได้ก่อนใคร">
+    <p class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      สมาชิก PGW44 ติดตาม
+      <strong class="text-[#fbffe8]">ข่าวสาร เกมใหม่ และโปรโมชั่นที่อัปเดตตามช่วงเวลาได้จากหน้าเว็บไซต์</strong>
+      โดยมีทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย พร้อมรายละเอียดยอดที่เข้าเกณฑ์ รอบคำนวณ และ
+      <strong class="text-[#fbffe8]">ขั้นตอนรับสิทธิ์ให้ตรวจสอบผ่านบัญชีสมาชิกก่อนกดรับสิทธิ์แต่ละรายการ</strong>
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreePremium as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
       slot="left"
       src={imgSlide1}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[340, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), 384px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่นพื้นดำโทนเขียว-ทอง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ชี้นิ้วชี้ทั้งสองข้างมาที่ข้อความ ด้านขวาเป็นโลโก้ PGW44 ตัวอักษร P สีดำเงาขอบทอง G ไล่สีทอง W สีเขียวสด และเลข 44 ไล่จากทองไปเป็นเขียว ถัดลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น ต่อด้วยป้ายสีเขียวคำว่า แนะนำเพื่อน แล้วปิดท้ายด้วยตัวอักษรทองขนาดใหญ่ว่า โบนัส 0.8% ตามขอบภาพมีเหรียญทองและชิปคาสิโนสีเขียวขอบทองกองซ้อนกันอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#fde90e]/55 shadow-[0_10px_30px_rgba(253,233,14,0.3)]"
+    />
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      สมาชิก PGW44
+      <strong class="text-[#fbffe8]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
+      ระบบมีรายละเอียดยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ
+      <strong class="text-[#fbffe8]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
+    </p>
+  </ContentBoxSevenThreeNeumorphism>
+
+  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+    <Picture
+      slot="left"
+      src={imgSlide2}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
@@ -198,78 +235,54 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นดำ-ทอง ด้านขวาบนเป็นโลโก้ PKG44 ตัวอักษร P G และเลข 44 เป็นทองเมทัลลิก ส่วนตัว K เป็นเงินโครเมียม ใต้ลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น แนะนำเพื่อน แล้วปิดท้ายด้วยตัวเลขขนาดใหญ่ว่า โบนัส 0.8% ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ยิ้มและชี้นิ้วชี้ทั้งสองข้างมาที่ข้อความ มุมซ้ายบนมีกล่องของขวัญผูกโบว์ทอง รอบภาพมีเหรียญทองลอยอยู่และมีชิปคาสิโนสีดำขอบทองกองอยู่ที่ขอบล่าง"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#fdd32a]/55 shadow-[0_10px_30px_rgba(253,211,42,0.3)]"
+      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำโทนเขียว-ทอง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ยกมือข้างหนึ่งขึ้นชี้ไปที่ข้อความ ด้านขวาเป็นโลโก้ PGW44 ตัวอักษร P สีดำเงาขอบทอง G ไล่สีทอง W สีเขียวสด และเลข 44 ไล่จากทองไปเป็นเขียว ถัดลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น ต่อด้วยป้ายสีเขียวคำว่า คืนยอดเสีย แล้วปิดท้ายด้วยตัวอักษรทองขนาดใหญ่ว่า โบนัส 0.3% ขอบซ้ายมีแท่งทองลายมงกุฎ ด้านล่างมีเหรียญทองและชิปคาสิโนสีเข้มวางกระจายอยู่"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#35d413]/55 shadow-[0_10px_30px_rgba(53,212,19,0.26)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">
-      สมาชิก PKG44
-      <strong class="text-[#fff8e1]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
-      ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และขั้นตอนรับสิทธิ์ให้ตรวจสอบ
-      <strong class="text-[#fff8e1]">ช่วยให้ติดตามโบนัสจากกิจกรรมแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThree as="h3" title="คืนยอดเสีย โบนัส 0.3%">
-    <Picture
-      slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 360px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำ-ทองแต่สลับด้าน ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมชุดสูทสีขาว ชี้นิ้วมือทั้งสองข้างไปที่ข้อความ มุมขวาบนเป็นโลโก้ PKG44 ตัวอักษร P G และเลข 44 เป็นทองเมทัลลิก ส่วนตัว K เป็นเงินโครเมียม ถัดลงมาเป็นตัวอักษรไทยสีขาวขอบทองว่า โปรโมชั่น คืนยอดเสีย และตัวเลขขนาดใหญ่ว่า โบนัส 0.3% ด้านขวามีกล่องของขวัญผูกโบว์ทอง ตามขอบภาพมีเหรียญทองและชิปคาสิโนสีดำขอบทองลายมงกุฎกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#c2c8d0]/40 shadow-[0_10px_30px_rgba(8,6,2,0.85)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#efe6d2]">
-      <strong class="text-[#fff8e1]">โปรโมชั่นคืนยอดเสีย PKG44 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      <strong class="text-[#fbffe8]">โปรโมชั่นคืนยอดเสีย PGW44 ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่ระบบกำหนด</strong>
       สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์
-      <strong class="text-[#fff8e1]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้เงื่อนไขก่อนนำสิทธิ์ไปใช้งาน</strong>
+      <strong class="text-[#fbffe8]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้เงื่อนไขก่อนนำสิทธิ์ไปใช้งาน</strong>
     </p>
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxTwoPremium as="h2" title="สมัคร PKG44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน" titleleft="รายละเอียดการสมัคร" titleright="3 ขั้นตอนหลัก">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#efe6d2]">
-      <strong class="text-[#fff8e1]">การสมัคร PKG44 สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
-      ขั้นตอนไม่ซับซ้อน หลังจากยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกเกมสล็อตและตรวจสอบโปรโมชั่นที่กำลังเปิดให้รับได้ทันที
-      <strong class="text-[#fff8e1]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
+  <ContentBoxTwoCyberCut as="h2" title="สมัครเล่นสล็อต PGW44 รับโปรโมชั่นง่ายๆ แค่ 3 ขั้นตอน" titleleft="รายละเอียดการสมัคร" titleright="3 ขั้นตอนหลัก">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9f0dd]">
+      <strong class="text-[#fbffe8]">สมัครเล่นสล็อต PGW44 ได้เองผ่านหน้าเว็บไซต์</strong>
+      ขั้นตอนไม่ซับซ้อน หลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกค่ายสล็อตย่อย เกมที่สนใจ และตรวจสอบโปรโมชั่นที่เปิดให้รับได้ทันที
+      <strong class="text-[#fbffe8]">โดยมีขั้นตอนหลักเพียง 3 ขั้นตอนดังนี้</strong>
     </p>
-    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#efe6d2] marker:font-black marker:text-[#ffe27a]">
-      <li>เปิดหน้าสมัคร PKG44 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
-      <li>ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
-      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกค่ายสล็อต เกมที่สนใจ และโปรโมชั่นที่เปิดให้รับได้ทันที</li>
+    <ol slot="right" class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#e9f0dd] marker:font-black marker:text-[#fde90e]">
+      <li>เปิดหน้าสมัคร PGW44 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
+      <li>ตรวจสอบความถูกต้องของข้อมูลที่กรอกไว้อีกครั้งก่อนกดยืนยัน</li>
+      <li>ยืนยันการสมัครและเข้าสู่ระบบ จากนั้นเลือกค่ายสล็อตย่อย เกมที่สนใจ และโปรโมชั่นที่เปิดให้รับได้ทันที</li>
     </ol>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBoxTwoNeumorphism as="h2" title="ติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง" titleleft="สอบถามเจ้าหน้าที่" titleright="สมัครสมาชิกและเริ่มใช้งาน">
-    <p class="text-left text-base leading-relaxed text-[#efe6d2]">
-      หากมีข้อสงสัยเกี่ยวกับการสมัคร ทางเข้า โปรโมชั่น เกม หรือการใช้งานบัญชี
-      <strong class="text-[#fff8e1]">สามารถติดต่อเจ้าหน้าที่ PKG44 ได้ตลอด 24 ชั่วโมง</strong>
-      <strong class="text-[#fff8e1]">ทีมงานพร้อมช่วยให้ข้อมูลเกี่ยวกับเมนูและค่ายสล็อต รวมถึงตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
-      เพื่อให้เข้าถึงข้อมูลที่ต้องการได้สะดวกยิ่งขึ้น
-    </p>
-
+  <ContentBoxSpecial as="h2" title="ติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ PGW44 ได้ 24 ชั่วโมง" iconleft="🕒" iconright="🛠️">
     <div slot="left" class="flex flex-col gap-3">
+      <p class="text-left text-base leading-relaxed text-[#e9f0dd]">
+        หากมีข้อสงสัยเกี่ยวกับค่ายสล็อต เกม โปรโมชั่น หรือการใช้งานบัญชี
+        <strong class="text-[#fbffe8]">สามารถติดต่อเจ้าหน้าที่ PGW44 ผ่านช่องทางไลน์ได้ตลอด 24 ชั่วโมง</strong>
+      </p>
       <a
         href="/line"
         class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
         <span aria-hidden="true">💬</span> ติดต่อผ่าน Line Official
       </a>
-      <p class="text-left text-base leading-relaxed text-[#efe6d2]">แจ้งรายละเอียดที่ต้องการสอบถามเข้ามาได้ ทีมงานจะตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้ง</p>
     </div>
 
     <div slot="right" class="flex flex-col gap-3">
+      <p class="text-left text-base leading-relaxed text-[#e9f0dd]">
+        <strong class="text-[#fbffe8]">ทีมงานช่วยให้ข้อมูลเรื่องค่ายสล็อตและระบบสมาชิก</strong>
+        รวมถึงช่วยตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา
+      </p>
       <a
         href="/register"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffe27a]/70 bg-gradient-to-r from-[#ffe27a] via-[#fdd32a] to-[#c8920a] p-3.5 text-center font-black text-[#15110a] shadow-[0_10px_30px_rgba(253,211,42,0.35)] transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">✨</span> สมัครสมาชิก PKG44
+        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fff89a]/70 bg-gradient-to-r from-[#fff89a] via-[#fde90e] to-[#a86f02] p-3.5 text-center font-black text-[#10160a] shadow-[0_10px_30px_rgba(253,233,14,0.35)] transition-all hover:scale-[1.02]">
+        <span aria-hidden="true">✨</span> สมัครสมาชิก PGW44
       </a>
-      <p class="text-left text-base leading-relaxed text-[#efe6d2]">สมัครด้วยตัวเองผ่านหน้าเว็บไซต์ได้ทันที แล้วเข้าสู่ระบบเพื่อเลือกค่ายสล็อตและโปรโมชั่นที่เปิดให้รับ</p>
     </div>
-  </ContentBoxTwoNeumorphism>
+  </ContentBoxSpecial>
 
   <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
 

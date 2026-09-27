@@ -13,21 +13,23 @@ const { title, as: TitleTag = "p", titleleft, titleright, label } = Astro.props;
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
 // The two column labels always render as <p>, never <h2>. The docx a page is
-// filled from is a flat H1 + a handful of H2s, and the rendered heading
-// inventory is diffed against it on every rebrand — a widget quietly adding two
-// more <h2> is the thing that makes that diff disagree. A <p> heading needs the
-// section to carry its own accessible name instead, which is what `label` is for.
+// filled from is a flat H1 + a handful of H2s (plus a real H3 pair this round),
+// and the rendered heading inventory is diffed against it on every rebrand — a
+// widget quietly adding two more <h2> is the thing that makes that diff
+// disagree. A <p> heading needs the section to carry its own accessible name
+// instead, which is what `label` is for.
 //
 // The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
 // so it is one of the three ContentBox* wrappers that cannot be hoisted away.
 //
-// BRAZIL999 (รอบเขียว-โครเมียม-ดำ 2026-09-25): มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บน
-// ซ้ายเป็นเขียวแบรนด์ #22c55e และคู่ล่างขวาเป็นโครเมียมสว่าง #f1f5f9 กรอบจึงพาคู่
-// วัสดุของโลโก้ (คำว่า BRAZIL โครเมียมขัดเงา แล้วเลข 999 เขียวสดเต็มดวง) มาไว้ที่
-// ตัวกรอบเองแทนที่จะใช้สีเดียว การ์ดเป็นผิวการ์ดเขียวเข้ม #0a1a0c ในเส้นไรผมเขียวลึก
-// #1c5a26 และป้ายสองคอลัมน์แยกกันด้วยวัสดุ — เขียวสว่าง #b6ff9c ฝั่งซ้าย โครเมียม
-// #f1f5f9 ฝั่งขวา เนื้อความ #dfeadd (BRAND_TEXT) ชุดทอง-ครีมอุ่นของ KINGDOM66
-// (#e6bf4e #f2d683 #5c4113 #efe6cf #fdf6e0 #f5e196 #151109 #ebe3d3) หายไปทั้งหมด
+// PGW44 (รอบทอง-เขียว-ดำ 2026-09-27): มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บนซ้ายเป็นทอง
+// แบรนด์ #fde90e และคู่ล่างขวาเป็นเขียวแบรนด์ #35d413 กรอบจึงพาคู่สีของเวิร์ดมาร์ก
+// (P G ทอง แล้ว W 44 ไล่ไปเขียว) มาไว้ที่ตัวกรอบเองแทนที่จะใช้สีเดียว การ์ดเป็นผิว
+// การ์ดดำอมเขียว #0b1408 ในเส้นไรผมเขียวลึก #1f5a16 และป้ายสองคอลัมน์แยกกันด้วยสี —
+// ทองแบรนด์ฝั่งซ้าย เขียวสว่าง #5df53a ฝั่งขวา หัวข้อ docx ไล่ทองอ่อน #fff89a →
+// ทองกลาง #f5c518 → เขียวแบรนด์ เนื้อความ #e9f0dd (BRAND_TEXT) — ชุดเขียวมรกต-
+// โครเมียมของ BRAZIL999 (#1c5a26 #0a1a0c #22c55e #f1f5f9 #b6ff9c #dfeadd) หายไป
+// ทั้งหมด
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 // A real heading already names the region, so the aria-label is dropped in that
 // case and only stands in when the title rendered as chrome (`as="p"`).
@@ -36,38 +38,38 @@ const named = Boolean(title) && TitleTag !== "p";
 
 <section aria-label={named ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#1c5a26]/80 bg-[#0a1a0c]/92 p-8 text-[#dfeadd] shadow-[0_10px_30px_rgba(34,197,94,0.16)] backdrop-blur-md transition-all duration-300 hover:border-[#22c55e]/60 hover:shadow-[0_15px_40px_rgba(34,197,94,0.26)]"
+    class="relative isolate w-full border border-[#1f5a16]/80 bg-[#0b1408]/92 p-8 text-[#e9f0dd] shadow-[0_10px_30px_rgba(253,233,14,0.16)] backdrop-blur-md transition-all duration-300 hover:border-[#fde90e]/60 hover:shadow-[0_15px_40px_rgba(253,233,14,0.26)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#22c55e] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f1f5f9] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#22c55e] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#f1f5f9] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fde90e] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#35d413] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#fde90e] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#35d413] to-transparent"></div>
 
     {
       title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#f1f5f9] via-[#b6ff9c] to-[#22c55e] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
+        <TitleTag class="mb-4 bg-gradient-to-r from-[#fff89a] via-[#f5c518] to-[#35d413] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#dfeadd]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e9f0dd]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#dfeadd]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#1c5a26]/80 pb-2 text-xl leading-normal font-black text-[#b6ff9c] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#22c55e] shadow-[0_0_5px_rgba(34,197,94,0.8)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#1f5a16]/80 pb-2 text-xl leading-normal font-black text-[#fde90e] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#fde90e] shadow-[0_0_5px_rgba(253,233,14,0.85)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#dfeadd] md:border-l md:border-[#1c5a26]/80 md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd] md:border-l md:border-[#1f5a16]/80 md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#1c5a26]/80 pb-2 text-xl leading-normal font-black text-[#f1f5f9] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#f1f5f9] shadow-[0_0_5px_rgba(170,180,191,0.75)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#1f5a16]/80 pb-2 text-xl leading-normal font-black text-[#5df53a] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#35d413] shadow-[0_0_5px_rgba(53,212,19,0.85)]" /> {titleright}
             </p>
           )
         }

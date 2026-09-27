@@ -1,63 +1,105 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the only heading this box ever emits when
+   *  `heading` is left false. */
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   titleleft?: string;
   titlecenter?: string;
   titleright?: string;
-  as?: "h2" | "h3" | "h4" | "h5" | "h6";
+  label?: string;
+  /** Set false when the three column labels are captions the PAGE invented to
+   *  break one docx paragraph into three readable columns — they then render as
+   *  <p> carrying the same classes, and the <section> is named by aria-label so
+   *  chrome never enters the heading inventory. Leave it true only when the
+   *  labels ARE the docx's own sub-point names. */
+  heading?: boolean;
 }
-// The three column titles are docx article headings, not chrome labels, so they
-// render as real heading tags. They used to be <p>, which dropped three docx
-// sections out of the page's heading outline.
+const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, heading = false } = Astro.props;
+
+// This box used to expose ONLY titleleft/titlecenter/titleright and render all
+// three as real heading tags, which meant one docx section came out as three
+// headings and the h2/h3 inventory could never match the brief. It now takes the
+// section's own `title` (the docx heading) plus an opt-in `heading` flag for the
+// captions, exactly like the Premium sibling — same prop shape, so a page can be
+// moved between the two without touching its markup.
 //
-// PAOTUNG: this box carries the brief's three signup steps as H3 sub-points
-// under the section's own H2, so the labels are article content by construction.
-//
-// PAOTUNG palette: the clipped frame is the logo's primary blue on the navy card
-// surface (#04203c). The corner rules are split by diagonal — gold metallic on
-// the top-left/bottom-right pair, brand blue on the vertical pair — and each
-// step label takes light gold with a bright-blue marker square. The previous
-// brand's amber/brown set is gone entirely.
-const { titleleft, titlecenter, titleright, as: HeadingTag = "h3" } = Astro.props;
+// `heading` defaults to FALSE: a three-column split on this template is almost
+// always one docx paragraph broken into three readable columns, so the safe
+// default keeps chrome out of the heading inventory.
+const LabelTag = heading ? HeadingTag : "p";
+const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#fde90e] uppercase";
+const columnDot = "block h-2 w-2 shrink-0 bg-[#35d413] shadow-[0_0_6px_rgba(53,212,19,0.85)]";
+
+// Optional intro slot — the docx paragraph that sits under the section heading
+// and above the three columns. Its wrapper carries a real `mb-8` and sits beside
+// the grid, so it is a layout wrapper rather than a hoistable text wrapper; it
+// renders only when the page actually passes default children.
+const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
+
+// PGW44 (รอบทอง-เขียว-ดำ 2026-09-27): กรอบมุมตัดเป็นเส้นไรผมเขียวลึก #1f5a16 บนผิว
+// การ์ดดำอมเขียว #0b1408 และสว่างขึ้นเป็นทองแบรนด์ #fde90e ตอน hover เส้นรูดสี่มุม
+// จับคู่สองสีของเวิร์ดมาร์กไขว้กัน — ทองแบรนด์ #fde90e คู่ทองลึก #a86f02 บนแนวนอน
+// เขียวแบรนด์ #35d413 คู่เขียวสว่าง #5df53a บนแนวตั้ง หัวข้อ docx ไล่ทองแบรนด์ →
+// ทองกลาง #f5c518 → เขียวแบรนด์ ตามลำดับตัวอักษรบนโลโก้ ป้ายสามคอลัมน์เป็นตัวอักษร
+// ทองกับจุดนำสีเขียว จึงอ่านเป็นทองนำเขียวตามเหมือนกันทั้งหน้า เนื้อความ #e9f0dd
+// (BRAND_TEXT) — ชุดน้ำเงิน-ทองของ PAOTUNG (#04203c #226ca9 #3b9ddd #cfdeed
+// #e0bd72 #f5e3b3) ออกทั้งหมด
 ---
 
-<section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#226ca9]/45 bg-[#04203c]/90 p-8 text-[#cfdeed] shadow-[0_0_25px_rgba(34,108,169,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#3b9ddd] hover:shadow-[0_0_40px_rgba(59,157,221,0.30)]"
+    class="relative isolate w-full border border-[#1f5a16]/80 bg-[#0b1408]/92 p-8 text-[#e9f0dd] shadow-[0_10px_30px_rgba(253,233,14,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#fde90e]/70 hover:shadow-[0_15px_40px_rgba(253,233,14,0.28)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#e0bd72] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f5e3b3] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#226ca9] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#3b9ddd] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fde90e] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#a86f02] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#35d413] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#5df53a] to-transparent"></div>
+
+    {
+      title && (
+        <header class="mb-8 flex items-center gap-4 border-b border-[#1f5a16]/80 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#fde90e] via-[#f5c518] to-[#35d413] shadow-[0_0_10px_rgba(253,233,14,0.55)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#fde90e] via-[#f5c518] to-[#35d413] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+            {title}
+          </HeadingTag>
+        </header>
+      )
+    }
+
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e9f0dd]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#226ca9]/50 pb-6 text-left text-base leading-relaxed text-[#cfdeed] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#1f5a16]/80 pb-6 text-left text-base leading-relaxed text-[#e9f0dd] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#f5e3b3] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#3b9ddd] shadow-[0_0_5px_rgba(59,157,221,0.8)]" /> {titleleft}
-            </HeadingTag>
+            <LabelTag class={columnLabel}>
+              <span aria-hidden="true" class={columnDot} /> {titleleft}
+            </LabelTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#226ca9]/50 pb-6 text-left text-base leading-relaxed text-[#cfdeed] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#1f5a16]/80 pb-6 text-left text-base leading-relaxed text-[#e9f0dd] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#f5e3b3] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#3b9ddd] shadow-[0_0_5px_rgba(59,157,221,0.8)]" /> {titlecenter}
-            </HeadingTag>
+            <LabelTag class={columnLabel}>
+              <span aria-hidden="true" class={columnDot} /> {titlecenter}
+            </LabelTag>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfdeed] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd] md:pl-6">
         {
           titleright && (
-            <HeadingTag class="flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#f5e3b3] uppercase">
-              <span aria-hidden="true" class="h-2 w-2 shrink-0 bg-[#3b9ddd] shadow-[0_0_5px_rgba(59,157,221,0.8)]" /> {titleright}
-            </HeadingTag>
+            <LabelTag class={columnLabel}>
+              <span aria-hidden="true" class={columnDot} /> {titleright}
+            </LabelTag>
           )
         }
         <slot name="right" />
