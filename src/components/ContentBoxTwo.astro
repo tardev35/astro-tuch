@@ -7,10 +7,12 @@ export interface Props {
   titleleft?: string;
   titleright?: string;
   label?: string;
+  iconleft?: string;
+  iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎫" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a checklist panel),
+// Without a `title` this box carries chrome (a login widget, a payout panel),
 // never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
@@ -19,24 +21,24 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label } = Astro.pro
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// SEXYGAME666 (รอบชมพูนีออน-ม่วง-ดำ 2026-09-28): โลโก้อ่านซ้ายไปขวาว่า SEXY ชมพู
-// บานเย็น GAME ไล่ไปม่วง แล้วปิดด้วย 666 ที่กลับมาเป็นชมพู สองคอลัมน์ของกล่องนี้จึงถูก
-// แยกด้วยคู่สีนั้นตรงๆ — ฝั่งซ้ายเป็นชมพูล้วน ป้ายไอคอนไล่จากชมพูอ่อน #ffb3e2 ลงชมพู
-// แบรนด์ #fa42b5 ไปหาชมพูลึก #7d1550 ตัวอักษรบนป้ายใช้หมึกเข้ม #12041c ตามกฎ
-// คอนทราสต์ที่ว่าตัวอักษรบนพื้นสว่างต้องเกือบดำ ไม่ใช่ขาว ส่วนฝั่งขวาเป็นม่วงล้วน ไล่จาก
-// ม่วงอ่อน #c9a4ff ลงม่วงแบรนด์ #8b3df3 ไปจบที่ม่วงลึก #4a17a0 หัวข้อ docx (เมื่อมีการ
-// ส่ง title มา) ไล่ชมพูอ่อน → ชมพูเข้ม #ec3fae → ม่วงแบรนด์ ตามลำดับบนโลโก้ เส้นคั่น
-// เป็นม่วงลึก #3d1180 ทั้งสองฝั่ง เนื้อความ #f2dcee (BRAND_TEXT) — ชุดทอง-เขียวของ
-// PGW44 (#fde90e #fff89a #f5c518 #a86f02 #35d413 #5df53a #0c6d10 #1f5a16 #10160a
-// #e9f0dd) ออกทั้งหมด
+// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): โลโก้อ่านซ้ายไปขวาว่า LOTTO เป็นโครเมียมขาว
+// แล้วปิดด้วย 24 สีแดง ล้อมด้วยลูกหวยแดง-ขาวและกองเหรียญทอง สองคอลัมน์ของกล่องนี้
+// จึงถูกแยกด้วยคู่แดง/ทองนั้นตรงๆ — ฝั่งซ้ายเป็นแดงล้วน ป้ายไอคอนไล่จากแดงสว่าง
+// #fc2b2c ลงแดงแบรนด์ #dc2626 ไปหาแดงลึก #b40102 ตัวอักษรบนป้ายเป็น #fff1f1 ส่วน
+// ฝั่งขวาเป็นทองล้วน ไล่จากทองอ่อน #fde68a ลงทองหลัก #fbbf24 ไปจบที่ทองลึก #a16207
+// ตัวอักษรบนป้ายทองใช้หมึกเข้ม #2a0405 ตามกฎคอนทราสต์ที่ว่าตัวอักษรบนพื้นสว่างต้อง
+// เกือบดำ หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองอ่อน → ทองหลัก → แดงสว่าง
+// เส้นคั่นเป็นแดงเข้ม #7f1d1d ทั้งสองฝั่ง เนื้อความ #f6e2e2 (BRAND_TEXT) — ชุดชมพู
+// นีออน-ม่วงของ SEXYGAME666 (#fa42b5 #ffb3e2 #ec3fae #7d1550 #8b3df3 #c9a4ff
+// #4a17a0 #3d1180 #f2dcee #12041c) ออกทั้งหมด
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#3d1180]/80 pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffb3e2] via-[#ec3fae] to-[#8b3df3] shadow-[0_0_10px_rgba(250,66,181,0.5)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#ffb3e2] via-[#ec3fae] to-[#8b3df3] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#7f1d1d]/80 pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde68a] via-[#fbbf24] to-[#fc2b2c] shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#fc2b2c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -44,14 +46,14 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2dcee]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#3d1180]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#fa42b5] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#7f1d1d]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#fc2b2c] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fa42b5]/70 bg-gradient-to-br from-[#ffb3e2] via-[#fa42b5] to-[#7d1550] text-sm text-[#12041c] shadow-[0_5px_15px_rgba(250,66,181,0.4)]">
-              🔐
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fc2b2c]/70 bg-gradient-to-br from-[#fc2b2c] via-[#dc2626] to-[#b40102] text-sm text-[#fff1f1] shadow-[0_5px_15px_rgba(220,38,38,0.4)]">
+              {iconleft}
             </span>
             {titleleft}
           </p>
@@ -60,14 +62,14 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2dcee]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#3d1180]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#c9a4ff] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#7f1d1d]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#fbbf24] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#8b3df3]/65 bg-gradient-to-br from-[#c9a4ff] via-[#8b3df3] to-[#4a17a0] text-sm text-[#12041c] shadow-[0_5px_15px_rgba(139,61,243,0.3)]">
-              🗂️
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fbbf24]/65 bg-gradient-to-br from-[#fde68a] via-[#fbbf24] to-[#a16207] text-sm text-[#2a0405] shadow-[0_5px_15px_rgba(251,191,36,0.3)]">
+              {iconright}
             </span>
             {titleright}
           </p>

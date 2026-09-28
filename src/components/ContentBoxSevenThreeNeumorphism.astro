@@ -6,37 +6,44 @@ export interface Props {
   titleright?: string;
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
-const rightHeading = titleright ?? title;
+const leftHeading = titleleft ?? title;
 
 // Flattened multi-column variant: the text classes live on each <article> and
 // the slot is a direct child, so the heading that sits beside it carries
 // `leading-normal` to cancel the hoisted `leading-relaxed`. Do not re-add a
 // wrapper <div>.
 //
-// Only one column ever carries a heading on the page — the image column is
-// passed no `titleleft`, so this block emits exactly one docx heading.
+// Column order 2026-09-28: TEXT (7fr) then IMAGE (3fr) — the mirror of
+// ContentBoxSevenThreeHuay, which runs image-then-text. The home page renders
+// one of each, so the two image+text blocks alternate sides instead of stacking
+// both pictures down the left edge. The wide column is therefore the LEFT one
+// and `title` falls back to it, so a caller that passes a single docx heading
+// gets it on the prose, never on the picture.
 //
-// PGW44 palette (ทอง-เขียว-ดำ 2026-09-27): แผ่นนูนวางบนผิวการ์ดดำอมเขียว #0b1408 ใน
-// กรอบทองแบรนด์ #fde90e กดเงาลงไปหาพื้นเพจ #050803 และยกแสงขึ้นด้วยผิวแผงยก #101a0b
-// ซึ่งไต่ขึ้นเป็นทองแบรนด์ตอน hover ความนูนแบบ neumorphic ต้องใช้คู่มืด/สว่าง ไม่ใช่
-// สองสี เงาจึงเป็นความสว่างภายในโทนดำอมเขียวโทนเดียว และปล่อยให้หัวข้อรับทองแบรนด์
-// ทึบไว้เป็นตัวเน้นเพียงจุดเดียว — คู่กับ ContentBoxSevenThreeCyberCut ที่อยู่ถัดลง
-// ไปในหน้าเดียวกันซึ่งหัวข้อเป็นเขียวสว่างอยู่ในรางมุมตัด จึงคนละจังหวะสายตาทั้งรูป
-// ทรงและสี เนื้อความ #e9f0dd (BRAND_TEXT) — ชุดเขียวมรกต-โครเมียมของ BRAZIL999
-// (#22c55e #7cf25c #0a1a0c #040a05 #123a18 #dfeadd) ออกหมด
+// Only one column ever carries a heading on the page — the image column is
+// passed no `titleright`, so this block emits exactly one docx heading.
+//
+// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): แผ่นนูนวางบนผิวการ์ดแดงเกือบดำ #2a0405 ใน
+// กรอบทองหลัก #fbbf24 กดเงาลงไปหาพื้นลึก #0a0101 และยกแสงขึ้นด้วยผิวแผงยก #3b0404
+// ซึ่งไต่ขึ้นเป็นแดงเข้ม #7f1d1d ตอน hover ความนูนแบบ neumorphic ต้องใช้คู่มืด/สว่าง
+// ไม่ใช่สองสี เงาจึงเป็นความสว่างภายในโทนแดงเกือบดำโทนเดียว และปล่อยให้หัวข้อรับ
+// ทองหลักทึบไว้เป็นตัวเน้นเพียงจุดเดียว — คู่กับ ContentBoxSevenThreeHuay ที่อยู่
+// เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นตัวไล่เฉดทอง-แดงในการ์ดกลม จึงคนละจังหวะ
+// สายตาทั้งรูปทรง ด้านที่วางรูป และสี เนื้อความ #f6e2e2 (BRAND_TEXT) — ชุดทอง-เขียว
+// ของ PGW44 (#fde90e #35d413 #1f5a16 #0b1408 #050803 #101a0b #e9f0dd) ออกหมด
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#fde90e]/50 bg-[#0b1408] p-8 shadow-[10px_10px_20px_#050803,-10px_-10px_20px_#101a0b] transition-all duration-300 hover:shadow-[15px_15px_30px_#050803,-15px_-15px_30px_#1f5a16]">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd]">
-        {titleleft && <HeadingTag class="text-xl leading-normal font-black text-[#fde90e]">{titleleft}</HeadingTag>}
+    class="w-full rounded-[25px] border border-[#fbbf24]/50 bg-[#2a0405] p-8 shadow-[10px_10px_20px_#0a0101,-10px_-10px_20px_#3b0404] transition-all duration-300 hover:shadow-[15px_15px_30px_#0a0101,-15px_-15px_30px_#7f1d1d]">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
+        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#fbbf24]">{leftHeading}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd] md:border-l md:border-[#fde90e]/40 md:pl-8">
-        {rightHeading && <HeadingTag class="text-xl leading-normal font-black text-[#fde90e]">{rightHeading}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2] md:border-l md:border-[#fbbf24]/40 md:pl-8">
+        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#fbbf24]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

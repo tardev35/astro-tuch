@@ -1,40 +1,37 @@
 ---
-// รอบนี้ไฟล์นี้ถูกเรียกจากสองหน้าเท่านั้น คือ /ตรวจหวย กับ /แนวทาง ซึ่งเป็น
-// ข้อยกเว้น "หน้าหวยคงธีม Huay" ของ Phase 4.5 — หน้าอื่นทั้งเว็บย้ายไปใช้
-// Announcement3 แล้ว ทั้งสองหน้าเรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่
-// วิ่งจริงจึงเป็น default ตัวนี้ — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ไม่งั้นสองหน้านี้
-// จะพูดแทนแบรนด์ก่อนหน้า
+// รอบนี้ไฟล์นี้เป็น ticker ของ "ทั้งเว็บ" — LOTTO24 เป็นเว็บแทงหวย ธีม Huay
+// (แดง-ทอง) จึงเป็นสีของแบรนด์เองไม่ใช่ข้อยกเว้นเฉพาะหน้าหวยอีกต่อไป ทุกหน้า
+// เรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่วิ่งจริงจึงเป็น default ตัวนี้
+// — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ไม่งั้นทุกหน้าจะพูดแทนแบรนด์ก่อนหน้า
 // No emoji in it: an emoji baked into a text prop cannot be given its own
 // aria-hidden span, and this marquee prints the string twice.
 //
-// เนื้อหาทุกท่อนมาจาก src/assets/content.txt ของ 888PARUAY เท่านั้น — เว็บหวย
-// ล้วน ไม่มีคาสิโน ไม่มีสล็อต ไม่มีใบอนุญาต และไม่มีตัวเลขโบนัสที่บรีฟไม่ได้ระบุ
+// เนื้อหาทุกท่อนมาจาก src/assets/content.txt ของ LOTTO24 เท่านั้น — เว็บหวยล้วน
+// ไม่มีคาสิโน ไม่มีสล็อต ไม่มีใบอนุญาต และไม่มีตัวเลขโบนัสที่บรีฟไม่ได้ระบุ
 //
-// 888PARUAY (รอบทอง-แดง 2026-09-24): ธีม Huay คือแดง-ทองตามนิยามของมันเอง จึง
-// ไม่ถูกบังคับไปใช้พื้นเขียวของหน้าอื่น แต่ค่าสีถูกสร้างใหม่จากพาเลตต์แบรนด์นี้
-// ทั้งหมด — แคปซูลพื้นแดงเกือบดำ #240808 ขอบทองลึก #a87d0c ป้าย "ประกาศ" ไล่เฉด
-// ทอง #a87d0c → #fcdc2b → #a87d0c จุดนำหน้าข้อความเป็นทอง #fcdc2b กับแดงแบรนด์
-// #cf1111 ตามคู่สีในโลโก้ เนื้อความ #e8e4c6 — ชุดของ 365LOTTO (#fadc64 #9c6a12
-// #e01f26 #f0ddc4 #1a0709 #120406) และชุดกรมท่าของหวยพยัคฆ์ (#030b1c #08152f
-// #dbe4f7 #e8eef8) ออกครบทั้งหมด
+// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): แคปซูลพื้นแดงเกือบดำ #1c0607 ขอบทองลึก
+// #a16207 ป้าย "ประกาศ" ไล่เฉดทอง #a16207 → #fbbf24 → #a16207 จุดนำหน้าข้อความ
+// เป็นทอง #fbbf24 กับแดงแบรนด์ #dc2626 ตามคู่สีในโลโก้ (LOTTO เงิน / 24 แดงสด
+// บนแบนเนอร์ที่มีมงกุฎกับเหรียญทอง) เนื้อความ #f6e2e2 — ชุดของ 888PARUAY รอบก่อน
+// (#240808 #a87d0c #fcdc2b #cf1111 #e8e4c6 #140404) ถูกแทนครบทุกจุดแล้ว
 const {
-  message = "888PARUAY แทงหวยและตรวจหวยออนไลน์ไว้ในระบบเดียว รองรับรายการยอดนิยมทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา และหุ้นต่างประเทศ ได้ 24 ชั่วโมง ระบบแสดงรอบเปิดรับและข้อมูลผลหวยให้ตรวจสอบได้สะดวก จัดหมวดหมู่ชัดเจนและรองรับการใช้งานผ่านมือถือ อัตราจ่ายเลข 2 ตัวอยู่ที่ 100 และเลข 3 ตัวอยู่ที่ 1,000 ตามเงื่อนไขของแต่ละรายการ ควรตรวจสอบตัวเลข รอบหวย และรายละเอียดของบิลก่อนยืนยันทุกครั้ง สมัครแทงหวยทำเองได้บนมือถือใน 3 ขั้นตอน กรอกข้อมูลที่ระบบกำหนด ตรวจสอบความถูกต้อง แล้วยืนยันบัญชีเพื่อเข้าสู่ระบบ แอดมินเว็บ 888PARUAY ออนไลน์ตลอด 24 ชั่วโมง",
+  message = "LOTTO24 ราชาเว็บแทงหวย No.1 รวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว อัตราจ่ายเลข 3 ตัวสูงสุด 1,000 และเลข 2 ตัว 100 ตามเงื่อนไขของแต่ละรายการ เน้นรูปแบบไม่ลดเรทตามเงื่อนไขที่กำหนด รองรับการทำรายการผ่านวอลเลทและช่องทางบัญชีบริษัทโดยตรง ไม่ผ่านม้า โปรโมชั่นสมาชิกมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% ตามเงื่อนไขที่กำหนด สมัครทำเองได้บนหน้าเว็บ กรอกข้อมูลที่ระบบกำหนด ตรวจสอบความถูกต้อง แล้วยืนยันบัญชีเพื่อเข้าสู่ระบบ ควรตรวจสอบอัตราจ่าย รอบหวย และรายละเอียดบิลก่อนยืนยันทุกครั้ง ติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ได้ตลอด 24 ชั่วโมง",
 } = Astro.props;
 ---
 
 <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-3">
-  <div class="relative flex overflow-hidden rounded-full border border-[#a87d0c]/60 bg-[#240808]/90 shadow-[0_5px_15px_rgba(20,4,4,0.7)] backdrop-blur-md">
+  <div class="relative flex overflow-hidden rounded-full border border-[#a16207]/60 bg-[#1c0607]/90 shadow-[0_5px_15px_rgba(6,1,2,0.7)] backdrop-blur-md">
     <div
-      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#a87d0c] via-[#fcdc2b] to-[#a87d0c] px-6 py-2.5 font-black text-[#140404] shadow-[4px_0_15px_rgba(20,4,4,0.7)]">
+      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#a16207] via-[#fbbf24] to-[#a16207] px-6 py-2.5 font-black text-[#1c0607] shadow-[4px_0_15px_rgba(6,1,2,0.7)]">
       <span aria-hidden="true" class="mr-2 animate-pulse text-lg">📢</span> ประกาศ
     </div>
 
     <div class="marquee-container relative flex-1 overflow-hidden py-2.5 pr-6">
-      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#240808] to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#1c0607] to-transparent"></div>
 
-      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#e8e4c6]">
-        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#fcdc2b] shadow-[0_0_8px_rgba(252,220,43,0.8)]"></span>{message}</span>
-        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#cf1111] shadow-[0_0_8px_rgba(207,17,17,0.8)]"></span>{message}</span>
+      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#f6e2e2]">
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#fbbf24] shadow-[0_0_8px_rgba(251,191,36,0.8)]"></span>{message}</span>
+        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#dc2626] shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>{message}</span>
       </div>
     </div>
   </div>

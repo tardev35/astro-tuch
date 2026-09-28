@@ -8,15 +8,23 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ 365LOTTO ตัวเลข 365 สีทองสามมิติ ต่อด้วยคำว่า LOTTO สีขาวโครเมียมที่ตัว O ทั้งสองเป็นวงสีแดง";
+const logoAlt = "โลโก้ LOTTO24 คำว่า LOTTO ตัวอักษรสีเงินเมทัลลิกสามมิติ ต่อด้วยเลข 24 สีแดงสด";
 
-// 365LOTTO (รอบแดง-ทอง 2026-09-24): แถบบนพื้นแดงเกือบดำ #120406 ขอบทองลึก
-// #9c6a12 สถานะ active เป็นทอง #fadc64 ปุ่มสมัครไล่เฉดทอง #fdf3b4 → #e0b03a
-// ปุ่มเข้าสู่ระบบเป็นการ์ดแดงเข้ม #2a0b0e ขอบทอง — สีกรมท่า #030b1c/#0f2149
-// และตัวอักษร #dbe4f7 ของ หวยพยัคฆ์ รอบก่อนถูกแทนครบทุกจุดแล้ว
+// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): แถบบนพื้นแดงเกือบดำ #15060a ขอบแดงแบรนด์
+// #dc2626 สถานะ active เป็นแดงสด #fc2b2c ปุ่มสมัครไล่เฉดทอง #fde68a → #fbbf24
+// (ทองเป็นสีรอง มาจากมงกุฎกับเหรียญทองในแบนเนอร์) ปุ่มเข้าสู่ระบบเป็นการ์ดแดงเข้ม
+// #2a0405 ขอบทอง — ชุดทอง/แดงของ 365LOTTO รอบก่อน (#120406 #9c6a12 #fadc64
+// #fdf3b4 #e0b03a #e01f26 #f0ddc4 #2a0b0e) ถูกแทนครบทุกจุดแล้ว
+//
+// หมึกบนปุ่มสมัครเป็น #15060a บนทอง #fbbf24 ได้คอนทราสต์ ~11.9:1 — ถ้าเปลี่ยน
+// ปุ่มไปเป็นไล่เฉดแดงรอบหน้า ต้องสลับหมึกเป็นขาว แดงแบรนด์กับหมึกเข้มได้แค่ 5.2:1
+// และแดงลึก #b40102 ตกทันทีที่ 2.3:1
 //
 // icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
 // ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
+//
+// ไอคอนเลือกตามแนวหวย ไม่ใช่แนวสล็อต: 🎱 ให้หน้าทดลองแทงหวย (ลูกหวยในแบนเนอร์)
+// 🎁 ให้โปรโมชั่น 👑 ให้เกี่ยวกับเรา ตามมงกุฎ "ราชาเว็บแทงหวย" ในอาร์ตเวิร์ก
 //
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -28,7 +36,7 @@ const logoAlt = "โลโก้ 365LOTTO ตัวเลข 365 สีทอง
 // /ตรวจหวย และ /แนวทาง ถูกถอดออกจากเมนูรอบนี้ เพราะทั้งสองไฟล์อยู่ใน
 // src/pages-disabled/ ตามสถานะ toggle ที่ operator ตั้งไว้ — ลิงก์ที่ชี้ไป
 // route ที่ไม่มีจริงจะทำให้ verify-build ขึ้น error ถ้าแบรนด์ถัดไปเปิดสองหน้านั้น
-// ต้องใส่กลับพร้อมกันทั้งไฟล์และลิงก์
+// ต้องใส่กลับพร้อมกันทั้งไฟล์และลิงก์ (LOTTO24 เป็นเว็บหวยแต่ operator ปิดไว้)
 const menu = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
@@ -41,15 +49,15 @@ const menu = [
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
-  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#9c6a12]/55 bg-[#120406]/95 px-4 shadow-[0_5px_20px_rgba(18,4,6,0.7)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#fadc64]/25 bg-[#fadc64]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
+  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#dc2626]/55 bg-[#15060a]/95 px-4 shadow-[0_5px_20px_rgba(6,1,2,0.7)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#fbbf24]/25 bg-[#fbbf24]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
           <Picture src={mainLogo} alt={logoAlt} loading="eager" widths={[130, 260, 390]} sizes="130px" class="h-[45px] w-auto drop-shadow-md xl:h-[55px]" formats={["avif", "webp"]} fallbackFormat="webp" />
         ) : (
           <p class="text-2xl font-black tracking-widest text-white italic drop-shadow-md">
-            <span class="bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e0b03a] bg-clip-text text-transparent">365</span>
-            <span class="bg-gradient-to-r from-[#f3f6fa] to-[#e01f26] bg-clip-text text-transparent">LOTTO</span>
+            <span class="bg-gradient-to-r from-[#ffffff] via-[#e5e7eb] to-[#9ca3af] bg-clip-text text-transparent">LOTTO</span>
+            <span class="bg-gradient-to-r from-[#fc2b2c] to-[#b40102] bg-clip-text text-transparent">24</span>
           </p>
         )
       }
@@ -60,11 +68,11 @@ const menu = [
         menu.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-2 px-1.5 text-sm font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "text-[#fadc64]" : "text-[#f0ddc4]/80 hover:text-white"}`}>
+            class={`group relative flex h-full items-center gap-2 px-1.5 text-sm font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "text-[#fc2b2c]" : "text-[#f6e2e2]/80 hover:text-white"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#fdf3b4] via-[#e01f26] to-[#9c6a12] shadow-[0_-2px_10px_rgba(250,220,100,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#fde68a] via-[#fc2b2c] to-[#b40102] shadow-[0_-2px_10px_rgba(220,38,38,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -74,32 +82,32 @@ const menu = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden rounded-full border-2 border-[#fadc64]/35 bg-[#2a0b0e]/60 px-6 py-2.5 text-sm font-bold text-[#f0ddc4] backdrop-blur-md transition-all hover:border-[#fadc64]/70 hover:bg-[#fadc64]/10 xl:flex">
+        class="hidden rounded-full border-2 border-[#fbbf24]/35 bg-[#2a0405]/60 px-6 py-2.5 text-sm font-bold text-[#f6e2e2] backdrop-blur-md transition-all hover:border-[#fbbf24]/70 hover:bg-[#fbbf24]/10 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e0b03a] px-6 py-2.5 text-sm font-black text-[#120406] shadow-[0_4px_15px_rgba(250,220,100,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(250,220,100,0.65)] xl:flex">
+        class="hidden rounded-full bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#e0a010] px-6 py-2.5 text-sm font-black text-[#15060a] shadow-[0_4px_15px_rgba(251,191,36,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(251,191,36,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
-      <button id="hamburger-btn" class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#fadc64]/35 bg-[#2a0b0e]/70 lg:hidden" aria-label="Menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fadc64] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fadc64] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fadc64] transition-all duration-300"></span>
+      <button id="hamburger-btn" class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#fbbf24]/35 bg-[#2a0405]/70 lg:hidden" aria-label="Menu">
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fbbf24] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fbbf24] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fbbf24] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#9c6a12]/60 bg-[#120406]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#dc2626]/60 bg-[#15060a]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         menu.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#fadc64] bg-[#fadc64]/10 text-[#fadc64]" : "text-[#f0ddc4]/80 hover:bg-[#fadc64]/5 hover:text-white"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#fc2b2c] bg-[#fc2b2c]/10 text-[#fc2b2c]" : "text-[#f6e2e2]/80 hover:bg-[#fbbf24]/5 hover:text-white"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -109,10 +117,10 @@ const menu = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e0b03a] py-3.5 text-lg font-black text-[#120406] shadow-[0_5px_15px_rgba(250,220,100,0.45)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#e0a010] py-3.5 text-lg font-black text-[#15060a] shadow-[0_5px_15px_rgba(251,191,36,0.45)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#fadc64]/35 bg-[#2a0b0e]/60 py-3.5 text-lg font-bold text-[#f0ddc4]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#fbbf24]/35 bg-[#2a0405]/60 py-3.5 text-lg font-bold text-[#f6e2e2]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>
