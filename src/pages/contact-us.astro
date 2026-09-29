@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -18,24 +18,25 @@ import lineImage from "../assets/contact-line.webp";
 // BRAND_ADDRESS derives itself from BRAND_NAME — never retype the lines or the
 // email, and never pass either into the structured data.
 //
-// Announcement หมุนจาก Announcement5 มาเป็น AnnouncementHuay ทั้งเว็บรอบนี้ —
-// orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้ของ LOTTO24 แล้ว และ index
+// Announcement หมุนจาก AnnouncementHuay มาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ —
+// orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้ของ WIN999 แล้ว และ index
 // ก็เรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นสองหน้าจะพูดไม่ตรงกัน
 //
-// พาเลตต์ LOTTO24 เป็น "แดงนำ + ทองตาม บนพื้นดำ" ตามโลโก้ที่ LOTTO เป็นขาวเงาและ
-// 24 เป็นแดง พร้อมเหรียญทองกับลูกบอลหวยแดง-ขาวในอาร์ตเวิร์ก:
-// เนื้อความ #f6e2e2 (BRAND_TEXT) · แดงแบรนด์ #dc2626 · แดงสว่าง #fc2b2c ·
-// แดงลึก #b40102 · ทองแบรนด์ #fbbf24 · ทองอ่อน #fde68a · ทองลึก #a16207 ·
-// ผิวการ์ด #2a0405 · ผิวยก #7f1d1d · พื้นเพจ #000000 · เน้นใน strong #fde68a
-// ปุ่มหลัก (สมัครสมาชิก) รับไล่เฉดทอง #fbbf24 → #fde68a และใช้หมึกเข้ม #2a0405
-// เพราะตัวอักษรบนพื้นทองสว่างห้ามเป็นสีขาว — ทองลึก #a16207 จงใจไม่อยู่ในไล่เฉด
-// นี้ เพราะหมึกเข้มบนทองลึกเหลือคอนทราสต์แค่ ~3.3:1 ส่วนบนทองแบรนด์ได้ ~10:1
-// ปุ่มรอง (เข้าสู่ระบบ) เป็นฝั่งแดงของโลโก้ — ขอบแดง #dc2626 บนผิวการ์ด #2a0405
-// ไม่ใช่ทองอีกใบ เพราะปุ่มทุกใบสีเดียวกันจะอ่านเป็นก้อนเดียว
+// พาเลตต์ WIN999 เป็น "ทองล้วนบนพื้นดำ" ตามโลโก้ที่ WIN เป็นทองสด #fcc403 และ 999
+// เป็นขาว กับอาร์ตเวิร์กพื้นดำที่มีริ้วแสงทองและชิปขอบทอง:
+// เนื้อความ #e9e4d6 (BRAND_TEXT) · ทองสว่าง #fdda04 · ทองแบรนด์ #fcc403 ·
+// ทองกลาง #e0a800 · ทองลึก #8a6502 · ทองเข้มสุด #4a3402 · ผิวการ์ด #101010 ·
+// ผิวการ์ดอุ่น/ยก #191712 · พื้นเพจ #050505 · เน้นใน strong #fffbea ·
+// หมึกบนพื้นทอง #120d02
+// ปุ่มหลัก (สมัครสมาชิก) รับไล่เฉดทองเต็มใบ #fdda04 → #fcc403 → #e0a800 และใช้หมึก
+// เข้ม #120d02 เพราะตัวอักษรบนพื้นทองสว่างห้ามเป็นสีขาว — ทองลึก #8a6502 จงใจไม่อยู่
+// ในไล่เฉดนี้ เพราะหมึกเข้มบนทองลึกเหลือคอนทราสต์แค่ ~3.3:1 ส่วนบนทองแบรนด์ได้ ~10:1
+// ปุ่มรอง (เข้าสู่ระบบ) เป็นแบบ outline — กรอบทอง #fcc403 บนผิวการ์ดอุ่น #191712
+// ไม่ใช่ไล่เฉดทองอีกใบ เพราะสองปุ่มถมทองเหมือนกันจะอ่านเป็นก้อนเดียว ลำดับความสำคัญ
+// รอบนี้สื่อด้วย "ถมทอง vs กรอบทอง" แทนคู่สีแดง-ทองของแบรนด์ก่อน
 // ส่วน #00B900 บนปุ่ม LINE เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ จึงคงไว้ตามเดิม
-// ชุดชมพู+ม่วงของแบรนด์ก่อนหน้า (#fa42b5 #ffb3e2 #ec3fae #8b3df3 #c9a4ff #7d1550
-// #3d1180 #0f0518 #140722 #070109 #12041c #f2dcee #fff2fb rgba(250,66,181,*)
-// rgba(139,61,243,*) rgba(4,1,8,*)) ถูกแทนครบทุกจุดแล้ว
+// ชุดแดง+ทองของแบรนด์ก่อนหน้า (#dc2626 #fc2b2c #b40102 #fde68a #fbbf24 #a16207
+// #2a0405 #7f1d1d #f6e2e2 rgba(220,38,38,*) rgba(251,191,36,*)) ถูกแทนครบทุกจุดแล้ว
 //
 // ป้ายที่อยู่ใช้ opacity ไม่ใช่คลาสสี ให้สืบทอดสีตัวอักษรจากการ์ด ส่วนสีทองมีเฉพาะ
 // บนเส้นขอบและลิงก์อีเมล ซึ่งเป็น accent ไม่ใช่ body copy
@@ -46,20 +47,22 @@ import lineImage from "../assets/contact-line.webp";
 // variants of the same sentence, and the JSON-LD copy was the one nobody
 // reread. 150–160 CHARACTERS (Thai is 3 bytes/char, so a byte count reads ~3x
 // too long and will send you rewriting a description that was fine).
-// This one is 157.
+// This one is 152.
 //
-// บรีฟ LOTTO24 ยกหัวข้อไว้ว่า "ติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ได้ 24
-// ชั่วโมง" และระบุเรื่องที่ทีมงานช่วยได้ไว้แค่ การสมัคร อัตราจ่าย รอบหวย โปรโมชั่น
-// และการทำรายการ — ห้ามเขียนเกินนี้ ห้ามเอ่ยชื่อประเภทหวยเจาะจง ชื่อธนาคาร
-// เลขใบอนุญาต ช่องทางฝากถอน เครดิตฟรี สล็อต บาคาร่า หรือไลฟ์สด
+// WIN999 เป็นเว็บคาสิโนออนไลน์ บรีฟยกหัวข้อไว้ว่า "มีปัญหาในการเล่น ติดต่อแอดมิน
+// WIN999 ให้บริการตอบแชท 24 ชั่วโมง" และระบุเรื่องที่ทีมงานช่วยได้ไว้แค่ Login ไม่ได้
+// เข้าเกมไม่ได้ เครดิตไม่เข้า รายการถอนอยู่ระหว่างตรวจสอบ และโปรโมชั่นไม่แสดง —
+// ห้ามเขียนเกินนี้ ห้ามเอ่ยชื่อค่ายเกมเจาะจง ชื่อธนาคาร เลขใบอนุญาต หรือเครดิตฟรี
+// และคำศัพท์ตระกูลสลาก/ลอตเตอรีของแบรนด์ก่อน (เลข 2 ตัว/3 ตัว อัตราจ่าย บิล/โพย
+// ม้า เอเย่นต์) ห้ามหลงเหลือ
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = "ช่องทางติดต่อเจ้าหน้าที่ LOTTO24 ผ่านไลน์ได้ตลอด 24 ชั่วโมง สอบถามเรื่องอัตราจ่าย รอบหวย โปรโมชั่น หรือแจ้งปัญหาการทำรายการให้ทีมงานช่วยตรวจสอบได้ทุกช่วงเวลา";
+const pageDescription = "ช่องทางติดต่อแอดมิน WIN999 ผ่านไลน์ได้ตลอด 24 ชั่วโมง สอบถามเรื่องเครดิต โปรโมชั่น ทางเข้า หรือแจ้งปัญหาการฝากถอนออโต้ให้ทีมงานช่วยตรวจสอบได้ทุกช่วงเวลา";
 
 const graph = pageGraph(Astro, {
   type: "ContactPage",
-  name: "ติดต่อทีมงาน LOTTO24",
+  name: "ติดต่อทีมงาน WIN999",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -67,7 +70,7 @@ const graph = pageGraph(Astro, {
   ],
   org: {
     // `alternateName` is only for a genuine alternate NAME — an earlier brand
-    // filled it with its own Thai spelling. The brief gives LOTTO24 no second
+    // filled it with its own Thai spelling. The brief gives WIN999 no second
     // registered name, so the field stays out rather than being invented here:
     // this page's Organization node must not disagree with the one every other
     // page emits, and it is not a slot for marketing copy.
@@ -88,19 +91,19 @@ const graph = pageGraph(Astro, {
         // freephone NUMBER; on a chat link it is simply false, and a
         // ContactPoint Google rejects takes the rest of the node with it.
         path: "/line",
-        description: "ติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ได้ตลอด 24 ชั่วโมง",
+        description: "ติดต่อแอดมิน WIN999 ผ่านช่องทางไลน์ได้ตลอด 24 ชั่วโมง",
       },
     ],
   },
 });
 ---
 
-<MainLayout title="ติดต่อทีมงาน LOTTO24 เจ้าหน้าที่ดูแลสมาชิกผ่านไลน์ตลอด 24 ชั่วโมง" description={pageDescription}>
+<MainLayout title="ติดต่อทีมงาน WIN999 แอดมินดูแลสมาชิกผ่านไลน์ตลอด 24 ชั่วโมง" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="ติดต่อทีมงาน LOTTO24" as="h1">
+  <ContentBox title="ติดต่อทีมงาน WIN999" as="h1">
     <Picture
       src={lineImage}
       alt="พริตตี้ผมยาวสีน้ำตาลในชุดเลื่อมสีชมพูยืนกอดอกและยิ้ม ฉากหลังเป็นวงกลมสีชมพูเรืองแสง ด้านล่างเป็นป้ายไอคอน LINE สีเขียวพร้อมข้อความว่า LINE Support"
@@ -116,7 +119,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#dc2626] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#fcc403] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 font-bold opacity-90">{BRAND_ADDRESS.label}</p>
           {BRAND_ADDRESS.lines.map((line) => (
             <span class="block">{line}</span>
@@ -126,7 +129,7 @@ const graph = pageGraph(Astro, {
               <span aria-hidden="true" class="mr-2">
                 ✉️
               </span>
-              <a href={`mailto:${BRAND_ADDRESS.email}`} class="font-bold text-[#fbbf24] underline decoration-current/40 underline-offset-4 transition-colors hover:text-[#fde68a]">
+              <a href={`mailto:${BRAND_ADDRESS.email}`} class="font-bold text-[#fcc403] underline decoration-current/40 underline-offset-4 transition-colors hover:text-[#fdda04]">
                 {BRAND_ADDRESS.email}
               </a>
             </span>
@@ -138,15 +141,15 @@ const graph = pageGraph(Astro, {
     <div class="flex flex-wrap items-center justify-center gap-4">
       <a
         href="/register"
-        aria-label="สมัครสมาชิก LOTTO24"
-        class="flex items-center justify-center rounded-lg border border-[#fde68a]/70 bg-gradient-to-r from-[#fbbf24] to-[#fde68a] px-8 py-3 font-black text-[#2a0405] shadow-[0_0_15px_rgba(251,191,36,0.45)] transition-transform hover:scale-105">
+        aria-label="สมัครสมาชิก WIN999"
+        class="flex items-center justify-center rounded-lg border border-[#fdda04]/70 bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#e0a800] px-8 py-3 font-black text-[#120d02] shadow-[0_0_15px_rgba(252,196,3,0.45)] transition-transform hover:scale-105">
         สมัครสมาชิก
       </a>
 
       <a
         href="/login"
-        aria-label="เข้าสู่ระบบ LOTTO24"
-        class="flex items-center justify-center rounded-lg border border-[#dc2626]/80 bg-[#2a0405] px-8 py-3 font-bold text-[#f6e2e2] shadow-[0_0_15px_rgba(0,0,0,0.75)] transition-all hover:scale-105 hover:border-[#fc2b2c] hover:bg-[#7f1d1d] hover:text-[#fde68a] hover:shadow-[0_0_18px_rgba(220,38,38,0.35)]">
+        aria-label="เข้าสู่ระบบ WIN999"
+        class="flex items-center justify-center rounded-lg border border-[#fcc403]/80 bg-[#191712] px-8 py-3 font-bold text-[#e9e4d6] shadow-[0_0_15px_rgba(3,2,0,0.75)] transition-all hover:scale-105 hover:border-[#fdda04] hover:bg-[#241f14] hover:text-[#fffbea] hover:shadow-[0_0_18px_rgba(252,196,3,0.35)]">
         เข้าสู่ระบบ
       </a>
 
@@ -154,7 +157,7 @@ const graph = pageGraph(Astro, {
         href="/line"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="ติดต่อทีมงาน LOTTO24 ผ่าน Line Official"
+        aria-label="ติดต่อทีมงาน WIN999 ผ่าน Line Official"
         class="flex items-center justify-center gap-2 rounded-lg border border-[#00B900]/70 bg-gradient-to-r from-[#00B900] to-[#009900] px-8 py-3 font-bold text-white shadow-[0_10px_30px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
         <span aria-hidden="true" class="text-2xl">💬</span>
         <span>ติดต่อผ่าน Line Official</span>

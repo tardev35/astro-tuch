@@ -4,127 +4,129 @@
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// LOTTO24 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่สล็อตและไม่ใช่คาสิโนสด แผงฝั่งขวาของรอบก่อนเป็นตาราง
-// RTP กับค่าความผันผวนของเกมสล็อต ซึ่งไม่มีความหมายใดๆ บนเว็บหวย — รอบนี้จึงถูกเขียนใหม่เป็น
-// "ตารางอัตราจ่าย" ซึ่งเป็นตัวเลขชุดเดียวที่บรีฟให้ไว้จริง คือเลข 3 ตัวสูงสุด 1,000 และเลข 2 ตัว
-// 100 ตามเงื่อนไขของแต่ละรายการ ตัวเลขทั้งสองไม่ถูกเปลี่ยนต่อตลาด เพราะบรีฟระบุเป็นอัตรา
-// ของเว็บไซต์ ไม่ได้แยกตามประเภทหวย ส่วนบรรทัดใต้ตารางมาจากคำตอบ FAQ ของบรีฟเองที่ว่า
-// อัตราจริงและเงื่อนไขอาจแตกต่างกันตามประเภทหวยและรอบที่เปิดรับ
+// WIN999 เป็นเว็บคาสิโนออนไลน์ ไม่ใช่เว็บหวย แผงฝั่งขวาของรอบก่อนเป็น "ตารางอัตราจ่าย"
+// เลข 3 ตัว/2 ตัวของหวย ซึ่งไม่มีความหมายใดๆ บนเว็บคาสิโน — รอบนี้จึงถูกเขียนใหม่เป็น
+// สองอย่างที่บรีฟพูดถึงจริง คือ (1) หมวดเกมที่บรีฟระบุชื่อไว้เอง ได้แก่ บาคาร่า สล็อต
+// เกมไพ่ และเกมอื่นตามค่ายที่ระบบรองรับ กับ (2) สิ่งที่สมาชิกตรวจสอบได้จากบัญชีของตนเอง
+// ได้แก่ เครดิต ประวัติรายการ รายละเอียดเกมก่อนเริ่มเดิมพัน โปรโมชั่นที่เปิดให้รับ และ
+// สถานะรายการถอน ทั้งหมดเป็นประโยคของบรีฟเอง ไม่มีตัวเลขใหม่สักตัว
 //
-// ห้ามใส่ RTP ค่าความผันผวน ชื่อค่ายเกม ชื่อโต๊ะบาคาร่า ชื่อธนาคาร เลขใบอนุญาต ขั้นต่ำการเดิมพัน
-// หรือวัน/เวลาออกรางวัลลงในไฟล์นี้ — บรีฟไม่ได้ให้ไว้เลย และคำเหล่านั้นเป็นคำศัพท์ของสองแบรนด์
-// ก่อนหน้า (สล็อต แล้วบาคาร่าสด) ไม่ใช่ของแบรนด์นี้
-const payoutRows = [
-  { icon: "🏛️", market: "หวยรัฐบาล", three: "สูงสุด 1,000", two: "100" },
-  { icon: "🏮", market: "หวยฮานอย", three: "สูงสุด 1,000", two: "100" },
-  { icon: "🎫", market: "หวยลาว", three: "สูงสุด 1,000", two: "100" },
-  { icon: "⏱️", market: "หวยยี่กี", three: "สูงสุด 1,000", two: "100" },
+// ห้ามใส่ RTP ค่าความผันผวน ชื่อค่ายเกม ชื่อโต๊ะบาคาร่า ชื่อธนาคาร เลขใบอนุญาต ขั้นต่ำ
+// การเดิมพัน หรืออัตราจ่ายลงในไฟล์นี้ — บรีฟ WIN999 ไม่ได้ให้ไว้เลยสักอย่าง และคำเหล่านั้น
+// เป็นคำศัพท์ของสองแบรนด์ก่อนหน้า (สล็อต แล้วหวย) ไม่ใช่ของแบรนด์นี้ ตัวเลข 0.3% กับ
+// 0.8% เป็นชื่อโปรโมชั่นของบรีฟเองจึงใช้ได้ แต่ห้ามแตกเป็นเงื่อนไข/รอบตัดยอดที่บรีฟไม่ได้บอก
+const gameCategories = [
+  { icon: "🃏", name: "บาคาร่า", detail: "หนึ่งในหมวดเดิมพันที่เว็บไซต์ระบุว่าเปิดให้สมาชิกเลือกเล่นจากบัญชีเดียว" },
+  { icon: "🎰", name: "สล็อต", detail: "เลือกเกมและตรวจสอบรายละเอียดเกมได้ก่อนเริ่มเดิมพันด้วยตัวเอง" },
+  { icon: "🎴", name: "เกมไพ่", detail: "อีกหมวดที่บรีฟระบุไว้ เข้าเล่นผ่านเว็บเบราว์เซอร์ได้เช่นเดียวกัน" },
+  { icon: "🕹️", name: "เกมอื่นตามค่ายที่ระบบรองรับ", detail: "รายการเกมที่เปิดให้เล่นขึ้นอยู่กับค่ายที่ระบบรองรับในขณะนั้น" },
 ];
 
-// สี่ข้อนี้ประกอบจากประโยคของบรีฟเองทั้งหมด — ยอดเข้าบัญชีบริษัทโดยตรงไม่ผ่านม้า, ทำรายการ
-// ผ่านวอลเลท, ตรวจข้อมูลก่อนยืนยันบิล, และระบบสมาชิกที่ติดตามยอดกับรายการย้อนหลังได้จาก
-// หน้าเดียว
-const beforeBill = [
+// สี่ข้อนี้ประกอบจากประโยคของบรีฟเองทั้งหมด — ตรวจเครดิตและประวัติรายการจากบัญชีเดียว,
+// ตรวจโปรโมชั่นที่เปิดให้รับ, ตรวจสถานะรายการถอนและเก็บหลักฐานไว้จนกว่าจะเสร็จสมบูรณ์,
+// และบันทึกทางเข้าล่าสุดจากช่องทางหลักของเว็บไซต์
+const accountChecks = [
   {
-    icon: "🏢",
-    name: "ยอดเข้า บช.บริษัท โดยตรง",
-    detail: "รองรับการทำรายการผ่านช่องทางบัญชีบริษัทตามข้อมูลที่เว็บไซต์กำหนด โดยไม่ต้องผ่านช่องทางบุคคลอื่น",
-    tag: "ไม่ผ่านม้า",
+    icon: "💳",
+    name: "เครดิตและประวัติรายการ",
+    detail: "ตรวจสอบเครดิต ประวัติรายการ และรายละเอียดเกมก่อนเริ่มเดิมพันได้ด้วยตัวเองจากบัญชีเดียว",
+    tag: "บัญชีเดียว",
   },
   {
-    icon: "📲",
-    name: "ทำรายการผ่านวอลเลท",
-    detail: "รองรับการทำรายการผ่านวอลเลทและช่องทางบัญชีบริษัทตามรายการที่ระบบเปิดให้ใช้งาน",
-    tag: "ฝากถอนง่าย",
+    icon: "🎁",
+    name: "โปรโมชั่นที่เปิดให้รับ",
+    detail: "ตรวจสอบโปรโมชั่นที่เปิดให้รับจากบัญชีของตนเอง และอ่านรายละเอียดล่าสุดก่อนกดรับทุกครั้ง",
+    tag: "อ่านเงื่อนไขก่อนรับ",
   },
   {
-    icon: "🧾",
-    name: "ตรวจรายละเอียดก่อนยืนยันบิล",
-    detail: "ตรวจสอบอัตราจ่าย รอบหวย และรายละเอียดบิลของแต่ละรายการได้ก่อนกดยืนยันทุกครั้ง",
-    tag: "ตรวจก่อนส่งโพย",
+    icon: "🏦",
+    name: "สถานะฝากถอนผ่านบัญชีบริษัท",
+    detail: "ก่อนฝากควรตรวจชื่อบัญชี จำนวนเงิน และข้อมูลปลายทางให้ตรงกับที่เว็บไซต์แสดง ส่วนรายการถอนควรตรวจสถานะผ่านระบบและเก็บหลักฐานไว้จนกว่าจะเสร็จสมบูรณ์",
+    tag: "ตรวจก่อนโอน",
   },
   {
-    icon: "📋",
-    name: "ติดตามยอดและรายการย้อนหลัง",
-    detail: "ระบบสมาชิกช่วยติดตามยอด รายการย้อนหลัง และข้อมูลการแทงหวยได้จากหน้าเดียว",
-    tag: "ดูจากหน้าเดียว",
+    icon: "🔗",
+    name: "ทางเข้าล่าสุดจากช่องทางหลัก",
+    detail: "บันทึกทางเข้าล่าสุดจากช่องทางหลักของเว็บไซต์ไว้ใช้ Login หากลิงก์เดิมใช้งานไม่ได้ ควรตรวจสอบประกาศหรือติดต่อแอดมินก่อนกรอกข้อมูลผ่านลิงก์อื่น",
+    tag: "ลดความเสี่ยงเว็บปลอม",
   },
 ];
 
-const chips = ["แทงหวยหลายประเภทในระบบเดียว", "3 ตัวสูงสุด 1,000", "2 ตัว 100", "ไม่ลดเรทตามเงื่อนไข", "ยอดเข้า บช.บริษัท", "ทำรายการผ่านวอลเลท", "แนะนำเพื่อน 0.8%", "คืนยอดเสีย 0.3%"];
+const chips = ["บาคาร่า", "สล็อต", "เกมไพ่", "เล่นผ่านมือถือ", "ฝากถอนออโต้", "บัญชีบริษัท", "คืนยอดเสีย 0.3%", "แนะนำเพื่อน 0.8%"];
 
-// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): โลโก้เป็นเวิร์ดมาร์กสองส่วน LOTTO เป็นโครเมียมขาว
-// แล้ว 24 เป็นแดง งานอาร์ตล้อมด้วยลูกหวยแดง-ขาวและกองเหรียญทอง สองแผงจึงถูกแยกด้วยสี
-// คนละตัว ไม่ใช่แค่ความสว่างของกรอบ — แผงล็อกอินอยู่ในกรอบแดงแบรนด์ #dc2626 ส่วนแผงตาราง
-// อัตราจ่ายอยู่ในกรอบทองหลัก #fbbf24 ทั้งคู่วางบนผิวการ์ด #2a0405 เหนือพื้นลึก #140202
-// ช่องกรอกและชิปตกลงไปที่พื้นลึกในเส้นผิวแผงยก #3b0404 บรรทัดเด่นไล่เฉดทองอ่อน #fde68a →
-// ทองหลัก → แดงสว่าง #fc2b2c ปุ่มเข้าสู่ระบบเป็นแดงเต็มตัว (#fc2b2c → #dc2626 → #b40102)
-// บนตัวอักษร #fff1f1 ตัวเลขอัตราจ่ายเป็นทองหลักบนพื้นลึกตามกองเหรียญในภาพ ปุ่มไลน์ยังคงสี
-// เขียว #00B900 ของแพลตฟอร์มซึ่งห้ามรีแมป — ชุดชมพูนีออน-ม่วงของ SEXYGAME666 (#fa42b5
-// #ffb3e2 #ec3fae #7d1550 #8b3df3 #c9a4ff #4a17a0 #3d1180 #0f0518 #070109 #140722
-// #f2dcee #fff2fb #12041c) ออกทั้งหมด
+// WIN999 (รอบทอง-ดำ 2026-09-29): โลโก้เป็นเวิร์ดมาร์กสองสี WIN เป็นทองสด #fcc403 แล้ว
+// 999 เป็นขาว งานอาร์ตเป็นพื้นดำสนิทประดับทอง ชิปคาสิโนดำขอบทอง และมงกุฎทอง สองแผงจึง
+// ถูกแยกด้วยน้ำหนักของทองคนละระดับ ไม่ใช่คนละสี — แผงล็อกอินอยู่ในกรอบทองแบรนด์ #fcc403
+// ส่วนแผงหมวดเกมอยู่ในกรอบทองลึก #8a6502 ทั้งคู่วางบนผิวการ์ด #101010 เหนือพื้นเพจ
+// #050505 ช่องกรอกและชิปตกลงไปที่พื้นเพจในเส้นผิวแผงยก #4a3402 บรรทัดเด่นไล่เฉดขาว
+// ไฮไลต์ #fffbea → ทองสว่าง #fdda04 → ทองแบรนด์ #fcc403 ปุ่มเข้าสู่ระบบเป็นทองเต็มตัว
+// (#fdda04 → #fcc403 → #8a6502) บนหมึกเข้ม #120d02 ปุ่มไลน์ยังคงสีเขียว #00B900 ของ
+// แพลตฟอร์มซึ่งห้ามรีแมป — ชุดแดง-ทองของ LOTTO24 (#dc2626 #fc2b2c #b40102 #7f1d1d
+// #fbbf24 #fde68a #a16207 #2a0405 #3b0404 #140202 #fff1f1 #f6e2e2) ออกทั้งหมด
 ---
 
 <ContentBoxTwo
   titleleft={`เข้าสู่ระบบ ${BRAND_NAME}`}
-  titleright={`อัตราจ่าย ${BRAND_NAME}`}
-  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมตารางอัตราจ่ายเลข 3 ตัวสูงสุด 1,000 และเลข 2 ตัว 100 ของหวยรัฐบาล ฮานอย ลาว และยี่กี และรายการที่ควรตรวจสอบก่อนยืนยันบิล`}>
+  titleright={`หมวดเกม ${BRAND_NAME}`}
+  iconleft="🔐"
+  iconright="🎲"
+  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมหมวดเกมที่เปิดให้เลือกทั้งบาคาร่า สล็อต เกมไพ่ และเกมอื่นตามค่ายที่ระบบรองรับ และรายการที่สมาชิกตรวจสอบได้จากบัญชีของตนเอง`}>
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#dc2626]/45 bg-[#2a0405]/94 p-6 shadow-[0_10px_30px_rgba(6,1,1,0.85)] backdrop-blur-md">
-      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#dc2626]/22 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#fcc403]/45 bg-[#101010]/94 p-6 shadow-[0_10px_30px_rgba(3,2,0,0.85)] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#fcc403]/22 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#fc2b2c]/70 bg-gradient-to-br from-[#fc2b2c] via-[#dc2626] to-[#b40102] text-xl text-[#fff1f1] shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#fcc403]/70 bg-gradient-to-br from-[#fdda04] via-[#fcc403] to-[#8a6502] text-xl text-[#120d02] shadow-inner">
           👋
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#fff1f1]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#f6e2e2]/75">
-            เข้าสู่ระบบ {BRAND_NAME} ผ่านบัญชีสมาชิกเพื่อเลือกรอบหวยและเลขที่ต้องการ ตรวจสอบอัตราจ่ายกับรายละเอียดบิลก่อนยืนยัน แล้วติดตามยอดและรายการย้อนหลังได้จากหน้าเดียว
+          <p class="text-base font-black text-[#fffbea]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#e9e4d6]/75">
+            Login เข้าบัญชี {BRAND_NAME} ผ่านเว็บเบราว์เซอร์เพื่อเลือกหมวดเดิมพันจากบัญชีเดียว ตรวจสอบเครดิต ประวัติรายการ และรายละเอียดเกมก่อนเริ่มเดิมพันได้ด้วยตัวเอง
           </span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#f6e2e2]/70">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e9e4d6]/70">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#3b0404] bg-[#140202]/95 py-3 pr-4 pl-12 text-[#f6e2e2] transition-all outline-none placeholder:text-[#f6e2e2]/50 focus:border-[#fc2b2c] focus:ring-1 focus:ring-[#fbbf24]/60"
+            class="w-full rounded-xl border border-[#4a3402] bg-[#050505]/95 py-3 pr-4 pl-12 text-[#e9e4d6] transition-all outline-none placeholder:text-[#e9e4d6]/50 focus:border-[#fcc403] focus:ring-1 focus:ring-[#fdda04]/60"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#f6e2e2]/70">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e9e4d6]/70">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#3b0404] bg-[#140202]/95 py-3 pr-4 pl-12 text-[#f6e2e2] transition-all outline-none placeholder:text-[#f6e2e2]/50 focus:border-[#fc2b2c] focus:ring-1 focus:ring-[#fbbf24]/60"
+            class="w-full rounded-xl border border-[#4a3402] bg-[#050505]/95 py-3 pr-4 pl-12 text-[#e9e4d6] transition-all outline-none placeholder:text-[#e9e4d6]/50 focus:border-[#fcc403] focus:ring-1 focus:ring-[#fdda04]/60"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#f6e2e2]/75">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#3b0404] bg-[#140202] accent-[#dc2626]" />
+          <label class="flex items-center gap-2 text-[#e9e4d6]/75">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#4a3402] bg-[#050505] accent-[#fcc403]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#f6e2e2]/75 transition-colors hover:text-[#fbbf24]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#e9e4d6]/75 transition-colors hover:text-[#fdda04]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#fc2b2c]/70 bg-gradient-to-r from-[#fc2b2c] via-[#dc2626] to-[#b40102] p-3.5 text-center font-black text-[#fff1f1] shadow-[0_10px_30px_rgba(220,38,38,0.45)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(252,43,44,0.36)]">
+          class="mt-1 block w-full rounded-xl border border-[#fcc403]/70 bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#8a6502] p-3.5 text-center font-black text-[#120d02] shadow-[0_10px_30px_rgba(252,196,3,0.45)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(253,218,4,0.36)]">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#f6e2e2]/75">
-          <span aria-hidden="true" class="h-px flex-1 bg-[#3b0404]"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#e9e4d6]/75">
+          <span aria-hidden="true" class="h-px flex-1 bg-[#4a3402]"></span>
           หรือ
-          <span aria-hidden="true" class="h-px flex-1 bg-[#3b0404]"></span>
+          <span aria-hidden="true" class="h-px flex-1 bg-[#4a3402]"></span>
         </div>
 
         <a
@@ -135,100 +137,86 @@ const chips = ["แทงหวยหลายประเภทในระบ�
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#3b0404] bg-[#140202] px-2.5 py-1 text-[10px] font-bold text-[#f6e2e2]"><span aria-hidden="true">🎫</span> แทงหวยออนไลน์</span>
-            <span class="rounded-full border border-[#fbbf24]/40 bg-[#140202]/85 px-2.5 py-1 text-[10px] font-bold text-[#fde68a]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
+            <span class="rounded-full border border-[#4a3402] bg-[#050505] px-2.5 py-1 text-[10px] font-bold text-[#e9e4d6]"><span aria-hidden="true">🎲</span> คาสิโนออนไลน์</span>
+            <span class="rounded-full border border-[#fcc403]/40 bg-[#050505]/85 px-2.5 py-1 text-[10px] font-bold text-[#fdda04]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#fde68a] transition-colors hover:text-[#fbbf24]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#fdda04] transition-colors hover:text-[#fcc403]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#fbbf24]/45 bg-[#2a0405]/94 p-5 shadow-[0_10px_30px_rgba(6,1,1,0.82)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#8a6502]/70 bg-[#101010]/94 p-5 shadow-[0_10px_30px_rgba(3,2,0,0.82)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#f6e2e2]/75">
-            {BRAND_NAME} ระบุอัตราจ่ายเลข 3 ตัวสูงสุด 1,000 และเลข 2 ตัว 100 ตามเงื่อนไขของแต่ละรายการ สมาชิกตรวจสอบอัตราจ่าย รอบหวย และรายละเอียดบิลได้ก่อนยืนยันทุกครั้ง
+          <span class="text-xs font-bold tracking-wide text-[#e9e4d6]/75">
+            {BRAND_NAME} รวมเกมคาสิโนออนไลน์หลายรูปแบบไว้สำหรับสมาชิกที่ต้องการเข้าเล่นผ่านมือถือ เลือกหมวดเดิมพันจากบัญชีเดียวได้โดยไม่ต้องสลับเว็บไซต์
           </span>
-          <div class="bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#fc2b2c] bg-clip-text text-2xl font-black text-transparent sm:text-3xl">3 ตัวสูงสุด 1,000 · 2 ตัว 100</div>
+          <div class="bg-gradient-to-r from-[#fffbea] via-[#fdda04] to-[#fcc403] bg-clip-text text-2xl font-black text-transparent sm:text-3xl">บาคาร่า · สล็อต · เกมไพ่</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#3b0404] bg-[#140202]/85 px-2.5 py-1">
-          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#fbbf24] shadow-[0_0_8px_rgba(251,191,36,0.85)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#fde68a] uppercase">ไม่ลดเรทตามเงื่อนไข</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#4a3402] bg-[#050505]/85 px-2.5 py-1">
+          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#fcc403] shadow-[0_0_8px_rgba(252,196,3,0.85)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-[#fdda04] uppercase">ตามค่ายที่ระบบรองรับ</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#f6e2e2]/75 uppercase">
-        <span>ตารางอัตราจ่ายตามประเภทหวย</span>
-        <span>ต่อรายการ</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e9e4d6]/75 uppercase">
+        <span>หมวดเกมที่เปิดให้เลือก</span>
+        <span>รายละเอียด</span>
       </div>
 
-      <div class="mb-3 overflow-x-auto rounded-xl border border-[#3b0404] bg-[#140202]/95">
-        <table class="w-full border-collapse text-left text-sm">
-          <caption class="sr-only">อัตราจ่ายเลข 3 ตัวและเลข 2 ตัวของ {BRAND_NAME} แยกตามประเภทหวย</caption>
-          <thead>
-            <tr class="border-b border-[#7f1d1d]/70 text-[10px] font-bold tracking-widest text-[#f6e2e2]/75 uppercase">
-              <th scope="col" class="px-3.5 py-2.5">ประเภทหวย</th>
-              <th scope="col" class="px-3.5 py-2.5 text-right">เลข 3 ตัว</th>
-              <th scope="col" class="px-3.5 py-2.5 text-right">เลข 2 ตัว</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              payoutRows.map((row) => (
-                <tr class="border-b border-[#3b0404] transition-colors last:border-b-0 hover:bg-[#3b0404]/70">
-                  <th scope="row" class="px-3.5 py-2.5 font-bold text-[#fff1f1]">
-                    <span class="flex items-center gap-2">
-                      <span aria-hidden="true" class="w-5 shrink-0 text-center">
-                        {row.icon}
-                      </span>
-                      <span>{row.market}</span>
-                    </span>
-                  </th>
-                  <td class="px-3.5 py-2.5 text-right font-black text-[#fbbf24]">{row.three}</td>
-                  <td class="px-3.5 py-2.5 text-right font-black text-[#fde68a]">{row.two}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+      <div class="mb-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        {
+          gameCategories.map((g) => (
+            <div class="rounded-xl border border-[#4a3402] bg-[#050505]/95 px-3.5 py-2.5 transition-colors hover:border-[#fcc403]/70 hover:bg-[#191712]/85">
+              <span class="flex min-w-0 items-center gap-2 text-sm font-bold text-[#fffbea]">
+                <span aria-hidden="true" class="w-5 shrink-0 text-center">
+                  {g.icon}
+                </span>
+                <span class="truncate">{g.name}</span>
+              </span>
+              <span class="mt-1.5 block text-[11px] tracking-wide text-[#e9e4d6]/75">{g.detail}</span>
+            </div>
+          ))
+        }
       </div>
 
-      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#f6e2e2]/75">อัตราจริงและเงื่อนไขอาจแตกต่างกันตามประเภทหวยและรอบที่เปิดรับ ควรตรวจสอบรายละเอียดก่อนยืนยันบิลทุกครั้ง</p>
+      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#e9e4d6]/75">
+        การเปิดให้บริการตลอด 24 ชั่วโมงขึ้นอยู่กับสถานะของเว็บไซต์และผู้ให้บริการเกม หากบางค่ายมีการปิดปรับปรุง สมาชิกอาจไม่สามารถเข้าเกมดังกล่าวได้เป็นการชั่วคราว
+      </p>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#f6e2e2]/75 uppercase">
-        <span>ตรวจก่อนยืนยันบิล</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e9e4d6]/75 uppercase">
+        <span>ตรวจสอบได้จากบัญชีสมาชิก</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="flex flex-1 flex-col gap-2.5">
         {
-          beforeBill.map((k) => (
-            <div class="rounded-xl border border-[#3b0404] bg-[#140202]/95 px-3.5 py-2.5 transition-colors hover:border-[#fbbf24]/70 hover:bg-[#3b0404]/85">
+          accountChecks.map((k) => (
+            <div class="rounded-xl border border-[#4a3402] bg-[#050505]/95 px-3.5 py-2.5 transition-colors hover:border-[#fcc403]/70 hover:bg-[#191712]/85">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#f6e2e2]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#e9e4d6]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
                     {k.icon}
                   </span>{" "}
                   <span class="truncate">{k.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#fbbf24]/50 bg-[#140202] px-2.5 py-0.5 text-[10px] font-bold text-[#fde68a]">{k.tag}</span>
+                <span class="shrink-0 rounded-full border border-[#fcc403]/50 bg-[#050505] px-2.5 py-0.5 text-[10px] font-bold text-[#fdda04]">{k.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#f6e2e2]/75">{k.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#e9e4d6]/75">{k.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#3b0404] bg-[#140202] px-3 py-1 text-[10px] font-bold text-[#f6e2e2]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#4a3402] bg-[#050505] px-3 py-1 text-[10px] font-bold text-[#e9e4d6]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#f6e2e2]/75">
-        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว อัตราจ่ายเลข 2 ตัวและ 3 ตัวที่ระบุชัดเจน รูปแบบไม่ลดเรทตามเงื่อนไขที่กำหนด การรองรับการทำรายการ
-        ผ่านวอลเลทและช่องทางบัญชีบริษัทโดยตรงโดยไม่ผ่านช่องทางบุคคลอื่น และระบบสมาชิกที่ช่วยติดตามยอด รายการย้อนหลัง และข้อมูลการแทงหวยจากหน้าเดียว ให้ตรวจสอบอัตราจ่าย รอบหวย และรายละเอียดบิล ก่อนยืนยันทุกครั้ง
-        โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#e9e4d6]/75">
+        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมเกมคาสิโนออนไลน์หลายรูปแบบไว้ในบัญชีเดียว การ Login ผ่านเว็บเบราว์เซอร์เพื่อเลือกหมวดเดิมพัน การตรวจสอบเครดิต ประวัติรายการ และรายละเอียดเกมก่อนเริ่มเดิมพัน
+        และการทำรายการฝากถอนผ่านช่องทางบัญชีบริษัทที่ควรตรวจชื่อบัญชีและข้อมูลปลายทางให้ตรงกับที่เว็บไซต์แสดงก่อนทุกครั้ง โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น แม้บุคคลดังกล่าวจะอ้างว่าเป็นเจ้าหน้าที่ก็ตาม
       </div>
     </div>
   </div>

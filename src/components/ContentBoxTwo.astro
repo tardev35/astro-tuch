@@ -10,35 +10,35 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎫" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎲" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a payout panel),
-// never docx article content, so both column labels render as <p> and the
-// section gets its accessible name from aria-label instead of a heading. With a
-// `title` the heading itself names the region, so the aria-label is dropped.
-// LoginRtpSection renders it without a title this round, which is why the page's
-// heading inventory stops at the eight docx sections.
+// Without a `title` this box carries chrome (a login widget, a game-category
+// panel), never docx article content, so both column labels render as <p> and
+// the section gets its accessible name from aria-label instead of a heading.
+// With a `title` the heading itself names the region, so the aria-label is
+// dropped. LoginRtpSection renders it without a title this round, which is why
+// the page's heading inventory stops at the eleven docx sections.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): โลโก้อ่านซ้ายไปขวาว่า LOTTO เป็นโครเมียมขาว
-// แล้วปิดด้วย 24 สีแดง ล้อมด้วยลูกหวยแดง-ขาวและกองเหรียญทอง สองคอลัมน์ของกล่องนี้
-// จึงถูกแยกด้วยคู่แดง/ทองนั้นตรงๆ — ฝั่งซ้ายเป็นแดงล้วน ป้ายไอคอนไล่จากแดงสว่าง
-// #fc2b2c ลงแดงแบรนด์ #dc2626 ไปหาแดงลึก #b40102 ตัวอักษรบนป้ายเป็น #fff1f1 ส่วน
-// ฝั่งขวาเป็นทองล้วน ไล่จากทองอ่อน #fde68a ลงทองหลัก #fbbf24 ไปจบที่ทองลึก #a16207
-// ตัวอักษรบนป้ายทองใช้หมึกเข้ม #2a0405 ตามกฎคอนทราสต์ที่ว่าตัวอักษรบนพื้นสว่างต้อง
-// เกือบดำ หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองอ่อน → ทองหลัก → แดงสว่าง
-// เส้นคั่นเป็นแดงเข้ม #7f1d1d ทั้งสองฝั่ง เนื้อความ #f6e2e2 (BRAND_TEXT) — ชุดชมพู
-// นีออน-ม่วงของ SEXYGAME666 (#fa42b5 #ffb3e2 #ec3fae #7d1550 #8b3df3 #c9a4ff
-// #4a17a0 #3d1180 #f2dcee #12041c) ออกทั้งหมด
+// WIN999 (รอบทอง-ดำ 2026-09-29): โลโก้อ่านซ้ายไปขวาว่า WIN เป็นทองสด #fcc403 แล้วปิด
+// ด้วย 999 สีขาว บนพื้นดำสนิทที่มีริ้วแสงทองและชิปขอบทอง สองคอลัมน์ของกล่องนี้จึงถูกแยก
+// ด้วยคู่ทอง/ขาวนั้นตรงๆ — ฝั่งซ้ายเป็นทองเต็มใบ ป้ายไอคอนไล่จากทองสว่าง #fdda04 ลงทอง
+// แบรนด์ #fcc403 ไปหาทองลึก #8a6502 ตัวอักษรบนป้ายทองใช้หมึกเข้ม #120d02 ตามกฎ
+// คอนทราสต์ที่ว่าตัวอักษรบนพื้นสว่างต้องเกือบดำ ส่วนฝั่งขวาเป็นขาวนวลบนพื้นดำ ป้ายไอคอน
+// เป็นผิวการ์ด #191712 ในกรอบทองแบรนด์ ตัวอักษรเป็นขาวนวล #e9e4d6 หัวข้อ docx (เมื่อมี
+// การส่ง title มา) ไล่ทองสว่าง → ทองแบรนด์ → ทองลึก เส้นคั่นเป็นทองลึกมาก #4a3402
+// ทั้งสองฝั่ง เนื้อความ #e9e4d6 (BRAND_TEXT) — ชุดแดง-ทองของ LOTTO24 (#dc2626
+// #fc2b2c #b40102 #7f1d1d #fbbf24 #fde68a #a16207 #2a0405 #fff1f1 #f6e2e2)
+// ออกทั้งหมด
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#7f1d1d]/80 pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde68a] via-[#fbbf24] to-[#fc2b2c] shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#fc2b2c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#4a3402] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdda04] via-[#fcc403] to-[#8a6502] shadow-[0_0_10px_rgba(252,196,3,0.5)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#8a6502] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -46,13 +46,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9e4d6]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#7f1d1d]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#fc2b2c] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#4a3402] pb-3 text-xl leading-normal font-black tracking-widest text-[#fcc403] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fc2b2c]/70 bg-gradient-to-br from-[#fc2b2c] via-[#dc2626] to-[#b40102] text-sm text-[#fff1f1] shadow-[0_5px_15px_rgba(220,38,38,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fcc403]/70 bg-gradient-to-br from-[#fdda04] via-[#fcc403] to-[#8a6502] text-sm text-[#120d02] shadow-[0_5px_15px_rgba(252,196,3,0.4)]">
               {iconleft}
             </span>
             {titleleft}
@@ -62,13 +62,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9e4d6]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#7f1d1d]/80 pb-3 text-xl leading-normal font-black tracking-widest text-[#fbbf24] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#4a3402] pb-3 text-xl leading-normal font-black tracking-widest text-[#e9e4d6] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fbbf24]/65 bg-gradient-to-br from-[#fde68a] via-[#fbbf24] to-[#a16207] text-sm text-[#2a0405] shadow-[0_5px_15px_rgba(251,191,36,0.3)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fcc403]/65 bg-[#191712] text-sm text-[#fdda04] shadow-[0_5px_15px_rgba(3,2,0,0.6)]">
               {iconright}
             </span>
             {titleright}

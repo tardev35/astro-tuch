@@ -1,151 +1,153 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
-import ContentBoxHuay from "../components/ContentBoxHuay.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import Faq from "../components/FaqHuay.astro";
-import LatestWinners from "../components/LatestWinnersHuay.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
+import Faq from "../components/Faq3.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgBanner2 from "../assets/banner2.png";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// VARIANT ROTATION THIS ROUND (SEXYGAME666 -> LOTTO24). Zero file reuse from the
-// previous round: AnnouncementHuay replaces Announcement5, LatestWinnersHuay
-// replaces LatestWinnersCyber, FaqHuay replaces Faq3, and the ContentBox
-// shape-mix moves to Huay / CyberCut / plain ContentBox / SevenThreeHuay /
-// SevenThreeNeumorphism / Neumorphism / Special. NavbarHuay and FooterHuay are
-// the layout's pair this round (previously NavbarCyber / FooterCyber). No
-// *Premium variant is used at all — Premium was the outgoing brand's lead.
-// Nothing was deleted; every outgoing variant file stays on disk as inventory
-// for the next brand.
+// VARIANT ROTATION THIS ROUND (LOTTO24 -> WIN999). Zero file reuse from the
+// previous round: AnnouncementPremium replaces AnnouncementHuay,
+// LatestWinnersPremium replaces LatestWinnersHuay, Faq3 replaces FaqHuay, and
+// the ContentBox shape-mix moves to Premium / FloatingBadge / TwoPremium /
+// TwoFloatingBadge / 3ThreePremium / SevenThreePremium /
+// SevenThreeFloatingBadge plus plain ContentBox (which is pinned live by
+// terms/privacy and so never rotates). NavbarPremium and FooterPremium are the
+// layout's pair this round (previously NavbarHuay / FooterHuay). Huay, CyberCut,
+// Neumorphism and Special are dropped entirely — every one of those files stays
+// on disk as inventory for the next brand.
 //
-// IMAGE ROLES FOR THIS DROP (2026-09-28) — READ BEFORE REUSING THESE IMPORTS.
-// Three files are referenced from this page and only three:
-//   banner2.png — the article illustration whose Thai type reads "อัตราจ่าย
-//     LOTTO24 3ตัวสูงสุด 1,000 2ตัว100", so it belongs to docx H2 #3 and sits
-//     INSIDE that single-column ContentBox, width-capped at max-w-2xl. It is
-//     1254 px square, so 1254 is the top candidate width.
-//   slide1.png — the poster whose type reads "แนะนำเพื่อน" above a large
-//     "โบนัส 0.8%", so it belongs to docx H3 #4.
-//   slide2.png — the companion poster reading "คืนยอดเสีย" above "โบนัส 0.3%",
-//     so it belongs to docx H3 #5.
-// Both slides are 600 px wide, so 600 is the top candidate width — nothing
+// IMAGE ROLES FOR THIS DROP (2026-09-29) — READ BEFORE REUSING THESE IMPORTS.
+// Two files are referenced from this page and only two:
+//   slide1.png — the poster whose type reads "คืนยอดเสีย" above a large
+//     "โบนัส 0.3%", so it belongs to docx H3 #8.
+//   slide2.png — the companion poster reading "แนะนำเพื่อน" above "โบนัส 0.8%",
+//     so it belongs to docx H3 #9.
+// Both slides are 600 px square, so 600 is the top candidate width — nothing
 // above it would be a real pixel. Each slide sits in a ContentBoxSevenThree*
-// image+text block, which is the family's hard cap of two per rebrand, so
-// there is no third SevenThree here. The two blocks put the picture on
-// OPPOSITE sides: SevenThreeHuay runs image-then-text, SevenThreeNeumorphism
-// runs text-then-image.
+// image+text block, which is the family's hard cap of two per rebrand, so there
+// is no third SevenThree here. The two blocks put the picture on OPPOSITE
+// sides: SevenThreePremium runs image(3fr)-then-text, SevenThreeFloatingBadge
+// runs text-then-image(7fr, capped at max-w-md so the 600 px source is never
+// upscaled).
 //
 // The alt text was written from THIS drop's artwork (black grounds shot with
-// red, the LOTTO24 wordmark in chrome-silver LOTTO plus a red 24, red-and-white
-// numbered lottery balls, stacks of gold coins, the woman in the white suit)
-// and is NOT the previous brand's text — those posters were hot pink and violet
-// neon with a pink-to-violet SEXYGAME666 wordmark, casino chips and playing
-// cards, none of which is in these pictures.
+// gold, the WIN999 wordmark in gold WIN plus white 999, the woman in the
+// white-and-gold dress, spade cards, a gold crown, black gold-rimmed casino
+// chips) and is NOT the previous brand's text — those posters were red and
+// black with a chrome LOTTO / red 24 wordmark, red-and-white lottery balls and
+// stacks of gold coins, none of which is in these pictures.
 //
 // Deliberately NOT imported, and all still on disk as inventory:
-//   banner3.png (2026-09-27), slide3.png (2026-09-18) and slide4.png
-//   (2026-08-13) all predate this drop and carry a previous client's artwork.
-//   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
-//   and are never referenced from a page — the hero is the LCP element, so
-//   nothing here gets loading="eager" fetchpriority="high". og.png is the same:
-//   MainLayout's glob owns it.
+//   banner2.png (2026-09-28, LOTTO24 artwork), banner3.png (2026-09-27),
+//   slide3.png (2026-09-18) and slide4.png (2026-08-13) all predate this drop
+//   and carry a previous client's artwork, so there is no inline article
+//   illustration this round. banner1.png and banner1-mobile.png belong to
+//   MainLayout's own pinned globs and are never referenced from a page — the
+//   hero is the LCP element, so nothing here gets loading="eager"
+//   fetchpriority="high". og.png is the same: MainLayout owns it.
 //
 // DROPPED THIS ROUND, and none of the files deleted — every one is inventory
 // for the next brand: ProviderGrid / FeaturedGames / PopularGamesStrip /
 // GameRankingBoard each have to name specific studios, table names or payout
-// figures that only a slot/casino brief supplies, and this is a หวย brief.
-// BankStrip needs a named bank; the brief says only "วอลเลทและช่องทางบัญชี
-// บริษัท" and names no bank. SmoothCarousel is out because it would put slide*
-// outside a ContentBoxSevenThree*. FeatureHighlights is out because it emits an
-// <h3> per item with its own title, and this round's two <h3> are real docx
-// headings with their own slides — the 3 signup steps have no titles in the
-// brief, only sentences, so they ship as a plain <ol> inside section 6's box.
-// LottoGrid is lottery-specific and would have fitted the genre, but the only
-// four-market list this page can honestly show is the one already in
-// LoginRtpSection's payout table; naming the same four markets twice on one
-// page is repetition, not content, so the table keeps them and the grid stays
-// inventory.
+// figures, and this brief names no ค่ายเกม at all ("เกมอื่นตามค่ายที่ระบบรองรับ"
+// is as specific as it gets). BankStrip needs a named bank; the brief says only
+// "บัญชีบริษัท". SmoothCarousel is out because it would put slide* outside a
+// ContentBoxSevenThree*. FeatureHighlights is out because it emits an <h3> per
+// item with its own title, and this round's four <h3> are real docx headings —
+// the 3 signup steps have no titles in the brief, only one sentence, so they
+// ship as the three <p>-labelled columns of ContentBox3ThreePremium.
 //
-// Vocabulary: this is a เว็บแทงหวย. Nothing on this page may say สล็อต, ค่ายเกม,
-// RTP, ความผันผวน, บาคาร่า, ไลฟ์สด or เกมยิงปลา — the previous two brands on this
-// template were a slot site and a live-baccarat site, and every one of those
-// words is wrong now. LoginRtpSection's right-hand column was a slot RTP /
-// volatility table and is a lottery payout table this round.
+// Vocabulary: this is a คาสิโนออนไลน์. Nothing on this page may say หวย, แทงหวย,
+// เลข 2 ตัว/3 ตัว, อัตราจ่าย 1,000, รอบหวย, ยี่กี, ลาว/ฮานอย, บิล/โพย, ไม่ลดเรท or
+// ม้า(เอเย่นต์) — the previous brand on this template was a lottery site and
+// every one of those words is wrong now. LoginRtpSection's right-hand column
+// was a lottery payout table and is a game-category + account-checks panel this
+// round; it states no RTP, no provider, no minimum stake and no bank, because
+// the brief names none.
 //
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one ships at 140 characters,
-// the length the brief wrote it, which is a passing build (verify-build exempts
-// the home page from DESC_MIN for exactly this reason), not a gap to fill.
-const pageTitle = "LOTTO24 ราชาเว็บแทงหวย No.1 จ่ายสูงสุด 1,000 ไม่ลดเรท บช.บริษัท";
+// floor and never topped up from the H1/H2 — this one ships at the length the
+// brief wrote it, which is a passing build (verify-build exempts the home page
+// from DESC_MIN for exactly this reason), not a gap to fill.
+const pageTitle = "WIN999 เข้าเล่นเกมคาสิโน บัญชีบริษัท ฝากถอนปลอดภัย";
 
-const pageDescription = "LOTTO24 ราชาเว็บแทงหวย No.1 อัตราจ่าย3ตัวสูงสุด 1,000 2ตัว100 จ่ายไม่อั้น ไม่ลดเรท ฝากถอนง่าย ผ่านวอลเลท ยอดเข้า บช.บริษัท โดยตรง ไม่ผ่านม้า";
+const pageDescription = "WIN999 บริการเกมคาสิโนออนไลน์ เล่นง่ายบนมือถือ ตลอด 24 ชั่วโมง ฝากถอนออโต้ บัญชีบริษัท ปลอดภัยไม่โดนอายัด";
 
-// <Announcement /> runs bare: AnnouncementHuay's default message is already this
-// brand's copy, and every sub-page calls it bare too — passing an override here
-// is how the ticker ends up saying two different things on two pages.
+// <Announcement /> runs bare: AnnouncementPremium's default message is already
+// this brand's copy, and every sub-page calls it bare too — passing an override
+// here is how the ticker ends up saying two different things on two pages.
 
-// The docx has a real H2 -> H3 nesting this round: "แนะนำเพื่อน โบนัส 0.8%" and
-// "คืนยอดเสีย โบนัส 0.3%" are genuine sub-points of the อัตราจ่าย/โปรโมชั่น H2, so
-// the page is NOT flattened to H2-only. Those two are the only <h3> here, and
-// each one is carried by its own ContentBoxSevenThree* block together with the
-// slide whose artwork states that exact figure.
-// Everything else is chrome and emits no heading tag: LatestWinnersHuay,
+// The docx has a real H2 -> H3 nesting this round, so the page is NOT flattened
+// to H2-only. Four headings are H3 in the brief and stay H3 here: the เว็บปลอม
+// sub-point under the mobile-play H2, the สมัครสมาชิกใหม่ sub-point, and the two
+// bonus sub-points under the โปรโมชั่น H2, each carried by its own
+// ContentBoxSevenThree* block together with the slide whose artwork states that
+// exact figure.
+// Everything else is chrome and emits no heading tag: LatestWinnersPremium,
 // LoginRtpSection and ReviewCardSumo2 render their titles as <p>/<span> with an
-// aria-label on the section, and FaqHuay's questions live inside <summary>.
+// aria-label on the section, and Faq3's questions live inside <summary> as <p>.
 //
 // The docx checklist, in order, and what carries each one:
-//    1 H1  LOTTO24 ราชาเว็บแทงหวย No.1 จ่ายสูงสุด 1,000 ...        ContentBoxHuay
-//    2 H2  LOTTO24 รับแทงหวยยอดเข้า บช.บริษัท โดยตรง ...          ContentBoxCyberCut
-//    3 H2  อัตราจ่าย LOTTO24 3ตัวสูงสุด 1,000 2ตัว100 ...          ContentBox + banner2
-//    4 H3  แนะนำเพื่อน โบนัส 0.8%                               ContentBoxSevenThreeHuay + slide1
-//    5 H3  คืนยอดเสีย โบนัส 0.3%                                ContentBoxSevenThreeNeumorphism + slide2
-//    6 H2  สมัครแทงหวย LOTTO24 แทงง่าย จ่ายทันที ไม่ต้องรอคิว        ContentBoxNeumorphism (intro + <ol>)
-//    7 H2  ติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ได้ 24 ชั่วโมง      ContentBoxSpecial
-//    8 H2  คำถามที่พบบ่อย                                       FaqHuay
-// Final inventory for this page: h1 x1, h2 x5, h3 x2.
+//    1 H1  WIN999 เข้าเล่นเกมคาสิโน บัญชีบริษัท ฝากถอนปลอดภัย       ContentBoxPremium
+//    2 H2  WIN999 บริการเกมคาสิโนออนไลน์ เล่นง่ายบนมือถือ ...        ContentBoxTwoPremium
+//    3 H3  ลดความเสี่ยงจากเว็บปลอม เลือกทางเข้า WIN999 ...           ContentBox (plain)
+//    4 H2  ระบบฝากถอนที่ปลอดภัย WIN999 ระบบบัญชีบริษัท ...           ContentBoxFloatingBadge
+//    5 H2  หมดปัญหาเรื่องระบบปิดปรับปรุง ทางเข้า WIN999 ล่าสุด ...     ContentBoxTwoFloatingBadge
+//    6 H3  แนะนำวิธี WIN999 สมัครสมาชิกใหม่ สะดวก ...                ContentBox3ThreePremium
+//    7 H2  โปรโมชั่น WIN999 โบนัสจัดเต็มทุกวัน                      ContentBoxPremium
+//    8 H3  คืนยอดเสีย โบนัส 0.3%                                 ContentBoxSevenThreePremium + slide1
+//    9 H3  แนะนำเพื่อน โบนัส 0.8%                                ContentBoxSevenThreeFloatingBadge + slide2
+//   10 H2  มีปัญหาในการเล่น ติดต่อแอดมิน WIN999 ...                 ContentBox (plain) + ปุ่ม LINE/สมัคร
+//   11 H2  คำถามที่พบบ่อยเกี่ยวกับ WIN999                          Faq3
+// Final inventory for this page: h1 x1, h2 x6, h3 x4.
 //
-// Every docx paragraph ships in full. One block is a two-half shell, so the
-// paragraph that fills it is split across its halves and nowhere else: item 7's
-// single paragraph runs left half then right half and reproduces the sentence
-// word for word; nothing is summarised, merged or repeated.
+// Every docx paragraph ships in full. Sections 2, 4, 5 and 10 each have TWO
+// paragraphs in the brief and both ship, nothing merged or summarised: in the
+// two-column blocks they run one per column, in the single-column blocks they
+// stack. Section 6's single paragraph is the one that is split — its lead-in
+// goes in the intro slot and the rest runs across the three step columns,
+// reproducing the sentence word for word with nothing added.
 //
-// The non-docx widgets sit before section 1 (LatestWinnersHuay, right after the
-// hero) and after section 8 (LoginRtpSection, ReviewCardSumo2) — never spliced
-// between two docx sections.
+// The non-docx widgets sit before section 1 (LatestWinnersPremium, right after
+// the ticker) and after section 11 (LoginRtpSection, ReviewCardSumo2) — never
+// spliced between two docx sections.
 //
-// The brief names only two figures beyond the payout rates — the 0.8% and 0.3%
-// bonuses — and both appear only under the headings that state them. It names
-// no lottery draw time, no licence number, no bank and no minimum stake, so
-// neither does this page.
+// The brief names only two figures — the 0.3% and 0.8% bonuses — and both
+// appear only under the headings that state them. It names no game studio, no
+// licence number, no bank, no RTP and no minimum stake, so neither does this
+// page.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
 // are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "LOTTO24 เลข 2 ตัวและ 3 ตัวจ่ายเท่าไร?",
-    a: "ตามข้อมูลที่กำหนด เลข 2 ตัวมีอัตราจ่าย 100 และเลข 3 ตัวสูงสุด 1,000 โดยอัตราจริงและเงื่อนไขอาจแตกต่างกันตามประเภทหวยและรอบที่เปิดรับ ควรตรวจสอบรายละเอียดก่อนยืนยันบิลทุกครั้ง",
+    q: "WIN999 เล่นเกมคาสิโนบนมือถือได้หรือไม่?",
+    a: "หากอุปกรณ์และเว็บเบราว์เซอร์รองรับ สมาชิกสามารถ Login ผ่านมือถือเพื่อเลือกเกม ตรวจสอบเครดิต โปรโมชั่น และจัดการบัญชีได้ โดยเกมที่เปิดให้เล่นขึ้นอยู่กับค่ายที่ระบบรองรับในขณะนั้น",
   },
   {
-    q: "LOTTO24 ทำรายการผ่านบัญชีบริษัทได้หรือไม่?",
-    a: "ตามข้อมูลของเว็บไซต์ รองรับการทำรายการผ่านช่องทางบัญชีบริษัทโดยตรง รวมถึงวอลเลทตามรายการที่ระบบเปิดให้ใช้งาน สมาชิกควรตรวจสอบชื่อบัญชีและรายละเอียดจากช่องทางทางการก่อนทำรายการ",
+    q: "โปรโมชั่น WIN999 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่เข้าเงื่อนไข ส่วน 0.8% เป็นโบนัสแนะนำเพื่อนตามยอดที่เว็บไซต์กำหนด ควรตรวจสอบรอบคำนวณและเงื่อนไขก่อนรับทุกครั้ง",
   },
   {
-    q: "LOTTO24 มีโปรโมชั่นอะไรบ้าง?",
-    a: "โปรโมชั่นหลักตามข้อมูลที่กำหนดมีโบนัสแนะนำเพื่อน 0.8% และโบนัสคืนยอดเสีย 0.3% โดยแต่ละรายการมีเงื่อนไขและรอบรับสิทธิ์แตกต่างกัน แนะนำให้ตรวจสอบหน้าโปรโมชั่นก่อนกดรับทุกครั้ง",
+    q: "จะตรวจสอบบัญชีบริษัท WIN999 ก่อนฝากเงินอย่างไร?",
+    a: "ควรเปรียบเทียบชื่อบัญชีปลายทางกับชื่อนิติบุคคลหรือข้อมูลบริษัทที่เว็บไซต์เปิดเผย หากชื่อไม่ตรง มีการเปลี่ยนบัญชีผิดปกติ หรือไม่สามารถตรวจสอบที่มาได้ ควรหยุดทำรายการและติดต่อช่องทางหลักเพื่อยืนยันข้อมูลก่อนโอนเงิน",
   },
 ];
 
@@ -153,9 +155,9 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: near-white #fff1f1 against the body colour
-// #f6e2e2, so the brand's red and gold stay the page's structural accents and
-// the paragraphs never compete with a heading for them.
+// One highlight colour only: near-white #fffbea against the body colour
+// #e9e4d6, so the brand's gold stays the page's structural accent and the
+// paragraphs never compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself
 // would be a single self-referential crumb. Every URL in the graph is derived
@@ -175,79 +177,131 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxHuay as="h1" title="LOTTO24 ราชาเว็บแทงหวย No.1 จ่ายสูงสุด 1,000 ไม่ลดเรท บช.บริษัท">
-    <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-      LOTTO24
-      <strong class="text-[#fff1f1]">รวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว</strong>
-      พร้อมอัตราจ่ายที่ระบุชัดเจนทั้งเลข 2 ตัวและ 3 ตัว โดยเน้นรูปแบบไม่ลดเรทตามเงื่อนไขที่กำหนด
-      <strong class="text-[#fff1f1]">รองรับการทำรายการผ่านวอลเลทและช่องทางบัญชีบริษัทโดยตรง</strong>
-      ช่วยให้สมาชิกตรวจสอบข้อมูลก่อนยืนยันบิลได้สะดวกมากขึ้น
+  <ContentBoxPremium as="h1" title="WIN999 เข้าเล่นเกมคาสิโน บัญชีบริษัท ฝากถอนปลอดภัย">
+    <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      WIN999
+      <strong class="text-[#fffbea]">ให้บริการเกมคาสิโนออนไลน์ผ่านระบบเว็บไซต์</strong>
+      รองรับการใช้งานบนมือถือ แท็บเล็ต และคอมพิวเตอร์ สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต โปรโมชั่น และจัดการฝากถอนผ่านบัญชีเดียวได้ตลอดช่วงเวลาที่ระบบเปิดให้บริการ พร้อมช่องทางช่วยเหลือจากแอดมินตลอด 24 ชั่วโมง สำหรับข้อมูลเรื่องบัญชีบริษัทและความปลอดภัย
+      <strong class="text-[#fffbea]">ควรตรวจสอบชื่อบัญชีและรายละเอียดผู้ให้บริการจากหน้าเว็บไซต์ก่อนทำธุรกรรมทุกครั้ง</strong>
     </p>
-  </ContentBoxHuay>
+  </ContentBoxPremium>
 
-  <ContentBoxCyberCut as="h2" title="LOTTO24 รับแทงหวยยอดเข้า บช.บริษัท โดยตรง ไม่ผ่านม้า">
-    <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-      LOTTO24
-      <strong class="text-[#fff1f1]">รองรับการทำรายการผ่านช่องทางบัญชีบริษัทตามข้อมูลที่เว็บไซต์กำหนด</strong>
-      ช่วยให้สมาชิกตรวจสอบรายละเอียดบัญชีและสถานะรายการได้ชัดเจนก่อนดำเนินการ
-      <strong class="text-[#fff1f1]">โดยไม่ต้องผ่านช่องทางบุคคลอื่น</strong>
-      พร้อมระบบสมาชิกที่ช่วยติดตามยอด รายการย้อนหลัง และข้อมูลการแทงหวยได้จากหน้าเดียว
+  <ContentBoxTwoPremium
+    as="h2"
+    title="WIN999 บริการเกมคาสิโนออนไลน์ เล่นง่ายบนมือถือ เล่นได้ตลอด 24 ชั่วโมง"
+    titleleft="หมวดเกมในระบบเดียว"
+    titleright="สถานะการให้บริการ">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      WIN999
+      <strong class="text-[#fffbea]">รวมเกมคาสิโนออนไลน์หลายรูปแบบไว้สำหรับสมาชิกที่ต้องการเข้าเล่นผ่านมือถือ</strong>
+      มีทั้งบาคาร่า สล็อต เกมไพ่ และเกมอื่นตามค่ายที่ระบบรองรับ สามารถ Login ผ่านเว็บเบราว์เซอร์และเลือกหมวดเดิมพันจากบัญชีเดียวได้ ช่วยลดขั้นตอนในการสลับเว็บไซต์ พร้อมตรวจสอบเครดิต ประวัติรายการ
+      <strong class="text-[#fffbea]">และรายละเอียดเกมก่อนเริ่มเดิมพันได้ด้วยตัวเอง</strong>
     </p>
-  </ContentBoxCyberCut>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      การเปิดให้บริการตลอด 24 ชั่วโมงขึ้นอยู่กับสถานะของเว็บไซต์และผู้ให้บริการเกม หากบางค่ายมีการปิดปรับปรุง
+      <strong class="text-[#fffbea]">สมาชิกอาจไม่สามารถเข้าเกมดังกล่าวได้เป็นการชั่วคราว</strong>
+    </p>
+  </ContentBoxTwoPremium>
 
-  <ContentBox as="h2" title="อัตราจ่าย LOTTO24 3ตัวสูงสุด 1,000 2ตัว100 และโปรโมชั่นอื่นๆ">
-    <div class="flex flex-col gap-6">
-      <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-        LOTTO24
-        <strong class="text-[#fff1f1]">ระบุอัตราจ่ายเลข 3 ตัวสูงสุด 1,000 และเลข 2 ตัว 100 ตามเงื่อนไขของแต่ละรายการ</strong>
-        พร้อมโปรโมชั่นสำหรับสมาชิกให้เลือกเพิ่มเติม ทั้งโบนัสแนะนำเพื่อนและโบนัสคืนยอดเสีย
-        <strong class="text-[#fff1f1]">ผู้ใช้งานสามารถตรวจสอบอัตราจ่าย รอบหวย และเงื่อนไขของโปรโมชั่นก่อนทำรายการได้ทุกครั้ง</strong>
-      </p>
-      <Picture
-        src={imgBanner2}
-        loading="lazy"
-        fetchpriority="low"
-        widths={[480, 672, 1254]}
-        sizes="(max-width: 767px) calc(100vw - 96px), 672px"
-        decoding="async"
-        formats={["avif", "webp"]}
-        fallbackFormat="webp"
-        quality={80}
-        alt="ภาพประกอบอัตราจ่ายพื้นดำโทนแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมสูทสีขาว ยกมือทั้งสองข้างรับข้อความ ด้านขวาเป็นโลโก้ LOTTO24 ที่คำว่า LOTTO เป็นสีเงินเมทัลลิกและเลข 24 เป็นสีแดง ถัดลงมาเป็นตัวอักษรไทยว่า อัตราจ่าย LOTTO24 ต่อด้วยคำว่า 3ตัวสูงสุด แล้วเป็นตัวเลขขนาดใหญ่ 1,000 สีแดงขอบทองที่มีมงกุฎทองวางอยู่มุมขวา ปิดท้ายด้วยแถบดำที่เขียนว่า 2ตัว100 รอบภาพมีลูกหวยสีแดงสลับขาวหมายเลข 6 9 24 17 และ 8 กับกองเหรียญทองกระจายอยู่"
-        class="mx-auto h-auto w-full max-w-2xl rounded-2xl border border-[#a16207]/55 shadow-[0_10px_30px_rgba(251,191,36,0.24)]"
-      />
-    </div>
+  <ContentBox as="h3" title="ลดความเสี่ยงจากเว็บปลอม เลือกทางเข้า WIN999 ที่ตรวจสอบแหล่งที่มาได้">
+    <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      ก่อน Login หรือฝากเงินควรตรวจสอบว่าเป็นทางเข้า WIN999
+      <strong class="text-[#fffbea]">ที่เว็บไซต์ประกาศไว้จริง</strong>
+      โดยเฉพาะชื่อโดเมน ช่องทางติดต่อ และข้อมูลบัญชีปลายทาง ไม่ควรใช้ข้อความ “เว็บตรง”, “ไม่ผ่านเอเย่นต์” หรือ “มาตรฐานสากล” เป็นหลักฐานเพียงอย่างเดียว หากเว็บไซต์มีข้อมูลบริษัท ใบอนุญาต หรือผู้ให้บริการที่ตรวจสอบได้
+      <strong class="text-[#fffbea]">ควรแสดงรายละเอียดเหล่านั้นให้สมาชิกตรวจสอบได้โดยตรง</strong>
+    </p>
   </ContentBox>
 
-  <ContentBoxSevenThreeHuay as="h3" titleright="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxFloatingBadge as="h2" title="ระบบฝากถอนที่ปลอดภัย WIN999 ระบบบัญชีบริษัท ไม่เสี่ยงโดนอายัด">
+    <div class="flex flex-col gap-5">
+      <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+        ระบบฝากถอน WIN999
+        <strong class="text-[#fffbea]">ช่วยให้สมาชิกทำรายการและติดตามสถานะเครดิตผ่านบัญชีของตนเอง</strong>
+        ก่อนฝากเงินควรตรวจสอบชื่อบัญชี จำนวนเงิน และข้อมูลปลายทางให้ตรงกับรายละเอียดที่เว็บไซต์แสดง
+        <strong class="text-[#fffbea]">ส่วนรายการถอนควรตรวจสอบสถานะผ่านระบบและเก็บหลักฐานธุรกรรมไว้จนกว่าจะดำเนินการเสร็จสมบูรณ์</strong>
+      </p>
+      <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+        หากระบุว่าเป็น “บัญชีบริษัท”
+        <strong class="text-[#fffbea]">ควรมีชื่อนิติบุคคลที่ตรวจสอบได้</strong>
+        ส่วนข้อความ “ไม่เสี่ยงโดนอายัด” ไม่สามารถรับประกันได้จากประเภทบัญชีเพียงอย่างเดียว เพราะบัญชีธนาคารอาจถูกจำกัดหรือระงับได้จากหลายสาเหตุ
+        <strong class="text-[#fffbea]">จึงควรใช้ข้อมูลที่ตรวจสอบได้จริงประกอบการตัดสินใจทำธุรกรรม</strong>
+      </p>
+    </div>
+  </ContentBoxFloatingBadge>
+
+  <ContentBoxTwoFloatingBadge
+    as="h2"
+    title="หมดปัญหาเรื่องระบบปิดปรับปรุง ทางเข้า WIN999 ล่าสุด เล่นได้ตลอด 24 ชั่วโมง"
+    titleleft="บันทึกทางเข้าล่าสุด"
+    titleright="ช่วงบำรุงรักษาระบบ">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      สมาชิกควรบันทึกทางเข้า WIN999
+      <strong class="text-[#fffbea]">ล่าสุดจากช่องทางหลักของเว็บไซต์</strong>
+      เพื่อใช้ Login เมื่อต้องการเข้าเกม ตรวจสอบโปรโมชั่น หรือจัดการบัญชี หากลิงก์เดิมไม่สามารถใช้งานได้ ควรตรวจสอบประกาศล่าสุดหรือติดต่อแอดมินก่อนกรอกข้อมูลผ่านลิงก์อื่น
+      <strong class="text-[#fffbea]">เพื่อช่วยลดความเสี่ยงจากหน้าเว็บไซต์ที่ไม่เกี่ยวข้อง</strong>
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      แม้เว็บไซต์จะเปิดระบบตลอด 24 ชั่วโมง แต่บางช่วงอาจมีการบำรุงรักษาระบบ ธนาคาร หรือค่ายเกม
+      <strong class="text-[#fffbea]">จึงไม่ควรรับประกันว่าจะไม่มีการปิดปรับปรุงเลย</strong>
+      หากมีสถานะขัดข้องควรแจ้งข้อมูลให้สมาชิกทราบอย่างชัดเจน
+    </p>
+  </ContentBoxTwoFloatingBadge>
+
+  <ContentBox3ThreePremium
+    as="h3"
+    title="แนะนำวิธี WIN999 สมัครสมาชิกใหม่ สะดวก ทำได้ด้วยตัวเอง"
+    titleleft="ขั้นตอนที่ 1"
+    titlecenter="ขั้นตอนที่ 2"
+    titleright="ขั้นตอนที่ 3">
+    <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      การสมัคร WIN999
+      <strong class="text-[#fffbea]">สามารถแบ่งเป็น 3 ขั้นตอน</strong>
+    </p>
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9e4d6]">เริ่มจากเข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด</p>
+    <p slot="center" class="text-left text-base leading-relaxed text-[#e9e4d6]">จากนั้นยืนยันข้อมูลหรือเบอร์โทรศัพท์ตามขั้นตอน</p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      และ Login เข้าบัญชีเพื่อตรวจสอบช่องทางฝากเงิน โปรโมชั่น และเกมที่เปิดให้บริการ ก่อนยืนยันการสมัครควรใช้ข้อมูลของตนเอง
+      <strong class="text-[#fffbea]">ตั้งรหัสผ่านที่คาดเดายาก และไม่เปิดเผย OTP ให้บุคคลอื่น</strong>
+    </p>
+  </ContentBox3ThreePremium>
+
+  <ContentBoxPremium as="h2" title="โปรโมชั่น WIN999 โบนัสจัดเต็มทุกวัน">
+    <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      สมาชิก WIN999
+      <strong class="text-[#fffbea]">สามารถตรวจสอบโปรโมชั่นที่เปิดให้รับจากบัญชีของตนเอง</strong>
+      โดยมีทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อนตามเงื่อนไขของเว็บไซต์ แต่ละรายการอาจกำหนดรอบตัดยอด ประเภทเกม ยอดที่เข้าเกณฑ์ และข้อกำหนดการรับแตกต่างกัน
+      <strong class="text-[#fffbea]">จึงควรอ่านรายละเอียดล่าสุดก่อนกดรับโบนัสทุกครั้ง</strong>
+    </p>
+  </ContentBoxPremium>
+
+  <ContentBoxSevenThreePremium as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 386px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นพื้นดำโทนแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมสูทสีขาว ชี้นิ้วชี้ทั้งสองข้างมาที่ข้อความ ด้านขวาบนเป็นโลโก้ LOTTO24 ที่คำว่า LOTTO เป็นสีเงินเมทัลลิกและเลข 24 เป็นสีแดง ถัดลงมาเป็นตัวอักษรไทยสีขาวว่า แนะนำเพื่อน ต่อด้วยคำว่า โบนัส สีแดงข้างไอคอนคนกับลูกศรชี้ขึ้น แล้วปิดท้ายด้วยตัวเลขขนาดใหญ่ 0.8% สีแดงขอบทอง มุมล่างมีลูกหวยสีแดงสลับขาวหมายเลข 24 และ 6 กับกองเหรียญทองกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a16207]/55 shadow-[0_10px_30px_rgba(251,191,36,0.24)]"
+      alt="โปสเตอร์สี่เหลี่ยมจัตุรัสพื้นดำ ประดับด้วยทอง ด้านขวาเป็นหญิงสาวผมยาวสีเข้ม สวมชุดสีขาวคาดทอง ยกมือขวารองรับข้อความ ด้านบนเป็นโลโก้ WIN999 ที่คำว่า WIN เป็นสีทองและเลข 999 เป็นสีขาว ถัดลงมาเป็นตัวอักษรไทยสีทองว่า คืนยอดเสีย ต่อด้วยคำว่า โบนัส และตัวเลขขนาดใหญ่ 0.3% สีทองเงาวาว รอบภาพมีไพ่โพดำ มงกุฎทอง และกองชิปคาสิโนสีดำขอบทอง"
+      class="mx-auto h-auto w-full rounded-2xl border border-[#8a6502]/70 shadow-[0_10px_30px_rgba(252,196,3,0.24)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#f6e2e2]">
-      สมาชิก LOTTO24
-      <strong class="text-[#fff1f1]">ที่แนะนำเพื่อนเข้ามาสมัครสามารถรับโบนัส 0.8% ตามเงื่อนไขของโปรโมชั่น</strong>
-      ระบบมีรายละเอียดเกี่ยวกับยอดที่เข้าเกณฑ์และวิธีรับสิทธิ์ให้ตรวจสอบ
-      <strong class="text-[#fff1f1]">ช่วยให้ติดตามโบนัสจากการแนะนำเพื่อนได้สะดวกผ่านบัญชีสมาชิก</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ WIN999 กำหนด
+      <strong class="text-[#fffbea]">ระบบจะคำนวณจากยอดที่เข้าเกณฑ์และแสดงจำนวนโบนัสที่สามารถรับได้</strong>
+      ควรตรวจสอบประเภทเกม รอบคำนวณ
+      <strong class="text-[#fffbea]">และข้อกำหนดการใช้โบนัสก่อนกดรับ</strong>
     </p>
-  </ContentBoxSevenThreeHuay>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" titleleft="คืนยอดเสีย โบนัส 0.3%">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#f6e2e2]">
-      โปรโมชั่นคืนยอดเสีย LOTTO24
-      <strong class="text-[#fff1f1]">ให้โบนัส 0.3% ตามยอดและเงื่อนไขที่กำหนด</strong>
-      สมาชิกสามารถตรวจสอบรอบคำนวณ ยอดที่เข้าเกณฑ์ และรายละเอียดก่อนกดรับสิทธิ์
-      <strong class="text-[#fff1f1]">ช่วยให้ติดตามโบนัสในแต่ละรอบได้ง่ายและรู้ข้อมูลก่อนนำสิทธิ์ไปใช้งาน</strong>
+  <ContentBoxSevenThreeFloatingBadge as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#e9e4d6]">
+      <strong class="text-[#fffbea]">สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน</strong>
+      เมื่อเพื่อนสมัคร WIN999 และมียอดใช้งานตรงตามเงื่อนไข ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์ สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ
+      <strong class="text-[#fffbea]">และสิทธิ์รับโบนัสจากบัญชีสมาชิกตามรอบที่กำหนด</strong>
     </p>
     <Picture
       slot="right"
@@ -255,58 +309,45 @@ const graph = pageGraph(Astro, {
       loading="lazy"
       fetchpriority="low"
       widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), 360px"
+      sizes="(max-width: 767px) calc(100vw - 96px), 448px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่นชุดเดียวกันพื้นดำโทนแดง ด้านซ้ายเป็นหญิงสาวผมยาวสีเข้มสวมสูทสีขาว ชี้นิ้วมาที่ข้อความ ด้านขวาบนเป็นโลโก้ LOTTO24 ที่คำว่า LOTTO เป็นสีเงินเมทัลลิกและเลข 24 เป็นสีแดง ถัดลงมาเป็นตัวอักษรไทยสีขาวว่า คืนยอดเสีย ต่อด้วยคำว่า โบนัส สีแดง แล้วปิดท้ายด้วยตัวเลขขนาดใหญ่ 0.3% สีแดงขอบทองที่มีลูกศรโค้งวางอยู่ใต้ตัวเลข ฉากหลังมีใบสลากกินแบ่งและมุมล่างมีลูกหวยสีแดงสลับขาวหมายเลข 24 6 และ 8 กับกองเหรียญทองกระจายอยู่"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#a16207]/55 shadow-[0_10px_30px_rgba(251,191,36,0.24)]"
+      alt="โปสเตอร์ชุดเดียวกันพื้นดำประดับทอง ด้านขวาเป็นหญิงสาวผมยาวสีเข้มสวมชุดสีขาวคาดทอง ยกมือรองรับข้อความ ด้านบนเป็นโลโก้ WIN999 ที่คำว่า WIN เป็นสีทองและเลข 999 เป็นสีขาว ถัดลงมาเป็นตัวอักษรไทยสีขาวว่า แนะนำเพื่อน ต่อด้วยคำว่า โบนัส สีทอง และตัวเลขขนาดใหญ่ 0.8% สีทองเงาวาว มุมล่างมีชิปคาสิโนสีดำสลักคำว่า WIN และไพ่เอซวางเรียงอยู่"
+      class="mx-auto h-auto w-full max-w-md rounded-2xl border border-[#8a6502]/70 shadow-[0_10px_30px_rgba(252,196,3,0.24)]"
     />
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThreeFloatingBadge>
 
-  <ContentBoxNeumorphism as="h2" title="สมัครแทงหวย LOTTO24 แทงง่าย จ่ายทันที ไม่ต้องรอคิว">
+  <ContentBox as="h2" title="มีปัญหาในการเล่น ติดต่อแอดมิน WIN999 ให้บริการตอบแชท 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-        การสมัครแทงหวย LOTTO24
-        <strong class="text-[#fff1f1]">สามารถทำผ่านหน้าเว็บไซต์ได้ด้วยตัวเอง</strong>
-        ขั้นตอนถูกจัดไว้ให้เข้าใจง่าย หลังยืนยันบัญชีเรียบร้อยสามารถเข้าสู่ระบบเพื่อเลือกรอบหวยและเลขที่ต้องการได้
-        <strong class="text-[#fff1f1]">โดยสมาชิกควรตรวจสอบอัตราจ่าย รายละเอียดบิล และเงื่อนไขของแต่ละรายการก่อนยืนยันทุกครั้ง</strong>
+      <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+        หากพบปัญหา Login ไม่ได้ เข้าเกมไม่ได้ เครดิตไม่เข้า รายการถอนอยู่ระหว่างตรวจสอบ หรือโปรโมชั่นไม่แสดง สามารถติดต่อแอดมิน WIN999
+        <strong class="text-[#fffbea]">ผ่านช่องทางบริการที่เว็บไซต์กำหนด</strong>
+        พร้อมแจ้งเวลา จำนวนเงิน ชื่อเกม หรือรายละเอียดรายการที่เกี่ยวข้อง
+        <strong class="text-[#fffbea]">เพื่อให้ทีมงานตรวจสอบปัญหาได้ตรงจุด</strong>
       </p>
-      <ol class="flex list-decimal flex-col gap-4 pl-6 text-left text-base leading-relaxed text-[#f6e2e2] marker:font-black marker:text-[#fbbf24]">
-        <li>เปิดหน้าสมัคร LOTTO24 แล้วกรอกข้อมูลที่ระบบกำหนดให้ครบถ้วน</li>
-        <li>ตรวจสอบข้อมูลส่วนตัวและรายละเอียดบัญชีให้ถูกต้องก่อนกดยืนยัน</li>
-        <li>เข้าสู่ระบบ เลือกรอบหวยและเลขที่ต้องการ จากนั้นตรวจสอบรายละเอียดก่อนส่งบิล</li>
-      </ol>
-    </div>
-  </ContentBoxNeumorphism>
-
-  <ContentBoxSpecial as="h2" title="ติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ได้ 24 ชั่วโมง" iconleft="💬" iconright="🛟">
-    <div slot="left" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-        หากมีข้อสงสัยเกี่ยวกับการสมัคร อัตราจ่าย รอบหวย โปรโมชั่น หรือการทำรายการ
-        <strong class="text-[#fff1f1]">สามารถติดต่อเจ้าหน้าที่ LOTTO24 ผ่านช่องทางไลน์ที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+      <p class="text-left text-base leading-relaxed text-[#e9e4d6]">
+        สำหรับปัญหาด้านธุรกรรมควรเก็บหลักฐานรายการไว้จนกว่าจะตรวจสอบเรียบร้อย
+        <strong class="text-[#fffbea]">และไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+        แม้บุคคลดังกล่าวจะอ้างว่าเป็นเจ้าหน้าที่ก็ตาม
       </p>
-      <a
-        href="/line"
-        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">💬</span> ติดต่อผ่าน Line Official
-      </a>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <a
+          href="/line"
+          class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">💬</span> ติดต่อผ่าน Line Official
+        </a>
+        <a
+          href="/register"
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fcc403]/70 bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#8a6502] p-3.5 text-center font-black text-[#120d02] shadow-[0_10px_30px_rgba(252,196,3,0.35)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก WIN999
+        </a>
+      </div>
     </div>
+  </ContentBox>
 
-    <div slot="right" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#f6e2e2]">
-        <strong class="text-[#fff1f1]">ทีมงานพร้อมช่วยให้ข้อมูลและตรวจสอบปัญหาตามรายละเอียดที่สมาชิกแจ้งเข้ามา</strong>
-      </p>
-      <a
-        href="/register"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fbbf24]/70 bg-gradient-to-r from-[#fde68a] via-[#fbbf24] to-[#a16207] p-3.5 text-center font-black text-[#2a0405] shadow-[0_10px_30px_rgba(251,191,36,0.35)] transition-all hover:scale-[1.02]">
-        <span aria-hidden="true">📝</span> สมัครสมาชิก LOTTO24
-      </a>
-    </div>
-  </ContentBoxSpecial>
-
-  <Faq as="h2" title="คำถามที่พบบ่อย" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ WIN999" faqs={faqs} />
 
   <LoginRtpSection />
 
