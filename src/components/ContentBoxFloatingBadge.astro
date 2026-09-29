@@ -11,53 +11,55 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
 // overflowing the card and forcing horizontal scroll on a phone.
 //
-// Clearance RE-DERIVED for WIN999 (2026-09-29), which puts this box on docx H2
-// #4: "ระบบฝากถอนที่ปลอดภัย WIN999 ระบบบัญชีบริษัท ไม่เสี่ยงโดนอายัด" — 60 code
-// points, ~50 advancing glyphs once the 11 zero-width Thai marks
-// (ี ่ ั ั ี ิ ั ่ ี ่ ั) are discounted. That is 5 glyphs LONGER than PGW44's
-// title, which is why this is measured again rather than inherited. It arrives
-// as an H2 here, i.e. one size notch below the H1 budgets below, so the H1
-// numbers are the worst case and they are the ones checked:
-//   base  text-xl 20px -> 30px/line, ~218px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~22 glyphs/line,
-//         so 50 glyphs wraps to 3. Budget 4 lines = 4x30 + 24 = 144px,
-//         bottom edge 120px vs pt-36/144px       -> 24px clear
-//   sm    text-2xl 24px -> 36px/line, ~443px of text width
-//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~37 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x36 + 24 = 132px,
-//         bottom edge 108px vs pt-36/144px       -> 36px clear
-//   md    text-3xl 30px -> 45px/line, max-w-2xl gives ~556px = ~37 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x45 + 24 = 159px,
-//         bottom edge 135px vs md:pt-40/160px    -> 25px clear
-// Every breakpoint still clears, so the padding is unchanged. Do NOT shrink it
-// on the assumption the box keeps a short title — redo the arithmetic with the
-// real docx sentence the next brand puts in here instead.
+// Clearance RE-DERIVED for GOT777 (2026-09-29), which puts this box on docx H2
+// #3: "โปรโมชั่น GOT777เกมสล็อต ใช้ได้ตลอดการเดิมพัน" — 45 code points, ~38
+// advancing glyphs once the 7 zero-width Thai marks (ั ่ ็ ้ ้ ิ ั) are
+// discounted. That is 12 glyphs SHORTER than WIN999's title, which is why the
+// padding is measured again and NOT inherited: pt-36/md:pt-40 was sized for a
+// four-line base wrap and would leave ~60px of dead space above a two-line one.
+// It arrives as an H2, i.e. one notch below the H1 budgets, and the badge keeps
+// py-2.5 (20px) + border-2 (4px) with two ✦ spans plus gap-2 taking ~48px of
+// the line box:
+//   base  text-lg 18px -> 27px/line, ~218px of text width at 360px
+//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
+//         so 38 glyphs wraps to 2. Budget 3 lines = 3x27 + 24 = 105px,
+//         bottom edge 81px vs pt-28/112px        -> 31px clear
+//   sm    text-xl 20px -> 30px/line, ~443px of text width
+//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~44 glyphs/line,
+//         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
+//         bottom edge 60px vs pt-28/112px        -> 52px clear
+//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~46 glyphs/line,
+//         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
+//         bottom edge 72px vs md:pt-32/128px     -> 56px clear
+// Every breakpoint clears with a full spare line of budget. Do NOT shrink it
+// further on the assumption the box keeps a title this length — redo the
+// arithmetic with the real docx sentence the next brand puts in here instead.
 //
-// WIN999 palette (ทอง-ดำ 2026-09-29): การ์ดไล่จากผิวการ์ดดำอมทอง #191712 ลงไปหาพื้น
-// เพจดำสนิท #050505 ในกรอบทองแบรนด์ #fcc403 ป้ายหัวข้อลอยอยู่บนผิวแผงยก #101010 ใน
-// กรอบทองเดียวกัน ประกายสองข้างแยกกันด้วยคู่สีของเวิร์ดมาร์ก — ทองสว่าง #fdda04 ฝั่ง
-// ซ้ายตามคำว่า WIN และขาวนวล #e9e4d6 ฝั่งขวาตามเลข 999 ตัวหัวข้อไล่ทองสว่าง #fdda04
-// → ทองแบรนด์ #fcc403 → ทองกลาง #e0a800 ออร่าสองมุมเป็นทองแบรนด์กับทองสว่าง เนื้อความ
-// #e9e4d6 (BRAND_TEXT) — ชุดทอง-เขียวของ PGW44 (#fde90e #fff89a #f5c518 #35d413
-// #5df53a #0b1408 #101a0b #050803 #e9f0dd) ออกครบทุกจุด แบรนด์นี้ไม่มีสีเขียวอยู่เลย
+// GOT777 palette (ทอง-แดงเลือดหมู-ดำ 2026-09-29): การ์ดไล่จากผิวการ์ดดำอมน้ำตาล
+// #160b06 ลงไปหาพื้นเพจดำสนิท #0a0503 ในกรอบทองแบรนด์ #f5c518 ป้ายหัวข้อลอยอยู่บนผิว
+// แผงยก #241108 ในกรอบทองเดียวกัน ประกายสองข้างแยกกันด้วยคู่สีของเวิร์ดมาร์ก — ทองอ่อน
+// #ffe9a8 ฝั่งซ้ายตามคำว่า GOT และแดงแบรนด์ #d21622 ฝั่งขวาตามเลข 777 ตัวหัวข้อไล่
+// ทองอ่อน #ffe9a8 → ทองแบรนด์ #f5c518 → แดงแบรนด์ #d21622 ตามลำดับสีบนโลโก้ ออร่าสอง
+// มุมเป็นทองกับแดง เนื้อความ #ece0cb (BRAND_TEXT) — ชุดทอง-ขาวของ WIN999 (#fcc403
+// #fdda04 #e0a800 #191712 #050505 #101010 #e9e4d6) ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#fcc403]/55 bg-gradient-to-b from-[#191712]/95 to-[#050505]/95 p-8 pt-36 text-left text-base leading-relaxed text-[#e9e4d6] shadow-[0_10px_30px_rgba(252,196,3,0.26)] md:pt-40">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#fcc403]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#fdda04]/18 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#f5c518]/55 bg-gradient-to-b from-[#160b06]/95 to-[#0a0503]/95 p-8 pt-28 text-left text-base leading-relaxed text-[#ece0cb] shadow-[0_10px_30px_rgba(245,197,24,0.24)] md:pt-32">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#d21622]/24 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#fcc403]/65 bg-[#101010] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(3,2,0,0.85)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#fdda04]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#f5c518]/65 bg-[#241108] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(5,2,1,0.85)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffe9a8]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#e0a800] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#d21622] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#e9e4d6]">
+          <span aria-hidden="true" class="shrink-0 text-[#d21622]">
             ✦
           </span>
         </div>

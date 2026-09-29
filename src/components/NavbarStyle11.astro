@@ -8,11 +8,11 @@ const targetPath = imagePaths.find((path) => path.endsWith(".webp")) || imagePat
 const mainLogo = targetPath ? images[targetPath].default : null;
 
 // The logo <Picture> below carries widths + sizes on purpose. Without them
-// Astro has no reason to resize and ships the source file — 1024x481, 73,938
-// bytes on this brand — into a box drawn about 110x50. Three candidates cover
-// 1x/2x/3x. (The note is here because the tag sits in a ternary branch, where a
-// {/* comment */} beside it makes the branch two expressions and fails the
-// build with "Expected ) but found $$render".)
+// Astro has no reason to resize and ships the source file into a box drawn
+// about 110x50. Three candidates cover 1x/2x/3x. (The note is here because the
+// tag sits in a ternary branch, where a {/* comment */} beside it makes the
+// branch two expressions and fails the build with "Expected ) but found
+// $$render".)
 //
 // ONE links array, read by both the desktop bar and the mobile drawer. This
 // file used to declare the menu twice, which is how one copy drifts from the
@@ -23,8 +23,15 @@ const mainLogo = targetPath ? images[targetPath].default : null;
 // สมัครสมาชิก are menu items in their own right and that page would be a third
 // link to the same two destinations. The page stays routed and indexed.
 //
-// No /ตรวจหวย or /แนวทาง either — MEPAY77 is a casino brand, so both lottery
-// pages stay parked in src/pages-disabled/ and must not be linked from here.
+// No /ตรวจหวย or /แนวทาง either — GOT777 is a เว็บเกมสล็อต, so both lottery
+// pages were moved back to src/pages-disabled/ this round and must not be
+// linked from here. A link to a route that does not exist fails verify-build.
+//
+// GOT777 palette (2026-09-29): ทองแบรนด์ #f5c518 เป็นสีหลัก · ทองอ่อน #ffe9a8
+// เป็นหัวข้อและ hover · ทองเข้ม #96690f เป็นปลายเกรเดียนต์ · แดงเลือดหมู
+// #d21622 / #7b0304 เป็นคู่สีรอง (ตามเลข 777 ในโลโก้) · พื้นดำอมน้ำตาล #0a0503
+// ยกระดับด้วย #160b06 / #241108 · เนื้อความ #ece0cb — ชุดสีแดงล้วนของ
+// LOTTOPLUS และทอง-เงินของ MEPAY77 ที่ค้างอยู่ในไฟล์นี้ถูกถอดออกหมดแล้ว
 //
 // The desktop bar switches on at xl, not lg: seven items with icons plus the
 // pair of CTA buttons does not fit a 1024 px row without crushing the labels.
@@ -33,8 +40,8 @@ const links = [
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎲" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "♠️" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 
@@ -44,25 +51,25 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#f2ae35]/45 bg-[#130c01]/95 px-4 shadow-[0_5px_20px_rgba(19,12,1,0.85)] backdrop-blur-lg xl:px-6">
+    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#f5c518]/45 bg-[#0a0503]/95 px-4 shadow-[0_5px_20px_rgba(10,5,3,0.85)] backdrop-blur-lg xl:px-6">
     <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="โลโก้ MEPAY77 ตัวอักษร ME สีทองเมทัลลิก ต่อด้วย PAY สีเงินแปรงขัด และเลข 77 สีทองเมทัลลิก"
+            alt="โลโก้ GOT777 ตัวอักษร GOT สีทองเมทัลลิกมีอัญมณีสีแดงฝังอยู่กลางตัว O ต่อด้วยเลข 777 สีแดงเลือดหมูขอบทอง"
             loading="eager"
             fetchpriority="high"
             widths={[110, 220, 330]}
             sizes="110px"
             height={50}
-            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(253,204,92,0.5)] xl:h-[50px]"
+            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(245,197,24,0.5)] xl:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <p class="text-3xl font-black tracking-widest text-[#fdcc5c]">
-            ME<span class="text-[#dfe3e8]">PAY</span>77
+          <p class="text-3xl font-black tracking-widest text-[#f5c518]">
+            GOT<span class="text-[#d21622]">777</span>
           </p>
         )
       }
@@ -73,11 +80,11 @@ const isActive = (path: string) => isActivePath(currentPath, path);
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#fdcc5c]" : "text-[#f1e5cd]/85 hover:text-[#fff6e0]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f5c518]" : "text-[#ece0cb]/85 hover:text-[#fff6dd]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#a3701c] via-[#dfe3e8] to-[#fdcc5c] shadow-[0_-2px_10px_rgba(253,204,92,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#7b0304] via-[#d21622] to-[#f5c518] shadow-[0_-2px_10px_rgba(245,197,24,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -87,35 +94,35 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     <div class="z-[110] flex items-center gap-3">
       <a
         href="/login"
-        class="hidden rounded-full border border-[#dfe3e8]/50 bg-[#241503]/80 px-6 py-2.5 text-sm font-bold text-[#f1e5cd] shadow-inner transition-all hover:border-[#dfe3e8] hover:bg-[#2e1c06]/90 xl:flex">
+        class="hidden rounded-full border border-[#d21622]/60 bg-[#241108]/80 px-6 py-2.5 text-sm font-bold text-[#ece0cb] shadow-inner transition-all hover:border-[#d21622] hover:bg-[#3a1a0c]/90 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full border border-[#fdcc5c]/50 bg-gradient-to-r from-[#fdcc5c] to-[#a3701c] px-6 py-2.5 text-sm font-black text-[#130c01] shadow-[0_4px_15px_rgba(253,204,92,0.4)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(253,204,92,0.6)] xl:flex">
+        class="hidden rounded-full border border-[#f5c518]/50 bg-gradient-to-r from-[#f5c518] to-[#96690f] px-6 py-2.5 text-sm font-black text-[#0a0503] shadow-[0_4px_15px_rgba(245,197,24,0.4)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(245,197,24,0.6)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#f2ae35]/55 bg-[#241503] xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#f5c518]/55 bg-[#241108] xl:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fdcc5c] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fdcc5c] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fdcc5c] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#f2ae35] bg-[#130c01]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
+    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#f5c518] bg-[#0a0503]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#f2ae35] bg-[#241503] text-[#fdcc5c]" : "text-[#f1e5cd]/80 hover:bg-white/5 hover:text-[#fff6e0]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#f5c518] bg-[#241108] text-[#f5c518]" : "text-[#ece0cb]/80 hover:bg-white/5 hover:text-[#fff6dd]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -125,10 +132,10 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     <div class="mt-6 flex flex-col gap-3">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full border border-[#fdcc5c]/50 bg-gradient-to-r from-[#fdcc5c] to-[#a3701c] py-3.5 text-lg font-black text-[#130c01] shadow-md">
+        class="flex w-full justify-center rounded-full border border-[#f5c518]/50 bg-gradient-to-r from-[#f5c518] to-[#96690f] py-3.5 text-lg font-black text-[#0a0503] shadow-md">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-[#dfe3e8]/50 bg-[#241503]/80 py-3.5 text-lg font-bold text-[#f1e5cd]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-[#d21622]/60 bg-[#241108]/80 py-3.5 text-lg font-bold text-[#ece0cb]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

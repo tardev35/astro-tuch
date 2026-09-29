@@ -18,23 +18,28 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // name from aria-label. The prop-driven heading below is the docx's own FAQ
 // heading, so it stays a heading — at whatever level `as` says.
 //
+// `faqs` defaults to an empty list on purpose: the page always passes the docx's
+// own Q/A pairs, so there is no default copy here that could silently ship a
+// previous brand's wording.
+//
 // State comes from the [open] attribute, not from an `active` class a script
 // toggles — that is why this variant has no <script> at all.
 //
-// UWIN33 (รอบทอง-โครเมียม-ดำ 2026-09-24): แถวที่ปิดอยู่นั่งบนพื้นการ์ดดำอมน้ำตาล
-// #161106 ที่ไล่ลงไปหาพื้นเพจ #080602 ในกรอบทองลึก #7a5407 เครื่องหมายบวกเป็นทอง
-// สว่าง #fbd564 แล้วสลับเป็นเงินโครเมียม #dfe4ec ตอนแถวถูกเปิด ซึ่งเป็นครึ่งหลัง
-// ของโลโก้ (คำว่า WIN) และทำให้สถานะเปิดมีการเปลี่ยนสี ไม่ใช่แค่หมุนเครื่องหมาย
-// หัวข้อไล่จากเงินโครเมียม → ทองสว่าง → ทองแบรนด์ #e0b429 ตามลำดับสีบนโลโก้
-// เนื้อความ #ece6d8 (BRAND_TEXT) — ชุดทอง-ส้มของ MEPAY77 (#f2ae35 #fdcc5c
-// #fff6e0 #5c3a08 #1b1206 #130c01 #f1e5cd #dfe3e8) ออกทั้งหมด
+// GOT777 (รอบทอง-แดงเลือดหมู-ดำ 2026-09-29): แถวที่ปิดอยู่นั่งบนพื้นการ์ดดำอมน้ำตาล
+// #160b06 ที่ไล่ลงไปหาพื้นเพจดำสนิท #0a0503 ในกรอบทองลึก #96690f เครื่องหมายบวกเป็น
+// ทองแบรนด์ #f5c518 แล้วสลับเป็นแดงแบรนด์ #d21622 ตอนแถวถูกเปิด ซึ่งเป็นครึ่งหลังของ
+// เวิร์ดมาร์ก (เลข 777 สีแดง) และทำให้สถานะเปิดมีการเปลี่ยนสีจริง ไม่ใช่แค่หมุนเครื่องหมาย
+// หัวข้อไล่ทองอ่อน #ffe9a8 → ทองแบรนด์ #f5c518 → ทองลึก #96690f ตามลำดับสีบนโลโก้
+// คำถามเป็นขาวไฮไลต์ #fff6dd เนื้อความ #ece0cb (BRAND_TEXT) — ชุดทอง-โครเมียมของ
+// UWIN33 (#e0b429 #fbd564 #dfe4ec #7a5407 #161106 #080602 #fff8e6 #ece6d8)
+// ออกทั้งหมด
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
 <section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
   {
     title && (
-      <HeadingTag class="mb-8 bg-gradient-to-r from-[#dfe4ec] via-[#fbd564] to-[#e0b429] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
+      <HeadingTag class="mb-8 bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#96690f] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
         {title}
       </HeadingTag>
     )
@@ -43,16 +48,16 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   <div class="space-y-4">
     {
       faqs.map((faq) => (
-        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#7a5407]/70 bg-gradient-to-br from-[#161106] to-[#080602] transition-all hover:border-[#e0b429]/55">
+        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#96690f]/70 bg-gradient-to-br from-[#160b06] to-[#0a0503] transition-all hover:border-[#f5c518]/55">
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <p class="text-base leading-normal font-bold text-[#fff8e6]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#fff6dd]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#e0b429]/50 text-lg leading-none font-black text-[#fbd564] transition-transform duration-300">
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#f5c518]/50 text-lg leading-none font-black text-[#f5c518] transition-transform duration-300">
               +
             </span>
           </summary>
-          <div class="faq-answer border-t border-[#7a5407]/70 p-5 pt-0 text-left text-base leading-relaxed text-[#ece6d8]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#96690f]/70 p-5 pt-0 text-left text-base leading-relaxed text-[#ece0cb]">{faq.a}</div>
         </details>
       ))
     }
@@ -67,13 +72,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(224, 180, 41, 0.6);
-    box-shadow: 0 0 20px rgba(251, 213, 100, 0.28);
+    border-color: rgba(245, 197, 24, 0.6);
+    box-shadow: 0 0 20px rgba(245, 197, 24, 0.28);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #dfe4ec;
-    color: #dfe4ec;
+    border-color: #d21622;
+    color: #d21622;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

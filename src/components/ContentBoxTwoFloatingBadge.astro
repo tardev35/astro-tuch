@@ -15,52 +15,59 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // viewport and forcing horizontal scroll on a phone.
 //
 // It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. RE-DERIVED for WIN999's docx H2
-// #5, "หมดปัญหาเรื่องระบบปิดปรับปรุง ทางเข้า WIN999 ล่าสุด เล่นได้ตลอด 24 ชั่วโมง" —
-// 74 code points, ~61 advancing glyphs once the 13 zero-width Thai marks
-// (ั ื ่ ิ ั ุ ้ ่ ุ ่ ้ ั ่) are discounted. That is 22 glyphs LONGER than
-// BRAZIL999's title, which is what the old pt-32 was sized against, so the
-// arithmetic is redone rather than inherited. The heading carries
-// `leading-normal` (1.5), the badge adds py-2.5 (20px) and border-2 (4px), and
-// the two ✦ spans plus gap-2 take ~48px of the line box. Budget is one line
-// beyond the measured wrap at every breakpoint:
-//   base  text-base 16px -> 24px/line, ~247px of text width at 360px
-//         (w-[92%] 331 - px-4 32 - border 4 - sparks 48) = ~30 glyphs/line,
-//         so 61 glyphs wraps to 3. Budget 4 lines = 4x24 + 24 = 120px,
-//         bottom edge 96px vs pt-32/128px             -> 32px clear
-//   sm    text-xl 20px -> 30px/line, ~473px of text width = ~47 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x30 + 24 = 114px,
-//         bottom edge 90px vs pt-32/128px             -> 38px clear
+// the badge's own height minus that 24px offset. RE-DERIVED for GOT777's docx H2
+// #6, "สมัครเล่นสล็อต GOT777 เกมฮิตแตกง่าย ไม่มีขั้นต่ำ" — 48 code points, ~38
+// advancing glyphs once the 10 zero-width Thai marks (ั ่ ็ ิ ่ ่ ี ั ้ ่) are
+// discounted. That is 23 glyphs SHORTER than WIN999's title, which is what the
+// old pt-32/md:pt-36 was sized against, so the arithmetic is redone rather than
+// inherited — the old value left ~70px of dead air above the copy. The heading
+// carries `leading-normal` (1.5), the badge adds py-2.5 (20px) and border-2
+// (4px), and the two ✦ spans plus gap-2 take ~48px of the line box. Budget is
+// one full spare line beyond the measured wrap at every breakpoint:
+//   base  text-base 16px -> 24px/line, ~218px of text width at 360px
+//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~27 glyphs/line,
+//         so 38 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
+//         bottom edge 72px vs pt-28/112px             -> 40px clear
+//   sm    text-xl 20px -> 30px/line, ~443px of text width
+//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~44 glyphs/line,
+//         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
+//         bottom edge 60px vs pt-28/112px             -> 52px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~46 glyphs/line,
-//         wraps to 2. Budget 3 lines = 3x36 + 24 = 132px,
-//         bottom edge 108px vs pt-32/128px            -> 20px clear
-// The md figure is the one that moved: 20px of daylight on a title this long is
-// inside rounding error of the glyph-width estimate, so md was bumped pt-32 ->
-// md:pt-36 (144px), which restores 36px clear there. base/sm keep pt-32. It was
-// once pt-28 with md:pt-24 — md was NEGATIVE the moment the title took three
-// lines. Do not push it back down without redoing the arithmetic above.
+//         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
+//         bottom edge 72px vs md:pt-32/128px          -> 56px clear
+// pt-28/md:pt-32 matches its two sibling *FloatingBadge variants, so the three
+// stay in sync. Do not push it lower without redoing the arithmetic against the
+// real docx sentence the next brand puts in here.
 //
-// WIN999 palette (ทอง-ดำ 2026-09-29): การ์ดไล่จากผิวการ์ดดำอมทอง #191712 ลงพื้นเพจ
-// ดำสนิท #050505 ในกรอบทองแบรนด์ #fcc403 ป้ายหัวข้อวางบนผิวการ์ดยก #101010 ประกาย
-// ซ้ายเป็นทองสว่าง #fdda04 ประกายขวาเป็นขาวนวล #e9e4d6 ตามคู่สีของโลโก้ที่คำว่า WIN
-// เป็นทองและเลข 999 เป็นขาว ตัวหัวข้อไล่ขาวไฮไลต์ #fffbea → ทองสว่าง #fdda04 → ทอง
-// แบรนด์ #fcc403 ป้ายสองคอลัมน์รับทองสว่าง เนื้อความ #e9e4d6 (BRAND_TEXT) — ชุดเขียว-
-// โครเมียมของ BRAZIL999 (#22c55e #7cf25c #b6ff9c #f1f5f9 #0a1a0c #123a18 #040a05
-// #dfeadd) ออกทั้งหมด
+// GOT777 palette (ทอง-แดงเลือดหมู-ดำ 2026-09-29): เวิร์ดมาร์กเขียน GOT เป็นทอง
+// เมทัลลิก #f5c518 มีอัญมณีแดงกลางตัว O แล้วปิดด้วยเลข 777 สีแดงเลือดหมู #d21622
+// ขอบทอง การ์ดจึงไล่จากผิวการ์ดดำอมน้ำตาล #160b06 ลงไปหาพื้นเพจดำสนิท #0a0503 ใน
+// กรอบแดงลึก #7b0304 ซึ่งต่างจาก ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบ
+// ที่วางใกล้กันบนหน้าแรกไม่อ่านเป็นการ์ดเดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแผงยก
+// #241108 ในกรอบแดงแบรนด์ ประกายสองข้างแยกตามคู่สีของโลโก้ — ทองอ่อน #ffe9a8 ฝั่ง
+// ซ้ายตามคำว่า GOT และแดงแบรนด์ #d21622 ฝั่งขวาตามเลข 777 ตัวหัวข้อไล่ทองล้วน
+// ทองอ่อน #ffe9a8 → ทองแบรนด์ #f5c518 → ทองลึก #96690f ป้ายคอลัมน์ซ้ายเป็นทองอ่อน
+// ฝั่งขวาเป็นแดงแบรนด์ เนื้อความ #ece0cb (BRAND_TEXT) ตัวรอง #bdae92 — ชุดทอง-ขาว
+// ของ WIN999 (#fcc403 #fdda04 #8a6502 #4a3402 #fffbea #191712 #050505 #101010
+// #e9e4d6) ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#fcc403]/45 bg-gradient-to-b from-[#191712] to-[#050505] p-8 pt-32 shadow-[0_10px_40px_rgba(3,2,0,0.85)] md:pt-36">
+  <div
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#7b0304] bg-gradient-to-b from-[#160b06] to-[#0a0503] p-8 pt-28 shadow-[0_10px_40px_rgba(5,2,1,0.85)] md:pt-32">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/26 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#d21622]/22 blur-[60px]"></div>
+
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#fcc403]/70 bg-[#101010] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(252,196,3,0.32)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#fdda04]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#d21622]/70 bg-[#241108] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(210,22,34,0.34)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffe9a8]">
             ✦
           </span>
-          <HeadingTag class="bg-gradient-to-r from-[#fffbea] via-[#fdda04] to-[#fcc403] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+          <HeadingTag class="bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#96690f] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#e9e4d6]">
+          <span aria-hidden="true" class="shrink-0 text-[#d21622]">
             ✦
           </span>
         </div>
@@ -68,13 +75,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9e4d6]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#fdda04] drop-shadow-[0_0_5px_rgba(252,196,3,0.32)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0cb]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffe9a8] drop-shadow-[0_0_5px_rgba(245,197,24,0.35)]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9e4d6] md:border-l md:border-[#fcc403]/35 md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#fdda04] drop-shadow-[0_0_5px_rgba(252,196,3,0.32)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0cb] md:border-l md:border-[#7b0304] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#d21622] drop-shadow-[0_0_5px_rgba(210,22,34,0.35)]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>
