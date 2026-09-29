@@ -1,16 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement3.astro";
-import LatestWinners from "../components/LatestWinners2.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import Faq from "../components/Faq.astro";
+import Announcement from "../components/Announcement5.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Faq from "../components/Faq3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -18,130 +19,129 @@ import { pageGraph } from "../lib/schema";
 import imgSlide1 from "../assets/slide1.png";
 import imgSlide2 from "../assets/slide2.png";
 
-// VARIANT ROTATION THIS ROUND (LOTTOPLUS -> GOT777). Zero file reuse from the
-// previous round: Announcement3 replaces AnnouncementHuay, LatestWinners2
-// replaces LatestWinners4, plain Faq.astro replaces Faq2, ReviewCardSumo2
-// replaces ReviewCardSumo, and the ContentBox shape-mix moves off
-// CyberCut / TwoCyberCut / Neumorphism / SevenThreeCyberCut / Special / plain /
-// SevenThreeNeumorphism / TwoNeumorphism onto Premium / TwoPremium /
-// FloatingBadge / TwoFloatingBadge / SevenThreePremium /
-// SevenThreeFloatingBadge. NavbarStyle11 and FooterPremiumSumo are the layout's
-// pair this round (previously NavbarHuay / FooterHuay).
-// Every CyberCut / Neumorphism / Special / Huay file, Faq2, LatestWinners4 and
-// ReviewCardSumo stay on disk as inventory for the next brand — none of them
+// VARIANT ROTATION THIS ROUND (GOT777 -> CK268). Zero file reuse from the
+// previous round: Announcement5 replaces Announcement3, LatestWinnersCyber
+// replaces LatestWinners2, Faq3 replaces plain Faq.astro, ReviewCardSumo
+// replaces ReviewCardSumo2, and the ContentBox shape-mix moves off
+// Premium / TwoPremium / FloatingBadge / TwoFloatingBadge / SevenThreePremium /
+// SevenThreeFloatingBadge onto CyberCut / TwoCyberCut / Neumorphism /
+// TwoNeumorphism / SevenThreeCyberCut / SevenThreeNeumorphism / Special.
+// NavbarStyle6 and FooterStyle3 are the layout's pair this round (previously
+// NavbarStyle11 / FooterPremiumSumo).
+// Every Premium / FloatingBadge / Huay file, plain Faq.astro, LatestWinners2 and
+// ReviewCardSumo2 stay on disk as inventory for the next brand — none of them
 // was deleted.
 //
-// <Announcement /> runs bare on purpose: Announcement3's default message is
+// <Announcement /> runs bare on purpose: Announcement5's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things
 // on two pages of the same site.
 //
-// IMAGE ROLES FOR THIS DROP (2026-09-29). Two files are referenced from this
+// IMAGE ROLES FOR THIS DROP (2026-09-30). Two files are referenced from this
 // page and only two:
-//   slide2.png — the poster whose red pill reads "คืนยอดเสีย โบนัส" above a huge
-//     gold "0.3%", so it belongs to docx H3 #4.
-//   slide1.png — the companion poster whose pill reads "แนะนำเพื่อน โบนัส"
-//     above a huge gold "0.8%", so it belongs to docx H3 #5.
+//   slide1.png — the poster whose black pill reads "คืนยอดเสีย โบนัส" around a
+//     huge neon-green "0.3%", so it belongs to docx H3 #4.
+//   slide2.png — the companion poster whose pill reads "แนะนำเพื่อน โบนัส"
+//     around a huge neon-green "0.8%", so it belongs to docx H3 #5.
 // Both files are 600x600, so 600 is the top candidate width — nothing above it
-// would be a real pixel, and the 7fr slot is capped at max-w-[600px] so the
-// square is never upscaled past its own pixels. Each slide sits in a
-// ContentBoxSevenThree* image+text block, which is that family's hard cap of two
-// per rebrand, so there is no third SevenThree on this page. The two blocks put
-// the picture on OPPOSITE sides: SevenThreePremium runs image(3fr)-then-text,
-// SevenThreeFloatingBadge runs text(3fr)-then-image(7fr).
+// would be a real pixel, and each picture carries max-w-[600px] so the square is
+// never upscaled past its own pixels. Each slide sits in a ContentBoxSevenThree*
+// image+text block, which is that family's hard cap of two per rebrand, so there
+// is no third SevenThree on this page. The two blocks put the picture on
+// OPPOSITE sides: SevenThreeCyberCut runs image(3fr)-then-text,
+// SevenThreeNeumorphism runs text(7fr)-then-image(3fr).
 //
-// The alt text was written from THIS drop's artwork (a black-and-gold ground
-// with gold coins, red-and-black casino chips, red gift boxes, the GOT777
-// wordmark and a 777 slot machine in the lower right) and is NOT the previous
-// brand's text — the LOTTOPLUS posters were a light studio ground with
-// red-and-white ribbons, Thai lottery tickets and numbered lottery balls, none
-// of which is in these pictures.
+// The alt text was written from THIS drop's artwork (a black ground with neon
+// green light streaks, green-and-black casino chips, gold coins, green gift
+// boxes, the chrome-and-neon CK268 wordmark and a 777 slot machine) and is NOT
+// the previous brand's text — the GOT777 posters were black-and-gold with red
+// chips and red gift boxes, none of which is in these pictures.
 //
 // Deliberately NOT imported, and every file still on disk as inventory:
-//   slide3.png and slide4.png are LOTTOPLUS lottery posters ("3ตัว1,000",
-//   lottery balls), and banner2.png / banner3.png carry older clients' lottery
-//   banners — importing any of them would emit a competitor's artwork into
-//   dist/, so there is no inline article illustration beyond the two slides this
-//   round. banner1.png and banner1-mobile.png belong to MainLayout's own pinned
-//   globs and are never referenced from a page — the hero is the LCP element, so
-//   nothing here gets loading="eager" fetchpriority="high". og.png is the same:
-//   MainLayout owns it.
+//   slide3.png and slide4.png are LOTTOPLUS lottery posters, and banner2.png /
+//   banner3.png carry older clients' banners — importing any of them would emit
+//   a competitor's artwork into dist/, so there is no inline article
+//   illustration beyond the two slides this round. banner1.png and
+//   banner1-mobile.png belong to MainLayout's own pinned globs and are never
+//   referenced from a page — the hero is the LCP element, so nothing here gets
+//   loading="eager" fetchpriority="high". og.png is the same: MainLayout owns it.
 //
-// Vocabulary: GOT777 is a เว็บเกมสล็อตออนไลน์. The outgoing brand on this
+// Vocabulary: CK268 is a เว็บเกมสล็อตออนไลน์. The outgoing brands on this
 // template sold a different product entirely (see the banned-word list in the
 // rebrand spec, kept out of this file so a source grep for it does not flag the
 // page that was written to avoid it), and every one of those words is gone —
-// the page was rewritten from content.txt rather than find-and-replaced over
-// the old sentences. Nothing here claims a licence, a direct-site status, a
-// named game provider, a bank, a minimum deposit or a payout percentage,
-// because the brief names none. The only figures on this page are the four the
-// brief itself states: คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, 24 ชั่วโมง, and the
-// 777 inside the brand name. The brief's hedging ships with it — every offer is
-// paired with its own caution ("ไม่สามารถรับประกันว่าจะชนะ", "ควรตรวจสอบช่วง
-// เดิมพันที่แสดงในเกม") and those sentences are part of the paragraphs, not
-// trimmed as downbeat.
+// the page was rewritten from the brief rather than find-and-replaced over the
+// old sentences. Nothing here claims a licence, a named game provider, a bank,
+// a deposit minimum, an RTP figure, a member count or a founding year, because
+// the brief names none. The only figures on this page are the ones the brief
+// itself states: 1 บาท, 0.3%, 0.8%, 3 ขั้นตอน, 24 ชั่วโมง, and the 268 inside
+// the brand name. The brief's hedging ships with it — every offer is paired
+// with its own caution ("ควรอ้างอิงช่วงเดิมพันจริงที่แสดงภายในเกม", "ควรมีเกณฑ์
+// หรือข้อมูลที่ตรวจสอบได้รองรับ") and those sentences are part of the
+// paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used
 // verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one ships at 121 characters,
+// floor and never topped up from the H1/H2 — this one ships at 141 characters,
 // the length the brief wrote it, which is a passing build (verify-build exempts
 // the home page from DESC_MIN for exactly this reason), not a gap to fill.
-const pageTitle = "GOT777 เว็บเกมสล็อตชั้นนำ แพลตฟอร์มค่ายใหญ่ ลุ้นได้ตลอดเกม";
+const pageTitle = "CK268 สล็อตชั้นนำอันดับ1 อัปเดตเกมใหม่ โปรมาแรง 1 บาททุกเกม";
 
-const pageDescription = "GOT777 เว็บเกมสล็อตชั้นนำ เดิมพันบนแพลตฟอร์มค่ายใหญ่ มีเกมให้เลือกเล่นไม่จำกัด ลุ้นแจ๊คพอตทุกค่าย เล่นง่าย ได้กำไรตลอดเกม";
+const pageDescription = "CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดังอัปเดตเกมใหม่ พร้อมโปรสล็อตมาแรง 1 บาททุกเกม ฝากถอนไม่มีขั้นต่ำ ทุกยอดเข้าบริษัทโดยตรง ปลอดภัย100%";
 
-// The docx has a real H2 -> H3 nesting this round, so the page is NOT flattened
-// to H2-only. The two H3s are genuine docx headings — the two bonus sub-points,
-// both nested under the โปรโมชั่น H2 — and they stay H3.
+// The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened
+// to H2-only. The two H3s are genuine headings — the two bonus sub-points, both
+// nested under the โปรโมชั่น H2 — and they stay H3.
 //
-// The docx checklist, in document order, and what carries each one:
-//    1 H1  GOT777 เว็บเกมสล็อตชั้นนำ แพลตฟอร์มค่ายใหญ่ ลุ้นได้ตลอดเกม
-//          ContentBoxPremium, txt L4 + L5
-//    2 H2  GOT777 มีเกมสล็อตให้เลือกเล่นไม่จำกัด ลุ้นแจ๊คพอตได้ทุกค่าย
-//          ContentBoxTwoPremium, L7 left + L8 right
-//    3 H2  โปรโมชั่น GOT777เกมสล็อต ใช้ได้ตลอดการเดิมพัน
-//          ContentBoxFloatingBadge, L10
+// The checklist, in document order, and what carries each one:
+//    1 H1  CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดัง อัปเดตเกมใหม่ ตลอดสัปดาห์
+//          ContentBoxCyberCut, L4 + L5
+//    2 H2  CK268 โปรสล็อตมาแรง 1 บาททุกเกม เบทอิสระ ไม่มีขั้นต่ำ
+//          ContentBoxTwoCyberCut, L7 left + L8 right
+//    3 H2  โปรโมชั่น CK268 จัดหนักตลอดเดือน
+//          ContentBoxNeumorphism, L10
 //    4 H3  คืนยอดเสีย โบนัส 0.3%
-//          ContentBoxSevenThreePremium + slide2, L12
+//          ContentBoxSevenThreeCyberCut + slide1, L12
 //    5 H3  แนะนำเพื่อน โบนัส 0.8%
-//          ContentBoxSevenThreeFloatingBadge + slide1, L14
-//    6 H2  สมัครเล่นสล็อต GOT777 เกมฮิตแตกง่าย ไม่มีขั้นต่ำ
-//          ContentBoxTwoFloatingBadge, L16 left + L17 right
-//    7 H2  ติดต่อสอบถามแอดมิน GOT777 ผู้ให้บริการได้ 24 ชั่วโมง
-//          ContentBoxPremium + LINE / สมัคร buttons, L19 + L20
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ GOT777
-//          Faq (plain) + faqs prop, L22-L27
+//          ContentBoxSevenThreeNeumorphism + slide2, L14
+//    6 H2  สมัครเล่นสล็อตชั้นนำ CK268 อันดับ1 ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoNeumorphism, L16 left + L17 right
+//    7 H2  ติดต่อแอดมิน CK268 ผู้ให้บริการเกมสล็อตได้ 24 ชั่วโมง
+//          ContentBoxSpecial + LINE / สมัคร buttons, L19 + L20
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ CK268
+//          Faq3 + faqs prop
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// Every docx paragraph ships in full. Sections 1, 2, 6 and 7 each have TWO
-// paragraphs in the brief and both ship, nothing merged or summarised: in the
-// two-column blocks they run one per column, in the single-column blocks they
-// stack inside one wrapper div. The column labels passed to the two-column
-// boxes are this page's own layout wording, not docx headings, and those
-// variants render them as <p>.
+// Every brief paragraph ships in full. Sections 1, 2, 6 and 7 each have TWO
+// paragraphs and both ship, nothing merged or summarised: in the two-column
+// blocks they run one per column, in the single-column block they stack inside
+// one wrapper div. The column labels passed to the two-column boxes are this
+// page's own layout wording, not brief headings, and those variants render them
+// as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// LatestWinners2, LoginRtpSection and ReviewCardSumo2 render their titles as
-// <p>/<span> with an aria-label on the section, and Faq's questions live inside
-// <summary> as <p>. The non-docx widgets sit before section 1 (LatestWinners2,
-// right after the ticker) and after section 8 (LoginRtpSection, ReviewCardSumo2,
-// Navfoot) — never spliced between two docx sections.
+// LatestWinnersCyber, LoginRtpSection and ReviewCardSumo render their titles as
+// <p>/<span> with an aria-label on the section, and Faq3's questions live inside
+// <summary> as <p>. The non-brief widgets sit before section 1
+// (LatestWinnersCyber, right after the ticker) and after section 8
+// (LoginRtpSection, ReviewCardSumo, Navfoot) — never spliced between two
+// content sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's
 // own defaults, which belong to whichever brand shipped last. The three pairs
-// are the brief's own Q/A block (content.txt L22-L27), verbatim.
+// are the brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "GOT777 มีเกมสล็อตแจ็กพอตทุกค่ายหรือไม่?",
-    a: "ขึ้นอยู่กับเกมและผู้ให้บริการที่ GOT777 เปิดให้ใช้งานในขณะนั้น บางค่ายอาจมีสล็อตแจ็กพอต ขณะที่บางค่ายเน้นฟรีสปิน ตัวคูณ หรือโบนัสรูปแบบอื่น ควรตรวจสอบรายละเอียดของเกมก่อนเริ่มเดิมพัน",
+    q: "CK268 มีเกมสล็อตเดิมพัน 1 บาททุกเกมหรือไม่?",
+    a: "ยอดเดิมพันขึ้นอยู่กับเกมและค่ายผู้ให้บริการ บางเกมสามารถเริ่มต้นในระดับ 1 บาท ขณะที่บางรายการอาจกำหนดขั้นต่ำแตกต่างกัน ควรตรวจสอบช่วงเดิมพันที่แสดงภายในเกมก่อนเริ่มเล่นทุกครั้ง",
   },
   {
-    q: "โปรโมชั่น GOT777 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
-    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่ตรงตามเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนจากยอดที่เข้าเกณฑ์ สมาชิกควรตรวจสอบรอบคำนวณ เกมที่ร่วมรายการ และข้อกำหนดล่าสุดก่อนรับสิทธิ์",
+    q: "โปรโมชั่น CK268 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียสำหรับยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนตามยอดที่เว็บไซต์กำหนด สมาชิกควรตรวจสอบรอบคำนวณ เกมที่ร่วมรายการ และเงื่อนไขล่าสุดก่อนกดรับ",
   },
   {
-    q: "GOT777 มีเกมสล็อตไม่มีขั้นต่ำทุกเกมหรือไม่?",
-    a: "ยอดเดิมพันขั้นต่ำขึ้นอยู่กับเกมสล็อตและค่ายผู้ให้บริการ บางเกมอาจรองรับการเดิมพันด้วยยอดต่ำ แต่ไม่ควรถือว่าทุกเกมไม่มีขั้นต่ำ สมาชิกสามารถตรวจสอบช่วงเดิมพันจริงที่แสดงภายในเกมก่อนเริ่มเล่นได้",
+    q: "CK268 อัปเดตเกมสล็อตใหม่ทุกสัปดาห์หรือไม่?",
+    a: "หากเว็บไซต์กำหนดรอบอัปเดตเกมรายสัปดาห์ สมาชิกสามารถตรวจสอบเกมใหม่จากหน้าเกมสล็อตหรือประกาศของ CK268 ได้ โดยจำนวนเกมและช่วงเวลาที่เพิ่มเข้าระบบขึ้นอยู่กับการอัปเดตของแต่ละค่ายผู้ให้บริการ",
   },
 ];
 
@@ -149,8 +149,8 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #fff6dd against the body colour #ece0cb, so the
-// brand's gold stays the page's structural accent and the paragraphs never
+// One highlight colour only: #eaffd6 against the body colour #d5e6cd, so the
+// brand's neon green stays the page's structural accent and the paragraphs never
 // compete with a heading for it.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself would
@@ -171,115 +171,112 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title="GOT777 เว็บเกมสล็อตชั้นนำ แพลตฟอร์มค่ายใหญ่ ลุ้นได้ตลอดเกม">
+  <ContentBoxCyberCut as="h1" title="CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดัง อัปเดตเกมใหม่ ตลอดสัปดาห์">
     <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#ece0cb]">
-        GOT777
-        <strong class="text-[#fff6dd]">ให้บริการเกมสล็อตออนไลน์ที่รวบรวมเกมหลากหลายรูปแบบจากแพลตฟอร์มค่ายใหญ่ไว้ในบัญชีเดียว</strong>
-        มีทั้งสล็อตคลาสสิก เกมโบนัส ฟรีสปิน ตัวคูณ และเกมแจ็กพอตให้เลือกตามความสนใจ รองรับการเข้าเล่นผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว
-        <strong class="text-[#fff6dd]">ช่วยให้ค้นหาเกมที่ต้องการได้ง่ายโดยไม่ต้องสมัครหลายบัญชี</strong>
+      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
+        CK268
+        <strong class="text-[#eaffd6]">รวมเกมสล็อตออนไลน์จากหลายค่ายไว้ให้เลือกผ่านบัญชีเดียว</strong>
+        มีทั้งเกมยอดนิยม สล็อตเปิดใหม่ ฟรีสปิน ตัวคูณ และฟีเจอร์โบนัสหลากหลายรูปแบบ
+        <strong class="text-[#eaffd6]">พร้อมอัปเดตรายการเกมใหม่ตลอดสัปดาห์ตามค่ายที่เปิดให้บริการ</strong>
+        รองรับการเข้าเล่นผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ สมาชิกสามารถค้นหาเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว ช่วยให้เลือกเกมใหม่หรือสลับค่ายได้สะดวกยิ่งขึ้น
       </p>
-      <p class="text-left text-base leading-relaxed text-[#ece0cb]">
-        เกมสล็อตเป็นเกมที่มีผลลัพธ์แบบสุ่ม แม้บางเกมจะมีแจ็กพอตหรือโบนัสให้ลุ้น
-        <strong class="text-[#fff6dd]">แต่ไม่สามารถรับประกันว่าจะชนะหรือทำกำไรได้ตลอดเกม</strong>
+      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
+        สำหรับคำว่า “สล็อตชั้นนำอันดับ 1”
+        <strong class="text-[#eaffd6]">ควรมีเกณฑ์หรือข้อมูลที่ตรวจสอบได้รองรับหากนำมาใช้เป็นคำกล่าวอ้างหลักของเว็บไซต์</strong>
       </p>
     </div>
-  </ContentBoxPremium>
+  </ContentBoxCyberCut>
 
-  <ContentBoxTwoPremium as="h2" title="GOT777 มีเกมสล็อตให้เลือกเล่นไม่จำกัด ลุ้นแจ๊คพอตได้ทุกค่าย" titleleft="เกมสล็อตที่เปิดให้เลือก" titleright="สิ่งที่ควรตรวจก่อนเดิมพัน">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      GOT777
-      <strong class="text-[#fff6dd]">รวมเกมสล็อตจากหลายผู้ให้บริการไว้ให้เลือกตามสไตล์ที่ชอบ</strong>
-      ไม่ว่าจะเป็นเกมวงล้อแบบดั้งเดิม สล็อตธีมเอเชีย เกมผจญภัย เกมที่มีฟรีสปิน ตัวคูณ รวมถึงสล็อตแจ็กพอตตามค่ายที่ระบบเปิดให้บริการ
-      <strong class="text-[#fff6dd]">สมาชิกสามารถสลับเกมผ่านบัญชีเดียวและค้นหาเกมใหม่หรือเกมยอดนิยมได้จากหน้าเกมสล็อต</strong>
+  <ContentBoxTwoCyberCut as="h2" title="CK268 โปรสล็อตมาแรง 1 บาททุกเกม เบทอิสระ ไม่มีขั้นต่ำ" titleleft="เลือกเกมและรูปแบบเดิมพัน" titleright="ข้อควรตรวจก่อนเริ่มเล่น">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      สมาชิก CK268 สามารถเลือกเกมสล็อตตามค่ายและรูปแบบการเดิมพันที่ต้องการ
+      <strong class="text-[#eaffd6]">โดยบางเกมรองรับการเดิมพันเริ่มต้นในระดับ 1 บาท</strong>
+      เหมาะกับผู้ที่ต้องการกำหนดงบในการเล่นด้วยตัวเอง มีทั้งเกมวงล้อแบบคลาสสิก สล็อตโบนัส เกมฟรีสปิน
+      <strong class="text-[#eaffd6]">และเกมรูปแบบใหม่ที่ทยอยเพิ่มเข้ามาตามการอัปเดตของแต่ละค่าย</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      จำนวนเกมและแจ็กพอตที่เปิดให้เล่นจริงขึ้นอยู่กับแต่ละค่าย
-      <strong class="text-[#fff6dd]">จึงควรตรวจสอบข้อมูลภายในเกมก่อนเดิมพัน</strong>
-      โดยเฉพาะกติกา ช่วงเดิมพัน ฟีเจอร์โบนัส และเงื่อนไขของแจ็กพอต
-      <strong class="text-[#fff6dd]">เพราะไม่ใช่เกมสล็อตทุกเกมหรือทุกค่ายที่จะมีระบบแจ็กพอตเหมือนกัน</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      อย่างไรก็ตาม คำว่า “1 บาททุกเกม” และ “ไม่มีขั้นต่ำ”
+      <strong class="text-[#eaffd6]">ควรอ้างอิงช่วงเดิมพันจริงที่แสดงภายในเกม</strong>
+      เนื่องจากแต่ละค่ายสามารถกำหนดยอดเดิมพันขั้นต่ำและสูงสุดแตกต่างกัน
+      <strong class="text-[#eaffd6]">ก่อนเริ่มเล่นควรตรวจสอบจำนวนเงิน กติกา และรายละเอียดของเกมทุกครั้ง</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBoxFloatingBadge as="h2" title="โปรโมชั่น GOT777เกมสล็อต ใช้ได้ตลอดการเดิมพัน">
-    <p class="text-left text-base leading-relaxed text-[#ece0cb]">
-      สมาชิก GOT777 สามารถ Login เพื่อตรวจสอบโปรโมชั่นที่บัญชีมีสิทธิ์รับ
-      <strong class="text-[#fff6dd]">ทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน</strong>
-      โดยโปรโมชั่นแต่ละรายการอาจกำหนดประเภทเกมสล็อต รอบคำนวณ ยอดที่เข้าเกณฑ์ และช่วงเวลารับสิทธิ์แตกต่างกัน
-      <strong class="text-[#fff6dd]">ก่อนเลือกโปรโมชั่นจึงควรอ่านรายละเอียดล่าสุดจากหน้าเว็บไซต์ให้ครบถ้วน</strong>
+  <ContentBoxNeumorphism as="h2" title="โปรโมชั่น CK268 จัดหนักตลอดเดือน">
+    <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      CK268 มีโปรโมชั่นสำหรับสมาชิกให้ติดตามตลอดเดือน โดยสามารถ Login เพื่อตรวจสอบสิทธิ์ที่เปิดให้รับจากบัญชีของตนเอง
+      <strong class="text-[#eaffd6]">มีทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน</strong>
+      แต่ละโปรโมชั่นอาจกำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ ประเภทเกมสล็อต และระยะเวลารับสิทธิ์แตกต่างกัน
+      <strong class="text-[#eaffd6]">จึงควรตรวจสอบรายละเอียดล่าสุดก่อนกดรับโบนัส</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreePremium as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
-      src={imgSlide2}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[340, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 46px), 340px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="โปสเตอร์โปรโมชั่น GOT777 ชุดเดียวกัน พื้นดำทองมีเหรียญทอง ชิปคาสิโนสีแดงดำ และกล่องของขวัญสีแดง ด้านซ้ายเป็นหญิงสาวผมยาวในชุดขาวดำ ด้านขวาเป็นชายหนุ่มในเชิ้ตขาวชี้นิ้วมาข้างหน้า ด้านบนเป็นโลโก้ GOT777 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายสีแดงคำว่า คืนยอดเสีย โบนัส คร่อมตัวเลขทองขนาดใหญ่ 0.3% มุมขวาล่างเป็นเครื่องสล็อตเลข 777"
-      class="mx-auto h-auto w-full rounded-2xl border border-[#96690f] shadow-[0_10px_30px_rgba(245,197,24,0.24)]"
-    />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ GOT777 กำหนด
-      <strong class="text-[#fff6dd]">ระบบจะคำนวณจากยอดที่เข้าเกณฑ์และแสดงจำนวนโบนัสที่สามารถรับได้</strong>
-      ควรตรวจสอบว่าเกมสล็อตหรือค่ายใดร่วมรายการ
-      <strong class="text-[#fff6dd]">รวมถึงรอบตัดยอดและเงื่อนไขการใช้โบนัสก่อนกดรับ</strong>
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      <strong class="text-[#fff6dd]">สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน</strong>
-      เมื่อเพื่อนสมัคร GOT777 และมียอดใช้งานตรงตามข้อกำหนด ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์ สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ
-      <strong class="text-[#fff6dd]">และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกตามรอบที่เว็บไซต์กำหนด</strong>
-    </p>
-    <Picture
-      slot="right"
       src={imgSlide1}
       loading="lazy"
       fetchpriority="low"
-      widths={[360, 480, 600]}
-      sizes="(max-width: 695px) calc(100vw - 96px), (max-width: 1049px) calc(70vw - 135px), 600px"
+      widths={[346, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่น GOT777 พื้นดำทองมีเหรียญทอง ชิปคาสิโน และกล่องของขวัญสีแดงกองอยู่ ด้านซ้ายเป็นหญิงสาวผมยาวในชุดขาวดำ ด้านขวาเป็นชายหนุ่มในเชิ้ตขาวชี้นิ้วมาข้างหน้า ด้านบนเป็นโลโก้ GOT777 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายสีแดงคำว่า แนะนำเพื่อน โบนัส คร่อมตัวเลขทองขนาดใหญ่ 0.8% มุมขวาล่างเป็นเครื่องสล็อตเลข 777"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#d21622]/70 shadow-[0_10px_30px_rgba(210,22,34,0.26)]"
+      alt="โปสเตอร์โปรโมชั่น CK268 พื้นดำมีชิปคาสิโนเขียว-ดำและเหรียญทองกระจายอยู่ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยื่นมือออกมา ด้านบนเป็นโลโก้ CK268 ถัดลงมาเป็นตัวอักษรไทยโครเมียมขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายดำคำว่า คืนยอดเสีย โบนัส คร่อมตัวเลขเขียวนีออนขนาดใหญ่ 0.3% มุมขวาล่างเป็นเครื่องสล็อตเลข 777 และมีกล่องของขวัญสีเขียวอยู่มุมซ้ายล่าง"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#8bfc13]/70 shadow-[0_10px_30px_rgba(139,252,19,0.24)]"
     />
-  </ContentBoxSevenThreeFloatingBadge>
-
-  <ContentBoxTwoFloatingBadge as="h2" title="สมัครเล่นสล็อต GOT777 เกมฮิตแตกง่าย ไม่มีขั้นต่ำ" titleleft="ขั้นตอนสมัครและ Login" titleright="ข้อควรรู้เรื่องเกมแตกง่ายและขั้นต่ำ">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      ผู้ใช้งานใหม่สามารถสมัคร GOT777
-      <strong class="text-[#fff6dd]">ผ่านระบบออนไลน์บนมือถือได้</strong>
-      เริ่มจากกรอกข้อมูลที่จำเป็นสำหรับสร้างบัญชี ยืนยันข้อมูลตามขั้นตอน จากนั้น Login เพื่อเลือกเกมสล็อต ตรวจสอบโปรโมชั่นและช่องทางจัดการเครดิต
-      <strong class="text-[#fff6dd]">เมื่อสมัครเสร็จสามารถค้นหาเกมฮิตหรือเลือกเกมตามค่ายที่ต้องการได้จากหน้าเดียว</strong>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ CK268 กำหนด
+      <strong class="text-[#eaffd6]">ระบบจะคำนวณจากยอดที่เข้าเกณฑ์และแสดงโบนัสที่สามารถรับได้</strong>
+      ก่อนกดรับควรตรวจสอบรอบตัดยอด ค่ายเกมที่ร่วมรายการ
+      <strong class="text-[#eaffd6]">และข้อกำหนดการใช้โบนัสให้ครบถ้วน</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#ece0cb]">
-      สำหรับคำว่า “เกมแตกง่าย” และ “ไม่มีขั้นต่ำ”
-      <strong class="text-[#fff6dd]">ควรพิจารณาจากข้อมูลจริงของแต่ละเกม</strong>
-      เนื่องจากเกมสล็อตไม่สามารถรับประกันผลชนะได้ และยอดเดิมพันขั้นต่ำอาจแตกต่างกันตามผู้ให้บริการ
-      <strong class="text-[#fff6dd]">สมาชิกควรตรวจสอบช่วงเดิมพันที่แสดงในเกมก่อนยืนยันทุกครั้ง</strong>
-    </p>
-  </ContentBoxTwoFloatingBadge>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxPremium as="h2" title="ติดต่อสอบถามแอดมิน GOT777 ผู้ให้บริการได้ 24 ชั่วโมง">
-    <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#ece0cb]">
-        หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมสล็อตไม่ได้ เครดิตไม่เข้า รายการถอนอยู่ระหว่างตรวจสอบ หรือโปรโมชั่นไม่แสดง สามารถติดต่อแอดมิน GOT777
-        <strong class="text-[#fff6dd]">ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดของรายการเพื่อช่วยให้ทีมงานตรวจสอบปัญหาได้ตรงจุด
-      </p>
-      <p class="text-left text-base leading-relaxed text-[#ece0cb]">
-        กรณีปัญหาเกี่ยวกับเกมควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดเหตุ ส่วนปัญหาธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานที่เกี่ยวข้อง
-        <strong class="text-[#fff6dd]">โดยไม่ควรเปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่นระหว่างการติดต่อ</strong>
+  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      สมาชิกสามารถแชร์ลิงก์แนะนำ CK268 ให้เพื่อน เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามข้อกำหนด
+      <strong class="text-[#eaffd6]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ
+      <strong class="text-[#eaffd6]">และโบนัสที่มีสิทธิ์รับจากบัญชีสมาชิกตามรอบที่เว็บไซต์กำหนด</strong>
+    </p>
+    <Picture
+      slot="right"
+      src={imgSlide2}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[349, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 71px), 349px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="โปสเตอร์โปรโมชั่น CK268 ชุดเดียวกัน พื้นดำมีชิปคาสิโนเขียว-ดำและเหรียญทอง ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยกนิ้วชี้ขึ้น ด้านบนเป็นโลโก้ CK268 ถัดลงมาเป็นตัวอักษรไทยโครเมียมขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายดำคำว่า แนะนำเพื่อน โบนัส คร่อมตัวเลขเขียวนีออนขนาดใหญ่ 0.8% ล้อมด้วยกล่องของขวัญสีเขียว"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#e8f0e6]/50 shadow-[0_10px_30px_rgba(232,240,230,0.2)]"
+    />
+  </ContentBoxSevenThreeNeumorphism>
+
+  <ContentBoxTwoNeumorphism as="h2" title="สมัครเล่นสล็อตชั้นนำ CK268 อันดับ1 ง่ายๆ 3ขั้นตอน" titleleft="3 ขั้นตอนสมัครและ Login" titleright="ข้อควรระวังเรื่องข้อมูลส่วนตัว">
+    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      การสมัคร CK268
+      <strong class="text-[#eaffd6]">สามารถดำเนินการผ่านระบบออนไลน์บนมือถือได้ด้วย 3 ขั้นตอน</strong>
+      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าสู่บัญชี ก่อนเลือก เกมสล็อต ค่ายเกม และโปรโมชั่นที่ต้องการ เมื่อสมัครเรียบร้อยสามารถตรวจสอบเครดิต ประวัติรายการ
+      <strong class="text-[#eaffd6]">และเกมใหม่ที่เว็บไซต์อัปเดตได้จากบัญชีเดียว</strong>
+    </p>
+    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
+      ควรใช้ข้อมูลของตนเองในการสมัคร
+      <strong class="text-[#eaffd6]">ตั้งรหัสผ่านที่คาดเดายาก</strong>
+      และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น หากเว็บไซต์ระบุว่าฝากเงินเข้าบัญชีบริษัทโดยตรง
+      <strong class="text-[#eaffd6]">ควรตรวจสอบชื่อบัญชีกับข้อมูลนิติบุคคลที่เว็บไซต์ประกาศก่อนทำธุรกรรมทุกครั้ง</strong>
+    </p>
+  </ContentBoxTwoNeumorphism>
+
+  <ContentBoxSpecial as="h2" title="ติดต่อแอดมิน CK268 ผู้ให้บริการเกมสล็อตได้ 24 ชั่วโมง" iconleft="💬" iconright="🧾">
+    <div slot="left" class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
+        หากสมาชิกพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมสล็อตไม่ได้ เครดิตไม่เข้า รายการถอนอยู่ระหว่างตรวจสอบ โปรโมชั่นไม่แสดง หรือไม่พบเกมใหม่ที่ต้องการ
+        <strong class="text-[#eaffd6]">สามารถติดต่อแอดมิน CK268 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a
@@ -289,14 +286,20 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#f5c518]/70 bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#96690f] p-3.5 text-center font-black text-[#0a0503] shadow-[0_10px_30px_rgba(245,197,24,0.4)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก GOT777
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#8bfc13]/70 bg-gradient-to-r from-[#c9ff8f] via-[#8bfc13] to-[#1a7a08] p-3.5 text-center font-black text-[#030703] shadow-[0_10px_30px_rgba(139,252,19,0.4)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก CK268
         </a>
       </div>
     </div>
-  </ContentBoxPremium>
+    <div slot="right" class="flex flex-col gap-4">
+      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
+        กรณีปัญหาเกี่ยวกับเกมสล็อตควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดปัญหา ส่วนรายการฝากถอนควรเตรียมเวลา จำนวนเงิน และหลักฐานธุรกรรมเพื่อช่วยให้ตรวจสอบได้ตรงรายการ
+        <strong class="text-[#eaffd6]">โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่นระหว่างการติดต่อ</strong>
+      </p>
+    </div>
+  </ContentBoxSpecial>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ GOT777" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ CK268" faqs={faqs} />
 
   <LoginRtpSection />
 
