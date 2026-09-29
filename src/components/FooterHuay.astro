@@ -8,28 +8,30 @@ const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".png")) || imagePaths.find((path) => path.endsWith(".webp")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
 
-const logoAlt = "โลโก้ LOTTO24 คำว่า LOTTO ตัวอักษรสีเงินเมทัลลิกสามมิติ ต่อด้วยเลข 24 สีแดงสด";
+const logoAlt = "โลโก้ LOTTOPLUS ตัวอักษรภาษาอังกฤษสีขาวตัวหนาวางบนแถบสี่เหลี่ยมสีแดงสด";
 
-// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): พื้นแดงเกือบดำ #15060a ขอบบนแดงแบรนด์
-// #dc2626 เส้นคั่นทองลึก #a16207 ออร่าบนเป็นทอง #fbbf24 ตัวอักษรรองสีชมพูอมครีม
-// #e0c4c4 (คอนทราสต์ ~11.9:1 บนพื้น) ลิงก์ hover เป็นแดงสด #fc2b2c — ชุดของ
-// 365LOTTO รอบก่อน (#120406 #9c6a12 #fadc64 #fdf3b4 #e0b03a #e01f26 #d8bda6
-// #f0ddc4 #2a0b0e) ถูกแทนครบทุกจุดแล้ว
+// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): พื้นดำอมแดง #120b0c ขอบบนแดงแบรนด์
+// #dc020e เส้นคั่นทองลึก #8a6a0a ออร่าบนเป็นทองรอง #f3c623 ตัวอักษรรองสีชมพูอม
+// ครีม #ddc7c7 (คอนทราสต์ ~12.5:1 บนพื้น) ลิงก์ hover เป็นแดงสว่าง #ff2d38 —
+// ชุดของ LOTTO24 รอบสองรอบก่อน (#dc2626 #fc2b2c #b40102 #fde68a #fbbf24 #a16207
+// #15060a #2a0405 #f6e2e2 #e0c4c4) ถูกแทนครบทุกจุดแล้ว
 //
-// ย่อหน้าแนะนำเว็บเขียนใหม่จาก src/assets/content.txt ของ LOTTO24 ล้วน — รอบก่อน
-// เป็น 365LOTTO ที่ขาย "หวย + คาสิโน + บาคาร่า + สล็อต" ซึ่งบรีฟรอบนี้ไม่ได้พูดถึง
-// สักคำ LOTTO24 เป็นเว็บแทงหวยล้วน ป้ายอัตราจ่ายสองอันตรงกับบรีฟพอดี
-// (2 ตัว 100 / 3 ตัวสูงสุด 1,000)
+// ย่อหน้าแนะนำเว็บเขียนใหม่จาก src/assets/content.txt ของ LOTTOPLUS ล้วน — รอบก่อน
+// เป็น WIN999 ที่ขาย "คาสิโน + บาคาร่า + สล็อต" ซึ่งบรีฟรอบนี้ไม่ได้พูดถึงสักคำ
+// LOTTOPLUS เป็นเว็บหวยออนไลน์ที่เล่นผ่านเบราว์เซอร์โดยไม่ต้องติดตั้งแอป
+// ป้ายอัตราจ่ายสองอันตรงกับบรีฟพอดี (2 ตัว 100 / 3 ตัว 1,000)
 //
-// /ตรวจหวย และ /แนวทาง ไม่อยู่ในรายการทางลัดรอบนี้ เพราะสองไฟล์นั้นอยู่ใน
-// src/pages-disabled/ ตามสถานะ toggle ที่ operator ตั้งไว้ — ลิงก์ค้างไว้จะกลาย
-// เป็น href ไป route ที่ไม่มีจริง ซึ่ง verify-build จะฟ้องเป็น error
+// /ตรวจหวย และ /แนวทาง กลับเข้ารายการทางลัดรอบนี้ เพราะสองไฟล์นั้นถูกย้ายกลับมา
+// อยู่ใน src/pages/ แล้ว (LOTTOPLUS เป็นเว็บหวย) — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ
+// ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มีจริง
 //
 // /ทางเข้า ไม่ได้อยู่ในเมนู navbar (toggle register/login เปิดอยู่) แต่ยังถูก
 // route และ index อยู่ ลิงก์จาก footer จึงเป็นทางเดียวที่ผู้ใช้เข้าถึงหน้านั้นได้
 const shortcuts = [
   { name: "หน้าหลัก", path: "/" },
   { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย" },
+  { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   { name: "โปรโมชั่น", path: "/promotion" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
@@ -37,40 +39,37 @@ const shortcuts = [
 ];
 ---
 
-<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#dc2626]/55 bg-[#15060a] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(6,1,2,0.7)]">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#fbbf24]/12 blur-[80px]"></div>
+<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#dc020e]/55 bg-[#120b0c] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(5,1,2,0.7)]">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#f3c623]/12 blur-[80px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-4 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-[#fbbf24]/20 bg-[#fbbf24]/5 p-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-[#f3c623]/20 bg-[#f3c623]/5 p-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
               <Picture src={mainLogo} alt={logoAlt} widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <p class="text-2xl font-black tracking-widest text-white italic">
-                <span class="bg-gradient-to-r from-[#ffffff] via-[#e5e7eb] to-[#9ca3af] bg-clip-text text-transparent">LOTTO</span>
-                <span class="bg-gradient-to-r from-[#fc2b2c] to-[#b40102] bg-clip-text text-transparent">24</span>
-              </p>
+              <p class="rounded-md bg-[#dc020e] px-3 py-1 text-2xl font-black tracking-widest text-white">LOTTOPLUS</p>
             )
           }
         </a>
-        <p class="mt-2 border-l-2 border-[#a16207]/60 pl-4 text-sm leading-relaxed text-[#e0c4c4]">
-          LOTTO24 รวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว พร้อมอัตราจ่ายที่ระบุชัดเจนทั้งเลข 2 ตัวและ 3 ตัว เน้นรูปแบบไม่ลดเรทตามเงื่อนไขที่กำหนด
-          รองรับการทำรายการผ่านวอลเลทและช่องทางบัญชีบริษัทโดยตรง ไม่ผ่านม้า ช่วยให้สมาชิกตรวจสอบอัตราจ่าย รอบหวย และรายละเอียดบิลก่อนยืนยันได้ทุกครั้ง
+        <p class="mt-2 border-l-2 border-[#8a6a0a]/60 pl-4 text-sm leading-relaxed text-[#ddc7c7]">
+          LOTTOPLUS ให้บริการหวยออนไลน์ผ่านหน้าเว็บไซต์ สมัครและเข้าใช้งานผ่านเบราว์เซอร์บนมือถือได้โดยไม่จำเป็นต้องติดตั้งแอป รวมหวยหลายประเภทไว้ในบัญชีเดียว ทั้งรัฐบาลไทย ลาวพัฒนา
+          ฮานอย และหวยหุ้น สมาชิกเลือกเลข ส่งโพย ตรวจสอบรายการ ตรวจผลหวย และจัดการฝากถอนผ่านระบบออนไลน์ได้ ก่อนทำรายการควรตรวจสอบรอบหวย อัตราจ่าย และข้อมูลบัญชีปลายทางทุกครั้ง
         </p>
         <div class="mt-2 flex gap-3">
-          <span class="rounded-full border border-[#a16207]/50 bg-[#2a0405] px-4 py-1 text-xs font-bold text-[#f6e2e2] shadow-sm">2 ตัวจ่าย 100</span>
-          <span class="rounded-full border border-[#fbbf24]/40 bg-[#fbbf24]/15 px-4 py-1 text-xs font-bold text-[#fbbf24] shadow-sm">3 ตัวจ่ายสูงสุด 1,000</span>
+          <span class="rounded-full border border-[#8a6a0a]/50 bg-[#2a0d0f] px-4 py-1 text-xs font-bold text-[#f0e2e2] shadow-sm">2 ตัวจ่าย 100</span>
+          <span class="rounded-full border border-[#f3c623]/40 bg-[#f3c623]/15 px-4 py-1 text-xs font-bold text-[#f3c623] shadow-sm">3 ตัวจ่าย 1,000</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12">
-        <p class="border-b border-[#a16207]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">ทางลัดหน้าเว็บ</p>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-[#e0c4c4]">
+        <p class="border-b border-[#8a6a0a]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">ทางลัดหน้าเว็บ</p>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-[#ddc7c7]">
           {shortcuts.map((item) => (
             <li>
-              <a href={item.path} class="transition-colors hover:text-[#fc2b2c]">
+              <a href={item.path} class="transition-colors hover:text-[#ff2d38]">
                 {item.name}
               </a>
             </li>
@@ -79,7 +78,7 @@ const shortcuts = [
       </nav>
 
       <div class="flex flex-col gap-4 md:col-span-4">
-        <p class="border-b border-[#a16207]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">บริการลูกค้า</p>
+        <p class="border-b border-[#8a6a0a]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">บริการลูกค้า</p>
 
         <a
           href="/line"
@@ -107,13 +106,13 @@ const shortcuts = [
           )
         }
 
-        <div class="mt-2 text-xs font-medium text-[#e0c4c4]">ระบบฝาก-ถอนอัตโนมัติ รองรับ:</div>
+        <div class="mt-2 text-xs font-medium text-[#ddc7c7]">ระบบฝาก-ถอนอัตโนมัติ รองรับ:</div>
         <BankStrip size={30} />
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#a16207] pt-8 text-xs font-medium text-[#e0c4c4] md:flex-row">
-      <p>COPYRIGHT &copy; {new Date().getFullYear()} LOTTO24 ALL RIGHTS RESERVED.</p>
+    <div class="flex flex-col items-center justify-between border-t border-[#8a6a0a] pt-8 text-xs font-medium text-[#ddc7c7] md:flex-row">
+      <p>COPYRIGHT &copy; {new Date().getFullYear()} LOTTOPLUS ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
         <a href="/terms/" class="transition-colors hover:text-white">เงื่อนไขและข้อตกลง</a>
         <a href="/privacy/" class="transition-colors hover:text-white">นโยบายความเป็นส่วนตัว</a>

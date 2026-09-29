@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
 import { pageGraph } from "../lib/schema";
 
 // Button page, not an article: the brief gives this route no body. One heading
@@ -16,33 +16,35 @@ import { pageGraph } from "../lib/schema";
 // still indexed and still linked from the footer. Do not add a nav link and do
 // not delete the page.
 //
-// Two button tiers on the WIN999 palette (ทองล้วนบนพื้นดำ ตามโลโก้ที่ WIN เป็นทองสด
-// #fcc403 และ 999 เป็นขาว กับอาร์ตเวิร์กพื้นดำที่มีริ้วแสงทอง ชิปขอบทอง และไพ่เอซ):
-// สมัครสมาชิก คือแอ็กชันหลัก จึงได้ไล่เฉดทองเต็มใบ (#fdda04 → #fcc403 → #e0a800)
-// ตัวอักษรหมึกเข้ม #120d02 เพราะตัวหนังสือบนพื้นทองสว่างต้องเป็นสีเข้ม ห้ามใช้ขาว —
-// ทองลึก #8a6502 จงใจไม่อยู่ในไล่เฉดนี้ เพราะหมึกเข้มบนทองลึกเหลือคอนทราสต์แค่
-// ~3.3:1 ส่วนบนทองแบรนด์ได้ ~10:1 ส่วน เข้าสู่ระบบ เป็นแอ็กชันรอง จึงเป็นแบบ outline
-// — เส้นขอบทอง #fcc403 บนผิวการ์ดอุ่น #191712 ตัวอักษรเนื้อความ #e9e4d6
-// (hover ยกผิวขึ้นเป็น #241f14 ขอบทองสว่าง #fdda04 และตัวอักษรเน้น #fffbea)
-// — ถมทองคู่กรอบทอง ไม่ใช่ถมทองสองใบ ซึ่งจะอ่านเป็นปุ่มซ้ำกันสองปุ่ม
-// ชุดแดง+ทองของแบรนด์ก่อนหน้า (#dc2626 #fc2b2c #b40102 #fde68a #fbbf24 #a16207
-// #2a0405 #7f1d1d #f6e2e2 rgba(220,38,38,*) rgba(251,191,36,*)) ถูกแทนครบทุกจุดแล้ว
+// Two button tiers on the LOTTOPLUS palette (แดงนำ ทองรอง บนพื้นเกือบดำ ตามโลโก้
+// ตัวอักษรขาวบนบล็อกแดง #dc020e กับแบนเนอร์พื้นดำที่มีแดงลึก เหรียญทอง มงกุฎทอง
+// และลูกหวยแดง-ขาว): สมัครสมาชิก คือแอ็กชันหลัก จึงได้ไล่เฉดแดงเต็มใบ
+// (#ff2d38 → #dc020e → #6b0207) ตัวอักษร "ขาว" ตามกฎคอนทราสต์ของ brand-spec §2 —
+// ขาวบนแดงแบรนด์ได้ 5.17:1 ผ่าน ส่วนหมึกเข้ม #1a0203 บนแดงเหลือ 3.85:1 ตก
+// จึงห้ามใช้หมึกเข้มบนพื้นแดง (หมึกเข้มใช้ได้เฉพาะบนพื้นทอง)
+// ส่วน เข้าสู่ระบบ เป็นแอ็กชันรอง จึงเป็นแบบ outline — กรอบทองรอง #f3c623 บนผิวปุ่มรอง
+// #2a0d0f ตัวอักษรทองรอง (hover ยกผิวขึ้นเป็น #3a1114 ขอบทองอ่อน #fde79a และตัวอักษร
+// เน้น #fff4f4) — ถมแดงคู่กรอบทอง ไม่ใช่ถมแดงสองใบ ซึ่งจะอ่านเป็นปุ่มซ้ำกันสองปุ่ม
+// ชุดทอง-ดำของ WIN999 (#fcc403 #fdda04 #e0a800 #8a6502 #fff0a8 #e9e4d6 #fffbea
+// #101010 #191712 #241f14 rgba(252,196,3,*) rgba(3,2,0,*)) และชุดแดงของ LOTTO24
+// (#dc2626 #fc2b2c #b40102 #fbbf24 #fde68a rgba(220,38,38,*)) ถูกแทนครบทุกจุดแล้ว
 //
-// Announcement หมุนจาก AnnouncementHuay มาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ —
-// orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้ของ WIN999 แล้ว และ index
-// ก็เรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้
+// Announcement หมุนมาเป็น AnnouncementHuay ทั้งเว็บรอบนี้ — orchestrator ตั้ง default
+// message ของไฟล์นั้นเป็นคอปปี้ของ LOTTOPLUS แล้ว และ index ก็เรียกแบบ bare จึงห้ามส่ง
+// prop message จากหน้านี้
 //
-// WIN999 เป็นเว็บคาสิโนออนไลน์ — บรีฟพูดถึงบาคาร่า สล็อต เกมไพ่ ค่ายเกม เครดิต
-// ฝากถอนออโต้ บัญชีบริษัท ทางเข้าล่าสุด และแอดมิน 24 ชม. เท่านั้น คำศัพท์ตระกูล
-// สลาก/ลอตเตอรีของแบรนด์ก่อน (เลข 2 ตัว/3 ตัว อัตราจ่าย บิล/โพย ม้า เอเย่นต์)
-// ใบอนุญาต ชื่อธนาคาร และเครดิตฟรี ห้ามหลงเหลือ และห้ามลิงก์ไปสองเราต์ตระกูลสลาก
-// ที่ถูกจอดไว้ใน src/pages-disabled/ รอบนี้
+// LOTTOPLUS เป็นเว็บหวยออนไลน์ ไม่ใช่คาสิโน — บรีฟพูดถึงหวยรัฐบาลไทย ลาวพัฒนา ฮานอย
+// หวยหุ้น ส่งโพย ตรวจผลหวย อัตราจ่าย โบนัส บัญชีบริษัทตรงไม่ผ่านตัวแทน และแอดมิน
+// 24 ชม. เท่านั้น คำศัพท์ตระกูลคาสิโนของแบรนด์ก่อน (คาสิโน บาคาร่า สล็อต เกมไพ่
+// ค่ายเกม RTP กีฬา/บอล) ใบอนุญาต ชื่อธนาคาร และยอดฝากขั้นต่ำ ห้ามหลงเหลือ
+// รอบนี้สองเราต์ตระกูลหวย (/ตรวจหวย, /แนวทาง) เปิดใช้งานอยู่ แต่หน้านี้ไม่ต้องลิงก์ถึง
+// — navbar กับ footer พาไปแล้ว และหน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
 //
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 153
-const pageDescription = "ทางเข้า WIN999 เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ เพื่อเลือกบาคาร่า สล็อต และเกมไพ่จากบัญชีเดียว รองรับทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์";
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 157
+const pageDescription = "ทางเข้า LOTTOPLUS เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ เพื่อเข้าแทงหวยรัฐบาลไทย ลาวพัฒนา ฮานอย หวยหุ้น ผ่านเบราว์เซอร์บนมือถือไม่ต้องติดตั้งแอป";
 
 const graph = pageGraph(Astro, {
-  name: "ทางเข้า WIN999 เว็บหลัก",
+  name: "ทางเข้า LOTTOPLUS เว็บหลัก",
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -51,22 +53,22 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title="ทางเข้า WIN999 เว็บหลัก เข้าสู่ระบบและสมัครสมาชิกได้จากหน้าเดียว" description={pageDescription}>
+<MainLayout title="ทางเข้า LOTTOPLUS เว็บหลัก เข้าสู่ระบบและสมัครสมาชิกได้จากหน้าเดียว" description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="ทางเข้า WIN999 เว็บหลัก" as="h1">
+  <ContentBox title="ทางเข้า LOTTOPLUS เว็บหลัก" as="h1">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
       <div class="flex flex-col items-center justify-center gap-4">
         <a
           href="/login"
-          aria-label="เข้าสู่ระบบ WIN999"
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fcc403]/80 bg-[#191712] px-6 py-4 shadow-[0_10px_30px_rgba(3,2,0,0.85)] transition-all duration-300 hover:scale-105 hover:border-[#fdda04] hover:bg-[#241f14] hover:shadow-[0_15px_40px_rgba(252,196,3,0.35)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fcc403]/28 to-transparent"></div>
+          aria-label="เข้าสู่ระบบ LOTTOPLUS"
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#f3c623]/80 bg-[#2a0d0f] px-6 py-4 shadow-[0_10px_30px_rgba(5,1,2,0.85)] transition-all duration-300 hover:scale-105 hover:border-[#fde79a] hover:bg-[#3a1114] hover:shadow-[0_15px_40px_rgba(243,198,35,0.35)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#f3c623]/24 to-transparent"></div>
 
           <svg
-            class="h-9 w-9 text-[#e9e4d6] transition-colors group-hover:text-[#fffbea]"
+            class="h-9 w-9 text-[#f3c623] transition-colors group-hover:text-[#fff4f4]"
             aria-hidden="true"
             focusable="false"
             fill="none"
@@ -77,22 +79,22 @@ const graph = pageGraph(Astro, {
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#e9e4d6] transition-colors group-hover:text-[#fffbea]">เข้าสู่ระบบ</span>
+          <span class="text-3xl font-bold tracking-wide text-[#f3c623] transition-colors group-hover:text-[#fff4f4]">เข้าสู่ระบบ</span>
         </a>
       </div>
 
       <div class="flex flex-col items-center justify-center gap-4">
         <a
           href="/register"
-          aria-label="สมัครสมาชิก WIN999"
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fdda04]/70 bg-gradient-to-r from-[#fdda04] via-[#fcc403] to-[#e0a800] px-6 py-4 shadow-[0_10px_30px_rgba(252,196,3,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#fdda04] hover:shadow-[0_15px_40px_rgba(252,196,3,0.35)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fdda04]/40 to-transparent"></div>
+          aria-label="สมัครสมาชิก LOTTOPLUS"
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#ff2d38]/70 bg-gradient-to-r from-[#ff2d38] via-[#dc020e] to-[#6b0207] px-6 py-4 shadow-[0_10px_30px_rgba(220,2,14,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#ff2d38] hover:shadow-[0_15px_40px_rgba(220,2,14,0.35)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ff2d38]/40 to-transparent"></div>
 
-          <svg class="h-9 w-9 text-[#120d02]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-9 w-9 text-white" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#120d02]">สมัครสมาชิก</span>
+          <span class="text-3xl font-bold tracking-wide text-white">สมัครสมาชิก</span>
         </a>
       </div>
     </div>

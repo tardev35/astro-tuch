@@ -13,21 +13,22 @@ const bankPool = [
 ];
 
 // Pre-formatted, because the shared module treats a market as one opaque label
-// rather than a name/type pair it has to know how to join. บรีฟของ LOTTO24 บอกว่า
-// "รวมบริการแทงหวยออนไลน์หลายประเภทไว้ในระบบเดียว" และระบุอัตราจ่ายไว้ทั้งเลข 2 ตัว
-// และ 3 ตัว ป้ายในฟีดจึงเป็น "ตลาด · ประเภทเลข" ได้ โดยชุดตลาดตรงกับตารางอัตราจ่าย
-// ใน LoginRtpSection คือ รัฐบาล ฮานอย ลาว ยี่กี — ห้ามเติมตลาดอื่นนอกชุดนี้ และห้าม
-// ใส่ตัวเลขอัตราจ่ายลงใน pool นี้ เรทคือ 3 ตัวสูงสุด 1,000 กับ 2 ตัว 100 ซึ่งอยู่ใน
-// หัวข้อ H2 ของหน้าแรกและในตารางอัตราจ่าย ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
+// rather than a name/type pair it has to know how to join.
+//
+// ชุดรายการหวยต้องตรงกับที่ src/assets/content.txt ของ LOTTOPLUS ระบุไว้เท่านั้น
+// คือ รัฐบาลไทย · ลาวพัฒนา · ฮานอย · หวยหุ้น — ห้ามเติมตลาดอื่น (รอบก่อนมี
+// "หวยยี่กี" ค้างอยู่ ซึ่งบรีฟรอบนี้ไม่ได้ระบุ จึงถูกถอดออก) และห้ามใส่ตัวเลข
+// อัตราจ่ายลงใน pool นี้ เรทที่บรีฟระบุคือ 2 ตัว 100 กับ 3 ตัว 1,000 ซึ่งอยู่ใน
+// หัวข้อของหน้า ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
-  "หวยรัฐบาล · เลข 2 ตัวบน",
-  "หวยรัฐบาล · เลข 3 ตัวตรง",
-  "หวยฮานอย · เลข 2 ตัวล่าง",
-  "หวยฮานอย · เลข 3 ตัวตรง",
-  "หวยลาว · เลข 2 ตัวบน",
-  "หวยลาว · เลข 3 ตัวโต๊ด",
-  "หวยยี่กี · เลข 2 ตัวบน",
-  "หวยยี่กี · เลข 3 ตัวตรง",
+  "หวยรัฐบาลไทย · เลข 2 ตัว",
+  "หวยรัฐบาลไทย · เลข 3 ตัว",
+  "หวยลาวพัฒนา · เลข 2 ตัว",
+  "หวยลาวพัฒนา · เลข 3 ตัว",
+  "หวยฮานอย · เลข 2 ตัว",
+  "หวยฮานอย · เลข 3 ตัว",
+  "หวยหุ้น · เลข 2 ตัว",
+  "หวยหุ้น · เลข 3 ตัว",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -42,39 +43,41 @@ const marketPool = [
 // The brand name is never typed here — it comes from BRAND_NAME, so the
 // aria-label cannot rot into a previous brand's.
 //
-// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): ธีม Huay คือแดง-ทอง ซึ่งตรงกับแบรนด์นี้พอดี
-// แต่ค่าสีสร้างใหม่จากพาเลตต์แบรนด์นี้ทั้งชุด — แผงพื้นการ์ด #2a0405 ในกรอบทองลึก
-// #a16207 แถวรายการตกลงไปที่พื้นลึก #140202 ในเส้นพื้นยก #3b0404 แล้วสว่างขึ้นเป็น
-// ทองหลัก #fbbf24 ตอน hover ยอดเงินเป็นทองหลักตามกองเหรียญทองในงานอาร์ต ป้าย
-// REAL-TIME เป็นแดงแบรนด์ #dc2626 ตามเลข 24 สีแดงบนโลโก้ ชื่อหัวแผงเป็นทองอ่อน
-// #fde68a เนื้อความ #f6e2e2 เนื้อความรอง #d9b3b3 — ชุดของ 888PARUAY (#fcdc2b
-// #fff6ae #a87d0c #cf1111 #240808 #140404 #3a0f0f #e8e4c6 #c3b98f #fffdf0) ออก
-// ทั้งหมด สีเดียวที่ไม่ใช่ของแบรนด์คือโลโก้ธนาคารจริงใน bankPool ซึ่งต้องคงไว้
+// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): แบรนด์นี้เป็นเว็บหวย ธีมแดง-ทองของชุด
+// Huay จึงเป็นสีของแบรนด์เอง ไม่ใช่ข้อยกเว้นเฉพาะหน้าหวยอีกต่อไป — ค่าสีทุกค่า
+// สร้างใหม่จากพาเลตต์ §2: แผงพื้นดำอมแดง #1f0a0c ในกรอบทองลึก #8a6a0a แถวรายการ
+// ตกลงไปที่พื้นการ์ด #120b0c ในเส้นขอบ #2a0d0f แล้วสว่างขึ้นเป็นทองรอง #f3c623
+// ตอน hover ยอดเงินเป็นทองรองตามกองเหรียญทองในงานอาร์ต ป้าย REAL-TIME เป็นแดง
+// แบรนด์ #dc020e ตามบล็อกแดงของโลโก้ ชื่อหัวแผงเป็นทองอ่อน #fde79a เนื้อความ
+// #f0e2e2 (BRAND_TEXT) สถานะที่เสร็จแล้วใช้สีเน้น #fff4f4 — ชุดของ LOTTO24
+// รอบก่อน (#2a0405 #a16207 #fbbf24 #fde68a #dc2626 #3b0404 #140202 #f6e2e2
+// #d9b3b3 #fff1f1) ออกทั้งหมด สีเดียวที่ไม่ใช่ของแบรนด์คือโลโก้ธนาคารจริงใน
+// bankPool ซึ่งเป็นกลางโดยเจตนาและต้องคงไว้
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
 const initialRows = Array.from({ length: 5 }, (_, i) => ({
-  bank: bankPool[pick(`lotto-bank-${i}`, bankPool.length)],
-  market: marketPool[pick(`lotto-market-${i}`, marketPool.length)],
-  user: `0${pick(`lotto-p-${i}`, 2) === 0 ? "8" : "9"}***${digits(`lotto-u${i}`, 4)}`,
-  amount: (5000 + pick(`lotto-amount-${i}`, 145001)).toLocaleString("en-US"),
-  pending: brandFlag(Astro.site, `lotto-pending-${i}`),
+  bank: bankPool[pick(`lottoplus-bank-${i}`, bankPool.length)],
+  market: marketPool[pick(`lottoplus-market-${i}`, marketPool.length)],
+  user: `0${pick(`lottoplus-p-${i}`, 2) === 0 ? "8" : "9"}***${digits(`lottoplus-u${i}`, 4)}`,
+  amount: (5000 + pick(`lottoplus-amount-${i}`, 145001)).toLocaleString("en-US"),
+  pending: brandFlag(Astro.site, `lottoplus-pending-${i}`),
 }));
 
-const PENDING_CLASS = "text-[#fde68a] animate-pulse";
-const DONE_CLASS = "text-[#fff1f1]";
+const PENDING_CLASS = "text-[#fde79a] animate-pulse";
+const DONE_CLASS = "text-[#fff4f4]";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
     aria-label={`ยอดถูกรางวัลและรายการโอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative rounded-3xl border border-[#a16207]/60 bg-[#2a0405]/90 px-4 py-8 shadow-[0_10px_30px_rgba(8,1,1,0.7)] backdrop-blur-xl md:p-8">
-    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#a16207]/45 pb-4">
+    class="relative rounded-3xl border border-[#8a6a0a]/60 bg-[#1f0a0c]/90 px-4 py-8 shadow-[0_10px_30px_rgba(5,1,2,0.7)] backdrop-blur-xl md:p-8">
+    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#8a6a0a]/45 pb-4">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]">🎫</span>
-        <p class="text-xl leading-normal font-black tracking-widest text-[#fde68a] drop-shadow-sm">ยอดถูกรางวัล · โอนล่าสุด</p>
+        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(243,198,35,0.8)]">🎫</span>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#fde79a] drop-shadow-sm">ยอดถูกรางวัล · โอนล่าสุด</p>
       </div>
-      <span class="animate-pulse rounded-full border border-[#dc2626]/70 bg-[#3b0404]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#fde68a] shadow-[0_0_10px_rgba(220,38,38,0.35)]">
+      <span class="animate-pulse rounded-full border border-[#dc020e]/70 bg-[#2a0d0f]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#fde79a] shadow-[0_0_10px_rgba(220,2,14,0.4)]">
         REAL-TIME
       </span>
     </div>
@@ -87,26 +90,27 @@ const DONE_CLASS = "text-[#fff1f1]";
       data-amount-max="150000"
       data-pending-chance="0.3"
       data-user-style="phone"
+      data-user-digits="4"
       class="relative z-10 flex flex-col gap-3">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-bottom transition-all duration-500 ease-out">
-            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#3b0404] bg-[#140202]/70 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#fbbf24]/50 hover:bg-[#3b0404]/80 sm:flex-row sm:items-center">
+            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#2a0d0f] bg-[#120b0c]/75 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#f3c623]/55 hover:bg-[#2a0d0f]/80 sm:flex-row sm:items-center">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain grayscale" />
                 </div>
                 <div class="flex flex-col">
-                  <span class="text-[10px] font-medium tracking-widest text-[#d9b3b3]">เบอร์สมาชิก</span>
-                  <span data-winner-user class="font-mono text-sm font-bold text-[#f6e2e2]">
+                  <span class="text-[10px] font-medium tracking-widest text-[#f0e2e2]/70">เบอร์สมาชิก</span>
+                  <span data-winner-user class="font-mono text-sm font-bold text-[#f0e2e2]">
                     {row.user}
                   </span>
-                  <span data-winner-market class="text-[10px] tracking-wide text-[#d9b3b3]">
+                  <span data-winner-market class="text-[10px] tracking-wide text-[#f0e2e2]/70">
                     {row.market}
                   </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between gap-6 border-t border-[#3b0404] pt-3 sm:justify-end sm:border-none sm:pt-0">
+              <div class="flex items-center justify-between gap-6 border-t border-[#2a0d0f] pt-3 sm:justify-end sm:border-none sm:pt-0">
                 <div
                   data-winner-status
                   data-pending-text="กำลังตรวจโพย"
@@ -116,8 +120,8 @@ const DONE_CLASS = "text-[#fff1f1]";
                   class={`text-[11px] font-medium tracking-wider ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? "กำลังตรวจโพย" : "โอนเข้าบัญชีแล้ว"}
                 </div>
-                <div class="font-sans text-xl font-black text-[#fbbf24] drop-shadow-[0_2px_5px_rgba(251,191,36,0.4)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#d9b3b3]">บาท</span>
+                <div class="font-sans text-xl font-black text-[#f3c623] drop-shadow-[0_2px_5px_rgba(243,198,35,0.45)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#f0e2e2]/70">บาท</span>
                 </div>
               </div>
             </div>

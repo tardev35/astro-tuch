@@ -3,7 +3,7 @@ import kbankLogo from "../assets/banks/kbank.png";
 import scbLogo from "../assets/banks/scb.png";
 import krungsriLogo from "../assets/banks/krungsri.png";
 import ktbLogo from "../assets/banks/ktb.png";
-import { BRAND_NAME, brandPick } from "../lib/brandProfile";
+import { BRAND_NAME, brandPick, brandFlag } from "../lib/brandProfile";
 
 // Real bank brand colours — never remapped to the site palette.
 const bankPool = [
@@ -13,48 +13,68 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// Only what the brief actually names. BRAZIL999's brief lists NO game studios,
-// no game titles and no game-type list — it says คาสิโนออนไลน์ and names exactly
-// two promotions (แนะนำเพื่อน 0.8%, คืนยอดเสีย 0.3%). So the four chips are the
-// genre plus the promotions the brief states, and the บาคาร่า / รูเล็ต / เกมโต๊ะ
-// list the previous holder of this variant shipped is gone — inventing a game
-// list here would contradict the page above it. The module picks one per row
-// through data-winners-markets / data-winner-market.
-const marketPool = ["คาสิโนออนไลน์", "โบนัสแนะนำเพื่อน", "โบนัสคืนยอดเสีย", "โปรโมชั่น"];
+// Only what the brief actually names. LOTTOPLUS is a เว็บหวยออนไลน์, and its
+// brief lists exactly the lottery types it opens (รัฐบาลไทย, ลาวพัฒนา, ฮานอย,
+// หวยหุ้น) plus two promotions (คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%). So the chips
+// are those, and the คาสิโนออนไลน์ / โปรโมชั่น list the previous holder of this
+// variant shipped is gone — a casino word here would contradict every paragraph
+// on the page above it. The module picks one per row through
+// data-winners-markets / data-winner-market.
+const marketPool = ["หวยรัฐบาลไทย", "หวยลาวพัฒนา", "หวยฮานอย", "หวยหุ้น", "โบนัสคืนยอดเสีย", "โบนัสแนะนำเพื่อน"];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
-// brandPick, not Math.random: frontmatter runs at build time, so a random call
-// here would make two builds of the same domain differ. No `new Date()` either.
+// brandPick / brandFlag, not Math.random: frontmatter runs at build time, so a
+// random call here would make two builds of the same domain differ. No
+// `new Date()` either.
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
+const flag = (salt: string) => brandFlag(Astro.site, salt);
 
-const initialRows = Array.from({ length: 8 }, (_, i) => ({
-  bank: bankPool[pick(`pill-bank-${i}`, bankPool.length)],
-  market: marketPool[pick(`pill-market-${i}`, marketPool.length)],
-  user: `${LETTERS.charAt(pick(`pill-a-${i}`, 26))}${LETTERS.charAt(pick(`pill-b-${i}`, 26))}***`,
-  amount: (15000 + pick(`pill-amount-${i}`, 80001)).toLocaleString("en-US"),
-}));
+// The status chip's two states are declared on the row itself
+// (data-pending-text / data-done-text and the matching -class pairs), so the
+// server-rendered state has to agree with one of them. `pending` below picks
+// which one this row shipped in.
+const PENDING_TEXT = "รอตรวจสอบ";
+const DONE_TEXT = "ถอนสำเร็จ";
+const PENDING_CLASS = "border-[#8a6a0a]/60 text-[#f3c623]";
+const DONE_CLASS = "border-[#45d67a]/50 text-[#45d67a]";
+const AMOUNT_CLASS = "text-[#f3c623]";
+const BIG_AMOUNT_CLASS = "text-[#ff2d38]";
+
+const initialRows = Array.from({ length: 8 }, (_, i) => {
+  const amount = 15000 + pick(`pill-amount-${i}`, 80001);
+  return {
+    bank: bankPool[pick(`pill-bank-${i}`, bankPool.length)],
+    market: marketPool[pick(`pill-market-${i}`, marketPool.length)],
+    user: `${LETTERS.charAt(pick(`pill-a-${i}`, 26))}${LETTERS.charAt(pick(`pill-b-${i}`, 26))}***`,
+    amount: amount.toLocaleString("en-US"),
+    big: amount > 70000,
+    pending: flag(`pill-pending-${i}`),
+  };
+});
 
 // The rows are server-rendered; src/lib/winnersFeed.ts only takes over the
 // rotation, reading its configuration from the data-* attributes below. The
 // feed's title is a <p> and the <section> carries an aria-label — a withdrawal
 // feed is chrome and never emits a heading tag.
 //
-// BRAZIL999 (รอบเขียว-โครเมียม-ดำ 2026-09-25): เม็ดยาแต่ละเม็ดเป็นพื้นเพจดำอมเขียว
-// #040a05 ในกรอบผิวการ์ดยก #123a18 ที่สว่างขึ้นเป็นเขียวแบรนด์ #22c55e ตอน hover
-// ชิปหมวดเป็นเขียวลึก #1c5a26 ตัวอักษรโครเมียมกลาง #aab4bf ยอดเงินเป็นเขียวสว่าง
-// #b6ff9c ชื่อผู้ถอนเป็น BRAND_TEXT #dfeadd ส่วนกรอบนอกเป็นผิวการ์ด #0a1a0c ใน
-// เส้นเขียวแบรนด์ และหัวแถบไล่เขียวสว่าง → เขียวแบรนด์ตามเลข 999 บนโลโก้ — ชุด
-// ทอง-เงินของ SAGAME66 (#e8b93f #96671a #ffe9a3 #2a1d0b #171006 #0d0903 #b6c1cd
-// #e3d8c0) ออกทั้งหมด
+// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): เม็ดยาแต่ละเม็ดเป็นพื้นเพจ #050505 ใน
+// กรอบผิวการ์ดยกแดงเข้ม #1f0a0c ที่สว่างขึ้นเป็นแดงแบรนด์ #dc020e ตอน hover ชิป
+// ประเภทหวยเป็นแดงลึก #6b0207 ตัวอักษรทองรอง #f3c623 ยอดเงินเป็นทองรองและกระโดด
+// ไปแดงสว่าง #ff2d38 เมื่อเกิน data-big-win-above ชื่อผู้ถอนเป็น BRAND_TEXT
+// #f0e2e2 ส่วนกรอบนอกเป็นผิวการ์ด #120b0c ในเส้นแดงแบรนด์ และหัวแถบไล่ทองอ่อน
+// #fde79a → แดงแบรนด์ ตามโลโก้ที่เป็นตัวอักษรขาวบนบล็อกแดงล้อมด้วยเหรียญทอง
+// เขียว #45d67a ของสถานะ "ถอนสำเร็จ" เป็นสีของสถานะไม่ใช่สีแบรนด์ จึงไม่ถูกรีแมป
+// — ชุดเขียวมรกต-โครเมียมของ BRAZIL999 ที่ค้างในไฟล์นี้ (#22c55e #b6ff9c #1c5a26
+// #123a18 #0a1a0c #040a05 #aab4bf #dfeadd) ออกทั้งหมด
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#22c55e]/35 bg-[#0a1a0c]/90 px-4 py-8 shadow-[0_15px_40px_rgba(34,197,94,0.18)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#dc020e]/40 bg-[#120b0c]/90 px-4 py-8 shadow-[0_15px_40px_rgba(220,2,14,0.2)] backdrop-blur-md">
     <div class="mb-6 text-center">
-      <p class="bg-gradient-to-b from-[#b6ff9c] to-[#22c55e] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🃏</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#fde79a] to-[#dc020e] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🎫</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -63,23 +83,38 @@ const initialRows = Array.from({ length: 8 }, (_, i) => ({
       data-max-rows="12"
       data-amount-min="15000"
       data-amount-max="95000"
+      data-pending-chance="0.35"
       data-user-digits="0"
       data-insert="scatter"
+      data-big-win-above="70000"
       class="relative z-10 flex flex-wrap justify-center gap-3">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#123a18] bg-[#040a05] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(34,197,94,0.20)] hover:border-[#22c55e]/60">
+            <div class="flex items-center gap-3 rounded-full border border-[#1f0a0c] bg-[#050505] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(220,2,14,0.2)] hover:border-[#dc020e]/60">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#dfeadd]">
+              <div data-winner-user class="text-sm font-bold text-[#f0e2e2]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#1c5a26]/55 px-2 py-0.5 text-[10px] font-bold text-[#aab4bf]">
+              <span data-winner-market class="rounded-full border border-[#6b0207]/70 px-2 py-0.5 text-[10px] font-bold text-[#f3c623]">
                 {row.market}
               </span>
-              <div class="text-sm font-black text-[#b6ff9c] drop-shadow-sm">
+              <span
+                data-winner-status
+                data-pending-text={PENDING_TEXT}
+                data-done-text={DONE_TEXT}
+                data-pending-class={PENDING_CLASS}
+                data-done-class={DONE_CLASS}
+                class={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
+                {row.pending ? PENDING_TEXT : DONE_TEXT}
+              </span>
+              <div
+                data-winner-big
+                data-normal-class={AMOUNT_CLASS}
+                data-big-class={BIG_AMOUNT_CLASS}
+                class={`text-sm font-black drop-shadow-sm ${row.big ? BIG_AMOUNT_CLASS : AMOUNT_CLASS}`}>
                 +<span data-winner-amount>{row.amount}</span> ฿
               </div>
             </div>

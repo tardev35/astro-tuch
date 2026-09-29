@@ -13,37 +13,38 @@ const leftHeading = titleleft ?? title;
 // `leading-normal` to cancel the hoisted `leading-relaxed`. Do not re-add a
 // wrapper <div>.
 //
-// Column order 2026-09-28: TEXT (7fr) then IMAGE (3fr) — the mirror of
-// ContentBoxSevenThreeHuay, which runs image-then-text. The home page renders
-// one of each, so the two image+text blocks alternate sides instead of stacking
-// both pictures down the left edge. The wide column is therefore the LEFT one
-// and `title` falls back to it, so a caller that passes a single docx heading
-// gets it on the prose, never on the picture.
+// Column order: TEXT (7fr) then IMAGE (3fr) — the mirror of
+// ContentBoxSevenThreeCyberCut, which runs image-then-text. The home page
+// renders one of each, so the two image+text blocks alternate sides instead of
+// stacking both pictures down the same edge. The wide column is therefore the
+// LEFT one and `title` falls back to it, so a caller that passes a single docx
+// heading gets it on the prose, never on the picture.
 //
 // Only one column ever carries a heading on the page — the image column is
 // passed no `titleright`, so this block emits exactly one docx heading.
 //
-// LOTTO24 (รอบแดง-ทอง-ดำ 2026-09-28): แผ่นนูนวางบนผิวการ์ดแดงเกือบดำ #2a0405 ใน
-// กรอบทองหลัก #fbbf24 กดเงาลงไปหาพื้นลึก #0a0101 และยกแสงขึ้นด้วยผิวแผงยก #3b0404
-// ซึ่งไต่ขึ้นเป็นแดงเข้ม #7f1d1d ตอน hover ความนูนแบบ neumorphic ต้องใช้คู่มืด/สว่าง
-// ไม่ใช่สองสี เงาจึงเป็นความสว่างภายในโทนแดงเกือบดำโทนเดียว และปล่อยให้หัวข้อรับ
-// ทองหลักทึบไว้เป็นตัวเน้นเพียงจุดเดียว — คู่กับ ContentBoxSevenThreeHuay ที่อยู่
-// เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นตัวไล่เฉดทอง-แดงในการ์ดกลม จึงคนละจังหวะ
-// สายตาทั้งรูปทรง ด้านที่วางรูป และสี เนื้อความ #f6e2e2 (BRAND_TEXT) — ชุดทอง-เขียว
-// ของ PGW44 (#fde90e #35d413 #1f5a16 #0b1408 #050803 #101a0b #e9f0dd) ออกหมด
+// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): แผ่นนูนวางบนผิวการ์ดแดงเข้ม #1f0a0c ใน
+// กรอบแดงแบรนด์ #dc020e กดเงาลงไปหาพื้นเพจ #050505 และยกแสงขึ้นด้วยผิวแผงยก
+// #2f1013 ซึ่งไต่ขึ้นเป็นแดงลึก #6b0207 ตอน hover ความนูนแบบ neumorphic ต้องใช้
+// คู่มืด/สว่างไม่ใช่สองสี เงาจึงเป็นความสว่างภายในโทนแดงเกือบดำโทนเดียว และปล่อย
+// ให้หัวข้อรับทองรองทึบ #f3c623 ไว้เป็นตัวเน้นเพียงจุดเดียว — คู่กับ
+// ContentBoxSevenThreeCyberCut ที่อยู่เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นแดง
+// สว่างในการ์ดมุมตัด จึงคนละจังหวะสายตาทั้งรูปทรง ด้านที่วางรูป และสี เนื้อความ
+// #f0e2e2 (BRAND_TEXT) — ชุดแดง-ทองของ LOTTO24 ที่ค้างในไฟล์นี้ (#fbbf24
+// #2a0405 #3b0404 #0a0101 #7f1d1d #f6e2e2) ออกทั้งหมด
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#fbbf24]/50 bg-[#2a0405] p-8 shadow-[10px_10px_20px_#0a0101,-10px_-10px_20px_#3b0404] transition-all duration-300 hover:shadow-[15px_15px_30px_#0a0101,-15px_-15px_30px_#7f1d1d]">
+    class="w-full rounded-[25px] border border-[#dc020e]/50 bg-[#1f0a0c] p-8 shadow-[10px_10px_20px_#050505,-10px_-10px_20px_#2f1013] transition-all duration-300 hover:shadow-[15px_15px_30px_#050505,-15px_-15px_30px_#6b0207]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2]">
-        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#fbbf24]">{leftHeading}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e2e2]">
+        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#f3c623]">{leftHeading}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e2e2] md:border-l md:border-[#fbbf24]/40 md:pl-8">
-        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#fbbf24]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e2e2] md:border-l md:border-[#f3c623]/40 md:pl-8">
+        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#f3c623]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
