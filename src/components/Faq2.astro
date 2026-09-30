@@ -23,49 +23,51 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // <details> carries the open/close state, the keyboard handling and the
 // expanded/collapsed announcement, so there is no JS in this file. The shared
 // `name` makes the group exclusive — opening one answer closes the others, again
-// with no script. The badge and the arrow are aria-hidden, so a question's
-// accessible name is the question text itself.
+// with no script. It is deliberately brand-neutral ("site-faq"): a group name
+// carrying a previous brand's slug is the kind of string a rebrand misses. The
+// badge and the arrow are aria-hidden, so a question's accessible name is the
+// question text itself.
 //
-// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): กรอบแดงลึก #6b0207 บางๆ มุมตัดเฉียงแบบลาย
-// วงจรรอบแผงดำอมแดง #120b0c แถบไล่เฉดบนกรอบวิ่งทองอ่อน #fde79a → ทองรอง #f3c623
-// ตามเหรียญทองในงานอาร์ต ป้ายเครื่องหมายคำถามเป็นทองเต็มใบบนหมึกเข้ม #1a0203
-// (12.4:1) ไม่ไล่ไปจบที่แดง เพราะหมึกเข้มบนแดงได้แค่ 3.85:1 ซึ่งตกเกณฑ์ คำถามเป็น
-// ทองรอง คำตอบเป็นสีเนื้อความ #f0e2e2 (BRAND_TEXT) เส้นคั่นคำตอบเป็นแดงลึกและ
-// ลูกศรเป็นแดงสว่าง #ff2d38 — ชุดทอง-เขียวของ PGW44 ที่ค้างในไฟล์นี้ (#fde90e
-// #fff89a #f5c518 #35d413 #1f5a16 #0b1408 #10160a #e9f0dd) หายไปทั้งหมด
+// BRAVO168 (รอบน้ำเงินรอยัล-ทอง 2026-09-30): กรอบน้ำเงินเส้น #0e3f8f บางๆ มุมตัดเฉียง
+// แบบลายวงจรรอบแผงกรมท่า #04142f แถบไล่เฉดบนกรอบวิ่งทองอ่อน #ffe39a → ทองแบรนด์
+// #f4cb69 ตามริ้วแสงทองและเหรียญทองในงานอาร์ต ป้ายเครื่องหมายคำถามเป็นทองเต็มใบบน
+// หมึกเข้ม #0a1020 (12.9:1) ไม่ไล่ไปจบที่น้ำเงิน เพราะหมึกเข้มบนน้ำเงินรอยัลตกเกณฑ์
+// คำถามเป็นทองแบรนด์ คำตอบเป็นสีเนื้อความ #dbe5f5 (BRAND_TEXT) เส้นคั่นคำตอบเป็น
+// น้ำเงินเส้นและลูกศรเป็นฟ้าสว่าง #2f86f0 — ชุดแดง-ทองของ LOTTOPLUS ที่ค้างในไฟล์นี้
+// (#6b0207 #120b0c #fde79a #f3c623 #dc020e #ff2d38 #1a0203 #f0e2e2) หายไปทั้งหมด
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
       <header class="mb-6">
-        <HeadingTag class="bg-gradient-to-r from-[#fde79a] via-[#f3c623] to-[#dc020e] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#1558c4] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#dc020e] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#f4cb69] to-transparent" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#6b0207] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#fde79a] via-[#f3c623] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#0e3f8f] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-transparent opacity-40 transition-opacity group-hover:opacity-100" />
 
-        <details name="faq-lottoplus" class="faq-item relative bg-[#120b0c] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details name="site-faq" class="faq-item relative bg-[#04142f] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#fde79a] to-[#f3c623] font-black text-[#1a0203] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ffe39a] to-[#f4cb69] font-black text-[#0a1020] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#f3c623]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#ff2d38] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#f4cb69]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#2f86f0] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#6b0207] pl-4 text-left text-base leading-relaxed text-[#f0e2e2]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#0e3f8f] pl-4 text-left text-base leading-relaxed text-[#dbe5f5]">{faq.a}</p>
         </details>
       </div>
     ))

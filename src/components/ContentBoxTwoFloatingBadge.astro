@@ -12,62 +12,60 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 
 // The badge is width-capped (w-[92%] max-w-2xl) and centred rather than
 // whitespace-nowrap, so a full docx sentence wraps instead of blowing past the
-// viewport and forcing horizontal scroll on a phone.
+// viewport and forcing horizontal scroll on a phone. Re-checked for this brand:
+// no `whitespace-nowrap` survives anywhere in this file.
 //
 // It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. RE-DERIVED for GOT777's docx H2
-// #6, "สมัครเล่นสล็อต GOT777 เกมฮิตแตกง่าย ไม่มีขั้นต่ำ" — 48 code points, ~38
-// advancing glyphs once the 10 zero-width Thai marks (ั ่ ็ ิ ่ ่ ี ั ้ ่) are
-// discounted. That is 23 glyphs SHORTER than WIN999's title, which is what the
-// old pt-32/md:pt-36 was sized against, so the arithmetic is redone rather than
-// inherited — the old value left ~70px of dead air above the copy. The heading
-// carries `leading-normal` (1.5), the badge adds py-2.5 (20px) and border-2
-// (4px), and the two ✦ spans plus gap-2 take ~48px of the line box. Budget is
-// one full spare line beyond the measured wrap at every breakpoint:
+// the badge's own height minus that 24px offset. RE-DERIVED for BRAVO168's docx
+// H2 #6, "สมัครแทงบอล BRAVO168 ง่ายๆ 3ขั้นตอน" — 35 code points, ~31 advancing
+// glyphs once the 4 zero-width Thai marks (ั ่ ั ้) are discounted. That is 7
+// glyphs SHORTER than GOT777's title, so the arithmetic is redone rather than
+// inherited. The heading carries `leading-normal` (1.5), the badge adds py-2.5
+// (20px) and border-2 (4px), and the two ✦ spans plus gap-2 take ~48px of the
+// line box. Budget is one full spare line beyond the measured wrap everywhere:
 //   base  text-base 16px -> 24px/line, ~218px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~27 glyphs/line,
-//         so 38 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
+//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
+//         so 31 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
 //         bottom edge 72px vs pt-28/112px             -> 40px clear
 //   sm    text-xl 20px -> 30px/line, ~443px of text width
-//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~44 glyphs/line,
+//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~40 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
 //         bottom edge 60px vs pt-28/112px             -> 52px clear
-//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~46 glyphs/line,
+//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
 //         bottom edge 72px vs md:pt-32/128px          -> 56px clear
 // pt-28/md:pt-32 matches its two sibling *FloatingBadge variants, so the three
 // stay in sync. Do not push it lower without redoing the arithmetic against the
 // real docx sentence the next brand puts in here.
 //
-// GOT777 palette (ทอง-แดงเลือดหมู-ดำ 2026-09-29): เวิร์ดมาร์กเขียน GOT เป็นทอง
-// เมทัลลิก #f5c518 มีอัญมณีแดงกลางตัว O แล้วปิดด้วยเลข 777 สีแดงเลือดหมู #d21622
-// ขอบทอง การ์ดจึงไล่จากผิวการ์ดดำอมน้ำตาล #160b06 ลงไปหาพื้นเพจดำสนิท #0a0503 ใน
-// กรอบแดงลึก #7b0304 ซึ่งต่างจาก ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบ
-// ที่วางใกล้กันบนหน้าแรกไม่อ่านเป็นการ์ดเดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแผงยก
-// #241108 ในกรอบแดงแบรนด์ ประกายสองข้างแยกตามคู่สีของโลโก้ — ทองอ่อน #ffe9a8 ฝั่ง
-// ซ้ายตามคำว่า GOT และแดงแบรนด์ #d21622 ฝั่งขวาตามเลข 777 ตัวหัวข้อไล่ทองล้วน
-// ทองอ่อน #ffe9a8 → ทองแบรนด์ #f5c518 → ทองลึก #96690f ป้ายคอลัมน์ซ้ายเป็นทองอ่อน
-// ฝั่งขวาเป็นแดงแบรนด์ เนื้อความ #ece0cb (BRAND_TEXT) ตัวรอง #bdae92 — ชุดทอง-ขาว
-// ของ WIN999 (#fcc403 #fdda04 #8a6502 #4a3402 #fffbea #191712 #050505 #101010
-// #e9e4d6) ออกครบทุกจุด
+// BRAVO168 palette (น้ำเงินรอยัล-ทอง 2026-09-30): เวิร์ดมาร์กเขียน BRAVO เป็นโครเมียม
+// ไล่น้ำเงินรอยัล #1558c4 แล้วปิดด้วยเลข 168 ทองตัน #f4cb69 การ์ดจึงไล่จากผิวการ์ด
+// กรมท่า #04142f ลงไปหาพื้นเพจ #02081a ในกรอบน้ำเงินรอยัล #1558c4 ซึ่งต่างจาก
+// ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบที่วางบนหน้าแรกไม่อ่านเป็นการ์ด
+// เดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแผงยก #072247 ในกรอบน้ำเงินรอยัล ประกายสองข้าง
+// แยกตามคู่สีของโลโก้ — ทองอ่อน #ffe39a ฝั่งซ้ายตามเลข 168 และฟ้าสว่าง #2f86f0 ฝั่ง
+// ขวาตามคำว่า BRAVO ตัวหัวข้อไล่ทองล้วน ทองอ่อน #ffe39a → ทองแบรนด์ #f4cb69 → ทองลึก
+// #c9922e ป้ายคอลัมน์ซ้ายเป็นทองอ่อน ฝั่งขวาเป็นฟ้าสว่าง เนื้อความ #dbe5f5
+// (BRAND_TEXT) — ชุดทอง-แดงเลือดหมูของ GOT777 (#f5c518 #ffe9a8 #96690f #d21622
+// #7b0304 #4c0301 #241108 #160b06 #0a0503 #ece0cb #bdae92) ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#7b0304] bg-gradient-to-b from-[#160b06] to-[#0a0503] p-8 pt-28 shadow-[0_10px_40px_rgba(5,2,1,0.85)] md:pt-32">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/26 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#d21622]/22 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#1558c4] bg-gradient-to-b from-[#04142f] to-[#02081a] p-8 pt-28 shadow-[0_10px_40px_rgba(1,4,12,0.85)] md:pt-32">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f4cb69]/26 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#2f86f0]/30 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#d21622]/70 bg-[#241108] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(210,22,34,0.34)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffe9a8]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#1558c4]/80 bg-[#072247] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(21,88,196,0.35)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffe39a]">
             ✦
           </span>
-          <HeadingTag class="bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#96690f] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+          <HeadingTag class="bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#d21622]">
+          <span aria-hidden="true" class="shrink-0 text-[#2f86f0]">
             ✦
           </span>
         </div>
@@ -75,13 +73,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0cb]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffe9a8] drop-shadow-[0_0_5px_rgba(245,197,24,0.35)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5f5]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffe39a] drop-shadow-[0_0_5px_rgba(244,203,105,0.35)]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece0cb] md:border-l md:border-[#7b0304] md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#d21622] drop-shadow-[0_0_5px_rgba(210,22,34,0.35)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5f5] md:border-l md:border-[#0e3f8f] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#2f86f0] drop-shadow-[0_0_5px_rgba(21,88,196,0.35)]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

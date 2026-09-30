@@ -9,57 +9,57 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // The badge is `absolute -top-6`, so the card's top padding must exceed the
 // badge's own height minus 24px. It is width-capped (w-[92%] max-w-2xl) and
 // centred rather than whitespace-nowrap, so a long Thai title wraps instead of
-// overflowing the card and forcing horizontal scroll on a phone.
+// overflowing the card and forcing horizontal scroll on a phone. Re-checked for
+// this brand: there is no `whitespace-nowrap` anywhere in this file.
 //
-// Clearance RE-DERIVED for GOT777 (2026-09-29), which puts this box on docx H2
-// #3: "โปรโมชั่น GOT777เกมสล็อต ใช้ได้ตลอดการเดิมพัน" — 45 code points, ~38
-// advancing glyphs once the 7 zero-width Thai marks (ั ่ ็ ้ ้ ิ ั) are
-// discounted. That is 12 glyphs SHORTER than WIN999's title, which is why the
-// padding is measured again and NOT inherited: pt-36/md:pt-40 was sized for a
-// four-line base wrap and would leave ~60px of dead space above a two-line one.
-// It arrives as an H2, i.e. one notch below the H1 budgets, and the badge keeps
-// py-2.5 (20px) + border-2 (4px) with two ✦ spans plus gap-2 taking ~48px of
-// the line box:
+// Clearance RE-DERIVED for BRAVO168 (2026-09-30), which puts this box on docx H2
+// #3: "โปรโมชั่นแทงบอล BRAVO168 จัดหนักทุกฤดูกาล" — 41 code points, ~35 advancing
+// glyphs once the 6 zero-width Thai marks (ั ่ ั ั ุ ู) are discounted. That is
+// 3 glyphs LONGER than GOT777's title, so the padding is measured again and NOT
+// inherited. It arrives as an H2, so the badge keeps py-2.5 (20px) + border-2
+// (4px) with two ✦ spans plus gap-2 taking ~48px of the line box:
 //   base  text-lg 18px -> 27px/line, ~218px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
-//         so 38 glyphs wraps to 2. Budget 3 lines = 3x27 + 24 = 105px,
+//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~22 glyphs/line,
+//         so 35 glyphs wraps to 2. Budget 3 lines = 3x27 + 24 = 105px,
 //         bottom edge 81px vs pt-28/112px        -> 31px clear
 //   sm    text-xl 20px -> 30px/line, ~443px of text width
-//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~44 glyphs/line,
+//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~40 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
 //         bottom edge 60px vs pt-28/112px        -> 52px clear
-//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~46 glyphs/line,
+//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
 //         bottom edge 72px vs md:pt-32/128px     -> 56px clear
-// Every breakpoint clears with a full spare line of budget. Do NOT shrink it
-// further on the assumption the box keeps a title this length — redo the
-// arithmetic with the real docx sentence the next brand puts in here instead.
+// Every breakpoint clears with a full spare line of budget, and pt-28/md:pt-32
+// is the same pair its two sibling *FloatingBadge variants use so the three stay
+// in sync. Do NOT shrink it on the assumption the box keeps a title this length
+// — redo the arithmetic with the real docx sentence the next brand puts here.
 //
-// GOT777 palette (ทอง-แดงเลือดหมู-ดำ 2026-09-29): การ์ดไล่จากผิวการ์ดดำอมน้ำตาล
-// #160b06 ลงไปหาพื้นเพจดำสนิท #0a0503 ในกรอบทองแบรนด์ #f5c518 ป้ายหัวข้อลอยอยู่บนผิว
-// แผงยก #241108 ในกรอบทองเดียวกัน ประกายสองข้างแยกกันด้วยคู่สีของเวิร์ดมาร์ก — ทองอ่อน
-// #ffe9a8 ฝั่งซ้ายตามคำว่า GOT และแดงแบรนด์ #d21622 ฝั่งขวาตามเลข 777 ตัวหัวข้อไล่
-// ทองอ่อน #ffe9a8 → ทองแบรนด์ #f5c518 → แดงแบรนด์ #d21622 ตามลำดับสีบนโลโก้ ออร่าสอง
-// มุมเป็นทองกับแดง เนื้อความ #ece0cb (BRAND_TEXT) — ชุดทอง-ขาวของ WIN999 (#fcc403
-// #fdda04 #e0a800 #191712 #050505 #101010 #e9e4d6) ออกครบทุกจุด
+// BRAVO168 palette (น้ำเงินรอยัล-ทอง 2026-09-30): การ์ดไล่จากผิวการ์ดกรมท่า #04142f
+// ลงไปหาพื้นเพจกรมท่าเกือบดำ #02081a ในกรอบทองแบรนด์ #f4cb69 ป้ายหัวข้อลอยอยู่บนผิว
+// แผงยก #072247 ในกรอบทองเดียวกัน ประกายสองข้างแยกกันด้วยคู่สีของเวิร์ดมาร์ก — ทองอ่อน
+// #ffe39a ฝั่งซ้ายตามเลข 168 และฟ้าสว่าง #2f86f0 ฝั่งขวาตามคำว่า BRAVO ตัวหัวข้อไล่
+// ทองอ่อน #ffe39a → ทองแบรนด์ #f4cb69 → น้ำเงินรอยัล #1558c4 ตามลำดับสีบนโลโก้ ออร่า
+// สองมุมเป็นทองกับน้ำเงินรอยัล เนื้อความ #dbe5f5 (BRAND_TEXT) — ชุดทอง-แดงเลือดหมูของ
+// GOT777 (#f5c518 #ffe9a8 #96690f #d21622 #241108 #160b06 #0a0503 #ece0cb) ออก
+// ครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#f5c518]/55 bg-gradient-to-b from-[#160b06]/95 to-[#0a0503]/95 p-8 pt-28 text-left text-base leading-relaxed text-[#ece0cb] shadow-[0_10px_30px_rgba(245,197,24,0.24)] md:pt-32">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#d21622]/24 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#f4cb69]/55 bg-gradient-to-b from-[#04142f]/95 to-[#02081a]/95 p-8 pt-28 text-left text-base leading-relaxed text-[#dbe5f5] shadow-[0_10px_30px_rgba(244,203,105,0.24)] md:pt-32">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#f4cb69]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#1558c4]/35 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#f5c518]/65 bg-[#241108] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(5,2,1,0.85)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffe9a8]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#f4cb69]/65 bg-[#072247] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(1,4,12,0.85)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffe39a]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#ffe9a8] via-[#f5c518] to-[#d21622] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#1558c4] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#d21622]">
+          <span aria-hidden="true" class="shrink-0 text-[#2f86f0]">
             ✦
           </span>
         </div>
