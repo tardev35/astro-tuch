@@ -15,20 +15,20 @@ const bankPool = [
 // Pre-formatted, because the shared module treats a market as one opaque label
 // rather than a name/type pair it has to know how to join.
 //
-// ชุดรายการหวยต้องตรงกับที่ src/assets/content.txt ของ LOTTOPLUS ระบุไว้เท่านั้น
-// คือ รัฐบาลไทย · ลาวพัฒนา · ฮานอย · หวยหุ้น — ห้ามเติมตลาดอื่น (รอบก่อนมี
-// "หวยยี่กี" ค้างอยู่ ซึ่งบรีฟรอบนี้ไม่ได้ระบุ จึงถูกถอดออก) และห้ามใส่ตัวเลข
-// อัตราจ่ายลงใน pool นี้ เรทที่บรีฟระบุคือ 2 ตัว 100 กับ 3 ตัว 1,000 ซึ่งอยู่ใน
-// หัวข้อของหน้า ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
+// ชุดรายการหวยต้องตรงกับที่ src/assets/content.txt ระบุไว้เท่านั้น คือ รัฐบาลไทย ·
+// ลาวพัฒนา · ฮานอยปกติ/พิเศษ/วีไอพี · หวยหุ้นต่างประเทศ — ห้ามเติมตลาดอื่นที่
+// บรีฟไม่ได้พูดถึง และห้ามใส่ตัวเลขอัตราจ่ายลงใน pool นี้ เรทที่บรีฟระบุคือ
+// 2 ตัว จ่าย 100 บาท กับ 3 ตัว จ่าย 1,000 บาท ซึ่งอยู่ในเนื้อหาของหน้า ไม่ใช่
+// ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
   "หวยรัฐบาลไทย · เลข 2 ตัว",
   "หวยรัฐบาลไทย · เลข 3 ตัว",
   "หวยลาวพัฒนา · เลข 2 ตัว",
   "หวยลาวพัฒนา · เลข 3 ตัว",
-  "หวยฮานอย · เลข 2 ตัว",
-  "หวยฮานอย · เลข 3 ตัว",
-  "หวยหุ้น · เลข 2 ตัว",
-  "หวยหุ้น · เลข 3 ตัว",
+  "หวยฮานอยปกติ · เลข 2 ตัว",
+  "หวยฮานอยพิเศษ · เลข 3 ตัว",
+  "หวยฮานอยวีไอพี · เลข 2 ตัว",
+  "หวยหุ้นต่างประเทศ · เลข 3 ตัว",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -43,25 +43,25 @@ const marketPool = [
 // The brand name is never typed here — it comes from BRAND_NAME, so the
 // aria-label cannot rot into a previous brand's.
 //
-// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): แบรนด์นี้เป็นเว็บหวย ธีมแดง-ทองของชุด
-// Huay จึงเป็นสีของแบรนด์เอง ไม่ใช่ข้อยกเว้นเฉพาะหน้าหวยอีกต่อไป — ค่าสีทุกค่า
-// สร้างใหม่จากพาเลตต์ §2: แผงพื้นดำอมแดง #1f0a0c ในกรอบทองลึก #8a6a0a แถวรายการ
-// ตกลงไปที่พื้นการ์ด #120b0c ในเส้นขอบ #2a0d0f แล้วสว่างขึ้นเป็นทองรอง #f3c623
-// ตอน hover ยอดเงินเป็นทองรองตามกองเหรียญทองในงานอาร์ต ป้าย REAL-TIME เป็นแดง
-// แบรนด์ #dc020e ตามบล็อกแดงของโลโก้ ชื่อหัวแผงเป็นทองอ่อน #fde79a เนื้อความ
-// #f0e2e2 (BRAND_TEXT) สถานะที่เสร็จแล้วใช้สีเน้น #fff4f4 — ชุดของ LOTTO24
-// รอบก่อน (#2a0405 #a16207 #fbbf24 #fde68a #dc2626 #3b0404 #140202 #f6e2e2
-// #d9b3b3 #fff1f1) ออกทั้งหมด สีเดียวที่ไม่ใช่ของแบรนด์คือโลโก้ธนาคารจริงใน
-// bankPool ซึ่งเป็นกลางโดยเจตนาและต้องคงไว้
+// ธีม Huay แดง-ทอง-ดำ ของหมวดหวย (/ตรวจหวย) คงไว้ตามข้อยกเว้นใน SKILL.md
+// Phase 4.5 ข้อ 5 — ไม่ถูกดึงไปพาเลตต์เขียว-ทองของแบรนด์รอบนี้ แผงพื้นดำอมแดง
+// #1f0a0c ในกรอบทองลึก #8a6a0a แถวรายการตกลงไปที่พื้นการ์ด #120b0c ในเส้นขอบ
+// #2a0d0f แล้วสว่างขึ้นเป็นทองรอง #f3c623 ตอน hover ยอดเงินเป็นทองรอง ป้าย
+// REAL-TIME เป็นแดง #dc020e ชื่อหัวแผงเป็นทองอ่อน #fde79a เนื้อความ #f0e2e2
+// สถานะที่เสร็จแล้วใช้สีเน้น #fff4f4 สีเดียวที่ไม่ใช่ของธีมคือโลโก้ธนาคารจริงใน
+// bankPool ซึ่งเป็นสีแบรนด์ธนาคารโดยเจตนาและต้องคงไว้
+//
+// salt ทุกตัวเป็นชื่อกลาง ("huay-winner-*") ไม่ผูกกับชื่อแบรนด์ใด — รอบก่อน ๆ ตั้ง
+// salt เป็นชื่อแบรนด์ ทำให้ชื่อแบรนด์ที่ตายแล้วค้างอยู่ในซอร์สข้ามรีแบรนด์เสมอ
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
 const initialRows = Array.from({ length: 5 }, (_, i) => ({
-  bank: bankPool[pick(`lottoplus-bank-${i}`, bankPool.length)],
-  market: marketPool[pick(`lottoplus-market-${i}`, marketPool.length)],
-  user: `0${pick(`lottoplus-p-${i}`, 2) === 0 ? "8" : "9"}***${digits(`lottoplus-u${i}`, 4)}`,
-  amount: (5000 + pick(`lottoplus-amount-${i}`, 145001)).toLocaleString("en-US"),
-  pending: brandFlag(Astro.site, `lottoplus-pending-${i}`),
+  bank: bankPool[pick(`huay-winner-bank-${i}`, bankPool.length)],
+  market: marketPool[pick(`huay-winner-market-${i}`, marketPool.length)],
+  user: `0${pick(`huay-winner-p-${i}`, 2) === 0 ? "8" : "9"}***${digits(`huay-winner-u${i}`, 4)}`,
+  amount: (5000 + pick(`huay-winner-amount-${i}`, 145001)).toLocaleString("en-US"),
+  pending: brandFlag(Astro.site, `huay-winner-pending-${i}`),
 }));
 
 const PENDING_CLASS = "text-[#fde79a] animate-pulse";

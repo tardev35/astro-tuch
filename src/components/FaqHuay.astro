@@ -10,12 +10,15 @@ export interface Props {
   faqs?: FAQ[];
 }
 
+import { BRAND_NAME } from "../lib/brandProfile";
+
 // Every consumer passes an explicit `faqs` array built from this brand's brief.
 // The defaults below exist so the component can never render empty — they are
 // kept in step with the current brand for the same reason AnnouncementHuay's
 // default message is: a stale default is the classic place a previous brand's
-// copy survives a rebrand unnoticed. These three are LOTTOPLUS's own Q/A pairs
-// out of src/assets/content.txt, verbatim.
+// copy survives a rebrand unnoticed. These three are the current brief's own
+// Q/A pairs out of src/assets/content.txt (L23–L28), with the brand name coming
+// from BRAND_NAME rather than being retyped.
 //
 // The question is a <p> inside the <summary>, never a heading: the h2/h3
 // inventory is diffed against the docx checklist every rebrand, and none of
@@ -28,41 +31,38 @@ export interface Props {
 // and its icons reset by this one. `name` on <details> gives the browser the
 // exclusive behaviour it was reaching for, scoped to this group.
 //
-// LOTTOPLUS (รอบแดง-ทอง-ดำ 2026-09-29): แบรนด์นี้เป็นเว็บหวย ธีมแดง-ทองของชุด
-// Huay จึงเป็นสีของแบรนด์เอง ไม่ใช่ข้อยกเว้นเฉพาะหน้าหวย — ค่าสีสร้างใหม่จาก
-// พาเลตต์ §2 ทั้งชุด: แถวคำถามเป็นพื้นดำอมแดง #1f0a0c ในกรอบทองลึก #8a6a0a
-// คำตอบตกลงไปที่พื้นการ์ด #120b0c ปุ่ม + เป็นทองอ่อน #fde79a บนพื้นการ์ด แล้ว
-// กลับสีเป็นทองรอง #f3c623 กับหมึกดำอมแดง #1a0203 ตอนเปิด (หมึกเข้มบนพื้นทอง
-// ได้ 12.4:1 ส่วนหมึกเข้มบนพื้นแดงตก จึงห้ามสลับ) หัวข้อไล่ทองอ่อน → ทองรอง →
-// แดงสว่าง #ff2d38 ตามลำดับทอง-แดงบนงานอาร์ต เนื้อความ #f0e2e2 (BRAND_TEXT) —
-// ชุดของ LOTTO24 รอบก่อน (#2a0405 #a16207 #fbbf24 #fde68a #fc2b2c #140202
-// #f6e2e2) ออกทั้งหมด
+// ธีม Huay แดง-ทอง-ดำ ของหมวดหวย (/ตรวจหวย, /แนวทาง) คงไว้ตามข้อยกเว้นใน
+// SKILL.md Phase 4.5 ข้อ 5 — ไม่ถูกดึงไปพาเลตต์เขียว-ทองของแบรนด์รอบนี้
+// แถวคำถามเป็นพื้นดำอมแดง #1f0a0c ในกรอบทองลึก #8a6a0a คำตอบตกลงไปที่พื้นการ์ด
+// #120b0c ปุ่ม + เป็นทองอ่อน #fde79a บนพื้นการ์ด แล้วกลับสีเป็นทองรอง #f3c623
+// กับหมึกดำอมแดง #1a0203 ตอนเปิด (หมึกเข้มบนพื้นทองได้ 12.4:1 ส่วนหมึกเข้มบน
+// พื้นแดงตก จึงห้ามสลับ) หัวข้อไล่ทองอ่อน → ทองรอง → แดงสว่าง #ff2d38
+// เนื้อความ #f0e2e2
 const {
   title = "คำถามที่พบบ่อย",
   as: HeadingTag = "h2",
   faqs = [
     {
-      q: "LOTTOPLUS มีหวยประเภทไหนให้เลือกแทงบ้าง?",
-      a: "สมาชิกสามารถเลือกหวยรัฐบาลไทย ลาวพัฒนา ฮานอย หวยหุ้น และรายการอื่นตามที่ระบบเปิดรับในแต่ละวัน โดยควรตรวจสอบเวลาปิดรับ อัตราจ่าย และรายละเอียดของรอบก่อนส่งโพยทุกครั้ง",
+      q: `${BRAND_NAME} มีหวยประเภทไหนเปิดให้แทงบ้าง?`,
+      a: "มีทั้งรัฐบาลไทย ลาวพัฒนา ฮานอยปกติ ฮานอยพิเศษ ฮานอยวีไอพี และหวยหุ้นต่างประเทศตามรายการที่ระบบเปิดรับในแต่ละวัน ควรตรวจสอบตารางและเวลาปิดรับก่อนส่งโพยทุกครั้ง",
     },
     {
-      q: "หวย 2 ตัว 100 และหวย 3 ตัว 1,000 ใช้กับหวยทุกประเภทหรือไม่?",
-      a: "ไม่ควรถือว่าเป็นอัตราเดียวกันทุกประเภท อัตราจ่ายอาจแตกต่างตามรายการหวย รูปแบบการเดิมพัน และรอบที่เปิดรับ สมาชิกควรตรวจสอบตัวเลขที่ LOTTOPLUS แสดงในหน้าส่งโพยก่อนยืนยันรายการ",
+      q: `${BRAND_NAME} 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ใช้กับทุกหวยหรือไม่?`,
+      a: "อัตราจ่ายขึ้นอยู่กับประเภทหวยและรูปแบบการเดิมพันที่ร่วมเงื่อนไข จึงควรตรวจสอบอัตราที่แสดงในหน้าส่งโพยก่อนยืนยัน ไม่ควรถือว่าอัตรา 2 ตัว 100 และ 3 ตัว 1,000 ใช้เหมือนกันทุกประเภท",
     },
     {
-      q: "LOTTOPLUS ต้องดาวน์โหลดแอปก่อนแทงหวยหรือไม่?",
-      a: "หากระบบเปิดให้บริการผ่านเว็บไซต์ สมาชิกสามารถสมัคร Login เลือกหวย ส่งโพย และตรวจผลผ่านเว็บเบราว์เซอร์บนมือถือได้โดยไม่จำเป็นต้องติดตั้งแอป ควรเข้าผ่านช่องทางหลักของ LOTTOPLUS เพื่อหลีกเลี่ยงเว็บไซต์ที่ไม่เกี่ยวข้อง",
+      q: `สมัคร ${BRAND_NAME} ผ่านมือถือได้หรือไม่?`,
+      a: "หากเว็บไซต์รองรับการใช้งานผ่านเว็บเบราว์เซอร์ สามารถสมัคร Login เลือกรายการหวย และส่งโพยผ่านมือถือได้โดยตรง หลังสมัครควรตรวจสอบข้อมูลบัญชีและตั้งรหัสผ่านให้ปลอดภัยก่อนเริ่มใช้งาน",
     },
   ],
 } = Astro.props;
 ---
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
-  <div class="mb-6 text-center">
-    <HeadingTag class="bg-gradient-to-r from-[#fde79a] via-[#f3c623] to-[#ff2d38] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm"
-      >{title}</HeadingTag
-    >
-  </div>
+  <HeadingTag
+    class="mb-6 bg-gradient-to-r from-[#fde79a] via-[#f3c623] to-[#ff2d38] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm"
+    >{title}</HeadingTag
+  >
 
   <div class="flex flex-col gap-3">
     {

@@ -7,14 +7,16 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// MAHAGAME66 (รอบแดง-ดำ-เงินโครเมียม 2026-09-24): footer ที่ใช้งานจริงรอบนี้
-// (รอบก่อน 888PARUAY ใช้ FooterStyle3) ของเดิมในไฟล์เป็นชมพู-เหลืองของ ABM96
-// ย้ายทั้งไฟล์มาเป็นพื้นเกือบดำ #16090a + แดงแบรนด์ #de161d (คำว่า GAME บนโลโก้)
-// + เงินโครเมียม #e2e8ef (คำว่า MAHA กับเลข 66) ชมพู/เหลืองออกครบทุกจุดแล้ว
+// หวยเต็ง (รอบเขียวป่า-ทอง 2026-10-01): footer ที่ใช้งานจริงรอบนี้ — รอบก่อน
+// BRAVO168 ใช้ FooterPremium ของเดิมในไฟล์นี้เป็นแดง-ดำ-เงินโครเมียมของ MAHAGAME66
+// ย้ายทั้งไฟล์มาเป็นพื้นเขียวเกือบดำ #03150a + ทองแบรนด์ #e5c04f (คำว่า "เต็ง"
+// บนโลโก้) + เขียวมรกต #0bb42f (คำว่า "หวย") แดง #de161d กับเงิน #e2e8ef/#9ba3ad
+// ออกครบทุกจุดแล้ว
 //
-// MAHAGAME66 เป็นเว็บพนันรวมเกม ไม่ใช่เว็บหวยเฉพาะทาง — /ตรวจหวย และ /แนวทาง ถูกพัก
-// ไว้ใน src/pages-disabled/ รอบนี้ จึงไม่มีลิงก์ทั้งสองในคอลัมน์นี้ (ไฟล์
-// คอมโพเนนต์ *Huay ยังอยู่ครบในฐานะ inventory ของแบรนด์หวยรอบหน้า)
+// หวยเต็ง เป็นเว็บแทงหวยออนไลน์ — /ตรวจหวย และ /แนวทาง ถูกย้ายกลับมาที่
+// src/pages/ รอบนี้ จึงมีลิงก์ทั้งสองในคอลัมน์เมนูหลัก ถ้ารอบหน้าเป็นแบรนด์
+// สล็อต/คาสิโน ต้องถอดสองบรรทัดนั้นออกพร้อมกับย้ายไฟล์กลับไป pages-disabled
+// ไม่งั้นลิงก์จะกลายเป็น 404 และทำให้ build แดง
 //
 // /ทางเข้า ยังลิงก์จากตรงนี้: หน้านั้นยัง route และ index อยู่ แค่ไม่มีในเมนู
 // navbar เพราะ toggle register/login เปิดอยู่ ทำให้มันกลายเป็นลิงก์ที่สามไปที่เดิม
@@ -23,30 +25,33 @@ const quickLinks = [
   { name: "โปรโมชั่น", path: "/promotion" },
   { name: "สมัครสมาชิก", path: "/register" },
   { name: "เข้าสู่ระบบ", path: "/login" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย" },
+  { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทางเข้า", path: "/ทางเข้า" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
   { name: "ติดต่อเรา", path: "/contact-us" },
 ];
 
-// สิทธิประโยชน์ตามที่ content.txt ระบุไว้เท่านั้น — อะไรที่เจาะจงกว่านี้
-// (เลขใบอนุญาต ปีที่ก่อตั้ง จำนวนสมาชิก ชื่อค่ายเกม อัตราฝากถอน) คือการแต่งขึ้นเอง
-const privileges = ["บาคาร่า สล็อต หวย บอล รูเล็ต ในบัญชีเดียว", "หมวดเกมไลฟ์สดตามรายการที่เปิดให้บริการ", "แนะนำเพื่อนรับโบนัส 0.8%", "คืนยอดเสียรับโบนัส 0.3%", "ฝากถอนวอลเลทและธนาคารชั้นนำ"];
+// ทุกบรรทัดมาจาก content.txt รอบนี้เท่านั้น — อะไรที่เจาะจงกว่านี้ (เลขใบอนุญาต
+// ปีที่ก่อตั้ง จำนวนสมาชิก ยอดฝากขั้นต่ำ ชื่อธนาคาร) คือการแต่งขึ้นเอง
+// ตัวเลขที่อ้างได้มีสี่ตัว: 2 ตัวจ่าย 100 · 3 ตัวจ่าย 1,000 · 3 ขั้นตอน · 24 ชั่วโมง
+const privileges = ["รัฐบาลไทย ลาวพัฒนา ฮานอย หวยหุ้น ในบัญชีเดียว", "ฮานอยปกติ ฮานอยพิเศษ และฮานอยวีไอพี", "2 ตัว จ่าย 100 บาท ตามรายการที่ร่วมเงื่อนไข", "3 ตัว จ่าย 1,000 บาท ตามรายการที่ร่วมเงื่อนไข", "ส่งโพยและตรวจผลผ่านมือถือจากระบบเดียว"];
 
-// แถบคำโปรยล่างสุด: คำหน้าเป็นเงินโครเมียมตามตัวอักษร MAHA กับเลข 66 บนโลโก้
-// คำหลังเป็นแดงตามคำว่า GAME ตรงกลาง — คู่สีเดียวกับโลโก้เป๊ะๆ
+// แถบคำโปรยล่างสุด: คำหน้าเป็นขาวอมเขียว คำหลังเป็นทองตามคำว่า "เต็ง" บนโลโก้
+// ทุกคู่เป็นคำที่บรีฟพูดไว้เอง ไม่มีคำโฆษณาอย่าง "เว็บตรง" หรือ "จ่ายจริง"
 const claimChips = [
-  { lead: "เว็บ", tail: "ตรง" },
-  { lead: "ระบบ", tail: "แท้" },
-  { lead: "ไลฟ์", tail: "สด" },
-  { lead: "เกม", tail: "ครบ" },
+  { lead: "หวย", tail: "ครบ" },
+  { lead: "ส่ง", tail: "โพย" },
+  { lead: "ตรวจ", tail: "ผล" },
+  { lead: "24", tail: "ชม." },
   { lead: "บัญชี", tail: "เดียว" },
 ];
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#de161d] bg-[#16090a] pt-16 pb-8 font-sans text-[#e8e3e1] shadow-[0_-10px_30px_rgba(222,22,29,0.22)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#de161d]/12 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#e2e8ef]/8 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-[#e5c04f] bg-[#03150a] pt-16 pb-8 font-sans text-[#d8ead9] shadow-[0_-10px_30px_rgba(229,192,79,0.22)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#e5c04f]/12 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#0bb42f]/10 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -56,46 +61,45 @@ const claimChips = [
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="โลโก้ MAHAGAME66 ตัวอักษรหนาแบบเหลี่ยม คำว่า MAHA และเลข 66 เป็นสีดำ ส่วนคำว่า GAME ตรงกลางเป็นสีแดงสด"
+                alt="โลโก้ หวยเต็ง ตัวอักษรไทยหนาสามมิติ คำว่า หวย เป็นสีเขียวมรกตเงาวาวขอบทอง ต่อด้วยคำว่า เต็ง เป็นสีทองเงาวาวขอบเข้ม"
                 widths={[150, 300, 450]}
                 sizes="150px"
-                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(222,22,29,0.5)]"
+                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(229,192,79,0.5)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="text-4xl font-black drop-shadow-[0_0_10px_rgba(222,22,29,0.45)]">
-                <span class="bg-gradient-to-b from-[#e2e8ef] to-[#9ba3ad] bg-clip-text text-transparent">MAHA</span>
-                <span class="text-[#de161d]">GAME</span>
-                <span class="bg-gradient-to-b from-[#e2e8ef] to-[#9ba3ad] bg-clip-text text-transparent">66</span>
+              <span class="text-4xl font-black drop-shadow-[0_0_10px_rgba(229,192,79,0.45)]">
+                <span class="bg-gradient-to-b from-[#3ee85c] to-[#026314] bg-clip-text text-transparent">หวย</span>
+                <span class="bg-gradient-to-b from-[#fae474] to-[#bd8d2d] bg-clip-text text-transparent">เต็ง</span>
               </span>
             )
           }
         </a>
-        <p class="text-base leading-relaxed text-[#e8e3e1]">
-          {BRAND_NAME} รวมเกมพนันออนไลน์หลายประเภทไว้ในระบบเดียว ทั้งบาคาร่า สล็อต หวย บอล และรูเล็ต พร้อมหมวดเกมไลฟ์สดตามรายการที่เปิดให้บริการ สมาชิกตรวจสอบค่ายเกม รายละเอียดโต๊ะ
-          และรูปแบบเดิมพันก่อนเข้าเล่นได้ เมนูจัดหมวดหมู่ชัดเจน รองรับการใช้งานทั้งบนมือถือและคอมพิวเตอร์ เลือกเกมที่ต้องการได้ง่ายจากบัญชีเดียวโดยไม่ต้องสลับหลายเว็บไซต์
+        <p class="text-base leading-relaxed text-[#d8ead9]">
+          {BRAND_NAME} เว็บแทงหวยออนไลน์ที่รวบรวมรายการหวยยอดนิยมไว้ให้เลือกผ่านบัญชีเดียว มีทั้งรัฐบาลไทย ลาวพัฒนา ฮานอย และหวยหุ้นต่างประเทศ รองรับการเข้าใช้งานผ่านมือถือโดยไม่ต้องสลับหลายเว็บไซต์
+          สมาชิกสามารถเลือกเลข ส่งโพย ตรวจสอบรายการ อัตราจ่าย และผลหวยตามรอบที่เปิดให้บริการได้จากระบบเดียว
         </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#de161d]/50 bg-[#de161d]/10 px-3 py-1.5 text-xs font-bold text-[#e2e8ef] shadow-[0_0_10px_rgba(222,22,29,0.25)]">
-            <span aria-hidden="true" class="text-base">🛡️</span> เว็บตรง ปลอดภัย
+          <div class="flex items-center gap-1.5 rounded border border-[#e5c04f]/50 bg-[#e5c04f]/10 px-3 py-1.5 text-xs font-bold text-[#eafbe9] shadow-[0_0_10px_rgba(229,192,79,0.25)]">
+            <span aria-hidden="true" class="text-base">📱</span> ส่งโพยผ่านมือถือ
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-[#3a1413] bg-[#26100f]/80 px-3 py-1.5 text-xs font-bold text-[#e2e8ef]">
-            <span aria-hidden="true" class="text-base">⚡</span> ระบบแท้ 100%
+          <div class="flex items-center gap-1.5 rounded border border-[#124a20] bg-[#0b3d18]/80 px-3 py-1.5 text-xs font-bold text-[#eafbe9]">
+            <span aria-hidden="true" class="text-base">⏰</span> แอดมิน 24 ชั่วโมง
           </div>
         </div>
       </div>
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#e2e8ef]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ff4d52] to-[#7a0a0e]"></span> เมนูหลัก
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-[#e8e3e1] transition-all hover:text-[#e2e8ef]">
-                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#de161d] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
+                <a href={link.path} class="group flex items-center text-[#d8ead9] transition-all hover:text-[#fae474]">
+                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#e5c04f] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
                     ➤
                   </span>
                   {link.name}
@@ -106,16 +110,16 @@ const claimChips = [
         </ul>
       </nav>
 
-      <nav aria-label="สิทธิประโยชน์สำหรับสมาชิก" class="flex flex-col gap-4">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#e2e8ef]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ff4d52] to-[#7a0a0e]"></span> สิทธิประโยชน์
+      <nav aria-label="รายการหวยและอัตราจ่าย" class="flex flex-col gap-4">
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> หวยและอัตราจ่าย
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             privileges.map((item) => (
               <li>
-                <a href="/promotion" class="group flex items-start text-[#e8e3e1] transition-all hover:text-[#e2e8ef]">
-                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#9ba3ad] transition-colors group-hover:bg-[#de161d] group-hover:shadow-[0_0_8px_rgba(222,22,29,0.85)]" />
+                <a href="/promotion" class="group flex items-start text-[#d8ead9] transition-all hover:text-[#fae474]">
+                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#8fae93] transition-colors group-hover:bg-[#e5c04f] group-hover:shadow-[0_0_8px_rgba(229,192,79,0.85)]" />
                   {item}
                 </a>
               </li>
@@ -125,14 +129,14 @@ const claimChips = [
       </nav>
 
       <div class="flex flex-col gap-5">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#e2e8ef]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ff4d52] to-[#7a0a0e]"></span> บริการลูกค้า
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> บริการลูกค้า
         </p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00B900] py-3 font-bold text-white shadow-[0_0_15px_rgba(0,185,0,0.3)] transition-transform hover:scale-105">
-          <span class="text-xl font-black">LINE</span> @{BRAND_NAME}
+          <span class="text-xl font-black">LINE</span> ติดต่อแอดมิน {BRAND_NAME}
         </a>
 
         {
@@ -156,31 +160,31 @@ const claimChips = [
         }
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#e2e8ef]/90 uppercase">รองรับวอลเลทและธนาคารชั้นนำ</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-[#eafbe9]/90 uppercase">รองรับวอลเลทและธนาคารชั้นนำ</p>
           <BankStrip size={26} />
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#de161d]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#e5c04f]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
       {
         claimChips.map((chip) => (
-          <span class="text-lg font-black text-[#e2e8ef] italic md:text-2xl">
+          <span class="text-lg font-black text-[#eafbe9] italic md:text-2xl">
             {chip.lead}
-            <span class="text-[#de161d]">{chip.tail}</span>
+            <span class="text-[#e5c04f]">{chip.tail}</span>
           </span>
         ))
       }
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#9ba3ad] md:flex-row">
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#8fae93] md:flex-row">
       <p>
-        &copy; {new Date().getFullYear()} <span class="font-bold text-[#e2e8ef]">{BRAND_NAME}</span>. All rights reserved. เว็บพนันออนไลน์เว็บตรง
-        รวมบาคาร่า สล็อต หวย บอล และรูเล็ตไว้ในบัญชีเดียว พร้อมหมวดเกมไลฟ์สดตามรายการที่เปิดให้บริการ ฝากถอนผ่านวอลเลทและธนาคารตามช่องทางที่เว็บไซต์เปิดใช้งาน
+        &copy; {new Date().getFullYear()} <span class="font-bold text-[#eafbe9]">{BRAND_NAME}</span>. All rights reserved. เว็บแทงหวยออนไลน์ รวมหวยรัฐบาลไทย ลาวพัฒนา
+        ฮานอยปกติ ฮานอยพิเศษ ฮานอยวีไอพี และหวยหุ้นต่างประเทศไว้ในบัญชีเดียว ตารางเวลาและอัตราจ่ายของแต่ละรอบเป็นไปตามที่ระบบแสดงในหน้าส่งโพย
       </p>
       <div class="flex gap-4">
-        <a href="/terms/" class="transition-colors hover:text-[#e2e8ef]">เงื่อนไขการให้บริการ</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#e2e8ef]">นโยบายความเป็นส่วนตัว</a>
+        <a href="/terms/" class="transition-colors hover:text-[#fae474]">เงื่อนไขการให้บริการ</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#fae474]">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>
