@@ -1,162 +1,168 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import LatestWinners from "../components/LatestWinnersCyber.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import Faq from "../components/Faq3.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import ContentBox from "../components/ContentBox.astro";
+import Faq from "../components/Faq2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgSlide1 from "../assets/slide1.png";
-import imgSlide2 from "../assets/slide2.png";
+import imgReferral from "../assets/slide1.png";
+import imgCashback from "../assets/slide2.png";
 
-// VARIANT ROTATION THIS ROUND (GOT777 -> CK268). Zero file reuse from the
-// previous round: Announcement5 replaces Announcement3, LatestWinnersCyber
-// replaces LatestWinners2, Faq3 replaces plain Faq.astro, ReviewCardSumo
-// replaces ReviewCardSumo2, and the ContentBox shape-mix moves off
-// Premium / TwoPremium / FloatingBadge / TwoFloatingBadge / SevenThreePremium /
-// SevenThreeFloatingBadge onto CyberCut / TwoCyberCut / Neumorphism /
-// TwoNeumorphism / SevenThreeCyberCut / SevenThreeNeumorphism / Special.
-// NavbarStyle6 and FooterStyle3 are the layout's pair this round (previously
-// NavbarStyle11 / FooterPremiumSumo).
-// Every Premium / FloatingBadge / Huay file, plain Faq.astro, LatestWinners2 and
-// ReviewCardSumo2 stay on disk as inventory for the next brand — none of them
-// was deleted.
+// VARIANT ROTATION THIS ROUND (CK268 -> BRAVO168). Zero file reuse from the
+// previous round: AnnouncementPremium replaces Announcement5, LatestWinnersPremium
+// replaces LatestWinnersCyber, Faq2 replaces Faq3, ReviewCardSumo2 replaces
+// ReviewCardSumo, and the ContentBox shape-mix moves off CyberCut / TwoCyberCut /
+// Neumorphism / TwoNeumorphism / SevenThreeCyberCut / SevenThreeNeumorphism /
+// Special onto Premium / TwoPremium / FloatingBadge / TwoFloatingBadge /
+// SevenThreeFloatingBadge / SevenThreePremium / plain ContentBox.
+// NavbarPremium and FooterPremium are the layout's pair this round (previously
+// NavbarStyle6 / FooterStyle3).
+// Every CyberCut / Neumorphism / Huay file, Faq3, Announcement5, LatestWinnersCyber,
+// ContentBoxSpecial and ReviewCardSumo stay on disk as inventory for the next
+// brand — none of them was deleted.
 //
-// <Announcement /> runs bare on purpose: Announcement5's default message is
+// <Announcement /> runs bare on purpose: AnnouncementPremium's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
-// override here is exactly how the ticker ends up saying two different things
-// on two pages of the same site.
+// override here is exactly how the ticker ends up saying two different things on
+// two pages of the same site.
 //
-// IMAGE ROLES FOR THIS DROP (2026-09-30). Two files are referenced from this
-// page and only two:
-//   slide1.png — the poster whose black pill reads "คืนยอดเสีย โบนัส" around a
-//     huge neon-green "0.3%", so it belongs to docx H3 #4.
-//   slide2.png — the companion poster whose pill reads "แนะนำเพื่อน โบนัส"
-//     around a huge neon-green "0.8%", so it belongs to docx H3 #5.
+// IMAGE ROLES FOR THIS DROP (2026-09-30). Two files are referenced from this page
+// and only two, and the pairing is read off the artwork itself, not off the file
+// number — the two posters are NOT in docx order:
+//   slide1.png — the pill reads "แนะนำเพื่อน โบนัส" around a huge gold "0.8%",
+//     so it belongs to docx H3 #5. Imported as imgReferral.
+//   slide2.png — the pill reads "คืนยอดเสีย โบนัส" around a huge gold "0.3%",
+//     so it belongs to docx H3 #4. Imported as imgCashback.
+// promotion.astro reads the same two files under the same two names, so the two
+// pages cannot drift apart on which poster is which.
 // Both files are 600x600, so 600 is the top candidate width — nothing above it
 // would be a real pixel, and each picture carries max-w-[600px] so the square is
 // never upscaled past its own pixels. Each slide sits in a ContentBoxSevenThree*
 // image+text block, which is that family's hard cap of two per rebrand, so there
-// is no third SevenThree on this page. The two blocks put the picture on
-// OPPOSITE sides: SevenThreeCyberCut runs image(3fr)-then-text,
-// SevenThreeNeumorphism runs text(7fr)-then-image(3fr).
+// is no third SevenThree on this page. Both variants lay out md:grid-cols-[3fr_7fr],
+// so the picture goes in slot="left" (the 3fr column) in both and the prose in
+// slot="right" — the two blocks are told apart by the card instead: #4 hangs its
+// heading in a floating badge above a #0e3f8f-bordered card, #5 puts its heading
+// inside the text column on a gradient card.
+// The sizes attribute describes the 3fr column, not the viewport: the card is
+// max-w-7xl inside px-4 with p-8 and gap-10, so the drawn width is
+// 0.3 * (100vw - 136px) until the card caps at 1280px, and 353px after that.
 //
-// The alt text was written from THIS drop's artwork (a black ground with neon
-// green light streaks, green-and-black casino chips, gold coins, green gift
-// boxes, the chrome-and-neon CK268 wordmark and a 777 slot machine) and is NOT
-// the previous brand's text — the GOT777 posters were black-and-gold with red
-// chips and red gift boxes, none of which is in these pictures.
+// The alt text was written from THIS drop's artwork (a navy stadium-night ground
+// with gold light streaks, white-and-navy footballs, stacked gold coins, navy gift
+// boxes and the two-tone BRAVO168 wordmark) and is NOT the previous brand's text —
+// the CK268 posters were black with neon-green chips and green gift boxes, none of
+// which is in these pictures.
 //
 // Deliberately NOT imported, and every file still on disk as inventory:
-//   slide3.png and slide4.png are LOTTOPLUS lottery posters, and banner2.png /
-//   banner3.png carry older clients' banners — importing any of them would emit
-//   a competitor's artwork into dist/, so there is no inline article
-//   illustration beyond the two slides this round. banner1.png and
-//   banner1-mobile.png belong to MainLayout's own pinned globs and are never
-//   referenced from a page — the hero is the LCP element, so nothing here gets
-//   loading="eager" fetchpriority="high". og.png is the same: MainLayout owns it.
+//   slide3.png and slide4.png are LOTTOPLUS lottery posters, banner2.png is a
+//   LOTTO24 banner and banner3.png is a PGW44 wordmark — all four predate this
+//   drop, and importing any of them would emit a competitor's artwork into dist/,
+//   so there is no inline article illustration beyond the two slides this round.
+//   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs and
+//   are never referenced from a page — the hero is the LCP element, so nothing here
+//   gets loading="eager" fetchpriority="high". og.png is the same: MainLayout owns it.
 //
-// Vocabulary: CK268 is a เว็บเกมสล็อตออนไลน์. The outgoing brands on this
-// template sold a different product entirely (see the banned-word list in the
-// rebrand spec, kept out of this file so a source grep for it does not flag the
-// page that was written to avoid it), and every one of those words is gone —
-// the page was rewritten from the brief rather than find-and-replaced over the
-// old sentences. Nothing here claims a licence, a named game provider, a bank,
-// a deposit minimum, an RTP figure, a member count or a founding year, because
-// the brief names none. The only figures on this page are the ones the brief
-// itself states: 1 บาท, 0.3%, 0.8%, 3 ขั้นตอน, 24 ชั่วโมง, and the 268 inside
-// the brand name. The brief's hedging ships with it — every offer is paired
-// with its own caution ("ควรอ้างอิงช่วงเดิมพันจริงที่แสดงภายในเกม", "ควรมีเกณฑ์
-// หรือข้อมูลที่ตรวจสอบได้รองรับ") and those sentences are part of the
-// paragraphs, not trimmed as downbeat.
+// Vocabulary: BRAVO168 is a เว็บแทงบอลออนไลน์ — บอลเดี่ยว บอลสเต็ป บอลสด ค่าน้ำ
+// อัตราต่อรอง ลีก คู่แข่งขัน บิล เวลาปิดรับ. The outgoing brands on this template
+// sold a different product entirely (spinning-reel games, live tables, number
+// draws), and every one of those words is gone — the page was rewritten from the
+// brief rather than find-and-replaced over the old sentences. Nothing here claims a
+// licence, a named betting operator, a bank, a deposit minimum, a payout figure, a
+// member count or a founding year, because the brief names none. The only figures
+// on this page are the ones the brief itself states: 0.3%, 0.8%, 3 ขั้นตอน,
+// 24 ชั่วโมง, and the 168 inside the brand name. The brief's hedging ships with it
+// — every claim is paired with its own caution ("ควรอ้างอิงราคาที่แสดงจริงในขณะนั้น",
+// "ควรตรวจสอบเวลาปิดรับ อัตราต่อรอง และรายละเอียดบิลก่อนกดยืนยัน") and those
+// sentences are part of the paragraphs, not trimmed as downbeat.
 //
-// Title and description are the brief's own Title/Description lines, used
-// verbatim. A brief-supplied description is never padded up to the 150-char
-// floor and never topped up from the H1/H2 — this one ships at 141 characters,
-// the length the brief wrote it, which is a passing build (verify-build exempts
-// the home page from DESC_MIN for exactly this reason), not a gap to fill.
-const pageTitle = "CK268 สล็อตชั้นนำอันดับ1 อัปเดตเกมใหม่ โปรมาแรง 1 บาททุกเกม";
+// Title and description are the brief's own Title/Description lines, used verbatim.
+// The description ships at 152 characters, the length the brief wrote it.
+const pageTitle = "BRAVO168 เว็บเล่นบอลค่าน้ำดีที่สุด การันตีได้โปรแรงทุกยูสใหม่";
 
-const pageDescription = "CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดังอัปเดตเกมใหม่ พร้อมโปรสล็อตมาแรง 1 บาททุกเกม ฝากถอนไม่มีขั้นต่ำ ทุกยอดเข้าบริษัทโดยตรง ปลอดภัย100%";
+const pageDescription =
+  "BRAVO168 เว็บเล่นบอลค่าน้ำดีที่สุด เปิดรับบิลทันที เมื่อฤดูกาลเปิด ครอบคลุมทุกลีก ทุกแมตช์ ทั้งบอลสเต็ป บอลเดี่ยว รวมถึงบอลสด การันตีได้โปรแรงทุกยูสใหม่";
 
-// The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened
-// to H2-only. The two H3s are genuine headings — the two bonus sub-points, both
-// nested under the โปรโมชั่น H2 — and they stay H3.
+// The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
+// H2-only. The two H3s are genuine headings — the two bonus sub-points, both nested
+// under the โปรโมชั่น H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดัง อัปเดตเกมใหม่ ตลอดสัปดาห์
-//          ContentBoxCyberCut, L4 + L5
-//    2 H2  CK268 โปรสล็อตมาแรง 1 บาททุกเกม เบทอิสระ ไม่มีขั้นต่ำ
-//          ContentBoxTwoCyberCut, L7 left + L8 right
-//    3 H2  โปรโมชั่น CK268 จัดหนักตลอดเดือน
-//          ContentBoxNeumorphism, L10
+//    1 H1  BRAVO168 เว็บเล่นบอลค่าน้ำดีที่สุด เปิดรับบิลทันที เมื่อฤดูกาลเปิด
+//          ContentBoxPremium, L4 + L5
+//    2 H2  BRAVO168 ครอบคลุมทุกลีก ทุกแมตช์ ทั้งบอลสเต็ป บอลเดี่ยว รวมถึงบอลสด
+//          ContentBoxTwoPremium, L7 left + L8 right
+//    3 H2  โปรโมชั่นแทงบอล BRAVO168 จัดหนักทุกฤดูกาล
+//          ContentBoxFloatingBadge, L10
 //    4 H3  คืนยอดเสีย โบนัส 0.3%
-//          ContentBoxSevenThreeCyberCut + slide1, L12
+//          ContentBoxSevenThreeFloatingBadge + slide2 (imgCashback), L12
 //    5 H3  แนะนำเพื่อน โบนัส 0.8%
-//          ContentBoxSevenThreeNeumorphism + slide2, L14
-//    6 H2  สมัครเล่นสล็อตชั้นนำ CK268 อันดับ1 ง่ายๆ 3ขั้นตอน
-//          ContentBoxTwoNeumorphism, L16 left + L17 right
-//    7 H2  ติดต่อแอดมิน CK268 ผู้ให้บริการเกมสล็อตได้ 24 ชั่วโมง
-//          ContentBoxSpecial + LINE / สมัคร buttons, L19 + L20
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ CK268
-//          Faq3 + faqs prop
+//          ContentBoxSevenThreePremium + slide1 (imgReferral), L14
+//    6 H2  สมัครแทงบอล BRAVO168 ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoFloatingBadge, L16 left + L17 right
+//    7 H2  ติดต่อแอดมิน BRAVO168 ผู้ให้บริการเกี่ยวกับการแทงบอลได้ 24 ชั่วโมง
+//          ContentBox + LINE / สมัคร buttons, L19 + L20
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ BRAVO168
+//          Faq2 + faqs prop
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
 // Every brief paragraph ships in full. Sections 1, 2, 6 and 7 each have TWO
-// paragraphs and both ship, nothing merged or summarised: in the two-column
-// blocks they run one per column, in the single-column block they stack inside
-// one wrapper div. The column labels passed to the two-column boxes are this
-// page's own layout wording, not brief headings, and those variants render them
-// as <p>.
+// paragraphs and both ship, nothing merged or summarised: in the two-column blocks
+// they run one per column, in the single-column blocks they stack inside one
+// wrapper div. The column labels passed to the two-column boxes are this page's own
+// layout wording, not brief headings, and both of those variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// LatestWinnersCyber, LoginRtpSection and ReviewCardSumo render their titles as
-// <p>/<span> with an aria-label on the section, and Faq3's questions live inside
-// <summary> as <p>. The non-brief widgets sit before section 1
-// (LatestWinnersCyber, right after the ticker) and after section 8
-// (LoginRtpSection, ReviewCardSumo, Navfoot) — never spliced between two
-// content sections.
+// LatestWinnersPremium, LoginRtpSection and ReviewCardSumo2 render their titles as
+// <p>/<span> with an aria-label on the section, and Faq2's questions live inside
+// <summary> as <span>. The non-brief widgets sit before section 1
+// (LatestWinnersPremium, right after the ticker) and after section 8
+// (LoginRtpSection, ReviewCardSumo2, Navfoot) — never spliced between two content
+// sections.
 
-// One array, used by both <Faq> and the FAQPage node — never the component's
-// own defaults, which belong to whichever brand shipped last. The three pairs
-// are the brief's own Q/A block, verbatim.
+// One array, used by both <Faq> and the FAQPage node — never the component's own
+// defaults, which belong to whichever brand shipped last. The three pairs are the
+// brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "CK268 มีเกมสล็อตเดิมพัน 1 บาททุกเกมหรือไม่?",
-    a: "ยอดเดิมพันขึ้นอยู่กับเกมและค่ายผู้ให้บริการ บางเกมสามารถเริ่มต้นในระดับ 1 บาท ขณะที่บางรายการอาจกำหนดขั้นต่ำแตกต่างกัน ควรตรวจสอบช่วงเดิมพันที่แสดงภายในเกมก่อนเริ่มเล่นทุกครั้ง",
+    q: "BRAVO168 มีทั้งบอลเดี่ยว บอลสเต็ป และบอลสดหรือไม่?",
+    a: "หากตลาดของคู่แข่งขันเปิดให้บริการ สมาชิกสามารถเลือกบอลเดี่ยว บอลสเต็ป และบอลสดได้ตามรายการที่ระบบรองรับ โดยควรตรวจสอบราคา เวลาปิดรับ และกติกาของตลาดก่อนยืนยันบิลทุกครั้ง",
   },
   {
-    q: "โปรโมชั่น CK268 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
-    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียสำหรับยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนตามยอดที่เว็บไซต์กำหนด สมาชิกควรตรวจสอบรอบคำนวณ เกมที่ร่วมรายการ และเงื่อนไขล่าสุดก่อนกดรับ",
+    q: "โปรโมชั่น BRAVO168 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนตามยอดที่กำหนด สมาชิกควรตรวจสอบประเภทบิล รอบคำนวณ และเงื่อนไขล่าสุดก่อนรับโบนัส",
   },
   {
-    q: "CK268 อัปเดตเกมสล็อตใหม่ทุกสัปดาห์หรือไม่?",
-    a: "หากเว็บไซต์กำหนดรอบอัปเดตเกมรายสัปดาห์ สมาชิกสามารถตรวจสอบเกมใหม่จากหน้าเกมสล็อตหรือประกาศของ CK268 ได้ โดยจำนวนเกมและช่วงเวลาที่เพิ่มเข้าระบบขึ้นอยู่กับการอัปเดตของแต่ละค่ายผู้ให้บริการ",
+    q: "ค่าน้ำ BRAVO168 เหมือนกันทุกลีกและทุกคู่หรือไม่?",
+    a: "ไม่จำเป็นต้องเท่ากัน เพราะค่าน้ำและอัตราต่อรองสามารถเปลี่ยนตามลีก คู่แข่งขัน ตลาด และช่วงเวลา สมาชิกควรตรวจสอบราคาล่าสุดที่แสดงบนบิลก่อนกดยืนยันการเดิมพัน",
   },
 ];
 
 // Every <strong> below wraps a whole space-delimited chunk of the brief's own
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
-// mid-word lets the formatter break the line inside the tag and render a space
-// that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #eaffd6 against the body colour #d5e6cd, so the
-// brand's neon green stays the page's structural accent and the paragraphs never
-// compete with a heading for it.
+// mid-word lets the formatter break the line inside the tag and render a space that
+// splits the word — the copy must read identically with the tags removed. One
+// highlight colour only: #ffe39a, the wordmark's light gold, against the inherited
+// body colour #dbe5f5 (BRAND_TEXT). The paragraphs below carry no colour class of
+// their own: every ContentBox* card in this mix already sets
+// `text-left text-base leading-relaxed text-[#dbe5f5]` on the element holding the
+// slot, so the prose inherits it and no page-level override can drift from the card.
 
-// No breadcrumb: this is the homepage, so a trail from the root to itself would
-// be a single self-referential crumb. Every URL in the graph is derived by
-// pageGraph from `site:` — no domain is typed out in this file, and no Review /
-// AggregateRating / sameAs / address node is passed.
+// No breadcrumb: this is the homepage, so a trail from the root to itself would be a
+// single self-referential crumb. Every URL in the graph is derived by pageGraph from
+// `site:` — no domain is typed out in this file, and no Review / AggregateRating /
+// sameAs / address node is passed.
 const graph = pageGraph(Astro, {
   name: pageTitle,
   description: pageDescription,
@@ -171,112 +177,126 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxCyberCut as="h1" title="CK268 สล็อตชั้นนำอันดับ1 รวมค่ายดัง อัปเดตเกมใหม่ ตลอดสัปดาห์">
+  <ContentBoxPremium as="h1" title="BRAVO168 เว็บเล่นบอลค่าน้ำดีที่สุด เปิดรับบิลทันที เมื่อฤดูกาลเปิด">
     <div class="flex flex-col gap-5">
-      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
-        CK268
-        <strong class="text-[#eaffd6]">รวมเกมสล็อตออนไลน์จากหลายค่ายไว้ให้เลือกผ่านบัญชีเดียว</strong>
-        มีทั้งเกมยอดนิยม สล็อตเปิดใหม่ ฟรีสปิน ตัวคูณ และฟีเจอร์โบนัสหลากหลายรูปแบบ
-        <strong class="text-[#eaffd6]">พร้อมอัปเดตรายการเกมใหม่ตลอดสัปดาห์ตามค่ายที่เปิดให้บริการ</strong>
-        รองรับการเข้าเล่นผ่านมือถือ แท็บเล็ต และคอมพิวเตอร์ สมาชิกสามารถค้นหาเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว ช่วยให้เลือกเกมใหม่หรือสลับค่ายได้สะดวกยิ่งขึ้น
+      <p>
+        BRAVO168
+        <strong class="text-[#ffe39a]">ให้บริการการเดิมพันฟุตบอลออนไลน์สำหรับผู้ที่ต้องการติดตามคู่แข่งขันจากหลายลีกในบัญชีเดียว</strong>
+        มีทั้งบอลเดี่ยว บอลสเต็ป และบอลสด พร้อมรายการแข่งขันตามฤดูกาลที่ระบบเปิดรับ สมาชิกสามารถตรวจสอบคู่บอล ราคา อัตราต่อรอง
+        <strong class="text-[#ffe39a]">และรายละเอียดบิลผ่านมือถือได้ก่อนยืนยันการเดิมพัน</strong>
+        เมื่อการแข่งขันในแต่ละลีกเริ่มเปิดตลาด ระบบจะทยอยแสดงรายการที่สามารถเลือกเดิมพันได้ตามช่วงเวลาที่กำหนด
       </p>
-      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
-        สำหรับคำว่า “สล็อตชั้นนำอันดับ 1”
-        <strong class="text-[#eaffd6]">ควรมีเกณฑ์หรือข้อมูลที่ตรวจสอบได้รองรับหากนำมาใช้เป็นคำกล่าวอ้างหลักของเว็บไซต์</strong>
+      <p>
+        ส่วนคำว่า “ค่าน้ำดีที่สุด”
+        <strong class="text-[#ffe39a]">ควรอ้างอิงราคาที่แสดงจริงในขณะนั้น</strong>
+        เนื่องจากค่าน้ำและอัตราต่อรองสามารถเปลี่ยนแปลงได้ตามตลาด เวลา และคู่แข่งขัน
       </p>
     </div>
-  </ContentBoxCyberCut>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoCyberCut as="h2" title="CK268 โปรสล็อตมาแรง 1 บาททุกเกม เบทอิสระ ไม่มีขั้นต่ำ" titleleft="เลือกเกมและรูปแบบเดิมพัน" titleright="ข้อควรตรวจก่อนเริ่มเล่น">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      สมาชิก CK268 สามารถเลือกเกมสล็อตตามค่ายและรูปแบบการเดิมพันที่ต้องการ
-      <strong class="text-[#eaffd6]">โดยบางเกมรองรับการเดิมพันเริ่มต้นในระดับ 1 บาท</strong>
-      เหมาะกับผู้ที่ต้องการกำหนดงบในการเล่นด้วยตัวเอง มีทั้งเกมวงล้อแบบคลาสสิก สล็อตโบนัส เกมฟรีสปิน
-      <strong class="text-[#eaffd6]">และเกมรูปแบบใหม่ที่ทยอยเพิ่มเข้ามาตามการอัปเดตของแต่ละค่าย</strong>
+  <ContentBoxTwoPremium
+    as="h2"
+    title="BRAVO168 ครอบคลุมทุกลีก ทุกแมตช์ ทั้งบอลสเต็ป บอลเดี่ยว รวมถึงบอลสด"
+    titleleft="รูปแบบเดิมพันที่เปิดรับ"
+    titleright="ข้อควรตรวจก่อนกดยืนยัน">
+    <p slot="left">
+      BRAVO168
+      <strong class="text-[#ffe39a]">รวบรวมตลาดฟุตบอลจากหลายรายการแข่งขันให้สมาชิกเลือกตามสไตล์การเดิมพัน</strong>
+      บอลเดี่ยวเหมาะกับผู้ที่ต้องการเลือกผลจากคู่ใดคู่หนึ่ง
+      <strong class="text-[#ffe39a]">ขณะที่บอลสเต็ปสามารถรวมหลายคู่ไว้ในบิลเดียว</strong>
+      ส่วนบอลสดเปิดตัวเลือกการเดิมพันระหว่างการแข่งขันตามตลาดที่ระบบรองรับ ช่วยให้เลือกดูราคาและรูปแบบเดิมพันได้หลากหลายจากบัญชีเดียว
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      อย่างไรก็ตาม คำว่า “1 บาททุกเกม” และ “ไม่มีขั้นต่ำ”
-      <strong class="text-[#eaffd6]">ควรอ้างอิงช่วงเดิมพันจริงที่แสดงภายในเกม</strong>
-      เนื่องจากแต่ละค่ายสามารถกำหนดยอดเดิมพันขั้นต่ำและสูงสุดแตกต่างกัน
-      <strong class="text-[#eaffd6]">ก่อนเริ่มเล่นควรตรวจสอบจำนวนเงิน กติกา และรายละเอียดของเกมทุกครั้ง</strong>
+    <p slot="right">
+      รายการลีกและแมตช์ที่เปิดรับจริงขึ้นอยู่กับตารางแข่งขันและผู้ให้บริการ
+      <strong class="text-[#ffe39a]">จึงควรตรวจสอบเวลาปิดรับ อัตราต่อรอง และรายละเอียดบิลก่อนกดยืนยัน</strong>
+      โดยเฉพาะบอลสดที่ราคาและตลาดสามารถเปลี่ยนได้ระหว่างการแข่งขัน
     </p>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoPremium>
 
-  <ContentBoxNeumorphism as="h2" title="โปรโมชั่น CK268 จัดหนักตลอดเดือน">
-    <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      CK268 มีโปรโมชั่นสำหรับสมาชิกให้ติดตามตลอดเดือน โดยสามารถ Login เพื่อตรวจสอบสิทธิ์ที่เปิดให้รับจากบัญชีของตนเอง
-      <strong class="text-[#eaffd6]">มีทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน</strong>
-      แต่ละโปรโมชั่นอาจกำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ ประเภทเกมสล็อต และระยะเวลารับสิทธิ์แตกต่างกัน
-      <strong class="text-[#eaffd6]">จึงควรตรวจสอบรายละเอียดล่าสุดก่อนกดรับโบนัส</strong>
+  <ContentBoxFloatingBadge as="h2" title="โปรโมชั่นแทงบอล BRAVO168 จัดหนักทุกฤดูกาล">
+    <p>
+      สมาชิก BRAVO168
+      <strong class="text-[#ffe39a]">สามารถตรวจสอบโปรโมชั่นที่เปิดให้รับในแต่ละช่วงฤดูกาลผ่านบัญชีของตนเอง</strong>
+      มีทั้งกิจกรรมคืนยอดเสียและโบนัสแนะนำเพื่อน โดยโปรโมชั่นอาจกำหนดประเภทการเดิมพัน ลีก ยอดที่เข้าเกณฑ์ และรอบคำนวณแตกต่างกัน
+      <strong class="text-[#ffe39a]">ก่อนรับโบนัสจึงควรอ่านเงื่อนไขล่าสุดให้ครบถ้วน</strong>
     </p>
-  </ContentBoxNeumorphism>
+  </ContentBoxFloatingBadge>
 
-  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeFloatingBadge as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
-      src={imgSlide1}
+      src={imgCashback}
       loading="lazy"
       fetchpriority="low"
-      widths={[346, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
+      widths={[353, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 41px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่น CK268 พื้นดำมีชิปคาสิโนเขียว-ดำและเหรียญทองกระจายอยู่ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยื่นมือออกมา ด้านบนเป็นโลโก้ CK268 ถัดลงมาเป็นตัวอักษรไทยโครเมียมขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายดำคำว่า คืนยอดเสีย โบนัส คร่อมตัวเลขเขียวนีออนขนาดใหญ่ 0.3% มุมขวาล่างเป็นเครื่องสล็อตเลข 777 และมีกล่องของขวัญสีเขียวอยู่มุมซ้ายล่าง"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#8bfc13]/70 shadow-[0_10px_30px_rgba(139,252,19,0.24)]"
+      alt="โปสเตอร์โปรโมชั่น BRAVO168 พื้นน้ำเงินกรมท่า มีลูกฟุตบอลขาว-น้ำเงินและเหรียญทองลอยกระจายอยู่รอบภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยื่นมือออกมาข้างหน้า ด้านบนเป็นโลโก้ BRAVO168 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายคำว่า คืนยอดเสีย โบนัส คร่อมตัวเลขทองขนาดใหญ่ 0.3% และมีกล่องของขวัญสีน้ำเงินคาดริบบิ้นทองอยู่มุมซ้ายล่าง"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f4cb69]/60 shadow-[0_10px_30px_rgba(244,203,105,0.22)]"
     />
-    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ CK268 กำหนด
-      <strong class="text-[#eaffd6]">ระบบจะคำนวณจากยอดที่เข้าเกณฑ์และแสดงโบนัสที่สามารถรับได้</strong>
-      ก่อนกดรับควรตรวจสอบรอบตัดยอด ค่ายเกมที่ร่วมรายการ
-      <strong class="text-[#eaffd6]">และข้อกำหนดการใช้โบนัสให้ครบถ้วน</strong>
+    <p slot="right">
+      สมาชิกที่มียอดเสียตรงตามข้อกำหนดสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ BRAVO168 กำหนด
+      <strong class="text-[#ffe39a]">ระบบจะคำนวณจากยอดเดิมพันที่เข้าเกณฑ์และแสดงโบนัสที่สามารถรับได้</strong>
+      ควรตรวจสอบว่าบอลเดี่ยว บอลสเต็ป หรือบอลสดประเภทใดร่วมรายการ
+      <strong class="text-[#ffe39a]">รวมถึงรอบตัดยอดก่อนกดรับสิทธิ์</strong>
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreeFloatingBadge>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      สมาชิกสามารถแชร์ลิงก์แนะนำ CK268 ให้เพื่อน เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามข้อกำหนด
-      <strong class="text-[#eaffd6]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
-      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ
-      <strong class="text-[#eaffd6]">และโบนัสที่มีสิทธิ์รับจากบัญชีสมาชิกตามรอบที่เว็บไซต์กำหนด</strong>
-    </p>
+  <ContentBoxSevenThreePremium as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <Picture
-      slot="right"
-      src={imgSlide2}
+      slot="left"
+      src={imgReferral}
       loading="lazy"
       fetchpriority="low"
-      widths={[349, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 71px), 349px"
+      widths={[353, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 41px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="โปสเตอร์โปรโมชั่น CK268 ชุดเดียวกัน พื้นดำมีชิปคาสิโนเขียว-ดำและเหรียญทอง ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยกนิ้วชี้ขึ้น ด้านบนเป็นโลโก้ CK268 ถัดลงมาเป็นตัวอักษรไทยโครเมียมขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายดำคำว่า แนะนำเพื่อน โบนัส คร่อมตัวเลขเขียวนีออนขนาดใหญ่ 0.8% ล้อมด้วยกล่องของขวัญสีเขียว"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#e8f0e6]/50 shadow-[0_10px_30px_rgba(232,240,230,0.2)]"
+      alt="โปสเตอร์โปรโมชั่น BRAVO168 ชุดเดียวกัน พื้นน้ำเงินกรมท่า มีลูกฟุตบอลขาว-น้ำเงิน เหรียญทอง และกล่องของขวัญสีน้ำเงินกระจายอยู่ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดขาวยกนิ้วชี้ขึ้นหนึ่งข้างและยื่นอีกมือออกมา ด้านบนเป็นโลโก้ BRAVO168 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงไปเป็นป้ายคำว่า แนะนำเพื่อน โบนัส คร่อมตัวเลขทองขนาดใหญ่ 0.8%"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#1558c4]/70 shadow-[0_10px_30px_rgba(21,88,196,0.28)]"
     />
-  </ContentBoxSevenThreeNeumorphism>
-
-  <ContentBoxTwoNeumorphism as="h2" title="สมัครเล่นสล็อตชั้นนำ CK268 อันดับ1 ง่ายๆ 3ขั้นตอน" titleleft="3 ขั้นตอนสมัครและ Login" titleright="ข้อควรระวังเรื่องข้อมูลส่วนตัว">
-    <p slot="left" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      การสมัคร CK268
-      <strong class="text-[#eaffd6]">สามารถดำเนินการผ่านระบบออนไลน์บนมือถือได้ด้วย 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าสู่บัญชี ก่อนเลือก เกมสล็อต ค่ายเกม และโปรโมชั่นที่ต้องการ เมื่อสมัครเรียบร้อยสามารถตรวจสอบเครดิต ประวัติรายการ
-      <strong class="text-[#eaffd6]">และเกมใหม่ที่เว็บไซต์อัปเดตได้จากบัญชีเดียว</strong>
+    <p slot="right">
+      สมาชิกสามารถแชร์ลิงก์แนะนำส่วนตัวให้เพื่อน เมื่อเพื่อนสมัคร BRAVO168 และมียอดเดิมพันตรงตามเงื่อนไข
+      <strong class="text-[#ffe39a]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ
+      <strong class="text-[#ffe39a]">และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกตามรอบที่กำหนด</strong>
     </p>
-    <p slot="right" class="text-left text-base leading-relaxed text-[#d5e6cd]">
-      ควรใช้ข้อมูลของตนเองในการสมัคร
-      <strong class="text-[#eaffd6]">ตั้งรหัสผ่านที่คาดเดายาก</strong>
-      และไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น หากเว็บไซต์ระบุว่าฝากเงินเข้าบัญชีบริษัทโดยตรง
-      <strong class="text-[#eaffd6]">ควรตรวจสอบชื่อบัญชีกับข้อมูลนิติบุคคลที่เว็บไซต์ประกาศก่อนทำธุรกรรมทุกครั้ง</strong>
-    </p>
-  </ContentBoxTwoNeumorphism>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSpecial as="h2" title="ติดต่อแอดมิน CK268 ผู้ให้บริการเกมสล็อตได้ 24 ชั่วโมง" iconleft="💬" iconright="🧾">
-    <div slot="left" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
-        หากสมาชิกพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมสล็อตไม่ได้ เครดิตไม่เข้า รายการถอนอยู่ระหว่างตรวจสอบ โปรโมชั่นไม่แสดง หรือไม่พบเกมใหม่ที่ต้องการ
-        <strong class="text-[#eaffd6]">สามารถติดต่อแอดมิน CK268 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+  <ContentBoxTwoFloatingBadge
+    as="h2"
+    title="สมัครแทงบอล BRAVO168 ง่ายๆ 3ขั้นตอน"
+    titleleft="3 ขั้นตอนสมัครและ Login"
+    titleright="ข้อควรระวังเรื่องข้อมูลส่วนตัว">
+    <p slot="left">
+      การสมัคร BRAVO168
+      <strong class="text-[#ffe39a]">สามารถทำผ่านระบบออนไลน์บนมือถือได้</strong>
+      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกลีก คู่แข่งขัน และรูปแบบเดิมพันที่ต้องการ
+      <strong class="text-[#ffe39a]">พร้อมตรวจสอบราคาและรายละเอียดบิลก่อนยืนยันรายการ</strong>
+    </p>
+    <p slot="right">
+      หลังสมัครเรียบร้อย
+      <strong class="text-[#ffe39a]">สมาชิกสามารถติดตามรายการฟุตบอล ตรวจสอบอัตราต่อรอง โปรโมชั่น และประวัติบิลจากบัญชีเดียว</strong>
+      ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น
+    </p>
+  </ContentBoxTwoFloatingBadge>
+
+  <ContentBox as="h2" title="ติดต่อแอดมิน BRAVO168 ผู้ให้บริการเกี่ยวกับการแทงบอลได้ 24 ชั่วโมง">
+    <div class="flex flex-col gap-5">
+      <p>
+        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ คู่บอลไม่แสดง บิลค้าง ผลเดิมพันยังไม่อัปเดต หรือโปรโมชั่นไม่แสดง
+        <strong class="text-[#ffe39a]">สามารถติดต่อแอดมิน BRAVO168 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งรายละเอียดเพื่อช่วยให้ทีมงานตรวจสอบรายการได้ตรงจุด
+      </p>
+      <p>
+        กรณีเกี่ยวกับการเดิมพันควรเตรียมเลขบิล ชื่อคู่แข่งขัน ลีก เวลาเดิมพัน และรายละเอียดตลาดที่เลือก
+        <strong class="text-[#ffe39a]">ส่วนปัญหาด้านธุรกรรมควรเก็บหลักฐานรายการไว้จนกว่าจะตรวจสอบเสร็จ</strong>
+        โดยไม่ส่งข้อมูลรหัสผ่านหรือ OTP ให้บุคคลอื่น
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a
@@ -286,20 +306,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#8bfc13]/70 bg-gradient-to-r from-[#c9ff8f] via-[#8bfc13] to-[#1a7a08] p-3.5 text-center font-black text-[#030703] shadow-[0_10px_30px_rgba(139,252,19,0.4)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก CK268
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#f4cb69]/70 bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] p-3.5 text-center font-black text-[#02081a] shadow-[0_10px_30px_rgba(244,203,105,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก BRAVO168
         </a>
       </div>
     </div>
-    <div slot="right" class="flex flex-col gap-4">
-      <p class="text-left text-base leading-relaxed text-[#d5e6cd]">
-        กรณีปัญหาเกี่ยวกับเกมสล็อตควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดปัญหา ส่วนรายการฝากถอนควรเตรียมเวลา จำนวนเงิน และหลักฐานธุรกรรมเพื่อช่วยให้ตรวจสอบได้ตรงรายการ
-        <strong class="text-[#eaffd6]">โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่นระหว่างการติดต่อ</strong>
-      </p>
-    </div>
-  </ContentBoxSpecial>
+  </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ CK268" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ BRAVO168" faqs={faqs} />
 
   <LoginRtpSection />
 
