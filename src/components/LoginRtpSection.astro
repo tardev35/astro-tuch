@@ -4,74 +4,77 @@
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// หวยเฮง24 เป็นเว็บเล่นหวยออนไลน์ ไม่ใช่เว็บบอลและไม่ใช่เว็บสล็อต แผงฝั่งขวารอบนี้จึงถูก
-// เขียนใหม่ทั้งแผงจากคำของบรีฟรอบนี้เอง คือ รายการหวย · เวลาเปิดรับ/เวลาปิดรับ · อัตราจ่าย
-// — หวยลาวตามรายการที่เปิดรับ หวยฮานอยหลายรอบ หวยรัฐบาลไทยตามกำหนดออกรางวัล และ
-// หวยหุ้นตามตลาดที่ระบบรองรับ ส่วนแผง "จุดที่ควรตรวจก่อนส่งโพย" ประกอบจากประโยคเตือน
-// ของบรีฟล้วนๆ คือ ชื่อหวย รอบเวลา เลขที่เลือก ยอดเดิมพัน และการกลับมาเช็คผลกับสถานะโพย
-// หลังประกาศผลโดยอ้างอิงข้อมูลอย่างเป็นทางการ
+// หวยเฮง789 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่เว็บบอลและไม่ใช่เว็บสล็อต แผงฝั่งขวารอบนี้จึงถูก
+// เขียนใหม่ทั้งแผงจากคำของบรีฟรอบนี้เอง คือ ประเภทหวย · ตารางรอบและเวลาปิดรับ · อัตราจ่าย
+// · วงเงิน — รัฐบาลไทยตามกำหนดออกรางวัล หวยฮานอยและหวยลาวตามรอบที่เปิดรับ และหวยหุ้น
+// ต่างประเทศตามตลาดที่ระบบรองรับ ส่วนแผง "จุดที่ควรตรวจก่อนยืนยันโพย" ประกอบจากประโยค
+// เตือนของบรีฟล้วนๆ คือ เลขเด็ดเลขดังไม่รับประกันผลรางวัล, ตารางรอบกับเวลาปิดรับ,
+// อัตราจ่ายที่แสดงในหน้าส่งโพย และวงเงินที่ระบบเปิดรับจริงซึ่งเป็นตัวกำกับคำว่า
+// "ไม่จำกัด" / "แทงได้ไม่อั้น" ทั้งหน้า
 //
 // ไฟล์นี้เคยเป็นตาราง RTP/ความผันผวน ซึ่งเป็นศัพท์ของเว็บสล็อต ไม่ใช่ของเว็บหวย — ป้าย
 // ทุกใบเป็นศัพท์หวยทั้งหมด และคำว่า RTP ไม่เหลืออยู่ในไฟล์นี้แล้ว
 //
-// รอบก่อน (หวยเต็ง) แผงนี้ยังแตกหวยลาวเป็น "ลาวพัฒนา" และแตกฮานอยเป็น "ปกติ/พิเศษ/
-// วีไอพี" ซึ่งเป็นชื่อรอบที่บรีฟรอบนี้ไม่ได้ระบุไว้ — บรีฟ หวยเฮง24 เขียนแค่ หวยลาว
-// หวยฮานอยหลายรอบ หวยรัฐบาลไทย และหวยหุ้น รายการจึงถูกยุบกลับมาเหลือสี่ประเภทตามบรีฟ
+// รอบก่อน (หวยเฮง24) แผงนี้ขายมุม "ฝากถอนวอลเลทและธนาคาร" กับ "เช็คผลทันที" ซึ่งบรีฟ
+// รอบนี้ไม่ได้เขียนไว้เลย ทั้งสองมุมจึงถูกถอดออก ไม่ใช่เขียนใหม่ด้วยชื่อแบรนด์ใหม่ และ
+// รอบก่อนหน้านั้น (หวยเต็ง) ยังแตกหวยลาวเป็น "ลาวพัฒนา" กับแตกฮานอยเป็น "ปกติ/พิเศษ/
+// วีไอพี" ซึ่งบรีฟรอบนี้ไม่ได้ระบุไว้เช่นกัน รายการจึงเหลือสี่ประเภทตามบรีฟตรงๆ
 // ห้ามใส่ตารางเวลาออกรางวัลจริง เลขงวดจริง ตัวเลขอัตราจ่ายรายประเภท ชื่อเจ้ามือ ชื่อธนาคาร
 // เลขใบอนุญาต ยอดฝากขั้นต่ำ หรือจำนวนสมาชิกลงในไฟล์นี้ — บรีฟไม่ได้ให้ไว้เลยสักอย่าง และ
-// ตัวเลขที่แต่งขึ้นบนหน้าเว็บพนันคือการกล่าวอ้างจริง ไม่ใช่ของประดับ ป้ายกำกับทุกใบจึงเป็น
-// "ชนิดของรายการหวย" แบบบรรยาย ไม่ใช่ตัวเลข ตัวเลขที่ใช้ได้มีเท่าที่บรีฟระบุ คือ 2 ตัว
-// จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · สมัคร 3 ขั้นตอน · 24 ชั่วโมง
+// ตัวเลขที่แต่งขึ้นบนหน้าเว็บพนันคือการกล่าวอ้างจริง ไม่ใช่ของประดับ ตัวเลขที่ใช้ได้มีเท่าที่
+// บรีฟระบุ คือ 2 ตัว จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · สมัคร 3 ขั้นตอน · 24 ชั่วโมง
 const lotteryMarkets = [
-  { icon: "🇹🇭", name: "หวยรัฐบาลไทย", detail: "เปิดรับตามกำหนดออกรางวัลของแต่ละงวด ควรดูเวลาเปิดรับและเวลาปิดรับของรอบนั้นก่อนเลือกเลข" },
-  { icon: "🌙", name: "หวยลาว", detail: "รายการหวยลาวตามที่ระบบเปิดรับ โดยแต่ละรอบมีเวลาเปิดรับ เวลาปิดรับ และเงื่อนไขของตัวเอง" },
-  { icon: "🕐", name: "หวยฮานอย", detail: "หวยฮานอยมีหลายรอบตามรายการที่ระบบเปิดให้เลือกในแต่ละวัน จึงควรตรวจชื่อรอบให้ตรงก่อนส่งโพย" },
-  { icon: "📈", name: "หวยหุ้น", detail: "เปิดรับตามตลาดที่ระบบรองรับ จึงควรตรวจชื่อรายการและรอบเวลาให้ตรงกันก่อนส่งโพย" },
+  { icon: "🇹🇭", name: "หวยรัฐบาลไทย", detail: "เปิดรับตามกำหนดออกรางวัลของแต่ละงวด ควรดูตารางรอบและเวลาปิดรับของรอบนั้นก่อนเลือกตัวเลข" },
+  { icon: "🕐", name: "หวยฮานอย", detail: "เปิดรับตามรอบที่ระบบกำหนดในแต่ละวัน จึงควรตรวจชื่อรายการและรอบให้ตรงกันก่อนส่งโพย" },
+  { icon: "🌙", name: "หวยลาว", detail: "เปิดรับตามรอบที่ระบบกำหนด โดยแต่ละรอบมีเวลาปิดรับและเงื่อนไขของตัวเอง" },
+  { icon: "📈", name: "หวยหุ้นต่างประเทศ", detail: "เปิดรับตามตลาดที่ระบบรองรับ จึงควรตรวจชื่อรายการและรอบเวลาให้ตรงกันก่อนส่งโพย" },
 ];
 
-// สี่ข้อนี้ประกอบจากประโยคเตือนของบรีฟเองทั้งหมด — ตรวจชื่อหวยกับเลขที่เลือก, ตรวจเวลา
-// เปิดรับ/ปิดรับของรอบนั้น, ตรวจอัตราจ่ายที่แสดงก่อนส่งโพย และกลับมาเช็คผลกับสถานะโพย
-// หลังประกาศผล
+// สี่ข้อนี้ประกอบจากประโยคเตือนของบรีฟเองทั้งหมด — เลขเด็ดเลขดังรับประกันผลรางวัลไม่ได้,
+// ตารางรอบกับเวลาปิดรับต่างกันในแต่ละประเภท, อัตราจ่ายให้ยึดที่หน้าส่งโพยของรอบนั้น และ
+// วงเงินที่ระบบเปิดรับจริงเป็นตัวกำกับคำว่า "ไม่จำกัด" กับ "แทงได้ไม่อั้น"
 const beforeSlipChecks = [
   {
     icon: "🔢",
-    name: "ชื่อหวยและเลขที่เลือก",
-    detail: "หลังส่งโพยควรตรวจสอบชื่อหวย รอบเวลา เลขที่เลือก และยอดเดิมพันให้ถูกต้อง เพื่อให้ตรงกับรายการที่ต้องการแทงจริง",
-    tag: "ตรวจหลังส่งโพย",
+    name: "เลขเด็ดและเลขดังที่เลือก",
+    detail: "ตัวเลขที่ติดตามมาสามารถนำมาเลือกแทงตามรูปแบบที่ระบบเปิดรับได้ แต่ตัวเลขดังกล่าวไม่สามารถรับประกันผลรางวัลได้",
+    tag: "ตรวจก่อนส่งโพย",
   },
   {
     icon: "⏱️",
-    name: "เวลาเปิดรับและเวลาปิดรับ",
-    detail: "แต่ละรายการมีเวลาเปิดรับและเวลาปิดรับของตัวเอง จึงสามารถตรวจสอบได้จากหน้าเดียวก่อนเลือกเลขในแต่ละรอบ",
+    name: "ตารางรอบและเวลาปิดรับ",
+    detail: "หวยแต่ละประเภทมีตารางรอบและเวลาปิดรับของตัวเอง จึงควรตรวจสอบรายการล่าสุดก่อนเลือกตัวเลขในแต่ละรอบ",
     tag: "ดูก่อนเลือกเลข",
   },
   {
     icon: "💰",
     name: "อัตราจ่ายของรายการนั้น",
-    detail: "อัตรา 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท ใช้กับรายการที่เข้าเงื่อนไข ควรตรวจสอบอัตราที่แสดงก่อนส่งโพยทุกครั้ง",
-    tag: "ตรวจก่อนส่งโพย",
+    detail: "อัตรา 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท ใช้กับรายการที่เข้าเงื่อนไข จึงควรยึดอัตราที่แสดงในหน้าส่งโพยของรอบนั้นเป็นหลัก",
+    tag: "ยึดหน้าส่งโพย",
   },
   {
-    icon: "🗂️",
-    name: "เช็คผลและสถานะโพย",
-    detail: "เมื่อมีการประกาศผลสามารถกลับมาเช็คผลและสถานะโพยผ่านบัญชีสมาชิกได้ โดยผลรางวัลควรอ้างอิงข้อมูลอย่างเป็นทางการของหวยแต่ละประเภท",
-    tag: "ตรวจจากบัญชีสมาชิก",
+    icon: "🧮",
+    name: "วงเงินที่ระบบเปิดรับ",
+    detail: "คำว่า ไม่จำกัด และ แทงได้ไม่อั้น ควรอ้างอิงวงเงินที่ระบบเปิดรับจริง เพราะหวยแต่ละประเภท เลขแต่ละชุด และแต่ละรอบอาจกำหนดวงเงินแตกต่างกัน",
+    tag: "ตรวจยอดที่อนุญาต",
   },
 ];
 
-const chips = ["หวยลาว", "หวยฮานอย", "หวยรัฐบาลไทย", "หวยหุ้น", "ส่งโพย", "เวลาเปิดรับ", "เวลาปิดรับ", "อัตราจ่าย", "2 ตัว จ่าย 100 บาท", "3 ตัว จ่าย 1,000 บาท"];
+const chips = ["หวยรัฐบาลไทย", "หวยฮานอย", "หวยลาว", "หวยหุ้นต่างประเทศ", "เลขเด็ด", "เลขดัง", "ส่งโพย", "เวลาปิดรับ", "อัตราจ่าย", "วงเงิน", "2 ตัว จ่าย 100 บาท", "3 ตัว จ่าย 1,000 บาท"];
 
-// หวยเฮง24 (รอบแดงเข้ม-ทอง 2026-10-01): โลโก้เป็นเวิร์ดมาร์กสามมิติสองโทน คำว่า "หวย"
-// เป็นแดงเลือดนกเงาวาวขอบทอง ส่วน "เฮง24" เป็นทองไล่เฉด งานอาร์ตเป็นผ้าซาตินแดงที่มี
+// หวยเฮง789 (รอบแดงนำ-ทองรอง 2026-10-01): โลโก้เป็นเวิร์ดมาร์กสามมิติสองโทน คำว่า "หวย"
+// เป็นแดงเลือดนกเงาวาวขอบทอง ส่วน "เฮง789" เป็นทองไล่เฉด งานอาร์ตเป็นผ้าซาตินแดงที่มี
 // ลายไทยสีทอง เงาปราสาททอง เหรียญทองกองสูง ลูกหวยแดง-ขาว และสลากกินแบ่ง สองแผงจึง
 // ถูกแยกด้วยคู่ทอง/แดงตามงานอาร์ตจริง ไม่ใช่น้ำหนักของสีเดียว — แผงล็อกอินอยู่ในกรอบทอง
-// แบรนด์ #e0a52a ส่วนแผงรายการหวยอยู่ในกรอบแดงแบรนด์ #8b0302 ทั้งคู่วางบนผิวการ์ด
-// #2e0707 เหนือพื้นเพจ #1a0505 ช่องกรอกและชิปตกลงไปที่พื้นเพจในเส้นผิวแผงยก #3d0808
-// บรรทัดเด่นไล่เฉดทองอ่อน #fdea83 → ทองแบรนด์ → ทองกลาง #bd7c13 ปุ่มเข้าสู่ระบบเป็น
-// ทองเต็มตัวบนหมึกเข้ม #2a0606 ตามกฎคอนทราสต์ที่ว่าพื้นทองต้องใช้หมึกเข้ม ห้ามใช้ตัวอักษร
-// ขาว ปุ่มไลน์ยังคงสีเขียว #00B900 ของแพลตฟอร์มซึ่งห้ามรีแมป — ชุดเขียวป่า-ทองของ หวยเต็ง
-// ที่ค้างในไฟล์นี้ (#026314 #024a0f #0bb42f #e5c04f #fae474 #bd8d2d #062a12 #03150a
-// #0b3d18 #0a1a0c #d8ead9) ออกทั้งหมด
+// รอง #f4bc5d ส่วนแผงรายการหวยอยู่ในกรอบแดงแบรนด์ #dc2224 ทั้งคู่วางบนผิวการ์ด #2b0909
+// เหนือเงาลึกสุด #0b0202 ช่องกรอกและชิปตกลงไปที่เงาลึกสุดในเส้นผิวแผงยก #4a0f0f
+// บรรทัดเด่นไล่เฉดทองอ่อน #ffefc2 → ทองรอง → ทองลึก #d99a10 ปุ่มเข้าสู่ระบบเป็นทองเต็มตัว
+// บนหมึกเข้ม #1c0606 ตามกฎคอนทราสต์ที่ว่าพื้นทองต้องใช้หมึกเข้มและไล่เฉดใต้หมึกเข้มห้าม
+// จบมืดกว่า #d99a10 ปุ่มไลน์ยังคงสีเขียว #00B900 ของแพลตฟอร์มซึ่งห้ามรีแมป
+//
+// ชุดแดง-ทองของ หวยเฮง24 ที่เคยค้างในไฟล์นี้ — ซึ่ง "นำด้วยทอง" สลับกับรอบนี้ —
+// (#e0a52a #fdea83 #fbdc64 #bd7c13 #8b0302 #c01616 #2e0707 #3d0808 #1a0505 #2a0606
+// #f6e6cf) ออกครบทุกจุดแล้ว
 ---
 
 <ContentBoxTwo
@@ -79,63 +82,63 @@ const chips = ["หวยลาว", "หวยฮานอย", "หวยร�
   titleright={`รายการหวยที่เปิดรับ ${BRAND_NAME}`}
   iconleft="🔐"
   iconright="🎟️"
-  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมรายการหวยที่เปิดรับทั้งหวยลาว หวยฮานอย หวยรัฐบาลไทย และหวยหุ้น รวมถึงจุดที่ควรตรวจสอบก่อนส่งโพยทุกครั้ง`}>
+  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมรายการหวยที่เปิดรับทั้งรัฐบาลไทย ฮานอย ลาว และหุ้นต่างประเทศ รวมถึงจุดที่ควรตรวจสอบก่อนยืนยันโพยทุกครั้ง`}>
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#e0a52a]/45 bg-[#2e0707]/94 p-6 shadow-[0_10px_30px_rgba(20,3,3,0.85)] backdrop-blur-md">
-      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#e0a52a]/24 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#f4bc5d]/45 bg-[#2b0909]/94 p-6 shadow-[0_10px_30px_rgba(11,2,2,0.85)] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#f4bc5d]/24 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#e0a52a]/70 bg-gradient-to-br from-[#fdea83] via-[#fbdc64] to-[#bd7c13] text-xl text-[#2a0606] shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#f4bc5d]/70 bg-gradient-to-br from-[#ffefc2] via-[#f4bc5d] to-[#d99a10] text-xl text-[#1c0606] shadow-inner">
           👋
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#fdea83]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#f6e6cf]/70">
-            Login เข้าบัญชี {BRAND_NAME} ผ่านมือถือเพื่อเลือกหวย รอบ และเลขที่ต้องการ พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย แล้วกลับมาตรวจสอบรายการและเช็คผลหลังประกาศผลได้จากบัญชีเดียว
+          <p class="text-base font-black text-[#ffefc2]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#fbe3d4]/70">
+            Login เข้าบัญชี {BRAND_NAME} ผ่านมือถือเพื่อเลือกประเภทหวย รอบ และตัวเลขที่ต้องการ พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย แล้วกลับมาตรวจสอบโพย ประวัติรายการ และผลของแต่ละรอบได้จากบัญชีเดียว
           </span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#f6e6cf]/60">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#fbe3d4]/60">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#3d0808] bg-[#1a0505]/95 py-3 pr-4 pl-12 text-[#f6e6cf] transition-all outline-none placeholder:text-[#f6e6cf]/45 focus:border-[#e0a52a] focus:ring-1 focus:ring-[#c01616]/60"
+            class="w-full rounded-xl border border-[#4a0f0f] bg-[#0b0202]/95 py-3 pr-4 pl-12 text-[#fbe3d4] transition-all outline-none placeholder:text-[#fbe3d4]/45 focus:border-[#f4bc5d] focus:ring-1 focus:ring-[#e43434]/60"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#f6e6cf]/60">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#fbe3d4]/60">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#3d0808] bg-[#1a0505]/95 py-3 pr-4 pl-12 text-[#f6e6cf] transition-all outline-none placeholder:text-[#f6e6cf]/45 focus:border-[#e0a52a] focus:ring-1 focus:ring-[#c01616]/60"
+            class="w-full rounded-xl border border-[#4a0f0f] bg-[#0b0202]/95 py-3 pr-4 pl-12 text-[#fbe3d4] transition-all outline-none placeholder:text-[#fbe3d4]/45 focus:border-[#f4bc5d] focus:ring-1 focus:ring-[#e43434]/60"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#f6e6cf]/70">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#3d0808] bg-[#1a0505] accent-[#e0a52a]" />
+          <label class="flex items-center gap-2 text-[#fbe3d4]/70">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#4a0f0f] bg-[#0b0202] accent-[#f4bc5d]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#f6e6cf]/70 transition-colors hover:text-[#fdea83]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#fbe3d4]/70 transition-colors hover:text-[#ffefc2]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#fdea83]/70 bg-gradient-to-r from-[#fdea83] via-[#fbdc64] to-[#bd7c13] p-3.5 text-center font-black text-[#2a0606] shadow-[0_10px_30px_rgba(224,165,42,0.30)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(251,220,100,0.55)]">
+          class="mt-1 block w-full rounded-xl border border-[#ffefc2]/70 bg-gradient-to-r from-[#ffefc2] via-[#f4bc5d] to-[#d99a10] p-3.5 text-center font-black text-[#1c0606] shadow-[0_10px_30px_rgba(244,188,93,0.30)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(255,239,194,0.55)]">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#f6e6cf]/60">
-          <span aria-hidden="true" class="h-px flex-1 bg-[#3d0808]"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#fbe3d4]/60">
+          <span aria-hidden="true" class="h-px flex-1 bg-[#4a0f0f]"></span>
           หรือ
-          <span aria-hidden="true" class="h-px flex-1 bg-[#3d0808]"></span>
+          <span aria-hidden="true" class="h-px flex-1 bg-[#4a0f0f]"></span>
         </div>
 
         <a
@@ -146,86 +149,86 @@ const chips = ["หวยลาว", "หวยฮานอย", "หวยร�
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#3d0808] bg-[#1a0505] px-2.5 py-1 text-[10px] font-bold text-[#f6e6cf]"><span aria-hidden="true">🎟️</span> เล่นหวยออนไลน์</span>
-            <span class="rounded-full border border-[#e0a52a]/40 bg-[#1a0505]/85 px-2.5 py-1 text-[10px] font-bold text-[#e0a52a]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
+            <span class="rounded-full border border-[#4a0f0f] bg-[#0b0202] px-2.5 py-1 text-[10px] font-bold text-[#fbe3d4]"><span aria-hidden="true">🎟️</span> แทงหวยออนไลน์</span>
+            <span class="rounded-full border border-[#f4bc5d]/40 bg-[#0b0202]/85 px-2.5 py-1 text-[10px] font-bold text-[#f4bc5d]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#e0a52a] transition-colors hover:text-[#fdea83]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#f4bc5d] transition-colors hover:text-[#ffefc2]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#8b0302] bg-[#2e0707]/94 p-5 shadow-[0_10px_30px_rgba(20,3,3,0.82)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#dc2224] bg-[#2b0909]/94 p-5 shadow-[0_10px_30px_rgba(11,2,2,0.82)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#f6e6cf]/70">
-            {BRAND_NAME} รวมรายการหวยยอดนิยมไว้ให้เลือกในบัญชีเดียว เลือกเลข ส่งโพย ตรวจสอบรายการ และเช็คผลหลังประกาศผลของแต่ละรอบได้จากหน้าเว็บไซต์
+          <span class="text-xs font-bold tracking-wide text-[#fbe3d4]/70">
+            {BRAND_NAME} เปิดให้เลือกแทงหวยออนไลน์หลายประเภทผ่านบัญชีเดียว เลือกเลขเด็ด เลขดัง หรือชุดตัวเลขที่สนใจด้วยตัวเอง พร้อมตรวจสอบรอบ อัตราจ่าย และรายละเอียดโพยก่อนยืนยันรายการ
           </span>
-          <div class="bg-gradient-to-r from-[#fdea83] via-[#e0a52a] to-[#bd7c13] bg-clip-text text-2xl font-black text-transparent sm:text-3xl">หวยลาว · ฮานอย · รัฐบาลไทย · หุ้น</div>
+          <div class="bg-gradient-to-r from-[#ffefc2] via-[#f4bc5d] to-[#d99a10] bg-clip-text text-2xl font-black text-transparent sm:text-3xl">รัฐบาลไทย · ฮานอย · ลาว · หุ้นต่างประเทศ</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#3d0808] bg-[#1a0505]/85 px-2.5 py-1">
-          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#e0a52a] shadow-[0_0_8px_rgba(224,165,42,0.85)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#fdea83] uppercase">ตามรอบที่ระบบเปิดรับ</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#4a0f0f] bg-[#0b0202]/85 px-2.5 py-1">
+          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#f4bc5d] shadow-[0_0_8px_rgba(244,188,93,0.85)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-[#ffefc2] uppercase">ตามรอบที่ระบบเปิดรับ</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#f6e6cf]/65 uppercase">
-        <span>รายการหวยในระบบ</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#fbe3d4]/65 uppercase">
+        <span>ประเภทหวยในระบบ</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="mb-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {
           lotteryMarkets.map((m) => (
-            <div class="rounded-xl border border-[#3d0808] bg-[#1a0505]/95 px-3.5 py-2.5 transition-colors hover:border-[#e0a52a]/70 hover:bg-[#3d0808]/85">
-              <span class="flex min-w-0 items-center gap-2 text-sm font-bold text-[#fdea83]">
+            <div class="rounded-xl border border-[#4a0f0f] bg-[#0b0202]/95 px-3.5 py-2.5 transition-colors hover:border-[#f4bc5d]/70 hover:bg-[#4a0f0f]/85">
+              <span class="flex min-w-0 items-center gap-2 text-sm font-bold text-[#ffefc2]">
                 <span aria-hidden="true" class="w-5 shrink-0 text-center">
                   {m.icon}
                 </span>
                 <span class="truncate">{m.name}</span>
               </span>
-              <span class="mt-1.5 block text-[11px] tracking-wide text-[#f6e6cf]/70">{m.detail}</span>
+              <span class="mt-1.5 block text-[11px] tracking-wide text-[#fbe3d4]/70">{m.detail}</span>
             </div>
           ))
         }
       </div>
 
-      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#f6e6cf]/70">
-        รายการหวยและรอบที่เปิดรับจริงขึ้นอยู่กับตารางของแต่ละประเภทในวันนั้น จึงสามารถตรวจสอบเวลาเปิดรับ เวลาปิดรับ และอัตราจ่ายของแต่ละรายการก่อนเลือกเลขได้จากหน้าเดียว
+      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#fbe3d4]/70">
+        รายการหวยและรอบที่เปิดรับจริงขึ้นอยู่กับตารางของแต่ละประเภทในวันนั้น จึงควรตรวจสอบตารางรอบ เวลาปิดรับ และอัตราจ่ายล่าสุดของแต่ละรายการก่อนส่งโพยทุกครั้ง
       </p>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#f6e6cf]/65 uppercase">
-        <span>จุดที่ควรตรวจก่อนส่งโพย</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#fbe3d4]/65 uppercase">
+        <span>จุดที่ควรตรวจก่อนยืนยันโพย</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="flex flex-1 flex-col gap-2.5">
         {
           beforeSlipChecks.map((k) => (
-            <div class="rounded-xl border border-[#3d0808] bg-[#1a0505]/95 px-3.5 py-2.5 transition-colors hover:border-[#c01616]/70 hover:bg-[#3d0808]/85">
+            <div class="rounded-xl border border-[#4a0f0f] bg-[#0b0202]/95 px-3.5 py-2.5 transition-colors hover:border-[#e43434]/70 hover:bg-[#4a0f0f]/85">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#f6e6cf]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#fbe3d4]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
                     {k.icon}
                   </span>{" "}
                   <span class="truncate">{k.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#e0a52a]/50 bg-[#1a0505] px-2.5 py-0.5 text-[10px] font-bold text-[#e0a52a]">{k.tag}</span>
+                <span class="shrink-0 rounded-full border border-[#f4bc5d]/50 bg-[#0b0202] px-2.5 py-0.5 text-[10px] font-bold text-[#f4bc5d]">{k.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#f6e6cf]/70">{k.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#fbe3d4]/70">{k.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#3d0808] bg-[#1a0505] px-3 py-1 text-[10px] font-bold text-[#f6e6cf]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#4a0f0f] bg-[#0b0202] px-3 py-1 text-[10px] font-bold text-[#fbe3d4]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#f6e6cf]/70">
-        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมหวยลาว หวยฮานอย หวยรัฐบาลไทย และหวยหุ้นไว้ในบัญชีเดียว การรองรับการเข้าใช้งานผ่านมือถือ และการเลือกเลข ส่งโพย ตรวจสอบรายการ และเช็คผลหลังประกาศผลจากหน้าเว็บไซต์ ส่วนอัตรา 2 ตัว จ่าย 100 บาท กับ 3 ตัว จ่าย 1,000 บาท
-        ใช้กับรายการที่เข้าเงื่อนไข จึงควรตรวจสอบอัตราที่แสดงก่อนส่งโพยทุกครั้ง การฝากถอนทำผ่านวอลเลทและธนาคารที่ระบบรองรับ และไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#fbe3d4]/70">
+        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมรัฐบาลไทย ฮานอย ลาว และหุ้นต่างประเทศไว้ในบัญชีเดียว การรองรับการใช้งานผ่านมือถือ และการติดตามรอบหวย ส่งโพย และตรวจสอบผลจากหน้าเว็บไซต์ ส่วนอัตรา 2 ตัว จ่าย 100 บาท กับ 3 ตัว จ่าย 1,000 บาท
+        ใช้กับรายการที่เข้าเงื่อนไข จึงควรตรวจสอบอัตราที่แสดงก่อนยืนยันโพยทุกครั้ง คำว่า ไม่จำกัด และ แทงได้ไม่อั้น ควรอ้างอิงวงเงินที่ระบบเปิดรับจริง และไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น
       </div>
     </div>
   </div>

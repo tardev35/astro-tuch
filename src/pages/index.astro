@@ -1,70 +1,75 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import LatestWinners from "../components/LatestWinners2.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/Announcement2.astro";
+import LatestWinners from "../components/LatestWinners4.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq2.astro";
+import Faq from "../components/Faq3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgTwoDigit from "../assets/slide1.png";
-import imgThreeDigit from "../assets/slide2.png";
+import imgThreeDigit from "../assets/slide1.png";
+import imgTwoDigit from "../assets/slide2.png";
 
-// VARIANT ROTATION THIS ROUND (หวยเต็ง -> หวยเฮง24). Zero file reuse from the
-// previous round: Announcement5 replaces Announcement3, LatestWinners2 replaces
-// LatestWinners3, Faq2 replaces Faq4, ReviewCardSumo2 replaces ReviewCardSumo,
-// and the ContentBox shape-mix moves off CyberCut / TwoNeumorphism /
-// SevenThreeCyberCut / SevenThreeNeumorphism / TwoCyberCut onto Premium /
-// TwoPremium / FloatingBadge / SevenThreePremium / SevenThreeFloatingBadge /
-// Special. NavbarStyle6 and FooterStyle3 are the layout's pair this round
-// (previously NavbarStyle9 / FooterStyle2).
+// VARIANT ROTATION THIS ROUND (หวยเฮง24 -> หวยเฮง789). Zero file reuse from the
+// previous round: Announcement2 replaces Announcement5, LatestWinners4 replaces
+// LatestWinners2, Faq3 replaces Faq2, ReviewCardSumo replaces ReviewCardSumo2,
+// and the ContentBox shape-mix moves off Premium / TwoPremium / FloatingBadge /
+// SevenThreePremium / SevenThreeFloatingBadge / Special onto Neumorphism /
+// TwoNeumorphism / CyberCut / SevenThreeCyberCut / SevenThreeNeumorphism /
+// TwoCyberCut. NavbarHuay and FooterHuay are the layout's pair this round
+// (previously NavbarStyle6 / FooterStyle3).
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and
-// every button page render through it by rule and cannot follow a rotation, so
-// it is always-live and the orchestrator rethemes it in the shared step.
-// Every CyberCut / Neumorphism / Huay / Cyber file, Faq4, Announcement3,
-// LatestWinners3 and ReviewCardSumo stay on disk as inventory for the next brand
-// — none of them was deleted. The *Huay family is deliberately NOT used here
-// even though this is a lottery brand: it belongs to /ตรวจหวย and /แนวทาง, which
-// keep their own theme.
+// every button page render their body through it by rule and cannot follow a
+// rotation, so it is always-live and the orchestrator rethemes it in the shared
+// step.
+// Every Premium / FloatingBadge / Special / Cyber file, Faq2, Announcement5,
+// LatestWinners2, ReviewCardSumo2, NavbarStyle6 and FooterStyle3 stay on disk as
+// inventory for the next brand — none of them was deleted, and the previous
+// brand's copy and colour still inside them is expected drift, not a bug. The
+// *Huay ContentBox/Faq/LatestWinners family is deliberately NOT used here even
+// though this is a lottery brand: it belongs to /ตรวจหวย and /แนวทาง, which keep
+// their own theme.
 //
-// <Announcement /> runs bare on purpose: Announcement5's default message is
+// <Announcement /> runs bare on purpose: Announcement2's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things on
 // two pages of the same site.
 //
 // IMAGE ROLES FOR THIS DROP (2026-10-01). Two files are referenced from this page
 // and only two, and the pairing is read off the artwork itself, not off the file
-// number:
-//   slide1.png — the gold-bordered pill under the headline reads "2ตัวจ่าย100บาท"
-//     and white balls marked 5 and 9 float down the left edge, so it belongs to
-//     docx H3 #4. Imported as imgTwoDigit.
-//   slide2.png — the pill reads "3ตัวจ่าย1,000บาท" and she holds a red ball
-//     marked 3, so it belongs to docx H3 #5. Imported as imgThreeDigit.
+// number — they are the opposite way round from what the numbering suggests:
+//   slide2.png — the gold-edged pill under the headline reads "2ตัวจ่าย100บาท"
+//     and she holds a RED ball marked 2 with a white ball marked 5 beside it, so
+//     it belongs to docx H3 #4. Imported as imgTwoDigit.
+//   slide1.png — the pill reads "3ตัวจ่าย1,000บาท" and she holds a WHITE ball
+//     marked 3 while pointing forward, so it belongs to docx H3 #5. Imported as
+//     imgThreeDigit.
 // Both files measure 600x400, so 600 is the top real candidate width — nothing
 // above it would be a real pixel — and each picture carries max-w-[600px] so the
 // art is never upscaled past its own bitmap. Each slide sits in a
 // ContentBoxSevenThree* image+text block, which is that family's hard cap of two
 // per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreePremium lays out
+// The two blocks mirror each other: SevenThreeCyberCut lays out
 // md:grid-cols-[3fr_7fr] so its picture goes in slot="left", and
-// SevenThreeFloatingBadge was flipped to md:grid-cols-[7fr_3fr] this round so its
-// picture goes in slot="right" while the paragraph keeps the wide column. The two
-// pictures therefore alternate sides instead of stacking down the same edge, and
-// each `sizes` describes its own 3fr column rather than the viewport.
+// SevenThreeNeumorphism lays out md:grid-cols-[7fr_3fr] so its picture goes in
+// slot="right" while the paragraph keeps the wide column. The two pictures
+// therefore alternate sides instead of stacking down the same edge, and each
+// `sizes` describes its own 3fr column rather than the viewport.
 //
 // The alt text was written from THIS drop's artwork (a deep-red satin ground with
-// gold Thai ornament and light rays, banks of gold coins, red-and-white numbered
-// lottery balls, Thai lottery tickets, a woman in a white-and-gold Thai dress, the
-// red-and-gold หวยเฮง24 wordmark and huge gold Thai type reading อัตราจ่ายหวย).
+// gold Thai ornament and sweeping gold light rays, banks of gold coins and Thai
+// lottery tickets, red-and-white numbered lottery balls, a woman in a white-and-
+// gold Thai dress with gold jewellery, the red-and-gold หวยเฮง789 wordmark and
+// huge gold Thai type reading อัตราจ่ายหวย).
 //
 // Deliberately NOT imported, and every file still on disk:
 //   slide3.png / slide4.png / banner2.png / banner3.png all predate this drop and
@@ -74,77 +79,82 @@ import imgThreeDigit from "../assets/slide2.png";
 //   are never referenced from a page — the hero is the LCP element, so nothing here
 //   gets loading="eager" fetchpriority="high". og.png is the same: MainLayout owns it.
 //
-// Vocabulary: หวยเฮง24 is a เว็บเล่นหวยออนไลน์ — หวย, โพย, ส่งโพย, เลข 2 ตัว / 3 ตัว,
-// อัตราจ่าย, รอบ, เวลาเปิดรับ / เวลาปิดรับ, งวด, ผลรางวัล, เช็คผล, หวยรัฐบาลไทย,
-// หวยลาว, หวยฮานอย, หวยหุ้น, ฝากถอนวอลเลทและธนาคาร. The brand before this one sold
-// a different lottery line-up and the two before that sold football and slots;
-// every one of those words (ลาวพัฒนา, ฮานอยวีไอพี, บอล, ค่าน้ำ, อัตราต่อรอง, ลีก,
-// สล็อต, ฟรีสปิน, RTP …) is gone, and the page was rewritten from the brief rather
-// than find-and-replaced over the old sentences. Nothing here claims a licence, an
-// operator, a bank, a deposit minimum, a member count or a founding year, because
-// the brief names none. The only figures are the brief's own: 2 ตัว จ่าย 100 บาท,
-// 3 ตัว จ่าย 1,000 บาท, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with
-// the copy ("ผลรางวัลควรอ้างอิงข้อมูลอย่างเป็นทางการของหวยแต่ละประเภท") — it is part
-// of the paragraphs, not trimmed as downbeat.
+// Vocabulary: หวยเฮง789 is a เว็บแทงหวยออนไลน์ — หวย, โพย, ส่งโพย, เลข 2 ตัว / 3 ตัว,
+// เลขเด็ด, เลขดัง, อัตราจ่าย, รอบ, เวลาปิดรับ, งวด, ผลรางวัล, วงเงิน, หวยรัฐบาลไทย,
+// หวยฮานอย, หวยลาว, หวยหุ้นต่างประเทศ, สมัครสมาชิก, Login, แอดมิน 24 ชั่วโมง. The brand
+// before this one sold a different lottery line-up and the ones before that sold
+// football and slots; every one of those words (ลาวพัฒนา, ฮานอยวีไอพี, บอล, ค่าน้ำ,
+// อัตราต่อรอง, ลีก, สล็อต, ฟรีสปิน, RTP, คาสิโน …) is gone, and the page was rewritten
+// from the brief rather than find-and-replaced over the old sentences. The previous
+// round's ฝากถอนวอลเลทและธนาคาร and เช็คผลทันที angles are not in this brief either and
+// were dropped rather than re-typed; this brief's angles are เลขเด็ด / เลขดัง,
+// ไม่จำกัด / แทงได้ไม่อั้น (always with the วงเงิน caveat), and บัญชีเดียวครบทุกประเภทหวย.
+// Nothing here claims a licence, an operator, a bank, a deposit minimum, a member
+// count or a founding year, because the brief names none. The only figures are the
+// brief's own: 2 ตัว จ่าย 100 บาท, 3 ตัว จ่าย 1,000 บาท, 3 ขั้นตอน, 24 ชั่วโมง. The
+// brief's own hedging ships with the copy ("ควรอ้างอิงวงเงินที่ระบบเปิดรับจริง",
+// "ไม่สามารถรับประกันผลรางวัลได้", "อัตราจ่ายอาจแตกต่างกันตามประเภทหวย") — it is part of
+// the paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used verbatim.
-// The description ships at 124 characters, the length the brief wrote it — it is
+// The description ships at 112 characters, the length the brief wrote it — it is
 // not padded up to 150.
-const pageTitle = "หวยเฮง24 เว็บเล่นหวยออนไลน์ หวยลาว ฮานอย รัฐบาลไทย เช็คผลทันที";
+const pageTitle = "หวยเฮง789 รับแทงหวย เลขเด็ด เลขดัง ไม่จำกัด แทงได้ไม่อั้น";
 
-const pageDescription = "หวยเฮง24 เว็บเล่นหวยออนไลน์ เข้าแทงหวยลาว หวยฮานอย หวยรัฐบาลไทย ฝากถอนวอลเลทและธนาคารชั้นนำ พร้อมเช็คผลได้ทันทีหลังหวยออก";
+const pageDescription = "หวยเฮง789 เปิดรับแทงหวยออนไลน์ เลขเด็ด เลขดัง ทุกตัว รัฐบาลไทย ฮานอย ลาว หุ้นต่างประเทศ ไม่จำกัด แทงได้ไม่อั้น";
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
 // H2-only. The two H3s are genuine headings — the two payout sub-points, both
 // nested under the อัตราการจ่าย H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  หวยเฮง24 เว็บเล่นหวยออนไลน์ หวยลาว ฮานอย รัฐบาลไทย พร้อมเช็คผลทันที
-//          ContentBoxPremium, L4
-//    2 H2  เว็บ หวยเฮง24 เข้าแทงหวยลาว หวยฮานอย หวยรัฐบาลไทย หวยหุ้น ครบ
-//          ContentBoxTwoPremium, L6 left + L7 right
-//    3 H2  อัตราการจ่าย หวยเฮง24 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท
-//          ContentBoxFloatingBadge, L9
+//    1 H1  หวยเฮง789 รับแทงหวย เลขเด็ด เลขดัง ไม่จำกัด แทงได้ไม่อั้น
+//          ContentBoxNeumorphism, brief paragraphs 1 + 2
+//    2 H2  เว็บ หวยเฮง789 รัฐบาลไทย ฮานอย ลาว หุ้นต่างประเทศ ไม่จำกัด แทงได้ไม่อั้น
+//          ContentBoxTwoNeumorphism, para 1 left + para 2 right
+//    3 H2  อัตราการจ่าย หวยเฮง789 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท
+//          ContentBoxCyberCut, both paragraphs in one wrapper
 //    4 H3  2ตัว จ่าย100บาท
-//          ContentBoxSevenThreePremium + slide1 (imgTwoDigit), L11
+//          ContentBoxSevenThreeCyberCut + slide2 (imgTwoDigit)
 //    5 H3  3ตัว จ่าย1,000บาท
-//          ContentBoxSevenThreeFloatingBadge + slide2 (imgThreeDigit), L13
-//    6 H2  สมัครแทงหวย หวยเฮง24 ง่ายๆ 3ขั้นตอน
-//          ContentBoxSpecial, L15 left + L16 right
-//    7 H2  ติดต่อแอดมินเว็บ หวยเฮง24 เกี่ยวกับการแทงหวย 24 ชั่วโมง
-//          ContentBox + LINE / สมัคร buttons, L18 + L19
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวยเฮง24
-//          Faq2 + faqs prop
+//          ContentBoxSevenThreeNeumorphism + slide1 (imgThreeDigit)
+//    6 H2  สมัครแทงหวย หวยเฮง789 ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoCyberCut, para 1 left + para 2 right
+//    7 H2  ติดต่อแอดมินเว็บ หวยเฮง789 ได้ ตลอด 24 ชั่วโมง
+//          ContentBox + LINE / สมัครสมาชิก buttons
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวยเฮง789
+//          Faq3 + faqs prop
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// Every brief paragraph ships in full. Sections 2, 6 and 7 each have TWO
+// Every brief paragraph ships in full. Sections 1, 2, 3, 6 and 7 each have TWO
 // paragraphs and both ship, nothing merged or summarised: in the two-column blocks
-// they run one per column, in section 7's single-column block they stack inside one
-// wrapper div. The column labels passed to ContentBoxTwoPremium are this page's own
-// layout wording, not brief headings, and that variant renders them as <p>.
+// they run one per column, in the single-column blocks they stack inside one
+// wrapper div (one element per slot). The column labels passed to
+// ContentBoxTwoNeumorphism and ContentBoxTwoCyberCut are this page's own layout
+// wording, not brief headings, and both variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// Announcement5, LatestWinners2, LoginRtpSection and ReviewCardSumo2 render their
-// titles as <p>/<span> with an aria-label on the section, and Faq2's questions live
-// inside <summary> as <span>. The non-brief widgets sit before section 1
-// (LatestWinners2, right after the ticker) and after section 8 (LoginRtpSection,
-// ReviewCardSumo2, Navfoot) — never spliced between two content sections.
+// Announcement2, LatestWinners4, LoginRtpSection and ReviewCardSumo render their
+// titles as <p>/<span> with an aria-label on the section, and Faq3's questions live
+// inside <summary> as <p>. The non-brief widgets sit before section 1
+// (LatestWinners4, right after the ticker) and after section 8 (LoginRtpSection,
+// ReviewCardSumo, Navfoot) — never spliced between two content sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's own
 // defaults, which belong to whichever brand shipped last. The three pairs are the
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "หวยเฮง24 มีหวยอะไรให้เลือกแทงบ้าง?",
-    a: "สมาชิกสามารถเลือกหวยลาว หวยฮานอย หวยรัฐบาลไทย หวยหุ้น และรายการอื่นตามที่ระบบเปิดรับในแต่ละวัน โดยควรตรวจสอบรอบและเวลาปิดรับก่อนส่งโพยทุกครั้ง",
+    q: "หวยเฮง789 มีหวยประเภทไหนให้เลือกแทง?",
+    a: "มีทั้งรัฐบาลไทย หวยฮานอย หวยลาว และหวยหุ้นต่างประเทศตามรายการที่ระบบเปิดรับ สมาชิกควรตรวจสอบตารางรอบ เวลาปิดรับ และอัตราจ่ายล่าสุดก่อนส่งโพยทุกครั้ง",
   },
   {
-    q: "หวยเฮง24 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ใช้กับทุกหวยหรือไม่?",
-    a: "อัตราจ่ายขึ้นอยู่กับประเภทหวยและรูปแบบการเดิมพันที่ร่วมเงื่อนไข จึงควรตรวจสอบตัวเลขที่แสดงในหน้าส่งโพยก่อนยืนยัน ไม่ควรถือว่าอัตรา 2 ตัว 100 และ 3 ตัว 1,000 ใช้เหมือนกันทุกรายการ",
+    q: "หวยเฮง789 แทงเลขเด็ด เลขดัง ได้ไม่จำกัดจริงหรือไม่?",
+    a: "สามารถเลือกเลขที่ต้องการได้ตามรายการที่เปิดรับ แต่จำนวนเงินสูงสุดอาจขึ้นอยู่กับประเภทหวย รอบ และวงเงินของเลขนั้น จึงควรตรวจสอบยอดที่ระบบอนุญาตก่อนยืนยันโพย โดยเฉพาะเลขที่มีผู้เลือกจำนวนมาก",
   },
   {
-    q: "หวยออกแล้วสามารถเช็คผลกับ หวยเฮง24 ได้ทันทีหรือไม่?",
-    a: "เมื่อผลของรอบนั้นได้รับการประกาศและระบบอัปเดตแล้ว สมาชิกสามารถตรวจสอบผลและสถานะโพยผ่านหน้าเว็บไซต์ได้ ระยะเวลาอัปเดตอาจแตกต่างกันตามหวยแต่ละประเภท จึงควรตรวจสอบผลจากแหล่งประกาศอย่างเป็นทางการประกอบด้วย",
+    q: "หวยเฮง789 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ใช้กับทุกหวยหรือไม่?",
+    a: "อัตราจ่ายอาจแตกต่างกันตามประเภทหวยและรูปแบบการเดิมพัน ไม่ควรถือว่าใช้กับทุกรายการเหมือนกัน สมาชิกควรตรวจสอบอัตรา 2 ตัวและ 3 ตัวที่แสดงในหน้าส่งโพยของแต่ละรอบก่อนยืนยัน",
   },
 ];
 
@@ -152,10 +162,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space that
 // splits the word — the copy must read identically with the tags removed. One
-// highlight colour only: #fdea83, the wordmark's light gold, against the inherited
-// body colour #f6e6cf (BRAND_TEXT). The paragraphs below carry no colour class of
+// highlight colour only: #ffefc2, the wordmark's light gold, against the inherited
+// body colour #fbe3d4 (BRAND_TEXT). The paragraphs below carry no colour class of
 // their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f6e6cf]` on the element holding the
+// `text-left text-base leading-relaxed text-[#fbe3d4]` on the element holding the
 // slot, so the prose inherits it and no page-level override can drift from the card.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself would be a
@@ -176,116 +186,130 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title="หวยเฮง24 เว็บเล่นหวยออนไลน์ หวยลาว ฮานอย รัฐบาลไทย พร้อมเช็คผลทันที">
-    <p>
-      หวยเฮง24
-      <strong class="text-[#fdea83]">เว็บเล่นหวยออนไลน์ที่รวมรายการยอดนิยมไว้ให้เลือกในบัญชีเดียว</strong>
-      <strong class="text-[#fdea83]">ทั้งหวยลาว หวยฮานอย หวยรัฐบาลไทย และหวยหุ้น</strong>
-      รองรับการเข้าใช้งานผ่านมือถือ สมาชิกสามารถเลือกเลข ส่งโพย ตรวจสอบรายการ และเช็คผลหลังประกาศผลของแต่ละรอบได้จากหน้าเว็บไซต์
-      <strong class="text-[#fdea83]">พร้อมช่องทางฝากถอนผ่านวอลเลทและธนาคารที่ระบบรองรับ</strong>
-      ช่วยให้จัดการตั้งแต่เลือกหวยไปจนถึงตรวจผลได้สะดวกในที่เดียว
-    </p>
-  </ContentBoxPremium>
+  <ContentBoxNeumorphism as="h1" title="หวยเฮง789 รับแทงหวย เลขเด็ด เลขดัง ไม่จำกัด แทงได้ไม่อั้น">
+    <div class="flex flex-col gap-5">
+      <p>
+        หวยเฮง789
+        <strong class="text-[#ffefc2]">เปิดให้เลือกแทงหวยออนไลน์หลายประเภทผ่านบัญชีเดียว</strong>
+        <strong class="text-[#ffefc2]">รองรับทั้งรัฐบาลไทย หวยฮานอย หวยลาว และหวยหุ้นต่างประเทศ</strong>
+        สมาชิกสามารถเลือกเลขเด็ด เลขดัง หรือชุดตัวเลขที่สนใจด้วยตัวเอง พร้อมตรวจสอบรอบ อัตราจ่าย และรายละเอียดโพยก่อนยืนยันรายการ ระบบรองรับการใช้งานผ่านมือถือ ช่วยให้ติดตามรอบหวย ส่งโพย และตรวจสอบผลได้จากหน้าเว็บไซต์โดยไม่ต้องสลับใช้งานหลายบัญชี
+      </p>
+      <p>
+        สำหรับคำว่า “ไม่จำกัด” และ “แทงได้ไม่อั้น”
+        <strong class="text-[#ffefc2]">ควรอ้างอิงวงเงินที่ระบบเปิดรับจริง</strong>
+        เนื่องจากหวยแต่ละประเภท เลขแต่ละชุด และแต่ละรอบอาจกำหนดวงเงินแตกต่างกัน
+      </p>
+    </div>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxTwoPremium
+  <ContentBoxTwoNeumorphism
     as="h2"
-    title="เว็บ หวยเฮง24 เข้าแทงหวยลาว หวยฮานอย หวยรัฐบาลไทย หวยหุ้น ครบ"
+    title="เว็บ หวยเฮง789 รัฐบาลไทย ฮานอย ลาว หุ้นต่างประเทศ ไม่จำกัด แทงได้ไม่อั้น"
     titleleft="ประเภทหวยที่เปิดรับ"
-    titleright="ข้อควรตรวจหลังส่งโพย">
+    titleright="ข้อควรตรวจก่อนส่งโพย">
     <p slot="left">
-      เว็บ หวยเฮง24
-      <strong class="text-[#fdea83]">รวมหวยหลายประเภทสำหรับสมาชิกที่ต้องการเลือกแทงตามรอบในแต่ละวัน</strong>
-      มีทั้งหวยลาวตามรายการที่เปิดรับ หวยฮานอยหลายรอบ หวยรัฐบาลไทยตามกำหนดออกรางวัล และหวยหุ้นตามตลาดที่ระบบรองรับ
-      <strong class="text-[#fdea83]">สามารถตรวจสอบเวลาเปิดรับ เวลาปิดรับ และอัตราจ่ายของแต่ละรายการก่อนเลือกเลขได้จากหน้าเดียว</strong>
+      เว็บ หวยเฮง789
+      <strong class="text-[#ffefc2]">รวมรายการหวยที่ได้รับความสนใจไว้หลายรูปแบบ</strong>
+      มีทั้งรัฐบาลไทยตามกำหนดออกรางวัล หวยฮานอยและหวยลาวตามรอบที่เปิดรับ รวมถึงหวยหุ้นต่างประเทศตามตลาดที่ระบบรองรับ
+      <strong class="text-[#ffefc2]">สมาชิกสามารถเลือกประเภทหวย ดูเวลาปิดรับ และตรวจสอบอัตราจ่ายก่อนเลือกตัวเลขได้จากบัญชีเดียว</strong>
     </p>
     <p slot="right">
-      หลังส่งโพยควรตรวจสอบชื่อหวย รอบเวลา เลขที่เลือก และยอดเดิมพันให้ถูกต้อง
-      <strong class="text-[#fdea83]">เมื่อมีการประกาศผลสามารถกลับมาเช็คผลและสถานะโพยผ่านบัญชีสมาชิกได้</strong>
-      <strong class="text-[#fdea83]">โดยผลรางวัลควรอ้างอิงข้อมูลอย่างเป็นทางการของหวยแต่ละประเภทเพื่อความถูกต้อง</strong>
+      ผู้ที่ติดตามเลขเด็ดหรือเลขดังสามารถนำตัวเลขมาเลือกแทงตามรูปแบบที่ระบบเปิดรับได้
+      <strong class="text-[#ffefc2]">แต่ตัวเลขดังกล่าวไม่สามารถรับประกันผลรางวัลได้</strong>
+      ก่อนส่งโพยควรตรวจสอบเลข ยอดเดิมพัน และวงเงินที่รับได้ในรอบนั้น
+      <strong class="text-[#ffefc2]">โดยเฉพาะเลขที่มียอดเดิมพันจำนวนมากซึ่งอาจมีข้อจำกัดแตกต่างจากเลขทั่วไป</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoNeumorphism>
 
-  <ContentBoxFloatingBadge as="h2" title="อัตราการจ่าย หวยเฮง24 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท">
-    <p>
-      หวยเฮง24 มีอัตราจ่ายสำหรับรายการที่เข้าเงื่อนไข โดยกำหนดตัวเลือก
-      <strong class="text-[#fdea83]">2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
-      ตามประเภทหวยและรูปแบบการแทงที่ระบบเปิดรับ
-      <strong class="text-[#fdea83]">สมาชิกควรตรวจสอบอัตราที่แสดงก่อนส่งโพยทุกครั้ง</strong>
-      เพราะหวยลาว ฮานอย รัฐบาลไทย และหวยหุ้นอาจกำหนดรายละเอียดแตกต่างกันในแต่ละรอบ
-    </p>
-  </ContentBoxFloatingBadge>
+  <ContentBoxCyberCut as="h2" title="อัตราการจ่าย หวยเฮง789 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท">
+    <div class="flex flex-col gap-5">
+      <p>
+        หวยเฮง789 มีอัตราจ่ายสำหรับรายการที่เข้าเงื่อนไข โดยมี
+        <strong class="text-[#ffefc2]">2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
+        ตามประเภทหวยและรูปแบบการเดิมพันที่กำหนด
+        <strong class="text-[#ffefc2]">สมาชิกสามารถตรวจสอบอัตราล่าสุดก่อนยืนยันโพย</strong>
+        เพื่อให้ทราบรายละเอียดของรายการและอัตราที่ใช้คำนวณอย่างชัดเจน
+      </p>
+      <p>
+        รัฐบาลไทย ฮานอย ลาว และหุ้นต่างประเทศอาจไม่ได้ใช้อัตราเดียวกันทุกประเภท
+        <strong class="text-[#ffefc2]">จึงควรยึดอัตราที่ปรากฏในหน้าส่งโพยของรอบนั้นเป็นหลัก</strong>
+      </p>
+    </div>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreePremium as="h3" title="2ตัว จ่าย100บาท">
+  <ContentBoxSevenThreeCyberCut as="h3" title="2ตัว จ่าย100บาท">
     <Picture
       slot="left"
       src={imgTwoDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[339, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 46px), 339px"
+      widths={[346, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ศิลปะโปสเตอร์อัตราจ่ายหวยของ หวยเฮง24 พื้นผ้าซาตินสีแดงเข้มมีลายไทยสีทองและริ้วแสงทองพาดทั่วภาพ ด้านซ้ายเป็นหญิงสาวผมเกล้าสวมชุดไทยสีขาวประดับทอง สวมสร้อยและกำไลทอง ยิ้มพร้อมแบมือขวาออกมาเชิญชวน มีลูกหวยสีขาวหมายเลข 5 และ 9 ลอยอยู่ริมซ้าย ด้านขวาบนเป็นโลโก้ หวยเฮง24 ตัวอักษรแดงคู่ทอง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราจ่ายหวย ในกรอบแดงขอบทอง ใต้ลงไปเป็นป้ายขอบทองคาดข้อความ 2ตัวจ่าย100บาท และมุมขวาล่างมีลูกหวยทองหมายเลข 24 กับ 6 วางอยู่บนกองเหรียญทอง"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#e0a52a]/60 shadow-[0_10px_30px_rgba(224,165,42,0.30)]"
+      alt="ภาพโปสเตอร์อัตราจ่ายหวยของ หวยเฮง789 พื้นหลังเป็นผ้าซาตินสีแดงเข้มมีริ้วแสงสีทองพาดเป็นวงรอบภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดไทยสีขาวประดับทอง สวมต่างหูและสร้อยทอง มือซ้ายชูลูกหวยสีแดงหมายเลข 2 ขึ้นข้างใบหน้า โดยมีลูกหวยสีขาวหมายเลข 5 อยู่ถัดไปทางซ้าย และแบมือขวาออกมาเหนือกองเหรียญทองกับสลากกินแบ่งที่เรียงอยู่ด้านล่าง มุมขวาบนมีลูกหวยสีแดงหมายเลข 8 มุมขวาล่างมีลูกหวยสีแดงหมายเลข 9 กลางภาพด้านขวาเป็นโลโก้ หวยเฮง789 ที่คำว่า หวย เป็นสีแดงและ เฮง789 เป็นสีทอง ใต้ลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราจ่ายหวย และป้ายสีดำขอบทองคาดข้อความ 2ตัวจ่าย100บาท"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f4bc5d]/60 shadow-[0_10px_30px_rgba(244,188,93,0.30)]"
     />
     <p slot="right">
       สำหรับรายการที่กำหนดอัตรา 2 ตัว จ่าย 100 บาท
-      <strong class="text-[#fdea83]">สมาชิกสามารถเลือกเลขตามประเภทการเดิมพันที่ระบบเปิดรับ</strong>
-      <strong class="text-[#fdea83]">พร้อมตรวจสอบยอดและอัตราจ่ายก่อนยืนยันโพย</strong>
-      ควรดูรายละเอียดให้ชัดเจนว่าอัตรานี้ใช้กับหวยและรูปแบบ 2 ตัวประเภทใด เพื่อให้ตรงกับรายการที่เลือก
+      <strong class="text-[#ffefc2]">สมาชิกสามารถเลือกตัวเลขและจำนวนเงินตามวงเงินที่ระบบเปิดรับ</strong>
+      ก่อนยืนยันควรตรวจสอบว่ารายการดังกล่าวใช้กับหวยประเภทใด
+      <strong class="text-[#ffefc2]">รวมถึงดูอัตราจ่ายและรายละเอียดของเลข 2 ตัวให้เรียบร้อย</strong>
+      เพื่อให้ตรงกับโพยที่ต้องการส่ง
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="3ตัว จ่าย1,000บาท">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="3ตัว จ่าย1,000บาท">
     <p slot="left">
       รายการที่กำหนดอัตรา 3 ตัว จ่าย 1,000 บาท
-      <strong class="text-[#fdea83]">ควรตรวจสอบประเภทเลขและเงื่อนไขของหวยรอบนั้นก่อนส่งโพย</strong>
-      เนื่องจากเลข 3 ตัวแต่ละรูปแบบอาจมีวิธีคำนวณและอัตราจ่ายแตกต่างกัน
-      <strong class="text-[#fdea83]">สมาชิกจึงควรยึดข้อมูลล่าสุดที่แสดงในระบบเป็นหลัก</strong>
+      <strong class="text-[#ffefc2]">ควรตรวจสอบประเภทเลขและเงื่อนไขของรอบก่อนส่งโพย</strong>
+      เนื่องจากการเดิมพันเลข 3 ตัวอาจมีหลายรูปแบบและใช้อัตราจ่ายแตกต่างกัน
+      <strong class="text-[#ffefc2]">สมาชิกควรตรวจสอบข้อมูลที่ระบบแสดงในขณะนั้นก่อนยืนยันรายการทุกครั้ง</strong>
     </p>
     <Picture
       slot="right"
       src={imgThreeDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[344, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 41px), 344px"
+      widths={[349, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 71px), 349px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ศิลปะโปสเตอร์อัตราจ่ายหวยของ หวยเฮง24 ชุดเดียวกัน พื้นผ้าซาตินสีแดงเข้มมีริ้วแสงทอง กองเหรียญทองและสลากกินแบ่งวางเรียงอยู่ด้านล่าง ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดไทยสีขาวประดับทอง ถือลูกหวยสีแดงหมายเลข 3 ไว้ในมือซ้ายและยื่นมือขวาออกมาข้างหน้า มีลูกหวยสีแดงหมายเลข 6 และ 9 อยู่ด้านบน ด้านขวาบนเป็นโลโก้ หวยเฮง24 ตัวอักษรแดงคู่ทอง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราจ่ายหวย ในกรอบแดงขอบทอง ใต้ลงไปเป็นป้ายขอบทองคาดข้อความ 3ตัวจ่าย1,000บาท และมุมขวาล่างเป็นลูกหวยสีขาวหมายเลข 5"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#fdea83]/55 shadow-[0_10px_30px_rgba(251,220,100,0.30)]"
+      alt="ภาพโปสเตอร์อัตราจ่ายหวยของ หวยเฮง789 ชุดเดียวกัน พื้นหลังเป็นผ้าซาตินสีแดงเข้มมีริ้วแสงสีทองสาดออกจากกลางภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดไทยสีขาวประดับทอง สวมต่างหูและสร้อยทอง มือซ้ายชูลูกหวยสีขาวหมายเลข 3 ไว้ข้างใบหน้า และชี้นิ้วมือขวามาข้างหน้า ด้านล่างเป็นกองเหรียญทองกับสลากกินแบ่งวางเรียงเต็มขอบภาพ มุมขวาล่างมีลูกหวยสีแดงหมายเลข 8 และลูกหวยสีแดงหมายเลข 5 มุมขวาบนเป็นโลโก้ หวยเฮง789 ที่คำว่า หวย เป็นสีแดงและ เฮง789 เป็นสีทอง ใต้ลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราจ่ายหวย และป้ายสีดำขอบทองคาดข้อความ 3ตัวจ่าย1,000บาท"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#dc2224]/60 shadow-[0_10px_30px_rgba(220,34,36,0.30)]"
     />
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSpecial as="h2" title="สมัครแทงหวย หวยเฮง24 ง่ายๆ 3ขั้นตอน" iconleft="📝" iconright="🔐">
+  <ContentBoxTwoCyberCut as="h2" title="สมัครแทงหวย หวยเฮง789 ง่ายๆ 3ขั้นตอน" titleleft="ขั้นตอนการสมัคร" titleright="หลังสมัครเรียบร้อย">
     <p slot="left">
-      การสมัคร หวยเฮง24
-      <strong class="text-[#fdea83]">สามารถทำผ่านมือถือได้ด้วย 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกหวย รอบ และเลขที่ต้องการ
-      <strong class="text-[#fdea83]">พร้อมตรวจสอบรายละเอียดก่อนส่งโพย</strong>
+      การสมัคร หวยเฮง789
+      <strong class="text-[#ffefc2]">สามารถดำเนินการผ่านมือถือได้ง่าย</strong>
+      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกประเภทหวย รอบ และตัวเลขที่ต้องการ
+      <strong class="text-[#ffefc2]">พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#fdea83]">เมื่อสมัครเสร็จสามารถใช้บัญชีเดียวติดตามหวยลาว หวยฮานอย หวยรัฐบาลไทย และหวยหุ้น</strong>
-      พร้อมตรวจสอบโพย เช็คผล และจัดการธุรกรรมผ่านช่องทางวอลเลทหรือธนาคารที่เว็บไซต์เปิดรองรับ
-      <strong class="text-[#fdea83]">ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผย OTP ให้บุคคลอื่น</strong>
+      หลังสมัครเรียบร้อย
+      <strong class="text-[#ffefc2]">สมาชิกสามารถใช้บัญชีเดียวติดตามรัฐบาลไทย ฮานอย ลาว และหุ้นต่างประเทศ</strong>
+      พร้อมตรวจสอบโพย ประวัติรายการ และผลของแต่ละรอบได้
+      <strong class="text-[#ffefc2]">ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBox as="h2" title="ติดต่อแอดมินเว็บ หวยเฮง24 เกี่ยวกับการแทงหวย 24 ชั่วโมง">
+  <ContentBox as="h2" title="ติดต่อแอดมินเว็บ หวยเฮง789 ได้ ตลอด 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
       <p>
-        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ส่งโพยไม่สำเร็จ เครดิตไม่แสดง เช็คผลไม่ได้ หรือมีข้อสงสัยเกี่ยวกับรอบหวยและอัตราจ่าย
-        <strong class="text-[#fdea83]">สามารถติดต่อแอดมิน หวยเฮง24 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดเพื่อช่วยให้ตรวจสอบได้ตรงรายการ
+        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ส่งโพยไม่สำเร็จ รายการไม่แสดง หรือต้องการสอบถามรอบหวย อัตราจ่าย และวงเงิน
+        <strong class="text-[#ffefc2]">สามารถติดต่อแอดมิน หวยเฮง789 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งรายละเอียดของรายการเพื่อช่วยให้ตรวจสอบได้ตรงจุด
       </p>
       <p>
-        กรณีเกี่ยวกับโพยควรแจ้งชื่อหวย รอบเวลา และรายละเอียดรายการ
-        <strong class="text-[#fdea83]">ส่วนปัญหาฝากถอนควรเตรียมเวลา จำนวนเงิน และหลักฐานธุรกรรมไว้จนกว่าจะตรวจสอบเสร็จ</strong>
-        <strong class="text-[#fdea83]">โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+        กรณีมีปัญหาเกี่ยวกับโพยควรแจ้งชื่อหวย รอบเวลา ตัวเลข และข้อมูลรายการที่เกี่ยวข้อง
+        <strong class="text-[#ffefc2]">ส่วนปัญหาธุรกรรมควรเก็บหลักฐานไว้จนกว่าจะตรวจสอบเสร็จ</strong>
+        <strong class="text-[#ffefc2]">และไม่ควรส่งรหัสผ่านหรือ OTP ให้บุคคลอื่นระหว่างการติดต่อ</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a
@@ -295,14 +319,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fdea83]/70 bg-gradient-to-r from-[#fdea83] via-[#fbdc64] to-[#bd7c13] p-3.5 text-center font-black text-[#2a0606] shadow-[0_10px_30px_rgba(224,165,42,0.40)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก หวยเฮง24
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffefc2]/70 bg-gradient-to-r from-[#ffefc2] via-[#f4bc5d] to-[#d99a10] p-3.5 text-center font-black text-[#1c0606] shadow-[0_10px_30px_rgba(244,188,93,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก หวยเฮง789
         </a>
       </div>
     </div>
   </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ หวยเฮง24" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ หวยเฮง789" faqs={faqs} />
 
   <LoginRtpSection />
 

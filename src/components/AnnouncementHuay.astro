@@ -3,8 +3,8 @@ import { BRAND_NAME } from "../lib/brandProfile";
 
 // Ticker for the two lottery sub-sections (/ตรวจหวย และ /แนวทาง) ซึ่งคงธีม Huay
 // แดง-ทองของตัวเองไว้ตามข้อยกเว้นใน SKILL.md Phase 4.5 ข้อ 5 — หน้าอื่นของเว็บ
-// ใช้ Announcement5 บนพาเลตต์แดงเข้ม-ทองของแบรนด์ ไฟล์นี้จึง "ไม่ต้อง" ตามพาเลตต์
-// §2 แต่ต้องไม่มีชื่อแบรนด์เก่าและไม่มีคำนอกหมวดหวยเหลืออยู่
+// ใช้ Announcement2 ไฟล์นี้จึงไม่ถูกสลับตาม แต่ต้องไม่มีชื่อแบรนด์เก่าและไม่มีคำ
+// นอกหมวดหวยเหลืออยู่
 //
 // ทั้งสองหน้าเรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่วิ่งจริงจึงเป็น
 // default ตัวนี้ — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ชื่อแบรนด์จึงมาจาก BRAND_NAME
@@ -14,32 +14,36 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // เนื้อหาทุกท่อนมาจาก src/assets/content.txt เท่านั้น — เว็บหวยล้วน ไม่มีใบอนุญาต
 // ไม่มีชื่อธนาคาร ไม่มียอดฝากขั้นต่ำ และไม่มีตัวเลขนอกชุดที่บรีฟระบุ
 // (2 ตัว จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · 3 ขั้นตอน · 24 ชั่วโมง)
-// รอบก่อน (หวยเต็ง) มีรายการย่อย "ลาวพัฒนา · ฮานอยปกติ/พิเศษ/วีไอพี · หวยหุ้น
-// ต่างประเทศ" ค้างอยู่ในสตริงนี้ ซึ่งเป็นคำของบรีฟรอบนั้น ไม่ใช่รอบนี้ — บรีฟรอบนี้
-// เขียนไว้แค่ หวยลาว · หวยฮานอย · หวยรัฐบาลไทย · หวยหุ้น จึงย่อกลับมาตามบรีฟ
+// ชุดรายการของบรีฟรอบนี้คือ รัฐบาลไทย · ฮานอย · ลาว · หุ้นต่างประเทศ เท่านั้น
+// รายการย่อยของบรีฟรอบก่อน (ลาวพัฒนา · ฮานอยปกติ/พิเศษ/วีไอพี) และมุม
+// "ฝากถอนวอลเลทและธนาคาร" ไม่ได้อยู่ในบรีฟรอบนี้ จึงถูกตัดออกทั้งหมด
+// มุมของบรีฟรอบนี้คือ เลขเด็ด/เลขดัง · ไม่จำกัด-แทงได้ไม่อั้น (พร้อมเฮดจ์วงเงิน
+// ที่ระบบเปิดรับจริง ซึ่งบรีฟเขียนมาเองและต้องอยู่คู่กันเสมอ) · บัญชีเดียวครบทุก
+// ประเภทหวย
 //
-// พาเลตต์ Huay แดง-ทอง-ดำ: แคปซูลพื้นดำอมแดง #1f0a0c ขอบทองลึก #8a6a0a ป้าย
-// "ประกาศ" ไล่เฉดทองสว่าง #e0a808 → #fde79a → #e0a808 (ต้องสว่างทั้งเส้นเพราะ
-// หมึกเป็นดำอมแดง #1a0203 — ทองลึกให้แค่ 3.8:1 ซึ่งตก) จุดนำหน้าข้อความเป็น
-// ทองรอง #f3c623 กับแดง #dc020e เนื้อความ #f0e2e2
+// พาเลตต์รอบนี้ (brand-spec §2 แดงนำ-ทองรอง): แคปซูลพื้น #2b0909 ขอบทองลึก
+// #a8690c ป้าย "ประกาศ" ไล่เฉด #d99a10 → #ffefc2 → #d99a10 (ปลายเฉดต้องไม่เข้ม
+// กว่า #d99a10 เพราะหมึกเป็นดำอมแดง #1c0606 ซึ่งได้ 8.0:1 ที่ปลายนี้ ส่วน #a8690c
+// ได้แค่ 3.8:1 จึงใช้เป็นเส้นขอบเท่านั้น) จุดนำหน้าข้อความเป็นทองรอง #f4bc5d กับ
+// แดงแบรนด์ #dc2224 เนื้อความ #fbe3d4
 const {
-  message = `${BRAND_NAME} เว็บเล่นหวยออนไลน์ รวมรายการยอดนิยมไว้ให้เลือกในบัญชีเดียว ทั้งหวยลาว หวยฮานอย หวยรัฐบาลไทย และหวยหุ้น เลือกเลข ส่งโพย ตรวจสอบรายการ และเช็คผลหลังประกาศผลของแต่ละรอบได้จากหน้าเว็บไซต์ รองรับการใช้งานผ่านมือถือ อัตราจ่ายของรายการที่เข้าเงื่อนไขคือ 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท ตามประเภทหวยและรูปแบบการแทงที่ระบบเปิดรับ ควรตรวจสอบอัตราที่แสดงก่อนส่งโพยทุกครั้ง เพราะแต่ละรายการอาจกำหนดรายละเอียดแตกต่างกันในแต่ละรอบ สมัครผ่านมือถือได้ง่ายๆ 3 ขั้นตอน ฝากถอนผ่านวอลเลทและธนาคารที่ระบบรองรับ และติดต่อแอดมิน ${BRAND_NAME} ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง`,
+  message = `${BRAND_NAME} เปิดรับแทงหวยออนไลน์ เลขเด็ด เลขดัง ผ่านบัญชีเดียว ครบทั้งหวยรัฐบาลไทย หวยฮานอย หวยลาว และหวยหุ้นต่างประเทศ เลือกเลข ส่งโพย ตรวจสอบรายการ และเช็คผลของแต่ละรอบได้จากหน้าเว็บไซต์ รองรับการใช้งานผ่านมือถือ อัตราจ่ายของรายการที่เข้าเงื่อนไขคือ 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท ซึ่งอาจแตกต่างกันตามประเภทหวยและรูปแบบการเดิมพัน จึงควรตรวจสอบอัตราที่แสดงในหน้าส่งโพยก่อนยืนยันทุกครั้ง ส่วนคำว่าไม่จำกัดและแทงได้ไม่อั้นให้อ้างอิงวงเงินที่ระบบเปิดรับจริงของแต่ละรอบ สมัครผ่านมือถือง่ายๆ 3 ขั้นตอน และติดต่อแอดมิน ${BRAND_NAME} ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง`,
 } = Astro.props;
 ---
 
 <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-3">
-  <div class="relative flex overflow-hidden rounded-full border border-[#8a6a0a]/60 bg-[#1f0a0c]/90 shadow-[0_5px_15px_rgba(5,1,2,0.7)] backdrop-blur-md">
+  <div class="relative flex overflow-hidden rounded-full border border-[#a8690c]/60 bg-[#2b0909]/90 shadow-[0_5px_15px_rgba(11,2,2,0.7)] backdrop-blur-md">
     <div
-      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#e0a808] via-[#fde79a] to-[#e0a808] px-6 py-2.5 font-black text-[#1a0203] shadow-[4px_0_15px_rgba(5,1,2,0.7)]">
+      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#d99a10] via-[#ffefc2] to-[#d99a10] px-6 py-2.5 font-black text-[#1c0606] shadow-[4px_0_15px_rgba(11,2,2,0.7)]">
       <span aria-hidden="true" class="mr-2 animate-pulse text-lg">📢</span> ประกาศ
     </div>
 
     <div class="marquee-container relative flex-1 overflow-hidden py-2.5 pr-6">
-      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#1f0a0c] to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#2b0909] to-transparent"></div>
 
-      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#f0e2e2]">
-        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#f3c623] shadow-[0_0_8px_rgba(243,198,35,0.8)]"></span>{message}</span>
-        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#dc020e] shadow-[0_0_8px_rgba(220,2,14,0.8)]"></span>{message}</span>
+      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#fbe3d4]">
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#f4bc5d] shadow-[0_0_8px_rgba(244,188,93,0.8)]"></span>{message}</span>
+        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#dc2224] shadow-[0_0_8px_rgba(220,34,36,0.8)]"></span>{message}</span>
       </div>
     </div>
   </div>
