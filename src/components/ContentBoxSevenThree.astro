@@ -9,45 +9,51 @@ export interface Props {
   as?: "h2" | "h3" | "h4";
 }
 const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
-// `title` is the shorthand for the right-hand column heading. This box only
-// ever carries docx article headings.
+// This is the 7fr_3fr half of the pair, so the WIDE column is the left one and
+// `title` is the shorthand for ITS heading — the mirror image of
+// ContentBoxSevenThreePremium, where `title` lands in the wide right column.
+// That is what lets the two blocks put their picture on opposite edges while
+// each keeps its heading in the text column. This box only ever carries docx
+// article headings; the narrow image column is passed no `titleright`, so the
+// block emits exactly one docx heading. No `whitespace-nowrap` anywhere.
 //
-// SEXYGAME666 (รอบชมพูนีออน-ม่วง-ดำ 2026-09-28): คู่กับ ContentBoxSevenThreePremium
-// ที่ไล่เฉดหัวข้อชมพูในหน้าเดียวกัน ใบนี้กลับด้านกัน — การ์ดโปร่งดำอมม่วง #140722 ใน
-// กรอบม่วงแบรนด์ #8b3df3 มีเส้นม่วงอ่อน #c9a4ff พาดขอบบนเป็นเส้นผมหนึ่งพิกเซล
-// หัวข้อฝั่งขวาเป็นม่วงอ่อน #c9a4ff ทึบ ไม่ไล่เฉด และมีแถบตั้งม่วง→ชมพูนำหน้า (เรียง
-// ตามโลโก้สองโทน SEXY ชมพู / GAME ม่วง / 666 ชมพู) คนละจังหวะสายตากับใบแรกทั้งที่
-// อยู่ในพาเลตต์เดียวกัน เนื้อความ #f2dcee (BRAND_TEXT) — ชุดทองเมทัลลิก-โครเมียมของ
-// PKG44 (#c8920a #fdd32a #c2c8d0 #f2f4f7 #8a9099 #4a3a12 #12100a #efe6d2)
-// ออกทั้งหมด
-const rightHeading = titleright ?? title;
+// NAZA99 (รอบทอง-ดำ 2026-10-02): คู่กับ ContentBoxSevenThreePremium ที่ไล่เฉดการ์ด
+// ในหน้าเดียวกัน ใบนี้กลับด้านกันทั้งเลย์เอาต์และผิว — การ์ดทึบผิวการ์ด #140c02 ในกรอบ
+// ทองแบรนด์ #e4b34d มีเส้นแชมเปญ #fdf2ac พาดขอบบนเป็นเส้นผมหนึ่งพิกเซล หัวข้อฝั่งซ้าย
+// เป็นแชมเปญ #fdf2ac ทึบ ไม่ไล่เฉด และมีแถบตั้งไล่ทองนำหน้า (แบรนด์นี้เป็นทองล้วน
+// ไม่มีสีคู่ตรงข้าม ความต่างมาจากระดับความสว่างของทองเท่านั้น) คนละจังหวะสายตากับใบแรก
+// ทั้งที่อยู่ในพาเลตต์เดียวกัน เนื้อความ #f3e8cf (BRAND_TEXT) — ชุดชมพูนีออน-ม่วงของ
+// SEXYGAME666 ที่ค้างในไฟล์นี้ (#8b3df3 #c9a4ff #ddc3ff #fa42b5 #140722 #4a0e33 #f2dcee)
+// และชุดทองเมทัลลิก-โครเมียมของ PKG44 (#c8920a #fdd32a #c2c8d0 #f2f4f7 #8a9099 #4a3a12
+// #12100a #efe6d2) ออกทั้งหมด
+const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8b3df3]/55 bg-[#140722]/94 p-8 text-[#f2dcee] shadow-[0_10px_30px_rgba(8,2,13,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#fa42b5]/60 hover:shadow-[0_15px_40px_rgba(250,66,181,0.3)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#c9a4ff]/80 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#8b3df3]/28 blur-[60px] transition-all duration-500 group-hover:bg-[#fa42b5]/22">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#e4b34d]/55 bg-[#140c02]/94 p-8 text-[#f3e8cf] shadow-[0_10px_30px_rgba(10,5,1,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#fdf2ac]/60 hover:shadow-[0_15px_40px_rgba(228,179,77,0.30)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#fdf2ac]/80 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#e4b34d]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#fdf2ac]/22">
     </div>
 
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 border-b border-[#4a0e33]/80 pb-6 text-left text-base leading-relaxed text-[#f2dcee] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
+      <article class="flex flex-col gap-4 border-b border-[#8a5f12]/80 pb-6 text-left text-base leading-relaxed text-[#f3e8cf] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
-          titleleft && (
-            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#c9a4ff] uppercase drop-shadow-[0_2px_10px_rgba(250,66,181,0.45)] md:text-left md:text-3xl">
-              {titleleft}
+          leftHeading && (
+            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#fdf2ac] uppercase drop-shadow-[0_2px_10px_rgba(228,179,77,0.45)]">
+              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdf2ac] via-[#e4b34d] to-[#8a5f12] shadow-[0_0_10px_rgba(228,179,77,0.6)]" />
+              {leftHeading}
             </HeadingTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f2dcee] md:pl-6">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f3e8cf] md:pl-6">
         {
-          rightHeading && (
-            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black text-[#c9a4ff] uppercase drop-shadow-[0_0_8px_rgba(139,61,243,0.45)]">
-              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ddc3ff] via-[#8b3df3] to-[#fa42b5] shadow-[0_0_10px_rgba(139,61,243,0.6)]" />
-              {rightHeading}
+          titleright && (
+            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#fdf2ac] uppercase drop-shadow-[0_0_8px_rgba(192,143,43,0.45)] md:text-left">
+              {titleright}
             </HeadingTag>
           )
         }

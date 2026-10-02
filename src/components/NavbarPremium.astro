@@ -7,15 +7,17 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// BRAVO168 (รอบน้ำเงินรอยัล-ทอง 2026-09-30): ไฟล์นี้ถูกเลื่อนขึ้นมาเป็น navbar ที่ใช้
-// งานจริงรอบนี้ (รอบก่อน CK268 ใช้ NavbarStyle6) ของเดิมที่ค้างอยู่เป็นพาเลตต์ทอง-ดำ
-// ของ WIN999 ย้ายทั้งไฟล์มาเป็นน้ำเงินรอยัล-ทองของ BRAVO168 แล้ว ไม่เหลือเฉดเดิมสักจุด
+// NAZA99 (รอบทอง-ดำ 2026-10-02): ไฟล์นี้ยังเป็น navbar ที่ใช้งานจริงต่อจากรอบก่อน
+// ไม่ได้ — รอบก่อน (หวย365) ใช้ NavbarStyle10 ไฟล์นี้จึงถูกเลื่อนขึ้นมาใช้รอบนี้
+// ของเดิมที่ค้างอยู่เป็นน้ำเงินรอยัล-ทองของ BRAVO168 ย้ายทั้งไฟล์มาเป็นทอง-ดำของ
+// NAZA99 แล้ว ไม่เหลือเฉดน้ำเงินสักจุด
 //
-// แกนสี: แถบนำทางกรมท่าเกือบดำ #02081a ยกระดับด้วย #072247 / #0e3f8f · ทองแบรนด์
-// #f4cb69 กับทองอ่อน #ffe39a เป็นเส้นใต้เมนู ขอบปุ่ม และแสงเรือง · ทองอ่อน #ffe39a
-// สงวนไว้ให้ลิงก์ที่ active · โครเมียมฟ้าขาว #e8f1ff/#a8bedd เป็นปลายเกรเดียนต์ให้ตรง
-// กับโลโก้ที่ BRAVO เป็นโครเมียมไล่น้ำเงินรอยัลแล้ว 168 เป็นทองตัน · เนื้อความ #dbe5f5
-// (BRAND_TEXT) ลดน้ำหนักด้วย opacity
+// แกนสี: แบรนด์นี้เป็นสีเดียวล้วน — โลโก้เป็นตัวอักษรทองเมทัลลิกบนพื้นโปร่ง และ
+// แบนเนอร์เป็นฉากทองบนพื้นดำอมน้ำตาล จึงไม่มีฮิวที่สองมาตัดกัน ความต่างทั้งหมด
+// สร้างจากระดับความสว่างของทองแทน: แถบนำทางดำอมทอง #140c02 ยกระดับด้วย #241404 ·
+// ทองแบรนด์ #e4b34d เป็นขอบและเส้นใต้เมนู · ทองอ่อน/แชมเปญ #fdf2ac สงวนไว้ให้ลิงก์
+// ที่ active และปลายสว่างของเกรเดียนต์ · ทองเข้ม #c08f2b กับทองลึก #8a5f12 เป็นปลาย
+// เข้ม · หมึก #1a1000 บนปุ่มทอง · เนื้อความ #f3e8cf (BRAND_TEXT) ลดน้ำหนักด้วย opacity
 //
 // One array for both the desktop bar and the mobile drawer.
 //
@@ -23,15 +25,16 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 // โปรโมชั่น, then the informational pages. /ทางเข้า is deliberately absent —
 // register.astro and login.astro are real pages on this brand, so a third link
 // to the same two destinations adds nothing. The page itself stays routed.
-// ไอคอน ⚽ ตรงกับแบรนด์ที่เป็นเว็บแทงบอล (บรีฟพูดถึงบอลเดี่ยว บอลสเต็ป และบอลสด) —
-// และไม่มี /ตรวจหวย หรือ /แนวทาง เพราะ BRAVO168 ไม่ใช่เว็บหวย ทั้งสองหน้าจึงถูก
-// ปิดไว้ใน src/pages-disabled/ ต่อจากรอบที่แล้ว
+// ไอคอน 🎰 ตรงกับแบรนด์ที่เป็นเว็บสล็อต (บรีฟพูดถึงวงล้อ ฟรีสปิน และตัวคูณ) —
+// และไม่มี /ตรวจหวย หรือ /แนวทาง เพราะ NAZA99 ไม่ใช่เว็บหวย ทั้งสองหน้าถูกย้าย
+// กลับไปจอดที่ src/pages-disabled/ รอบนี้ ถ้าเหลือลิงก์ไว้ verify-build จะจับเป็น
+// href ไปยังหน้าที่ไม่มีอยู่ (navbar นี้ขึ้นทุกหน้า)
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "⚽" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
@@ -39,13 +42,13 @@ const links = [
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[85px] w-full items-center justify-between rounded-b-2xl border-b border-[#f4cb69]/45 bg-[#02081a]/90 px-4 shadow-[0_10px_30px_rgba(244,203,105,0.30)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(255,227,154,0.55)]">
+    class="relative mx-auto flex h-[85px] w-full items-center justify-between rounded-b-2xl border-b border-[#e4b34d]/45 bg-[#140c02]/90 px-4 shadow-[0_10px_30px_rgba(228,179,77,0.30)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(253,242,172,0.55)]">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="โลโก้ BRAVO168 ตัวอักษร BRAVO ตัวหนาทรงเหลี่ยมไล่เฉดจากโครเมียมขาวเงินลงเป็นน้ำเงินรอยัลเข้ม มีเส้นขอบทองบางล้อมทุกตัว ต่อท้ายด้วยเลข 168 สีทองตันเงาวาว เรียงติดกันเป็นบรรทัดเดียว"
+            alt="โลโก้ NAZA99 สัญลักษณ์ตัว N สีทองในวงกลมทองเงาวาว ตามด้วยตัวอักษร NAZA99 ตัวหนาทรงเหลี่ยมสีทองเมทัลลิกไล่เฉดจากทองอ่อนลงทองเข้ม เรียงติดกันเป็นบรรทัดเดียว"
             loading="eager"
             widths={[140, 280, 420]}
             sizes="(max-width: 1279px) 140px, 180px"
@@ -54,10 +57,7 @@ const links = [
             fallbackFormat="webp"
           />
         ) : (
-          <span class="text-4xl font-black tracking-widest drop-shadow-md">
-            <span class="bg-gradient-to-r from-[#e8f1ff] via-[#a8bedd] to-[#1558c4] bg-clip-text text-transparent">BRAVO</span><span
-              class="bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] bg-clip-text text-transparent">168</span>
-          </span>
+          <span class="bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#8a5f12] bg-clip-text text-4xl font-black tracking-widest text-transparent drop-shadow-md">NAZA99</span>
         )
       }
     </a>
@@ -67,11 +67,11 @@ const links = [
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-widest uppercase transition-colors duration-300 xl:text-base ${isActive(item.path) ? "text-[#ffe39a]" : "text-[#dbe5f5]/70 hover:text-[#ffe39a]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-widest uppercase transition-colors duration-300 xl:text-base ${isActive(item.path) ? "text-[#fdf2ac]" : "text-[#f3e8cf]/70 hover:text-[#fdf2ac]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[3px] w-full rounded-t-full bg-gradient-to-r from-[#e8f1ff] via-[#f4cb69] to-[#c9922e] shadow-[0_-2px_10px_rgba(244,203,105,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[3px] w-full rounded-t-full bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#8a5f12] shadow-[0_-2px_10px_rgba(228,179,77,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -81,35 +81,35 @@ const links = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden items-center justify-center rounded-full border border-[#f4cb69]/55 bg-[#072247]/75 px-7 py-2.5 text-sm font-bold text-[#ffe39a] backdrop-blur-md transition-all duration-300 hover:bg-[#0e3f8f]/80 hover:text-[#ffe39a] hover:shadow-[0_0_15px_rgba(255,227,154,0.45)] xl:flex">
+        class="hidden items-center justify-center rounded-full border border-[#e4b34d]/55 bg-[#241404]/75 px-7 py-2.5 text-sm font-bold text-[#fdf2ac] backdrop-blur-md transition-all duration-300 hover:bg-[#3a2409]/85 hover:text-[#fdf2ac] hover:shadow-[0_0_15px_rgba(253,242,172,0.45)] xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] px-7 py-2.5 text-sm font-black text-[#0a1020] shadow-[0_4px_15px_rgba(244,203,105,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(244,203,105,0.65)] xl:flex">
+        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#c08f2b] px-7 py-2.5 text-sm font-black text-[#1a1000] shadow-[0_4px_15px_rgba(228,179,77,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(228,179,77,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#f4cb69]/40 bg-[#072247]/75 lg:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#e4b34d]/40 bg-[#241404]/75 lg:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f4cb69] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f4cb69] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f4cb69] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#e4b34d] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#e4b34d] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#e4b34d] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#f4cb69]/45 bg-[#02081a]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-400 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#e4b34d]/45 bg-[#140c02]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-400 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-5 py-3.5 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "bg-[#f4cb69]/25 text-[#ffe39a] shadow-inner" : "text-[#dbe5f5]/70 hover:bg-[#f4cb69]/12 hover:text-[#ffe39a]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-5 py-3.5 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "bg-[#e4b34d]/25 text-[#fdf2ac] shadow-inner" : "text-[#f3e8cf]/70 hover:bg-[#e4b34d]/12 hover:text-[#fdf2ac]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -119,10 +119,10 @@ const links = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] py-3.5 text-lg font-black text-[#0a1020] shadow-[0_5px_15px_rgba(244,203,105,0.4)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#c08f2b] py-3.5 text-lg font-black text-[#1a1000] shadow-[0_5px_15px_rgba(228,179,77,0.4)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-[#f4cb69]/55 bg-[#072247]/75 py-3.5 text-lg font-bold text-[#ffe39a]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-[#e4b34d]/55 bg-[#241404]/75 py-3.5 text-lg font-bold text-[#fdf2ac]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>
