@@ -12,7 +12,7 @@ export interface Props {
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎰" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a recommended-game
+// Without a `title` this box carries chrome (a login widget, a game-format
 // panel), never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
@@ -25,26 +25,25 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// NAZA99 (รอบทอง-ดำ 2026-10-02): โลโก้เป็นตัวอักษรทองเมทัลลิกล้วนบนพื้นโปร่ง (#e4b34d นำ
-// รองด้วย #fdf2ac) บนงานอาร์ตฉากทองอร่ามบนพื้นดำอมน้ำตาล #140c02 ที่มีเหรียญทอง ริ้วแสงทอง
-// และหญิงสาวในชุดขาว-ทอง แบรนด์นี้ไม่มีสีคู่ตรงข้าม สองคอลัมน์ของกล่องนี้จึงถูกแยกด้วยระดับ
-// ความสว่างของทอง — ฝั่งซ้ายเป็นทองสว่าง ป้ายไอคอนไล่จากแชมเปญ #fdf2ac ลงทองแบรนด์
-// #e4b34d ไปหาทองเข้ม #c08f2b ซึ่งเป็นจุดที่มืดที่สุดที่ยังรองหมึกบนพื้นทอง #1a1000 ได้
-// (7.0:1) ส่วนฝั่งขวาเป็นทองเข้ม ป้ายไอคอนไล่ทองแบรนด์ #e4b34d → ทองเข้ม #c08f2b →
-// ทองลึก #8a5f12 และใช้แชมเปญ #fdf2ac เป็นตัวอักษร เพราะหมึกเข้มบนทองลึกตกเกณฑ์
-// ข้อความป้ายฝั่งขวาใช้สีเนื้อความ #f3e8cf หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่แชมเปญ →
-// ทองแบรนด์ → ทองลึก เส้นคั่นเป็นทองลึก #8a5f12 ทั้งสองฝั่ง เนื้อความ #f3e8cf (BRAND_TEXT)
-// — ชุดแดงสด-ทองของ หวย365 (#dc0203 #f5282a #9c0201 #ffc93c #ffeab0 #c08a07 #240406
-// #180303 #f6e7e0) และของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #1c0606 #2b0909)
-// ออกครบทุกจุด
+// NATO168 (รอบทอง-เงิน-ดำ 2026-10-02): โลโก้เป็นสองโทนจริง — คำว่า NATO เป็นเงิน
+// เมทัลลิก ส่วนเลข 168 กับวงกลมตัว N เป็นทอง สองคอลัมน์ของกล่องนี้จึงถูกแยกด้วยโทน
+// ไม่ใช่ด้วยความสว่างของสีเดียว — ฝั่งซ้ายเป็นทอง ป้ายไอคอนไล่ทองอ่อน #fde8a8 ลง
+// ทองแบรนด์ #edb543 ไปหาทองลึก #a9761f บนหมึกเข้ม #1a1203 (ซึ่งเป็นจุดที่มืดที่สุดที่
+// ยังรองหมึกเข้มได้ที่ 4.7:1) ส่วนฝั่งขวาเป็นเงิน ป้ายไอคอนไล่เงิน #e6e6e6 → เงินหม่น
+// #a9a9a9 บนหมึกเข้มเดียวกัน ป้ายคอลัมน์ซ้ายเป็นทองแบรนด์ ฝั่งขวาเป็นเงิน หัวข้อ docx
+// (เมื่อมีการส่ง title มา) ไล่ทองอ่อน → ทองแบรนด์ → เงิน เส้นคั่นเป็น #3a2a0d ทั้งสอง
+// ฝั่ง เนื้อความ #f4ead3 (BRAND_TEXT)
+//
+// ชุดทองล้วนของ NAZA99 ที่เคยค้างในไฟล์นี้ (#e4b34d #fdf2ac #c08f2b #8a5f12 #140c02
+// #1a1000 #f3e8cf) ออกครบทุกจุดแล้ว รอบนี้เงินเป็นฮิวที่สองจริง ไม่ใช่ทองที่หรี่ลง
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#8a5f12] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdf2ac] via-[#e4b34d] to-[#8a5f12] shadow-[0_0_10px_rgba(228,179,77,0.5)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#8a5f12] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#3a2a0d] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde8a8] via-[#edb543] to-[#a9761f] shadow-[0_0_10px_rgba(237,181,67,0.5)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fde8a8] via-[#edb543] to-[#e6e6e6] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -52,13 +51,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e8cf]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead3]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#8a5f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#e4b34d] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#3a2a0d] pb-3 text-xl leading-normal font-black tracking-widest text-[#edb543] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e4b34d]/70 bg-gradient-to-br from-[#fdf2ac] via-[#e4b34d] to-[#c08f2b] text-sm text-[#1a1000] shadow-[0_5px_15px_rgba(228,179,77,0.40)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#edb543]/70 bg-gradient-to-br from-[#fde8a8] via-[#edb543] to-[#a9761f] text-sm text-[#1a1203] shadow-[0_5px_15px_rgba(237,181,67,0.40)]">
               {iconleft}
             </span>
             {titleleft}
@@ -68,13 +67,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e8cf]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead3]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#8a5f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#f3e8cf] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#3a2a0d] pb-3 text-xl leading-normal font-black tracking-widest text-[#e6e6e6] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#c08f2b]/70 bg-gradient-to-br from-[#e4b34d] via-[#c08f2b] to-[#8a5f12] text-sm text-[#fdf2ac] shadow-[0_5px_15px_rgba(192,143,43,0.35)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e6e6e6]/70 bg-gradient-to-br from-[#e6e6e6] to-[#a9a9a9] text-sm text-[#1a1203] shadow-[0_5px_15px_rgba(230,230,230,0.30)]">
               {iconright}
             </span>
             {titleright}

@@ -16,58 +16,55 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // no `whitespace-nowrap` survives anywhere in this file.
 //
 // It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. RE-DERIVED for หวย365's docx
-// H2 #6, "สมัครแทงหวยเว็บ หวย365 ง่ายๆ 3ขั้นตอน" — 38 code points, ~32 advancing
-// glyphs once the 6 zero-width Thai marks (ั ็ ่ ั ้ plus the ๆ repeat sign's
-// own spacing) are discounted. The heading carries `leading-normal` (1.5), the
-// badge adds py-2.5 (20px) and border-2 (4px), and the two ✦ spans plus gap-2
-// take ~48px of the line box. Budget is one full spare line beyond the measured
-// wrap everywhere:
+// the badge's own height minus that 24px offset. RE-DERIVED for NATO168's docx
+// H2 #6, "สมัครเล่นเกมสล็อต NATO168 ง่ายๆ 3ขั้นตอน" — 40 code points, ~34 advancing
+// glyphs once the 6 zero-width Thai marks (ั ่ ็ ่ ั ้) are discounted, i.e. two
+// glyphs LONGER than the title this padding was last sized against. The heading
+// carries `leading-normal` (1.5), the badge adds py-2.5 (20px) and border-2
+// (4px), and the two ✦ spans plus gap-2 take ~48px of the line box. Budget is
+// one full spare line beyond the measured wrap everywhere:
 //   base  text-base 16px -> 24px/line, ~218px of text width at 360px
 //         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
-//         so 32 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
+//         so 34 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
 //         bottom edge 72px vs pt-32/128px             -> 56px clear
-//   sm    text-xl 20px -> 30px/line, ~443px of text width
-//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~40 glyphs/line,
+//   sm    text-xl 20px -> 30px/line, ~473px of text width
+//         (w-[92%] 589 - px-8 64 - border 4 - sparks 48) = ~43 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
 //         bottom edge 60px vs pt-32/128px             -> 68px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
 //         bottom edge 72px vs md:pt-36/144px          -> 72px clear
-// The padding was BUMPED this round from pt-28/md:pt-32 to pt-32/md:pt-36 so
-// that all three *FloatingBadge variants carry the same pair — the sibling
-// ContentBoxFloatingBadge needs pt-32 for its 3-line H2, and leaving this one
-// shorter is how the next brand inherits a padding that was only ever sized for
-// a short title. Do not push it back down without redoing the arithmetic against
-// the real docx sentence the next brand puts in here.
+// pt-32/md:pt-36 therefore still clears, and all three *FloatingBadge variants
+// carry the same pair. Do not push it back down without redoing the arithmetic
+// against the real docx sentence the next brand puts in here.
 //
-// หวย365 (รอบแดงสด-ทอง 2026-10-02): การ์ดไล่จากผิวการ์ด #240406 ลงไปหาผิวแถบ #180303
-// ในกรอบแดงแบรนด์ #dc0203 ซึ่งต่างจาก ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบ
-// ที่วางบนหน้าแรกไม่อ่านเป็นการ์ดเดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแถบ #180303 ในกรอบ
-// แดงแบรนด์ ประกายสองข้างแยกตามคู่สีของงานอาร์ต — ทองอ่อน #ffeab0 ฝั่งซ้ายตามลายไทยทอง
-// และแดงสว่าง #f5282a ฝั่งขวาตามคำว่า "หวย" ที่เป็นแดงสดในโลโก้ ตัวหัวข้อไล่ทองล้วน
-// ทองอ่อน #ffeab0 → ทอง #ffc93c → ทองลึก #c08a07 ป้ายคอลัมน์ซ้ายเป็นทองอ่อน ฝั่งขวาเป็น
-// แดงสว่าง เนื้อความ #f6e7e0 (BRAND_TEXT) — ชุดน้ำเงินรอยัล-ทองของ BRAVO168 (#1558c4
-// #0e3f8f #2f86f0 #f4cb69 #ffe39a #c9922e #04142f #072247 #02081a #dbe5f5) และชุด
-// แดง-ทองของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909) ออกครบทุกจุด
+// NATO168 (รอบทอง-เงิน-ดำ 2026-10-02): การ์ดไล่จากผิวการ์ดดำสนิท #101010 ลงไปหาพื้นเพจ
+// #070707 ในกรอบทองแบรนด์ #edb543 ซึ่งต่างจาก ContentBoxCyberCut ที่เป็นมุมตัดไร้ป้ายลอย
+// ป้ายหัวข้อลอยบนพื้นเพจ #070707 ในกรอบทองแบรนด์ ประกายสองข้างแยกตามคู่สีของโลโก้ —
+// ทองอ่อน #fde8a8 ฝั่งซ้ายตามเลข 168 ที่เป็นทอง และเงิน #e6e6e6 ฝั่งขวาตามคำว่า NATO
+// ที่เป็นเงินเมทัลลิก ตัวหัวข้อไล่ทองล้วน ทองอ่อน #fde8a8 → ทองกลาง #fcdc73 → ทองลึก
+// #a9761f ป้ายคอลัมน์ซ้ายเป็นทองอ่อน ฝั่งขวาเป็นเงิน เนื้อความ #f4ead3 (BRAND_TEXT)
+//
+// ชุดแดงสด-ทองของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #f5282a #9c0201 #ffc93c #ffeab0
+// #c08a07 #240406 #180303 #f6e7e0) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#dc0203] bg-gradient-to-b from-[#240406] to-[#180303] p-8 pt-32 shadow-[0_10px_40px_rgba(8,1,1,0.85)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ffc93c]/26 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#f5282a]/30 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#edb543] bg-gradient-to-b from-[#101010] to-[#070707] p-8 pt-32 shadow-[0_10px_40px_rgba(4,3,0,0.85)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#fcdc73]/26 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#e6e6e6]/20 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#dc0203]/80 bg-[#180303] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(220,2,3,0.35)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffeab0]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#edb543]/80 bg-[#070707] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(237,181,67,0.35)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#fde8a8]">
             ✦
           </span>
-          <HeadingTag class="bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+          <HeadingTag class="bg-gradient-to-r from-[#fde8a8] via-[#fcdc73] to-[#a9761f] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#f5282a]">
+          <span aria-hidden="true" class="shrink-0 text-[#e6e6e6]">
             ✦
           </span>
         </div>
@@ -75,13 +72,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffeab0] drop-shadow-[0_0_5px_rgba(255,201,60,0.35)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead3]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#fde8a8] drop-shadow-[0_0_5px_rgba(237,181,67,0.35)]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0] md:border-l md:border-[#9c0201] md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#f5282a] drop-shadow-[0_0_5px_rgba(245,40,42,0.35)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead3] md:border-l md:border-[#3a2a0d] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#e6e6e6] drop-shadow-[0_0_5px_rgba(230,230,230,0.3)]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

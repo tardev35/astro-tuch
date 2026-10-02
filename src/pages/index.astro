@@ -1,159 +1,159 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/Announcement5.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq4.astro";
+import Faq from "../components/Faq2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgCashback from "../assets/slide1.png";
-import imgReferral from "../assets/slide2.png";
+import imgCashback from "../assets/slide2.png";
+import imgReferral from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND (หวย365 -> NAZA99). Zero file reuse from the
-// previous round: AnnouncementPremium replaces Announcement2, LatestWinnersPremium
-// replaces LatestWinners4, Faq4 replaces Faq3, ReviewCardSumo2 replaces
-// ReviewCardSumo, and the ContentBox shape-mix moves off Neumorphism /
-// TwoNeumorphism / CyberCut / SevenThreeCyberCut / SevenThreeNeumorphism /
-// TwoCyberCut onto Premium / TwoPremium / FloatingBadge / SevenThreePremium /
-// SevenThree (plain) / Special. NavbarPremium and FooterPremium are the layout's
-// pair this round (previously NavbarStyle10 / FooterCyber).
+// VARIANT ROTATION THIS ROUND (NAZA99 -> NATO168). Zero file reuse from the
+// previous round: Announcement5 replaces AnnouncementPremium, LatestWinners3
+// replaces LatestWinnersPremium, Faq2 replaces Faq4, ReviewCardSumo replaces
+// ReviewCardSumo2, and the ContentBox shape-mix moves off Premium / TwoPremium /
+// FloatingBadge / SevenThreePremium / SevenThree / Special onto CyberCut /
+// TwoCyberCut / Neumorphism / SevenThreeCyberCut / SevenThreeNeumorphism /
+// TwoFloatingBadge. NavbarStyle8 and FooterStyle3 are the layout's pair this
+// round (previously NavbarPremium / FooterPremium).
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and
 // every button page render their body through it by rule and cannot follow a
 // rotation, so it is always-live and the orchestrator rethemes it in the shared
-// step.
-// Every Neumorphism / CyberCut / Huay / Cyber file, Faq3, Announcement2,
-// LatestWinners4, ReviewCardSumo, NavbarStyle10 and FooterCyber stay on disk as
-// inventory for the next brand — none of them was deleted, and the previous
-// brand's copy and colour still inside them is expected drift, not a bug.
+// step — this page only passes it props.
+// Every Premium / Special / Huay / Cyber file, Faq4, AnnouncementPremium,
+// LatestWinnersPremium, ReviewCardSumo2, NavbarPremium and FooterPremium stay on
+// disk as inventory for the next brand — none of them was deleted, and the
+// previous brand's copy and colour still inside them is expected drift, not a bug.
 //
-// <Announcement /> runs bare on purpose: AnnouncementPremium's default message is
+// <Announcement /> runs bare on purpose: Announcement5's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things on
 // two pages of the same site.
 //
 // IMAGE ROLES FOR THIS DROP (2026-10-02). Two files are referenced from this page
 // and only two, and each pairing is read off the artwork itself:
-//   slide1.png — the gold-edged pill under the big gold โปรโมชั่น wordmark reads
-//     "คืนยอดเสีย โบนัส 0.3%" and she holds an open right palm forward, so it
-//     belongs to docx H3 #4. Imported as imgCashback.
-//   slide2.png — the same set, pill reads "แนะนำเพื่อน โบนัส 0.8%" and she points
-//     a finger forward with flowers in her hair, so it belongs to docx H3 #5.
-//     Imported as imgReferral.
+//   slide2.png — the gold-edged black pill under the big gold โปรโมชั่น wordmark
+//     reads "คืนยอดเสีย โบนัส" over a huge gold 0.3%, so it belongs to docx H3 #4.
+//     Imported as imgCashback.
+//   slide1.png — the same set, the pill reads "แนะนำเพื่อน โบนัส" over a huge gold
+//     0.8%, so it belongs to docx H3 #5. Imported as imgReferral.
 // Both files measure 600x400, so 600 is the top real candidate width — nothing
 // above it would be a real pixel — and each picture carries max-w-[600px] so the
 // art is never upscaled past its own bitmap. Each slide sits in a
 // ContentBoxSevenThree* image+text block, which is that family's hard cap of two
 // per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreePremium lays out
-// md:grid-cols-[3fr_7fr] so its picture goes in slot="left", and plain
-// SevenThree lays out md:grid-cols-[7fr_3fr] so its picture goes in slot="right"
-// while the paragraph keeps the wide column. The two pictures therefore alternate
-// sides instead of stacking down the same edge, and each `sizes` describes its own
-// 3fr column rather than the viewport (Premium: 1280px cap, gap-10, no inner
-// padding on the image column -> 338px; plain: 1400px cap, gap-8, md:pl-6 on the
-// image column -> 353px).
+// The two blocks mirror each other: SevenThreeCyberCut lays out
+// md:grid-cols-[3fr_7fr] so its picture goes in slot="left", and
+// SevenThreeNeumorphism lays out md:grid-cols-[7fr_3fr] so its picture goes in
+// slot="right" while the paragraph keeps the wide column. The two pictures
+// therefore alternate sides instead of stacking down the same edge, and each
+// `sizes` describes its own 3fr column rather than the viewport (CyberCut:
+// max-w-7xl/1280px cap, p-8, gap-8, no inner padding on the image column ->
+// 346px; Neumorphism: 1400px cap, p-8, gap-8, md:pl-8 on the image column ->
+// 350px).
 //
-// The alt text was written from THIS drop's artwork (a brown-black ground packed
-// with floating gold coins and sweeping gold light, a woman in a white-and-gold
-// dress with long gold earrings, the gold NAZA99 wordmark with its circled N, huge
-// gold Thai type reading โปรโมชั่น, a black gold-edged pill with the bonus line,
-// and a 777 slot reel with coins and chips in the lower right of slide1).
+// The alt text was written from THIS drop's artwork (a cream-and-gold ground of
+// swept gold satin ribbons and floating gold coins, a woman in a white-and-gold
+// outfit, the two-tone NATO168 wordmark with its circled N, huge gold Thai type
+// reading โปรโมชั่น under a small crown, a black gold-edged pill with the bonus
+// line, and the gold 3-D percentage figure).
 //
 // Deliberately NOT imported, and every file still on disk:
-//   slide3.png / slide4.png / banner2.png / banner3.png all predate this drop and
-//   belong to previous brands — importing any of them would emit a competitor's
-//   artwork into dist/, so there is no inline article illustration this round.
-//   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs and
-//   are never referenced from a page — the hero is the LCP element, so nothing here
-//   gets loading="eager" fetchpriority="high". og.png is the same: MainLayout owns it.
+//   banner2.png / banner3.png / slide3.png / slide4.png all predate this drop and
+//   belong to previous brands (LOTTO24 / LOTTOPLUS) — importing any of them would
+//   emit a competitor's artwork into dist/, so there is no inline article
+//   illustration this round. banner1.png and banner1-mobile.png belong to
+//   MainLayout's own pinned globs and are never referenced from a page — the hero
+//   is the LCP element, so nothing here gets loading="eager" fetchpriority="high".
+//   og.png is the same: MainLayout owns it.
 //
-// Vocabulary: NAZA99 is a เว็บสล็อตออนไลน์ — สล็อต, ค่ายเกม, เกมโบนัส, ฟรีสปิน, ตัวคูณ,
-// วงล้อ, สัญลักษณ์, ปั่น, แตก, อัปเดตเกมใหม่, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%,
-// สมัครสมาชิก, Login, แอดมิน 24 ชั่วโมง, PIN, OTP. The three brands before this one
-// sold lottery lines; every one of those words (หวย, โพย, ส่งโพย, เลข 2 ตัว / 3 ตัว,
-// เลขเด็ด, เลขดัง, งวด, อัตราจ่าย, หวยฮานอย / ลาว / หุ้น, บอล, ค่าน้ำ, ลีก, คาสิโนสด,
-// บาคาร่า …) is gone, and the page was rewritten from the brief rather than
-// find-and-replaced over the old sentences. Nothing here claims a licence, an
-// operator, a bank, a deposit minimum, a member count, a founding year or an RTP
-// figure, because the brief names none. The only game names are the three the brief
-// itself lists: Mahjong Ways 2, Fortune Tiger, Sweet Bonanza. The only figures are
-// the brief's own: 0.3%, 0.8%, 3 เกม, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging
-// ships with the copy ("ไม่สามารถใช้รับประกันผลลัพธ์ได้ เนื่องจากเกมสล็อตมีผลลัพธ์แบบสุ่ม",
-// "แต่ละรายการอาจกำหนดค่ายเกมและเงื่อนไขแตกต่างกัน จึงควรอ่านรายละเอียดก่อนกดรับ",
-// "จำนวนเกมและช่วงเวลาอัปเดตขึ้นอยู่กับค่ายและผู้ให้บริการ") — it is part of the
-// paragraphs, not trimmed as downbeat.
+// Vocabulary: NATO168 is a เว็บสล็อตออนไลน์ / พีจีเว็บตรง — สล็อต, พีจี, ค่ายเกม,
+// โบนัสไทม์, ฟรีสปิน, ตัวคูณ, วงล้อ, สัญลักษณ์, ปั่น, โบนัสทุกยูส, ไม่มีล็อคยูส,
+// คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, สมัครสมาชิก, Login, แอดมิน 24 ชั่วโมง, PIN, OTP.
+// Several brands before this one sold lottery lines; every one of those words
+// (หวย, โพย, ส่งโพย, เลข 2 ตัว / 3 ตัว, เลขเด็ด, เลขดัง, งวด, อัตราจ่าย, หวยฮานอย /
+// ลาว / หุ้น, บอล, ค่าน้ำ, ลีก, คาสิโนสด, บาคาร่า) is gone, and the page was written
+// from the brief rather than find-and-replaced over the old sentences. Nothing here
+// claims a licence, an operator, a bank, a deposit minimum, a member count, a
+// founding year or an RTP figure, because the brief names none. It names no game
+// titles either — unlike the previous round's brief, this one lists game FORMATS
+// (สล็อตวงล้อทั่วไป, ฟรีสปิน, ตัวคูณ, เกมที่มีฟีเจอร์โบนัส) and no titles, so neither
+// does the page. The only figures are the brief's own: 0.3%, 0.8%, 3 ขั้นตอน,
+// 24 ชั่วโมง. The brief's own hedging ships with the copy
+// ("ควรอ้างอิงเงื่อนไขจริงของเว็บไซต์", "อาจกำหนดประเภทสมาชิก เกมที่ร่วมรายการ หรือยอด
+// ที่ใช้คำนวณแตกต่างกัน", "จึงควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง") — it is part of
+// the paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used verbatim.
-// The description ships at 118 characters, the length the brief wrote it — it is
+// The description ships at 139 characters, the length the brief wrote it — it is
 // not padded up to 150.
-const pageTitle = "NAZA99 สล็อตเว็บใหม่ อัปฟีเจอร์การเล่น แตกหนัก ปั่นแตกง่าย";
+const pageTitle = "NATO168 เกมสล็อตโบนัสไทม์ พีจีเว็บตรง มือใหม่รับโบนัสทุกยูส";
 
-const pageDescription = "NAZA99 สล็อตเว็บใหม่ รวมค่ายฮิตติดอันดับ อัปฟีเจอร์การเล่นตลอดเดือน แตกหนัก ปั่นแตกง่าย พร้อมโบนัสและโปรโมชั่นจัดเต็ม";
+const pageDescription = "NATO168 เกมสล็อตโบนัสไทม์ ทางเข้าเล่นพีจีเว็บตรง เกมเดิมพันสำหรับมือใหม่ เล่นง่ายทุกเกมทุกค่าย รับโบนัสทุกยูส ไม่มีล็อคยูส";
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
 // H2-only. The two H3s are genuine headings — the two promotion sub-points, both
 // nested under the โปรโมชั่น H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  NAZA99 สล็อตเว็บใหม่ รวมค่ายฮิตติดอันดับ
-//          ContentBoxPremium, brief paragraph on line 4
-//    2 H2  NAZA99 อัปฟีเจอร์การเล่น 3เกม แตกหนัก ปั่นแตกง่ายที่สุด
-//          ContentBoxTwoPremium, lines 6+7 left / lines 8+9 right
-//    3 H2  โปรโมชั่นเล่นสล็อต NAZA99 จัดหนักตลอดทั้งเดือน
-//          ContentBoxFloatingBadge, line 11
+//    1 H1  NATO168 เกมสล็อตโบนัสไทม์ พีจีเว็บตรง มือใหม่รับโบนัสทุกยูส
+//          ContentBoxCyberCut, brief paragraph on line 4
+//    2 H2  ทางเข้าเล่น NATO168 สล็อตเว็บตรง รับโบนัสทุกยูส ไม่มีล็อค
+//          ContentBoxTwoCyberCut, line 6 left / line 7 right
+//    3 H2  โปรโมชั่นเล่นสล็อต NATO168 จัดหนักตลอดทั้งเดือน
+//          ContentBoxNeumorphism, line 9
 //    4 H3  คืนยอดเสีย โบนัส 0.3%
-//          ContentBoxSevenThreePremium + slide1 (imgCashback), line 13
+//          ContentBoxSevenThreeCyberCut + slide2 (imgCashback), line 11
 //    5 H3  แนะนำเพื่อน โบนัส 0.8%
-//          ContentBoxSevenThree (plain) + slide2 (imgReferral), line 15
-//    6 H2  สมัครเล่นสล็อต NAZA99 ง่ายๆ 3ขั้นตอน
-//          ContentBoxSpecial, line 17 left half / line 18 right half
-//    7 H2  ติดต่อแอดมิน NAZA99 ผู้ให้บริการได้ 24 ชั่วโมง
-//          ContentBox + LINE / สมัครสมาชิก buttons, lines 20+21
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ NAZA99
-//          Faq4 + faqs prop, lines 23-28
+//          ContentBoxSevenThreeNeumorphism + slide1 (imgReferral), line 13
+//    6 H2  สมัครเล่นเกมสล็อต NATO168 ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoFloatingBadge, line 15 left / line 16 right
+//    7 H2  ติดต่อแอดมิน NATO168 ผู้ให้บริการ 24 ชั่วโมง
+//          ContentBox + LINE / สมัครสมาชิก buttons, lines 18+19
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ NATO168
+//          Faq2 + faqs prop, lines 21-26
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
 // Every brief paragraph ships in full — all eleven of them, nothing merged or
-// summarised. Section 2 has FOUR paragraphs and all four ship: two per column,
-// each column's pair wrapped in a single `flex flex-col gap-5` div so the slot
-// still receives exactly one element. Sections 6 and 7 have two paragraphs each;
-// in Special they run one per half, in ContentBox they stack inside one wrapper.
-// The column labels passed to ContentBoxTwoPremium are this page's own layout
-// wording, not brief headings, and that variant renders them as <p>.
+// summarised. Sections 2 and 6 have two paragraphs each and run one per column;
+// section 7 has two and they stack inside one wrapper div so the slot still
+// receives exactly one element. The column labels passed to ContentBoxTwoCyberCut
+// and ContentBoxTwoFloatingBadge are this page's own layout wording, not brief
+// headings, and both variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// AnnouncementPremium, LatestWinnersPremium, LoginRtpSection and ReviewCardSumo2
-// render their titles as <p>/<span> with an aria-label on the section, and Faq4's
-// questions live inside <summary> as <span>. The non-brief widgets sit before
-// section 1 (the ticker, then the winners feed) and after section 8
-// (LoginRtpSection, ReviewCardSumo2, Navfoot) — never spliced between two content
-// sections.
+// Announcement5, LatestWinners3, LoginRtpSection and ReviewCardSumo render their
+// titles as <p>/<span> with an aria-label on the section, and Faq2's questions
+// live inside <summary> as <span>. The non-brief widgets sit before section 1
+// (the ticker, then the winners feed) and after section 8 (LoginRtpSection,
+// ReviewCardSumo, Navfoot) — never spliced between two content sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's own
 // defaults, which belong to whichever brand shipped last. The three pairs are the
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "NAZA99 มีเกมสล็อตอะไรน่าสนใจ?",
-    a: "ตัวอย่างเกมที่สามารถเลือกได้ตามค่ายที่ระบบรองรับ ได้แก่ Mahjong Ways 2, Fortune Tiger และ Sweet Bonanza ซึ่งมีจุดเด่นแตกต่างกันทั้งระบบตัวคูณ ฟรีสปิน และรูปแบบการจ่าย ก่อนเล่นควรตรวจสอบว่าเกมดังกล่าวเปิดให้บริการอยู่ในระบบหรือไม่",
+    q: "NATO168 เหมาะกับมือใหม่ที่เพิ่งเริ่มเล่นสล็อตหรือไม่?",
+    a: "เว็บไซต์มีเกมสล็อตหลายรูปแบบตามค่ายที่เปิดรองรับ มือใหม่สามารถเลือกเกมที่มีกติกาเข้าใจง่ายและตรวจสอบข้อมูลก่อนเริ่มเล่นได้ ควรอ่านกติกา ฟีเจอร์ และช่วงเดิมพันของแต่ละเกม รวมถึงกำหนดงบก่อนเริ่มทุกครั้ง",
   },
   {
-    q: "โปรโมชั่น NAZA99 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
-    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนตามยอดที่กำหนด ควรตรวจสอบรอบคำนวณ เกมที่ร่วมรายการ และเงื่อนไขล่าสุดก่อนกดรับ",
+    q: "NATO168 รับโบนัสทุกยูสจริงหรือไม่?",
+    a: "การได้รับโบนัสขึ้นอยู่กับเงื่อนไขของโปรโมชั่นในช่วงนั้น สมาชิกที่มีคุณสมบัติตรงตามข้อกำหนดสามารถตรวจสอบและรับสิทธิ์จากบัญชีได้ จึงควรอ่านรายละเอียดเรื่องเกมที่ร่วมรายการ ยอดคำนวณ และรอบรับก่อนใช้โปรโมชั่น",
   },
   {
-    q: "NAZA99 อัปเดตเกมสล็อตใหม่ตลอดเดือนหรือไม่?",
-    a: "จำนวนเกมและช่วงเวลาอัปเดตขึ้นอยู่กับค่ายและผู้ให้บริการ หาก NAZA99 มีการเพิ่มเกมใหม่ระหว่างเดือน สมาชิกสามารถตรวจสอบรายการล่าสุดจากหมวดเกมใหม่หรือประกาศบนเว็บไซต์ได้โดยตรง",
+    q: "โปรโมชั่น NATO168 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นสิทธิ์คืนยอดเสียจากยอดที่เข้าเงื่อนไข ส่วนโบนัส 0.8% เป็นโปรโมชั่นแนะนำเพื่อนจากยอดที่กำหนด ทั้งสองรายการอาจมีรอบและเงื่อนไขต่างกัน จึงควรตรวจสอบรายละเอียดล่าสุดก่อนกดรับ",
   },
 ];
 
@@ -161,10 +161,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space that
 // splits the word — the copy must read identically with the tags removed. One
-// highlight colour only: #fdf2ac, the logo's light champagne gold, against the
-// inherited body colour #f3e8cf (BRAND_TEXT). The paragraphs below carry no colour
-// class of their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f3e8cf]` on the element holding the
+// highlight colour only: #fde8a8, the logo's light gold, against the inherited body
+// colour #f4ead3 (BRAND_TEXT). The paragraphs below carry no colour class of their
+// own: every ContentBox* card in this mix already sets
+// `text-left text-base leading-relaxed text-[#f4ead3]` on the element holding the
 // slot, so the prose inherits it and no page-level override can drift from the card.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself would be a
@@ -185,126 +185,115 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title="NAZA99 สล็อตเว็บใหม่ รวมค่ายฮิตติดอันดับ">
+  <ContentBoxCyberCut as="h1" title="NATO168 เกมสล็อตโบนัสไทม์ พีจีเว็บตรง มือใหม่รับโบนัสทุกยูส">
     <p>
-      NAZA99
-      <strong class="text-[#fdf2ac]">สล็อตเว็บใหม่ที่รวบรวมเกมสล็อตหลายสไตล์จากค่ายยอดนิยมไว้ในระบบเดียว</strong>
-      มีทั้งเกมโบนัส ฟรีสปิน ตัวคูณ และฟีเจอร์ใหม่ที่ช่วยเพิ่มรูปแบบการเล่นให้หลากหลาย
-      <strong class="text-[#fdf2ac]">รองรับการเข้าใช้งานผ่านมือถือและคอมพิวเตอร์</strong>
-      สมาชิกสามารถเลือกเกม ตรวจสอบโปรโมชั่น และติดตามรายการผ่านบัญชีเดียวได้สะดวก พร้อมอัปเดตเกมตามรายการที่ผู้ให้บริการเปิดให้ใช้งานในแต่ละช่วง
+      NATO168 รวมเกมสล็อตออนไลน์สำหรับผู้ที่ต้องการเริ่มต้นเล่นผ่านระบบที่ใช้งานไม่ซับซ้อน
+      <strong class="text-[#fde8a8]">มีทั้งสล็อตพีจีและเกมจากค่ายที่เว็บไซต์เปิดรองรับ</strong>
+      สามารถเข้าเล่นผ่านมือถือได้โดยไม่ต้องสลับหลายแพลตฟอร์ม
+      <strong class="text-[#fde8a8]">พร้อมหมวดโบนัสไทม์สำหรับติดตามเกมและกิจกรรมที่เปิดสิทธิ์ในแต่ละช่วง</strong>
+      สมาชิกใหม่สามารถตรวจสอบโบนัส เกมยอดนิยม เครดิต และรายละเอียดโปรโมชั่นผ่านบัญชีของตนเองก่อนเริ่มเล่นได้ทันที
     </p>
-  </ContentBoxPremium>
+  </ContentBoxCyberCut>
 
-  <ContentBoxTwoPremium as="h2" title="NAZA99 อัปฟีเจอร์การเล่น 3เกม แตกหนัก ปั่นแตกง่ายที่สุด" titleleft="3 เกมแนะนำประจำหมวด" titleright="ฟีเจอร์และข้อควรทราบ">
-    <div slot="left" class="flex flex-col gap-5">
-      <p>
-        NAZA99 มีเกมสล็อตหลายรูปแบบให้เลือก โดย
-        <strong class="text-[#fdf2ac]">3 เกมที่เหมาะสำหรับนำมาจัดหมวดแนะนำ ได้แก่ Mahjong Ways 2, Fortune Tiger และ Sweet Bonanza</strong>
-        ซึ่งมีฟีเจอร์และรูปแบบการเล่นแตกต่างกัน ช่วยให้สมาชิกเลือกเกมได้ตามสไตล์ที่สนใจ ไม่ว่าจะเน้นตัวคูณ ฟรีสปิน หรือรูปแบบการจ่ายที่มีจังหวะโบนัสระหว่างเกม
-      </p>
-      <p>
-        Mahjong Ways 2 มาในธีมไพ่นกกระจอก
-        <strong class="text-[#fdf2ac]">จุดเด่นอยู่ที่ระบบตัวคูณและฟีเจอร์ฟรีสปิน</strong>
-        ทำให้รูปแบบของแต่ละรอบมีรายละเอียดให้ติดตามมากกว่าเกมสล็อตพื้นฐาน เหมาะสำหรับผู้ที่ชอบสล็อตธีมเอเชียและระบบโบนัสหลายจังหวะ
-      </p>
-    </div>
-    <div slot="right" class="flex flex-col gap-5">
-      <p>
-        Fortune Tiger
-        <strong class="text-[#fdf2ac]">ใช้ธีมเสือนำโชคและรูปแบบวงล้อที่เข้าใจง่าย</strong>
-        มีฟีเจอร์ภายในเกมที่ช่วยเพิ่มจังหวะการเล่น ส่วน Sweet Bonanza มาในธีมขนมและผลไม้
-        <strong class="text-[#fdf2ac]">ใช้ระบบจ่ายแบบกลุ่มสัญลักษณ์ พร้อมฟรีสปินและตัวคูณเป็นองค์ประกอบหลัก</strong>
-      </p>
-      <p>
-        คำว่า “แตกหนัก” หรือ “ปั่นแตกง่ายที่สุด”
-        <strong class="text-[#fdf2ac]">ไม่สามารถใช้รับประกันผลลัพธ์ได้ เนื่องจากเกมสล็อตมีผลลัพธ์แบบสุ่ม</strong>
-        สมาชิกควรตรวจสอบกติกา ช่วงเดิมพัน และรายละเอียดฟีเจอร์ของแต่ละเกมก่อนเริ่มเล่น
-      </p>
-    </div>
-  </ContentBoxTwoPremium>
+  <ContentBoxTwoCyberCut
+    as="h2"
+    title="ทางเข้าเล่น NATO168 สล็อตเว็บตรง รับโบนัสทุกยูส ไม่มีล็อค"
+    titleleft="ทางเข้าเล่นและรูปแบบเกม"
+    titleright="เงื่อนไขของโบนัสทุกยูส">
+    <p slot="left">
+      ทางเข้าเล่น NATO168
+      <strong class="text-[#fde8a8]">รองรับการเข้าสู่ระบบผ่านเว็บเบราว์เซอร์ทั้งบนมือถือและคอมพิวเตอร์</strong>
+      หลัง Login สามารถเลือกสล็อตพีจี รวมถึงเกมสล็อตจากค่ายอื่นที่เปิดให้บริการได้จากบัญชีเดียว มีเกมหลายรูปแบบตั้งแต่สล็อตวงล้อทั่วไป ฟรีสปิน ตัวคูณ ไปจนถึงเกมที่มีฟีเจอร์โบนัส
+      <strong class="text-[#fde8a8]">เหมาะสำหรับมือใหม่ที่ต้องการเริ่มจากเกมที่มีกติกาไม่ซับซ้อน</strong>
+    </p>
+    <p slot="right">
+      <strong class="text-[#fde8a8]">สมาชิกที่มีคุณสมบัติตรงตามโปรโมชั่นสามารถตรวจสอบโบนัสจากบัญชีได้โดยตรง</strong>
+      ส่วนคำว่า “รับโบนัสทุกยูส” และ “ไม่มีล็อคยูส”
+      <strong class="text-[#fde8a8]">ควรอ้างอิงเงื่อนไขจริงของเว็บไซต์</strong>
+      เพราะบางโปรโมชั่นอาจกำหนดประเภทสมาชิก เกมที่ร่วมรายการ หรือยอดที่ใช้คำนวณแตกต่างกัน
+    </p>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBoxFloatingBadge as="h2" title="โปรโมชั่นเล่นสล็อต NAZA99 จัดหนักตลอดทั้งเดือน">
+  <ContentBoxNeumorphism as="h2" title="โปรโมชั่นเล่นสล็อต NATO168 จัดหนักตลอดทั้งเดือน">
     <p>
-      โปรโมชั่น NAZA99
-      <strong class="text-[#fdf2ac]">มีสิทธิ์สำหรับสมาชิกให้เลือกตามแคมเปญที่เปิดในแต่ละเดือน ทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน</strong>
-      สามารถ Login เพื่อตรวจสอบยอดที่เข้าเกณฑ์ รอบคำนวณ และจำนวนโบนัสจากบัญชีสมาชิกได้โดยตรง
-      <strong class="text-[#fdf2ac]">แต่ละรายการอาจกำหนดค่ายเกมและเงื่อนไขแตกต่างกัน จึงควรอ่านรายละเอียดก่อนกดรับ</strong>
+      NATO168 มีโปรโมชั่นเกมสล็อตให้สมาชิกติดตามตลอดเดือน
+      <strong class="text-[#fde8a8]">โดยสิทธิ์หลักมีทั้งโบนัสคืนยอดเสียและโบนัสแนะนำเพื่อน</strong>
+      สามารถ Login เพื่อตรวจสอบโปรโมชั่น ยอดที่เข้าเกณฑ์ และรอบรับโบนัสได้จากบัญชีสมาชิก แต่ละรายการอาจมีเงื่อนไขเกี่ยวกับค่ายเกม รอบคำนวณ หรือยอดที่นำมาคิดโบนัส
+      <strong class="text-[#fde8a8]">จึงควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreePremium as="h3" title="คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeCyberCut as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <Picture
       slot="left"
       src={imgCashback}
       loading="lazy"
       fetchpriority="low"
-      widths={[338, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 46px), 338px"
+      widths={[346, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปสเตอร์โปรโมชั่นของ NAZA99 พื้นหลังสีดำอมน้ำตาลมีเหรียญทองลอยเต็มภาพและริ้วแสงสีทองพาดเป็นวงรอบ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดสีขาวประดับทอง สวมต่างหูทองเส้นยาว แบมือขวาหงายขึ้นมาข้างหน้า มุมบนขวาเป็นโลโก้ NAZA99 สีทองพร้อมสัญลักษณ์ตัว N ในวงกลม ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่มีเงาว่า โปรโมชั่น และใต้ลงมาเป็นป้ายสีดำขอบทองคาดข้อความ คืนยอดเสีย โบนัส 0.3% มุมล่างขวาเป็นวงล้อสล็อตเลข 777 วางอยู่กับกองเหรียญทองและชิป"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#e4b34d]/60 shadow-[0_10px_30px_rgba(228,179,77,0.30)]"
+      alt="ภาพโปสเตอร์โปรโมชั่นของ NATO168 พื้นหลังสีขาวครีมอมทองมีริ้วผ้าซาตินทองโค้งพาดและเหรียญทองลอยกระจาย ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาลสวมชุดสีขาวคาดแถบทองประดับตราตัว N แบมือขวาหงายขึ้นมาข้างหน้า มุมบนขวาเป็นโลโก้ NATO168 โดยคำว่า NATO เป็นสีเงินและเลข 168 เป็นสีทอง พร้อมสัญลักษณ์ตัว N ในวงกลม ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่มีมงกุฎเล็กด้านบนว่า โปรโมชั่น ใต้ลงมาเป็นป้ายสีดำขอบทองคาดข้อความ คืนยอดเสีย โบนัส และตัวเลขทองสามมิติขนาดใหญ่ว่า 0.3% มุมล่างขวาเป็นชิปคาสิโนสีดำขอบทองประดับตัว N วางซ้อนกับเหรียญทอง"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#edb543]/60 shadow-[0_10px_30px_rgba(237,181,67,0.30)]"
     />
     <p slot="right">
-      สมาชิกที่มียอดเสียตรงตามเงื่อนไข
-      <strong class="text-[#fdf2ac]">สามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ NAZA99 กำหนด</strong>
-      ระบบจะคำนวณจากยอดที่เข้าเกณฑ์และแสดงจำนวนโบนัสที่สามารถรับได้
-      <strong class="text-[#fdf2ac]">ควรตรวจสอบรอบตัดยอด เกมที่ร่วมรายการ และเงื่อนไขการใช้โบนัสก่อนรับสิทธิ์ทุกครั้ง</strong>
+      <strong class="text-[#fde8a8]">สมาชิกที่มียอดเสียตรงตามข้อกำหนดสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ NATO168 กำหนด</strong>
+      ระบบจะนำเฉพาะยอดที่เข้าเงื่อนไขมาคำนวณและแสดงโบนัสที่มีสิทธิ์รับ
+      <strong class="text-[#fde8a8]">ก่อนกดรับควรตรวจสอบค่ายเกม รอบตัดยอด และรายละเอียดของโปรโมชั่นให้ครบถ้วน</strong>
     </p>
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSevenThree as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
     <p slot="left">
-      สมาชิกสามารถ
-      <strong class="text-[#fdf2ac]">แชร์ลิงก์แนะนำ NAZA99 ให้เพื่อน</strong>
-      เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามข้อกำหนด
-      <strong class="text-[#fdf2ac]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
-      สามารถติดตามจำนวนเพื่อน ยอดคำนวณ และโบนัสที่มีสิทธิ์รับผ่านบัญชีสมาชิกตามรอบของโปรโมชั่น
+      <strong class="text-[#fde8a8]">สมาชิกสามารถแชร์ลิงก์แนะนำ NATO168 ให้เพื่อน</strong>
+      เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามเงื่อนไข
+      <strong class="text-[#fde8a8]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+      สามารถติดตามจำนวนเพื่อน ยอดคำนวณ และโบนัสผ่านบัญชีสมาชิกตามรอบที่เว็บไซต์กำหนด
     </p>
     <Picture
       slot="right"
       src={imgReferral}
       loading="lazy"
       fetchpriority="low"
-      widths={[353, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 67px), 353px"
+      widths={[350, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 70px), 350px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปสเตอร์โปรโมชั่นของ NAZA99 ชุดเดียวกัน พื้นหลังสีดำอมน้ำตาลมีเหรียญทองลอยเต็มภาพและริ้วแสงสีทองสาดออกจากกลางภาพ ด้านซ้ายเป็นหญิงสาวสวมชุดสีขาวประดับทองและมีดอกไม้ประดับที่ผม ชี้นิ้วมือขวามาข้างหน้า มุมบนขวาเป็นโลโก้ NAZA99 สีทองพร้อมสัญลักษณ์ตัว N ในวงกลม ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่มีเงาว่า โปรโมชั่น และใต้ลงมาเป็นป้ายสีดำขอบทองคาดข้อความ แนะนำเพื่อน โบนัส 0.8%"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#e4b34d]/60 shadow-[0_10px_30px_rgba(228,179,77,0.30)]"
+      alt="ภาพโปสเตอร์โปรโมชั่นของ NATO168 ชุดเดียวกัน พื้นหลังสีขาวครีมอมทองมีริ้วผ้าซาตินทองและเหรียญทองลอยเต็มภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสวมชุดกระโปรงสีขาวคาดแถบทองแบบกรีก ยกมือซ้ายแบหงายรองรับข้อความ มุมบนขวาเป็นโลโก้ NATO168 โดยคำว่า NATO เป็นสีเงินและเลข 168 เป็นสีทอง พร้อมสัญลักษณ์ตัว N ในวงกลม ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่มีมงกุฎเล็กด้านบนว่า โปรโมชั่น ใต้ลงมาเป็นป้ายสีดำขอบทองคาดข้อความ แนะนำเพื่อน โบนัส และตัวเลขทองสามมิติขนาดใหญ่ว่า 0.8% มุมล่างขวาเป็นกองชิปคาสิโนสีดำขอบทอง ลูกเต๋า ไพ่โพดำ กล่องของขวัญ และเหรียญทองกระจายอยู่"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#edb543]/60 shadow-[0_10px_30px_rgba(237,181,67,0.30)]"
     />
-  </ContentBoxSevenThree>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSpecial as="h2" title="สมัครเล่นสล็อต NAZA99 ง่ายๆ 3ขั้นตอน" iconleft="📝" iconright="🔐">
+  <ContentBoxTwoFloatingBadge as="h2" title="สมัครเล่นเกมสล็อต NATO168 ง่ายๆ 3ขั้นตอน" titleleft="ขั้นตอนการสมัคร" titleright="หลังสมัครเสร็จ">
     <p slot="left">
-      การสมัคร NAZA99
-      <strong class="text-[#fdf2ac]">สามารถทำผ่านมือถือได้ด้วย 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกค่ายและเกมสล็อตที่ต้องการ
-      <strong class="text-[#fdf2ac]">พร้อมตรวจสอบโปรโมชั่นหรือรายละเอียดเกมก่อนเริ่มเล่น</strong>
+      การสมัคร NATO168
+      <strong class="text-[#fde8a8]">สามารถดำเนินการผ่านมือถือได้ง่าย</strong>
+      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าสู่บัญชี ก่อน เลือกเกมสล็อตหรือค่ายที่ต้องการ
+      <strong class="text-[#fde8a8]">พร้อมตรวจสอบโบนัสและรายละเอียดเกมก่อนเริ่มเล่น</strong>
     </p>
     <p slot="right">
-      หลังเปิดบัญชีเรียบร้อย
-      <strong class="text-[#fdf2ac]">สมาชิกสามารถค้นหาเกมใหม่ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการผ่านบัญชีเดียว</strong>
-      <strong class="text-[#fdf2ac]">ควรตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+      หลังสมัครเสร็จ
+      <strong class="text-[#fde8a8]">สมาชิกสามารถใช้บัญชีเดียวค้นหาเกมพีจี</strong>
+      เกมใหม่ โปรโมชั่น และประวัติรายการต่าง ๆ ได้ ควรใช้ข้อมูลของตนเองในการสมัคร ตั้งรหัสผ่านที่คาดเดายาก
+      <strong class="text-[#fde8a8]">และไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoFloatingBadge>
 
-  <ContentBox as="h2" title="ติดต่อแอดมิน NAZA99 ผู้ให้บริการได้ 24 ชั่วโมง">
+  <ContentBox as="h2" title="ติดต่อแอดมิน NATO168 ผู้ให้บริการ 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
       <p>
-        หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมสล็อตไม่ได้ เกมใหม่ไม่แสดง เครดิตหรือโปรโมชั่นมีปัญหา
-        <strong class="text-[#fdf2ac]">สามารถติดต่อแอดมิน NAZA99 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดเพื่อช่วยให้เจ้าหน้าที่ตรวจสอบรายการได้ตรงจุด
+        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ เข้าเกมสล็อตไม่ได้ โบนัสไม่แสดง หรือมีข้อสงสัยเกี่ยวกับเงื่อนไขของโบนัสไทม์
+        <strong class="text-[#fde8a8]">สามารถติดต่อแอดมิน NATO168 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งรายละเอียดเพื่อช่วยให้ตรวจสอบปัญหาได้ตรงรายการ
       </p>
       <p>
-        หากเป็นปัญหาเกี่ยวกับเกมสล็อต
-        <strong class="text-[#fdf2ac]">ควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดเหตุ</strong>
-        ส่วนปัญหาด้านธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานที่เกี่ยวข้องไว้ตรวจสอบ
-        <strong class="text-[#fdf2ac]">โดยไม่ควรส่งรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
+        <strong class="text-[#fde8a8]">หากเป็นปัญหาเกี่ยวกับเกมควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดเหตุ</strong>
+        ส่วนรายการด้านธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ
+        <strong class="text-[#fde8a8]">โดยไม่ควรส่ง OTP หรือรหัสผ่านให้บุคคลอื่น</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a
@@ -314,14 +303,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fdf2ac]/70 bg-gradient-to-r from-[#fdf2ac] via-[#e4b34d] to-[#c08f2b] p-3.5 text-center font-black text-[#1a1000] shadow-[0_10px_30px_rgba(228,179,77,0.40)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก NAZA99
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fde8a8]/70 bg-gradient-to-r from-[#fde8a8] via-[#edb543] to-[#a9761f] p-3.5 text-center font-black text-[#1a1203] shadow-[0_10px_30px_rgba(237,181,67,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก NATO168
         </a>
       </div>
     </div>
   </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ NAZA99" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ NATO168" faqs={faqs} />
 
   <LoginRtpSection />
 
