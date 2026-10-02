@@ -15,7 +15,7 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// RE-DERIVED for หวยเฮง24's docx H3 #5 "3ตัว จ่าย1,000บาท" — 17 code points,
+// RE-DERIVED for หวย365's docx H3 #5 "3ตัว จ่าย1,000บาท" — 17 code points,
 // ~15 advancing glyphs once the 2 zero-width marks (ั ่) are discounted.
 // Measured here rather than inherited on trust. The heading keeps
 // `leading-normal` (1.5) and the badge adds py-2.5 (20px) plus border-2 (4px);
@@ -30,42 +30,40 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //   md    text-2xl 24px -> 36px/line, max-w-2xl caps text at ~604px -> 1 line.
 //         Budget 3 lines = 3x36 + 24 = 132, edge 108 vs md:pt-36 (144px)
 //                                          -> 36px clear
-// This title is short, but pt-32/md:pt-36 is what its sibling
-// ContentBoxFloatingBadge needs for the 3-line H2 it carries this round, and the
-// two *FloatingBadge files are kept in sync so the next brand cannot inherit a
-// padding that was only ever sized for the short one. Do not shrink it without
-// redoing the arithmetic against the real docx sentence the next brand puts in
-// here.
+// This title is short, but pt-32/md:pt-36 is what ContentBoxFloatingBadge needs
+// for the 3-line H2 it carries this round, and all three *FloatingBadge files
+// are kept in sync so the next brand cannot inherit a padding that was only ever
+// sized for the short one. Do not shrink it without redoing the arithmetic
+// against the real docx sentence the next brand puts in here.
 //
-// This block carries the image column on the RIGHT — and the grid was flipped to
-// md:grid-cols-[7fr_3fr] this round so the image lands in the NARROW 3fr column
-// and the paragraph gets the wide 7fr one. Left at [3fr_7fr] the image would
-// have taken 70% of the card and squeezed the docx paragraph into a 30% gutter.
-// Its sibling ContentBoxSevenThreePremium keeps [3fr_7fr] with the image on the
-// left, so the pair mirrors instead of stacking both pictures down one edge. The
-// page passes neither titleleft nor titleright, so the badge is the only heading
-// it emits.
+// This block carries the image column on the RIGHT — and the grid stays at
+// md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
+// paragraph gets the wide 7fr one. At [3fr_7fr] the image would take 70% of the
+// card and squeeze the docx paragraph into a 30% gutter. Its sibling
+// ContentBoxSevenThreePremium keeps [3fr_7fr] with the image on the left, so the
+// pair mirrors instead of stacking both pictures down one edge. The page passes
+// neither titleleft nor titleright, so the badge is the only heading it emits.
 //
-// หวยเฮง24 (รอบแดงเข้ม-ทอง 2026-10-01): การ์ดไล่จากผิวแผงยก #3d0808 ลงไปหาพื้นเพจ
-// แดงเกือบดำ #1a0505 ในกรอบแดงกลาง #720202 ป้ายหัวข้อลอยบนพื้นเพจในกรอบทองแบรนด์
-// #e0a52a ไล่เฉดทองอ่อน #fdea83 → ทองแบรนด์ #e0a52a → แดงแบรนด์ #8b0302 ตามลำดับ
-// สีในเวิร์ดมาร์กที่ "หวย" เป็นแดงเลือดนกขอบทองแล้วปิดด้วย "เฮง24" สีทอง (หัวข้อนี้สั้นและ
-// อยู่บรรทัดเดียวทุกเบรกพอยต์ หางไล่เฉดสีแดงจึงยังอ่านออก ต่างจากป้ายของ
-// ContentBoxFloatingBadge ที่ยาวสามบรรทัดและต้องใช้ทองล้วน) ออร่าสองมุมแยกกันด้วยคู่สี
-// เดียวกันคือแดงมุมขวาล่างกับทองมุมซ้ายบน เนื้อความ #f6e6cf (BRAND_TEXT) — ชุดน้ำเงิน
-// รอยัล-ทองของ BRAVO168 (#1558c4 #0e3f8f #2f86f0 #f4cb69 #ffe39a #072247 #04142f
-// #02081a #dbe5f5) ออกหมด
+// หวย365 (รอบแดงสด-ทอง 2026-10-02): การ์ดไล่จากผิวการ์ด #240406 ลงไปหาผิวแถบ #180303
+// ในกรอบแดงลึก #9c0201 ป้ายหัวข้อลอยบนพื้นเพจดำในกรอบทอง #ffc93c ไล่เฉดทองอ่อน #ffeab0
+// → ทอง #ffc93c → แดงแบรนด์ #dc0203 ตามคู่สีของโลโก้ที่คำว่า "หวย" เป็นแดงสดและงานอาร์ต
+// เป็นผ้าซาตินแดงกับลายไทยทอง (หัวข้อนี้สั้นและอยู่บรรทัดเดียวทุกเบรกพอยต์ หางไล่เฉดสีแดง
+// จึงยังอ่านออก ต่างจากป้ายของ ContentBoxFloatingBadge ที่ยาวสามบรรทัดและต้องใช้ทองล้วน)
+// ออร่าสองมุมแยกกันด้วยคู่สีเดียวกันคือแดงมุมขวาล่างกับทองมุมซ้ายบน เนื้อความ #f6e7e0
+// (BRAND_TEXT) — ชุดแดง-ทองของ หวยเฮง24/หวยเฮง789 (#e0a52a #fdea83 #8b0302 #c01616
+// #3d0808 #2e0707 #1a0505 #720202 #f6e6cf #dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909)
+// ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#720202] bg-gradient-to-b from-[#3d0808]/95 to-[#1a0505]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(20,3,3,0.85)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#8b0302]/38 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e0a52a]/26 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#9c0201] bg-gradient-to-b from-[#240406]/95 to-[#180303]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(8,1,1,0.85)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#dc0203]/38 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ffc93c]/26 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#e0a52a]/70 bg-[#1a0505] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(20,3,3,0.85)] sm:px-8">
-          <HeadingTag class="bg-gradient-to-r from-[#fdea83] via-[#e0a52a] to-[#8b0302] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#ffc93c]/70 bg-[#180303] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(8,1,1,0.85)] sm:px-8">
+          <HeadingTag class="bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#dc0203] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
         </div>
@@ -73,13 +71,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e6cf]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#fdea83]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffeab0]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e6cf] md:border-l md:border-[#720202]/80 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#e0a52a]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0] md:border-l md:border-[#9c0201]/80 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffc93c]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

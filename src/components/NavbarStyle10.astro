@@ -8,10 +8,12 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// ABM96 (รอบชมพู-เหลือง 2026-09-22): เดิมไฟล์นี้เป็นของ MHEEPOOH168 โทนแดงเลือด
-// หมู-ทอง ตอนนี้ย้ายมาเป็นชมพูบับเบิ้ลกัม #fd6494 กับเหลืองโลโก้ #feda2a บนพื้น
-// ชมพูเกือบดำ #12030a / #5c0e2e ล้อโลโก้ที่ตัว ABM เป็นชมพูและเลข 96 เป็นเหลือง
-const logoAlt = "โลโก้ ABM96 ตัวอักษร ABM แบบสามมิติอวบกลมสีชมพูวางอยู่แถวบน ใต้ลงมาเป็นตัวเลข 96 แบบสามมิติอวบกลมสีเหลือง บนพื้นสีขาว";
+// หวย365 (รอบแดงสด-ทอง 2026-10-02): navbar ที่ใช้งานจริงรอบนี้ — รอบก่อน หวยเฮง789
+// ใช้ NavbarHuay ไฟล์นี้เคยเป็นของ ABM96 โทนชมพูบับเบิ้ลกัม-เหลือง ตอนนี้ย้ายมาเป็น
+// แดงสด #dc0203 (สีของคำว่า "หวย" บนโลโก้) คู่กับทอง #ffc93c บนพื้นแดงเกือบดำ
+// #180303 / #6b0102 ชุดเดิมของ ABM96 (#fd6494 #feda2a #12030a #5c0e2e #b8325f
+// #ffc9dc #fbe3ee #ffe0ec #7d1440 #2a0a1a #fe86ae) ออกครบทุกจุดแล้ว
+const logoAlt = "โลโก้ หวย365 ตัวอักษรไทยหนาเอียงสามมิติ คำว่า หวย เป็นสีแดงสด ต่อด้วยเลข 3 สีดำ เลข 6 สีแดงสด และเลข 5 สีดำ บนพื้นสีขาว";
 
 // เมนูชุดเดียว ใช้ทั้งแถบบนจอใหญ่และเมนูเต็มจอบนมือถือ — เดิมไฟล์นี้ประกาศ
 // อาร์เรย์ซ้ำสองชุด ซึ่งเป็นเหตุให้คนแก้ที่เดียวแล้วอีกที่ค้าง
@@ -19,38 +21,49 @@ const logoAlt = "โลโก้ ABM96 ตัวอักษร ABM แบบส
 // ลำดับ: สมัครสมาชิก/เข้าสู่ระบบ ต่อจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
 //
-// ไม่มี ตรวจหวย/แนวทาง: ABM96 เป็นเว็บเดิมพันรวม (บาคาร่า สล็อต หวย ไฮโล บอล)
-// ไม่ใช่เว็บหวยเฉพาะทาง สองหน้านั้นถูกพักไว้ใน src/pages-disabled/ จึงไม่ใช่
-// route จริง การใส่ลิงก์ไว้จะเป็น href ตายที่ verify-build จับได้
+// มี ตรวจหวย/แนวทาง รอบนี้: หวย365 เป็นเว็บแทงหวยล้วน ทั้งสองไฟล์อยู่ใน
+// src/pages/ จริงและเป็น route จริง — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ถ้ารอบหน้าเป็น
+// แบรนด์สล็อต/คาสิโน ต้องถอดสองบรรทัดนี้ออกพร้อมกับย้ายไฟล์กลับไป pages-disabled
+// ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มีจริง
 //
 // ไม่มี ทางเข้า เพราะ toggle cta เปิดอยู่ /register กับ /login เป็นหน้าจริงใน
-// เมนูแล้ว ทางเข้าจะกลายเป็นลิงก์ที่สามที่พาไปที่เดียวกัน (หน้ายัง route อยู่)
+// เมนูแล้ว ทางเข้าจะกลายเป็นลิงก์ที่สามที่พาไปที่เดียวกัน (หน้ายัง route อยู่
+// และยังมีลิงก์จาก footer)
+//
+// ไอคอนเลือกให้ตรงหมวดเว็บหวย ไม่ใช่ไพ่/ลูกเต๋าของแบรนด์ก่อนหน้า และทุกตัวอยู่ใน
+// <span aria-hidden="true"> แยกจาก label เสมอ
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎲" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏅" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔎" },
+  { name: "แนวทาง", path: "/แนวทาง", icon: "📊" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎱" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏛️" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
+
+// แถวเมนูรอบนี้มี 9 รายการ (ตรวจหวย/แนวทาง กลับเข้ามา) ที่ช่วง lg จึงเป็น
+// text-xs gap-2 แล้วค่อยขยายเป็น text-sm gap-5 ที่ xl ซึ่งเป็นช่วงที่ปุ่ม CTA
+// คู่ขวาโผล่มาด้วย — ถ้าปล่อย text-sm gap-4 ไว้ที่ lg แถวจะกว้างเกิน 1024px
 ---
 
-<div class="hidden w-full border-b border-[#fd6494]/30 bg-gradient-to-r from-[#12030a] via-[#5c0e2e] to-[#12030a] px-4 py-1.5 font-sans text-xs font-bold text-[#fbe3ee]/85 lg:block">
+<div class="hidden w-full border-b border-[#dc0203]/35 bg-gradient-to-r from-[#180303] via-[#6b0102] to-[#180303] px-4 py-1.5 font-sans text-xs font-bold text-[#f6e7e0]/85 lg:block">
   <div class="mx-auto flex max-w-7xl justify-between">
     <div class="flex gap-4">
-      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#feda2a]">♥</span> {BRAND_NAME} เว็บเดิมพันออนไลน์เจ้าของเดิม ทางเข้าอัปเดตใหม่</span>
-      <span class="flex items-center gap-1 text-[#ffc9dc]"><span aria-hidden="true" class="text-[#feda2a]">✔</span> บาคาร่า · สล็อต · หวย · ไฮโล · บอล ในบัญชีเดียว</span>
+      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#ffc93c]">★</span> {BRAND_NAME} เว็บแทงหวยออนไลน์ แนวทางหวย กลุ่มหวย สถิติหวย ผลหวย</span>
+      <span class="flex items-center gap-1 text-[#ffeab0]"><span aria-hidden="true" class="text-[#ffc93c]">✔</span> รัฐบาลไทย · ฮานอย · ลาวพัฒนา · หวยหุ้นต่างประเทศ ในบัญชีเดียว</span>
     </div>
     <div class="flex gap-4">
-      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#ffc9dc]">สอบถามแอดมินเรื่องสมัคร ทางเข้า โปรโมชั่น และการใช้งานระบบ</a>
+      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#ffeab0]">สอบถามแอดมินเรื่องสมัคร ส่งโพย อัตราจ่าย และผลหวยได้ตลอด 24 ชั่วโมง</a>
     </div>
   </div>
 </div>
 
 <header class="sticky top-2 z-50 mt-2 w-full px-2 font-sans md:px-4">
   <nav
-    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#b8325f]/50 bg-[#12030a]/92 px-4 shadow-[0_10px_30px_rgba(184,50,95,0.25)] backdrop-blur-lg xl:px-8">
+    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#c08a07]/45 bg-[#180303]/92 px-4 shadow-[0_10px_30px_rgba(220,2,3,0.28)] backdrop-blur-lg xl:px-8">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
@@ -61,30 +74,30 @@ const links = [
             fetchpriority="high"
             widths={[120, 240, 360]}
             sizes="120px"
-            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(253,100,148,0.55)] xl:h-[45px]"
+            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(220,2,3,0.55)] xl:h-[45px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
             quality={45}
           />
         ) : (
-          <span class="bg-gradient-to-b from-[#ffc9dc] via-[#fd6494] to-[#feda2a] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(253,100,148,0.45)]">{BRAND_NAME}</span>
+          <span class="bg-gradient-to-b from-[#ffeab0] via-[#ffc93c] to-[#dc0203] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(220,2,3,0.45)]">{BRAND_NAME}</span>
         )
       }
     </a>
 
-    <div class="hidden h-full items-center gap-4 lg:flex xl:gap-6">
+    <div class="hidden h-full items-center gap-2 lg:flex xl:gap-5">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#ffc9dc] drop-shadow-[0_0_8px_rgba(253,100,148,0.5)]" : "text-[#fbe3ee]/85 hover:text-[#ffc9dc]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 text-xs font-bold tracking-wide transition-colors xl:text-sm ${isActive(item.path) ? "text-[#ffeab0] drop-shadow-[0_0_8px_rgba(220,2,3,0.5)]" : "text-[#f6e7e0]/85 hover:text-[#ffeab0]"}`}>
             <span aria-hidden="true" class="text-base transition-transform group-hover:scale-110">
               {item.icon}
             </span>
             <span>{item.name}</span>
             <div
               aria-hidden="true"
-              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#fd6494] to-[#feda2a] shadow-[0_0_8px_rgba(253,100,148,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#dc0203] to-[#ffc93c] shadow-[0_0_8px_rgba(220,2,3,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -94,35 +107,35 @@ const links = [
     <div class="z-50 flex items-center gap-3">
       <a
         href="/login"
-        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#b8325f]/60 bg-[#5c0e2e] px-5 py-2 text-sm font-bold text-[#ffe0ec] shadow-sm transition-all hover:border-[#feda2a]/65 hover:bg-[#7d1440] xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#dc0203]/60 bg-[#3d0506] px-5 py-2 text-sm font-bold text-[#f6e7e0] shadow-sm transition-all hover:border-[#ffc93c]/65 hover:bg-[#6b0102] xl:flex">
         <span aria-hidden="true">🔑</span>
         <span>เข้าสู่ระบบ</span>
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#fd6494] via-[#fe86ae] to-[#feda2a] px-5 py-2 text-sm font-black text-[#2a0a1a] shadow-[0_0_15px_rgba(253,100,148,0.45)] transition-all hover:scale-105 xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] px-5 py-2 text-sm font-black text-[#1a0303] shadow-[0_0_15px_rgba(255,201,60,0.45)] transition-all hover:scale-105 xl:flex">
         <span aria-hidden="true">📝</span>
         <span>สมัครสมาชิก</span>
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#b8325f]/45 bg-gradient-to-b from-[#5c0e2e] to-[#12030a] shadow-sm lg:hidden"
+        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#c08a07]/45 bg-gradient-to-b from-[#6b0102] to-[#180303] shadow-sm lg:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#feda2a] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#feda2a] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#feda2a] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#12030a]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#180303]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
     <div class="flex max-h-[88vh] w-full flex-col items-center space-y-3 overflow-y-auto px-6 py-10">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#ffc9dc] drop-shadow-[0_0_10px_rgba(253,100,148,0.6)]" : "text-[#fbe3ee]/85 hover:text-[#ffc9dc]"}`}>
+            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#ffeab0] drop-shadow-[0_0_10px_rgba(220,2,3,0.6)]" : "text-[#f6e7e0]/85 hover:text-[#ffeab0]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {item.icon}
             </span>
@@ -133,13 +146,13 @@ const links = [
       <div class="fs-item mt-4 flex w-full max-w-[280px] flex-col gap-4 pt-6">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#fd6494] to-[#feda2a] py-3.5 text-lg font-black text-[#2a0a1a] shadow-[0_0_20px_rgba(253,100,148,0.5)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] py-3.5 text-lg font-black text-[#1a0303] shadow-[0_0_20px_rgba(255,201,60,0.5)]">
           <span aria-hidden="true">📝</span>
           <span>สมัครสมาชิกใหม่</span>
         </a>
         <a
           href="/login"
-          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#b8325f]/60 bg-[#5c0e2e] py-3.5 text-lg font-bold text-[#ffe0ec] transition-colors hover:bg-[#7d1440]">
+          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#dc0203]/60 bg-[#3d0506] py-3.5 text-lg font-bold text-[#f6e7e0] transition-colors hover:bg-[#6b0102]">
           <span aria-hidden="true">🔑</span>
           <span>เข้าสู่ระบบ</span>
         </a>
@@ -149,11 +162,6 @@ const links = [
 </header>
 
 <style is:global>
-  nav,
-  header,
-  div {
-    font-family: var(--font-sans) !important;
-  }
   #hamburger-btn.active .line-1 {
     transform: translateY(7px) rotate(45deg);
   }

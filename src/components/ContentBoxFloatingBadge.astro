@@ -12,63 +12,63 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // overflowing the card and forcing horizontal scroll on a phone. Re-checked for
 // this brand: there is no `whitespace-nowrap` anywhere in this file.
 //
-// Clearance RE-DERIVED for หวยเฮง24 (2026-10-01), which puts this box on docx H2
-// #3: "อัตราการจ่าย หวยเฮง24 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท" — 55 code points,
-// ~49 advancing glyphs once the 6 zero-width Thai marks (ั ่ ั ่ ั ่) are
-// discounted. That is 14 glyphs LONGER than BRAVO168's title, the longest string
-// this variant has carried, so the padding was measured again and NOT inherited:
-// pt-28/md:pt-32 no longer clears it. It arrives as an H2, so the badge keeps
-// py-2.5 (20px) + border-2 (4px), with two ✦ spans plus gap-2 taking ~48px of
-// the line box:
+// Clearance RE-DERIVED for หวย365 (2026-10-02), which puts this box on docx H2
+// #3: "อัตราการจ่าย หวย365 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท" — 52 code points,
+// ~47 advancing glyphs once the 5 zero-width Thai marks (ั ่ ั ่ ั) are
+// discounted. That is 2 glyphs shorter than the previous brand's title, so the
+// padding is re-derived rather than inherited on trust. It arrives as an H2, so
+// the badge keeps py-2.5 (20px) + border-2 (4px), with two ✦ spans plus gap-2
+// taking ~48px of the line box:
 //   base  text-lg 18px -> 27px/line, ~218px of text width at 360px
 //         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~21 glyphs/line.
-//         It breaks at the brief's own spaces: "อัตราการจ่าย หวยเฮง24" 20 glyphs,
-//         "2ตัว จ่าย100บาท" 17, "จ่าย1,000บาท" 11 -> 3 lines.
+//         It breaks at the brief's own spaces: "อัตราการจ่าย หวย365" 17 glyphs,
+//         "2ตัว จ่าย100บาท" 15, "3ตัว จ่าย1,000บาท" 17 -> 3 lines.
 //         Budget 4 lines = 4x27 + 24 = 132, bottom edge 108 vs pt-32/128px
 //                                                -> 20px clear
 //         (the real 3 lines = 105, edge 81       -> 47px clear)
 //   sm    text-xl 20px -> 30px/line, ~443px of text width
 //         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~37 glyphs/line,
-//         so 49 glyphs wraps to 2. Budget 3 lines = 3x30 + 24 = 114,
+//         so 47 glyphs wraps to 2. Budget 3 lines = 3x30 + 24 = 114,
 //         edge 90 vs pt-32/128px                 -> 38px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~39 glyphs/line,
 //         so 2 lines. Budget 3 lines = 3x36 + 24 = 132,
 //         edge 108 vs md:pt-36/144px             -> 36px clear
 //         (the real 2 lines = 96, edge 72        -> 72px clear)
-// Every breakpoint clears with a full spare line of budget. pt-32/md:pt-36 is the
-// same pair its sibling ContentBoxSevenThreeFloatingBadge now uses, so the two
-// stay in sync. Do NOT shrink it on the assumption the box keeps a title this
-// length — redo the arithmetic with the real docx sentence the next brand puts
-// here.
+// Every breakpoint clears with a full spare line of budget. pt-32/md:pt-36 is
+// the pair all THREE *FloatingBadge files use this round
+// (ContentBoxSevenThreeFloatingBadge and ContentBoxTwoFloatingBadge were both
+// brought onto it), so none of them can inherit a padding that was only ever
+// sized for the shortest title. Do NOT shrink it on the assumption the box keeps
+// a title this length — redo the arithmetic with the real docx sentence the next
+// brand puts here.
 //
-// หวยเฮง24 (รอบแดงเข้ม-ทอง 2026-10-01): การ์ดไล่จากผิวการ์ดแดงเข้ม #2e0707 ลงไปหา
-// พื้นเพจแดงเกือบดำ #1a0505 ในกรอบทองแบรนด์ #e0a52a ป้ายหัวข้อลอยอยู่บนพื้นเพจใน
-// กรอบทองเดียวกัน ประกายสองข้างแยกกันด้วยคู่สีของเวิร์ดมาร์ก — ทองอ่อน #fdea83 ฝั่งซ้าย
-// ตาม "เฮง24" และแดงสว่าง #c01616 ฝั่งขวาตามคำว่า "หวย" ตัวหัวข้อเองไล่ทองล้วน
-// ทองอ่อน #fdea83 → ทองสว่าง #fbdc64 → ทองแบรนด์ #e0a52a ไม่ไปจบที่แดงแบรนด์แบบ
-// หัวข้อการ์ดใบอื่น เพราะหัวข้อนี้ยาวจนตกสามบรรทัดบนมือถือ หางไล่เฉดสีแดงเข้มบนป้ายพื้น
-// แดงเกือบดำจะอ่านไม่ออกทั้งบรรทัดสุดท้าย ออร่าสองมุมเป็นทองกับแดงแบรนด์ #8b0302
-// เนื้อความ #f6e6cf (BRAND_TEXT) — ชุดน้ำเงินรอยัล-ทองของ BRAVO168 (#1558c4
-// #0e3f8f #2f86f0 #f4cb69 #ffe39a #c9922e #04142f #072247 #02081a #dbe5f5) ออก
-// ครบทุกจุด
+// หวย365 (รอบแดงสด-ทอง 2026-10-02): การ์ดไล่จากผิวการ์ด #240406 ลงไปหาผิวแถบ #180303
+// ในกรอบทอง #ffc93c ป้ายหัวข้อลอยอยู่บนพื้นเพจดำในกรอบทองเดียวกัน ประกายสองข้างแยกกัน
+// ด้วยคู่สีของงานอาร์ต — ทองอ่อน #ffeab0 ฝั่งซ้าย และแดงสว่าง #f5282a ฝั่งขวาตามคำว่า
+// "หวย" ที่เป็นแดงสดในโลโก้ ตัวหัวข้อเองไล่ทองล้วน ทองอ่อน #ffeab0 → ทอง #ffc93c →
+// ทองลึก #c08a07 ไม่ไปจบที่แดงแบรนด์แบบหัวข้อการ์ดใบอื่น เพราะหัวข้อนี้ตกสามบรรทัดบน
+// มือถือ หางไล่เฉดสีแดงเข้มบนป้ายพื้นแดงเกือบดำจะอ่านไม่ออกทั้งบรรทัดสุดท้าย ออร่าสองมุม
+// เป็นทองกับแดงแบรนด์ #dc0203 เนื้อความ #f6e7e0 (BRAND_TEXT) — ชุดแดง-ทองของ
+// หวยเฮง24/หวยเฮง789 (#e0a52a #fdea83 #fbdc64 #8b0302 #c01616 #2e0707 #1a0505
+// #f6e6cf #dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909) ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#e0a52a]/55 bg-gradient-to-b from-[#2e0707]/95 to-[#1a0505]/95 p-8 pt-32 text-left text-base leading-relaxed text-[#f6e6cf] shadow-[0_10px_30px_rgba(224,165,42,0.24)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e0a52a]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#8b0302]/38 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#ffc93c]/55 bg-gradient-to-b from-[#240406]/95 to-[#180303]/95 p-8 pt-32 text-left text-base leading-relaxed text-[#f6e7e0] shadow-[0_10px_30px_rgba(255,201,60,0.24)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#ffc93c]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#dc0203]/38 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#e0a52a]/65 bg-[#1a0505] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(20,3,3,0.85)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#fdea83]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#ffc93c]/65 bg-[#180303] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(8,1,1,0.85)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffeab0]">
             ✦
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#fdea83] via-[#fbdc64] to-[#e0a52a] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#c01616]">
+          <span aria-hidden="true" class="shrink-0 text-[#f5282a]">
             ✦
           </span>
         </div>

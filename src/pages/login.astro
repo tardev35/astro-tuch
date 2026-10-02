@@ -2,50 +2,52 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement2.astro";
+import Announcement from "../components/AnnouncementCyber.astro";
 import { pageGraph } from "../lib/schema";
+import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
 
 // Button page, not an article: one heading from the ContentBox title and one
 // button. No section headings, no explanatory prose. Inventory: h1x1, h2x0, h3x0.
 // The hop to the operator happens on CLICK, not on page load — this page is
 // indexed and must not describe itself as an automatic redirect. The title and
-// description below were rewritten this round for exactly that reason.
+// description below are written for exactly that reason.
 // targetUrl is this brand's affiliate link — never edit it, and keep
 // rel="nofollow sponsored" on the anchor. data-cta-redirect is what
 // CtaRedirect's script binds to; leave the attribute in place.
 //
-// หวยเฮง789 (รอบแดงนำ-ทองรอง 2026-10-01 กลับขั้วจากรอบก่อนที่เป็นทองนำ):
-// ปุ่มนี้เป็นตัว SECONDARY ของคู่ จึงเป็นแบบ OUTLINE — ผิวการ์ด #2b0909 ในกรอบ
-// แดงลึก #ab0204 บนตัวอักษรทองรอง #f4bc5d แล้วยกผิวขึ้นเป็นแดงมืดสุด #5c0a0a
-// ตอน hover ส่วน /register สวมไล่เฉดทองเต็มใบ (#ffefc2 → #f4bc5d → #d99a10)
+// หวย365 (รอบแดงสด-ทอง 2026-10-02, brand-spec §2):
+// ปุ่มนี้เป็นตัว SECONDARY ของคู่ จึงเป็นแบบ OUTLINE — ผิวการ์ด #240406 ในกรอบ
+// แดงลึก #9c0201 บนตัวอักษรทอง #ffc93c แล้วยกผิวขึ้นเป็นแดงลึก #9c0201 ตอน hover
+// ส่วน /register สวมไล่เฉดทองเต็มใบ (#ffeab0 → #ffc93c → #c08a07)
 // ลำดับความสำคัญรอบนี้สื่อด้วย "ถมทอง vs กรอบแดง" — สองปุ่มที่ถมทองเหมือนกัน
 // จะอ่านเป็นปุ่มซ้ำกันสองปุ่ม
-// กฎคอนทราสต์ brand-spec §2: พื้นทอง = หมึกเข้ม #1c0606 (ไล่เฉดห้ามจบเข้มกว่า
-// #d99a10 = 7.0:1) · พื้นเข้ม = ตัวอักษรทอง #f4bc5d · ห้ามหมึกเข้มบนแดงแบรนด์
-// #dc2224 (3.4:1) พื้นแดงรับตัวอักษรขาวเท่านั้น · #a8690c (3.8:1) ใช้ได้เฉพาะขอบ
-// ชุดทองนำของ หวยเฮง24 (#e0a52a #fdea83 #fbdc64 #bd7c13 #2a0606 #1a0505 #f6e6cf
-// #e6c98f #8b0302 #c01616 #5a0202 #3d0808 #2e0707 rgba(224,165,42,*)
-// rgba(251,220,100,*) rgba(253,234,131,*) rgba(192,22,22,*) rgba(20,3,3,*))
-// ออกครบแล้ว ห้ามนำกลับมา
+// กฎคอนทราสต์ brand-spec §2: พื้นทอง = หมึกเข้ม #1a0303 (ไล่เฉดห้ามจบเข้มกว่า
+// #c08a07 = 6.4:1) · พื้นเข้ม = ตัวอักษรทอง #ffc93c · ห้ามตัวอักษรขาวบนพื้นทอง ·
+// ห้ามหมึกเข้มบนพื้นแดง พื้นแดงรับตัวอักษรขาวเท่านั้น
+// ชุดของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #1c0606 #2b0909 #ab0204
+// #e43434 #d99a10 #a8690c #5c0a0a rgba(244,188,93,*) rgba(220,34,36,*)
+// rgba(11,2,2,*)) ออกครบแล้ว ห้ามนำกลับมา
 //
-// Announcement หมุนมาเป็น Announcement2 ทั้งเว็บรอบนี้ (รอบก่อนเป็น Announcement5)
-// — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index ก็เรียกแบบ bare
+// Announcement หมุนมาเป็น AnnouncementCyber ทั้งเว็บรอบนี้ (รอบก่อนเป็น
+// Announcement2) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index
+// ก็เรียกแบบ bare
 //
-// หวยเฮง789 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่บอลและไม่ใช่สล็อต — บรีฟพูดถึงการเลือกเลขเด็ด
-// เลขดัง ส่งโพย ตรวจสอบรายการ อัตราจ่าย เวลาปิดรับ และผลของแต่ละรอบ ของหวยรัฐบาลไทย
-// หวยฮานอย หวยลาว และหวยหุ้นต่างประเทศ จากบัญชีเดียว
+// หวย365 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่บอลและไม่ใช่สล็อต — บรีฟรอบนี้พูดถึงแนวทางหวย
+// กลุ่มหวย สถิติหวยย้อนหลัง และผลหวยตามรอบที่ประกาศ ของหวยรัฐบาลไทย หวยฮานอย
+// หวยลาวพัฒนา และหวยหุ้นต่างประเทศ จากบัญชีเดียว
 // ตัวเลขที่ใช้ได้มีแค่ 2 ตัว จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · 3 ขั้นตอน ·
 // 24 ชั่วโมง
-// คำศัพท์ของแบรนด์ก่อนหน้า (สล็อต ฟรีสปิน ตัวคูณ ค่ายเกม RTP แตกง่าย เว็บตรง บอล
-// ค่าน้ำ อัตราต่อรอง ลีก บิลสเต็ป แฮนดิแคป คาสิโน บาคาร่า ไพ่ เกมยิงปลา) ห้ามหลงเหลือ
+// คำศัพท์ของแบรนด์ก่อนหน้า (เลขเด็ด เลขดัง ไม่จำกัด แทงได้ไม่อั้น ฮานอยปกติ/พิเศษ/
+// วีไอพี ฝากถอนวอลเลท สล็อต ฟรีสปิน RTP บอล ค่าน้ำ อัตราต่อรอง ลีก คาสิโน บาคาร่า)
+// ห้ามหลงเหลือ
 //
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 151
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 152
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = "หน้าเข้าสู่ระบบ หวยเฮง789 กดปุ่มเดียวเข้าบัญชีสมาชิกเพื่อเลือกประเภทหวย ส่งโพย ตรวจสอบอัตราจ่ายและเวลาปิดรับของแต่ละรอบ ผ่านเบราว์เซอร์บนมือถือได้ทันที";
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวเข้าบัญชีสมาชิก เพื่อเลือกประเภทหวย ส่งโพย ดูสถิติหวยย้อนหลัง และตรวจผลหวยตามรอบที่ประกาศ พร้อมตรวจอัตราจ่ายก่อนยืนยัน`;
 
 const graph = pageGraph(Astro, {
-  name: "เข้าสู่ระบบ หวยเฮง789",
+  name: `เข้าสู่ระบบ ${BRAND_NAME}`,
   description: pageDescription,
   breadcrumb: [
     { name: "หน้าแรก", path: "/" },
@@ -56,19 +58,19 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title="เข้าสู่ระบบ หวยเฮง789 ล็อกอินเข้าบัญชีสมาชิก ส่งโพยและเช็คผลได้ทันที" description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} ล็อกอินเข้าบัญชีสมาชิก ส่งโพยและดูผลหวยได้ทันที`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
 
-  <ContentBox title="เข้าสู่ระบบ หวยเฮง789" as="h1">
+  <ContentBox title={`เข้าสู่ระบบ ${BRAND_NAME}`} as="h1">
     <div class="flex justify-center py-8">
       <a
         href={targetUrl}
         rel="nofollow sponsored"
         data-cta-redirect
-        aria-label="เข้าสู่ระบบ หวยเฮง789"
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#ab0204] bg-[#2b0909] px-6 py-4 text-lg font-black text-[#f4bc5d] shadow-[0_10px_30px_rgba(11,2,2,0.85)] transition-all duration-300 hover:scale-105 hover:border-[#e43434] hover:bg-[#5c0a0a] hover:text-[#ffefc2] hover:shadow-[0_15px_40px_rgba(220,34,36,0.35)]">
+        aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#9c0201] bg-[#240406] px-6 py-4 text-lg font-black text-[#ffc93c] shadow-[0_10px_30px_rgba(8,1,1,0.85)] transition-all duration-300 hover:scale-105 hover:border-[#f5282a] hover:bg-[#9c0201] hover:text-[#ffeab0] hover:shadow-[0_15px_40px_rgba(220,2,3,0.35)]">
         เข้าสู่ระบบ
       </a>
     </div>

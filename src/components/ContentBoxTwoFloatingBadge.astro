@@ -16,56 +16,58 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // no `whitespace-nowrap` survives anywhere in this file.
 //
 // It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. RE-DERIVED for BRAVO168's docx
-// H2 #6, "สมัครแทงบอล BRAVO168 ง่ายๆ 3ขั้นตอน" — 35 code points, ~31 advancing
-// glyphs once the 4 zero-width Thai marks (ั ่ ั ้) are discounted. That is 7
-// glyphs SHORTER than GOT777's title, so the arithmetic is redone rather than
-// inherited. The heading carries `leading-normal` (1.5), the badge adds py-2.5
-// (20px) and border-2 (4px), and the two ✦ spans plus gap-2 take ~48px of the
-// line box. Budget is one full spare line beyond the measured wrap everywhere:
+// the badge's own height minus that 24px offset. RE-DERIVED for หวย365's docx
+// H2 #6, "สมัครแทงหวยเว็บ หวย365 ง่ายๆ 3ขั้นตอน" — 38 code points, ~32 advancing
+// glyphs once the 6 zero-width Thai marks (ั ็ ่ ั ้ plus the ๆ repeat sign's
+// own spacing) are discounted. The heading carries `leading-normal` (1.5), the
+// badge adds py-2.5 (20px) and border-2 (4px), and the two ✦ spans plus gap-2
+// take ~48px of the line box. Budget is one full spare line beyond the measured
+// wrap everywhere:
 //   base  text-base 16px -> 24px/line, ~218px of text width at 360px
 //         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
-//         so 31 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
-//         bottom edge 72px vs pt-28/112px             -> 40px clear
+//         so 32 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
+//         bottom edge 72px vs pt-32/128px             -> 56px clear
 //   sm    text-xl 20px -> 30px/line, ~443px of text width
 //         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~40 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
-//         bottom edge 60px vs pt-28/112px             -> 52px clear
+//         bottom edge 60px vs pt-32/128px             -> 68px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
 //         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
-//         bottom edge 72px vs md:pt-32/128px          -> 56px clear
-// pt-28/md:pt-32 matches its two sibling *FloatingBadge variants, so the three
-// stay in sync. Do not push it lower without redoing the arithmetic against the
-// real docx sentence the next brand puts in here.
+//         bottom edge 72px vs md:pt-36/144px          -> 72px clear
+// The padding was BUMPED this round from pt-28/md:pt-32 to pt-32/md:pt-36 so
+// that all three *FloatingBadge variants carry the same pair — the sibling
+// ContentBoxFloatingBadge needs pt-32 for its 3-line H2, and leaving this one
+// shorter is how the next brand inherits a padding that was only ever sized for
+// a short title. Do not push it back down without redoing the arithmetic against
+// the real docx sentence the next brand puts in here.
 //
-// BRAVO168 palette (น้ำเงินรอยัล-ทอง 2026-09-30): เวิร์ดมาร์กเขียน BRAVO เป็นโครเมียม
-// ไล่น้ำเงินรอยัล #1558c4 แล้วปิดด้วยเลข 168 ทองตัน #f4cb69 การ์ดจึงไล่จากผิวการ์ด
-// กรมท่า #04142f ลงไปหาพื้นเพจ #02081a ในกรอบน้ำเงินรอยัล #1558c4 ซึ่งต่างจาก
-// ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบที่วางบนหน้าแรกไม่อ่านเป็นการ์ด
-// เดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแผงยก #072247 ในกรอบน้ำเงินรอยัล ประกายสองข้าง
-// แยกตามคู่สีของโลโก้ — ทองอ่อน #ffe39a ฝั่งซ้ายตามเลข 168 และฟ้าสว่าง #2f86f0 ฝั่ง
-// ขวาตามคำว่า BRAVO ตัวหัวข้อไล่ทองล้วน ทองอ่อน #ffe39a → ทองแบรนด์ #f4cb69 → ทองลึก
-// #c9922e ป้ายคอลัมน์ซ้ายเป็นทองอ่อน ฝั่งขวาเป็นฟ้าสว่าง เนื้อความ #dbe5f5
-// (BRAND_TEXT) — ชุดทอง-แดงเลือดหมูของ GOT777 (#f5c518 #ffe9a8 #96690f #d21622
-// #7b0304 #4c0301 #241108 #160b06 #0a0503 #ece0cb #bdae92) ออกครบทุกจุด
+// หวย365 (รอบแดงสด-ทอง 2026-10-02): การ์ดไล่จากผิวการ์ด #240406 ลงไปหาผิวแถบ #180303
+// ในกรอบแดงแบรนด์ #dc0203 ซึ่งต่างจาก ContentBoxFloatingBadge ที่ใช้กรอบทอง ทำให้สองใบ
+// ที่วางบนหน้าแรกไม่อ่านเป็นการ์ดเดียวกันซ้ำสองรอบ ป้ายหัวข้อลอยบนผิวแถบ #180303 ในกรอบ
+// แดงแบรนด์ ประกายสองข้างแยกตามคู่สีของงานอาร์ต — ทองอ่อน #ffeab0 ฝั่งซ้ายตามลายไทยทอง
+// และแดงสว่าง #f5282a ฝั่งขวาตามคำว่า "หวย" ที่เป็นแดงสดในโลโก้ ตัวหัวข้อไล่ทองล้วน
+// ทองอ่อน #ffeab0 → ทอง #ffc93c → ทองลึก #c08a07 ป้ายคอลัมน์ซ้ายเป็นทองอ่อน ฝั่งขวาเป็น
+// แดงสว่าง เนื้อความ #f6e7e0 (BRAND_TEXT) — ชุดน้ำเงินรอยัล-ทองของ BRAVO168 (#1558c4
+// #0e3f8f #2f86f0 #f4cb69 #ffe39a #c9922e #04142f #072247 #02081a #dbe5f5) และชุด
+// แดง-ทองของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909) ออกครบทุกจุด
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#1558c4] bg-gradient-to-b from-[#04142f] to-[#02081a] p-8 pt-28 shadow-[0_10px_40px_rgba(1,4,12,0.85)] md:pt-32">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f4cb69]/26 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#2f86f0]/30 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#dc0203] bg-gradient-to-b from-[#240406] to-[#180303] p-8 pt-32 shadow-[0_10px_40px_rgba(8,1,1,0.85)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ffc93c]/26 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#f5282a]/30 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#1558c4]/80 bg-[#072247] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(21,88,196,0.35)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffe39a]">
+        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#dc0203]/80 bg-[#180303] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(220,2,3,0.35)] sm:px-8">
+          <span aria-hidden="true" class="shrink-0 text-[#ffeab0]">
             ✦
           </span>
-          <HeadingTag class="bg-gradient-to-r from-[#ffe39a] via-[#f4cb69] to-[#c9922e] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+          <HeadingTag class="bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#2f86f0]">
+          <span aria-hidden="true" class="shrink-0 text-[#f5282a]">
             ✦
           </span>
         </div>
@@ -73,13 +75,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5f5]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffe39a] drop-shadow-[0_0_5px_rgba(244,203,105,0.35)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffeab0] drop-shadow-[0_0_5px_rgba(255,201,60,0.35)]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbe5f5] md:border-l md:border-[#0e3f8f] md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#2f86f0] drop-shadow-[0_0_5px_rgba(21,88,196,0.35)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0] md:border-l md:border-[#9c0201] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#f5282a] drop-shadow-[0_0_5px_rgba(245,40,42,0.35)]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

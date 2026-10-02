@@ -1,31 +1,46 @@
 ---
-// The default is what every bare <Announcement /> on a sub-page renders, so it
-// must be the CURRENT brand's copy — index.astro also passes an explicit
-// message, and the two are kept in step deliberately.
+import { BRAND_NAME } from "../lib/brandProfile";
+
+// หวย365 (รอบแดงสด-ทอง 2026-10-02): ticker ที่ใช้งานจริงรอบนี้ — รอบก่อน หวยเฮง789
+// ใช้ Announcement2 ไฟล์นี้เคยเป็นของ KINGDOM66 โทนทองบนดำอมเขียว ตอนนี้ย้ายมาเป็น
+// แคปซูลพื้นแดงเกือบดำ #180303 ขอบทอง #ffc93c ป้าย "ประกาศ" ไล่เฉดทองลึก #c08a07 →
+// ทองอ่อน #ffeab0 (หมึก #1a0303 ได้ 6.4:1 ที่ปลายเข้มสุดของเฉด จึงผ่าน AA ที่
+// font-black) จุดนำหน้าเป็นแดงแบรนด์ #dc0203 เนื้อความ #f6e7e0 ชุดเดิมของ KINGDOM66
+// (#e6bf4e #0c0b09 #5c4113 #f2d683 #fdf6e0) ออกครบทุกจุดแล้ว
 //
-// No leading emoji: the marquee prints the string twice, and an emoji baked
-// into a text prop cannot be given its own aria-hidden span.
+// ทุกหน้าในเว็บเรียก <Announcement /> แบบไม่ส่ง prop (ยกเว้น /ตรวจหวย และ /แนวทาง
+// ที่ใช้ AnnouncementHuay ของตัวเอง) ข้อความที่วิ่งจริงจึงเป็น default ตัวนี้ —
+// ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ชื่อแบรนด์มาจาก BRAND_NAME ไม่พิมพ์ทับ
+//
+// ไม่มีอิโมจินำหน้าข้อความ: marquee พิมพ์สตริงนี้สองรอบ และอิโมจิที่ฝังอยู่ใน
+// text prop ใส่ <span aria-hidden> ให้ตัวเองไม่ได้ สำเนารอบที่สองถูก aria-hidden
+// ทั้งก้อน เพื่อไม่ให้โปรแกรมอ่านหน้าจออ่านประกาศซ้ำสองครั้ง
+//
+// เนื้อหาทุกท่อนมาจาก src/assets/content.txt เท่านั้น — เว็บหวยล้วน ไม่มีใบอนุญาต
+// ไม่มีชื่อธนาคาร ไม่มียอดฝากขั้นต่ำ และไม่มีตัวเลขนอกชุดที่บรีฟระบุ (2 ตัว จ่าย
+// 100 บาท · 3 ตัว จ่าย 1,000 บาท · 3 ขั้นตอน · 24 ชั่วโมง) คำเฮดจ์ของบรีฟเรื่อง
+// "สถิติไม่รับประกันงวดถัดไป" และ "ยึดอัตราในหน้าส่งโพย" ติดมาด้วยโดยตั้งใจ
 const {
-  message = "KINGDOM66 เล่นบาคาร่าฟรีเครดิต รวมเกมคาสิโน ไพ่ สล็อต หวย บอล ไว้ในบัญชีเดียว • เกมไลฟ์สดส่งตรงจากผู้ให้บริการต่างประเทศตามรายการที่เปิดให้บริการ • รองรับการใช้งานทั้งบนมือถือและคอมพิวเตอร์ • Login แล้วเลือกหมวดเกมที่สนใจได้ทันที พร้อมตรวจสอบค่ายที่ให้บริการและรูปแบบเดิมพันก่อนเข้าเล่น • โปรโมชั่นแนะนำเพื่อน โบนัส 0.8% และโปรโมชั่นคืนยอดเสีย โบนัส 0.3% ตามเงื่อนไขและรอบคำนวณที่กำหนด ควรตรวจสอบรายละเอียดก่อนกดรับทุกครั้ง • แอดมิน KINGDOM66 ดูแลผ่าน LINE OFFICIAL ตลอด 24 ชั่วโมง",
+  message = `${BRAND_NAME} เว็บแทงหวยออนไลน์ รวมแนวทางหวย กลุ่มหวย สถิติหวยย้อนหลัง และผลหวยตามรอบที่ประกาศไว้ในหน้าเดียว • ครบทั้งหวยรัฐบาลไทย หวยฮานอย หวยลาวพัฒนา และหวยหุ้นต่างประเทศตามตลาดที่เปิดให้บริการ • ตรวจสอบเวลาเปิดรับ เวลาปิดรับ และอัตราจ่ายของแต่ละรายการได้ก่อนเลือกแทง • อัตราจ่ายของรายการที่เข้าเงื่อนไขคือ 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท ซึ่งอาจแตกต่างกันตามประเภทหวยและรูปแบบการเดิมพัน จึงควรยึดอัตราที่แสดงในหน้าส่งโพยก่อนยืนยันทุกครั้ง • สถิติย้อนหลังและแนวทางหวยเป็นข้อมูลประกอบ ไม่สามารถรับประกันผลของงวดถัดไปได้ • สมัครผ่านมือถือง่ายๆ 3 ขั้นตอน และติดต่อแอดมิน ${BRAND_NAME} ได้ตลอด 24 ชั่วโมง`,
 } = Astro.props;
 ---
 
 <div class="mx-auto w-full max-w-7xl px-4 py-3 font-sans">
   <div
-    class="relative flex overflow-hidden border border-[#e6bf4e]/50 bg-[#0c0b09]/90 shadow-[0_0_15px_rgba(230,191,78,0.3)] backdrop-blur-md"
+    class="relative flex overflow-hidden border border-[#ffc93c]/50 bg-[#180303]/90 shadow-[0_0_15px_rgba(255,201,60,0.3)] backdrop-blur-md"
     style="clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
     <div
-      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#5c4113] to-[#f2d683] px-6 py-2.5 font-black text-[#0c0b09]"
+      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#c08a07] to-[#ffeab0] px-6 py-2.5 font-black text-[#1a0303]"
       style="clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);">
       ประกาศ
     </div>
 
     <div class="marquee-container relative flex-1 overflow-hidden py-2.5 pr-6">
-      <div class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#0c0b09] to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#180303] to-transparent"></div>
 
-      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#fdf6e0]">
-        <span class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 bg-[#e6bf4e] shadow-[0_0_8px_rgba(230,191,78,1)]"></span>{message}</span>
-        <span class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 bg-[#e6bf4e] shadow-[0_0_8px_rgba(230,191,78,1)]"></span>{message}</span>
+      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#f6e7e0]">
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 bg-[#dc0203] shadow-[0_0_8px_rgba(220,2,3,1)]"></span>{message}</span>
+        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 bg-[#ffc93c] shadow-[0_0_8px_rgba(255,201,60,1)]"></span>{message}</span>
       </div>
     </div>
   </div>

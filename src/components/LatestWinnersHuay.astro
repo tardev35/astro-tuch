@@ -16,18 +16,18 @@ const bankPool = [
 // rather than a name/type pair it has to know how to join.
 //
 // ชุดรายการหวยต้องตรงกับที่ src/assets/content.txt ระบุไว้เท่านั้น คือ
-// หวยรัฐบาลไทย · หวยฮานอย · หวยลาว · หวยหุ้นต่างประเทศ (ตามลำดับของบรีฟ) —
-// ห้ามเติมรายการย่อยที่บรีฟไม่ได้พูดถึง (บรีฟรอบก่อนมี "ลาวพัฒนา / ฮานอยปกติ /
-// ฮานอยพิเศษ / ฮานอยวีไอพี" ซึ่งไม่ใช่คำของรอบนี้) และห้ามใส่ตัวเลขอัตราจ่ายลง
-// ใน pool นี้ เรทที่บรีฟระบุคือ 2 ตัว จ่าย 100 บาท กับ 3 ตัว จ่าย 1,000 บาท
-// ซึ่งอยู่ในเนื้อหาของหน้า ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
+// หวยรัฐบาลไทย · หวยฮานอย · หวยลาวพัฒนา · หวยหุ้นต่างประเทศ (ตามลำดับของบรีฟ) —
+// ห้ามเติมรายการย่อยที่บรีฟไม่ได้พูดถึง (บรีฟรอบก่อนเขียนแค่ "หวยลาว" และบางรอบมี
+// "ฮานอยปกติ / ฮานอยพิเศษ / ฮานอยวีไอพี" ซึ่งไม่ใช่คำของรอบนี้) และห้ามใส่ตัวเลข
+// อัตราจ่ายลงใน pool นี้ เรทที่บรีฟระบุคือ 2 ตัว จ่าย 100 บาท กับ 3 ตัว จ่าย
+// 1,000 บาท ซึ่งอยู่ในเนื้อหาของหน้า ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที
 const marketPool = [
   "หวยรัฐบาลไทย · เลข 2 ตัว",
   "หวยรัฐบาลไทย · เลข 3 ตัว",
   "หวยฮานอย · เลข 2 ตัว",
   "หวยฮานอย · เลข 3 ตัว",
-  "หวยลาว · เลข 2 ตัว",
-  "หวยลาว · เลข 3 ตัว",
+  "หวยลาวพัฒนา · เลข 2 ตัว",
+  "หวยลาวพัฒนา · เลข 3 ตัว",
   "หวยหุ้นต่างประเทศ · เลข 2 ตัว",
   "หวยหุ้นต่างประเทศ · เลข 3 ตัว",
 ];
@@ -46,9 +46,12 @@ const marketPool = [
 //
 // ธีม Huay แดง-ทอง-ดำ ของหมวดหวย (/ตรวจหวย) คงรูปทรงไว้ตามข้อยกเว้นใน SKILL.md
 // Phase 4.5 ข้อ 5 แต่ค่าสีถูกขยับมาใช้เลขจริงของ brand-spec §2 รอบนี้ แผงพื้น
-// #2b0909 ในกรอบทองลึก #a8690c แถวรายการตกลงไปที่พื้น #1c0606 ในเส้นขอบแดงเข้ม
-// #5c0a0a แล้วสว่างขึ้นเป็นทองรอง #f4bc5d ตอน hover ยอดเงินเป็นทองรอง ป้าย
-// REAL-TIME เป็นแดงแบรนด์ #dc2224 ชื่อหัวแผงเป็นทองอ่อน #ffefc2 เนื้อความ #fbe3d4
+// #240406 ในกรอบทองลึก #c08a07 แถวรายการตกลงไปที่พื้น #180303 ในเส้นขอบแดงลึก
+// #9c0201 แล้วสว่างขึ้นเป็นทอง #ffc93c ตอน hover ยอดเงินเป็นทอง ป้าย REAL-TIME
+// เป็นแดงแบรนด์ #dc0203 บนพื้นแดงลึก #9c0201 ชื่อหัวแผงเป็นทองอ่อน #ffeab0
+// เนื้อความ #f6e7e0 คำบรรยายย่อยเป็น #d9b9b1 (TEXT_MUTED)
+// ชุดเดิมของรอบ หวยเฮง789 (#2b0909 #1c0606 #5c0a0a #a8690c #f4bc5d #ffefc2
+// #dc2224 #fbe3d4 rgba(244,188,93,*) rgba(220,34,36,*) rgba(11,2,2,*)) ออกครบแล้ว
 // สีเดียวที่ไม่ใช่ของธีมคือโลโก้ธนาคารจริงใน bankPool ซึ่งเป็นสีแบรนด์ธนาคาร
 // โดยเจตนาและต้องคงไว้
 //
@@ -65,20 +68,20 @@ const initialRows = Array.from({ length: 5 }, (_, i) => ({
   pending: brandFlag(Astro.site, `huay-winner-pending-${i}`),
 }));
 
-const PENDING_CLASS = "text-[#ffefc2] animate-pulse";
-const DONE_CLASS = "text-[#fbe3d4]";
+const PENDING_CLASS = "text-[#ffeab0] animate-pulse";
+const DONE_CLASS = "text-[#f6e7e0]";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
     aria-label={`ยอดถูกรางวัลและรายการโอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative rounded-3xl border border-[#a8690c]/60 bg-[#2b0909]/90 px-4 py-8 shadow-[0_10px_30px_rgba(11,2,2,0.7)] backdrop-blur-xl md:p-8">
-    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#a8690c]/45 pb-4">
+    class="relative rounded-3xl border border-[#c08a07]/60 bg-[#240406]/90 px-4 py-8 shadow-[0_10px_30px_rgba(8,1,1,0.7)] backdrop-blur-xl md:p-8">
+    <div class="relative z-10 mb-6 flex items-center justify-between border-b border-[#c08a07]/45 pb-4">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(244,188,93,0.8)]">🎫</span>
-        <p class="text-xl leading-normal font-black tracking-widest text-[#ffefc2] drop-shadow-sm">ยอดถูกรางวัล · โอนล่าสุด</p>
+        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(255,201,60,0.8)]">🎫</span>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#ffeab0] drop-shadow-sm">ยอดถูกรางวัล · โอนล่าสุด</p>
       </div>
-      <span class="animate-pulse rounded-full border border-[#dc2224]/70 bg-[#5c0a0a]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#ffefc2] shadow-[0_0_10px_rgba(220,34,36,0.4)]">
+      <span class="animate-pulse rounded-full border border-[#dc0203]/70 bg-[#9c0201]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#ffeab0] shadow-[0_0_10px_rgba(220,2,3,0.4)]">
         REAL-TIME
       </span>
     </div>
@@ -96,22 +99,25 @@ const DONE_CLASS = "text-[#fbe3d4]";
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-bottom transition-all duration-500 ease-out">
-            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#5c0a0a] bg-[#1c0606]/75 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#f4bc5d]/55 hover:bg-[#5c0a0a]/80 sm:flex-row sm:items-center">
+            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#9c0201]/70 bg-[#180303]/75 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#ffc93c]/55 hover:bg-[#9c0201]/35 sm:flex-row sm:items-center">
               <div class="flex items-center gap-4">
-                <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
+                <div
+                  data-winner-bank
+                  aria-hidden="true"
+                  class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain grayscale" />
                 </div>
                 <div class="flex flex-col">
-                  <span class="text-[10px] font-medium tracking-widest text-[#fbe3d4]/70">เบอร์สมาชิก</span>
-                  <span data-winner-user class="font-mono text-sm font-bold text-[#fbe3d4]">
+                  <span class="text-[10px] font-medium tracking-widest text-[#d9b9b1]">เบอร์สมาชิก</span>
+                  <span data-winner-user class="font-mono text-sm font-bold text-[#f6e7e0]">
                     {row.user}
                   </span>
-                  <span data-winner-market class="text-[10px] tracking-wide text-[#fbe3d4]/70">
+                  <span data-winner-market class="text-[10px] tracking-wide text-[#d9b9b1]">
                     {row.market}
                   </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between gap-6 border-t border-[#5c0a0a] pt-3 sm:justify-end sm:border-none sm:pt-0">
+              <div class="flex items-center justify-between gap-6 border-t border-[#9c0201]/70 pt-3 sm:justify-end sm:border-none sm:pt-0">
                 <div
                   data-winner-status
                   data-pending-text="กำลังตรวจโพย"
@@ -121,8 +127,8 @@ const DONE_CLASS = "text-[#fbe3d4]";
                   class={`text-[11px] font-medium tracking-wider ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? "กำลังตรวจโพย" : "โอนเข้าบัญชีแล้ว"}
                 </div>
-                <div class="font-sans text-xl font-black text-[#f4bc5d] drop-shadow-[0_2px_5px_rgba(244,188,93,0.45)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#fbe3d4]/70">บาท</span>
+                <div class="font-sans text-xl font-black text-[#ffc93c] drop-shadow-[0_2px_5px_rgba(255,201,60,0.45)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#d9b9b1]">บาท</span>
                 </div>
               </div>
             </div>
