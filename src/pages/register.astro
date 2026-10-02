@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -16,37 +16,38 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // rel="nofollow sponsored" on the anchor. data-cta-redirect is what
 // CtaRedirect's script binds to; leave the attribute in place.
 //
-// NATO168 (รอบทอง-เงิน-ดำ 2026-10-02, brand-spec §2 — สองโทนจริง: NATO เป็นเงิน
-// เมทัลลิก ส่วน 168 กับวงกลมตัว N เป็นทอง):
-// ปุ่มนี้เป็นตัว PRIMARY ของคู่ จึงสวมไล่เฉดทองประจำแบรนด์เต็มใบ
-// (#fde8a8 → #edb543 → #a9761f) บนตัวอักษรหมึกเข้ม #1a1203 ซึ่งได้ 4.7:1 ที่ปลาย
-// เข้มสุดของไล่เฉดและเป็นตัวหนาขนาดใหญ่ — ห้ามให้ไล่เฉดจบเข้มกว่า #a9761f
-// ส่วน /login ถือ "เงิน" ซึ่งเป็นแอ็กเซนต์รองของแบรนด์ (กรอบ+ตัวอักษร #e6e6e6 บน
-// ผิวอุ่น #17120a) สองลำดับ หนึ่งรูปแบบต่อหนึ่งปุ่ม ไม่ใช่ถมทองสองใบซึ่งจะอ่านเป็น
-// ปุ่มซ้ำกันสองปุ่มและทำให้ฮิวที่สองของแบรนด์หายไป
-// ห้ามตัวอักษรสีอ่อนบนพื้นทอง (brand-spec §2)
-// ชุดทองล้วนของ NAZA99 (#fdf2ac #e4b34d #c08f2b #8a5f12 #140c02 #241404 #0a0501
-// #1a1000 #f3e8cf rgba(228,179,77,*) rgba(253,242,172,*) rgba(10,5,1,*)) ออกครบแล้ว
+// หวย365 (รอบแดงสด-ทอง-ดำ 2026-10-03, brand-spec §2 — แดงคือสีตัวตน ทองคือสีเน้น
+// ดำคือพื้น มาจาก logo.webp ที่คำว่า หวย เป็นแดงสด #dc0203 และ 365 เป็นดำ):
+// ปุ่มนี้เป็นตัว PRIMARY ของคู่ จึงสวมไล่เฉด **แดง** ประจำแบรนด์เต็มใบ
+// (#f5282a → #dc0203 → #8c0402) ขอบทองลึก #c08a07 บนตัวอักษร **ขาว** —
+// กฎคอนทราสต์ brand-spec §2: หมึกเข้ม #1a0303 บนแดงแบรนด์ได้แค่ 2.8:1 ตก พื้นแดง
+// จึงต้องใช้หมึกขาวเสมอ (ขาวบน #dc0203 ≈ 5.1:1 ผ่าน) และหมึกทองอ่อนบนพื้นแดงก็ตก
+// ส่วน /login ถือ "ทอง" ซึ่งเป็นแอ็กเซนต์รองของแบรนด์ (กรอบ #c08a07 + ตัวอักษร
+// #ffc93c บนพื้นยกระดับ #3a0a0c) สองลำดับ หนึ่งรูปแบบต่อหนึ่งปุ่ม ไม่ใช่ถมแดงสองใบ
+// ซึ่งจะอ่านเป็นปุ่มซ้ำกันสองปุ่มและทำให้ฮิวที่สองของแบรนด์หายไป
+// ชุดทอง-เงินของ NATO168 (#edb543 #fde8a8 #a9761f #e6e6e6 #101010 #070707 #f4ead3
+// #1a1203 #241a09 #17120a rgba(237,181,67,*) rgba(252,220,115,*) rgba(230,230,230,*)
+// rgba(4,3,0,*)) ออกครบแล้ว
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (รอบก่อนเป็น
-// AnnouncementPremium) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ
-// index ก็เรียกแบบ bare จึงห้ามส่ง prop message
+// Announcement หมุนมาเป็น AnnouncementHuay ทั้งเว็บรอบนี้ (รอบก่อนเป็น Announcement5)
+// — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index ก็เรียกแบบ bare
+// จึงห้ามส่ง prop message
 //
-// NATO168 เป็นเว็บสล็อตออนไลน์ / พีจีเว็บตรง ไม่ใช่หวยและไม่ใช่บอล — บรีฟระบุการสมัคร
-// ผ่านมือถือได้เองด้วย 3 ขั้นตอน (เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด → ยืนยัน
-// ข้อมูลและ Login เข้าสู่บัญชี → เลือกเกมสล็อตหรือค่ายที่ต้องการ พร้อมตรวจสอบโบนัส
-// และรายละเอียดเกมก่อนเริ่มเล่น) แล้วใช้บัญชีเดียวค้นหาเกมพีจี เกมใหม่ โปรโมชั่น
-// และประวัติรายการ
-// บรีฟรอบนี้ไม่ได้เอ่ยชื่อเกมใดเลย จึงห้ามยกชื่อเกมของรอบก่อน (Mahjong Ways 2 /
-// Fortune Tiger / Sweet Bonanza) กลับมา
-// คำศัพท์ของแบรนด์ก่อนหน้า (หวย โพย ส่งโพย งวด เลขเด็ด อัตราจ่าย ฮานอย ลาว หุ้น
-// บอล ค่าน้ำ ลีก คาสิโนสด บาคาร่า) ห้ามหลงเหลือ และห้ามเพิ่มชื่อธนาคาร ยอดฝากขั้นต่ำ
-// ชื่อผู้ให้บริการจริง หรือเลขใบอนุญาต — บรีฟรอบนี้ไม่ได้พูดเรื่องฝากถอน จึงห้ามยก
-// ของรอบก่อนมาใช้ซ้ำ
+// หวย365 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่สล็อตและไม่ใช่บอล — บรีฟบรรทัด 15 ระบุการสมัคร
+// ผ่านมือถือได้เองด้วย 3 ขั้นตอน (เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด → ยืนยัน
+// ข้อมูลและ Login เข้าบัญชี → เลือกประเภทหวย รอบ และตัวเลขที่ต้องการ พร้อมตรวจสอบ
+// อัตราจ่ายก่อนส่งโพย) แล้วใช้บัญชีเดียวติดตามแนวทางหวย สถิติย้อนหลัง ผลหวย และ
+// รายการที่เปิดรับในแต่ละวัน
+// ตัวเลขที่ใช้ได้มีแค่ 2 ตัว จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · 3 ขั้นตอน ·
+// 24 ชั่วโมง ห้ามแต่งตัวเลขอื่นขึ้นมาเอง
+// คำศัพท์ของแบรนด์ก่อนหน้า (สล็อต พีจี PG ค่ายเกม ฟรีสปิน ตัวคูณ วงล้อ ปั่น โบนัสไทม์
+// โบนัสทุกยูส ไม่มีล็อคยูส คืนยอดเสีย 0.3% แนะนำเพื่อน 0.8% RTP คาสิโนสด บาคาร่า บอล
+// ค่าน้ำ ลีก) ห้ามหลงเหลือ และห้ามเพิ่มชื่อธนาคาร ยอดฝากขั้นต่ำ ชื่อผู้ให้บริการจริง
+// หรือเลขใบอนุญาต — บรีฟรอบนี้ไม่ได้พูดเรื่องฝากถอน จึงห้ามยกของรอบก่อนมาใช้ซ้ำ
 //
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 155
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 158
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} กดปุ่มเดียวเปิดบัญชีผ่านมือถือได้ใน 3 ขั้นตอน แล้ว Login เลือกสล็อตพีจีและค่ายที่ต้องการ พร้อมตรวจสอบโบนัสและโปรโมชั่นก่อนเริ่มเล่น`;
+const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} กดปุ่มเดียวเปิดบัญชีผ่านมือถือได้ใน 3 ขั้นตอน แล้ว Login เลือกประเภทหวย รอบ และตัวเลขที่ต้องการ พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพยทุกครั้ง`;
 
 const graph = pageGraph(Astro, {
   name: `สมัครสมาชิก ${BRAND_NAME}`,
@@ -60,7 +61,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เปิดบัญชีเองผ่านเว็บ 3 ขั้นตอน เริ่มเล่นสล็อตได้เลย`} description={pageDescription}>
+<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เปิดบัญชีเองผ่านเว็บ 3 ขั้นตอน เริ่มส่งโพยได้เลย`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -72,7 +73,7 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#a9761f] bg-gradient-to-r from-[#fde8a8] via-[#edb543] to-[#a9761f] px-6 py-4 text-lg font-black text-[#1a1203] shadow-[0_10px_30px_rgba(237,181,67,0.45)] transition-all duration-300 hover:scale-105 hover:border-[#fde8a8] hover:shadow-[0_15px_40px_rgba(252,220,115,0.45)]">
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#c08a07] bg-gradient-to-r from-[#f5282a] via-[#dc0203] to-[#8c0402] px-6 py-4 text-lg font-black text-white shadow-[0_10px_30px_rgba(220,2,3,0.45)] transition-all duration-300 hover:scale-105 hover:border-[#ffc93c] hover:shadow-[0_15px_40px_rgba(245,40,42,0.45)]">
         สมัครสมาชิก
       </a>
     </div>
