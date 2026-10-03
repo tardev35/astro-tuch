@@ -10,9 +10,9 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎲" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎰" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a lottery-schedule
+// Without a `title` this box carries chrome (a login widget, a game-category
 // panel), never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
@@ -25,28 +25,28 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// หวย365 (รอบแดงสด-ทอง-ดำ 2026-10-03): โลโก้เป็นสองสีจริง — คำว่า หวย เป็นแดงสด
-// (vivid #dc0203 #e00104 #e2020a) เลข 365 เป็นดำ #020202 ส่วนทองมาจากตัวอักษรบน
-// แบนเนอร์ สองคอลัมน์ของกล่องนี้จึงถูกแยกด้วยสองสีของแบรนด์ ไม่ใช่ด้วยความสว่างของสีเดียว
-// — ฝั่งซ้ายเป็นทอง ป้ายไอคอนไล่ทองอ่อน #ffeab0 → ทองแบรนด์ #ffc93c → ทองลึก #c08a07
-// บนหมึกบนพื้นทอง #1a0303 (ซึ่งเป็นจุดที่เข้มที่สุดที่ยังรองหมึกเข้มได้ที่ 6.4:1 ห้ามไล่
-// จบเข้มกว่านี้) ส่วนฝั่งขวาเป็นแดง ป้ายไอคอนไล่แดงสว่าง #f5282a → แดงแบรนด์ #dc0203 →
-// แดงลึก #8c0402 และใช้ตัวอักษร "ขาว" เพราะหมึกเข้มบนพื้นแดงได้แค่ 2.8:1 (ตก) ส่วนขาว
-// ได้ ~5.1:1 (ผ่าน) ป้ายคอลัมน์ซ้ายเป็นทองแบรนด์ ฝั่งขวาเป็นแดงสว่าง #f5282a ซึ่งอยู่บน
-// พื้นเพจเข้ม ไม่ได้อยู่บนพื้นแดง หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองอ่อน → ทองแบรนด์
-// → แดงสว่าง เส้นคั่นเป็นพื้นยกระดับ #3a0a0c ทั้งสองฝั่ง เนื้อความ #f6e7e0 (BRAND_TEXT)
+// 1SS365 (รอบทอง-เงินโครเมียม-ดำ 2026-10-03): โลโก้เป็นสองโลหะจริง — เหรียญเลข 1 กับ
+// เลข 365 เป็นทอง (vivid #edbb23 #ca8b14 #d19416 #f3cb35) ส่วนตัวอักษร 1SS เป็นเงิน
+// โครเมียม (#fdfdfd #cdcdcd) สองคอลัมน์ของกล่องนี้จึงถูกแยกด้วยสองโลหะของแบรนด์ ไม่ใช่
+// ด้วยความสว่างของสีเดียว — ฝั่งซ้ายเป็นทอง ป้ายไอคอนไล่ทองอ่อน #ffeeb4 → ทองแบรนด์
+// #edbb23 → ทองลึก #a87708 บนหมึกเข้ม #1a1710 (พื้นทองต้องใช้หมึกเข้มเสมอ และไล่เฉด
+// ใต้หมึกเข้มห้ามจบเข้มกว่าทองลึก ซึ่งวัดได้ 4.8:1) ส่วนฝั่งขวาเป็นเงิน ป้ายไอคอนไล่ขาวเงิน
+// #f1f2f3 → เงินโครเมียม #c8cbce → เงินเข้ม #8d9094 และใช้หมึกเข้ม #050505 เช่นกัน
+// เพราะพื้นเงินสว่างกว่าทองอีก ป้ายคอลัมน์ซ้ายเป็นทองแบรนด์ ฝั่งขวาเป็นเงินโครเมียม ซึ่ง
+// อยู่บนพื้นเพจดำ ไม่ได้อยู่บนพื้นโลหะ หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองอ่อน →
+// ทองแบรนด์ → เงิน เส้นคั่นเป็นกรอบอุ่น #2a2115 ทั้งสองฝั่ง เนื้อความ #f0e6d2 (BRAND_TEXT)
 //
-// ชุดทอง-เงินของ NATO168 ที่เคยค้างในไฟล์นี้ (#edb543 #fde8a8 #a9761f #e6e6e6 #a9a9a9
-// #3a2a0d #1a1203 #f4ead3) ออกครบทุกจุดแล้ว เงินถูกถอดออกทั้งหมดเพราะโลโก้รอบนี้ไม่มี
-// ฮิวเงินเลย แดงเข้ามาเป็นฮิวที่สองจริงแทน
+// ชุดแดงสด-ทองของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #e00104 #e2020a #f5282a
+// #8c0402 #3a0a0c #ffc93c #ffeab0 #c08a07 #1a0303 #f6e7e0) ออกครบทุกจุดแล้ว และแดง
+// ถูกถอดออกหมดเพราะโลโก้รอบนี้ไม่มีฮิวแดงเลย เงินโครเมียมกลับเข้ามาเป็นฮิวที่สองจริงแทน
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#3a0a0c] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffeab0] via-[#ffc93c] to-[#c08a07] shadow-[0_0_10px_rgba(255,201,60,0.5)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#f5282a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#2a2115] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffeeb4] via-[#edbb23] to-[#a87708] shadow-[0_0_10px_rgba(237,187,35,0.5)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#ffeeb4] via-[#edbb23] to-[#c8cbce] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -54,13 +54,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e6d2]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#3a0a0c] pb-3 text-xl leading-normal font-black tracking-widest text-[#ffc93c] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#2a2115] pb-3 text-xl leading-normal font-black tracking-widest text-[#edbb23] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#ffc93c]/70 bg-gradient-to-br from-[#ffeab0] via-[#ffc93c] to-[#c08a07] text-sm text-[#1a0303] shadow-[0_5px_15px_rgba(255,201,60,0.40)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#edbb23]/70 bg-gradient-to-br from-[#ffeeb4] via-[#edbb23] to-[#a87708] text-sm text-[#1a1710] shadow-[0_5px_15px_rgba(237,187,35,0.40)]">
               {iconleft}
             </span>
             {titleleft}
@@ -70,13 +70,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e6d2]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#3a0a0c] pb-3 text-xl leading-normal font-black tracking-widest text-[#f5282a] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#2a2115] pb-3 text-xl leading-normal font-black tracking-widest text-[#c8cbce] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#f5282a]/70 bg-gradient-to-br from-[#f5282a] via-[#dc0203] to-[#8c0402] text-sm text-white shadow-[0_5px_15px_rgba(220,2,3,0.35)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#c8cbce]/70 bg-gradient-to-br from-[#f1f2f3] via-[#c8cbce] to-[#8d9094] text-sm text-[#050505] shadow-[0_5px_15px_rgba(200,203,206,0.35)]">
               {iconright}
             </span>
             {titleright}

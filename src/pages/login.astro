@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -16,37 +16,35 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // rel="nofollow sponsored" on the anchor. data-cta-redirect is what
 // CtaRedirect's script binds to; leave the attribute in place.
 //
-// หวย365 (รอบแดงสด-ทอง-ดำ 2026-10-03, brand-spec §2 — แดงคือสีตัวตน ทองคือสีเน้น
-// ดำคือพื้น มาจาก logo.webp ที่คำว่า หวย เป็นแดงสด #dc0203 และ 365 เป็นดำ):
-// ปุ่มนี้เป็นตัว SECONDARY ของคู่ จึงถือ "ทอง" ซึ่งเป็นแอ็กเซนต์รองของแบรนด์ —
-// พื้นยกระดับ #3a0a0c ในกรอบทองลึก #c08a07 บนตัวอักษรทองแบรนด์ #ffc93c (≈11:1)
-// แล้วยกเป็นทองอ่อน #ffeab0 ตอน hover ส่วน /register สวมไล่เฉดแดงเต็มใบ
-// (#f5282a → #dc0203 → #8c0402) บนตัวอักษรขาว
-// ลำดับความสำคัญรอบนี้จึงสื่อด้วย "แดงถม vs ทองกรอบ" ไม่ใช่แดงสองใบซึ่งจะอ่านเป็น
-// ปุ่มซ้ำกันสองปุ่มและทำให้ฮิวที่สองของแบรนด์หายไปทั้งหน้า
-// กฎคอนทราสต์ brand-spec §2: พื้นแดง = หมึก **ขาว** เสมอ (หมึกเข้ม #1a0303 บน
-// #dc0203 ได้แค่ 2.8:1 ตก) · พื้นทอง #c08a07 = หมึกเข้ม #1a0303 (6.4:1) ·
-// พื้นเข้ม #240406/#3a0a0c = ตัวอักษรทอง #ffc93c หรือเนื้อความ #f6e7e0
-// ชุดทอง-เงินของ NATO168 (#edb543 #fde8a8 #a9761f #e6e6e6 #101010 #070707 #f4ead3
-// #1a1203 #241a09 #17120a rgba(237,181,67,*) rgba(230,230,230,*) rgba(4,3,0,*))
-// ออกครบแล้ว ห้ามนำกลับมา
+// 1SS365 (รอบทอง-ดำ 2026-10-03, brand-spec §"New palette" — ทองคือสีตัวตน
+// เงินโครมคือฮิวที่สอง ดำคือพื้น มาจาก logo.webp ที่ vivid เป็นทอง #edbb23):
+// ปุ่มนี้เป็นตัว SECONDARY ของคู่ จึงเป็นแบบ outline — พื้นยกระดับ #1a1710 ในกรอบ
+// ทองลึก #a87708 บนตัวอักษรทองแบรนด์ #edbb23 (≈9:1) แล้วยกเป็นทองอ่อน #ffeeb4
+// ตอน hover ส่วน /register สวมไล่เฉดทองเต็มใบ (#f7d458 → #edbb23 → #c9930f)
+// บนตัวอักษรดำ #050505
+// ลำดับความสำคัญรอบนี้จึงสื่อด้วย "ทองถม vs ทองกรอบ" ไม่ใช่ถมทองสองใบซึ่งจะอ่านเป็น
+// ปุ่มซ้ำกันสองปุ่ม
+// กฎคอนทราสต์: พื้นทอง = หมึก **ดำ #050505** เสมอ (หมึกขาวบน #edbb23 ได้แค่
+// 1.9:1 ตก) · พื้นเข้ม #121010/#1a1710 = ตัวอักษรทอง #edbb23 หรือเนื้อความ #f0e6d2
+// ชุดแดง-ทองของ หวย365 (#dc0203 #f5282a #8c0402 #ffc93c #ffeab0 #c08a07 #240406
+// #3a0a0c #f6e7e0 rgba(220,2,3,*) rgba(255,201,60,*) rgba(8,1,1,*)) ออกครบแล้ว
+// ห้ามนำกลับมา
 //
-// Announcement หมุนมาเป็น AnnouncementHuay ทั้งเว็บรอบนี้ (รอบก่อนเป็น Announcement5)
-// — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ index ก็เรียกแบบ bare
-// จึงห้ามส่ง prop message
+// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ (รอบก่อนเป็น
+// AnnouncementHuay) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และ
+// index ก็เรียกแบบ bare จึงห้ามส่ง prop message
 //
-// หวย365 เป็นเว็บแทงหวยออนไลน์ ไม่ใช่สล็อตและไม่ใช่บอล — บรีฟระบุว่าหลัง Login
-// ใช้บัญชีเดียวติดตามแนวทางหวย สถิติย้อนหลัง ผลหวย และรายการที่เปิดรับในแต่ละวันได้
-// พร้อมตรวจสอบเวลาเปิดรับ เวลาปิดรับ และอัตราจ่ายก่อนเลือกแทง
-// ตัวเลขที่ใช้ได้มีแค่ 2 ตัว จ่าย 100 บาท · 3 ตัว จ่าย 1,000 บาท · 3 ขั้นตอน ·
-// 24 ชั่วโมง ห้ามแต่งตัวเลขอื่นขึ้นมาเอง
-// คำศัพท์ของแบรนด์ก่อนหน้า (สล็อต พีจี PG ค่ายเกม ฟรีสปิน ตัวคูณ วงล้อ ปั่น โบนัสไทม์
-// โบนัสทุกยูส ไม่มีล็อคยูส คืนยอดเสีย 0.3% แนะนำเพื่อน 0.8% RTP คาสิโนสด บาคาร่า บอล
-// ค่าน้ำ ลีก) ห้ามหลงเหลือ
+// 1SS365 เป็นสล็อตออนไลน์เว็บตรงต่างประเทศ ไม่ผ่านเอเย่นต์ — ไม่ใช่เว็บหวยและไม่ใช่บอล
+// บรีฟระบุว่าหลัง Login ใช้บัญชีเดียวค้นหาเกมสล็อต ตรวจสอบค่ายเกม เครดิต โปรโมชั่น
+// และประวัติรายการได้ และควรตรวจช่วงเดิมพันขั้นต่ำ/สูงสุดของเกมนั้นก่อนเริ่มเล่น
+// ตัวเลขที่ใช้ได้มีแค่ 0.3% · 0.8% · 3 ขั้นตอน · 24 ชั่วโมง · 100%
+// ห้ามแต่งตัวเลขอื่นขึ้นมาเอง
+// คำศัพท์หวยของแบรนด์ก่อนหน้า (หวย แทงหวย ส่งโพย โพย เลือกเลข 2 ตัว 3 ตัว อัตราจ่าย
+// งวด รัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้น สถิติหวย ผลหวย แนวทางหวย) ห้ามหลงเหลือ
 //
-// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 153
+// 150–160 CHARACTERS (not bytes — Thai is 3 bytes/char). หน้านี้ยาว 154
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวเข้าบัญชีสมาชิก เพื่อเลือกเลขและส่งโพยหวยรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ พร้อมตรวจสอบอัตราจ่ายของแต่ละรอบ`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวเพื่อเข้าบัญชีสมาชิก สำหรับเลือกค่ายและเกมสล็อตเว็บตรงต่างประเทศ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -60,7 +58,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} ล็อกอินเข้าบัญชีสมาชิก เลือกเลขส่งโพยได้ทันที`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} ล็อกอินเข้าบัญชีสมาชิก เลือกเกมสล็อตได้ทันที`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -72,7 +70,7 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#c08a07]/80 bg-[#3a0a0c] px-6 py-4 text-lg font-black text-[#ffc93c] shadow-[0_10px_30px_rgba(8,1,1,0.75)] transition-all duration-300 hover:scale-105 hover:border-[#ffc93c] hover:text-[#ffeab0] hover:shadow-[0_15px_40px_rgba(255,201,60,0.30)]">
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#a87708]/80 bg-[#1a1710] px-6 py-4 text-lg font-black text-[#edbb23] shadow-[0_10px_30px_rgba(5,5,5,0.75)] transition-all duration-300 hover:scale-105 hover:border-[#edbb23] hover:text-[#ffeeb4] hover:shadow-[0_15px_40px_rgba(237,187,35,0.30)]">
         เข้าสู่ระบบ
       </a>
     </div>

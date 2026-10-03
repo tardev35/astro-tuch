@@ -1,77 +1,77 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
-import LatestWinners from "../components/LatestWinnersHuay.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/FaqHuay.astro";
+import Faq from "../components/Faq3.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgTwoDigit from "../assets/slide2.png";
-import imgThreeDigit from "../assets/slide1.png";
+import imgCashback from "../assets/slide2.png";
+import imgReferral from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND (NATO168 -> หวย365). Zero file reuse from the
-// previous round: AnnouncementHuay replaces Announcement5, LatestWinnersHuay
-// replaces LatestWinners3, FaqHuay replaces Faq2, ReviewCardSumo2 replaces
-// ReviewCardSumo, and the ContentBox shape-mix moves off CyberCut / TwoCyberCut /
-// Neumorphism / SevenThreeCyberCut / SevenThreeNeumorphism / TwoFloatingBadge
-// onto Premium / TwoPremium / FloatingBadge / SevenThreePremium /
-// SevenThreeHuay / Special. NavbarHuay and FooterHuay are the layout's pair this
-// round (previously NavbarStyle8 / FooterStyle3).
+// VARIANT ROTATION THIS ROUND (หวย365 -> 1SS365). Zero file reuse from the
+// previous round: AnnouncementPremium replaces AnnouncementHuay,
+// LatestWinnersPremium replaces LatestWinnersHuay, Faq3 replaces FaqHuay,
+// ReviewCardSumo replaces ReviewCardSumo2, and the ContentBox shape-mix moves
+// off Premium / TwoPremium / FloatingBadge / SevenThreePremium / SevenThreeHuay /
+// Special onto Neumorphism / TwoCyberCut / CyberCut / SevenThreeNeumorphism /
+// SevenThreeCyberCut / TwoNeumorphism. NavbarStyle4Black and FooterPremiumSumo
+// are the layout's pair this round (previously NavbarHuay / FooterHuay).
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and
 // every button page render their body through it by rule and cannot follow a
 // rotation, so it is always-live and the orchestrator rethemes it in the shared
 // step — this page only passes it props.
-// Every CyberCut / Neumorphism / Style file, Faq2, Announcement5, LatestWinners3,
-// ReviewCardSumo, NavbarStyle8 and FooterStyle3 stay on disk as inventory for the
-// next brand — none of them was deleted, and the previous brand's copy and colour
-// still inside them is expected drift, not a bug.
+// Every Premium / FloatingBadge / Special / Huay / Style file, FaqHuay,
+// AnnouncementHuay, LatestWinnersHuay, ReviewCardSumo2, NavbarHuay and FooterHuay
+// stay on disk as inventory for the next brand — none of them was deleted, and
+// the previous brand's copy and colour still inside them is expected drift, not
+// a bug.
 //
-// <Announcement /> runs bare on purpose: AnnouncementHuay's default message is
+// <Announcement /> runs bare on purpose: AnnouncementPremium's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things on
 // two pages of the same site.
 //
 // IMAGE ROLES FOR THIS DROP (2026-10-03). Two files are referenced from this page
 // and only two, and each pairing is read off the artwork itself:
-//   slide2.png — the white gold-edged plaque under the big gold อัตราจ่ายหวย
-//     wordmark reads "2ตัวจ่าย 100 บาท" and the model holds the white ball
-//     numbered 2, so it belongs to docx H3 #4. Imported as imgTwoDigit.
-//   slide1.png — the same set, the plaque is red with a gold edge and reads
-//     "3ตัว จ่าย 1,000 บาท" over the ball numbered 3, so it belongs to docx
-//     H3 #5. Imported as imgThreeDigit.
-// Both files measure 600x400, so 600 is the top real candidate width — nothing
+//   slide2.png — the dark gold-edged plaque under the big gold โปรโมชั่น wordmark
+//     reads "คืนยอดเสีย โบนัส 0.3%", so it belongs to docx H3 #4. Imported as
+//     imgCashback.
+//   slide1.png — the same set, and its plaque reads "แนะนำเพื่อน โบนัส 0.8%", so
+//     it belongs to docx H3 #5. Imported as imgReferral.
+// Both files measure 600x360, so 600 is the top real candidate width — nothing
 // above it would be a real pixel — and each picture carries max-w-[600px] so the
 // art is never upscaled past its own bitmap. Each slide sits in a
 // ContentBoxSevenThree* image+text block, which is that family's hard cap of two
 // per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreePremium lays out
-// md:grid-cols-[3fr_7fr] so its picture goes in slot="left", and
-// SevenThreeHuay lays out md:grid-cols-[7fr_3fr] so its picture goes in
-// slot="right" while the paragraph keeps the wide column. The two pictures
+// The two blocks mirror each other: SevenThreeNeumorphism lays out
+// md:grid-cols-[7fr_3fr] so its picture goes in slot="right", and
+// SevenThreeCyberCut lays out md:grid-cols-[3fr_7fr] so its picture goes in
+// slot="left" while the paragraph keeps the wide column. The two pictures
 // therefore alternate sides instead of stacking down the same edge, and each
 // `sizes` describes its own 3fr column rather than the viewport:
-//   Premium:  max-w-7xl/1280px cap, px-4, md:p-10, gap-10, no inner padding on
-//             the image column -> (1280 - 32 - 80 - 40) x 0.3 = 339px
-//   Huay:     max-w-[1400px] cap, px-4, md:p-10, gap-8, md:pl-6 on the image
-//             column -> (1400 - 32 - 80 - 32) x 0.3 - 24 = 353px
+//   Neumorphism: max-w-[1400px] cap, px-4, p-8, gap-8, md:pl-8 + border on the
+//                image column -> (1400 - 32 - 64 - 32) x 0.3 - 33 = 349px
+//   CyberCut:    max-w-7xl/1280px cap, px-4, p-8, gap-8, no inner padding on the
+//                image column -> (1280 - 32 - 64 - 32) x 0.3 = 346px
 // Below md both cards collapse to one column at p-8, so the drawn width is
 // 100vw - 32 (section px-4) - 64 (card p-8) = 100vw - 96px, capped at 600px.
 //
 // The alt text was written from THIS drop's artwork, re-opened with the Read
-// tool before it was typed: a woman in a white-and-gold Thai outfit against
-// swept red satin, white lottery balls, scattered gold coins and lottery
-// tickets, the หวย365 wordmark in the top corner, big gold red-edged Thai type
-// reading อัตราจ่ายหวย, and the payout plaque underneath.
+// tool before it was typed: a smiling young woman in a white-and-gold outfit with
+// gold jewellery against swept white-and-gold satin, gold coins and ribbons
+// scattered around her, the 1SS365 wordmark in the top-right corner, a large gold
+// Thai word โปรโมชั่น with a crown above it, and the offer plaque underneath.
 //
 // Deliberately NOT imported, and every file still on disk:
 //   banner2.png / banner3.png / slide3.png / slide4.png all predate this drop and
@@ -82,68 +82,65 @@ import imgThreeDigit from "../assets/slide1.png";
 //   nothing here gets loading="eager" fetchpriority="high". og.png is the same:
 //   MainLayout owns it.
 //
-// Vocabulary: หวย365 is a เว็บแทงหวยออนไลน์ — หวย, แทงหวย, ส่งโพย, โพย, เลือกเลข,
-// 2 ตัว / 3 ตัว, อัตราจ่าย, งวด, รอบ, เวลาเปิดรับ / ปิดรับ, รัฐบาลไทย, ฮานอย,
-// ลาวพัฒนา, หวยหุ้นต่างประเทศ, แนวทางหวย, กลุ่มหวย, สถิติหวยย้อนหลัง, ผลหวย,
-// สมัครสมาชิก, Login, แอดมิน 24 ชั่วโมง, PIN, OTP.
-// Several brands before this one sold slots or sport; every one of those words
-// (สล็อต, พีจี, ค่ายเกม, ฟรีสปิน, ตัวคูณ, วงล้อ, ปั่น, โบนัสไทม์, โบนัสทุกยูส,
-// ไม่มีล็อคยูส, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, RTP, คาสิโนสด, บาคาร่า, บอล,
-// ค่าน้ำ, ลีก) is gone, and the page was written from the brief rather than
-// find-and-replaced over the old sentences. Nothing here claims a licence, an
-// operator, a bank, a deposit minimum, a member count, a founding year or a
-// draw time, because the brief names none. The only figures are the brief's own:
-// 2 ตัว จ่าย 100 บาท, 3 ตัว จ่าย 1,000 บาท, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own
-// hedging ships with the copy ("ไม่สามารถใช้ยืนยันหรือรับประกันเลขที่จะออกในงวด
-// ถัดไปได้", "แนวทางหรือสถิติย้อนหลังเป็นเพียงข้อมูลประกอบ", "ควรยึดรายละเอียด
-// ล่าสุดในหน้าส่งโพยก่อนยืนยันรายการ") — it is part of the paragraphs, not
-// trimmed as downbeat.
+// Vocabulary: 1SS365 is a เว็บสล็อตออนไลน์ เว็บตรงต่างประเทศ ไม่ผ่านเอเย่นต์ —
+// สล็อตออนไลน์, เว็บตรง, ค่ายเกม, สล็อตคลาสสิก, ฟรีสปิน, ตัวคูณ, เกมโบนัส, เครดิต,
+// โปรโมชั่น, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, รอบคำนวณ, ยอดที่เข้าเกณฑ์, ฝากถอน,
+// ประวัติรายการ, สมัครสมาชิก, Login, แอดมิน 24 ชั่วโมง, PIN, OTP, เดิมพันไม่มีขั้นต่ำ.
+// The brand before this one sold lottery; every one of those words (หวย, แทงหวย,
+// ส่งโพย, โพย, เลือกเลข, 2 ตัว / 3 ตัว, อัตราจ่าย, งวด, รัฐบาลไทย, ฮานอย, ลาวพัฒนา,
+// หวยหุ้น, แนวทางหวย, กลุ่มหวย, สถิติหวย, ผลหวย, ตรวจหวย) is gone, and the page was
+// written from the brief rather than find-and-replaced over the old sentences.
+// Nothing here claims a licence, an operator, a bank, a deposit minimum, a member
+// count, a founding year or an RTP figure, because the brief names none. The only
+// figures are the brief's own: 0.3%, 0.8%, 3 ขั้นตอน, 24 ชั่วโมง, 100%. The brief's
+// own hedging ships with the copy ("แตกง่ายหรือจ่ายไวเป็นลักษณะเชิงโฆษณา ไม่สามารถใช้
+// รับประกันผลการเล่น", "ไม่ควรถือว่าทุกเกมไม่มีขั้นต่ำเหมือนกันทั้งหมด", "การเป็นเว็บ
+// ต่างประเทศหรือไม่ผ่านเอเย่นต์เพียงอย่างเดียวไม่ได้รับประกันว่าปลอดภัย 100%") — it is
+// part of the paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used
-// verbatim. The description ships at 137 code points (the brief sheet quotes it
-// as 147 — that count includes the Thai combining marks separately), which is
-// the length the brief wrote it: it is NOT padded up to 150, and verify-build
-// deliberately skips its 150-character floor on the home page for exactly this
-// reason.
-const pageTitle = "หวย365 เว็บแทงหวย แนวทางหวย กลุ่มหวย สถิติหวย ผลหวย ครบทุกประเภท";
+// verbatim and NOT padded up to 150: verify-build deliberately skips its
+// 150-character floor on the home page for exactly this reason.
+const pageTitle = "1SS365 สล็อตเว็บตรงต่างประเทศ ไม่ผ่านเอเย่นต์ ปลอดภัย มั่นใจได้100%";
 
-const pageDescription = "หวย365 เว็บแทงหวย ช่องทางเข้าเล่นหวยออนไลน์ แนวทางหวย กลุ่มหวย สถิติหวย ผลหวย ทั้งรัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ ครบทุกประเภท";
+const pageDescription =
+  "1SS365 สล็อตเว็บตรงต่างประเทศ แตกง่าย จ่ายไว ไม่ผ่านเอเย่นต์ เดิมพันไม่มีขั้นต่ำ ปลอดภัยทุกการใช้งาน ฝากถอนเข้าไว ไม่ติดสแกม มั่นใจได้100%";
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened
-// to H2-only. The two H3s are genuine headings — the two payout sub-points, both
-// nested under the อัตราการจ่าย H2 — and they stay H3.
+// to H2-only. The two H3s are genuine headings — the two promotion sub-points,
+// both nested under the โปรโมชั่น H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  หวย365 เว็บแทงหวย แนวทางหวย กลุ่มหวย สถิติหวย ผลหวย
-//          ContentBoxPremium, brief paragraph on line 4
-//    2 H2  เว็บ หวย365 รัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ ครบ
-//          ContentBoxTwoPremium, line 6 left / line 7 right
-//    3 H2  อัตราการจ่าย หวย365 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท
-//          ContentBoxFloatingBadge, line 9
-//    4 H3  2ตัว จ่าย100บาท
-//          ContentBoxSevenThreePremium + slide2 (imgTwoDigit), line 11
-//    5 H3  3ตัว จ่าย1,000บาท
-//          ContentBoxSevenThreeHuay + slide1 (imgThreeDigit), line 13
-//    6 H2  สมัครแทงหวยเว็บ หวย365 ง่ายๆ 3ขั้นตอน
-//          ContentBoxSpecial, line 15 left / line 16 right
-//    7 H2  ติดต่อแอดมินเว็บแทง หวย365 ได้ ตลอด 24 ชั่วโมง
+//    1 H1  1SS365 สล็อตเว็บตรงต่างประเทศ แตกง่าย จ่ายไว ไม่ผ่านเอเย่นต์
+//          ContentBoxNeumorphism, brief paragraph on line 4
+//    2 H2  1SS365 สล็อตเว็บตรง เดิมพันไม่มีขั้นต่ำ ไม่ติดสแกม มั่นใจได้100%
+//          ContentBoxTwoCyberCut, line 6 left / line 7 right
+//    3 H2  โปรโมชั่นเล่นสล็อต 1SS365 อัปเดตตลอดทั้งเดือน
+//          ContentBoxCyberCut, line 9
+//    4 H3  คืนยอดเสีย โบนัส 0.3%
+//          ContentBoxSevenThreeNeumorphism + slide2 (imgCashback), line 11
+//    5 H3  แนะนำเพื่อน โบนัส 0.8%
+//          ContentBoxSevenThreeCyberCut + slide1 (imgReferral), line 13
+//    6 H2  สมัครเล่นสล็อต 1SS365 บนมือถือง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoNeumorphism, line 15 left / line 16 right
+//    7 H2  ติดต่อแอดมิน 1SS365 ผู้ให้บริการเว็บหลักได้ 24 ชั่วโมง
 //          ContentBox + LINE / สมัครสมาชิก buttons, lines 18+19
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวย365
-//          FaqHuay + faqs prop, lines 21-26
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ 1SS365
+//          Faq3 + faqs prop, lines 21-26
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
 // Every brief paragraph ships in full — all eleven of them, nothing merged or
 // summarised. Sections 2 and 6 have two paragraphs each and run one per column;
 // section 7 has two and they stack inside one wrapper div so the slot still
-// receives exactly one element. The column labels passed to ContentBoxTwoPremium
-// are this page's own layout wording, not brief headings, and that variant
-// renders them as <p>.
+// receives exactly one element. The column labels passed to ContentBoxTwoCyberCut
+// and ContentBoxTwoNeumorphism are this page's own layout wording, not brief
+// headings, and both variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// AnnouncementHuay, LatestWinnersHuay, LoginRtpSection and ReviewCardSumo2
-// render their titles as <p>/<span> with an aria-label on the section, and
-// FaqHuay's questions live inside <summary> as <p>. The non-brief widgets sit
-// before section 1 (the ticker, then the winners feed) and after section 8
+// AnnouncementPremium, LatestWinnersPremium, LoginRtpSection and ReviewCardSumo
+// render their titles as <p>/<span> with an aria-label on the section, and Faq3's
+// questions live inside <summary> as <p>. The non-brief widgets sit before
+// section 1 (the ticker, then the winners feed) and after section 8
 // (LoginRtpSection, ReviewCardSumo, Navfoot) — never spliced between two content
 // sections.
 
@@ -152,16 +149,16 @@ const pageDescription = "หวย365 เว็บแทงหวย ช่อ�
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "หวย365 มีหวยอะไรให้เลือกบ้าง?",
-    a: "มีรัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ และรายการอื่นตามที่ระบบเปิดรับในแต่ละวัน สามารถตรวจสอบตารางหวย เวลาปิดรับ อัตราจ่าย และผลของแต่ละรอบได้จากหน้าเว็บไซต์",
+    q: "1SS365 เป็นสล็อตเว็บตรงต่างประเทศและไม่ผ่านเอเย่นต์จริงหรือไม่?",
+    a: "ควรตรวจสอบจากข้อมูลผู้ดำเนินงาน เงื่อนไขบริการ และข้อมูลบริษัทที่เว็บไซต์เปิดเผย หาก 1SS365 ระบุว่าเป็นระบบต่างประเทศและไม่ผ่านเอเย่นต์ ควรมีรายละเอียดที่สมาชิกสามารถตรวจสอบได้ ไม่ควรพิจารณาจากข้อความประชาสัมพันธ์เพียงอย่างเดียว",
   },
   {
-    q: "สถิติหวยและแนวทางหวย365 ใช้ทำนายเลขงวดต่อไปได้หรือไม่?",
-    a: "สถิติย้อนหลังช่วยให้ดูผลและรูปแบบตัวเลขที่เคยออก ส่วนแนวทางหวยเป็นข้อมูลประกอบจากแหล่งหรือกลุ่มต่าง ๆ แต่ไม่สามารถรับประกันผลของงวดถัดไปได้ เพราะผลการออกรางวัลแต่ละรอบไม่ได้ยืนยันจากสถิติที่ผ่านมา",
+    q: "1SS365 มีเกมสล็อตไม่มีขั้นต่ำทุกเกมหรือไม่?",
+    a: "ไม่จำเป็นต้องเหมือนกันทุกเกม เพราะยอดเดิมพันขั้นต่ำและสูงสุดขึ้นอยู่กับค่ายและเกมที่เลือก บางรายการอาจรองรับการเดิมพันด้วยยอดต่ำ สมาชิกควรเปิดข้อมูลเกมและตรวจสอบช่วงเดิมพันก่อนเริ่มเล่นทุกครั้ง",
   },
   {
-    q: "หวย365 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ใช้กับหวยทุกประเภทหรือไม่?",
-    a: "ขึ้นอยู่กับประเภทหวยและเงื่อนไขของแต่ละรอบ อัตรา 2 ตัว 100 และ 3 ตัว 1,000 ควรตรวจสอบจากหน้าส่งโพยก่อนเดิมพันทุกครั้ง เนื่องจากบางรายการอาจกำหนดอัตราหรือวงเงินแตกต่างกัน",
+    q: "โปรโมชั่น 1SS365 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่ตรงตามเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนจากยอดที่เข้าเกณฑ์ ทั้งสองโปรโมชั่นอาจมีรอบคำนวณและข้อกำหนดแตกต่างกัน จึงควรตรวจสอบรายละเอียดล่าสุดก่อนกดรับ",
   },
 ];
 
@@ -169,10 +166,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #ffc93c, the brand gold, against the inherited body
-// colour #f6e7e0 (BRAND_TEXT). The paragraphs below carry no colour class of
-// their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f6e7e0]` on the element holding
+// One highlight colour only: #ffeeb4, the brand's pale gold, against the
+// inherited body colour #f0e6d2 (BRAND_TEXT). The paragraphs below carry no
+// colour class of their own: every ContentBox* card in this mix already sets
+// `text-left text-base leading-relaxed text-[#f0e6d2]` on the element holding
 // the slot, so the prose inherits it and no page-level override can drift from
 // the card.
 
@@ -194,110 +191,120 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title="หวย365 เว็บแทงหวย แนวทางหวย กลุ่มหวย สถิติหวย ผลหวย">
+  <ContentBoxNeumorphism as="h1" title="1SS365 สล็อตเว็บตรงต่างประเทศ แตกง่าย จ่ายไว ไม่ผ่านเอเย่นต์">
     <p>
-      หวย365
-      <strong class="text-[#ffc93c]">เว็บแทงหวยออนไลน์ที่รวมข้อมูลและรายการหวยไว้ในหน้าเดียว</strong>
-      ทั้งแนวทางหวย กลุ่มหวย สถิติหวยย้อนหลัง และผลหวยตามรอบที่ประกาศ สมาชิกสามารถติดตามรัฐบาลไทย ฮานอย ลาวพัฒนา และหวยหุ้นต่างประเทศ พร้อมเลือกเลข ส่งโพย และตรวจสอบรายการผ่านมือถือได้สะดวก ข้อมูลสถิติช่วยสำหรับย้อนดูผลในรอบที่ผ่านมา
-      <strong class="text-[#ffc93c]">แต่ไม่สามารถใช้ยืนยันหรือรับประกันเลขที่จะออกในงวดถัดไปได้</strong>
+      1SS365
+      <strong class="text-[#ffeeb4]">ให้บริการเกมสล็อตออนไลน์จากแพลตฟอร์มต่างประเทศ รวมเกมหลายรูปแบบไว้ให้เลือกผ่านบัญชีเดียว</strong>
+      ทั้งสล็อตคลาสสิก ฟรีสปิน ตัวคูณ และเกมโบนัส รองรับการเข้าเล่นผ่านมือถือโดยไม่ต้องสลับหลายเว็บไซต์ สมาชิกสามารถตรวจสอบค่ายเกม เครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว
+      <strong class="text-[#ffeeb4]">ส่วนคำว่าแตกง่ายหรือจ่ายไวเป็นลักษณะเชิงโฆษณา ไม่สามารถใช้รับประกันผลการเล่นหรือระยะเวลาของธุรกรรมได้ในทุกกรณี</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxTwoPremium as="h2" title="เว็บ หวย365 รัฐบาลไทย ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ ครบ" titleleft="รายการหวยที่เปิดรับ" titleright="แนวทาง กลุ่ม และสถิติย้อนหลัง">
+  <ContentBoxTwoCyberCut
+    as="h2"
+    title="1SS365 สล็อตเว็บตรง เดิมพันไม่มีขั้นต่ำ ไม่ติดสแกม มั่นใจได้100%"
+    titleleft="ช่วงเดิมพันตามค่ายและเกม"
+    titleright="ข้อมูลที่ตรวจสอบได้">
     <p slot="left">
-      เว็บ หวย365
-      <strong class="text-[#ffc93c]">รวบรวมรายการหวยหลายประเภทสำหรับผู้ที่ต้องการติดตามหลายรอบในบัญชีเดียว</strong>
-      มีทั้งหวยรัฐบาลไทยตามกำหนดออกรางวัล หวยฮานอยหลายรอบ หวยลาวพัฒนา และหวยหุ้นต่างประเทศตามตลาดที่เปิดให้บริการ สมาชิกสามารถตรวจสอบเวลาเปิดรับ เวลาปิดรับ อัตราจ่าย
-      <strong class="text-[#ffc93c]">และผลของแต่ละรายการได้ก่อนเลือกแทง</strong>
+      1SS365
+      <strong class="text-[#ffeeb4]">เปิดให้สมาชิกเลือกเกมสล็อตตามค่ายและช่วงเดิมพันที่ระบบรองรับ</strong>
+      มีทั้งเกมที่เริ่มต้นด้วยยอดต่ำและเกมที่สามารถปรับระดับเดิมพันได้หลายช่วง ก่อนเริ่มเล่นควรตรวจสอบขั้นต่ำและสูงสุดของเกมนั้นโดยตรง เนื่องจากแต่ละค่ายสามารถกำหนดช่วงเดิมพันแตกต่างกัน
+      <strong class="text-[#ffeeb4]">จึงไม่ควรถือว่าทุกเกมไม่มีขั้นต่ำเหมือนกันทั้งหมด</strong>
     </p>
     <p slot="right">
-      นอกจากรายการหวยแล้ว
-      <strong class="text-[#ffc93c]">ยังสามารถจัดหมวดแนวทางหวย กลุ่มพูดคุย และสถิติย้อนหลังแยกตามประเภท</strong>
-      เพื่อให้ค้นหาข้อมูลได้ง่ายขึ้น อย่างไรก็ตาม แนวทางหรือสถิติย้อนหลังเป็นเพียงข้อมูลประกอบ
-      <strong class="text-[#ffc93c]">ไม่ได้เพิ่มความแน่นอนในการทายผลหวยรอบถัดไป</strong>
+      สำหรับคำว่า ไม่ติดสแกม หรือ มั่นใจได้ 100%
+      <strong class="text-[#ffeeb4]">ควรมีข้อมูลที่ตรวจสอบได้รองรับ</strong>
+      เช่น ผู้ดำเนินงาน ช่องทางติดต่อ ระบบรักษาความปลอดภัย และรายละเอียดธุรกรรม
+      <strong class="text-[#ffeeb4]">การเป็นเว็บต่างประเทศหรือไม่ผ่านเอเย่นต์เพียงอย่างเดียวไม่ได้รับประกันว่าเว็บไซต์หรือธุรกรรมจะปลอดภัย 100%</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBoxFloatingBadge as="h2" title="อัตราการจ่าย หวย365 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท">
+  <ContentBoxCyberCut as="h2" title="โปรโมชั่นเล่นสล็อต 1SS365 อัปเดตตลอดทั้งเดือน">
     <p>
-      หวย365 มีอัตราจ่ายสำหรับรายการที่เข้าเงื่อนไข โดยกำหนด
-      <strong class="text-[#ffc93c]">2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
-      ตามประเภทหวยและรูปแบบการเดิมพันที่เปิดรับ ก่อนส่งโพยควรตรวจสอบอัตราที่แสดงในระบบ รวมถึงเลขที่เลือก ยอดเดิมพัน และรอบหวยให้ถูกต้อง
-      <strong class="text-[#ffc93c]">เพราะแต่ละรายการอาจกำหนดอัตราจ่ายหรือวงเงินแตกต่างกัน</strong>
+      สมาชิกสามารถ
+      <strong class="text-[#ffeeb4]">ตรวจสอบโปรโมชั่น 1SS365 ที่เปิดให้รับในแต่ละช่วงของเดือนผ่านบัญชีของตนเอง</strong>
+      มีทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน แต่ละรายการอาจกำหนดรอบคำนวณ ค่ายเกม ยอดที่เข้าเกณฑ์ และระยะเวลารับโบนัสแตกต่างกัน
+      <strong class="text-[#ffeeb4]">ควรอ่านรายละเอียดล่าสุดก่อนเลือกใช้โปรโมชั่น</strong>
+      เพื่อให้ทราบว่ายอดส่วนใดถูกนำมาคำนวณและต้องดำเนินการอย่างไรจึงจะได้รับสิทธิ์
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreePremium as="h3" title="2ตัว จ่าย100บาท">
-    <Picture
-      slot="left"
-      src={imgTwoDigit}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[339, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 46px), 339px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="ภาพโปสเตอร์อัตราจ่ายของ หวย365 ฉากหลังเป็นผ้าซาตินสีแดงสดพลิ้ว ด้านซ้ายเป็นหญิงสาวผมยาวประดับดอกไม้ขาวและเครื่องประดับทองฝังพลอยแดง สวมชุดไทยสีขาวครีมปักทอง มือขวายกลูกบอลหวยสีขาวเลข 2 ขึ้นมาข้างแก้ม รอบตัวมีลูกบอลหวยเลข 6 9 8 และ 5 กองเหรียญทองและใบหวยกระจายอยู่ มุมบนขวาเป็นโลโก้ หวย365 ถัดลงมาเป็นตัวอักษรไทยสีทองขอบแดงขนาดใหญ่ว่า อัตราจ่ายหวย และป้ายสีขาวขอบทองคาดข้อความ 2ตัวจ่าย 100 บาท"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#c08a07]/60 shadow-[0_10px_30px_rgba(255,201,60,0.28)]"
-    />
-    <p slot="right">
-      รายการที่กำหนดอัตรา
-      <strong class="text-[#ffc93c]">2 ตัว จ่าย 100 บาท</strong>
-      สามารถเลือกเลขและยอดตามวงเงินที่ระบบเปิดรับได้ ก่อนยืนยันโพยควรตรวจสอบว่าราคาดังกล่าวใช้กับหวยประเภทและรูปแบบใด
-      <strong class="text-[#ffc93c]">เนื่องจากรัฐบาลไทย ฮานอย ลาวพัฒนา หรือหวยหุ้นอาจไม่ได้ใช้อัตราเดียวกันในทุกรอบ</strong>
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThreeHuay as="h3" titleleft="3ตัว จ่าย1,000บาท">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="คืนยอดเสีย โบนัส 0.3%">
     <p slot="left">
-      สำหรับรายการที่กำหนดอัตรา
-      <strong class="text-[#ffc93c]">3 ตัว จ่าย 1,000 บาท</strong>
-      สมาชิกควรตรวจสอบรายละเอียดของเลข 3 ตัวก่อนส่งโพย โดยเฉพาะประเภทการเดิมพันและเงื่อนไขของหวยรอบนั้น หากระบบแสดงอัตราที่แตกต่างจากข้อมูลประชาสัมพันธ์
-      <strong class="text-[#ffc93c]">ควรยึดรายละเอียดล่าสุดในหน้าส่งโพยก่อนยืนยันรายการ</strong>
+      สมาชิกที่มียอดเสียตรงตามข้อกำหนดสามารถ
+      <strong class="text-[#ffeeb4]">ตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ 1SS365 กำหนด</strong>
+      ระบบจะนำยอดที่เข้าเกณฑ์มาคำนวณก่อนแสดงโบนัสที่สามารถรับได้
+      <strong class="text-[#ffeeb4]">ควรตรวจสอบรอบตัดยอด ค่ายเกมที่ร่วมรายการ และเงื่อนไขการใช้โบนัสก่อนกดรับทุกครั้ง</strong>
     </p>
     <Picture
       slot="right"
-      src={imgThreeDigit}
+      src={imgCashback}
       loading="lazy"
       fetchpriority="low"
-      widths={[353, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 68px), 353px"
+      widths={[349, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 71px), 349px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปสเตอร์อัตราจ่ายของ หวย365 ชุดเดียวกัน ฉากหลังเป็นผ้าซาตินสีแดงสดพลิ้ว ด้านซ้ายเป็นหญิงสาวผมยาวประดับปิ่นทองและเครื่องประดับทองฝังพลอยแดง สวมชุดไทยสีขาวครีมปักทอง มือซ้ายถือลูกบอลหวยสีขาวเลข 3 ส่วนมือขวาแบหงายไปข้างหน้า รอบตัวมีลูกบอลหวยเลข 6 8 9 และ 5 กองเหรียญทองและใบหวยกระจายอยู่ มุมบนขวาเป็นโลโก้ หวย365 ถัดลงมาเป็นตัวอักษรไทยสีทองขอบแดงขนาดใหญ่ว่า อัตราจ่ายหวย และป้ายสีแดงขอบทองคาดข้อความ 3ตัว จ่าย 1,000 บาท"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#c08a07]/60 shadow-[0_10px_30px_rgba(255,201,60,0.28)]"
+      alt="ภาพโปรโมชั่นของ 1SS365 ฉากหลังเป็นผ้าซาตินสีขาวและทองพลิ้ว ด้านซ้ายเป็นหญิงสาวผมยาวประดับดอกไม้สีขาว สวมชุดสีขาวปักทองพร้อมสร้อยและกำไลทอง ยื่นมือซ้ายแบออกมาข้างหน้าและชี้นิ้วมือขวาขึ้น รอบตัวมีเหรียญทอง ลูกเต๋าทอง และกล่องของขวัญกระจายอยู่ มุมบนขวาเป็นโลโก้ 1SS365 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น มีมงกุฎทองอยู่ด้านบน และป้ายพื้นเข้มขอบทองคาดข้อความ คืนยอดเสีย โบนัส 0.3%"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#a87708]/60 shadow-[0_10px_30px_rgba(237,187,35,0.28)]"
     />
-  </ContentBoxSevenThreeHuay>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSpecial as="h2" title="สมัครแทงหวยเว็บ หวย365 ง่ายๆ 3ขั้นตอน" iconleft="📝" iconright="🔐">
+  <ContentBoxSevenThreeCyberCut as="h3" title="แนะนำเพื่อน โบนัส 0.8%">
+    <Picture
+      slot="left"
+      src={imgReferral}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[346, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="ภาพโปรโมชั่นของ 1SS365 ชุดเดียวกัน ฉากหลังเป็นผ้าซาตินสีขาวและทองพลิ้วพร้อมริบบิ้นทอง ด้านซ้ายเป็นหญิงสาวผมยาวผูกโบว์ขาว สวมชุดสีขาวปักทองพร้อมต่างหูและสร้อยทอง ยื่นมือซ้ายแบออกมาข้างหน้าและชี้นิ้วมือขวาขึ้นไปทางตัวอักษร รอบตัวมีเหรียญทองและริบบิ้นทองกระจายอยู่ มุมบนขวาเป็นโลโก้ 1SS365 ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น มีมงกุฎทองอยู่ด้านบน และป้ายพื้นเข้มขอบทองคาดข้อความ แนะนำเพื่อน โบนัส 0.8%"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#a87708]/60 shadow-[0_10px_30px_rgba(237,187,35,0.28)]"
+    />
+    <p slot="right">
+      สมาชิกสามารถ
+      <strong class="text-[#ffeeb4]">ใช้ลิงก์แนะนำ 1SS365 เพื่อเชิญเพื่อนสมัคร</strong>
+      เมื่อบัญชีของเพื่อนมียอดใช้งานตรงตามเงื่อนไข
+      <strong class="text-[#ffeeb4]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+      สมาชิกสามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และสถานะโบนัสจากบัญชีของตนเองตามรอบที่เว็บไซต์กำหนด
+    </p>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxTwoNeumorphism
+    as="h2"
+    title="สมัครเล่นสล็อต 1SS365 บนมือถือง่ายๆ 3ขั้นตอน"
+    titleleft="ขั้นตอนการสมัครผ่านมือถือ"
+    titleright="หลังสมัครและการดูแลบัญชี">
     <p slot="left">
-      การสมัครเว็บ หวย365
-      <strong class="text-[#ffc93c]">สามารถทำผ่านมือถือได้ใน 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชี ก่อน เลือกประเภทหวย รอบ และตัวเลขที่ต้องการ
-      <strong class="text-[#ffc93c]">พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย</strong>
+      การสมัคร 1SS365
+      <strong class="text-[#ffeeb4]">สามารถดำเนินการผ่านมือถือได้ใน 3 ขั้นตอน</strong>
+      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกค่ายและเกมสล็อตที่ต้องการ
+      <strong class="text-[#ffeeb4]">พร้อมตรวจสอบช่วงเดิมพันและโปรโมชั่นก่อนเริ่มเล่น</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#ffc93c]">หลังสมัครเรียบร้อยสามารถใช้บัญชีเดียวติดตามแนวทางหวย สถิติย้อนหลัง ผลหวย</strong>
-      และรายการที่เปิดรับในแต่ละวันได้ ควรตรวจสอบข้อมูลในโพยก่อนยืนยันทุกครั้ง
-      <strong class="text-[#ffc93c]">รวมถึงตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผยรหัสผ่านหรือ OTP ให้บุคคลอื่น</strong>
+      <strong class="text-[#ffeeb4]">หลังสมัครเรียบร้อยสามารถใช้บัญชีเดียวค้นหาเกมสล็อต ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้</strong>
+      ควรใช้ข้อมูลของตนเอง ตั้งรหัสผ่านที่คาดเดายาก
+      <strong class="text-[#ffeeb4]">และไม่ส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่นไม่ว่าจะติดต่อผ่านช่องทางใด</strong>
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoNeumorphism>
 
-  <ContentBox as="h2" title="ติดต่อแอดมินเว็บแทง หวย365 ได้ ตลอด 24 ชั่วโมง">
+  <ContentBox as="h2" title="ติดต่อแอดมิน 1SS365 ผู้ให้บริการเว็บหลักได้ 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
       <p>
-        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ส่งโพยไม่สำเร็จ รายการไม่แสดง ผลหวยยังไม่อัปเดต หรือมีข้อสงสัยเกี่ยวกับอัตราจ่าย
-        <strong class="text-[#ffc93c]">สามารถติดต่อแอดมิน หวย365 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดเพื่อช่วยให้ตรวจสอบรายการได้ตรงจุด
+        หากพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมไม่ได้ เครดิตไม่แสดง รายการฝากถอนอยู่ระหว่างตรวจสอบ หรือโปรโมชั่นไม่ถูกคำนวณ
+        <strong class="text-[#ffeeb4]">สามารถติดต่อแอดมิน 1SS365 ผ่านช่องทางหลักที่เว็บไซต์กำหนด</strong>
+        พร้อมแจ้งข้อมูลของรายการเพื่อช่วยให้ตรวจสอบปัญหาได้ตรงจุด
       </p>
       <p>
-        <strong class="text-[#ffc93c]">กรณีเกี่ยวกับโพยควรแจ้งชื่อหวย รอบเวลา เลขที่เลือก และข้อมูลรายการที่เกี่ยวข้อง</strong>
-        หากเป็นปัญหาด้านธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานไว้สำหรับตรวจสอบ
-        <strong class="text-[#ffc93c]">โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+        <strong class="text-[#ffeeb4]">กรณีเกมสล็อตมีปัญหาควรแจ้งชื่อเกม ค่าย และเวลาที่เกิดเหตุ</strong>
+        ส่วนรายการฝากถอนควรเก็บหลักฐาน เวลา และจำนวนเงินไว้จนกว่าการตรวจสอบจะเสร็จสิ้น
+        <strong class="text-[#ffeeb4]">โดยไม่ควรเปิดเผยรหัสผ่านหรือ OTP ให้เจ้าหน้าที่หรือบุคคลอื่น</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a
@@ -307,14 +314,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffeab0]/70 bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] p-3.5 text-center font-black text-[#1a0303] shadow-[0_10px_30px_rgba(255,201,60,0.40)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก หวย365
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffeeb4]/70 bg-gradient-to-r from-[#ffeeb4] via-[#edbb23] to-[#a87708] p-3.5 text-center font-black text-[#1a1710] shadow-[0_10px_30px_rgba(237,187,35,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก 1SS365
         </a>
       </div>
     </div>
   </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ หวย365" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ 1SS365" faqs={faqs} />
 
   <LoginRtpSection />
 
