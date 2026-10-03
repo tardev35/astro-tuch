@@ -13,16 +13,16 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// Only what the brief actually names. หวยเฮง789 is a เว็บแทงหวยออนไลน์ and its
-// brief lists exactly four lottery families it opens — รัฐบาลไทย, ฮานอย, ลาว,
-// หุ้นต่างประเทศ — plus the two angles it leads with, เลขเด็ด and เลขดัง. There
-// are no promotions in this brief, so the คืนยอดเสีย / แนะนำเพื่อน percentages the
-// previous holder of this variant shipped are gone rather than re-typed with new
-// numbers: an invented rebate rate on a gambling page is a real claim. The
-// previous brief's ลาวพัฒนา sub-round is gone too — this brief names no
-// sub-rounds. The module picks one chip per row through data-winners-markets /
-// data-winner-market.
-const marketPool = ["หวยรัฐบาลไทย", "หวยฮานอย", "หวยลาว", "หวยหุ้นต่างประเทศ", "เลขเด็ด", "เลขดัง"];
+// Only what the brief actually names. DM899 is a สล็อตคาสิโนเว็บตรงต่างประเทศ and
+// its brief names exactly three game groups — เกมสล็อต, เกมคาสิโนสด and
+// "หมวดเกมอื่นตามผู้ให้บริการที่เชื่อมต่อกับระบบ" — plus the two promotions it
+// runs (คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%) and the ฝากถอน rail itself. The
+// lottery markets the previous holder of this variant shipped (รัฐบาลไทย, ฮานอย,
+// ลาว, หวยหุ้นต่างประเทศ, เลขเด็ด, เลขดัง) are gone rather than re-typed, because
+// this brand runs no lottery at all. No game studio is named: the brief names
+// none, and an invented ค่ายเกม on a gambling page is a real claim. The module
+// picks one chip per row through data-winners-markets / data-winner-market.
+const marketPool = ["เกมสล็อต", "เกมคาสิโนสด", "หมวดเกมอื่น", "โบนัสคืนยอดเสีย 0.3%", "โบนัสแนะนำเพื่อน 0.8%", "ฝากถอน"];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -35,13 +35,15 @@ const flag = (salt: string) => brandFlag(Astro.site, salt);
 // The status chip's two states are declared on the row itself
 // (data-pending-text / data-done-text and the matching -class pairs), so the
 // server-rendered state has to agree with one of them. `pending` below picks
-// which one this row shipped in.
-const PENDING_TEXT = "รอตรวจสอบ";
-const DONE_TEXT = "ถอนสำเร็จ";
-const PENDING_CLASS = "border-[#a8690c]/60 text-[#f4bc5d]";
-const DONE_CLASS = "border-[#45d67a]/50 text-[#45d67a]";
-const AMOUNT_CLASS = "text-[#f4bc5d]";
-const BIG_AMOUNT_CLASS = "text-[#e43434]";
+// which one this row shipped in. The wording is this brand's: the brief's own
+// phrase for a transaction still being checked is "รายการฝากถอนอยู่ระหว่าง
+// ตรวจสอบ", so the two states read อยู่ระหว่างตรวจสอบ / ฝากถอนสำเร็จ.
+const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
+const DONE_TEXT = "ฝากถอนสำเร็จ";
+const PENDING_CLASS = "border-[#a8780f]/65 text-[#ffe9a8]";
+const DONE_CLASS = "border-[#4ade6b]/55 text-[#4ade6b]";
+const AMOUNT_CLASS = "text-[#f2b422]";
+const BIG_AMOUNT_CLASS = "text-[#fb252b]";
 
 const initialRows = Array.from({ length: 8 }, (_, i) => {
   const amount = 15000 + pick(`pill-amount-${i}`, 80001);
@@ -60,25 +62,26 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 // feed's title is a <p> and the <section> carries an aria-label — a withdrawal
 // feed is chrome and never emits a heading tag.
 //
-// หวยเฮง789 (รอบแดงนำ-ทองรอง 2026-10-01): เม็ดยาแต่ละเม็ดเป็นพื้นเพจเงาลึกสุด
-// #0b0202 ในกรอบแดงเข้มสุด #5c0a0a ที่สว่างขึ้นเป็นแดงแบรนด์ #dc2224 ตอน hover ชิป
-// ประเภทหวยเป็นเส้นแดงลึก #ab0204 ตัวอักษรทองรอง #f4bc5d ยอดเงินเป็นทองรองและ
-// กระโดดไปแดงสว่าง #e43434 เมื่อเกิน data-big-win-above ชื่อผู้ถอนเป็น BRAND_TEXT
-// #fbe3d4 ส่วนกรอบนอกเป็นผิวพื้นส่วน #1c0606 ในเส้นแดงแบรนด์ และหัวแถบไล่ทองอ่อน
-// #ffefc2 → แดงแบรนด์ ตามโลโก้ที่คำว่า "หวย" เป็นแดงเลือดนกและ "เฮง789" เป็นทอง
-// เขียว #45d67a ของสถานะ "ถอนสำเร็จ" เป็นสีของสถานะไม่ใช่สีแบรนด์ และสีโลโก้ธนาคาร
-// ทั้งสี่เป็นสีจริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่
+// DM899 (รอบเขียวมรกต-แดงสด-ทอง บนดำอมเขียว 2026-10-03): เม็ดยาแต่ละเม็ดเป็นพื้น
+// ลึกสุด #030a05 ในกรอบเขียวลึก #0a4a18 ที่สว่างขึ้นเป็นเขียวแบรนด์ #01a326 ตอน
+// hover ชิปหมวดเกมเป็นเส้นแดงลึก #8f0609 ตัวอักษรทองแบรนด์ #f2b422 ยอดเงินเป็นทอง
+// และกระโดดไปแดงแบรนด์ #fb252b เมื่อเกิน data-big-win-above ซึ่งเป็นคู่เขียว-แดง
+// ของโลโก้ (ตัว D เขียว vivid #01841b ซ้อนตัว M แดง #fb252b) ชื่อผู้ถอนเป็น
+// BRAND_TEXT #e4f2e4 ส่วนกรอบนอกเป็นผิวการ์ด #0a1a0e ในเส้นเขียวแบรนด์ และหัวแถบ
+// ไล่ทองอ่อน #ffe9a8 → เขียวสว่าง #12c23a ตามตัวอักษรทองไล่เฉดบนแบนเนอร์
+// เขียว #4ade6b ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็น
+// สีจริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่
 //
-// ชุดแดง-ทอง-ดำของ LOTTOPLUS ที่เคยค้างในไฟล์นี้ (#dc020e #1f0a0c #f3c623 #fde79a
-// #6b0207 #ff2d38 #120b0c #050505 #f0e2e2 #8a6a0a) ออกครบทุกจุดแล้ว
+// ชุดแดง-ทอง-ดำของ หวยเฮง789 ที่เคยค้างในไฟล์นี้ (#dc2224 #5c0a0a #ab0204 #f4bc5d
+// #ffefc2 #e43434 #1c0606 #0b0202 #a8690c #45d67a #fbe3d4) ออกครบทุกจุดแล้ว
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#dc2224]/40 bg-[#1c0606]/90 px-4 py-8 shadow-[0_15px_40px_rgba(220,34,36,0.2)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#01a326]/45 bg-[#0a1a0e]/90 px-4 py-8 shadow-[0_15px_40px_rgba(1,163,38,0.20)] backdrop-blur-md">
     <div class="mb-6 text-center">
-      <p class="bg-gradient-to-b from-[#ffefc2] to-[#dc2224] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🎫</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#ffe9a8] to-[#12c23a] bg-clip-text text-xl font-black text-transparent md:text-2xl"><span aria-hidden="true">🎰</span> {BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -95,14 +98,14 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#5c0a0a] bg-[#0b0202] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(220,34,36,0.2)] hover:border-[#dc2224]/60">
+            <div class="flex items-center gap-3 rounded-full border border-[#0a4a18] bg-[#030a05] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(1,163,38,0.20)] hover:border-[#01a326]/70">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#fbe3d4]">
+              <div data-winner-user class="text-sm font-bold text-[#e4f2e4]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#ab0204]/70 px-2 py-0.5 text-[10px] font-bold text-[#f4bc5d]">
+              <span data-winner-market class="rounded-full border border-[#8f0609]/75 px-2 py-0.5 text-[10px] font-bold text-[#f2b422]">
                 {row.market}
               </span>
               <span
@@ -114,11 +117,7 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
                 class={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                 {row.pending ? PENDING_TEXT : DONE_TEXT}
               </span>
-              <div
-                data-winner-big
-                data-normal-class={AMOUNT_CLASS}
-                data-big-class={BIG_AMOUNT_CLASS}
-                class={`text-sm font-black drop-shadow-sm ${row.big ? BIG_AMOUNT_CLASS : AMOUNT_CLASS}`}>
+              <div data-winner-big data-normal-class={AMOUNT_CLASS} data-big-class={BIG_AMOUNT_CLASS} class={`text-sm font-black drop-shadow-sm ${row.big ? BIG_AMOUNT_CLASS : AMOUNT_CLASS}`}>
                 +<span data-winner-amount>{row.amount}</span> ฿
               </div>
             </div>

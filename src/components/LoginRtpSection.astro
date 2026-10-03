@@ -4,242 +4,252 @@
 import ContentBoxTwo from "./ContentBoxTwo.astro";
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// 1SS365 เป็นเว็บสล็อตออนไลน์เว็บตรงต่างประเทศ ไม่ใช่เว็บหวยและไม่ใช่เว็บบอล แผงฝั่งขวา
-// รอบนี้ถูกเขียนใหม่ทั้งแผงจากคำของบรีฟรอบนี้เอง ไม่ได้ find-and-replace ทับประโยคของ
-// รอบก่อน บรีฟระบุรูปแบบเกมไว้สี่อย่าง คือ สล็อตคลาสสิก ฟรีสปิน ตัวคูณ และเกมโบนัส ป้าย
-// ทุกใบจึงเป็นสี่อย่างนั้น ไม่ใช่ชื่อเกมหรือชื่อค่ายที่คิดขึ้นเอง ส่วนแผง "จุดที่ควรตรวจ
-// ก่อนเริ่มเล่น" ประกอบจากประโยคเตือนของบรีฟล้วนๆ คือ ควรตรวจสอบขั้นต่ำและสูงสุดของเกม
-// นั้นโดยตรงเพราะแต่ละค่ายกำหนดช่วงเดิมพันแตกต่างกัน, แต่ละโปรโมชั่นอาจกำหนดรอบคำนวณ
-// ค่ายเกม ยอดที่เข้าเกณฑ์ และระยะเวลารับโบนัสแตกต่างกัน, คำว่าไม่ติดสแกมหรือมั่นใจได้
-// 100% ควรมีข้อมูลที่ตรวจสอบได้รองรับ และไม่ส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น
+// DM899 เป็นเว็บสล็อตคาสิโนออนไลน์ เว็บตรงต่างประเทศ ไม่ใช่เว็บหวยและไม่ใช่เว็บบอล
+// แผงฝั่งขวารอบนี้ถูกเขียนใหม่ทั้งแผงจากคำของบรีฟรอบนี้เอง ไม่ได้ find-and-replace
+// ทับประโยคของรอบก่อน บรีฟระบุหมวดเกมไว้สามอย่าง คือ เกมสล็อต เกมคาสิโนสด และหมวด
+// เกมอื่นตามผู้ให้บริการที่เชื่อมต่อกับระบบ บวกกับการรองรับเว็บเบราว์เซอร์บนมือถือ
+// ป้ายทุกใบจึงเป็นสี่อย่างนั้น ไม่ใช่ชื่อเกมหรือชื่อค่ายที่คิดขึ้นเอง ส่วนแผง
+// "จุดที่ควรตรวจก่อนเริ่มใช้งาน" ประกอบจากประโยคกำกับของบรีฟล้วนๆ คือ คำว่าบัญชี
+// บริษัทแท้ 100% ควรมีชื่อนิติบุคคลและข้อมูลที่ตรวจสอบได้รองรับ, คำว่าการันตีระบบ
+// เกมมาตรฐานควรระบุมาตรฐาน ใบอนุญาต หรือหน่วยงานที่ตรวจสอบได้, แต่ละโปรโมชั่นอาจ
+// กำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ เกมที่ร่วมรายการ และระยะเวลารับสิทธิ์แตกต่างกัน
+// และการตั้งรหัสผ่านที่คาดเดายากพร้อมไม่เปิดเผย PIN รหัสผ่าน หรือ OTP
 //
-// ชื่อไฟล์ยังมีคำว่า Rtp ติดมาจากรอบเก่า แต่บรีฟรอบนี้ไม่ได้ระบุตัวเลข RTP ไว้ จึงไม่มี
-// ตัวเลขนั้นอยู่ในเนื้อหา — คำของรอบก่อน (หวย โพย งวด อัตราจ่าย เลข 2 ตัว/3 ตัว ฮานอย
-// ลาวพัฒนา หวยหุ้น แนวทางหวย สถิติหวย ตรวจหวย) ไม่เหลืออยู่ในไฟล์นี้แล้ว
+// ชื่อไฟล์ยังมีคำว่า Rtp ติดมาจากรอบเก่า แต่บรีฟรอบนี้ไม่ได้ระบุตัวเลข RTP ไว้ จึง
+// ไม่มีตัวเลขนั้นอยู่ในเนื้อหา — คำของรอบก่อนๆ (หวย โพย งวด อัตราจ่าย เลข 2 ตัว/
+// 3 ตัว ฮานอย ลาวพัฒนา หวยหุ้น ตรวจหวย รวมถึง ฟรีสปิน ตัวคูณ เกมโบนัส และ
+// "ไม่ผ่านเอเย่นต์" ของรอบสล็อตก่อนหน้า) ไม่เหลืออยู่ในไฟล์นี้แล้ว
 //
-// ห้ามใส่ชื่อค่ายเกม ชื่อเกม ชื่อธนาคาร เลขใบอนุญาต ชื่อผู้ให้บริการ ยอดฝากขั้นต่ำ จำนวน
-// สมาชิก หรือปีที่ก่อตั้ง — บรีฟ 1SS365 ไม่ได้ให้ไว้เลยสักอย่าง และตัวเลขที่แต่งขึ้นบน
-// หน้าเว็บพนันคือการกล่าวอ้างจริง ไม่ใช่ของประดับ ตัวเลขที่ใช้ได้มีเท่าที่บรีฟระบุ คือ
-// คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · สมัคร 3 ขั้นตอน · 24 ชั่วโมง · 100%
+// ห้ามใส่ชื่อค่ายเกม ชื่อเกม ชื่อธนาคาร เลขใบอนุญาต ชื่อผู้ให้บริการ ยอดฝากขั้นต่ำ
+// จำนวนสมาชิก หรือปีที่ก่อตั้ง — บรีฟ DM899 ไม่ได้ให้ไว้เลยสักอย่าง และตัวเลขที่
+// แต่งขึ้นบนหน้าเว็บพนันคือการกล่าวอ้างจริง ไม่ใช่ของประดับ ตัวเลขที่ใช้ได้มีห้าตัว
+// เท่าที่บรีฟระบุ คือ คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · สมัคร 3 ขั้นตอน ·
+// 24 ชั่วโมง · บัญชีบริษัทแท้ 100%
 const gameShapes = [
-  { icon: "🎰", name: "สล็อตคลาสสิก", detail: "รูปแบบพื้นฐานที่รวมไว้ให้เลือกผ่านบัญชีเดียว ช่วงเดิมพันของแต่ละเกมขึ้นอยู่กับค่ายที่เว็บไซต์เปิดรองรับ" },
-  { icon: "🔄", name: "ฟรีสปิน", detail: "ฟีเจอร์ที่บางเกมเปิดให้ตามเงื่อนไขของเกมนั้น ควรเปิดข้อมูลเกมเพื่อดูรายละเอียดก่อนเริ่มเล่น" },
-  { icon: "✖️", name: "ตัวคูณ", detail: "อีกหนึ่งรูปแบบที่บรีฟระบุไว้ เงื่อนไขและช่วงเดิมพันต่างกันไปตามค่ายและเกมที่เลือก" },
-  { icon: "🎁", name: "เกมโบนัส", detail: "เกมที่มีฟีเจอร์โบนัสในตัว ตรวจสอบขั้นต่ำและสูงสุดของเกมได้โดยตรงจากข้อมูลเกม" },
+  { icon: "🎰", name: "เกมสล็อต", detail: "หนึ่งในหมวดที่บรีฟระบุไว้ รวมไว้ให้เลือกผ่านบัญชีเดียว รายการที่เปิดจริงขึ้นอยู่กับผู้ให้บริการที่เชื่อมต่อกับระบบในแต่ละช่วง" },
+  { icon: "🃏", name: "เกมคาสิโนสด", detail: "อีกหมวดที่บรีฟระบุไว้ เลือกเข้าเล่นได้จากบัญชีเดียวกัน ไม่ต้องสมัครบัญชีใหม่แยกตามค่าย" },
+  { icon: "🎲", name: "หมวดเกมอื่นตามผู้ให้บริการ", detail: "หมวดเกมอื่นเปิดตามผู้ให้บริการที่เชื่อมต่อกับระบบ จำนวนค่ายและเกมสามารถเพิ่มหรือลดได้ตามช่วงเวลา" },
+  { icon: "📱", name: "ใช้งานผ่านเบราว์เซอร์บนมือถือ", detail: "รองรับการใช้งานผ่านเว็บเบราว์เซอร์บนมือถือ สลับหมวดเกม ตรวจสอบเครดิต และดูประวัติรายการได้จากบัญชีเดียว" },
 ];
 
-// สี่ข้อนี้ประกอบจากประโยคเตือนของบรีฟเองทั้งหมด ไม่มีข้อไหนที่บรีฟไม่ได้เขียนไว้
+// สี่ข้อนี้ประกอบจากประโยคกำกับของบรีฟเองทั้งหมด ไม่มีข้อไหนที่บรีฟไม่ได้เขียนไว้
 const beforePlayChecks = [
   {
-    icon: "📏",
-    name: "ขั้นต่ำและสูงสุดของเกมนั้น",
-    detail: "มีทั้งเกมที่เริ่มต้นด้วยยอดต่ำและเกมที่ปรับระดับเดิมพันได้หลายช่วง ก่อนเริ่มเล่นควรตรวจสอบขั้นต่ำและสูงสุดของเกมนั้นโดยตรง เนื่องจากแต่ละค่ายสามารถกำหนดช่วงเดิมพันแตกต่างกัน",
-    tag: "ดูก่อนเริ่มเล่น",
+    icon: "🏢",
+    name: "ข้อมูลของบัญชีบริษัทที่ตรวจสอบได้",
+    detail: "คำว่าบัญชีบริษัทแท้ 100% ควรมีชื่อนิติบุคคลและข้อมูลที่ตรวจสอบได้รองรับก่อนนำมาใช้ยืนยันด้านความปลอดภัย ควรตรวจชื่อบัญชี ชื่อนิติบุคคล และข้อมูลบริษัทให้ตรงกันก่อนทำธุรกรรมทุกครั้ง",
+    tag: "ตรวจก่อนโอน",
+  },
+  {
+    icon: "📋",
+    name: "มาตรฐานที่อ้างอิงได้ของระบบเกม",
+    detail:
+      "หากต้องการใช้ข้อความว่าการันตีระบบเกมมาตรฐาน ควรระบุมาตรฐาน ใบอนุญาต หรือหน่วยงานที่ตรวจสอบได้อย่างชัดเจน เพราะการเป็นแพลตฟอร์มต่างประเทศไม่ได้ยืนยันมาตรฐานหรือความปลอดภัยของระบบโดยอัตโนมัติ",
+    tag: "ไม่รับประกันเอง",
   },
   {
     icon: "🧾",
     name: "เงื่อนไขของโปรโมชั่นแต่ละรายการ",
-    detail: "คืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% อาจกำหนดรอบคำนวณ ค่ายเกม ยอดที่เข้าเกณฑ์ และระยะเวลารับโบนัสแตกต่างกัน ควรอ่านรายละเอียดล่าสุดก่อนเลือกใช้โปรโมชั่น",
+    detail: "คืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% อาจกำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ เกมที่ร่วมรายการ และระยะเวลารับสิทธิ์แตกต่างกัน จึงควรตรวจสอบเงื่อนไขล่าสุดก่อนกดรับโบนัส",
     tag: "อ่านก่อนกดรับ",
-  },
-  {
-    icon: "🔎",
-    name: "ข้อมูลที่ตรวจสอบได้ของเว็บไซต์",
-    detail: "คำว่าไม่ติดสแกมหรือมั่นใจได้ 100% ควรมีข้อมูลที่ตรวจสอบได้รองรับ เช่น ผู้ดำเนินงาน ช่องทางติดต่อ ระบบรักษาความปลอดภัย และรายละเอียดธุรกรรม",
-    tag: "ไม่รับประกันเอง",
   },
   {
     icon: "🔐",
     name: "ความปลอดภัยของบัญชีสมาชิก",
-    detail: "ควรใช้ข้อมูลของตนเอง ตั้งรหัสผ่านที่คาดเดายาก และไม่ส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่นไม่ว่าจะติดต่อผ่านช่องทางใด",
+    detail: "ควรใช้ข้อมูลของตนเองในการสมัคร ตั้งรหัสผ่านที่คาดเดายาก และไม่เปิดเผย PIN รหัสผ่าน หรือ OTP ให้บุคคลอื่น ไม่ว่าจะติดต่อผ่านช่องทางใด",
     tag: "ไม่บอกใคร",
   },
 ];
 
 const chips = [
-  "สล็อตออนไลน์",
+  "สล็อต",
+  "คาสิโนสด",
   "เว็บตรงต่างประเทศ",
-  "ไม่ผ่านเอเย่นต์",
-  "สล็อตคลาสสิก",
-  "ฟรีสปิน",
-  "ตัวคูณ",
-  "เกมโบนัส",
+  "บัญชีบริษัทแท้ 100%",
+  "ค่ายเกม",
   "เครดิต",
-  "ประวัติรายการ",
+  "โปรโมชั่น",
   "คืนยอดเสีย 0.3%",
   "แนะนำเพื่อน 0.8%",
+  "รอบคำนวณ",
+  "ยอดที่เข้าเกณฑ์",
+  "ฝากถอน",
+  "ประวัติรายการ",
   "สมัครสมาชิก",
   "Login",
   "แอดมิน 24 ชั่วโมง",
 ];
 
-// 1SS365 (รอบทอง-เงินโครเมียม-ดำ 2026-10-03): โลโก้เป็นสองโลหะจริง — เหรียญเลข 1 กับ
-// เลข 365 เป็นทอง (vivid #edbb23 #ca8b14 #d19416 #f3cb35) ส่วนตัวอักษร 1SS เป็นเงิน
-// โครเมียม (#fdfdfd #cdcdcd) และ bg.json กำหนดพื้นหลังเว็บเป็นดำ สองแผงจึงถูกแยกด้วย
-// สองโลหะนั้นตรงๆ — แผงล็อกอินอยู่ในกรอบทองแบรนด์ #edbb23 ส่วนแผงรูปแบบเกมอยู่ในกรอบ
-// เงินโครเมียม #c8cbce ทั้งคู่วางบนผิวการ์ด #1a1710 ช่องกรอกและชิปตกลงไปที่พื้นลึกสุด
-// #050505 บรรทัดเด่นไล่ทองอ่อน #ffeeb4 → ทองแบรนด์ → เงินโครเมียม ปุ่มเข้าสู่ระบบเป็น
-// ทองเต็มตัวบนหมึกเข้ม #1a1710 ตามกฎคอนทราสต์ที่ว่าพื้นทองต้องใช้หมึกเข้มเสมอ และไล่เฉด
-// ใต้หมึกเข้มห้ามจบเข้มกว่าทองลึก #a87708 (4.8:1) ปุ่มไลน์ยังคงสีเขียว #00B900 ของ
-// แพลตฟอร์มซึ่งห้ามรีแมป ข้อความรองใช้ #cfc2a6 เนื้อความ #f0e6d2 (BRAND_TEXT)
+// DM899 (รอบเขียวมรกต-แดงสด-ทอง บนดำอมเขียว 2026-10-03): โลโก้เป็นคู่สีจริง — ตัว D
+// เขียว (vivid #01841b #018b1b) ซ้อนตัว M แดง (#fb252b #bb0303 #f91c20) ตามด้วย
+// เลข 899 โครเมียม ส่วน banner1.png พื้นเป็นดำอมเขียว (#05140c #0b1b13 #031404)
+// และ bg.json กำหนดพื้นหลังเว็บเป็น #000000 สองแผงจึงถูกแยกด้วยคู่ D/M นั้นตรงๆ —
+// แผงล็อกอินอยู่ในกรอบเขียวแบรนด์ #01a326 ส่วนแผงหมวดเกมอยู่ในกรอบแดงแบรนด์
+// #fb252b ทั้งคู่วางบนผิวการ์ด #102a16 ช่องกรอกและชิปตกลงไปที่พื้นลึกสุด #030a05
+// บรรทัดเด่นไล่ทองอ่อน #ffe9a8 → ทองแบรนด์ #f2b422 → เขียวสว่าง #12c23a
 //
-// ชุดแดงสด-ทองของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #e00104 #e2020a #f5282a
-// #240406 #140203 #3a0a0c #ffc93c #ffeab0 #c08a07 #1a0303 #f6e7e0) ออกครบทุกจุดแล้ว
+// ปุ่มในแผงนี้แยกตามหน้าที่ตามกฎพาเลตต์: "เข้าสู่ระบบ" เป็นปุ่มรอง จึงเป็นโครงไม่ทึบ
+// ขอบทอง #f2b422/60 หมึกทองอ่อน #ffe9a8 ส่วนปุ่มไลน์คงสีแพลตฟอร์ม #00B900 แบบพื้น
+// ทึบไม่ไล่เฉด ซึ่งจงใจให้ต่างจากปุ่มสมัครสมาชิกบนหน้าแรกที่เป็นพื้นไล่เฉดเขียวแบรนด์
+// เพราะรอบนี้สีแบรนด์เองก็เป็นเขียว ถ้าทั้งสองปุ่มเป็นเขียวไล่เฉดเหมือนกันจะแยกไม่ออก
+// ข้อความรองใช้สีเนื้อความ #e4f2e4 แบบลดความทึบ ไม่ใช่เฉดใหม่ที่คิดขึ้นเอง
+// เนื้อความ #e4f2e4 (BRAND_TEXT)
+//
+// ชุดทอง-เงินโครเมียมของ 1SS365 ที่เคยค้างในไฟล์นี้ (#edbb23 #ffeeb4 #a87708
+// #c8cbce #f1f2f3 #2a2115 #1a1710 #050505 #cfc2a6 #f0e6d2) ออกครบทุกจุดแล้ว
 ---
 
 <ContentBoxTwo
   titleleft={`เข้าสู่ระบบ ${BRAND_NAME}`}
-  titleright={`รูปแบบเกมที่ ${BRAND_NAME} เปิดให้เลือก`}
+  titleright={`หมวดเกมที่ ${BRAND_NAME} เปิดให้เลือก`}
   iconleft="🔐"
   iconright="🎰"
-  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมรูปแบบเกมสล็อตที่เว็บไซต์เปิดให้เลือก ทั้งสล็อตคลาสสิก ฟรีสปิน ตัวคูณ และเกมโบนัส และจุดที่ควรตรวจสอบก่อนเริ่มเล่นทุกครั้ง`}>
+  label={`เข้าสู่ระบบ ${BRAND_NAME} ผ่านบัญชีสมาชิก พร้อมหมวดเกมที่เว็บไซต์เปิดให้เลือก ทั้งเกมสล็อต เกมคาสิโนสด และหมวดเกมอื่นตามผู้ให้บริการที่เชื่อมต่อกับระบบ และจุดที่ควรตรวจสอบก่อนเริ่มใช้งานทุกครั้ง`}>
   <div slot="left" class="flex h-full flex-col gap-4">
-    <div class="relative overflow-hidden rounded-2xl border border-[#edbb23]/45 bg-[#1a1710]/94 p-6 shadow-[0_10px_30px_rgba(5,5,5,0.85)] backdrop-blur-md">
-      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#edbb23]/24 blur-[50px]"></div>
+    <div class="relative overflow-hidden rounded-2xl border border-[#01a326]/55 bg-[#102a16]/94 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.80)] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#01a326]/26 blur-[50px]"></div>
 
       <div class="relative z-10 mb-5 flex items-center gap-3">
         <span
           aria-hidden="true"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#edbb23]/70 bg-gradient-to-br from-[#ffeeb4] via-[#edbb23] to-[#a87708] text-xl text-[#1a1710] shadow-inner">
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#4ade6b]/70 bg-gradient-to-br from-[#4ade6b] via-[#12c23a] to-[#01a326] text-xl text-[#06140a] shadow-inner">
           👋
         </span>
         <div class="flex flex-col">
-          <p class="text-base font-black text-[#ffeeb4]">ยินดีต้อนรับกลับ</p>
-          <span class="text-[11px] text-[#cfc2a6]">
-            Login เข้าบัญชี {BRAND_NAME} ผ่านมือถือหรือคอมพิวเตอร์ แล้วเลือกค่ายและเกมสล็อตที่ต้องการได้จากบัญชีเดียว พร้อมตรวจสอบเครดิต โปรโมชั่น และประวัติรายการจากระบบเดียว
+          <p class="text-base font-black text-[#ffe9a8]">ยินดีต้อนรับกลับ</p>
+          <span class="text-[11px] text-[#e4f2e4]/70">
+            Login เข้าบัญชี {BRAND_NAME} ผ่านมือถือหรือคอมพิวเตอร์ แล้วเลือกประเภทเกมที่ต้องการได้จากบัญชีเดียว พร้อมตรวจสอบเครดิต โปรโมชั่น และประวัติรายการจากระบบเดียว
           </span>
         </div>
       </div>
 
       <div class="relative z-10 flex flex-col gap-3.5">
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#cfc2a6]">👤</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e4f2e4]/70">👤</span>
           <input
             type="text"
             aria-label="เบอร์โทรศัพท์ หรือ ยูสเซอร์เนม"
             placeholder="เบอร์โทรศัพท์ / ยูสเซอร์เนม"
-            class="w-full rounded-xl border border-[#2a2115] bg-[#050505]/95 py-3 pr-4 pl-12 text-[#f0e6d2] transition-all outline-none placeholder:text-[#cfc2a6]/70 focus:border-[#edbb23] focus:ring-1 focus:ring-[#ffeeb4]/60"
+            class="w-full rounded-xl border border-[#0a4a18] bg-[#030a05]/95 py-3 pr-4 pl-12 text-[#e4f2e4] transition-all outline-none placeholder:text-[#e4f2e4]/55 focus:border-[#01a326] focus:ring-1 focus:ring-[#4ade6b]/60"
           />
         </div>
         <div class="relative">
-          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#cfc2a6]">🔑</span>
+          <span aria-hidden="true" class="absolute top-3.5 left-4 text-[#e4f2e4]/70">🔑</span>
           <input
             type="password"
             aria-label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
-            class="w-full rounded-xl border border-[#2a2115] bg-[#050505]/95 py-3 pr-4 pl-12 text-[#f0e6d2] transition-all outline-none placeholder:text-[#cfc2a6]/70 focus:border-[#edbb23] focus:ring-1 focus:ring-[#ffeeb4]/60"
+            class="w-full rounded-xl border border-[#0a4a18] bg-[#030a05]/95 py-3 pr-4 pl-12 text-[#e4f2e4] transition-all outline-none placeholder:text-[#e4f2e4]/55 focus:border-[#01a326] focus:ring-1 focus:ring-[#4ade6b]/60"
           />
         </div>
 
         <div class="flex items-center justify-between px-1 text-xs">
-          <label class="flex items-center gap-2 text-[#cfc2a6]">
-            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#2a2115] bg-[#050505] accent-[#edbb23]" />
+          <label class="flex items-center gap-2 text-[#e4f2e4]/75">
+            <input type="checkbox" class="h-3.5 w-3.5 rounded border-[#0a4a18] bg-[#030a05] accent-[#01a326]" />
             จดจำฉันไว้
           </label>
-          <a href="/login" class="text-[#cfc2a6] transition-colors hover:text-[#ffeeb4]">ลืมรหัสผ่าน?</a>
+          <a href="/login" class="text-[#e4f2e4]/75 transition-colors hover:text-[#ffe9a8]">ลืมรหัสผ่าน?</a>
         </div>
 
         <a
           href="/login"
-          class="mt-1 block w-full rounded-xl border border-[#ffeeb4]/70 bg-gradient-to-r from-[#ffeeb4] via-[#edbb23] to-[#a87708] p-3.5 text-center font-black text-[#1a1710] shadow-[0_10px_30px_rgba(237,187,35,0.30)] transition-all hover:scale-[1.02] hover:shadow-[0_15px_40px_rgba(255,238,180,0.55)]">
+          class="mt-1 block w-full rounded-xl border-2 border-[#f2b422]/60 bg-transparent p-3.5 text-center font-black text-[#ffe9a8] transition-all hover:scale-[1.02] hover:border-[#f2b422] hover:bg-[#f2b422]/10">
           เข้าสู่ระบบ
         </a>
 
-        <div class="flex items-center gap-3 py-1 text-[11px] text-[#cfc2a6]">
-          <span aria-hidden="true" class="h-px flex-1 bg-[#2a2115]"></span>
+        <div class="flex items-center gap-3 py-1 text-[11px] text-[#e4f2e4]/70">
+          <span aria-hidden="true" class="h-px flex-1 bg-[#0a4a18]"></span>
           หรือ
-          <span aria-hidden="true" class="h-px flex-1 bg-[#2a2115]"></span>
+          <span aria-hidden="true" class="h-px flex-1 bg-[#0a4a18]"></span>
         </div>
 
-        <a
-          href="/line"
-          class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] p-3 text-sm font-bold text-white shadow-md transition-all hover:scale-[1.02]">
+        <a href="/line" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00B900] p-3 text-sm font-bold text-white shadow-md transition-all hover:scale-[1.02]">
           <span aria-hidden="true">💬</span> ติดต่อผ่าน Line Official
         </a>
 
         <div class="mt-1 flex items-center justify-between px-1">
           <div class="flex gap-2">
-            <span class="rounded-full border border-[#2a2115] bg-[#050505] px-2.5 py-1 text-[10px] font-bold text-[#f0e6d2]"><span aria-hidden="true">🎰</span> บัญชีเดียวครบทุกเกม</span>
-            <span class="rounded-full border border-[#c8cbce]/50 bg-[#050505]/85 px-2.5 py-1 text-[10px] font-bold text-[#c8cbce]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
+            <span class="rounded-full border border-[#0a4a18] bg-[#030a05] px-2.5 py-1 text-[10px] font-bold text-[#e4f2e4]"><span aria-hidden="true">🎰</span> บัญชีเดียวครบทุกหมวดเกม</span>
+            <span class="rounded-full border border-[#fb252b]/50 bg-[#030a05]/85 px-2.5 py-1 text-[10px] font-bold text-[#ff6b6e]"><span aria-hidden="true">📱</span> รองรับมือถือ</span>
           </div>
-          <a href="/register" class="text-xs font-bold text-[#edbb23] transition-colors hover:text-[#ffeeb4]">สมัครสมาชิกใหม่</a>
+          <a href="/register" class="text-xs font-bold text-[#4ade6b] transition-colors hover:text-[#ffe9a8]">สมัครสมาชิกใหม่</a>
         </div>
       </div>
     </div>
   </div>
 
   <div slot="right" class="h-full">
-    <div class="flex h-full flex-col rounded-2xl border border-[#c8cbce]/40 bg-[#1a1710]/94 p-5 shadow-[0_10px_30px_rgba(5,5,5,0.85)] backdrop-blur-md">
+    <div class="flex h-full flex-col rounded-2xl border border-[#fb252b]/45 bg-[#102a16]/94 p-5 shadow-[0_10px_30px_rgba(0,0,0,0.80)] backdrop-blur-md">
       <div class="mb-5 flex items-center justify-between gap-3">
         <div>
-          <span class="text-xs font-bold tracking-wide text-[#cfc2a6]">
-            {BRAND_NAME} รวมเกมสล็อตหลายรูปแบบไว้ให้เลือกผ่านบัญชีเดียว รองรับการเข้าเล่นผ่านมือถือโดยไม่ต้องสลับหลายเว็บไซต์ ตรวจสอบค่ายเกม เครดิต โปรโมชั่น และประวัติรายการได้จากระบบเดียว
+          <span class="text-xs font-bold tracking-wide text-[#e4f2e4]/75">
+            {BRAND_NAME} รวมเกมเดิมพันหลายรูปแบบไว้ในระบบเดียว รองรับการเข้าเล่นผ่านเว็บเบราว์เซอร์บนมือถือ สลับหมวดเกม ตรวจสอบเครดิต และดูประวัติรายการได้โดยไม่ต้องสมัครบัญชีใหม่แยกตามค่าย
           </span>
-          <div class="bg-gradient-to-r from-[#ffeeb4] via-[#edbb23] to-[#c8cbce] bg-clip-text text-xl font-black text-transparent sm:text-2xl">สล็อตคลาสสิก · ฟรีสปิน · ตัวคูณ · เกมโบนัส</div>
+          <div class="bg-gradient-to-r from-[#ffe9a8] via-[#f2b422] to-[#12c23a] bg-clip-text text-xl font-black text-transparent sm:text-2xl">เกมสล็อต · เกมคาสิโนสด · หมวดเกมอื่น</div>
         </div>
-        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#2a2115] bg-[#050505]/85 px-2.5 py-1">
-          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#edbb23] shadow-[0_0_8px_rgba(237,187,35,0.85)]"></span>
-          <span class="text-[10px] font-bold tracking-widest text-[#ffeeb4] uppercase">ตามค่ายที่ระบบรองรับ</span>
+        <span class="flex items-center gap-1.5 self-start rounded-full border border-[#0a4a18] bg-[#030a05]/85 px-2.5 py-1">
+          <span aria-hidden="true" class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#12c23a] shadow-[0_0_8px_rgba(18,194,58,0.85)]"></span>
+          <span class="text-[10px] font-bold tracking-widest text-[#ffe9a8] uppercase">ตามผู้ให้บริการที่เชื่อมต่อ</span>
         </span>
       </div>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#cfc2a6] uppercase">
-        <span>รูปแบบเกมที่เลือกได้</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e4f2e4]/70 uppercase">
+        <span>หมวดเกมที่เลือกได้</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="mb-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {
           gameShapes.map((t) => (
-            <div class="rounded-xl border border-[#2a2115] bg-[#050505]/95 px-3.5 py-2.5 transition-colors hover:border-[#edbb23]/70 hover:bg-[#2a2115]/85">
-              <span class="flex min-w-0 items-center gap-2 text-sm font-bold text-[#ffeeb4]">
+            <div class="rounded-xl border border-[#0a4a18] bg-[#030a05]/95 px-3.5 py-2.5 transition-colors hover:border-[#01a326]/75 hover:bg-[#102a16]/85">
+              <span class="flex min-w-0 items-center gap-2 text-sm font-bold text-[#ffe9a8]">
                 <span aria-hidden="true" class="w-5 shrink-0 text-center">
                   {t.icon}
                 </span>
                 <span class="truncate">{t.name}</span>
               </span>
-              <span class="mt-1.5 block text-[11px] tracking-wide text-[#cfc2a6]">{t.detail}</span>
+              <span class="mt-1.5 block text-[11px] tracking-wide text-[#e4f2e4]/70">{t.detail}</span>
             </div>
           ))
         }
       </div>
 
-      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#cfc2a6]">
-        รูปแบบเกมที่เปิดให้เลือกจริงขึ้นอยู่กับค่ายที่ระบบรองรับในแต่ละช่วง จึงไม่ควรถือว่าทุกเกมไม่มีขั้นต่ำเหมือนกันทั้งหมด ควรเปิดข้อมูลเกมและตรวจสอบช่วงเดิมพันก่อนเริ่มเล่นทุกครั้ง
+      <p class="mb-4 text-[11px] leading-relaxed tracking-wide text-[#e4f2e4]/70">
+        หมวดเกมที่เปิดให้เลือกจริงขึ้นอยู่กับผู้ให้บริการที่เชื่อมต่อกับระบบในแต่ละช่วง จำนวนค่ายและเกมสามารถเพิ่มหรือลดได้ตามช่วงเวลา จึงควรตรวจสอบรายการล่าสุดจากหน้าเกมก่อนเริ่มใช้งานทุกครั้ง
       </p>
 
-      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#cfc2a6] uppercase">
-        <span>จุดที่ควรตรวจก่อนเริ่มเล่น</span>
+      <div class="mb-2 flex items-center justify-between text-[11px] font-bold tracking-widest text-[#e4f2e4]/70 uppercase">
+        <span>จุดที่ควรตรวจก่อนเริ่มใช้งาน</span>
         <span>รายละเอียด</span>
       </div>
 
       <div class="flex flex-1 flex-col gap-2.5">
         {
           beforePlayChecks.map((k) => (
-            <div class="rounded-xl border border-[#2a2115] bg-[#050505]/95 px-3.5 py-2.5 transition-colors hover:border-[#c8cbce]/60 hover:bg-[#2a2115]/85">
+            <div class="rounded-xl border border-[#0a4a18] bg-[#030a05]/95 px-3.5 py-2.5 transition-colors hover:border-[#fb252b]/60 hover:bg-[#102a16]/85">
               <div class="flex items-center justify-between gap-2 text-sm">
-                <span class="flex min-w-0 items-center gap-2 font-bold text-[#f0e6d2]">
+                <span class="flex min-w-0 items-center gap-2 font-bold text-[#e4f2e4]">
                   <span aria-hidden="true" class="w-5 shrink-0 text-center">
                     {k.icon}
                   </span>{" "}
                   <span class="truncate">{k.name}</span>
                 </span>
-                <span class="shrink-0 rounded-full border border-[#edbb23]/50 bg-[#050505] px-2.5 py-0.5 text-[10px] font-bold text-[#edbb23]">{k.tag}</span>
+                <span class="shrink-0 rounded-full border border-[#f2b422]/50 bg-[#030a05] px-2.5 py-0.5 text-[10px] font-bold text-[#f2b422]">{k.tag}</span>
               </div>
-              <div class="mt-1.5 text-[11px] tracking-wide text-[#cfc2a6]">{k.detail}</div>
+              <div class="mt-1.5 text-[11px] tracking-wide text-[#e4f2e4]/70">{k.detail}</div>
             </div>
           ))
         }
       </div>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-        {chips.map((c) => <span class="rounded-full border border-[#2a2115] bg-[#050505] px-3 py-1 text-[10px] font-bold text-[#f0e6d2]">{c}</span>)}
+        {chips.map((c) => <span class="rounded-full border border-[#0a4a18] bg-[#030a05] px-3 py-1 text-[10px] font-bold text-[#e4f2e4]">{c}</span>)}
       </div>
 
-      <div class="mt-3 text-center text-[10px] tracking-wide text-[#cfc2a6]">
-        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมเกมสล็อตหลายรูปแบบไว้ในบัญชีเดียว และการตรวจสอบค่ายเกม เครดิต โปรโมชั่น และประวัติรายการจากระบบเดียว ส่วนคำว่าแตกง่ายหรือจ่ายไวเป็นลักษณะเชิงโฆษณา
-        ไม่สามารถใช้รับประกันผลการเล่นหรือระยะเวลาของธุรกรรมได้ในทุกกรณี และการเป็นเว็บต่างประเทศหรือไม่ผ่านเอเย่นต์เพียงอย่างเดียวไม่ได้รับประกันว่าเว็บไซต์หรือธุรกรรมจะปลอดภัย 100% จึงควรอ่านเงื่อนไขล่าสุดก่อนกดรับโปรโมชั่น
-        และไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น
+      <div class="mt-3 text-center text-[10px] tracking-wide text-[#e4f2e4]/70">
+        รายการข้างต้นสรุปสิ่งที่ {BRAND_NAME} ระบุไว้ ทั้งการรวมเกมเดิมพันหลายรูปแบบไว้ในระบบเดียว และการตรวจสอบเครดิต โปรโมชั่น และประวัติรายการจากบัญชีเดียว ส่วนคำว่าบัญชีบริษัทแท้ 100% ควรมีชื่อนิติบุคคลและข้อมูลที่ตรวจสอบได้รองรับ
+        และคำว่าการันตีระบบเกมมาตรฐานควรระบุมาตรฐาน ใบอนุญาต หรือหน่วยงานที่ตรวจสอบได้อย่างชัดเจน เพราะการเป็นแพลตฟอร์มต่างประเทศไม่ได้ยืนยันมาตรฐานหรือความปลอดภัยของระบบโดยอัตโนมัติ จึงควรตรวจสอบเงื่อนไขล่าสุดก่อนกดรับโบนัส
+        และไม่ควรเปิดเผย PIN รหัสผ่าน หรือ OTP ให้บุคคลอื่น
       </div>
     </div>
   </div>

@@ -15,26 +15,28 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// RE-DERIVED for หวย365's docx H3 #5 "3ตัว จ่าย1,000บาท" — 17 code points,
-// ~15 advancing glyphs once the 2 zero-width marks (ั ่) are discounted.
-// Measured here rather than inherited on trust. The heading keeps
-// `leading-normal` (1.5) and the badge adds py-2.5 (20px) plus border-2 (4px);
-// there are no spark spans in this variant, so the full inner width is text:
+// RE-DERIVED for DM899's docx H3 #5 "โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%" — 32 code
+// points, 27 advancing cells once the 5 zero-width marks (ั ่ ื ่ ั) are
+// discounted and the 3 spaces counted. Measured here rather than inherited on
+// trust. The heading keeps `leading-normal` (1.5) and the badge adds py-2.5
+// (20px) plus border-2 (4px); there are no spark spans in this variant, so the
+// full inner width is text:
 //   base  text-lg 18px -> 27px/line, ~266px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4) = ~26 glyphs/line, so 15 glyphs
-//         is 1 line. Budget 3 lines = 3x27 + 24 = 105,
-//         bottom edge 81 vs pt-32/128px    -> 47px clear
+//         (w-[92%] 302 - px-4 32 - border 4) = ~25 cells/line, so it breaks at
+//         the last space: "โปรโมชั่น แนะนำเพื่อน โบนัส" 22 | "0.8%" 4 -> 2 lines.
+//         Real 2 lines = 2x27 + 24 = 78, bottom edge 54 vs pt-32/128px
+//                                          -> 74px clear
+//         Budget 3 lines = 3x27 + 24 = 105, edge 81  -> 47px clear
 //   sm    text-xl 20px -> 30px/line, ~491px of text width
-//         (w-[92%] 559 - px-8 64 - border 4) = ~42 glyphs/line -> 1 line.
+//         (w-[92%] 559 - px-8 64 - border 4) = ~42 cells/line -> 1 line.
 //         Budget 3 lines = 3x30 + 24 = 114, edge 90 vs 128px -> 38px clear
 //   md    text-2xl 24px -> 36px/line, max-w-2xl caps text at ~604px -> 1 line.
 //         Budget 3 lines = 3x36 + 24 = 132, edge 108 vs md:pt-36 (144px)
 //                                          -> 36px clear
-// This title is short, but pt-32/md:pt-36 is what ContentBoxFloatingBadge needs
-// for the 3-line H2 it carries this round, and all three *FloatingBadge files
-// are kept in sync so the next brand cannot inherit a padding that was only ever
-// sized for the short one. Do not shrink it without redoing the arithmetic
-// against the real docx sentence the next brand puts in here.
+// All three *FloatingBadge files are kept in sync on pt-32/md:pt-36 so the next
+// brand cannot inherit a padding that was only ever sized for the short one. Do
+// not shrink it without redoing the arithmetic against the real docx sentence
+// the next brand puts in here.
 //
 // This block carries the image column on the RIGHT — and the grid stays at
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
@@ -44,26 +46,28 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // pair mirrors instead of stacking both pictures down one edge. The page passes
 // neither titleleft nor titleright, so the badge is the only heading it emits.
 //
-// หวย365 (รอบแดงสด-ทอง 2026-10-02): การ์ดไล่จากผิวการ์ด #240406 ลงไปหาผิวแถบ #180303
-// ในกรอบแดงลึก #9c0201 ป้ายหัวข้อลอยบนพื้นเพจดำในกรอบทอง #ffc93c ไล่เฉดทองอ่อน #ffeab0
-// → ทอง #ffc93c → แดงแบรนด์ #dc0203 ตามคู่สีของโลโก้ที่คำว่า "หวย" เป็นแดงสดและงานอาร์ต
-// เป็นผ้าซาตินแดงกับลายไทยทอง (หัวข้อนี้สั้นและอยู่บรรทัดเดียวทุกเบรกพอยต์ หางไล่เฉดสีแดง
-// จึงยังอ่านออก ต่างจากป้ายของ ContentBoxFloatingBadge ที่ยาวสามบรรทัดและต้องใช้ทองล้วน)
-// ออร่าสองมุมแยกกันด้วยคู่สีเดียวกันคือแดงมุมขวาล่างกับทองมุมซ้ายบน เนื้อความ #f6e7e0
-// (BRAND_TEXT) — ชุดแดง-ทองของ หวยเฮง24/หวยเฮง789 (#e0a52a #fdea83 #8b0302 #c01616
-// #3d0808 #2e0707 #1a0505 #720202 #f6e6cf #dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909)
-// ออกครบทุกจุด
+// DM899 (รอบเขียวมรกต-แดงสด-ทอง บนดำอมเขียว 2026-10-03): นี่คือครึ่ง "กรอบทอง" ของ
+// คู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThreePremium ที่เป็นกรอบเขียวลึก
+// #0a4a18 ใบนี้จึงใช้กรอบทองแบรนด์ #f2b422 บนการ์ดยกระดับ #102a16 ที่ไล่ลงไปหา
+// ปลายไล่เฉด #061008 ให้ต่างกันตั้งแต่ขอบ ป้ายหัวข้อลอยบนพื้น #061008 ในกรอบทอง
+// เดียวกัน ไล่ทองอ่อน #ffe9a8 → ทองแบรนด์ #f2b422 → เขียวสว่าง #12c23a (8.5:1 บน
+// พื้นป้าย — หัวข้อนี้สั้น ตกสองบรรทัดเฉพาะบนมือถือ หางไล่เฉดจึงยังอ่านออกทั้งบรรทัด)
+// ออร่าสองมุมเป็นคู่เขียว-แดงของโลโก้ คือเขียวแบรนด์ #01a326 มุมซ้ายบนกับแดงแบรนด์
+// #fb252b มุมขวาล่าง เนื้อความ #e4f2e4 (BRAND_TEXT)
+//
+// ชุดแดงสด-ทองของ หวย365/หวยเฮง ที่เคยค้างในไฟล์นี้ (#dc0203 #ffc93c #ffeab0
+// #9c0201 #240406 #180303 #f6e7e0) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#9c0201] bg-gradient-to-b from-[#240406]/95 to-[#180303]/95 p-8 pt-32 shadow-[0_10px_30px_rgba(8,1,1,0.85)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#dc0203]/38 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ffc93c]/26 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#f2b422]/55 bg-gradient-to-b from-[#102a16]/95 to-[#061008]/96 p-8 pt-32 shadow-[0_10px_30px_rgba(0,0,0,0.80)] md:pt-36">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#01a326]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#fb252b]/28 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#ffc93c]/70 bg-[#180303] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(8,1,1,0.85)] sm:px-8">
-          <HeadingTag class="bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#dc0203] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#f2b422]/70 bg-[#061008] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
+          <HeadingTag class="bg-gradient-to-r from-[#ffe9a8] via-[#f2b422] to-[#12c23a] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
         </div>
@@ -71,13 +75,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffeab0]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e4f2e4]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffe9a8]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e7e0] md:border-l md:border-[#9c0201]/80 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffc93c]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e4f2e4] md:border-l md:border-[#f2b422]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#12c23a]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
