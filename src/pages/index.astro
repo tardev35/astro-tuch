@@ -1,17 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement3.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeFloatingBadge from "../components/ContentBoxSevenThreeFloatingBadge.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Announcement from "../components/Announcement5.astro";
+import LatestWinners from "../components/LatestWinners2.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq2.astro";
+import Faq from "../components/Faq4.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
@@ -19,64 +19,62 @@ import { pageGraph } from "../lib/schema";
 import imgCashback from "../assets/slide2.png";
 import imgReferral from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND (1SS365 -> DM899). Zero file reuse from the
-// previous round: Announcement3 replaces AnnouncementPremium, LatestWinners4
-// replaces LatestWinnersPremium, Faq2 replaces Faq3, ReviewCardSumo2 replaces
-// ReviewCardSumo, and the ContentBox shape-mix moves off Neumorphism /
-// TwoCyberCut / CyberCut / SevenThreeNeumorphism / SevenThreeCyberCut /
-// TwoNeumorphism onto Premium / TwoPremium / FloatingBadge / SevenThreePremium /
-// SevenThreeFloatingBadge / Special. NavbarStyle9 and FooterStyle3 are the
-// layout's pair this round (previously NavbarStyle4Black / FooterPremiumSumo).
+// VARIANT ROTATION THIS ROUND (DM899 -> UP555). Zero file reuse from the previous
+// round: Announcement5 replaces Announcement3, LatestWinners2 replaces
+// LatestWinners4, Faq4 replaces Faq2, ReviewCardSumo replaces ReviewCardSumo2,
+// and the ContentBox shape-mix moves off Premium / TwoPremium / FloatingBadge /
+// SevenThreePremium / SevenThreeFloatingBadge / Special onto Neumorphism /
+// TwoFloatingBadge / CyberCut / SevenThreeNeumorphism / SevenThreeCyberCut /
+// TwoCyberCut. NavbarStyle7 and FooterPremium are the layout's pair this round
+// (previously NavbarStyle9 / FooterStyle3).
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and
 // every button page render their body through it by rule and cannot follow a
 // rotation, so it is always-live and the orchestrator rethemes it in the shared
 // step — this page only passes it props.
-// Every Neumorphism / CyberCut / Huay / Style file, Faq3, AnnouncementPremium,
-// LatestWinnersPremium, ReviewCardSumo, NavbarStyle4Black and FooterPremiumSumo
-// stay on disk as inventory for the next brand — none of them was deleted, and
-// the previous brand's copy and colour still inside them is expected drift, not
-// a bug.
+// Every Premium / FloatingBadge / Huay / Style file, Faq2, Announcement3,
+// LatestWinners4, ReviewCardSumo2, NavbarStyle9 and FooterStyle3 stay on disk as
+// inventory for the next brand — none of them was deleted, and the previous
+// brand's copy and colour still inside them is expected drift, not a bug.
 //
-// <Announcement /> runs bare on purpose: Announcement3's default message is
+// <Announcement /> runs bare on purpose: Announcement5's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things on
 // two pages of the same site.
 //
 // IMAGE ROLES FOR THIS DROP (2026-10-03). Two files are referenced from this page
 // and only two, and each pairing is read off the artwork itself:
-//   slide2.png — green-and-red glowing rings behind the model, roulette wheel and
-//     red dice, and the plaque under the big gold โปรโมชั่น wordmark reads
-//     "คืนยอดเสีย โบนัส" with a huge three-dimensional red 0.3%, so it belongs to
-//     docx H3 #4. Imported as imgCashback.
-//   slide1.png — white/green/red drapes, casino chips, aces and gift boxes, and
-//     its black gold-edged plaque reads "แนะนำเพื่อน โบนัส 0.8%" under a gold
-//     crown, so it belongs to docx H3 #5. Imported as imgReferral.
+//   slide2.png — gold-on-black promotion art whose plaque under the big gold
+//     โปรโมชั่น wordmark reads "คืนยอดเสีย โบนัส" with a huge 0.3%, so it belongs
+//     to docx H3 #4. Imported as imgCashback.
+//   slide1.png — the same gold-on-black set with a black gold-edged plaque that
+//     reads "แนะนำเพื่อน โบนัส 0.8%", so it belongs to docx H3 #5. Imported as
+//     imgReferral.
 // Both files measure 600x600, so 600 is the top real candidate width — nothing
 // above it would be a real pixel — and each picture carries max-w-[600px] so the
 // art is never upscaled past its own bitmap. Each slide sits in a
 // ContentBoxSevenThree* image+text block, which is that family's hard cap of two
 // per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreePremium lays out
-// md:grid-cols-[3fr_7fr] so its picture goes in slot="left", and
-// SevenThreeFloatingBadge lays out md:grid-cols-[7fr_3fr] so its picture goes in
-// slot="right" while the paragraph keeps the wide column. The two pictures
-// therefore alternate sides instead of stacking down the same edge, and each
-// `sizes` describes its own 3fr column rather than the viewport:
-//   SevenThreePremium:      max-w-7xl/1280px cap, px-4, md:p-10, gap-10, no inner
-//                           padding on the image column
-//                           -> (1280 - 32 - 80 - 40) x 0.3 = 338px
-//   SevenThreeFloatingBadge: max-w-7xl/1280px cap, px-4, p-8, gap-10, md:pl-10 +
-//                           border on the image column
-//                           -> (1280 - 32 - 64 - 40) x 0.3 - 41 = 302px
+// The two blocks mirror each other: SevenThreeNeumorphism lays out
+// md:grid-cols-[7fr_3fr] so its picture goes in slot="right" while the paragraph
+// keeps the wide column, and SevenThreeCyberCut lays out md:grid-cols-[3fr_7fr]
+// so its picture goes in slot="left". The two pictures therefore alternate sides
+// instead of stacking down the same edge, and each `sizes` describes its own 3fr
+// column rather than the viewport:
+//   SevenThreeNeumorphism: max-w-[1400px] cap, px-4, p-8, gap-8, and the image
+//                          column adds md:pl-8 + a 1px border
+//                          -> (1400 - 32 - 64 - 32) x 0.3 - 33 = 348px
+//   SevenThreeCyberCut:    max-w-7xl/1280px cap, px-4, p-8, gap-8, no inner
+//                          padding on the image column
+//                          -> (1280 - 32 - 64 - 32) x 0.3 = 345px
 // Below md both cards collapse to one column at p-8, so the drawn width is
 // 100vw - 32 (section px-4) - 64 (card p-8) = 100vw - 96px, capped at 600px.
 // Neither picture is the LCP element — MainLayout's hero banner is — so both are
 // loading="lazy" fetchpriority="low".
 //
-// The alt text was written from THIS drop's artwork, re-opened with the Read
-// tool before it was typed: both slides are 600x600 portraits of a model in
-// white against a green-and-red casino set, with the DM899 logo (a green D
-// overlapping a red M, then a silver 899) in the upper area, a large gold Thai
+// The alt text was written from THIS drop's artwork: both slides are 600x600
+// portraits of a model in white against a black-and-gold casino set, with the
+// UP555 logo (a chrome-silver U holding a gold arrow inside a tilted gold
+// ellipse, then chrome UP and gold 555) in the upper area, a large gold Thai
 // โปรโมชั่น wordmark under it, and that slide's own offer plaque beneath.
 //
 // Deliberately NOT imported, and every file still on disk:
@@ -86,64 +84,67 @@ import imgReferral from "../assets/slide1.png";
 //   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
 //   and are never referenced from a page. og.png is the same: MainLayout owns it.
 //
-// Vocabulary: DM899 is a สล็อตคาสิโนออนไลน์ เว็บตรงต่างประเทศ — สล็อต, คาสิโนสด,
-// เว็บตรงต่างประเทศ, บัญชีบริษัทแท้ 100%, ค่ายเกม, เครดิต, โปรโมชั่น, คืนยอดเสีย 0.3%,
-// แนะนำเพื่อน 0.8%, รอบคำนวณ, ยอดที่เข้าเกณฑ์, ฝากถอน, ประวัติรายการ, สมัครสมาชิก,
-// Login, แอดมิน 24 ชั่วโมง, 3 ขั้นตอน, PIN, OTP, ลิงก์แนะนำ. Two brands ago this
-// template sold lottery; every one of those words (หวย, แทงหวย, ส่งโพย, โพย, งวด,
-// เลข 2 ตัว / 3 ตัว, อัตราจ่าย, รัฐบาลไทย, ฮานอย, ลาวพัฒนา, หวยหุ้น, แนวทางหวย,
-// ตรวจหวย) is gone, and so is the previous slot brand's "ไม่ผ่านเอเย่นต์" /
-// "เดิมพันไม่มีขั้นต่ำ" angle, which this brief does not contain. The page was
-// written from the brief rather than find-and-replaced over the old sentences.
-// Nothing here claims a licence, an operator, a bank, a deposit minimum, a member
-// count, a founding year, an RTP figure or a named game studio, because the brief
-// names none. The only figures are the brief's own: 0.3%, 0.8%, 3 ขั้นตอน,
-// 24 ชั่วโมง, 100%. The brief's own hedging ships with the copy (คำว่า "บัญชี
-// บริษัทแท้ 100%" ควรมีชื่อนิติบุคคลและข้อมูลที่ตรวจสอบได้รองรับ, "การันตีระบบเกม
-// มาตรฐาน" ควรระบุมาตรฐาน ใบอนุญาต หรือหน่วยงานที่ตรวจสอบได้, การเป็นแพลตฟอร์ม
-// ต่างประเทศไม่ได้ยืนยันมาตรฐานหรือความปลอดภัยของระบบโดยอัตโนมัติ) — it is part of
-// the paragraphs, not trimmed as downbeat.
+// Vocabulary: UP555 is a คาสิโน/สล็อต brand, not a lottery site — หวย is one of
+// the game categories the brief lists, nothing more. The words this page may use
+// are the brief's own: คาสิโนอัปเดตล่าสุด, ทางเข้าเล่นใหม่, ระบบอัปเกรด, สล็อต,
+// บาคาร่า, บอล (เดิมพันฟุตบอล), หวย, บัญชีเดียว, หมวดเกม, เครดิต, โปรโมชั่น,
+// ประวัติรายการ, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, ลิงก์แนะนำ, รอบตัดยอด,
+// ยอดที่เข้าเกณฑ์, สมัคร 3 ขั้นตอน, Login, ยืนยันตัวตน, แอดมิน 24 ชั่วโมง, PIN, OTP.
+// The previous brand's angle (เว็บตรงต่างประเทศ, บัญชีบริษัทแท้ 100%, การันตีระบบเกม
+// มาตรฐาน, ค่ายเกม, คาสิโนสด) is gone, and so is the lottery vocabulary two brands
+// back (โพย, งวด, อัตราจ่าย, เลข 2 ตัว / 3 ตัว, ฮานอย, ลาวพัฒนา, หวยหุ้น, แนวทางหวย,
+// ตรวจหวย). The page was written from the brief rather than find-and-replaced over
+// the old sentences. Nothing here claims a licence, a regulator, an operator, a
+// bank, a game studio, a deposit minimum, a member count, a founding year or an
+// RTP figure, because the brief names none. The only figures are the brief's own:
+// 0.3%, 0.8%, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with the copy
+// (ผลการเดิมพันมีความไม่แน่นอน จึงไม่สามารถรับประกันผลกำไรหรือเงินรางวัลได้ · ไม่ควรใช้
+// คำว่า "ปลอดภัยแน่นอน" เป็นการรับประกันโดยไม่มีข้อมูลรองรับ) — it is part of the
+// paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used
 // verbatim and NOT padded up to 150: verify-build deliberately skips its
 // 150-character floor on the home page for exactly this reason.
-const pageTitle = "DM899 สล็อตคาสิโนเว็บตรงต่างประเทศ การันตีระบบ บัญชีบริษัทแท้100%";
+const pageTitle = "UP555 คาสิโนอัปเดตล่าสุด ทางเข้าเล่นใหม่ ระบบอัปเกรด ปลอดภัย ได้เงินจริง";
 
-const pageDescription = "DM899 สล็อตคาสิโนเว็บตรงต่างประเทศ ทางเข้าเล่นเกมเดิมพันครบวงจร การันตีระบบเกมมาตรฐาน มั่นใจได้ ฝากถอนปลอดภัย เข้าบัญชีบริษัทแท้100%";
+const pageDescription = "UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่ สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรด ปลอดภัย ได้เงินจริง";
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened
 // to H2-only. The two H3s are genuine headings — the two promotion sub-points,
 // both nested under the โปรโมชั่น H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  DM899 สล็อตคาสิโนเว็บตรงต่างประเทศ บัญชีบริษัทแท้100%
-//          ContentBoxPremium, brief paragraph on line 4
-//    2 H2  ทางเข้าเล่นเกม DM899 เดิมพันครบวงจร การันตีระบบเกมมาตรฐาน
-//          ContentBoxTwoPremium, line 6 left / line 7 right
-//    3 H2  โปรโมชั่นเล่นสล็อต DM899 อัปเดตใหม่ทุกเดือน
-//          ContentBoxFloatingBadge, line 9
+//    1 H1  UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่
+//          ContentBoxNeumorphism, brief paragraph on line 4
+//    2 H2  UP555 สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรดใหม่ ปลอดภัยแน่นอน
+//          ContentBoxTwoFloatingBadge, line 6 left / line 7 right
+//    3 H2  โปรโมชั่นเล่นคาสิโน UP555 ครบทุกเกม
+//          ContentBoxCyberCut, line 9
 //    4 H3  โปรโมชั่น คืนยอดเสีย โบนัส 0.3%
-//          ContentBoxSevenThreePremium + slide2 (imgCashback), line 11
+//          ContentBoxSevenThreeNeumorphism + slide2 (imgCashback), line 11
 //    5 H3  โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%
-//          ContentBoxSevenThreeFloatingBadge + slide1 (imgReferral), line 13
-//    6 H2  สมัครเดิมพัน DM899 บนมือถือง่ายๆ 3ขั้นตอน
-//          ContentBoxSpecial, line 15 left / line 16 right
-//    7 H2  ติดต่อแอดมิน DM899 ผู้ให้บริการเว็บหลัก 24 ชั่วโมง
+//          ContentBoxSevenThreeCyberCut + slide1 (imgReferral), line 13
+//    6 H2  สมัครเดิมพัน UP555 คาสิโนบนมือถือง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoCyberCut, line 15 left / line 16 right
+//    7 H2  ติดต่อแอดมิน UP555 ผู้ให้บริการเว็บคาสิโน 24 ชั่วโมง
 //          ContentBox + LINE / สมัครสมาชิก buttons, lines 18+19
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ DM899
-//          Faq2 + faqs prop, lines 21-26
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ UP555
+//          Faq4 + faqs prop, lines 21-26
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// Every brief paragraph ships in full — all ten of them, nothing merged or
+// ContentBoxTwoCyberCut defaults to as="p" so a chrome usage stays out of the
+// heading inventory — section 6 therefore passes as="h2" explicitly.
+//
+// Every brief paragraph ships in full — all eleven of them, nothing merged or
 // summarised. Sections 2 and 6 have two paragraphs each and run one per column;
 // section 7 has two and they stack inside one wrapper div so the slot still
-// receives exactly one element. The column labels passed to ContentBoxTwoPremium
-// are this page's own layout wording, not brief headings, and that variant
-// renders them as <p>.
+// receives exactly one element. The column labels passed to the two two-column
+// boxes are this page's own layout wording, not brief headings, and both variants
+// render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// Announcement3, LatestWinners4, LoginRtpSection and ReviewCardSumo2 render their
-// titles as <p>/<span> with an aria-label on the section, and Faq2's questions
+// Announcement5, LatestWinners2, LoginRtpSection and ReviewCardSumo render their
+// titles as <p>/<span> with an aria-label on the section, and Faq4's questions
 // live inside <summary> as <span>. The non-brief widgets sit before section 1
 // (the ticker, then the winners feed) and after section 8 (LoginRtpSection,
 // ReviewCardSumo, Navfoot) — never spliced between two content sections.
@@ -153,16 +154,16 @@ const pageDescription = "DM899 สล็อตคาสิโนเว็บต�
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "DM899 มีเกมเดิมพันประเภทไหนให้เลือก?",
-    a: "DM899 สามารถรวมเกมสล็อต คาสิโนสด และเกมประเภทอื่นตามค่ายที่ระบบเปิดให้บริการ สมาชิกควรตรวจสอบรายการล่าสุดจากหน้าเกม เนื่องจากจำนวนค่ายและเกมสามารถมีการเพิ่มหรือลดได้ตามช่วงเวลา",
+    q: "UP555 มีเกมอะไรให้เลือกเล่นบ้าง?",
+    a: "UP555 รวมเกมหลายประเภทตามที่ระบบเปิดให้บริการ เช่น สล็อต บาคาร่า เดิมพันฟุตบอล และหวย สมาชิกสามารถเลือกหมวดเกมจากบัญชีเดียว โดยรายการเกมและผู้ให้บริการอาจมีการอัปเดตหรือเปลี่ยนแปลงตามช่วงเวลา",
   },
   {
-    q: "DM899 ใช้บัญชีบริษัทโดยตรงจริงหรือไม่?",
-    a: "หากเว็บไซต์ระบุว่าใช้บัญชีบริษัทโดยตรง ควรตรวจสอบชื่อบัญชี ชื่อนิติบุคคล และข้อมูลบริษัทให้ตรงกันก่อนทำธุรกรรมทุกครั้ง การระบุว่าเป็น “บัญชีบริษัทแท้ 100%” เพียงอย่างเดียวไม่เพียงพอสำหรับยืนยันความปลอดภัย",
+    q: "ทางเข้า UP555 ใหม่แตกต่างจากระบบเดิมอย่างไร?",
+    a: "หาก UP555 มีการอัปเกรดทางเข้าใหม่ สมาชิกควรตรวจสอบประกาศจากช่องทางหลักของเว็บไซต์เพื่อดูรายละเอียดการเปลี่ยนแปลง เช่น หน้า Login เมนูเกม หรือระบบบัญชี และควรหลีกเลี่ยงลิงก์ที่ไม่สามารถยืนยันแหล่งที่มาได้",
   },
   {
-    q: "โปรโมชั่น DM899 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
-    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่ตรงตามเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนจากยอดที่เข้าเกณฑ์ ทั้งสองรายการอาจกำหนดรอบคำนวณและเกมที่ร่วมรายการแตกต่างกัน จึงควรตรวจสอบรายละเอียดล่าสุดก่อนรับสิทธิ์",
+    q: "โปรโมชั่น UP555 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
+    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่ตรงตามเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนจากยอดที่เข้าเกณฑ์ ทั้งสองรายการอาจกำหนดเกมที่ร่วมรายการและรอบคำนวณแตกต่างกัน ควรตรวจสอบเงื่อนไขล่าสุดก่อนรับสิทธิ์",
   },
 ];
 
@@ -170,10 +171,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #ffe9a8, the brand's pale gold, against the
-// inherited body colour #e4f2e4 (BRAND_TEXT). The paragraphs below carry no
+// One highlight colour only: #fce675, the brand's bright gold, against the
+// inherited body colour #f8eed9 (BRAND_TEXT). The paragraphs below carry no
 // colour class of their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#e4f2e4]` on the element holding
+// `text-left text-base leading-relaxed text-[#f8eed9]` on the element holding
 // the slot, so the prose inherits it and no page-level override can drift from
 // the card.
 
@@ -195,105 +196,112 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title="DM899 สล็อตคาสิโนเว็บตรงต่างประเทศ บัญชีบริษัทแท้100%">
+  <ContentBoxNeumorphism as="h1" title="UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่">
     <p>
-      <strong class="text-[#ffe9a8]">DM899 สล็อตคาสิโนเว็บตรงต่างประเทศที่รวบรวมเกมเดิมพันหลายรูปแบบไว้ในระบบเดียว</strong>
-      รองรับการเข้าเล่นผ่านมือถือ มีทั้งเกมสล็อต คาสิโน และเกมประเภทอื่นตามที่เว็บไซต์เปิดให้บริการ สมาชิกสามารถเลือกเกม ตรวจสอบโปรโมชั่น และจัดการรายการผ่านบัญชีเดียว พร้อมระบบฝากถอนที่เว็บไซต์ระบุว่าเชื่อมต่อกับบัญชีบริษัทโดยตรง
-      อย่างไรก็ตาม
-      <strong class="text-[#ffe9a8]">คำว่า “บัญชีบริษัทแท้ 100%” ควรมีชื่อนิติบุคคลและข้อมูลที่ตรวจสอบได้รองรับก่อนนำมาใช้ยืนยันด้านความปลอดภัย</strong>
+      <strong class="text-[#fce675]">UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่ให้รองรับการใช้งานผ่านมือถือได้สะดวกขึ้น</strong>
+      รวมเกมหลายประเภทไว้ในบัญชีเดียว ทั้งสล็อต บาคาร่า บอล และหวย สมาชิกสามารถเลือกหมวดเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการผ่านระบบเดียว พร้อมปรับส่วนการเข้าสู่ระบบและเมนูต่าง ๆ ให้ค้นหาเกมที่ต้องการได้ง่ายขึ้น อย่างไรก็ตาม
+      <strong class="text-[#fce675]">ผลการเดิมพันมีความไม่แน่นอน จึงไม่สามารถรับประกันผลกำไรหรือเงินรางวัลจากการเล่นได้</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxTwoPremium as="h2" title="ทางเข้าเล่นเกม DM899 เดิมพันครบวงจร การันตีระบบเกมมาตรฐาน" titleleft="ทางเข้าเล่นเกมจากบัญชีเดียว" titleright="ข้อความการันตีที่ควรตรวจสอบ">
+  <ContentBoxTwoFloatingBadge
+    as="h2"
+    title="UP555 สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรดใหม่ ปลอดภัยแน่นอน"
+    titleleft="หมวดเกมที่รวมไว้ในบัญชีเดียว"
+    titleright="ข้อความด้านความปลอดภัยที่ควรพิจารณา">
     <p slot="left">
-      <strong class="text-[#ffe9a8]">ทางเข้าเล่นเกม DM899 ถูกจัดให้สมาชิกสามารถเลือกประเภทการเดิมพันได้จากบัญชีเดียว</strong>
-      มีทั้งเกมสล็อต เกมคาสิโนสด และหมวดเกมอื่นตามผู้ให้บริการที่เชื่อมต่อกับระบบ รองรับการใช้งานผ่านเว็บเบราว์เซอร์บนมือถือ
-      <strong class="text-[#ffe9a8]">สามารถสลับหมวดเกม ตรวจสอบเครดิต และดูประวัติรายการได้โดยไม่ต้องสมัครบัญชีใหม่แยกตามค่าย</strong>
+      <strong class="text-[#fce675]">UP555 รวมเกมเดิมพันหลายรูปแบบไว้ให้เลือกตามความสนใจ</strong>
+      ตั้งแต่เกมสล็อตที่มีธีมและฟีเจอร์แตกต่างกัน บาคาร่าออนไลน์ ตลาดเดิมพันฟุตบอล ไปจนถึงหวยตามรายการที่ระบบเปิดให้บริการ การอัปเกรดระบบช่วยจัดหมวดหมู่เกมและเมนูสำคัญให้เข้าถึงได้ง่าย
+      <strong class="text-[#fce675]">สามารถสลับประเภทเกมผ่านบัญชีเดียวโดยไม่ต้องสมัครใหม่หลายครั้ง</strong>
     </p>
     <p slot="right">
-      หากต้องการใช้ข้อความว่า “การันตีระบบเกมมาตรฐาน”
-      <strong class="text-[#ffe9a8]">ควรระบุมาตรฐาน ใบอนุญาต หรือหน่วยงานที่ตรวจสอบได้อย่างชัดเจน</strong>
-      เพราะการเป็นแพลตฟอร์มต่างประเทศไม่ได้ยืนยันมาตรฐานหรือความปลอดภัยของระบบโดยอัตโนมัติ
+      <strong class="text-[#fce675]">ด้านความปลอดภัยควรพิจารณาจากมาตรการที่ตรวจสอบได้</strong>
+      เช่น การรักษาความปลอดภัยของบัญชี ระบบยืนยันตัวตน และข้อมูลผู้ดำเนินงาน
+      <strong class="text-[#fce675]">จึงไม่ควรใช้คำว่า “ปลอดภัยแน่นอน” เป็นการรับประกันโดยไม่มีข้อมูลดังกล่าวรองรับ</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBoxTwoFloatingBadge>
 
-  <ContentBoxFloatingBadge as="h2" title="โปรโมชั่นเล่นสล็อต DM899 อัปเดตใหม่ทุกเดือน">
+  <ContentBoxCyberCut as="h2" title="โปรโมชั่นเล่นคาสิโน UP555 ครบทุกเกม">
     <p>
-      <strong class="text-[#ffe9a8]">DM899 มีโปรโมชั่นสำหรับสมาชิกตามแคมเปญที่เปิดในแต่ละเดือน</strong>
-      โดยสามารถ Login เพื่อตรวจสอบรายการที่บัญชีมีสิทธิ์รับ มีทั้งโบนัสคืนยอดเสียและกิจกรรมแนะนำเพื่อน แต่ละโปรโมชั่นอาจกำหนดรอบคำนวณ ยอดที่เข้าเกณฑ์ เกมที่ร่วมรายการ และระยะเวลารับสิทธิ์แตกต่างกัน
-      <strong class="text-[#ffe9a8]">จึงควรตรวจสอบเงื่อนไขล่าสุดก่อนกดรับโบนัส</strong>
+      <strong class="text-[#fce675]">โปรโมชั่น UP555 มีสิทธิพิเศษสำหรับสมาชิกตามแคมเปญที่เปิดให้รับในแต่ละช่วง</strong>
+      โดยสามารถ Login เพื่อตรวจสอบรายการล่าสุดจากบัญชีได้ มีทั้งโปรโมชั่นคืนยอดเสียและกิจกรรมแนะนำเพื่อน แต่ละรายการอาจกำหนดประเภทเกม ยอดที่ใช้คำนวณ รอบตัดยอด และระยะเวลารับโบนัสแตกต่างกัน
+      <strong class="text-[#fce675]">จึงควรอ่านรายละเอียดก่อนเลือกรับโปรโมชั่นทุกครั้ง</strong>
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxCyberCut>
 
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น คืนยอดเสีย โบนัส 0.3%">
-    <Picture
-      slot="left"
-      src={imgCashback}
-      loading="lazy"
-      fetchpriority="low"
-      widths={[338, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 46px), 338px"
-      decoding="async"
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      quality={80}
-      alt="ภาพโปรโมชั่นของ DM899 ฉากหลังเป็นวงแหวนเรืองแสงสีเขียวและสีแดงบนพื้นดำ ด้านซ้ายเป็นหญิงสาวผมยาวสยาย สวมชุดสีขาวประดับเพชร ยื่นมือซ้ายแบออกมาข้างหน้า รอบตัวมีชิปคาสิโนลอยกระจาย ด้านล่างขวามีลูกเต๋าสีแดงสองลูก ไพ่เอซสองใบ กองชิป และวงล้อรูเล็ต มุมบนเป็นโลโก้ DM899 ที่ตัว D สีเขียวซ้อนตัว M สีแดง ตามด้วยเลข 899 สีเงิน ถัดลงมาเป็นมงกุฎทองและตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงมาเป็นข้อความ คืนยอดเสีย โบนัส กับตัวเลข 0.3% สีแดงสามมิติขนาดใหญ่"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#01a326]/60 shadow-[0_10px_30px_rgba(1,163,38,0.26)]"
-    />
-    <p slot="right">
-      <strong class="text-[#ffe9a8]">สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ DM899 กำหนด</strong>
-      ระบบจะคำนวณจากยอดที่เข้าเกณฑ์ก่อนแสดงโบนัสที่สามารถรับได้
-      <strong class="text-[#ffe9a8]">ควรตรวจสอบประเภทเกม รอบตัดยอด และข้อกำหนดการใช้โบนัสให้ครบถ้วนก่อนกดรับ</strong>
-    </p>
-  </ContentBoxSevenThreePremium>
-
-  <ContentBoxSevenThreeFloatingBadge as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น คืนยอดเสีย โบนัส 0.3%">
     <p slot="left">
-      <strong class="text-[#ffe9a8]">สมาชิกสามารถแชร์ลิงก์แนะนำ DM899 ให้เพื่อน</strong>
-      เมื่อเพื่อนสมัครและมียอดใช้งานตรงตามเงื่อนไข
-      <strong class="text-[#ffe9a8]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
-      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และสถานะโบนัสผ่านบัญชีสมาชิกตามรอบที่เว็บไซต์กำหนด
+      <strong class="text-[#fce675]">สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ UP555 กำหนด</strong>
+      ระบบจะนำเฉพาะยอดที่เข้าเกณฑ์มาคำนวณก่อนแสดงโบนัสที่สามารถรับได้
+      <strong class="text-[#fce675]">ควรตรวจสอบว่าเกมสล็อต บาคาร่า บอล หรือเกมประเภทใดร่วมรายการ รวมถึงรอบตัดยอดก่อนกดรับสิทธิ์</strong>
     </p>
     <Picture
       slot="right"
-      src={imgReferral}
+      src={imgCashback}
       loading="lazy"
       fetchpriority="low"
-      widths={[302, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 82px), 302px"
+      widths={[348, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1431px) calc(30vw - 72px), 348px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปรโมชั่นของ DM899 ฉากหลังเป็นม่านพลิ้วสีขาว เขียว และแดง มีเหรียญทองลอยอยู่ทั่วภาพ ด้านซ้ายเป็นหญิงสาวผมยาวผูกโบว์สีขาวที่ผม สวมชุดสีขาวปักทองประดับอัญมณีสีเขียว ยื่นมือซ้ายแบออกมาข้างหน้าและชี้นิ้วมือขวาขึ้นไปทางตัวอักษร ด้านล่างขวามีกองชิปคาสิโน ไพ่เอซสองใบ และกล่องของขวัญผูกโบว์ มุมบนเป็นโลโก้ DM899 ที่ตัว D สีเขียวซ้อนตัว M สีแดง ตามด้วยเลข 899 สีเงิน ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น และป้ายพื้นดำขอบทองที่มีมงกุฎทองอยู่ด้านบน คาดข้อความ แนะนำเพื่อน โบนัส 0.8%"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f2b422]/60 shadow-[0_10px_30px_rgba(242,180,34,0.26)]"
+      alt="ภาพโปรโมชั่นของ UP555 พื้นหลังสีดำอมทอง มีประกายทองและเหรียญทองลอยกระจาย ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาล สวมชุดสีขาวประดับทองและสร้อยคอ ชี้นิ้วมือขวาขึ้นและยื่นมือซ้ายแบออกมาข้างหน้า ด้านล่างมีกองเหรียญทองและไพ่ มุมบนเป็นโลโก้ UP555 ตัว U สีเงินโครเมียมมีลูกศรทองล้อมด้วยวงรีทอง ตามด้วย UP สีเงินและ 555 สีทอง ถัดลงมาเป็นมงกุฎทองและตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงมาเป็นป้ายคาดข้อความ คืนยอดเสีย โบนัส กับตัวเลข 0.3% ขนาดใหญ่"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#ebbb54]/60 shadow-[0_10px_30px_rgba(235,187,84,0.26)]"
     />
-  </ContentBoxSevenThreeFloatingBadge>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBoxSpecial as="h2" title="สมัครเดิมพัน DM899 บนมือถือง่ายๆ 3ขั้นตอน" iconleft="📝" iconright="🔐">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%">
+    <Picture
+      slot="left"
+      src={imgReferral}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[345, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 39px), 345px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt="ภาพโปรโมชั่นของ UP555 พื้นหลังสีดำอมทอง มีประกายทองและเหรียญทองลอยกระจาย ด้านขวาเป็นหญิงสาวผมยาวสีน้ำตาล สวมชุดสีขาวประดับทอง ยกมือทั้งสองข้างแบออกมาข้างหน้า ด้านซ้ายล่างมีกองชิปคาสิโนสีดำขอบทองและไพ่เอซ มุมบนเป็นโลโก้ UP555 ตัว U สีเงินโครเมียมมีลูกศรทองล้อมด้วยวงรีทอง ตามด้วย UP สีเงินและ 555 สีทอง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น และป้ายพื้นดำขอบทองคาดข้อความ แนะนำเพื่อน โบนัส 0.8%"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#d5d4d3]/55 shadow-[0_10px_30px_rgba(213,212,211,0.22)]"
+    />
+    <p slot="right">
+      <strong class="text-[#fce675]">สมาชิกสามารถใช้ลิงก์แนะนำ UP555 เพื่อเชิญเพื่อนสมัคร</strong>
+      เมื่อเพื่อนเปิดบัญชีและมียอดใช้งานตรงตามข้อกำหนด
+      <strong class="text-[#fce675]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
+      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และสถานะโบนัสผ่านบัญชีสมาชิกตามรอบที่โปรโมชั่นกำหนด
+    </p>
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxTwoCyberCut
+    as="h2"
+    title="สมัครเดิมพัน UP555 คาสิโนบนมือถือง่ายๆ 3ขั้นตอน"
+    titleleft="สมัครผ่านมือถือใน 3 ขั้นตอน"
+    titleright="หลังเปิดบัญชีและการดูแลรหัส">
     <p slot="left">
-      <strong class="text-[#ffe9a8]">การสมัคร DM899 สามารถดำเนินการบนมือถือได้ใน 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลเพื่อเปิดบัญชีและ Login เข้าสู่ระบบ ก่อน เลือกประเภทเกมที่ต้องการ
-      <strong class="text-[#ffe9a8]">พร้อมตรวจสอบโปรโมชั่นและรายละเอียดการเดิมพันก่อนเริ่มใช้งาน</strong>
+      <strong class="text-[#fce675]">การสมัคร UP555 สามารถดำเนินการผ่านมือถือได้ใน 3 ขั้นตอน</strong>
+      เริ่มจาก เปิดหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลเพื่อเปิดบัญชีและ Login เข้าสู่ระบบ ก่อน เลือกสล็อต บาคาร่า บอล หวย หรือเกมที่ต้องการ
+      <strong class="text-[#fce675]">พร้อมตรวจสอบรายละเอียดและโปรโมชั่นก่อนเริ่มใช้งาน</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#ffe9a8]">หลังสมัครเรียบร้อยสามารถใช้บัญชีเดียวเข้าถึงหมวดเกมที่ระบบรองรับ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้</strong>
-      ควรใช้ข้อมูลของตนเองในการสมัคร ตั้งรหัสผ่านที่คาดเดายาก
-      <strong class="text-[#ffe9a8]">และไม่เปิดเผย PIN รหัสผ่าน หรือ OTP ให้บุคคลอื่น</strong>
+      <strong class="text-[#fce675]">หลังสมัครเรียบร้อยสามารถใช้บัญชีเดียวเข้าถึงเกมที่ระบบเปิดให้บริการ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้</strong>
+      ควรใช้ข้อมูลของตนเอง ตั้งรหัสผ่านที่คาดเดายาก
+      <strong class="text-[#fce675]">และไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
     </p>
-  </ContentBoxSpecial>
+  </ContentBoxTwoCyberCut>
 
-  <ContentBox as="h2" title="ติดต่อแอดมิน DM899 ผู้ให้บริการเว็บหลัก 24 ชั่วโมง">
+  <ContentBox as="h2" title="ติดต่อแอดมิน UP555 ผู้ให้บริการเว็บคาสิโน 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
       <p>
-        หากสมาชิกพบปัญหาเกี่ยวกับการสมัคร Login เข้าเกมไม่ได้ เครดิตไม่แสดง โปรโมชั่นไม่ถูกคำนวณ หรือรายการฝากถอนอยู่ระหว่างตรวจสอบ
-        <strong class="text-[#ffe9a8]">สามารถติดต่อแอดมิน DM899 ผ่านช่องทางบริการหลักของเว็บไซต์ได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดของรายการเพื่อช่วยให้ตรวจสอบปัญหาได้รวดเร็วขึ้น
+        หากพบปัญหาเกี่ยวกับทางเข้าใหม่ สมัครไม่ได้ Login ไม่สำเร็จ เกมไม่แสดง โปรโมชั่นมีปัญหา หรือรายการฝากถอนอยู่ระหว่างตรวจสอบ
+        <strong class="text-[#fce675]">สามารถติดต่อแอดมิน UP555 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งรายละเอียดของปัญหาเพื่อช่วยให้ตรวจสอบรายการได้ตรงจุด
       </p>
       <p>
-        <strong class="text-[#ffe9a8]">กรณีเกี่ยวกับเกมควรแจ้งชื่อเกม ค่าย และเวลาที่พบปัญหา</strong>
-        ส่วนเรื่องฝากถอนควรเตรียมเวลา จำนวนเงิน และหลักฐานธุรกรรม หากมีการเปลี่ยนบัญชีรับเงินจากข้อมูลเดิม ควรตรวจสอบกับช่องทางหลักก่อนทำรายการ
-        <strong class="text-[#ffe9a8]">และไม่ควรส่ง OTP หรือรหัสผ่านให้เจ้าหน้าที่</strong>
+        <strong class="text-[#fce675]">กรณีเกี่ยวกับเกมควรแจ้งชื่อเกม ประเภทเกม และเวลาที่เกิดปัญหา</strong>
+        ส่วนรายการธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ
+        <strong class="text-[#fce675]">โดยไม่ควรเปิดเผย OTP รหัสผ่าน หรือ PIN ให้บุคคลอื่น</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a href="/line" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00B900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
@@ -301,14 +309,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#4ade6b]/70 bg-gradient-to-r from-[#4ade6b] via-[#12c23a] to-[#01a326] p-3.5 text-center font-black text-[#06140a] shadow-[0_10px_30px_rgba(1,163,38,0.40)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก DM899
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fce675]/70 bg-gradient-to-r from-[#fce675] via-[#ebbb54] to-[#ab6d24] p-3.5 text-center font-black text-[#160d02] shadow-[0_10px_30px_rgba(235,187,84,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก UP555
         </a>
       </div>
     </div>
   </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ DM899" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ UP555" faqs={faqs} />
 
   <LoginRtpSection />
 

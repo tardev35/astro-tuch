@@ -49,39 +49,43 @@ const initialRows = Array.from({ length: 4 }, (_, i) => {
 });
 
 // Pending/verified stay semantic, not the brand gold — a status colour that
-// matches the accent tells the reader nothing. Pending is the muted body cream
-// on the raised surface, so it reads as "not finished yet" without borrowing the
-// accent; done keeps the success green every brand on this template uses, which
-// the palette rules leave unmapped on purpose.
-const PENDING_CLASS = "text-[#f6e6cf]/80 bg-[#3d0808] animate-pulse";
+// matches the accent tells the reader nothing. Pending is the muted body ivory
+// on the raised chip surface, so it reads as "not finished yet" without
+// borrowing the accent; done keeps the success green every brand on this
+// template uses, which the palette rules leave unmapped on purpose.
+const PENDING_CLASS = "text-[#f8eed9]/80 bg-[#241705] animate-pulse";
 const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e] to-[#15803d] font-black shadow-md";
 
 // The amount reacts to its own value rather than to a brand colour: an ordinary
-// row is gold light, a row over the threshold lifts to full brand gold with a
-// glow. Both class lists live here, and the module only swaps between them.
-const AMOUNT_CLASS = "text-[#fdea83]";
-const AMOUNT_BIG_CLASS = "text-[#fbdc64] drop-shadow-[0_0_10px_rgba(251,220,100,0.55)]";
+// row is brand gold, a row over the threshold lifts to the brand's bright gold
+// with a glow. Both class lists live here, and the module only swaps between
+// them.
+const AMOUNT_CLASS = "text-[#ebbb54]";
+const AMOUNT_BIG_CLASS = "text-[#fce675] drop-shadow-[0_0_10px_rgba(252,230,117,0.55)]";
 
-// หวยเฮง24 (รอบแดงเข้ม-ทอง 2026-10-01): เวิร์ดมาร์กเขียนคำว่า "หวย" เป็นแดงเลือดนกเงา
-// วาวขอบทอง แล้วปิดด้วย "เฮง24" ทองไล่เฉด แผงนอกจึงเป็นพื้นการ์ดแดงเข้ม #2e0707 ใน
-// กรอบทองเข้ม #a46304 ออร่าบนหัวเป็นทองแบรนด์ #e0a52a การ์ดแต่ละใบตกลงไปที่พื้นเพจ
-// แดงเกือบดำ #1a0505 ในเส้นพื้นแผงยก #3d0808 แล้วสว่างเป็นทองตอน hover ยอดเงินเป็น
-// ทองอ่อน #fdea83 และยกเป็นทองสว่าง #fbdc64 พร้อมแสงเมื่อเกินเกณฑ์ หัวข้อไล่ตามลำดับ
-// สีบนโลโก้ คือทองอ่อน → ทองแบรนด์ → แดงสว่าง #c01616 เนื้อความ #f6e6cf (BRAND_TEXT)
-// ตัวรองใช้สีเนื้อความลดความทึบแทนการตั้งเฉดใหม่ — ชุดทอง-แดงเลือดหมูของ GOT777
-// (#f5c518 #ffe9a8 #96690f #d21622 #160b06 #241108 #0a0503 #ece0cb #bdae92) หายไป
-// ทั้งหมด
+// UP555 (รอบทอง + เงินโครเมียม บนดำอมน้ำตาล 2026-10-03): โลโก้เป็นสองโลหะจริง — ตัว U
+// กับตัวอักษร UP เป็นเงินโครเมียม (dominant #d5d4d3 #f3f3f2) ส่วนลูกศร วงรี และเลข 555
+// เป็นทองเมทัลลิก (vivid #ebbb54 #fce675 #ab6d24) แผงนอกจึงเป็นพื้นการ์ดดำอมน้ำตาล
+// #130b03 ในกรอบทองลึก #6b4517 ออร่าบนหัวเป็นทองแบรนด์ #ebbb54 การ์ดแต่ละใบตกลงไปที่
+// พื้นเพจลึกสุด #0c0502 ในเส้นพื้นชิปยก #241705 แล้วสว่างเป็นทองตอน hover ยอดเงินเป็น
+// ทองแบรนด์และยกเป็นทองสว่างพร้อมแสงเมื่อเกินเกณฑ์ หัวข้อไล่เงินโครเมียม #d5d4d3 →
+// ทองสว่าง #fce675 → ทองแบรนด์ #ebbb54 ซึ่งเริ่มที่เงินแล้วไต่เข้าทองตามที่ตาอ่านโลโก้
+// จากซ้าย (U/UP เงิน ก่อน 555 ทอง) เนื้อความ #f8eed9 (BRAND_TEXT) ตัวรองใช้สีเนื้อความ
+// ลดความทึบแทนการตั้งเฉดใหม่
+//
+// ชุดแดงเข้ม-ทองของ หวยเฮง24 ที่เคยค้างในไฟล์นี้ (#a46304 #2e0707 #e0a52a #1a0505
+// #3d0808 #fdea83 #fbdc64 #c01616 #f6e6cf) ออกครบทุกจุดแล้ว
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <section
     aria-label={`รายการฝากถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#a46304]/55 bg-[#2e0707]/92 px-4 py-8 shadow-[0_10px_30px_rgba(20,3,3,0.82)] backdrop-blur-md md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#e0a52a]/28 blur-[50px]"></div>
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#6b4517]/55 bg-[#130b03]/92 px-4 py-8 shadow-[0_10px_30px_rgba(5,2,1,0.82)] backdrop-blur-md md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#ebbb54]/28 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
       <span aria-hidden="true" class="text-2xl">💸</span>
-      <p class="bg-gradient-to-r from-[#fdea83] via-[#e0a52a] to-[#c01616] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}</p>
+      <p class="bg-gradient-to-r from-[#d5d4d3] via-[#fce675] to-[#ebbb54] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}</p>
       <span aria-hidden="true" class="text-2xl">💸</span>
     </div>
 
@@ -100,7 +104,7 @@ const AMOUNT_BIG_CLASS = "text-[#fbdc64] drop-shadow-[0_0_10px_rgba(251,220,100,
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-card transition-all duration-500 ease-out">
-            <div class="flex flex-col rounded-[20px] border border-[#3d0808] bg-[#1a0505]/95 p-5 shadow-sm transition-all hover:border-[#e0a52a]/55 hover:bg-[#3d0808]/90">
+            <div class="flex flex-col rounded-[20px] border border-[#241705] bg-[#0c0502]/95 p-5 shadow-sm transition-all hover:border-[#ebbb54]/55 hover:bg-[#241705]/90">
               <div class="mb-4 flex items-start justify-between">
                 <div data-winner-bank class={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
@@ -116,14 +120,14 @@ const AMOUNT_BIG_CLASS = "text-[#fbdc64] drop-shadow-[0_0_10px_rgba(251,220,100,
                 </div>
               </div>
               <div>
-                <div class="text-sm text-[#f6e6cf]/70">
+                <div class="text-sm text-[#f8eed9]/70">
                   ยูสเซอร์:{" "}
-                  <span data-winner-user class="font-bold text-[#f6e6cf]">
+                  <span data-winner-user class="font-bold text-[#f8eed9]">
                     {row.user}
                   </span>
                 </div>
                 <div data-winner-big data-normal-class={AMOUNT_CLASS} data-big-class={AMOUNT_BIG_CLASS} class={`mt-1 text-2xl font-black ${row.big ? AMOUNT_BIG_CLASS : AMOUNT_CLASS}`}>
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#f6e6cf]/70">THB</span>
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#f8eed9]/70">THB</span>
                 </div>
               </div>
             </div>
@@ -132,8 +136,8 @@ const AMOUNT_BIG_CLASS = "text-[#fbdc64] drop-shadow-[0_0_10px_rgba(251,220,100,
       }
     </div>
 
-    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#f6e6cf]/70">
-      ก่อนฝากหรือถอนผ่านวอลเลทหรือธนาคารที่ระบบรองรับ ควรตรวจสอบจำนวนเงิน ช่องทาง และรายละเอียดบัญชีให้ตรงกับข้อมูลสมาชิก หากรายการยังประมวลผลอยู่ไม่ควรกดซ้ำทันที และสามารถติดตามประวัติรายการได้จากบัญชีสมาชิก
+    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#f8eed9]/70">
+      ก่อนทำรายการฝากหรือถอนผ่านช่องทางที่ระบบรองรับ ควรตรวจสอบจำนวนเงิน ช่องทาง และรายละเอียดบัญชีให้ตรงกับข้อมูลสมาชิก หากรายการยังอยู่ระหว่างตรวจสอบไม่ควรกดซ้ำทันที และสามารถติดตามประวัติรายการได้จากบัญชีสมาชิก
     </p>
 
     <script type="application/json" data-winners-banks set:html={JSON.stringify(bankPool)} />

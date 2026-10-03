@@ -19,33 +19,48 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 // อยู่แล้ว พอสองอันนั้นขึ้นเป็นเมนูเอง มันก็กลายเป็นลิงก์ที่สามไปที่เดิม
 // (หน้ายังถูก route และ index ตามปกติ)
 //
-// ไม่มี /ตรวจหวย และ /แนวทาง: FAH999 เป็นเว็บสล็อต บรีฟไม่มีหัวข้อหวยเลย —
-// สองหน้านั้นถูกย้ายกลับไป src/pages-disabled/ แล้ว จึงไม่ถูก route ถ้าปล่อย
-// ลิงก์ไว้ verify-build จะจับว่าเป็น href ไปยัง route ที่ไม่มีอยู่จริง
+// ไม่มี /ตรวจหวย และ /แนวทาง: UP555 เป็นเว็บคาสิโน บรีฟพูดถึงหวยในฐานะ "หนึ่งใน
+// หมวดเกม" เท่านั้น ไม่ใช่เว็บหวย สองหน้านั้นจอดอยู่ที่ src/pages-disabled/ จึง
+// ไม่ถูก route ถ้าปล่อยลิงก์ไว้ verify-build จะจับว่าเป็น href ไปยัง route ที่ไม่มีจริง
 //
-// 👑 ของ "เกี่ยวกับเรา" มาจากมงกุฎทองบนโลโก้ FAH999 เอง ไอคอนทุกตัวเลือกให้ตรง
-// แนวเว็บสล็อต ตัวละหนึ่งอัน และอยู่ใน <span aria-hidden> แยกจากตัวหนังสือเสมอ
+// ไอคอนเลือกให้ตรงแนวคาสิโนรวมทุกประเภทตามบรีฟ (สล็อต บาคาร่า บอล หวย) ตัวละหนึ่ง
+// อัน และอยู่ใน <span aria-hidden> ที่เป็น "พี่น้อง" ของตัวหนังสือเสมอ ไม่ใช่อยู่ข้างใน
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👑" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 
-const logoAlt = "โลโก้ FAH999 มงกุฎทองประดับอัญมณีสีดำอยู่ด้านบนสุด ใต้ลงมาเป็นตัวอักษร FAH สีเงินโครเมียมขอบทอง และตัวเลข 999 สีทองสามมิติ ขนาบสองข้างด้วยไพ่สีดำลายโพดำและดอกจิกบนวงแหวนทองโค้ง";
+const logoAlt =
+  "โลโก้ UP555 เป็นตัว U สีเงินโครเมียมที่มีลูกศรสีทองพุ่งขึ้นอยู่ข้างใน ล้อมรอบด้วยวงรีสีทองวางเอียง ถัดมาเป็นตัวอักษร UP สีเงินโครเมียมและเลข 555 สีทองเมทัลลิก ตัวหนาทรงเอียงเรียงติดกันเป็นบรรทัดเดียว";
+
+// พาเลตต์ UP555 (ทอง + เงินโครเมียม บนดำอมน้ำตาล 2026-10-03): โลโก้แบรนด์นี้เป็น
+// "สองโทนจริง" — ตัว U กับ UP เป็นเงินโครเมียม (#d5d4d3 #f3f3f2) ส่วนลูกศร วงรี
+// และเลข 555 เป็นทอง (#ebbb54 #fce675 #ab6d24) navbar จึงเดินสองโทนนั้นคู่กัน:
+// ทองถือสถานะ active / ปุ่มสมัคร / เส้นขอบ ส่วนเงินถือเมนูที่ยังไม่ถูกเลือกและ
+// ปุ่มเข้าสู่ระบบ แทนที่จะไล่เฉดทองอย่างเดียว พื้นเป็นดำอมน้ำตาล #0c0502 / #130b03
+// ตามสีพื้นที่วัดได้จาก banner1 กับ slide1
+//
+// ชุดทองของ FAH999 ที่เคยอยู่ในไฟล์นี้ (#a3732c #0a0907 #e8c25a #f7e7a8 #e7dcc4
+// #6b4a18 #12100b #1c160e #140f06) ออกครบทุกจุดแล้ว
+//
+// หมึกบนปุ่มสมัคร: #160d02 บนปลายเกรเดียนต์ทองเข้ม #c08a30 = 6.4:1 และบนทองหลัก
+// #ebbb54 = 10.7:1 ผ่าน AA ทั้งคู่ — ปลายเกรเดียนต์ตั้งไว้ที่ #c08a30 ไม่ใช่ทองลึก
+// #ab6d24 (ซึ่งเหลือ 4.5:1 พอดีเส้น) ถ้าจะทำปลายให้เข้มกว่านี้ต้องสลับหมึกเป็นทองอ่อน
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-40 w-full border-b border-[#a3732c]/60 bg-[#0a0907]/95 shadow-[0_5px_25px_rgba(232,194,90,0.18)] backdrop-blur-xl">
+  <nav class="relative z-40 w-full border-b border-[#ab6d24]/60 bg-[#0c0502]/95 shadow-[0_5px_25px_rgba(235,187,84,0.18)] backdrop-blur-xl">
     <div class="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4 lg:h-[80px] xl:px-8">
       <div class="flex items-center gap-4">
         <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2 lg:hidden" aria-label="Menu">
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#e8c25a] shadow-[0_0_5px_rgba(232,194,90,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#f7e7a8] shadow-[0_0_5px_rgba(247,231,168,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#e8c25a] shadow-[0_0_5px_rgba(232,194,90,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#ebbb54] shadow-[0_0_5px_rgba(235,187,84,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#d5d4d3] shadow-[0_0_5px_rgba(213,212,211,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#ebbb54] shadow-[0_0_5px_rgba(235,187,84,0.5)] transition-all duration-300"></span>
         </button>
 
         <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
@@ -58,12 +73,12 @@ const logoAlt = "โลโก้ FAH999 มงกุฎทองประดั�
                 fetchpriority="high"
                 widths={[110, 220, 330]}
                 sizes="110px"
-                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(232,194,90,0.45)] lg:h-[50px]"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(235,187,84,0.45)] lg:h-[50px]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#f7e7a8] via-[#e8c25a] to-[#6b4a18] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(232,194,90,0.5)] lg:text-3xl">{BRAND_NAME}</span>
+              <span class="bg-gradient-to-b from-[#f3f3f2] via-[#ebbb54] to-[#ab6d24] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(235,187,84,0.5)] lg:text-3xl">{BRAND_NAME}</span>
             )
           }
         </a>
@@ -73,13 +88,13 @@ const logoAlt = "โลโก้ FAH999 มงกุฎทองประดั�
         {
           links.map((link) => (
             <a href={link.path} class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#f7e7a8] drop-shadow-[0_0_8px_rgba(232,194,90,0.5)]" : "text-[#e7dcc4]/70 group-hover:text-[#f7e7a8]"}`}>
+              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#fce675] drop-shadow-[0_0_8px_rgba(235,187,84,0.5)]" : "text-[#d5d4d3]/70 group-hover:text-[#fce675]"}`}>
                 <span aria-hidden="true">{link.icon}</span>
                 {link.name}
               </span>
               <div
                 aria-hidden="true"
-                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full bg-[#e8c25a] transition-all duration-300 ${isActive(link.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(232,194,90,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
+                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full bg-[#ebbb54] transition-all duration-300 ${isActive(link.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(235,187,84,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
               />
             </a>
           ))
@@ -89,13 +104,13 @@ const logoAlt = "โลโก้ FAH999 มงกุฎทองประดั�
       <div class="flex items-center gap-3">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#e7dcc4]/40 bg-[#12100b]/70 px-6 py-2.5 text-sm font-bold text-[#e7dcc4] transition-all hover:border-[#e8c25a]/70 hover:bg-[#1c160e]/80 hover:text-[#f7e7a8] md:flex">
+          class="hidden items-center justify-center rounded-full border border-[#d5d4d3]/40 bg-[#130b03]/70 px-6 py-2.5 text-sm font-bold text-[#f3f3f2] transition-all hover:border-[#ebbb54]/70 hover:bg-[#241705]/80 hover:text-[#fce675] md:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #6b4a18, #e8c25a, #6b4a18);"
-          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#140f06] shadow-[0_0_20px_rgba(232,194,90,0.3)] transition-all hover:shadow-[0_0_25px_rgba(232,194,90,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
+          style="background-image: linear-gradient(in oklab to right, #c08a30, #ebbb54, #c08a30);"
+          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#160d02] shadow-[0_0_20px_rgba(235,187,84,0.3)] transition-all hover:shadow-[0_0_25px_rgba(235,187,84,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
           สมัครสมาชิก
         </a>
       </div>
@@ -106,9 +121,9 @@ const logoAlt = "โลโก้ FAH999 มงกุฎทองประดั�
 
   <div
     id="mobile-bottom-sheet"
-    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#a3732c]/60 bg-[#0a0907] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#ab6d24]/60 bg-[#0c0502] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
     <div class="flex w-full cursor-pointer justify-center pt-3 pb-2" id="close-sheet-btn">
-      <div class="h-1.5 w-12 rounded-full bg-[#1c160e]"></div>
+      <div class="h-1.5 w-12 rounded-full bg-[#241705]"></div>
     </div>
 
     <div class="flex flex-col space-y-2 px-6 pt-2 pb-8">
@@ -116,22 +131,22 @@ const logoAlt = "โลโก้ FAH999 มงกุฎทองประดั�
         links.map((link) => (
           <a
             href={link.path}
-            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#e8c25a]/20 to-transparent border border-[#a3732c]/50 text-[#f7e7a8]" : "bg-white/5 border-transparent text-[#e7dcc4]/60"}`}>
+            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#ebbb54]/20 to-transparent border border-[#ab6d24]/50 text-[#fce675]" : "bg-white/5 border-transparent text-[#d5d4d3]/60"}`}>
             <div class="flex items-center gap-4">
               <span aria-hidden="true" class="text-2xl drop-shadow-lg">{link.icon}</span>
               <span class="text-base font-bold tracking-wide">{link.name}</span>
             </div>
-            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#e8c25a] shadow-[0_0_8px_rgba(232,194,90,1)]" />}
+            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#ebbb54] shadow-[0_0_8px_rgba(235,187,84,1)]" />}
           </a>
         ))
       }
 
       <div class="mt-2 grid grid-cols-2 gap-3 border-t border-white/5 pt-4">
-        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#e7dcc4]/35 bg-[#e7dcc4]/5 py-3.5 text-sm font-bold text-[#e7dcc4]">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#d5d4d3]/35 bg-[#d5d4d3]/5 py-3.5 text-sm font-bold text-[#f3f3f2]">เข้าสู่ระบบ</a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #6b4a18, #e8c25a, #6b4a18);"
-          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#140f06] shadow-[0_0_15px_rgba(232,194,90,0.4)]">
+          style="background-image: linear-gradient(in oklab to right, #c08a30, #ebbb54, #c08a30);"
+          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#160d02] shadow-[0_0_15px_rgba(235,187,84,0.4)]">
           สมัครสมาชิก
         </a>
       </div>
