@@ -37,10 +37,10 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนไทย (IDN) — ตัว URL จะถูก normalize เป็น punycode
-  // xn----0wfj9hyax1e.com เองโดย new URL() ทั้ง canonical, sitemap, robots.txt
-  // และ JSON-LD จึงออกเป็น punycode ตรงกันหมด ไม่ต้องแปลงเอง
-  site: "https://หวย-คิง.com",
+  // โดเมน ASCII ล้วนรอบนี้ (แบรนด์ก่อนหน้าเป็นโดเมนไทย/IDN ที่ถูก normalize เป็น
+  // punycode) — canonical, sitemap, robots.txt และ JSON-LD ทุกตัวอนุมานจากค่านี้
+  // ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
+  site: "https://huay24.co",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

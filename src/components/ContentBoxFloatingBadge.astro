@@ -6,70 +6,81 @@ export interface Props {
 const { title, as: HeadingTag = "h1" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "text-lg sm:text-xl md:text-2xl";
 
-// The badge is `absolute -top-6`, so the card's top padding must exceed the
-// badge's own height minus 24px. It is width-capped (w-[92%] max-w-2xl) and
-// centred rather than whitespace-nowrap, so a long Thai title wraps instead of
-// overflowing the card and forcing horizontal scroll on a phone. Re-checked for
-// this brand: there is no `whitespace-nowrap` anywhere in this file.
+// Flattened single-slot variant: `isolate` on the card, `-z-10` on both aura
+// layers, the slot renders as a direct child. Do not re-add a wrapper <div>.
+// The badge gets its own `isolate` too, because its hairlines are `-z-10` and
+// would otherwise paint against the card's stacking context instead of its own.
 //
-// Clearance RE-DERIVED for DM899 (2026-10-03), which puts this box on docx H2
-// #3: "โปรโมชั่นเล่นสล็อต DM899 อัปเดตใหม่ทุกเดือน" — 43 code points, 35
-// advancing cells once the 8 zero-width Thai marks (ั ่ ่ ็ ั ่ ุ ื) are
-// discounted and the 2 spaces counted. It arrives as an H2, so the badge keeps
-// py-2.5 (20px) + border-2 (4px), with two ✦ spans plus gap-2 taking ~48px of
-// the line box:
-//   base  text-lg 18px -> 27px/line, ~218px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~21 cells/line.
-//         It breaks only at the brief's own two spaces:
-//         "โปรโมชั่นเล่นสล็อต DM899" 20 | "อัปเดตใหม่ทุกเดือน" 14 -> 2 lines.
-//         Real 2 lines = 2x27 + 24 = 78, bottom edge 54 vs pt-32/128px
-//                                                -> 74px clear
-//         Budget 3 lines = 3x27 + 24 = 105, edge 81  -> 47px clear
-//         (re-checked at 320px: the same single break, still 2 lines)
-//   sm    text-xl 20px -> 30px/line, ~443px of text width
-//         (w-[92%] 559 - px-8 64 - border 4 - sparks 48) = ~38 cells/line,
-//         so 35 cells fits on 1 line. Budget 3 lines = 3x30 + 24 = 114,
-//         edge 90 vs pt-32/128px                 -> 38px clear
-//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~40 cells/line,
-//         so 1 line. Budget 3 lines = 3x36 + 24 = 132,
-//         edge 108 vs md:pt-36/144px             -> 36px clear
-// Every breakpoint clears with at least a full spare line of budget, so
-// pt-32/md:pt-36 stands for this brand — it is NOT reduced. Do NOT shrink it on
-// the assumption the box keeps a title this length; redo the arithmetic with the
-// real docx sentence the next brand puts here.
+// There is no `whitespace-nowrap` anywhere in this file. The badge is width
+// capped (w-[92%] max-w-2xl) and centred, so a long Thai title wraps instead of
+// blowing past the viewport.
 //
-// DM899 (รอบเขียวมรกต-แดงสด-ทอง บนดำอมเขียว 2026-10-03): การ์ดไล่จากผิวการ์ด
-// #0a1a0e ลงไปหาพื้นลึกสุด #030a05 ในกรอบเขียวแบรนด์ #01a326 ป้ายหัวข้อลอยอยู่บน
-// พื้นเพจดำอมเขียว #030a05 ในกรอบเขียวเดียวกัน แบรนด์นี้มีสองสีจริง (โลโก้เป็นตัว D
-// เขียว vivid #01841b ซ้อนตัว M แดง #fb252b) ประกายสองข้างจึงเป็นทองอ่อน #ffe9a8
-// ฝั่งซ้ายและแดงแบรนด์ #fb252b ฝั่งขวา ตัวหัวข้อไล่ทองอ่อน #ffe9a8 → ทองแบรนด์
-// #f2b422 → เขียวแบรนด์ #01a326 ซึ่งจบเข้มกว่าการ์ด H1 ที่จบที่เขียวสว่าง #12c23a
-// หนึ่งขั้น เพราะหัวข้อนี้ตกสองบรรทัดบนมือถือและหางไล่เฉดต้องยังอ่านออกบนป้ายพื้น
-// #030a05 (เขียวแบรนด์บนพื้นนี้ได้ 6.2:1) ออร่าสองมุมเป็นคู่เขียว-แดงของโลโก้
-// เนื้อความ #e4f2e4 (BRAND_TEXT)
+// BADGE CLEARANCE RE-DERIVED FOR หวย24 (2026-10-04). This box carries the docx
+// H1, which this round is the longest title any brand has put in it:
+//   "หวย24 เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ จ่ายเต็ม"
+// 55 code points; 6 of them are zero-width Thai marks ( ็ ์ ั ่ ่ ็ ), so it
+// advances 49 cells including its 4 spaces. Its five space-delimited chunks
+// measure 5 / 15 / 7 / 12 / 6 cells, and the worst case assumed below is that
+// the line breaker only breaks at those 4 spaces (no Thai dictionary breaking).
 //
-// ชุดแดงสด-ทอง-ดำของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #f5282a #ffc93c #ffeab0
-// #c08a07 #240406 #140203 #f6e7e0) ออกครบทุกจุดแล้ว
+// Change that made the numbers work: the two ✦ ornaments are gone from the
+// line box. The previous owner of this file put them INSIDE the flex row, where
+// they plus their gap-2 ate ~48px of every line at every width — on mobile that
+// is a fifth of the text column. They are now a pair of `absolute` hairlines
+// instead, so 100% of the badge's inner width belongs to the title.
+//
+// Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
+// and its bottom edge sits at that minus 24px (`-top-6`), measured from the
+// card's top. Text width = badge width - horizontal padding - border:
+//   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
+//               text-xl 20px -> ~11.6px/cell = 19 cells/line, 30px/line.
+//               Greedy at the 4 spaces: 5 | 15 | 7 | 12+1+6 -> 4 lines.
+//               Real 4 lines = 4x30 + 24 = 144, edge 120 vs pt-44/176px
+//                                                      -> 56px clear
+//               Budget 5 lines = 5x30 + 24 = 174, edge 150 ->  26px clear
+//   base 360px  badge 302, text 266 -> 22 cells/line. 21 | 20 | 6 -> 3 lines.
+//               Budget 5 lines, same 150 edge vs pt-44   ->  26px clear
+//   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
+//               text-2xl 24px -> ~13.9px/cell = 35 cells/line, 36px/line.
+//               29 | 19 -> 2 lines. Budget 3 = 3x36 + 24 = 132, edge 108
+//               vs pt-44/176px (sm inherits it)           ->  68px clear
+//   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
+//               text-3xl 30px -> ~17.4px/cell = 34 cells/line, 45px/line.
+//               29 | 19 -> 2 lines. Budget 3 = 3x45 + 24 = 159, edge 135
+//               vs md:pt-40/160px                          ->  25px clear
+// So the padding RISES as the screen narrows (pt-44 base, md:pt-40), which is
+// the right way round: the badge wraps to more lines on a phone, not on a desk.
+// Do NOT shrink either value assuming the next brand's H1 is shorter — redo the
+// arithmetic with that brand's real docx sentence.
+//
+// หวย24 (รอบแดงแบรนด์ + ทอง บนดำอมแดง 2026-10-04): เว็บแทงหวย ไม่ใช่เว็บสล็อต
+// พาเลตต์ตาม brand-spec §2 — การ์ดไล่จากผิวการ์ด #170707 ลงไปหาพื้นเพจดำอมแดง
+// #0a0303 ในกรอบแดงแบรนด์ #d20a0a ซึ่งมาจาก vivid ของ logo.webp (#c40303) ตรงๆ
+// ป้ายหัวข้อลอยอยู่บนพื้น #0a0303 ในกรอบทองแบรนด์ #f5c33b จึงเป็นกรอบคนละสีกับ
+// การ์ด ทำให้ป้ายไม่จมไปกับขอบการ์ดตอนที่มันคร่อมเส้นขอบอยู่ หัวข้อไล่แดงสว่าง
+// #ff3b3b → ทองสว่าง #ffd45e → ทองแบรนด์ คือเริ่มแดงจบทอง ซึ่งกลับทางกับ
+// ContentBox ตัวกลางกับ Faq3 ที่เริ่มทองจบแดง และไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกัน
+// ออร่าสองมุมเป็นคู่แดง-ทองของโลโก้กับแบนเนอร์ เนื้อความ #f7e2d6 (= BRAND_TEXT)
+//
+// ชุดเขียวมรกต-แดงสด-ทองของ DM899 ที่เคยค้างในไฟล์นี้ (#0a1a0e #030a05 #01a326
+// #fb252b #ffe9a8 #f2b422 #12c23a #e4f2e4) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#01a326]/60 bg-gradient-to-b from-[#0a1a0e]/95 to-[#030a05]/96 p-8 pt-32 text-left text-base leading-relaxed text-[#e4f2e4] shadow-[0_10px_30px_rgba(1,163,38,0.20)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#fb252b]/26 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#01a326]/30 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#d20a0a]/55 bg-gradient-to-b from-[#170707]/95 to-[#0a0303]/96 p-8 pt-44 text-left text-base leading-relaxed text-[#f7e2d6] shadow-[0_10px_30px_rgba(210,10,10,0.22)] md:pt-40">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#d20a0a]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5c33b]/22 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#01a326]/70 bg-[#030a05] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ffe9a8]">
-            ✦
-          </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#ffe9a8] via-[#f2b422] to-[#01a326] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#f5c33b]/70 bg-[#0a0303] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#d20a0a] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#f5c33b] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute -top-10 left-1/2 -z-10 h-24 w-48 -translate-x-1/2 rounded-full bg-[#d20a0a]/30 blur-[40px]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#ff3b3b] via-[#ffd45e] to-[#f5c33b] bg-clip-text ${headingSize} leading-normal font-black tracking-tight text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#fb252b]">
-            ✦
-          </span>
         </div>
       )
     }

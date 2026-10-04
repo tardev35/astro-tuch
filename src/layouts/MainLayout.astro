@@ -5,12 +5,17 @@ import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
 import { BRAND_NAME, BRAND_TEXT, brandProfile, fontStack, iconVersion } from "../lib/brandProfile";
 import { canonicalFor } from "../lib/schema";
-// การหมุน variant รอบนี้ (UP555 -> หวยคิง): NavbarStyle7 -> NavbarHuay และ
-// FooterPremium -> FooterHuay มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
+// การหมุน variant รอบนี้ (หวยคิง -> หวย24): NavbarHuay -> NavbarStyle10 และ
+// FooterHuay -> FooterStyle3 มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
 // จึงแปลว่าเปลี่ยนว่า import ชี้ไปไฟล์ไหน ไฟล์เดิมยังอยู่ครบในฐานะ inventory
-// รอบนี้เลือกตระกูล Huay เพราะ หวยคิง เป็นเว็บหวยจริง ไม่ใช่สล็อต/คาสิโน
-import Navbar from "../components/NavbarHuay.astro";
-import Footer from "../components/FooterHuay.astro";
+//
+// รอบก่อนเป็นเว็บหวยและใช้ตระกูล Huay ทั้งชุด รอบนี้ก็เป็นเว็บหวยเหมือนกัน การ
+// ใช้ Huay ซ้ำจะทำให้สองแบรนด์ที่ไม่เกี่ยวกันออกมาหน้าตาเดียวกันแค่เปลี่ยนสี จึง
+// ย้ายมา NavbarStyle10 (เมนู 9 รายการพร้อมไอคอน + เมนูเต็มจอบนมือถือ มีลิงก์
+// ตรวจหวย/แนวทาง อยู่แล้ว) คู่กับ FooterStyle3 (กริด 12 คอลัมน์ + การ์ด CTA ลอย
+// คร่อมขอบบน) ทั้งคู่ถูก retheme เป็นแดงแบรนด์-ทองของ หวย24 ก่อนต่อเข้ามา
+import Navbar from "../components/NavbarStyle10.astro";
+import Footer from "../components/FooterStyle3.astro";
 
 // Only banner1 is ever rendered, so only banner1 is imported.
 //
@@ -57,8 +62,8 @@ const mobileBanner = mobileBannerPath ? mobileBannerImages[mobileBannerPath].def
 const mobileBannerImg = mobileBanner ? await getImage({ src: mobileBanner, widths: [360, 480, 640, 828, 1080], format: "avif", quality: 60 }) : null;
 
 const {
-  title = "หวยคิง รับแทงหวย อัตราจ่ายบาทละ1,000 รับเลขเด็ด เลขดัง แทงไม่อั้น",
-  description = "หวยคิง รับแทงหวย เว็บแม่ให้อัตราจ่ายบาทละ1,000 สูงที่สุดในวงการ รับแทงเลขเด็ด เลขดัง จ่ายไม่อั้น ฝากถอนวอลเลทและธนาคารชั้นนำ เข้าบริษัทโดยตรง",
+  title = "หวย24 เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ ลาว ฮานอย รัฐบาลไทย",
+  description = "หวย24 เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ ลาว ฮานอย รัฐบาลไทย รับทุกเลขเด็ด เลขดัง รับไม่อั้น จ่ายเต็มทุกโพย",
   robots = "index, follow",
 } = Astro.props;
 
@@ -206,7 +211,7 @@ const profile = brandProfile(Astro.site);
         background-attachment: fixed;
         background-repeat: no-repeat;
         margin: 0;
-        background-color: #0a0807;
+        background-color: #0a0303;
         font-weight: 400;
         font-family: var(--font-sans) !important;
       }
@@ -254,7 +259,7 @@ const profile = brandProfile(Astro.site);
         {mobileBannerImg && <source media="(max-width: 767px)" type="image/avif" srcset={mobileBannerImg.srcSet.attribute || mobileBannerImg.src} sizes="100vw" />}
         <Image
           src={mainBanner}
-          alt="แบนเนอร์ หวยคิง ฉากพื้นดำอมทอง มีแถบโค้งสีทองเรืองแสงพาดกลางภาพ พร้อมลูกบอลหวยเลข 9 6 3 และ 7 กับเหรียญทองลอยกระจายอยู่รอบ ๆ ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาลประดับดอกไม้ที่ผม สวมชุดสีขาว ยิ้มและแบมือขวาหงายขึ้นมาข้างหน้า ด้านขวาเป็นโลโก้มงกุฎทองวางบนลูกบอลหวยเลข 9 พร้อมตัวอักษรไทยสีทองว่า หวยคิง ถัดลงมาเป็นข้อความตัวอักษรทองสลับขาวว่า หวยคิง รับแทงหวย และล่างสุดเป็นป้ายพื้นดำขอบทองคาดข้อความว่า อัตราจ่ายบาทละ1,000 รับเลขเด็ด เลขดัง แทงไม่อั้น"
+          alt="แบนเนอร์ หวย24 ฉากพื้นดำ มีผ้าไหมสีแดงพลิ้วพาดโค้งทั่วภาพ พร้อมเหรียญทองและลูกบอลหวยเลข 24 กับเลข 17 ลอยกระจายอยู่รอบ ๆ และมีใบสลากกินแบ่งวางอยู่มุมซ้ายบนกับขวาบน ด้านขวาเป็นหญิงสาวผมยาวสีเข้ม สวมชุดสีดำขลิบทอง ห้อยจี้ทองรูปเลข 24 ยิ้มและแบมือซ้ายหงายขึ้นมาข้างหน้า กลางภาพด้านบนเป็นโลโก้วงกลมสีแดงที่มีเลข 24 สีขาวอยู่ข้างใน ต่อด้วยตัวอักษรไทยว่า หวย24 สีขาวโครเมียมสลับแดง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า หวย24 สวมมงกุฎทอง ใต้ลงมาเป็นข้อความสีขาวสลับทองว่า เว็บแทงหวยออนไลน์ 24ชั่วโมง และล่างสุดเป็นป้ายพื้นดำขอบทองคาดข้อความว่า แนวทางหวยครบ ลาว ฮานอย รัฐบาลไทย"
           loading="eager"
           fetchpriority="high"
           widths={[412, 640, 828, 1024, 1280, 1600, 1900]}

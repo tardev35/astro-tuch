@@ -26,12 +26,14 @@ const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label,
 //
 // `heading` defaults to FALSE: a three-column split on this template is almost
 // always one docx paragraph broken into three readable columns, so the safe
-// default keeps chrome out of the heading inventory.
+// default keeps chrome out of the heading inventory. /ทดลองเล่น relies on that
+// default — its three column labels are captions the page invented, not brief
+// headings, so the page stays h1x1 h2x3 h3x0 with this box contributing one h2.
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#fde90e] uppercase";
-const columnDot = "block h-2 w-2 shrink-0 bg-[#35d413] shadow-[0_0_6px_rgba(53,212,19,0.85)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ffd45e] uppercase";
+const columnDot = "block h-2 w-2 shrink-0 bg-[#d20a0a] shadow-[0_0_6px_rgba(210,10,10,0.85)]";
 
 // Optional intro slot — the docx paragraph that sits under the section heading
 // and above the three columns. Its wrapper carries a real `mb-8` and sits beside
@@ -39,40 +41,44 @@ const columnDot = "block h-2 w-2 shrink-0 bg-[#35d413] shadow-[0_0_6px_rgba(53,2
 // renders only when the page actually passes default children.
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
-// PGW44 (รอบทอง-เขียว-ดำ 2026-09-27): กรอบมุมตัดเป็นเส้นไรผมเขียวลึก #1f5a16 บนผิว
-// การ์ดดำอมเขียว #0b1408 และสว่างขึ้นเป็นทองแบรนด์ #fde90e ตอน hover เส้นรูดสี่มุม
-// จับคู่สองสีของเวิร์ดมาร์กไขว้กัน — ทองแบรนด์ #fde90e คู่ทองลึก #a86f02 บนแนวนอน
-// เขียวแบรนด์ #35d413 คู่เขียวสว่าง #5df53a บนแนวตั้ง หัวข้อ docx ไล่ทองแบรนด์ →
-// ทองกลาง #f5c518 → เขียวแบรนด์ ตามลำดับตัวอักษรบนโลโก้ ป้ายสามคอลัมน์เป็นตัวอักษร
-// ทองกับจุดนำสีเขียว จึงอ่านเป็นทองนำเขียวตามเหมือนกันทั้งหน้า เนื้อความ #e9f0dd
-// (BRAND_TEXT) — ชุดน้ำเงิน-ทองของ PAOTUNG (#04203c #226ca9 #3b9ddd #cfdeed
-// #e0bd72 #f5e3b3) ออกทั้งหมด
+// หวย24 (รอบแดงแบรนด์ + ทอง บนดำอมแดง 2026-10-04, brand-spec §2): กรอบมุมตัดเป็น
+// เส้นไรผมแดงลึก #7a0505 บนผิวการ์ด #170707 และสว่างขึ้นเป็นแดงแบรนด์ #d20a0a ตอน
+// hover เส้นรูดสี่มุมจับคู่สองสีของโลโก้ไขว้กัน — แดงแบรนด์ #d20a0a คู่แดงลึก
+// #7a0505 บนแนวนอน (ตามวงกลม "24" สีแดง) ทองแบรนด์ #f5c33b คู่ทองสว่าง #ffd45e
+// บนแนวตั้ง (ตามเวิร์ดมาร์ก หวย24 ที่เป็นทองเมทัลลิกสวมมงกุฎ) หัวข้อไล่ทองสว่าง →
+// ทองแบรนด์ → แดงสว่าง #ff3b3b ซึ่งเป็นทิศเดียวกับหัวข้อของ ContentBox.astro ที่
+// orchestrator รีธีมไว้ ป้ายสามคอลัมน์เป็นตัวอักษรทองสว่างกับจุดนำสีแดง จึงอ่านเป็น
+// ทองนำแดงตามเหมือนกันทั้งหน้า เนื้อความ #f7e2d6 (BRAND_TEXT)
+//
+// ชุดทอง-เขียวของ PGW44 ที่เคยค้างในไฟล์นี้ (#fde90e #35d413 #5df53a #a86f02
+// #f5c518 #1f5a16 #0b1408 #e9f0dd rgba(253,233,14,*) rgba(53,212,19,*)) ออกครบ
+// ทุกจุดแล้ว
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#1f5a16]/80 bg-[#0b1408]/92 p-8 text-[#e9f0dd] shadow-[0_10px_30px_rgba(253,233,14,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#fde90e]/70 hover:shadow-[0_15px_40px_rgba(253,233,14,0.28)]"
+    class="relative isolate w-full border border-[#7a0505]/80 bg-[#170707]/92 p-8 text-[#f7e2d6] shadow-[0_10px_30px_rgba(210,10,10,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#d20a0a]/70 hover:shadow-[0_15px_40px_rgba(210,10,10,0.28)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fde90e] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#a86f02] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#35d413] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#5df53a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#d20a0a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#7a0505] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#f5c33b] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#ffd45e] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#1f5a16]/80 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#fde90e] via-[#f5c518] to-[#35d413] shadow-[0_0_10px_rgba(253,233,14,0.55)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#fde90e] via-[#f5c518] to-[#35d413] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#7a0505]/80 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#ffd45e] via-[#f5c33b] to-[#d20a0a] shadow-[0_0_10px_rgba(245,195,59,0.55)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#ffd45e] via-[#f5c33b] to-[#ff3b3b] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#e9f0dd]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f7e2d6]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#1f5a16]/80 pb-6 text-left text-base leading-relaxed text-[#e9f0dd] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#7a0505]/80 pb-6 text-left text-base leading-relaxed text-[#f7e2d6] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -83,7 +89,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#1f5a16]/80 pb-6 text-left text-base leading-relaxed text-[#e9f0dd] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#7a0505]/80 pb-6 text-left text-base leading-relaxed text-[#f7e2d6] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -94,7 +100,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f0dd] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e2d6] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>
