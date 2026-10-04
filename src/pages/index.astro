@@ -1,169 +1,174 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import LatestWinners from "../components/LatestWinners2.astro";
-import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
-import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import Announcement from "../components/AnnouncementHuay.astro";
+import LatestWinners from "../components/LatestWinnersHuay.astro";
+import ContentBoxHuay from "../components/ContentBoxHuay.astro";
+import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq4.astro";
+import Faq from "../components/FaqHuay.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
-import imgCashback from "../assets/slide2.png";
-import imgReferral from "../assets/slide1.png";
+import imgTwoDigit from "../assets/slide2.png";
+import imgThreeDigit from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND (DM899 -> UP555). Zero file reuse from the previous
-// round: Announcement5 replaces Announcement3, LatestWinners2 replaces
-// LatestWinners4, Faq4 replaces Faq2, ReviewCardSumo replaces ReviewCardSumo2,
-// and the ContentBox shape-mix moves off Premium / TwoPremium / FloatingBadge /
-// SevenThreePremium / SevenThreeFloatingBadge / Special onto Neumorphism /
-// TwoFloatingBadge / CyberCut / SevenThreeNeumorphism / SevenThreeCyberCut /
-// TwoCyberCut. NavbarStyle7 and FooterPremium are the layout's pair this round
-// (previously NavbarStyle9 / FooterStyle3).
+// VARIANT ROTATION THIS ROUND (UP555 -> หวยคิง). Zero file reuse from the previous
+// round: AnnouncementHuay replaces Announcement5, LatestWinnersHuay replaces
+// LatestWinners2, FaqHuay replaces Faq4, ReviewCardSumo2 replaces ReviewCardSumo,
+// and the ContentBox shape-mix moves off Neumorphism / TwoFloatingBadge /
+// CyberCut / SevenThreeNeumorphism / SevenThreeCyberCut / TwoCyberCut onto
+// Huay / TwoHuay / Premium / SevenThreeHuay / SevenThreePremium / TwoPremium.
+// NavbarHuay and FooterHuay are the layout's pair this round (previously
+// NavbarStyle7 / FooterPremium). The Huay family was picked on merit rather than
+// just to rotate: this brand is an actual lottery site, not a slot/casino one.
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and
 // every button page render their body through it by rule and cannot follow a
 // rotation, so it is always-live and the orchestrator rethemes it in the shared
 // step — this page only passes it props.
-// Every Premium / FloatingBadge / Huay / Style file, Faq2, Announcement3,
-// LatestWinners4, ReviewCardSumo2, NavbarStyle9 and FooterStyle3 stay on disk as
+// Every Neumorphism / CyberCut / FloatingBadge / Style file, Faq4, Announcement5,
+// LatestWinners2, ReviewCardSumo, NavbarStyle7 and FooterPremium stay on disk as
 // inventory for the next brand — none of them was deleted, and the previous
 // brand's copy and colour still inside them is expected drift, not a bug.
 //
-// <Announcement /> runs bare on purpose: Announcement5's default message is
+// <Announcement /> runs bare on purpose: AnnouncementHuay's default message is
 // already this brand's copy and every sub-page calls it bare too, so passing an
 // override here is exactly how the ticker ends up saying two different things on
 // two pages of the same site.
 //
-// IMAGE ROLES FOR THIS DROP (2026-10-03). Two files are referenced from this page
+// IMAGE ROLES FOR THIS DROP (2026-10-04). Two files are referenced from this page
 // and only two, and each pairing is read off the artwork itself:
-//   slide2.png — gold-on-black promotion art whose plaque under the big gold
-//     โปรโมชั่น wordmark reads "คืนยอดเสีย โบนัส" with a huge 0.3%, so it belongs
-//     to docx H3 #4. Imported as imgCashback.
-//   slide1.png — the same gold-on-black set with a black gold-edged plaque that
-//     reads "แนะนำเพื่อน โบนัส 0.8%", so it belongs to docx H3 #5. Imported as
-//     imgReferral.
+//   slide2.png — the model holds lottery ball 9, and the black gold-edged plaque
+//     under the big gold อัตราการจ่าย wordmark reads "2ตัว จ่าย100บาท", so it
+//     belongs to docx H3 #4. Imported as imgTwoDigit.
+//   slide1.png — the same gold-on-black set, model holding ball 3, plaque reads
+//     "3ตัว จ่าย1,000บาท", so it belongs to docx H3 #5. Imported as imgThreeDigit.
 // Both files measure 600x600, so 600 is the top real candidate width — nothing
 // above it would be a real pixel — and each picture carries max-w-[600px] so the
 // art is never upscaled past its own bitmap. Each slide sits in a
 // ContentBoxSevenThree* image+text block, which is that family's hard cap of two
 // per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreeNeumorphism lays out
-// md:grid-cols-[7fr_3fr] so its picture goes in slot="right" while the paragraph
-// keeps the wide column, and SevenThreeCyberCut lays out md:grid-cols-[3fr_7fr]
-// so its picture goes in slot="left". The two pictures therefore alternate sides
-// instead of stacking down the same edge, and each `sizes` describes its own 3fr
-// column rather than the viewport:
-//   SevenThreeNeumorphism: max-w-[1400px] cap, px-4, p-8, gap-8, and the image
-//                          column adds md:pl-8 + a 1px border
-//                          -> (1400 - 32 - 64 - 32) x 0.3 - 33 = 348px
-//   SevenThreeCyberCut:    max-w-7xl/1280px cap, px-4, p-8, gap-8, no inner
-//                          padding on the image column
-//                          -> (1280 - 32 - 64 - 32) x 0.3 = 345px
+// The two blocks mirror each other: SevenThreeHuay lays out md:grid-cols-[7fr_3fr]
+// so its picture goes in slot="right" while the paragraph keeps the wide column,
+// and SevenThreePremium lays out md:grid-cols-[3fr_7fr] so its picture goes in
+// slot="left". The two pictures therefore alternate sides instead of stacking down
+// the same edge, and each `sizes` describes its own 3fr column rather than the
+// viewport. Both figures are copied from the arithmetic block in the component
+// that owns the column — if a padding/gap/cap changes there, these move with it:
+//   SevenThreeHuay:    max-w-[1400px] cap, px-4, md:p-10, gap-8, and the image
+//                      column adds md:pl-6
+//                      -> (1400 - 32 - 80 - 32) x 0.3 - 24 = 353px
+//   SevenThreePremium: max-w-7xl/1280px cap, px-4, md:p-10, gap-10, no inner
+//                      padding on the image column
+//                      -> (1280 - 32 - 80 - 40) x 0.3 = 338px
 // Below md both cards collapse to one column at p-8, so the drawn width is
 // 100vw - 32 (section px-4) - 64 (card p-8) = 100vw - 96px, capped at 600px.
 // Neither picture is the LCP element — MainLayout's hero banner is — so both are
 // loading="lazy" fetchpriority="low".
 //
 // The alt text was written from THIS drop's artwork: both slides are 600x600
-// portraits of a model in white against a black-and-gold casino set, with the
-// UP555 logo (a chrome-silver U holding a gold arrow inside a tilted gold
-// ellipse, then chrome UP and gold 555) in the upper area, a large gold Thai
-// โปรโมชั่น wordmark under it, and that slide's own offer plaque beneath.
+// portraits of a model in a white gold-trimmed dress against a black-and-gold set
+// strewn with gold coins and numbered lottery balls, with the หวยคิง logo (a gold
+// crown resting on a gold lottery ball marked 9, then three-dimensional gold Thai
+// lettering) across the top, a large gold Thai อัตราการจ่าย wordmark under it, and
+// that slide's own rate plaque beneath.
 //
 // Deliberately NOT imported, and every file still on disk:
-//   banner2.png / banner3.png / slide3.png / slide4.png all predate this drop and
-//   belong to previous brands — importing any of them would emit a competitor's
-//   artwork into dist/, so there is no inline article illustration this round.
+//   banner2.png (2026-09-28) / banner3.png (2026-09-27) / slide3.png /
+//   slide4.png (2026-09-29) all predate this drop and belong to previous brands —
+//   importing any of them would emit a competitor's artwork into dist/, so there
+//   is no inline article illustration this round.
 //   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs
 //   and are never referenced from a page. og.png is the same: MainLayout owns it.
 //
-// Vocabulary: UP555 is a คาสิโน/สล็อต brand, not a lottery site — หวย is one of
-// the game categories the brief lists, nothing more. The words this page may use
-// are the brief's own: คาสิโนอัปเดตล่าสุด, ทางเข้าเล่นใหม่, ระบบอัปเกรด, สล็อต,
-// บาคาร่า, บอล (เดิมพันฟุตบอล), หวย, บัญชีเดียว, หมวดเกม, เครดิต, โปรโมชั่น,
-// ประวัติรายการ, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, ลิงก์แนะนำ, รอบตัดยอด,
-// ยอดที่เข้าเกณฑ์, สมัคร 3 ขั้นตอน, Login, ยืนยันตัวตน, แอดมิน 24 ชั่วโมง, PIN, OTP.
-// The previous brand's angle (เว็บตรงต่างประเทศ, บัญชีบริษัทแท้ 100%, การันตีระบบเกม
-// มาตรฐาน, ค่ายเกม, คาสิโนสด) is gone, and so is the lottery vocabulary two brands
-// back (โพย, งวด, อัตราจ่าย, เลข 2 ตัว / 3 ตัว, ฮานอย, ลาวพัฒนา, หวยหุ้น, แนวทางหวย,
-// ตรวจหวย). The page was written from the brief rather than find-and-replaced over
-// the old sentences. Nothing here claims a licence, a regulator, an operator, a
-// bank, a game studio, a deposit minimum, a member count, a founding year or an
-// RTP figure, because the brief names none. The only figures are the brief's own:
-// 0.3%, 0.8%, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with the copy
-// (ผลการเดิมพันมีความไม่แน่นอน จึงไม่สามารถรับประกันผลกำไรหรือเงินรางวัลได้ · ไม่ควรใช้
-// คำว่า "ปลอดภัยแน่นอน" เป็นการรับประกันโดยไม่มีข้อมูลรองรับ) — it is part of the
-// paragraphs, not trimmed as downbeat.
+// Vocabulary: หวยคิง is a pure lottery brand — a เว็บรับแทงหวย, not a casino. The
+// words this page may use are the brief's own: แทงหวย, ส่งโพย, โพย, รอบ, รายการหวย,
+// เลข 2 ตัว, เลข 3 ตัว, เลขเด็ด, เลขดัง, อัตราจ่าย, บาทละ 1,000, วงเงินรับแทง,
+// ยอดสูงสุดที่ระบบเปิดรับ, เครดิต, วอลเลท, ธนาคาร, บัญชีบริษัท, ชื่อนิติบุคคล,
+// สมัคร 3 ขั้นตอน, Login, ประวัติโพย, แอดมิน 24 ชั่วโมง, PIN, OTP.
+// The previous brand's entire angle (คาสิโนอัปเดตล่าสุด, ทางเข้าเล่นใหม่, ระบบอัปเกรด,
+// สล็อต, บาคาร่า, บอล/เดิมพันฟุตบอล, หมวดเกม, ค่ายเกม, คาสิโนสด, RTP, คืนยอดเสีย 0.3%,
+// แนะนำเพื่อน 0.8%) is gone — the page was written from the brief rather than
+// find-and-replaced over the old sentences. Nothing here claims a licence, a
+// regulator, an operator, a bank, a lottery market name (ฮานอย/ลาวพัฒนา/หวยหุ้น), a
+// draw time, a deposit minimum, a member count or a founding year, because the
+// brief names none. The only figures are the brief's own: 2 ตัว, 3 ตัว, 100, 1,000,
+// บาทละ 1,000, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with the copy
+// (ส่วนข้อความ "สูงที่สุดในวงการ" ควรมีข้อมูลเปรียบเทียบที่ตรวจสอบได้รองรับ · คำว่า
+// "จ่ายไม่อั้น" ควรยึดวงเงินจริงที่เว็บไซต์แสดง · ควรแสดงชื่อนิติบุคคลและรายละเอียด
+// บัญชีที่ตรวจสอบได้) — it is part of the paragraphs, not trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used
 // verbatim and NOT padded up to 150: verify-build deliberately skips its
 // 150-character floor on the home page for exactly this reason.
-const pageTitle = "UP555 คาสิโนอัปเดตล่าสุด ทางเข้าเล่นใหม่ ระบบอัปเกรด ปลอดภัย ได้เงินจริง";
+const pageTitle = "หวยคิง รับแทงหวย อัตราจ่ายบาทละ1,000 รับเลขเด็ด เลขดัง แทงไม่อั้น";
 
-const pageDescription = "UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่ สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรด ปลอดภัย ได้เงินจริง";
+const pageDescription = "หวยคิง รับแทงหวย เว็บแม่ให้อัตราจ่ายบาทละ1,000 สูงที่สุดในวงการ รับแทงเลขเด็ด เลขดัง จ่ายไม่อั้น ฝากถอนวอลเลทและธนาคารชั้นนำ เข้าบริษัทโดยตรง";
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened
-// to H2-only. The two H3s are genuine headings — the two promotion sub-points,
-// both nested under the โปรโมชั่น H2 — and they stay H3.
+// to H2-only. The two H3s are genuine headings — the two rate sub-points, both
+// nested under the อัตราการจ่าย H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่
-//          ContentBoxNeumorphism, brief paragraph on line 4
-//    2 H2  UP555 สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรดใหม่ ปลอดภัยแน่นอน
-//          ContentBoxTwoFloatingBadge, line 6 left / line 7 right
-//    3 H2  โปรโมชั่นเล่นคาสิโน UP555 ครบทุกเกม
-//          ContentBoxCyberCut, line 9
-//    4 H3  โปรโมชั่น คืนยอดเสีย โบนัส 0.3%
-//          ContentBoxSevenThreeNeumorphism + slide2 (imgCashback), line 11
-//    5 H3  โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%
-//          ContentBoxSevenThreeCyberCut + slide1 (imgReferral), line 13
-//    6 H2  สมัครเดิมพัน UP555 คาสิโนบนมือถือง่ายๆ 3ขั้นตอน
-//          ContentBoxTwoCyberCut, line 15 left / line 16 right
-//    7 H2  ติดต่อแอดมิน UP555 ผู้ให้บริการเว็บคาสิโน 24 ชั่วโมง
-//          ContentBox + LINE / สมัครสมาชิก buttons, lines 18+19
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ UP555
-//          Faq4 + faqs prop, lines 21-26
+//    1 H1  หวยคิง รับแทงหวย เว็บแม่ให้อัตราจ่ายบาทละ1,000 สูงที่สุดในวงการ
+//          ContentBoxHuay, brief paragraphs on lines 4 + 5
+//    2 H2  เว็บ หวยคิง รับแทงเลขเด็ด เลขดัง จ่ายไม่อั้น ยอดเข้าบริษัทโดยตรง
+//          ContentBoxTwoHuay, line 7 left / line 8 right
+//    3 H2  อัตราการจ่าย หวยคิง 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท
+//          ContentBoxPremium, lines 10 + 11
+//    4 H3  2ตัว จ่าย100บาท
+//          ContentBoxSevenThreeHuay + slide2 (imgTwoDigit), line 13
+//    5 H3  3ตัว จ่าย1,000บาท
+//          ContentBoxSevenThreePremium + slide1 (imgThreeDigit), line 15
+//    6 H2  สมัครแทง หวยคิง ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoPremium, line 17 left / line 18 right
+//    7 H2  ติดต่อแอดมินเว็บแทง หวยคิง ได้ ตลอด 24 ชั่วโมง
+//          ContentBox + LINE / สมัครสมาชิก buttons, lines 20 + 21
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวยคิง
+//          FaqHuay + faqs prop, lines 23-28
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// ContentBoxTwoCyberCut defaults to as="p" so a chrome usage stays out of the
-// heading inventory — section 6 therefore passes as="h2" explicitly.
+// ContentBoxSevenThreePremium takes the docx heading through `title`, which it
+// renders in its wide (7fr) text column; its image column is passed no
+// `titleleft`, so the block emits exactly one heading. ContentBoxSevenThreeHuay
+// is the mirror and takes the same heading through `titleleft`, its wide column.
 //
 // Every brief paragraph ships in full — all eleven of them, nothing merged or
-// summarised. Sections 2 and 6 have two paragraphs each and run one per column;
-// section 7 has two and they stack inside one wrapper div so the slot still
-// receives exactly one element. The column labels passed to the two two-column
-// boxes are this page's own layout wording, not brief headings, and both variants
-// render them as <p>.
+// summarised. Sections 1, 3 and 7 have two paragraphs each and stack inside one
+// wrapper div so the slot still receives exactly one element; sections 2 and 6
+// have two each and run one per column. The column labels passed to the two
+// two-column boxes are this page's own layout wording, not brief headings, and
+// both variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// Announcement5, LatestWinners2, LoginRtpSection and ReviewCardSumo render their
-// titles as <p>/<span> with an aria-label on the section, and Faq4's questions
-// live inside <summary> as <span>. The non-brief widgets sit before section 1
-// (the ticker, then the winners feed) and after section 8 (LoginRtpSection,
-// ReviewCardSumo, Navfoot) — never spliced between two content sections.
+// AnnouncementHuay, LatestWinnersHuay, LoginRtpSection and ReviewCardSumo2 render
+// their titles as <p>/<span> with an aria-label on the section, and FaqHuay's
+// questions live inside <summary> as <p>. The non-brief widgets sit before
+// section 1 (the ticker, then the winners feed) and after section 8
+// (LoginRtpSection, ReviewCardSumo2, Navfoot) — never spliced between two content
+// sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's own
 // defaults, which belong to whichever brand shipped last. The three pairs are the
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: "UP555 มีเกมอะไรให้เลือกเล่นบ้าง?",
-    a: "UP555 รวมเกมหลายประเภทตามที่ระบบเปิดให้บริการ เช่น สล็อต บาคาร่า เดิมพันฟุตบอล และหวย สมาชิกสามารถเลือกหมวดเกมจากบัญชีเดียว โดยรายการเกมและผู้ให้บริการอาจมีการอัปเดตหรือเปลี่ยนแปลงตามช่วงเวลา",
+    q: "หวยคิง รับแทงเลขเด็ดและเลขดังทุกตัวหรือไม่?",
+    a: "สามารถเลือกเลขตามรายการที่ระบบเปิดรับ แต่เลขบางชุดอาจมีวงเงินแตกต่างกัน โดยเฉพาะเลขที่มียอดเดิมพันสูง ควรกรอกเลขและตรวจสอบยอดสูงสุดที่ระบบรับได้ก่อนส่งโพยทุกครั้ง",
   },
   {
-    q: "ทางเข้า UP555 ใหม่แตกต่างจากระบบเดิมอย่างไร?",
-    a: "หาก UP555 มีการอัปเกรดทางเข้าใหม่ สมาชิกควรตรวจสอบประกาศจากช่องทางหลักของเว็บไซต์เพื่อดูรายละเอียดการเปลี่ยนแปลง เช่น หน้า Login เมนูเกม หรือระบบบัญชี และควรหลีกเลี่ยงลิงก์ที่ไม่สามารถยืนยันแหล่งที่มาได้",
+    q: "หวยคิง 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 จริงหรือไม่?",
+    a: "หากรายการนั้นเข้าเงื่อนไข ระบบสามารถกำหนดอัตรา 2 ตัว 100 บาท และ 3 ตัว 1,000 บาท ได้ แต่อัตราจริงอาจขึ้นอยู่กับประเภทหวยและรูปแบบการเดิมพัน จึงควรตรวจสอบราคาบนหน้าส่งโพยก่อนยืนยัน",
   },
   {
-    q: "โปรโมชั่น UP555 โบนัส 0.3% และ 0.8% ต่างกันอย่างไร?",
-    a: "โบนัส 0.3% เป็นโปรโมชั่นคืนยอดเสียจากยอดที่ตรงตามเงื่อนไข ส่วนโบนัส 0.8% เป็นกิจกรรมแนะนำเพื่อนจากยอดที่เข้าเกณฑ์ ทั้งสองรายการอาจกำหนดเกมที่ร่วมรายการและรอบคำนวณแตกต่างกัน ควรตรวจสอบเงื่อนไขล่าสุดก่อนรับสิทธิ์",
+    q: "หวยคิง ฝากเงินเข้าบัญชีบริษัทโดยตรงหรือไม่?",
+    a: "หากเว็บไซต์ระบุว่าใช้บัญชีบริษัทโดยตรง ควรมีชื่อบัญชีและข้อมูลนิติบุคคลให้ตรวจสอบ สมาชิกควรเปรียบเทียบชื่อผู้รับกับข้อมูลที่เว็บไซต์ประกาศก่อนโอน และไม่ควรใช้ข้อความประชาสัมพันธ์เพียงอย่างเดียวเป็นหลักฐานว่าบัญชีนั้นเป็นบัญชีบริษัท",
   },
 ];
 
@@ -171,10 +176,10 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space
 // that splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #fce675, the brand's bright gold, against the
-// inherited body colour #f8eed9 (BRAND_TEXT). The paragraphs below carry no
+// One highlight colour only: #fdeb7c, the brand's bright gold, against the
+// inherited body colour #f5e7c8 (BRAND_TEXT). The paragraphs below carry no
 // colour class of their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f8eed9]` on the element holding
+// `text-left text-base leading-relaxed text-[#f5e7c8]` on the element holding
 // the slot, so the prose inherits it and no page-level override can drift from
 // the card.
 
@@ -196,112 +201,126 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxNeumorphism as="h1" title="UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่">
-    <p>
-      <strong class="text-[#fce675]">UP555 คาสิโนอัปเดตล่าสุด ปรับปรุงทางเข้าเล่นเกมคาสิโนใหม่ให้รองรับการใช้งานผ่านมือถือได้สะดวกขึ้น</strong>
-      รวมเกมหลายประเภทไว้ในบัญชีเดียว ทั้งสล็อต บาคาร่า บอล และหวย สมาชิกสามารถเลือกหมวดเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการผ่านระบบเดียว พร้อมปรับส่วนการเข้าสู่ระบบและเมนูต่าง ๆ ให้ค้นหาเกมที่ต้องการได้ง่ายขึ้น อย่างไรก็ตาม
-      <strong class="text-[#fce675]">ผลการเดิมพันมีความไม่แน่นอน จึงไม่สามารถรับประกันผลกำไรหรือเงินรางวัลจากการเล่นได้</strong>
-    </p>
-  </ContentBoxNeumorphism>
+  <ContentBoxHuay as="h1" title="หวยคิง รับแทงหวย เว็บแม่ให้อัตราจ่ายบาทละ1,000 สูงที่สุดในวงการ">
+    <div class="flex flex-col gap-5">
+      <p>
+        <strong class="text-[#fdeb7c]">หวยคิง เว็บรับแทงหวยออนไลน์ที่เปิดให้สมาชิกเลือกเลขและส่งโพยผ่านระบบบนมือถือ</strong>
+        มีทั้งเลข 2 ตัว เลข 3 ตัว รวมถึงรายการหวยตามรอบที่เว็บไซต์เปิดให้บริการ จุดเด่นคืออัตราจ่ายสำหรับรายการที่เข้าเงื่อนไข
+        <strong class="text-[#fdeb7c]">โดยเลข 3 ตัวกำหนดไว้สูงสุดตามโปรโมชันที่บาทละ 1,000</strong>
+        สมาชิกสามารถตรวจสอบเลข ยอดแทง อัตราจ่าย และสถานะโพยได้ก่อนยืนยัน พร้อมรองรับช่องทางจัดการเครดิตผ่านวอลเลทและธนาคารที่ระบบกำหนด
+      </p>
+      <p>
+        ส่วนข้อความ “สูงที่สุดในวงการ”
+        <strong class="text-[#fdeb7c]">ควรมีข้อมูลเปรียบเทียบที่ตรวจสอบได้รองรับ</strong>
+        หากไม่มีหลักฐานดังกล่าว แนะนำใช้คำว่า “อัตราจ่ายสูง” จะเหมาะกับเนื้อหาเว็บไซต์มากกว่า
+      </p>
+    </div>
+  </ContentBoxHuay>
 
-  <ContentBoxTwoFloatingBadge
+  <ContentBoxTwoHuay
     as="h2"
-    title="UP555 สล็อต บาคาร่า บอล หวย ครบทุกประเภท ระบบอัปเกรดใหม่ ปลอดภัยแน่นอน"
-    titleleft="หมวดเกมที่รวมไว้ในบัญชีเดียว"
-    titleright="ข้อความด้านความปลอดภัยที่ควรพิจารณา">
+    title="เว็บ หวยคิง รับแทงเลขเด็ด เลขดัง จ่ายไม่อั้น ยอดเข้าบริษัทโดยตรง"
+    titleleft="เลขที่เปิดรับและการตรวจสอบโพย"
+    titleright="วงเงินรับแทงและบัญชีปลายทาง">
     <p slot="left">
-      <strong class="text-[#fce675]">UP555 รวมเกมเดิมพันหลายรูปแบบไว้ให้เลือกตามความสนใจ</strong>
-      ตั้งแต่เกมสล็อตที่มีธีมและฟีเจอร์แตกต่างกัน บาคาร่าออนไลน์ ตลาดเดิมพันฟุตบอล ไปจนถึงหวยตามรายการที่ระบบเปิดให้บริการ การอัปเกรดระบบช่วยจัดหมวดหมู่เกมและเมนูสำคัญให้เข้าถึงได้ง่าย
-      <strong class="text-[#fce675]">สามารถสลับประเภทเกมผ่านบัญชีเดียวโดยไม่ต้องสมัครใหม่หลายครั้ง</strong>
+      <strong class="text-[#fdeb7c]">เว็บ หวยคิง เปิดรับตัวเลขตามรายการและรอบหวยที่ระบบกำหนด</strong>
+      ไม่ว่าจะเป็นเลขที่เลือกเอง เลขเด็ด หรือเลขดังที่กำลังได้รับความสนใจ สมาชิกสามารถกรอกเลขและยอดที่ต้องการก่อนตรวจสอบสถานะการรับแทงจากระบบ
+      <strong class="text-[#fdeb7c]">ช่วยให้ทราบวงเงินและรายละเอียดของโพยก่อนกดยืนยันรายการทุกครั้ง</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#fce675]">ด้านความปลอดภัยควรพิจารณาจากมาตรการที่ตรวจสอบได้</strong>
-      เช่น การรักษาความปลอดภัยของบัญชี ระบบยืนยันตัวตน และข้อมูลผู้ดำเนินงาน
-      <strong class="text-[#fce675]">จึงไม่ควรใช้คำว่า “ปลอดภัยแน่นอน” เป็นการรับประกันโดยไม่มีข้อมูลดังกล่าวรองรับ</strong>
+      <strong class="text-[#fdeb7c]">สำหรับเลขที่มีผู้เลือกจำนวนมาก ระบบอาจกำหนดวงเงินรับแทงตามแต่ละรอบ</strong>
+      ดังนั้นคำว่า “จ่ายไม่อั้น” ควรยึดวงเงินจริงที่เว็บไซต์แสดง ส่วนกรณีระบุว่ายอดฝากเข้าบริษัทโดยตรง ควรแสดงชื่อนิติบุคคลและรายละเอียดบัญชีที่ตรวจสอบได้
+      <strong class="text-[#fdeb7c]">สมาชิกควรเช็กชื่อบัญชีปลายทางให้ตรงกับข้อมูลที่ประกาศก่อนทำธุรกรรม</strong>
     </p>
-  </ContentBoxTwoFloatingBadge>
+  </ContentBoxTwoHuay>
 
-  <ContentBoxCyberCut as="h2" title="โปรโมชั่นเล่นคาสิโน UP555 ครบทุกเกม">
-    <p>
-      <strong class="text-[#fce675]">โปรโมชั่น UP555 มีสิทธิพิเศษสำหรับสมาชิกตามแคมเปญที่เปิดให้รับในแต่ละช่วง</strong>
-      โดยสามารถ Login เพื่อตรวจสอบรายการล่าสุดจากบัญชีได้ มีทั้งโปรโมชั่นคืนยอดเสียและกิจกรรมแนะนำเพื่อน แต่ละรายการอาจกำหนดประเภทเกม ยอดที่ใช้คำนวณ รอบตัดยอด และระยะเวลารับโบนัสแตกต่างกัน
-      <strong class="text-[#fce675]">จึงควรอ่านรายละเอียดก่อนเลือกรับโปรโมชั่นทุกครั้ง</strong>
-    </p>
-  </ContentBoxCyberCut>
+  <ContentBoxPremium as="h2" title="อัตราการจ่าย หวยคิง 2ตัว จ่าย100บาท 3ตัว จ่าย1,000บาท">
+    <div class="flex flex-col gap-5">
+      <p>
+        <strong class="text-[#fdeb7c]">อัตราการจ่าย หวยคิง สำหรับรายการที่เข้าเงื่อนไขแบ่งเป็น 2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
+        สมาชิกสามารถตรวจสอบราคาของรายการที่ต้องการก่อนส่งโพย เพื่อให้ทราบว่าเลขและประเภทหวยที่เลือกใช้อัตราใด
+        <strong class="text-[#fdeb7c]">รวมถึงตรวจสอบยอดสูงสุดที่ระบบเปิดรับในรอบนั้นก่อนยืนยัน</strong>
+      </p>
+      <p>
+        <strong class="text-[#fdeb7c]">อัตราจ่ายอาจแตกต่างตามประเภทหวย รูปแบบการแทง หรือเงื่อนไขของแต่ละรอบ</strong>
+        หากข้อมูลบนหน้าส่งโพยแตกต่างจากข้อความประชาสัมพันธ์
+        <strong class="text-[#fdeb7c]">ควรยึดอัตราล่าสุดที่ระบบแสดงก่อนยืนยันรายการ</strong>
+      </p>
+    </div>
+  </ContentBoxPremium>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น คืนยอดเสีย โบนัส 0.3%">
+  <ContentBoxSevenThreeHuay as="h3" titleleft="2ตัว จ่าย100บาท">
     <p slot="left">
-      <strong class="text-[#fce675]">สมาชิกที่มียอดเสียตรงตามเงื่อนไขสามารถตรวจสอบสิทธิ์รับโบนัสคืนยอดเสีย 0.3% ตามรอบที่ UP555 กำหนด</strong>
-      ระบบจะนำเฉพาะยอดที่เข้าเกณฑ์มาคำนวณก่อนแสดงโบนัสที่สามารถรับได้
-      <strong class="text-[#fce675]">ควรตรวจสอบว่าเกมสล็อต บาคาร่า บอล หรือเกมประเภทใดร่วมรายการ รวมถึงรอบตัดยอดก่อนกดรับสิทธิ์</strong>
+      <strong class="text-[#fdeb7c]">รายการที่เข้าเงื่อนไข 2 ตัว จ่าย 100 บาท สามารถเลือกเลขและกำหนดยอดแทงตามวงเงินที่ระบบเปิดรับ</strong>
+      ก่อนส่งโพยควรตรวจสอบเลขให้ครบทั้งสองหลัก รวมถึงดูประเภทการเดิมพัน อัตราจ่าย และยอดรวมให้เรียบร้อย
+      <strong class="text-[#fdeb7c]">เพราะแต่ละรายการหวยอาจมีรายละเอียดในการคำนวณแตกต่างกัน</strong>
     </p>
     <Picture
       slot="right"
-      src={imgCashback}
+      src={imgTwoDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[348, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1431px) calc(30vw - 72px), 348px"
+      widths={[353, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 67px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปรโมชั่นของ UP555 พื้นหลังสีดำอมทอง มีประกายทองและเหรียญทองลอยกระจาย ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาล สวมชุดสีขาวประดับทองและสร้อยคอ ชี้นิ้วมือขวาขึ้นและยื่นมือซ้ายแบออกมาข้างหน้า ด้านล่างมีกองเหรียญทองและไพ่ มุมบนเป็นโลโก้ UP555 ตัว U สีเงินโครเมียมมีลูกศรทองล้อมด้วยวงรีทอง ตามด้วย UP สีเงินและ 555 สีทอง ถัดลงมาเป็นมงกุฎทองและตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น ใต้ลงมาเป็นป้ายคาดข้อความ คืนยอดเสีย โบนัส กับตัวเลข 0.3% ขนาดใหญ่"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#ebbb54]/60 shadow-[0_10px_30px_rgba(235,187,84,0.26)]"
+      alt="ภาพอัตราการจ่ายของ หวยคิง พื้นหลังสีดำอมทอง มีเหรียญทองและลูกบอลหวยเลข 8 3 และ 6 ลอยกระจาย ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาลติดโบว์สีขาวที่ผม สวมชุดสีขาวประดับทอง ถือลูกบอลหวยเลข 9 ไว้ในมือข้างหนึ่งและยื่นมืออีกข้างแบออกมาข้างหน้า ด้านขวาล่างมีใบสลากกินแบ่ง ด้านบนเป็นโลโก้มงกุฎทองวางบนลูกบอลหวยเลข 9 พร้อมตัวอักษรไทยสีทองว่า หวยคิง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นดำขอบทองคาดข้อความว่า 2ตัว จ่าย100บาท"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#cd9a2c]/60 shadow-[0_10px_30px_rgba(205,154,44,0.26)]"
     />
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThreeHuay>
 
-  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8%">
+  <ContentBoxSevenThreePremium as="h3" title="3ตัว จ่าย1,000บาท">
     <Picture
       slot="left"
-      src={imgReferral}
+      src={imgThreeDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[345, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 39px), 345px"
+      widths={[338, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 46px), 338px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt="ภาพโปรโมชั่นของ UP555 พื้นหลังสีดำอมทอง มีประกายทองและเหรียญทองลอยกระจาย ด้านขวาเป็นหญิงสาวผมยาวสีน้ำตาล สวมชุดสีขาวประดับทอง ยกมือทั้งสองข้างแบออกมาข้างหน้า ด้านซ้ายล่างมีกองชิปคาสิโนสีดำขอบทองและไพ่เอซ มุมบนเป็นโลโก้ UP555 ตัว U สีเงินโครเมียมมีลูกศรทองล้อมด้วยวงรีทอง ตามด้วย UP สีเงินและ 555 สีทอง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า โปรโมชั่น และป้ายพื้นดำขอบทองคาดข้อความ แนะนำเพื่อน โบนัส 0.8%"
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#d5d4d3]/55 shadow-[0_10px_30px_rgba(213,212,211,0.22)]"
+      alt="ภาพอัตราการจ่ายของ หวยคิง พื้นหลังสีดำอมทอง มีเหรียญทองลอยกระจาย ด้านซ้ายเป็นหญิงสาวผมยาวสีน้ำตาลติดโบว์สีขาวที่ผม สวมชุดสีขาวประดับทอง ถือลูกบอลหวยเลข 3 ไว้ในมือข้างหนึ่งและยื่นมืออีกข้างแบออกมาข้างหน้า ด้านซ้ายบนมีลูกบอลหวยเลข 7 ด้านขวาล่างมีใบสลากกินแบ่งกับลูกบอลหวยเลข 9 และ 5 ด้านบนเป็นโลโก้มงกุฎทองวางบนลูกบอลหวยเลข 9 พร้อมตัวอักษรไทยสีทองว่า หวยคิง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นดำขอบทองคาดข้อความว่า 3ตัว จ่าย1,000บาท"
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#fcd4c3]/45 shadow-[0_10px_30px_rgba(252,212,195,0.22)]"
     />
     <p slot="right">
-      <strong class="text-[#fce675]">สมาชิกสามารถใช้ลิงก์แนะนำ UP555 เพื่อเชิญเพื่อนสมัคร</strong>
-      เมื่อเพื่อนเปิดบัญชีและมียอดใช้งานตรงตามข้อกำหนด
-      <strong class="text-[#fce675]">ระบบจะคำนวณโบนัสแนะนำเพื่อน 0.8% จากยอดที่เข้าเกณฑ์</strong>
-      สามารถตรวจสอบจำนวนเพื่อน ยอดคำนวณ และสถานะโบนัสผ่านบัญชีสมาชิกตามรอบที่โปรโมชั่นกำหนด
+      <strong class="text-[#fdeb7c]">สำหรับรายการที่เข้าเงื่อนไข 3 ตัว จ่าย 1,000 บาท สมาชิกควรตรวจสอบว่าอัตราดังกล่าวใช้กับรูปแบบเลข 3 ตัวประเภทใดก่อนส่งโพย</strong>
+      เนื่องจากเลข 3 ตัวสามารถมีการเดิมพันหลายรูปแบบ หากเลือกเลขดังหรือเลขที่มียอดสูง
+      <strong class="text-[#fdeb7c]">ควรตรวจสอบวงเงินรับแทงที่ระบบแสดงเพิ่มเติมก่อนยืนยัน</strong>
     </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxTwoCyberCut
+  <ContentBoxTwoPremium
     as="h2"
-    title="สมัครเดิมพัน UP555 คาสิโนบนมือถือง่ายๆ 3ขั้นตอน"
+    title="สมัครแทง หวยคิง ง่ายๆ 3ขั้นตอน"
     titleleft="สมัครผ่านมือถือใน 3 ขั้นตอน"
     titleright="หลังเปิดบัญชีและการดูแลรหัส">
     <p slot="left">
-      <strong class="text-[#fce675]">การสมัคร UP555 สามารถดำเนินการผ่านมือถือได้ใน 3 ขั้นตอน</strong>
-      เริ่มจาก เปิดหน้าสมัครและกรอกข้อมูลที่ระบบกำหนด จากนั้น ยืนยันข้อมูลเพื่อเปิดบัญชีและ Login เข้าสู่ระบบ ก่อน เลือกสล็อต บาคาร่า บอล หวย หรือเกมที่ต้องการ
-      <strong class="text-[#fce675]">พร้อมตรวจสอบรายละเอียดและโปรโมชั่นก่อนเริ่มใช้งาน</strong>
+      <strong class="text-[#fdeb7c]">การสมัคร หวยคิง สามารถทำผ่านมือถือได้ใน 3 ขั้นตอน</strong>
+      เริ่มจาก เปิดหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลเพื่อสร้างบัญชีและ Login เข้าสู่ระบบ ก่อน เลือกรายการหวย กรอกตัวเลขและยอดที่ต้องการ
+      <strong class="text-[#fdeb7c]">พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#fce675]">หลังสมัครเรียบร้อยสามารถใช้บัญชีเดียวเข้าถึงเกมที่ระบบเปิดให้บริการ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้</strong>
-      ควรใช้ข้อมูลของตนเอง ตั้งรหัสผ่านที่คาดเดายาก
-      <strong class="text-[#fce675]">และไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+      <strong class="text-[#fdeb7c]">เมื่อเปิดบัญชีเรียบร้อย สมาชิกสามารถตรวจสอบรายการหวย อัตราจ่าย เครดิต และประวัติโพยผ่านบัญชีของตนเองได้</strong>
+      ควรตรวจสอบข้อมูลทุกครั้งก่อนกดยืนยัน
+      <strong class="text-[#fdeb7c]">รวมถึงไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
     </p>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoPremium>
 
-  <ContentBox as="h2" title="ติดต่อแอดมิน UP555 ผู้ให้บริการเว็บคาสิโน 24 ชั่วโมง">
+  <ContentBox as="h2" title="ติดต่อแอดมินเว็บแทง หวยคิง ได้ ตลอด 24 ชั่วโมง">
     <div class="flex flex-col gap-5">
       <p>
-        หากพบปัญหาเกี่ยวกับทางเข้าใหม่ สมัครไม่ได้ Login ไม่สำเร็จ เกมไม่แสดง โปรโมชั่นมีปัญหา หรือรายการฝากถอนอยู่ระหว่างตรวจสอบ
-        <strong class="text-[#fce675]">สามารถติดต่อแอดมิน UP555 ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดของปัญหาเพื่อช่วยให้ตรวจสอบรายการได้ตรงจุด
+        หากพบปัญหาเกี่ยวกับการสมัคร เข้าบัญชีไม่ได้ ส่งโพยไม่สำเร็จ เลขที่ต้องการมีข้อจำกัด อัตราจ่ายไม่ตรง หรือรายการฝากถอนอยู่ระหว่างตรวจสอบ
+        <strong class="text-[#fdeb7c]">สามารถติดต่อแอดมิน หวยคิง ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งข้อมูลที่เกี่ยวข้องเพื่อให้ตรวจสอบรายการได้ตรงจุด
       </p>
       <p>
-        <strong class="text-[#fce675]">กรณีเกี่ยวกับเกมควรแจ้งชื่อเกม ประเภทเกม และเวลาที่เกิดปัญหา</strong>
-        ส่วนรายการธุรกรรมควรเตรียมเวลา จำนวนเงิน และหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ
-        <strong class="text-[#fce675]">โดยไม่ควรเปิดเผย OTP รหัสผ่าน หรือ PIN ให้บุคคลอื่น</strong>
+        <strong class="text-[#fdeb7c]">กรณีเกี่ยวกับโพยควรเตรียมชื่อรายการ รอบเวลา เลขที่เลือก และข้อมูลโพย</strong>
+        ส่วนปัญหาฝากถอนควรมีเวลา จำนวนเงิน และหลักฐานธุรกรรม หากบัญชีปลายทางเปลี่ยนจากข้อมูลเดิม
+        <strong class="text-[#fdeb7c]">ควรยืนยันกับช่องทางหลักก่อนทำรายการทุกครั้ง</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a href="/line" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00B900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
@@ -309,14 +328,14 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fce675]/70 bg-gradient-to-r from-[#fce675] via-[#ebbb54] to-[#ab6d24] p-3.5 text-center font-black text-[#160d02] shadow-[0_10px_30px_rgba(235,187,84,0.40)] transition-all hover:scale-[1.02]">
-          <span aria-hidden="true">📝</span> สมัครสมาชิก UP555
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fdeb7c]/70 bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] p-3.5 text-center font-black text-[#120a02] shadow-[0_10px_30px_rgba(205,154,44,0.40)] transition-all hover:scale-[1.02]">
+          <span aria-hidden="true">📝</span> สมัครสมาชิก หวยคิง
         </a>
       </div>
     </div>
   </ContentBox>
 
-  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ UP555" faqs={faqs} />
+  <Faq as="h2" title="คำถามที่พบบ่อยเกี่ยวกับ หวยคิง" faqs={faqs} />
 
   <LoginRtpSection />
 
