@@ -37,10 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมน ASCII ล้วนรอบนี้ (แบรนด์ก่อนหน้าเป็นโดเมนไทย/IDN ที่ถูก normalize เป็น
-  // punycode) — canonical, sitemap, robots.txt และ JSON-LD ทุกตัวอนุมานจากค่านี้
-  // ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://huay24.co",
+  // โดเมนจริงรอบนี้คือ https://หวยดีใจ.com ซึ่งเป็น IDN ภาษาไทย — เขียนเป็น
+  // punycode ตรงนี้เพราะ new URL() จะ normalize ให้เป็นค่านี้อยู่ดี การเขียนรูป
+  // ที่ normalize แล้วลงไปเลยทำให้ canonical/sitemap/og:url ตรงกับค่าที่ทุก
+  // helper คำนวณได้ ไม่ต้องลุ้นว่าไฟล์ไหน encode เองไม่เหมือนกัน
+  // canonical, sitemap, robots.txt และ JSON-LD ทุกตัวอนุมานจากค่านี้ค่าเดียว
+  // ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
+  site: "https://xn--82cx5btt7d4e.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

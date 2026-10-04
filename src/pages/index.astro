@@ -1,15 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement3.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
+import Announcement from "../components/Announcement5.astro";
+import LatestWinners from "../components/LatestWinners3.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxTwoHuay from "../components/ContentBoxTwoHuay.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import ContentBoxSevenThreeHuay from "../components/ContentBoxSevenThreeHuay.astro";
+import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
 import ContentBox from "../components/ContentBox.astro";
-import Faq from "../components/Faq3.astro";
+import Faq from "../components/Faq4.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
 import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
@@ -17,166 +17,169 @@ import Navfoot from "../components/Navfoot.astro";
 import { Picture } from "astro:assets";
 import { BRAND_NAME } from "../lib/brandProfile";
 import { pageGraph } from "../lib/schema";
-import imgTwoDigit from "../assets/slide1.png";
-import imgThreeDigit from "../assets/slide2.png";
+import imgTwoDigit from "../assets/slide2.png";
+import imgThreeDigit from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND (หวยคิง -> หวย24). Zero file reuse from the previous
-// round: Announcement3 replaces AnnouncementHuay, LatestWinnersPremium replaces
-// LatestWinnersHuay, Faq3 replaces FaqHuay, and the ContentBox shape-mix moves off
-// Huay / TwoHuay / Premium / SevenThreeHuay / SevenThreePremium / TwoPremium onto
+// VARIANT ROTATION THIS ROUND (หวย24 -> หวยดีใจ). Zero file reuse from the previous
+// round: Announcement5 replaces Announcement3, LatestWinners3 replaces
+// LatestWinnersPremium, Faq4 replaces Faq3, and the ContentBox shape-mix moves off
 // FloatingBadge / TwoNeumorphism / CyberCut / SevenThreeNeumorphism /
-// SevenThreeCyberCut / TwoCyberCut. NavbarStyle10 and FooterStyle3 are the layout's
-// pair this round (previously NavbarHuay / FooterHuay) and the brand font moves
-// kanit -> google-sans; all three are the orchestrator's shared-chrome step, not
-// this page's.
+// SevenThreeCyberCut / TwoCyberCut onto Premium / TwoHuay / Neumorphism /
+// SevenThreePremium / SevenThreeHuay / TwoPremium. NavbarStyle8 and FooterPremium
+// are the layout's pair this round (previously NavbarStyle10 / FooterStyle3) and
+// the brand font moves google-sans -> kanit; all three are the orchestrator's
+// shared-chrome step, not this page's.
 // Plain ContentBox is the one deliberate carry-over: terms, privacy, 404 and every
 // button page render their body through it by rule and cannot follow a rotation,
 // so it is always-live and the orchestrator rethemes it in the shared step — this
-// page only passes it props.
-// Every *Huay / *Premium / Style file, FaqHuay, AnnouncementHuay and
-// LatestWinnersHuay stay on disk as inventory for the next brand — none of them was
-// deleted, and the previous brand's copy and colour still inside them is expected
-// drift, not a bug. ReviewCardSumo2 is reused rather than rotated to ReviewCardSumo
-// because this page owns it and rewrote every row from the new brief; the rotation
-// rule is about shape families with live siblings, and the review ledger's only
-// sibling is the shape this one replaced last round.
+// page only passes it props. ContentBoxNeumorphism is in the same shared set this
+// round (a second page renders it), so section 3 passes props and nothing else.
+// Every unused *Cyber / *CyberCut / *FloatingBadge / Style file, Faq3,
+// Announcement3 and LatestWinnersPremium stay on disk as inventory for the next
+// brand — none of them was deleted, and the previous brand's copy and colour still
+// inside them is expected drift, not a bug. ReviewCardSumo2 is reused rather than
+// rotated to ReviewCardSumo because this page owns it and rewrote every row from
+// the new brief; the rotation rule is about shape families with live siblings, and
+// the review ledger's only sibling is the shape this one replaced.
 //
-// <Announcement /> runs bare on purpose: Announcement3's default message is already
+// <Announcement /> runs bare on purpose: Announcement5's default message is already
 // this brand's copy and every sub-page calls it bare too, so passing an override
 // here is exactly how the ticker ends up saying two different things on two pages
 // of the same site.
 //
 // IMAGE ROLES FOR THIS DROP (2026-10-04). Two files are referenced from this page
 // and only two, and each pairing is read off the artwork itself rather than copied
-// from last round — the pairing is REVERSED from หวยคิง, which had slide2 on the
+// from last round — the pairing is REVERSED from หวย24, which had slide1 on the
 // 2-digit section:
-//   slide1.png — model on the LEFT of a black-and-gold set holding lottery ball 2,
-//     and the black gold-edged plaque under the big gold อัตราการจ่าย wordmark reads
-//     "2ตัว จ่าย100บาท", so it belongs to docx H3 #4. Imported as imgTwoDigit.
-//   slide2.png — red silk curtain set, model on the RIGHT, balls 7 / 3 / 9 bottom
-//     left, plaque reads "3ตัว จ่าย1,000บาท", so it belongs to docx H3 #5. Imported
-//     as imgThreeDigit.
-// Both files are 600px wide (600x334 and 600x333 — the brand spec's "600x600" is a
-// typo; only the width drives the candidate list), so 600 is the top real candidate
-// — nothing above it would be a real pixel — and each picture carries
-// max-w-[600px] so the art is never upscaled past its own bitmap. Each slide sits
-// in a ContentBoxSevenThree* image+text block, which is that family's hard cap of
-// two per rebrand, so there is no third SevenThree anywhere on the site.
-// The two blocks mirror each other: SevenThreeNeumorphism lays out
-// md:grid-cols-[7fr_3fr] so its picture goes in slot="right" while the paragraph
-// keeps the wide column, and SevenThreeCyberCut lays out md:grid-cols-[3fr_7fr] so
-// its picture goes in slot="left". The two pictures therefore alternate sides
-// instead of stacking down the same edge, and each `sizes` describes its own 3fr
-// column rather than the viewport. Both figures are copied from the arithmetic
-// block in the component that owns the column — if a padding/gap/cap changes there,
-// these move with it:
-//   SevenThreeNeumorphism: max-w-[1400px] cap, px-4, p-8, gap-8, and the image
-//                          column adds md:pl-8
-//                          -> (1400 - 32 - 64 - 32) x 0.3 - 32 = 350px
-//   SevenThreeCyberCut:    max-w-7xl/1280px cap, px-4, p-8, gap-8, and NO inner
-//                          padding on the image column
-//                          -> (1280 - 32 - 64 - 32) x 0.3 = 346px
+//   slide2.png — white-and-silver draped backdrop crossed by red ribbon, model on
+//     the LEFT in a metallic silver jacket, lottery balls 6 / 8 / 3 / 9 / 7 and
+//     gold coins around her, and the plaque under the big gold อัตราการจ่าย
+//     wordmark reads "2ตัว จ่าย100บาท", so it belongs to docx H3 #4. Imported as
+//     imgTwoDigit.
+//   slide1.png — same white-and-silver set, model on the RIGHT with both palms
+//     open, balls 3 / 7 / 9 and gold coins bottom left, plaque reads
+//     "3ตัว จ่าย1,000บาท", so it belongs to docx H3 #5. Imported as imgThreeDigit.
+// Both files are 600x300, so 600 is the top real candidate — nothing above it
+// would be a real pixel — and each picture carries max-w-[600px] so the art is
+// never upscaled past its own bitmap. Each slide sits in a ContentBoxSevenThree*
+// image+text block, which is that family's hard cap of two per rebrand, so there
+// is no third SevenThree anywhere on the site.
+// The two blocks mirror each other: SevenThreePremium lays out
+// md:grid-cols-[3fr_7fr] so its picture goes in slot="left" while the paragraph
+// keeps the wide column, and SevenThreeHuay lays out md:grid-cols-[7fr_3fr] so its
+// picture goes in slot="right". The two pictures therefore alternate sides instead
+// of stacking down the same edge, and each `sizes` describes its own 3fr column
+// rather than the viewport. Both figures are copied from the arithmetic block in
+// the component that owns the column — if a padding/gap/cap changes there, these
+// move with it:
+//   SevenThreePremium: max-w-7xl/1280px cap, px-4, p-8 (md:p-10), gap-10, and NO
+//                      inner padding on the image column
+//                      -> (1280 - 32 - 80 - 40) x 0.3 = 338px
+//   SevenThreeHuay:    max-w-[1400px] cap, px-4, p-8 (md:p-10), gap-8, and the
+//                      image column adds md:pl-6
+//                      -> (1400 - 32 - 80 - 32) x 0.3 - 24 = 353px
 // Below md both cards collapse to one column at p-8, so the drawn width is
 // 100vw - 32 (section px-4) - 64 (card p-8) = 100vw - 96px, capped at 600px.
 // Neither picture is the LCP element — MainLayout's hero banner is — so both are
 // loading="lazy" fetchpriority="low".
 //
-// The alt text was written from THIS drop's artwork, not carried over: slide1 is a
-// black-and-gold set with the model on the left holding ball 2, loose gold coins and
-// balls 6 and 8, and a lottery ticket in the lower right; slide2 is a red silk
-// curtain over black with the model on the right in a gold-embroidered black Chinese
-// dress, her left palm turned up, and coins plus balls 7, 3 and 9 in the lower left.
-// Both carry the circular red 24 logo and the หวย24 wordmark across the top, a large
-// gold Thai อัตราการจ่าย wordmark under it, and that slide's own rate plaque beneath.
+// The alt text was written from THIS drop's artwork, not carried over: both slides
+// are white/silver backgrounds crossed by red ribbon rather than the black-and-gold
+// sets of the previous drop. slide2 has the model on the left in a metallic silver
+// jacket, her right arm reaching forward and a lottery ball 8 held beside her face,
+// with balls 6, 3, 9 and 7 and gold coins around her; slide1 has the model on the
+// right in a short metallic silver dress with both palms open, and balls 3, 7 and 9
+// over gold coins and ticket sheets in the lower left. Both carry the gold crown
+// over the หวยดีใจ wordmark (chrome "หวย" + red "ดีใจ"), a large gold Thai
+// อัตราการจ่าย wordmark under it, and that slide's own rate plaque beneath.
 //
 // Deliberately NOT imported, and every file still on disk:
-//   banner2.png (2026-09-28) / banner3.png (2026-09-27) / slide3.png /
-//   slide4.png (2026-09-29) all predate this drop and belong to previous brands —
-//   importing any of them would emit a competitor's artwork into dist/, so there is
-//   no inline article illustration this round.
+//   banner2.png / banner3.png / slide3.png / slide4.png all predate this drop and
+//   belong to previous brands — importing any of them would emit a competitor's
+//   artwork into dist/, so there is no inline article illustration this round.
 //   banner1.png and banner1-mobile.png belong to MainLayout's own pinned globs and
 //   are never referenced from a page. og.png is the same: MainLayout owns it.
 // Also deliberately unused: FeatureHighlights.astro (it renders sub-points as <h3>,
 // and the brief's heading inventory allows exactly two H3s — sections 4 and 5 — so
-// wiring it in would break the count), ContentBox3ThreeCyberCut and
-// ContentBox3ThreeNeumorphism (no brief section on this page is a three-way split;
-// every section is one or two running paragraphs), and ContentBoxTwoFloatingBadge
-// (its badge clearance was re-derived against /about-us's shorter section title, so
-// using it here would put a longer sentence in padding sized for that one).
+// wiring it in would break the count), the ContentBox3Three* family (no brief
+// section on this page is a three-way split; every section is one or two running
+// paragraphs), and every *FloatingBadge variant (their badge clearance was derived
+// against other pages' shorter titles).
 //
-// Vocabulary: หวย24 is a pure lottery brand — a เว็บแทงหวยออนไลน์, not a casino. The
-// words this page may use are the brief's own: แทงหวย, ส่งโพย, โพย, รอบ, รายการหวย,
-// หวยลาว, หวยฮานอย, รัฐบาลไทย, เลข 2 ตัว, เลข 3 ตัว, เลขเด็ด, เลขดัง, แนวทางหวย,
-// อัตราจ่าย, เรทจ่าย, วงเงินรับแทง, ยอดสูงสุดที่ระบบเปิดรับ, ผลรางวัล, ประวัติโพย,
-// สมัคร 3 ขั้นตอน, Login, แอดมิน 24 ชั่วโมง, PIN, OTP.
-// The previous brand's entire angle (บาทละ 1,000 as the headline promise, เว็บแม่,
-// จ่ายไม่อั้น, ยอดเข้าบริษัทโดยตรง, นิติบุคคล/บัญชีบริษัท, เครดิต/วอลเลท) is gone —
-// the page was written from the new brief rather than find-and-replaced over the old
-// sentences. Nothing here claims a licence, a regulator, an operator, a bank, a draw
-// time, a lottery market beyond the brief's own ลาว/ฮานอย/รัฐบาลไทย (no ลาวพัฒนา,
-// หวยหุ้น or ยี่กี), a deposit minimum, a member count or a founding year, because
-// the brief names none. The only figures are the brief's own: 2 ตัว, 3 ตัว, 100,
-// 1,000, 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with the copy (เวลารับ
-// แทงจริงขึ้นกับรอบเปิด-ปิดของหวยแต่ละรายการ · "รับไม่อั้น"/"จ่ายเต็มทุกโพย" ควรยึด
-// วงเงินและเงื่อนไขจริงที่ระบบแสดง · แนวทางหวย/เลขดังไม่รับประกันผลรางวัลรอบถัดไป ·
-// ถ้าไม่มีข้อมูลเปรียบเทียบที่ตรวจสอบได้ "เรทจ่ายสูง" เหมาะกว่า "เรทจ่ายสูงที่สุด") —
-// it is part of the paragraphs, not trimmed as downbeat.
+// Vocabulary: หวยดีใจ is a pure lottery brand — a เว็บรับแทงหวยออนไลน์, not a
+// casino. The words this page may use are the brief's own: แทงหวย, ส่งโพย, โพย,
+// รอบ, รายการหวย, รัฐบาลไทย, หวยลาว, หวยฮานอย, หวยออมสิน, หวย ธ.ก.ส., เลข 2 ตัว,
+// เลข 3 ตัว, เลขเด็ด, แนวทาง, สถิติย้อนหลัง, อัตราจ่าย, เรทจ่าย, ไม่อั้นจ่าย,
+// ไม่มีลบโพย, วงเงินที่ระบบเปิดรับ, ผลรางวัล, ประวัติรายการ, สมัคร 3 ขั้นตอน,
+// Login, แอดมิน 24 ชั่วโมง, PIN, OTP.
+// The previous brand's angle (รับไม่อั้น/จ่ายเต็มทุกโพย as the headline promise,
+// เลขดัง, วงเงินรับแทง, ประวัติโพย, and a market list that stopped at ลาว/ฮานอย/
+// รัฐบาลไทย) is gone — the page was written from the new brief rather than
+// find-and-replaced over the old sentences. Nothing here claims a licence, a
+// regulator, an operator, a bank, a draw time, a lottery market beyond the brief's
+// own five, a deposit minimum, a member count or a founding year, because the brief
+// names none. The only figures are the brief's own: 2 ตัว, 3 ตัว, 100, 1,000,
+// 3 ขั้นตอน, 24 ชั่วโมง. The brief's own hedging ships with the copy (แนวทางหวย
+// เป็นข้อมูลประกอบ ไม่การันตีเลขเข้าทุกงวด · "ไม่อั้นจ่าย" ไม่ได้แปลว่าทุกเลขทุกรอบ
+// ไม่มีวงเงินสูงสุด · "ไม่มีลบโพย" หมายถึงโพยที่ระบบยืนยันสมบูรณ์แล้ว · 2ตัว100 /
+// 3ตัว1,000 ใช้กับรายการที่เข้าเงื่อนไข) — it is part of the paragraphs, not
+// trimmed as downbeat.
 //
 // Title and description are the brief's own Title/Description lines, used verbatim
 // and NOT padded up to 150: verify-build deliberately skips its 150-character floor
 // on the home page for exactly this reason. The brand name is interpolated rather
 // than typed so it can never drift from brandProfile, and no domain is written out
 // anywhere in this file.
-const pageTitle = `${BRAND_NAME} เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ ลาว ฮานอย รัฐบาลไทย`;
+const pageTitle = `${BRAND_NAME} รับแทงหวยออนไลน์ พร้อมให้แนวทาง เลขเข้าทุกงวด`;
 
-const pageDescription = `${BRAND_NAME} เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ ลาว ฮานอย รัฐบาลไทย รับทุกเลขเด็ด เลขดัง รับไม่อั้น จ่ายเต็มทุกโพย`;
+const pageDescription = `${BRAND_NAME} รับแทงหวยออนไลน์ ทุกตัวไม่อั้น รัฐบาลไทย ลาว ฮานอย ออมสิน ธกส. พร้อมให้แนวทางก่อนหวยออก การันตีเลขเข้าทุกงวด`;
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
 // H2-only. The two H3s are genuine headings — the two rate sub-points, both nested
 // under the อัตราการจ่าย H2 — and they stay H3.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  หวย24 เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ จ่ายเต็ม
-//          ContentBoxFloatingBadge, brief paragraph on line 4
-//    2 H2  หวย24 รับแทง ลาว ฮานอย รัฐบาลไทย รับเลขเด็ด เลขดัง ไม่อั้น จ่ายเต็มทุกโพย
-//          ContentBoxTwoNeumorphism, line 6 left / line 7 right
-//    3 H2  อัตราการจ่าย หวย24 ให้เรทจ่ายสูงที่สุด
-//          ContentBoxCyberCut, lines 9 + 10
+//    1 H1  หวยดีใจ รับแทงหวยออนไลน์ พร้อมให้แนวทาง เลขเข้าทุกงวดแน่นอน
+//          ContentBoxPremium, brief paragraph on line 4
+//    2 H2  เว็บ หวยดีใจ รับแทง รัฐบาลไทย ลาว ฮานอย ออมสิน ธกส ไม่อั้นจ่าย
+//          ContentBoxTwoHuay, line 6 left / line 7 right
+//    3 H2  อัตราการจ่ายเว็บ หวยดีใจ เรทจ่ายสูง ไม่มีลบโพย
+//          ContentBoxNeumorphism, lines 9 + 10
 //    4 H3  2ตัว จ่าย100บาท
-//          ContentBoxSevenThreeNeumorphism + slide1 (imgTwoDigit), line 12
+//          ContentBoxSevenThreePremium + slide2 (imgTwoDigit), line 12
 //    5 H3  3ตัว จ่าย1,000บาท
-//          ContentBoxSevenThreeCyberCut + slide2 (imgThreeDigit), line 14
-//    6 H2  สมัครแทง หวย24 ง่ายๆ 3ขั้นตอน
-//          ContentBoxTwoCyberCut, line 16 left / line 17 right
-//    7 H2  ติดต่อแอดมิน หวย24 เว็บแทงหวยได้ตลอด 24 ชั่วโมง
+//          ContentBoxSevenThreeHuay + slide1 (imgThreeDigit), line 14
+//    6 H2  สมัครแทง หวยดีใจ ง่ายๆ 3ขั้นตอน
+//          ContentBoxTwoPremium, line 16 left / line 17 right
+//    7 H2  ติดต่อแอดมิน หวยดีใจ เว็บแทงหวย ตลอด 24 ชั่วโมง
 //          ContentBox + LINE / สมัครสมาชิก buttons, lines 19 + 20
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวย24
-//          Faq3 + faqs prop, lines 22-27
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ หวยดีใจ
+//          Faq4 + faqs prop, lines 22-27
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// Shape rhythm, top to bottom: floating-badge card -> two-column raised slab ->
-// single-column cut-corner -> 7:3 raised slab -> 3:7 cut-corner -> two-column
-// cut-corner -> single-column rounded -> accordion. No shape repeats back to back,
-// and the three cut-corner cards sit on three different surface depths (#170707,
-// #0a0303, #230d0d) exactly as their own files document.
+// Shape rhythm, top to bottom: gradient slab with a vertical rail -> two-column
+// pair of bordered cards -> neumorphic raised panel -> 3:7 gradient slab ->
+// 7:3 solid card -> two-column rail slab -> single-column rounded -> accordion.
+// No shape repeats back to back, and the two SevenThree blocks differ at the border
+// (red-black vs brand red) as well as in which side the picture takes.
 //
-// ContentBoxSevenThreeNeumorphism takes the docx heading through `title`, which
-// falls back to its wide (7fr) LEFT text column; its image column is passed no
-// `titleright`, so the block emits exactly one heading. ContentBoxSevenThreeCyberCut
-// is the mirror and takes the same heading through `title`, which falls back to its
-// wide RIGHT column, with no `titleleft` on the picture.
+// ContentBoxSevenThreePremium takes the docx heading through `title`, which falls
+// back to its wide (7fr) RIGHT text column; its image column is passed no
+// `titleleft`, so the block emits exactly one heading. ContentBoxSevenThreeHuay is
+// the mirror and takes its heading through `titleleft`, the wide LEFT column, with
+// no `titleright` on the picture.
 //
 // Every brief paragraph ships in full — all eleven of them, nothing merged or
-// summarised. Sections 3 and 7 have two paragraphs each and stack inside one wrapper
-// div so the slot still receives exactly one element; sections 2 and 6 have two each
-// and run one per column; sections 1, 4 and 5 have one each. The column labels
-// passed to the two two-column boxes are this page's own layout wording, not brief
-// headings, and both variants render them as <p>.
+// summarised. Sections 3 and 7 have two paragraphs each and stack inside one
+// wrapper div so the slot still receives exactly one element; sections 2 and 6 have
+// two each and run one per column; sections 1, 4 and 5 have one each. The column
+// labels passed to the two two-column boxes are this page's own layout wording, not
+// brief headings, and both variants render them as <p>.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// Announcement3, LatestWinnersPremium, LoginRtpSection and ReviewCardSumo2 render
-// their titles as <p>/<span> with an aria-label on the section, and Faq3's questions
-// live inside <summary> as <p>. The non-brief widgets sit before section 1 (the
+// Announcement5, LatestWinners3, LoginRtpSection and ReviewCardSumo2 render their
+// titles as <p>/<span> with an aria-label on the section, and Faq4's questions live
+// inside <summary> as <span>. The non-brief widgets sit before section 1 (the
 // ticker, then the winners feed) and after section 8 (LoginRtpSection,
 // ReviewCardSumo2, Navfoot) — never spliced between two content sections.
 
@@ -185,16 +188,16 @@ const pageDescription = `${BRAND_NAME} เว็บแทงหวยออน�
 // brief's own Q/A block, verbatim.
 const faqs = [
   {
-    q: `${BRAND_NAME} เปิดรับแทงหวยตลอด 24 ชั่วโมงหรือไม่?`,
-    a: "เว็บไซต์อาจเปิดให้ Login และตรวจสอบข้อมูลได้ตลอด 24 ชั่วโมง แต่การรับแทงขึ้นอยู่กับเวลาเปิดและปิดของหวยแต่ละรอบ สมาชิกควรตรวจสอบเวลาที่ระบบแสดงก่อนส่งโพย",
+    q: `${BRAND_NAME} มีหวยอะไรให้เลือกแทงบ้าง?`,
+    a: "มีทั้งรัฐบาลไทย หวยลาว หวยฮานอย หวยออมสิน และหวย ธ.ก.ส. ตามรายการและรอบที่ระบบเปิดรับในแต่ละวัน สมาชิกควรตรวจสอบตารางเวลาและรายละเอียดก่อนส่งโพยทุกครั้ง",
   },
   {
-    q: `${BRAND_NAME} รับเลขเด็ดและเลขดังแบบไม่อั้นจริงหรือไม่?`,
-    a: "สามารถเลือกเลขตามรายการที่เปิดรับได้ แต่วงเงินอาจแตกต่างกันตามหวย รอบ และยอดรวมของเลขนั้น โดยเฉพาะเลขที่ได้รับความนิยมสูง ควรตรวจสอบจำนวนเงินสูงสุดที่ระบบรับได้ก่อนยืนยันโพย",
+    q: `แนวทาง ${BRAND_NAME} การันตีเลขเข้าทุกงวดหรือไม่?`,
+    a: "ไม่สามารถการันตีเลขเข้าทุกงวดได้ แนวทาง เลขเด็ด และสถิติย้อนหลังสามารถใช้เป็นข้อมูลประกอบเท่านั้น ผลหวยในแต่ละรอบควรอ้างอิงประกาศอย่างเป็นทางการ และไม่มีแนวทางใดรับประกันผลล่วงหน้าได้แน่นอน",
   },
   {
-    q: `${BRAND_NAME} 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ทุกประเภทหรือไม่?`,
-    a: "อัตรา 2 ตัว 100 บาท และ 3 ตัว 1,000 บาท ใช้กับรายการที่เข้าเงื่อนไขเท่านั้น หวยแต่ละประเภทหรือรูปแบบการเดิมพันอาจมีเรทแตกต่างกัน จึงควรตรวจสอบอัตราล่าสุดบนหน้าส่งโพยก่อนเดิมพัน",
+    q: `${BRAND_NAME} 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 ทุกหวยหรือไม่?`,
+    a: "อัตรา 2 ตัว 100 บาท และ 3 ตัว 1,000 บาท ใช้กับรายการที่เข้าเงื่อนไข หวยแต่ละประเภทและรูปแบบการเดิมพันอาจมีเรทแตกต่างกัน จึงควรตรวจสอบอัตราล่าสุดบนหน้าส่งโพยก่อนยืนยันรายการ",
   },
 ];
 
@@ -202,12 +205,13 @@ const faqs = [
 // sentence. Thai has no inter-word space, so a highlight that starts or ends
 // mid-word lets the formatter break the line inside the tag and render a space that
 // splits the word — the copy must read identically with the tags removed.
-// One highlight colour only: #ffd45e, the brand's bright gold, against the inherited
-// body colour #f7e2d6 (BRAND_TEXT). The paragraphs below carry no colour class of
-// their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f7e2d6]` on the element holding the
-// slot, so the prose inherits it and no page-level override can drift from the card.
-// No paragraph carries mx-auto or max-w-* either — the cards cap their own width.
+// One highlight colour only: #f3c54e, the brand's gold accent (the crown above the
+// logo), against the inherited body colour #edeaf0 (BRAND_TEXT). The paragraphs
+// below carry no colour class of their own: every ContentBox* card in this mix
+// already sets `text-left text-base leading-relaxed text-[#edeaf0]` on the element
+// holding the slot, so the prose inherits it and no page-level override can drift
+// from the card. No paragraph carries mx-auto or max-w-* either — the cards cap
+// their own width.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself would be a
 // single self-referential crumb. Every URL in the graph is derived by pageGraph from
@@ -227,117 +231,119 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxFloatingBadge as="h1" title={`${BRAND_NAME} เว็บแทงหวยออนไลน์ 24ชั่วโมง แนวทางหวยครบ จ่ายเต็ม`}>
+  <ContentBoxPremium as="h1" title={`${BRAND_NAME} รับแทงหวยออนไลน์ พร้อมให้แนวทาง เลขเข้าทุกงวดแน่นอน`}>
     <p>
-      <strong class="text-[#ffd45e]">{BRAND_NAME} เว็บแทงหวยออนไลน์ที่รวมรายการและแนวทางหวยไว้ให้ติดตามผ่านมือถือ</strong>
-      มีทั้งหวยลาว หวยฮานอย และรัฐบาลไทย พร้อมข้อมูลรอบเปิดรับ อัตราจ่าย และผลรางวัล
-      <strong class="text-[#ffd45e]">สมาชิกสามารถเลือกเลขเด็ด เลขดัง หรือชุดตัวเลขที่สนใจแล้วตรวจสอบรายละเอียดก่อนส่งโพยได้ตลอดช่วงเวลาที่แต่ละรายการเปิดให้เดิมพัน</strong>
-      แม้ระบบเว็บไซต์จะเข้าใช้งานได้ 24 ชั่วโมง แต่เวลารับแทงจริงยังขึ้นอยู่กับกำหนดเปิดและปิดของหวยแต่ละรอบ
+      <strong class="text-[#f3c54e]">{BRAND_NAME} เว็บรับแทงหวยออนไลน์ที่รวมรายการยอดนิยมและแนวทางตัวเลขไว้ให้ติดตามก่อนหวยออก</strong>
+      มีทั้งรัฐบาลไทย หวยลาว หวยฮานอย หวยออมสิน และหวย ธ.ก.ส.
+      <strong class="text-[#f3c54e]">สมาชิกสามารถเลือกเลข ตรวจสอบรอบ อัตราจ่าย และส่งโพยผ่านมือถือได้จากบัญชีเดียว</strong>
+      พร้อมดูแนวทางและสถิติประกอบการเลือกเลขในแต่ละรอบ อย่างไรก็ตาม แนวทางหวยเป็นข้อมูลประกอบเท่านั้น ไม่สามารถการันตีว่าเลขจะเข้าทุกงวดหรือรับประกันผลรางวัลล่วงหน้าได้
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoNeumorphism
+  <ContentBoxTwoHuay
     as="h2"
-    title={`${BRAND_NAME} รับแทง ลาว ฮานอย รัฐบาลไทย รับเลขเด็ด เลขดัง ไม่อั้น จ่ายเต็มทุกโพย`}
-    titleleft="รายการหวยที่เปิดรับในบัญชีเดียว"
-    titleright="วงเงินรับแทงและแนวทางหวย">
+    title={`เว็บ ${BRAND_NAME} รับแทง รัฐบาลไทย ลาว ฮานอย ออมสิน ธกส ไม่อั้นจ่าย`}
+    titleleft="รายการหวยที่เปิดรับตามรอบ"
+    titleright="วงเงินที่ระบบเปิดรับ"
+    iconleft="🎫"
+    iconright="📊">
     <p slot="left">
-      <strong class="text-[#ffd45e]">{BRAND_NAME} รวบรวมหวยยอดนิยมหลายรายการไว้ในบัญชีเดียว</strong>
-      ทั้งหวยลาวตามรอบที่เปิดรับ หวยฮานอยหลายช่วงเวลา และรัฐบาลไทยตามกำหนดออกรางวัล
-      <strong class="text-[#ffd45e]">สมาชิกสามารถนำเลขเด็ด เลขดัง หรือเลขที่เลือกด้วยตัวเองมาตรวจสอบวงเงินและส่งโพยผ่านระบบ</strong>
-      พร้อมดูยอดเดิมพันและอัตราจ่ายก่อนยืนยันรายการได้ทันที
+      <strong class="text-[#f3c54e]">เว็บ {BRAND_NAME} รวบรวมหวยหลายประเภทไว้ให้เลือกตามรอบ</strong>
+      ทั้งรัฐบาลไทยตามกำหนดออกรางวัล หวยลาว หวยฮานอย รวมถึงหวยออมสินและหวย ธ.ก.ส. ตามรายการที่เปิดให้บริการ
+      <strong class="text-[#f3c54e]">สมาชิกสามารถตรวจสอบเวลาเปิดรับ เวลาปิดรับ เลขที่ต้องการ และยอดเดิมพันก่อนส่งโพย</strong>
+      ช่วยให้ติดตามหลายรายการได้โดยไม่ต้องเปลี่ยนบัญชีไปมา
     </p>
     <p slot="right">
-      <strong class="text-[#ffd45e]">คำว่า “รับไม่อั้น” และ “จ่ายเต็มทุกโพย” ควรยึดตามวงเงินและเงื่อนไขจริงที่ระบบแสดง</strong>
-      เนื่องจากเลขที่มียอดเดิมพันสูงอาจมีวงเงินรับแตกต่างจากเลขทั่วไป
-      <strong class="text-[#ffd45e]">ส่วนแนวทางหวยหรือเลขดังเป็นข้อมูลประกอบเท่านั้น ไม่สามารถรับประกันผลรางวัลของรอบถัดไปได้</strong>
+      หากเป็นเลขเด็ดหรือเลขที่มีผู้เลือกจำนวนมาก
+      <strong class="text-[#f3c54e]">ควรตรวจสอบวงเงินที่ระบบเปิดรับก่อนยืนยัน</strong>
+      เพราะคำว่า “ไม่อั้นจ่าย” ไม่ได้หมายความว่าทุกเลขหรือทุกรอบจะไม่มีวงเงินสูงสุด
+      <strong class="text-[#f3c54e]">เงื่อนไขจริงควรยึดข้อมูลที่แสดงบนหน้าส่งโพยเป็นหลัก</strong>
     </p>
-  </ContentBoxTwoNeumorphism>
+  </ContentBoxTwoHuay>
 
-  <ContentBoxCyberCut as="h2" title={`อัตราการจ่าย ${BRAND_NAME} ให้เรทจ่ายสูงที่สุด`}>
+  <ContentBoxNeumorphism as="h2" title={`อัตราการจ่ายเว็บ ${BRAND_NAME} เรทจ่ายสูง ไม่มีลบโพย`}>
     <div class="flex flex-col gap-5">
       <p>
-        <strong class="text-[#ffd45e]">อัตราการจ่าย {BRAND_NAME} สามารถตรวจสอบได้ก่อนส่งโพย</strong>
-        โดยรายการที่เข้าเงื่อนไขมีเรท
-        <strong class="text-[#ffd45e]">2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
-        ช่วยให้สมาชิกทราบอัตราที่ใช้คำนวณก่อนยืนยันการเดิมพัน ทั้งนี้อัตราจริงอาจแตกต่างตามประเภทหวย รูปแบบการแทง และรอบที่เลือก จึงควรยึดข้อมูลล่าสุดบนหน้าส่งโพยเป็นหลัก
+        อัตราการจ่ายเว็บ {BRAND_NAME} สำหรับรายการที่เข้าเงื่อนไขมีทั้ง
+        <strong class="text-[#f3c54e]">2 ตัว จ่าย 100 บาท และ 3 ตัว จ่าย 1,000 บาท</strong>
+        สมาชิกสามารถตรวจสอบเรทของหวยแต่ละรายการก่อนส่งโพย พร้อมดูเลข ยอดเดิมพัน และสถานะรายการให้ครบถ้วน
+        <strong class="text-[#f3c54e]">หากโพยได้รับการยืนยันแล้วควรมีประวัติรายการให้สมาชิกกลับมาตรวจสอบได้</strong>
       </p>
       <p>
-        <strong class="text-[#ffd45e]">หากใช้ข้อความว่า “เรทจ่ายสูงที่สุด” ควรมีข้อมูลเปรียบเทียบกับผู้ให้บริการรายอื่นที่ตรวจสอบได้</strong>
-        หากไม่มีข้อมูลดังกล่าว การใช้คำว่า
-        <strong class="text-[#ffd45e]">“เรทจ่ายสูง” จะเหมาะสมกว่า</strong>
+        <strong class="text-[#f3c54e]">คำว่า “ไม่มีลบโพย” ควรหมายถึงโพยที่ระบบรับและยืนยันอย่างสมบูรณ์ตามเงื่อนไขแล้ว</strong>
+        ทั้งนี้กรณีรายการผิดพลาด เป็นโมฆะ หรือเหตุอื่นควรเป็นไปตามข้อกำหนดที่เว็บไซต์ประกาศไว้อย่างชัดเจน
       </p>
     </div>
-  </ContentBoxCyberCut>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="2ตัว จ่าย100บาท">
-    <p slot="left">
-      <strong class="text-[#ffd45e]">สำหรับรายการที่กำหนดอัตรา 2 ตัว จ่าย 100 บาท สมาชิกสามารถเลือกเลขและกำหนดยอดตามวงเงินที่ระบบเปิดรับ</strong>
-      ก่อนส่งโพยควรตรวจสอบเลขทั้งสองหลัก ประเภทการเดิมพัน และอัตราจ่ายให้เรียบร้อย
-      <strong class="text-[#ffd45e]">เพราะหวยลาว ฮานอย และรัฐบาลไทยอาจกำหนดรายละเอียดของแต่ละรอบแตกต่างกัน</strong>
-    </p>
+  <ContentBoxSevenThreePremium as="h3" title="2ตัว จ่าย100บาท">
     <Picture
-      slot="right"
+      slot="left"
       src={imgTwoDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[350, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 70px), 350px"
+      widths={[338, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1311px) calc(30vw - 46px), 338px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt={`ภาพอัตราการจ่ายของ ${BRAND_NAME} พื้นหลังสีดำประดับทอง ด้านซ้ายเป็นนางแบบผมยาวสีเข้ม สวมชุดสีดำประดับทอง ถือลูกบอลหวยเลข 2 ไว้ในมือขวาและยื่นมือซ้ายแบออกมาข้างหน้า รอบตัวมีเหรียญทองและลูกบอลหวยเลข 6 กับเลข 8 ลอยกระจาย มุมขวาล่างมีใบสลากกินแบ่ง ด้านบนเป็นโลโก้วงกลมสีแดงมีเลข 24 สีขาว พร้อมตัวอักษรว่า ${BRAND_NAME} ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นดำขอบทองคาดข้อความว่า 2ตัว จ่าย100บาท`}
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f5c33b]/55 shadow-[0_10px_30px_rgba(210,10,10,0.3)]"
+      alt={`ภาพอัตราการจ่ายของ ${BRAND_NAME} ฉากผ้าสีขาวเงินพาดด้วยริบบิ้นสีแดง ด้านซ้ายเป็นนางแบบผมยาวสีเข้ม สวมสูทสั้นสีเงินเมทัลลิก ยื่นมือขวาออกมาข้างหน้าและชูลูกบอลหวยเลข 8 ไว้ข้างใบหน้า รอบตัวมีลูกบอลหวยเลข 6 เลข 3 เลข 9 และเลข 7 ลอยอยู่ พร้อมเหรียญทองกองอยู่ด้านล่าง ด้านบนเป็นมงกุฎทองเหนือโลโก้ที่เขียนคำว่า หวย ด้วยตัวอักษรสีเงินโครเมียมและคำว่า ดีใจ ด้วยตัวอักษรสีแดง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นขาวเงินขอบทองคาดข้อความว่า 2ตัว จ่าย100บาท`}
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#c3c7d1]/40 shadow-[0_10px_30px_rgba(220,4,9,0.28)]"
     />
-  </ContentBoxSevenThreeNeumorphism>
+    <p slot="right">
+      <strong class="text-[#f3c54e]">รายการที่กำหนดอัตรา 2 ตัว จ่าย 100 บาท สามารถเลือกเลขและจำนวนเงินตามวงเงินที่ระบบเปิดรับ</strong>
+      ก่อนกดยืนยันควรตรวจสอบเลขทั้งสองหลัก ประเภทหวย รอบเวลา และอัตราจ่ายอีกครั้ง
+      <strong class="text-[#f3c54e]">เพราะรัฐบาลไทย ลาว ฮานอย ออมสิน และ ธ.ก.ส. อาจมีรายละเอียดแตกต่างกัน</strong>
+    </p>
+  </ContentBoxSevenThreePremium>
 
-  <ContentBoxSevenThreeCyberCut as="h3" title="3ตัว จ่าย1,000บาท">
+  <ContentBoxSevenThreeHuay as="h3" titleleft="3ตัว จ่าย1,000บาท">
+    <p slot="left">
+      <strong class="text-[#f3c54e]">สำหรับรายการที่เข้าเงื่อนไข 3 ตัว จ่าย 1,000 บาท ควรตรวจสอบรูปแบบเลข 3 ตัวและเรทที่ระบบแสดงก่อนส่งโพย</strong>
+      เนื่องจากการเดิมพันเลข 3 ตัวสามารถมีหลายประเภทและไม่ได้หมายความว่าทุกรายการจะใช้อัตราเดียวกัน
+      <strong class="text-[#f3c54e]">ควรยึดข้อมูลล่าสุดในระบบก่อนยืนยัน</strong>
+    </p>
     <Picture
-      slot="left"
+      slot="right"
       src={imgThreeDigit}
       loading="lazy"
       fetchpriority="low"
-      widths={[346, 480, 600]}
-      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1279px) calc(30vw - 38px), 346px"
+      widths={[353, 480, 600]}
+      sizes="(max-width: 767px) calc(100vw - 96px), (max-width: 1399px) calc(30vw - 67px), 353px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt={`ภาพอัตราการจ่ายของ ${BRAND_NAME} ฉากผ้าม่านไหมสีแดงบนพื้นดำ ด้านขวาเป็นนางแบบผมยาวเกล้าประดับดอกไม้ทอง สวมชุดจีนสีดำปักลายทอง ยิ้มและแบมือซ้ายหงายขึ้น มุมซ้ายล่างมีเหรียญทองกองอยู่กับลูกบอลหวยเลข 7 เลข 3 และเลข 9 ด้านบนเป็นโลโก้วงกลมสีแดงมีเลข 24 สีขาว พร้อมตัวอักษรว่า ${BRAND_NAME} ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นดำขอบทองคาดข้อความว่า 3ตัว จ่าย1,000บาท`}
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#d20a0a]/60 shadow-[0_10px_30px_rgba(245,195,59,0.24)]"
+      alt={`ภาพอัตราการจ่ายของ ${BRAND_NAME} ฉากผ้าสีขาวเงินพาดด้วยริบบิ้นสีแดง ด้านขวาเป็นนางแบบผมยาวสีเข้ม สวมชุดสั้นสีเงินเมทัลลิก ยกมือทั้งสองข้างแบหงายขึ้น มุมซ้ายล่างมีลูกบอลหวยเลข 3 เลข 7 และเลข 9 วางอยู่กับกองเหรียญทองและใบสลาก ด้านบนซ้ายเป็นมงกุฎทองเหนือโลโก้ที่เขียนคำว่า หวย ด้วยตัวอักษรสีเงินโครเมียมและคำว่า ดีใจ ด้วยตัวอักษรสีแดง ถัดลงมาเป็นตัวอักษรไทยสีทองขนาดใหญ่ว่า อัตราการจ่าย และป้ายพื้นขาวเงินขอบทองคาดข้อความว่า 3ตัว จ่าย1,000บาท`}
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#dc0409]/55 shadow-[0_10px_30px_rgba(13,4,7,0.70)]"
     />
-    <p slot="right">
-      <strong class="text-[#ffd45e]">รายการที่เข้าเงื่อนไข 3 ตัว จ่าย 1,000 บาท ควรตรวจสอบประเภทการเดิมพันก่อนยืนยัน</strong>
-      เนื่องจากเลข 3 ตัวสามารถมีหลายรูปแบบและไม่ได้ใช้อัตราเดียวกันเสมอ หากเป็นเลขดังหรือเลขที่มียอดสูง
-      <strong class="text-[#ffd45e]">ควรตรวจสอบวงเงินรับแทงเพิ่มเติมจากระบบก่อนส่งโพย</strong>
-    </p>
-  </ContentBoxSevenThreeCyberCut>
+  </ContentBoxSevenThreeHuay>
 
-  <ContentBoxTwoCyberCut as="h2" title={`สมัครแทง ${BRAND_NAME} ง่ายๆ 3ขั้นตอน`} titleleft="สมัครผ่านมือถือใน 3 ขั้นตอน" titleright="หลังเปิดบัญชีและการดูแลรหัส">
+  <ContentBoxTwoPremium as="h2" title={`สมัครแทง ${BRAND_NAME} ง่ายๆ 3ขั้นตอน`} titleleft="สมัครผ่านมือถือใน 3 ขั้นตอน" titleright="หลังเปิดบัญชีและการดูแลรหัส">
     <p slot="left">
-      <strong class="text-[#ffd45e]">การสมัคร {BRAND_NAME} สามารถทำผ่านมือถือได้ใน 3 ขั้นตอน</strong>
-      เริ่มจาก เข้าหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลเพื่อสร้างบัญชีและ Login เข้าสู่ระบบ ก่อน เลือกหวย รอบ และเลขที่ต้องการ
-      <strong class="text-[#ffd45e]">พร้อมตรวจสอบอัตราจ่ายและยอดเดิมพันก่อนส่งโพย</strong>
+      <strong class="text-[#f3c54e]">การสมัคร {BRAND_NAME} สามารถทำผ่านมือถือได้ใน 3 ขั้นตอน</strong>
+      เริ่มจาก เปิดหน้าสมัครและกรอกข้อมูลตามที่ระบบกำหนด จากนั้น ยืนยันข้อมูลและ Login เข้าบัญชีสมาชิก ก่อน เลือกประเภทหวย รอบ และเลขที่ต้องการ
+      <strong class="text-[#f3c54e]">พร้อมตรวจสอบอัตราจ่ายก่อนส่งโพย</strong>
     </p>
     <p slot="right">
-      <strong class="text-[#ffd45e]">เมื่อสมัครเรียบร้อยสามารถใช้บัญชีเดียวติดตามหวยลาว หวยฮานอย รัฐบาลไทย แนวทางหวย ผลรางวัล และประวัติโพยได้</strong>
-      ควรตรวจสอบเลขและจำนวนเงินก่อนยืนยันทุกครั้ง
-      <strong class="text-[#ffd45e]">รวมถึงไม่เปิดเผยรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
+      <strong class="text-[#f3c54e]">หลังเปิดบัญชีสามารถใช้ระบบเดียวติดตามรัฐบาลไทย ลาว ฮานอย ออมสิน ธ.ก.ส.</strong>
+      รวมถึงแนวทางและผลหวยตามรายการที่เปิดให้บริการ ควรตรวจสอบเลขและยอดก่อนยืนยันโพยทุกครั้ง
+      <strong class="text-[#f3c54e]">พร้อมตั้งรหัสผ่านที่คาดเดายากและไม่เปิดเผย OTP ให้บุคคลอื่น</strong>
     </p>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoPremium>
 
-  <ContentBox as="h2" title={`ติดต่อแอดมิน ${BRAND_NAME} เว็บแทงหวยได้ตลอด 24 ชั่วโมง`}>
+  <ContentBox as="h2" title={`ติดต่อแอดมิน ${BRAND_NAME} เว็บแทงหวย ตลอด 24 ชั่วโมง`}>
     <div class="flex flex-col gap-5">
       <p>
-        หากพบปัญหาเกี่ยวกับการสมัคร Login ไม่ได้ ส่งโพยไม่สำเร็จ ตรวจผลไม่ได้ เลขที่ต้องการติดวงเงิน หรือมีข้อสงสัยเกี่ยวกับอัตราจ่าย
-        <strong class="text-[#ffd45e]">สามารถติดต่อแอดมิน {BRAND_NAME} ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
-        พร้อมแจ้งรายละเอียดเพื่อช่วยให้ตรวจสอบปัญหาได้ตรงรายการ
+        หากพบปัญหาเกี่ยวกับการสมัคร Login ส่งโพย ตรวจสอบผล อัตราจ่าย หรือรายการธุรกรรม
+        <strong class="text-[#f3c54e]">สามารถติดต่อแอดมิน {BRAND_NAME} ผ่านช่องทางบริการที่เว็บไซต์กำหนดได้ตลอด 24 ชั่วโมง</strong>
+        พร้อมแจ้งรายละเอียดของรายการเพื่อช่วยให้เจ้าหน้าที่ตรวจสอบได้ตรงจุดและลดระยะเวลาในการค้นหาข้อมูล
       </p>
       <p>
-        <strong class="text-[#ffd45e]">หากเป็นปัญหาเกี่ยวกับโพยควรเตรียมชื่อหวย รอบเวลา เลขที่เลือก และข้อมูลรายการ</strong>
-        ส่วนปัญหาด้านธุรกรรมควรเก็บหลักฐาน เวลา และจำนวนเงินไว้สำหรับตรวจสอบ
-        <strong class="text-[#ffd45e]">โดยไม่ควรเปิดเผย OTP หรือรหัสผ่านให้บุคคลอื่น</strong>
+        <strong class="text-[#f3c54e]">กรณีเกี่ยวกับโพยควรเตรียมชื่อหวย รอบเวลา เลขที่เลือก และข้อมูลรายการ</strong>
+        ส่วนปัญหาด้านธุรกรรมควรเก็บเวลา จำนวนเงิน และหลักฐานไว้จนกว่าจะตรวจสอบเรียบร้อย
+        <strong class="text-[#f3c54e]">โดยไม่ควรส่งรหัสผ่าน PIN หรือ OTP ให้บุคคลอื่น</strong>
       </p>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <a href="/line" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00B900] p-3.5 text-center font-bold text-white shadow-md transition-all hover:scale-[1.02]">
@@ -345,7 +351,7 @@ const graph = pageGraph(Astro, {
         </a>
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ffd45e]/70 bg-gradient-to-r from-[#ffd45e] via-[#f5c33b] to-[#a9761a] p-3.5 text-center font-black text-[#1a0303] shadow-[0_10px_30px_rgba(245,195,59,0.38)] transition-all hover:scale-[1.02]">
+          class="flex w-full items-center justify-center gap-2 rounded-xl border border-[#f5363d]/70 bg-gradient-to-r from-[#f5363d] via-[#dc0409] to-[#8e0206] p-3.5 text-center font-black text-[#edeaf0] shadow-[0_10px_30px_rgba(220,4,9,0.40)] transition-all hover:scale-[1.02]">
           <span aria-hidden="true">📝</span> สมัครสมาชิก {BRAND_NAME}
         </a>
       </div>

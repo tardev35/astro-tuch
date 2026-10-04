@@ -19,19 +19,21 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // The description is still held to the house 150-160 CHARACTER window (not
 // bytes — Thai is 3 bytes per character, so a byte count reads ~3x too long).
 // verify-build skips the length check on a noindex page, so nothing here will
-// catch it drifting; with a 5-character BRAND_NAME it measures 155.
+// catch it drifting. The sentence is 150 characters plus BRAND_NAME, so the
+// window holds for any brand name of 1-10 characters; หวยดีใจ (7) gives 157.
+// A longer name than that is the one case to re-measure rather than assume.
 ---
 
 <MainLayout
   title={`ไม่พบหน้าที่ต้องการ (404) | ${BRAND_NAME}`}
   description={`ไม่พบหน้าที่คุณกำลังมองหาบนเว็บ ${BRAND_NAME} ลิงก์อาจหมดอายุ ถูกย้าย หรือพิมพ์ที่อยู่คลาดเคลื่อน กลับไปหน้าแรกเพื่อเข้าใช้งานเมนูทั้งหมดได้ตามปกติจากด้านบนของหน้า`}
   robots="noindex, follow">
-  <section class="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-20 text-center font-sans">
+  <section class="mx-auto flex w-full max-w-2xl flex-col items-center px-4 py-20 text-center font-sans">
     <p class="text-6xl font-black tracking-widest opacity-40 md:text-8xl" aria-hidden="true">404</p>
 
     <h1 class="mt-4 text-2xl font-black tracking-wide md:text-3xl">ไม่พบหน้าที่ต้องการ</h1>
 
-    <p class="mt-4 max-w-xl text-base leading-relaxed opacity-80">
+    <p class="mt-4 text-base leading-relaxed opacity-80">
       ลิงก์ที่เปิดมาอาจหมดอายุ ถูกย้ายไปที่อื่น หรือพิมพ์ที่อยู่คลาดเคลื่อนไปเพียงตัวอักษรเดียว เมนูทั้งหมดยังใช้งานได้ตามปกติจากด้านบนและด้านล่างของหน้านี้
     </p>
 
