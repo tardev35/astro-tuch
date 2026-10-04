@@ -22,37 +22,47 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // column headings, which put two tags on one brief section. One section header
 // above the grid carries it now, and the per-card labels dropped to <p>.
 //
-// 365LOTTO (รอบแดง-ทอง-เงินโครเมียม 2026-09-24): สองใบแยกกันด้วยคู่สีจริงของโลโก้
-// ใบซ้ายเป็นพื้นการ์ดแดงเกือบดำ #1a0709 ในกรอบทองลึก #9c6a12 ป้ายไอคอนไล่ทองสว่าง
-// #fdf3b4 → ทองลึก #e0b03a บนตัวอักษรสีพื้นเพจ #120406 ส่วนใบขวาเป็นพื้นยก #2a0b0e
-// ในกรอบทองหลัก #fadc64 ป้ายไอคอนไล่แดงสด #e01f26 → แดงเข้ม #a40304 ตามวง O สองวง
-// ของคำว่า LOTTO หัวข้อหลักไล่ทองสว่าง → เงินโครเมียม #f3f6fa → แดงสด ตามลำดับสี
-// บนโลโก้ เนื้อความ #f0ddc4 (BRAND_TEXT) — ชุดกรมท่า-ทองของหวยพยัคฆ์ (#030b1c
-// #08152f #0f2149 #1c3566 #dbe4f7 #9fb0d0 #e8eef8 #fadb6c #fdf5a4 #ab6d13)
-// ออกทั้งหมด
+// บนหน้าแรกรอบนี้กล่องนี้ถือ docx H2 #2 — บรีฟมีสองย่อหน้าในหัวข้อนั้น (content.txt
+// บรรทัด 7 กับ 8) จึงลงคอลัมน์ละย่อหน้า กล่องนี้ปล่อย heading ของบรีฟออกมาใบเดียว
+// ส่วนป้ายสองคอลัมน์เป็นถ้อยคำจัดเลย์เอาต์ของหน้าเอง ไม่ใช่หัวข้อในบรีฟ จึงเป็น <p>
+//
+// หวยคิง (รอบทองโลหะ + ครีมอมพีช บนดำอมน้ำตาล 2026-10-04): brand-spec §2
+// สองใบแยกกันด้วย "คู่โลหะ-ครีม" ของงานอาร์ตเอง ไม่ใช่ด้วยความสว่างของสีเดียว —
+// ใบซ้ายเป็นฝั่งทอง ผิวการ์ด #1c140b ในกรอบทองแบรนด์ #cd9a2c ป้ายไอคอนไล่ทองสว่าง
+// #fdeb7c → ทองลึก #ab7314 บนหมึก #120a02 (พื้นทองต้องใช้หมึกเข้มเสมอ) ป้ายคอลัมน์
+// เป็นทองสว่าง #fdeb7c ส่วนใบขวาเป็นฝั่งครีมอมพีช (ชุดขาวของนางแบบใน slide1/slide2)
+// ผิวการ์ดลึกกว่าเป็น #0c0b0a ในกรอบจาง #5c3f12 ป้ายไอคอนไล่ครีมอ่อน #fce2d4 →
+// ครีมอมพีช #fcd4c3 บนหมึกเดียวกัน ป้ายคอลัมน์เป็น #fcd4c3
+// หัวข้อ docx ไล่ครีม #fcd4c3 → ทองสว่าง #fdeb7c → ทองแบรนด์ #cd9a2c ซึ่งกลับทางกับ
+// ContentBox / ContentBoxHuay ที่ไล่ทองสว่างไปครีม จะได้ไม่อ่านเป็นการ์ดใบเดิมซ้ำ
+// เนื้อความ #f5e7c8 (= BRAND_TEXT) glow เป็น rgba(205,154,44,…)
+//
+// ชุดแดง-ทอง-เงินโครเมียมของ 365LOTTO ที่เคยค้างในไฟล์นี้ (#1a0709 #2a0b0e #9c6a12
+// #fdf3b4 #e0b03a #fadc64 #e01f26 #a40304 #f3f6fa #120406 #f0ddc4
+// rgba(250,220,100,…) rgba(224,31,38,…)) ออกครบทุกจุดแล้ว
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-4">
-        <HeadingTag class={`bg-gradient-to-r from-[#fdf3b4] via-[#f3f6fa] to-[#e01f26] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex flex-col gap-3 border-b border-[#5c3f12] pb-4">
+        <HeadingTag class={`bg-gradient-to-r from-[#fcd4c3] via-[#fdeb7c] to-[#cd9a2c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="h-[3px] w-24 rounded-full bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e01f26] shadow-[0_0_10px_rgba(250,220,100,0.55)]" />
+        <div aria-hidden="true" class="h-[3px] w-24 rounded-full bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] shadow-[0_0_10px_rgba(205,154,44,0.55)]" />
       </header>
     )
   }
 
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
     <article
-      class="flex flex-col gap-4 rounded-2xl border border-[#9c6a12]/70 bg-[#1a0709]/90 p-6 text-left text-base leading-relaxed text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.6)] backdrop-blur-md md:p-7">
+      class="flex flex-col gap-4 rounded-2xl border border-[#cd9a2c]/70 bg-[#1c140b]/92 p-6 text-left text-base leading-relaxed text-[#f5e7c8] shadow-[0_10px_30px_rgba(12,11,10,0.68)] backdrop-blur-md md:p-7">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#fadc64]/35 pb-3 text-xl leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#cd9a2c]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#fdeb7c] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fdeb7c]/60 bg-gradient-to-br from-[#fdeb7c] to-[#ab7314] text-sm text-[#120a02] shadow-[0_0_10px_rgba(205,154,44,0.45)]">
               {iconleft}
             </span>
             {titleleft}
@@ -63,13 +73,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
     </article>
 
     <article
-      class="flex flex-col gap-4 rounded-2xl border border-[#fadc64]/45 bg-[#2a0b0e]/85 p-6 text-left text-base leading-relaxed text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.6)] backdrop-blur-md md:p-7">
+      class="flex flex-col gap-4 rounded-2xl border border-[#5c3f12] bg-[#0c0b0a]/92 p-6 text-left text-base leading-relaxed text-[#f5e7c8] shadow-[0_10px_30px_rgba(12,11,10,0.68)] backdrop-blur-md md:p-7">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#fadc64]/35 pb-3 text-xl leading-normal font-black tracking-widest text-[#f3f6fa] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#fcd4c3]/30 pb-3 text-xl leading-normal font-black tracking-widest text-[#fcd4c3] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e01f26]/70 bg-gradient-to-br from-[#e01f26] to-[#a40304] text-sm text-[#fdf3b4] shadow-[0_0_10px_rgba(224,31,38,0.45)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fce2d4]/70 bg-gradient-to-br from-[#fce2d4] to-[#fcd4c3] text-sm text-[#120a02] shadow-[0_0_10px_rgba(252,212,195,0.35)]">
               {iconright}
             </span>
             {titleright}

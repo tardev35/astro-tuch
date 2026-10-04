@@ -1,92 +1,103 @@
 ---
 import { Picture } from "astro:assets";
 import BankStrip from "./BankStrip.astro";
-import { BRAND_ADDRESS } from "../lib/brandProfile";
+import { BRAND_ADDRESS, BRAND_NAME } from "../lib/brandProfile";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", { eager: true });
 const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".png")) || imagePaths.find((path) => path.endsWith(".webp")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
 
-const logoAlt = "โลโก้ หวย365 ตัวอักษรเอียงหนาทึบบนพื้นขาว คำว่า หวย เป็นสีแดงสด ตามด้วยเลข 365 ที่สลับสีดำ แดง ดำ";
+const logoAlt = `โลโก้ ${BRAND_NAME} มงกุฎทองวางอยู่บนลูกบอลหวยสีทองที่มีเลข 9 ถัดมาด้านขวาเป็นตัวอักษรไทยสามมิติสีทองว่า ${BRAND_NAME}`;
 
-// หวย365 (รอบแดงสด-ทอง 2026-10-03): พื้นดำอมแดง #140203 ขอบบนแดงแบรนด์ #dc0203
-// เส้นคั่นทองลึก #c08a07 (ใช้เป็นเส้น/ขอบเท่านั้น ห้ามเอาไปเป็นพื้นของตัวอักษร)
-// ออร่าบนเป็นทองรอง #ffc93c ตัวอักษรรองเป็นครีมอมชมพู #f6e7e0 = BRAND_TEXT
-// (~14:1 บนพื้น) ลิงก์ hover เป็นแดงสว่าง #f5282a — ชุดของ หวยเฮง789 ที่เคยอยู่ใน
-// ไฟล์นี้ (#1c0606 #2b0909 #dc2224 #e43434 #f4bc5d #a8690c #fbe3d4) ออกครบทุกจุดแล้ว
+// หวยคิง (รอบทองบนดำอมน้ำตาล 2026-10-04): พื้นดำลึก #0c0b0a ขอบบนทองแบรนด์
+// #cd9a2c เส้นคั่นจาง #5c3f12 (ใช้เป็นเส้น/ขอบเท่านั้น ห้ามเอาไปเป็นพื้นของ
+// ตัวอักษร) ออร่าบนเป็นทองสว่าง #fdeb7c ป้าย/การ์ดยกใช้ผิว #1c140b ตัวอักษรหลัก
+// เป็นครีมทอง #f5e7c8 = BRAND_TEXT คู่สีรองเป็นครีมอมพีช #fcd4c3 ตามชุดขาวของ
+// นางแบบใน slide1/slide2 ลิงก์ hover เป็นทองสว่าง #fdeb7c
 //
-// ย่อหน้าแนะนำเว็บเขียนใหม่จาก src/assets/content.txt ของ หวย365 ล้วน — บรีฟรอบนี้
-// พูดถึง แนวทางหวย/กลุ่มหวย/สถิติหวยย้อนหลัง/ผลหวยตามรอบที่ประกาศ · รัฐบาลไทย
-// ฮานอย ลาวพัฒนา หวยหุ้นต่างประเทศ · เลือกเลข ส่งโพย ตรวจสอบรายการผ่านมือถือ ·
-// ตรวจเวลาเปิดรับ เวลาปิดรับ อัตราจ่าย ก่อนเลือกแทง พร้อมคำกำกับที่บรีฟเขียนเอง
-// ว่าสถิติย้อนหลังใช้ยืนยันเลขงวดถัดไปไม่ได้ (ห้ามตัดทิ้งเพราะฟังดูไม่ขายของ)
+// ชุดเดิมในไฟล์นี้เป็นของ หวย365 ซึ่งเป็นแดงสด-ทอง (#140203 #dc0203 #f5282a
+// #ffc93c #c08a07 #3a0a0c #f6e7e0) ออกครบทุกจุดแล้ว — รอบนี้ไม่มีแดงเหลืออยู่เลย
+//
+// ย่อหน้าแนะนำเว็บเขียนใหม่จากคำศัพท์ที่บรีฟของ หวยคิง ให้มาล้วน: แทงหวย ·
+// อัตราจ่ายบาทละ 1,000 · เลขเด็ด เลขดัง · เลข 2 ตัว / 3 ตัว · ส่งโพย · ประวัติโพย ·
+// วงเงินรับแทง · วอลเลท/ธนาคาร · บัญชีบริษัท · สมัคร 3 ขั้นตอน · แอดมิน 24 ชั่วโมง
+// ชื่อตลาดหวย (ฮานอย/ลาวพัฒนา/หวยหุ้น/ยี่กี) ที่รอบก่อนเขียนไว้ **ถอดออกทั้งหมด**
+// เพราะบรีฟรอบนี้ไม่ได้ให้มา และกฎของรอบนี้ห้ามแต่งตัวเลข/ชื่อตลาดขึ้นเอง
 // ป้ายอัตราจ่ายสองอันตรงกับบรีฟพอดี (2 ตัว 100 / 3 ตัว 1,000)
 //
-// /ตรวจหวย และ /แนวทาง อยู่ในรายการทางลัดรอบนี้ เพราะสองไฟล์นั้นอยู่ใน
-// src/pages/ (หวย365 เป็นเว็บหวย) — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ
-// ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มีจริง
+// รายการทางลัดตรงกับเมนูของ NavbarHuay ทุกข้อ แล้วเติม /terms กับ /privacy
+// ที่แถวล่าง — /ตรวจหวย และ /แนวทาง อยู่ในรายการเพราะสองไฟล์นั้นอยู่ใน src/pages/
+// (หวยคิง เป็นเว็บหวย) ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ไม่งั้น verify-build จะฟ้อง
+// href ที่ชี้ไป route ที่ไม่มีจริง
 //
-// /ทางเข้า ไม่ได้อยู่ในเมนู navbar (toggle register/login เปิดอยู่) แต่ยังถูก
-// route และ index อยู่ ลิงก์จาก footer จึงเป็นทางเดียวที่ผู้ใช้เข้าถึงหน้านั้นได้
+// /ทางเข้า ถูกถอดออกจากรายการนี้ตามสเปกรอบนี้ (ให้ตรงกับเมนู navbar เป๊ะ)
+// หน้านั้นยังถูก route และ index อยู่ แต่ตอนนี้ไม่มีลิงก์ภายในชี้ไปแล้ว
 const shortcuts = [
-  { name: "หน้าหลัก", path: "/" },
-  { name: "ทางเข้า", path: "/ทางเข้า" },
+  { name: "หน้าแรก", path: "/" },
+  { name: "โปรโมชั่น", path: "/promotion" },
+  { name: "สมัครสมาชิก", path: "/register" },
+  { name: "เข้าสู่ระบบ", path: "/login" },
   { name: "ตรวจหวย", path: "/ตรวจหวย" },
   { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
-  { name: "โปรโมชั่น", path: "/promotion" },
+  // /ทางเข้า ออกจากเมนู navbar โดยตั้งใจ (รอบนี้ toggle cta เปิด /login กับ /register
+  // เป็นหน้าปุ่มจริงแล้ว เมนูจึงมีสองทางเข้านั้นอยู่แล้ว) แต่หน้ายัง route และ index
+  // อยู่ ลิงก์ใน footer จึงเป็นทางเดียวที่ยังชี้ไปถึง — ห้ามถอดออกจากที่นี่ด้วย
+  // ไม่งั้นได้หน้าที่ Google เก็บ index แต่ไม่มีลิงก์ภายในชี้ไปเลย
+  { name: "ทางเข้า", path: "/ทางเข้า" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
   { name: "ติดต่อเรา", path: "/contact-us" },
 ];
 ---
 
-<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#dc0203]/55 bg-[#140203] pt-16 pb-8 font-sans text-white shadow-[0_-10px_30px_rgba(8,1,1,0.75)]">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#ffc93c]/12 blur-[80px]"></div>
+<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#cd9a2c]/55 bg-[#0c0b0a] pt-16 pb-8 font-sans text-[#f5e7c8] shadow-[0_-10px_30px_rgba(5,4,3,0.8)]">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#fdeb7c]/10 blur-[80px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-4 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-[#ffc93c]/20 bg-[#ffc93c]/5 p-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-[#cd9a2c]/25 bg-[#cd9a2c]/10 p-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
               <Picture src={mainLogo} alt={logoAlt} widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <p class="rounded-md bg-[#dc0203] px-3 py-1 text-2xl font-black tracking-widest text-white">หวย365</p>
+              <p class="rounded-md bg-[#cd9a2c] px-3 py-1 text-2xl font-black tracking-widest text-[#120a02]">{BRAND_NAME}</p>
             )
           }
         </a>
-        <p class="mt-2 border-l-2 border-[#c08a07]/60 pl-4 text-sm leading-relaxed text-[#f6e7e0]">
-          หวย365 เว็บแทงหวยออนไลน์ที่รวมข้อมูลและรายการหวยไว้ในหน้าเดียว ทั้งแนวทางหวย กลุ่มหวย สถิติหวยย้อนหลัง และผลหวยตามรอบที่ประกาศ สมาชิกติดตามได้ทั้งหวยรัฐบาลไทย ฮานอย ลาวพัฒนา
-          และหวยหุ้นต่างประเทศตามตลาดที่เปิดให้บริการ พร้อมเลือกเลข ส่งโพย และตรวจสอบรายการผ่านมือถือได้สะดวก ก่อนเลือกแทงสามารถตรวจเวลาเปิดรับ เวลาปิดรับ และอัตราจ่ายของแต่ละรายการได้
-          ทั้งนี้ข้อมูลสถิติย้อนหลังช่วยสำหรับย้อนดูผลในรอบที่ผ่านมา แต่ไม่สามารถใช้ยืนยันหรือรับประกันเลขที่จะออกในงวดถัดไปได้
+        <p class="mt-2 border-l-2 border-[#cd9a2c]/60 pl-4 text-sm leading-relaxed text-[#f5e7c8]">
+          {BRAND_NAME} รับแทงหวยออนไลน์ เว็บแม่ให้อัตราจ่ายบาทละ 1,000 สูงที่สุดในวงการ รับแทงเลขเด็ด เลขดัง จ่ายไม่อั้น เลือกเลข 2 ตัวและเลข 3 ตัวแล้วส่งโพยจากมือถือได้เอง ย้อนดูประวัติโพยของแต่ละรอบได้ทุกรายการ
+          ฝากถอนผ่านวอลเลทและธนาคารชั้นนำ ยอดเข้าบัญชีบริษัทโดยตรง สมัครได้เองใน 3 ขั้นตอน และมีแอดมินดูแลตลอด 24 ชั่วโมง ก่อนส่งโพยทุกครั้งแนะนำให้ตรวจอัตราจ่ายและวงเงินรับแทงของรายการหวยนั้นก่อน เพราะแต่ละรอบเปิดรับไม่เท่ากัน
         </p>
         <div class="mt-2 flex gap-3">
-          <span class="rounded-full border border-[#c08a07]/50 bg-[#3a0a0c] px-4 py-1 text-xs font-bold text-[#f6e7e0] shadow-sm">2 ตัวจ่าย 100</span>
-          <span class="rounded-full border border-[#ffc93c]/40 bg-[#ffc93c]/15 px-4 py-1 text-xs font-bold text-[#ffc93c] shadow-sm">3 ตัวจ่าย 1,000</span>
+          <span class="rounded-full border border-[#5c3f12] bg-[#1c140b] px-4 py-1 text-xs font-bold text-[#f5e7c8] shadow-sm">2 ตัวจ่าย 100</span>
+          <span class="rounded-full border border-[#cd9a2c]/40 bg-[#cd9a2c]/15 px-4 py-1 text-xs font-bold text-[#fdeb7c] shadow-sm">3 ตัวจ่าย 1,000</span>
         </div>
       </div>
 
-      <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12">
-        <p class="border-b border-[#c08a07]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">ทางลัดหน้าเว็บ</p>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-[#f6e7e0]">
-          {shortcuts.map((item) => (
-            <li>
-              <a href={item.path} class="transition-colors hover:text-[#f5282a]">
-                {item.name}
-              </a>
-            </li>
-          ))}
+      <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12" aria-label="ทางลัดหน้าเว็บ">
+        <p class="border-b border-[#5c3f12] pb-2 text-lg font-black tracking-widest text-[#fdeb7c] uppercase">ทางลัดหน้าเว็บ</p>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-[#fcd4c3]">
+          {
+            shortcuts.map((item) => (
+              <li>
+                <a href={item.path} class="transition-colors hover:text-[#fdeb7c]">
+                  {item.name}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </nav>
 
       <div class="flex flex-col gap-4 md:col-span-4">
-        <p class="border-b border-[#c08a07]/50 pb-2 text-lg font-black tracking-widest text-white uppercase">บริการลูกค้า</p>
+        <p class="border-b border-[#5c3f12] pb-2 text-lg font-black tracking-widest text-[#fdeb7c] uppercase">บริการลูกค้า</p>
 
         <a
           href="/line"
           class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B900] to-[#009900] py-3.5 font-bold text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-          ติดต่อแอดมิน หวย365 ทาง LINE 24 ชม.
+          ติดต่อแอดมิน {BRAND_NAME} ทาง LINE 24 ชม.
         </a>
 
         {
@@ -109,17 +120,17 @@ const shortcuts = [
           )
         }
 
-        <div class="mt-2 text-xs font-medium text-[#f6e7e0]">ช่องทางธุรกรรมที่ระบบรองรับ:</div>
+        <div class="mt-2 text-xs font-medium text-[#fcd4c3]">ช่องทางธุรกรรมที่ระบบรองรับ:</div>
         <BankStrip size={30} />
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#c08a07] pt-8 text-xs font-medium text-[#f6e7e0] md:flex-row">
-      <p>COPYRIGHT &copy; {new Date().getFullYear()} หวย365 ALL RIGHTS RESERVED.</p>
+    <div class="flex flex-col items-center justify-between border-t border-[#5c3f12] pt-8 text-xs font-medium text-[#f5e7c8] md:flex-row">
+      <p>COPYRIGHT &copy; {new Date().getFullYear()} {BRAND_NAME} ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/terms/" class="transition-colors hover:text-white">เงื่อนไขและข้อตกลง</a>
-        <a href="/privacy/" class="transition-colors hover:text-white">นโยบายความเป็นส่วนตัว</a>
-        <a href="#top" class="transition-colors hover:text-white">กลับขึ้นบน</a>
+        <a href="/terms/" class="transition-colors hover:text-[#fdeb7c]">เงื่อนไขและข้อตกลง</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#fdeb7c]">นโยบายความเป็นส่วนตัว</a>
+        <a href="#top" class="transition-colors hover:text-[#fdeb7c]">กลับขึ้นบน</a>
       </div>
     </div>
   </div>

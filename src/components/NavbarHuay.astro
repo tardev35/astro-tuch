@@ -1,6 +1,7 @@
 ---
 import { isActivePath } from "../lib/nav";
 import { Picture } from "astro:assets";
+import { BRAND_NAME } from "../lib/brandProfile";
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", { eager: true });
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
@@ -8,29 +9,30 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = "โลโก้ หวย365 ตัวอักษรเอียงหนาทึบบนพื้นขาว คำว่า หวย เป็นสีแดงสด ตามด้วยเลข 365 ที่สลับสีดำ แดง ดำ";
+const logoAlt = `โลโก้ ${BRAND_NAME} มงกุฎทองวางอยู่บนลูกบอลหวยสีทองที่มีเลข 9 ถัดมาด้านขวาเป็นตัวอักษรไทยสามมิติสีทองว่า ${BRAND_NAME}`;
 
-// หวย365 (รอบแดงสด-ทอง 2026-10-03): แถบบนพื้นดำอมแดง #140203 ขอบแดงแบรนด์
-// #dc0203 ซึ่งมาจาก vivid ของ logo.webp ตรงๆ (#dc0203 #e00104 #e2020a เป็นแดง
-// ล้วนทั้งชุด) สถานะ active เป็นแดงสว่าง #f5282a ทองเป็นสีรอง #ffc93c ตามเหรียญ
-// ทองกับตัวอักษรบนแบนเนอร์ ตัวอักษรรองเป็นครีมอมชมพู #f6e7e0 = BRAND_TEXT
+// หวยคิง (รอบทองบนดำอมน้ำตาล 2026-10-04): แถบบนพื้นดำลึก #0c0b0a ขอบทองแบรนด์
+// #cd9a2c ซึ่งอ่านมาจากตัวงานศิลป์จริง (โลโก้มงกุฎ/ลูกบอลหวยเป็นทองโลหะ) สถานะ
+// active เป็นทองสว่าง #fdeb7c คู่สีรองเป็นครีมอมพีช #fcd4c3 / #fce2d4 ตามชุดขาว
+// ของนางแบบใน slide1/slide2 ตัวอักษรรองเป็นครีมทอง #f5e7c8 = BRAND_TEXT
 //
-// รอบก่อน (NATO168) เป็นเว็บสล็อตโทนทอง-เงิน-ดำ ชุดเดิมในไฟล์นี้เป็นของ หวยเฮง789
-// (#1c0606 #2b0909 #dc2224 #e43434 #f4bc5d #ffefc2 #a8690c #d99a10 #fbe3d4 #ab0204)
-// ถูกแทนครบทุกจุดแล้ว — แดงของ หวยเฮง789 เป็น #dc2224 ที่อมชมพู ส่วนแดงของแบรนด์นี้
-// เป็น #dc0203 ที่อิ่มกว่าและเอียงไปทางส้มเล็กน้อย จึงไม่ใช่การยกค่าเดิมมาใช้ซ้ำ
+// ชุดเดิมในไฟล์นี้เป็นของ หวย365 ซึ่งเป็นแดงสด-ทอง
+// (#140203 #dc0203 #f5282a #ffc93c #ffeab0 #8c0402 #3a0a0c #c08a07 #f6e7e0 #1a0303)
+// ถูกแทนครบทุกจุดแล้ว — รอบนี้ไม่มีแดงเหลืออยู่เลย และไม่มีเงินโครเมียมของ UP555
+// (#d5d4d3 / #f3f3f2) ด้วย เพราะคู่สีรองรอบนี้เป็นครีมอมพีช ไม่ใช่เงิน
 //
-// หมึกบนปุ่มสมัครเป็น #1a0303 บนทอง — ปลายล่างของไล่เฉดจึงต้องจบที่ #c08a07
-// (6.4:1) ห้ามจบที่ทองที่เข้มกว่านี้ และห้ามเปลี่ยนปุ่มนี้ไปเป็นไล่เฉดแดงโดยคง
-// หมึกเข้มไว้ เพราะแดงแบรนด์ #dc0203 กับหมึก #1a0303 ได้แค่ 2.8:1 — ถ้าจะใช้
-// พื้นแดง ต้องสลับหมึกเป็นขาว (ขาวบน #dc0203 ≈ 5.1:1 และตัวอักษรบนปุ่มเป็น bold
-// ทุกตัว) หมึกทองอ่อนบนแดงยิ่งแย่กว่า ห้ามใช้
+// คู่พื้น-หมึกของปุ่มสมัคร ตรวจค่าใหม่แล้วทั้งไล่เฉด: หมึก #120a02 บนทองสว่าง
+// #fdeb7c ≈ 16.8:1 · บนทองแบรนด์ #cd9a2c ≈ 7.7:1 · บนทองลึก #ab7314 ≈ 4.9:1
+// ปลายล่างของไล่เฉดจึงจบที่ #ab7314 ได้พอดี ห้ามจบที่ทองที่เข้มกว่านี้โดยคงหมึก
+// เข้มไว้ และห้ามเปลี่ยนปุ่มนี้เป็นพื้นทองอ่อนแล้วใส่หมึกครีม (#fce2d4 บน #cd9a2c
+// ได้แค่ ~1.9:1) ถ้าจะปรับสีปุ่มรอบหน้า ต้องคิดคู่พื้น-หมึกใหม่ทุกครั้ง
 //
 // icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
 // ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
 //
-// ไอคอนเลือกตามแนวหวยล้วน ไม่ใช่แนวสล็อต/คาสิโน: 🔎 ตรวจหวย · 📊 แนวทาง ·
-// 🎱 ทดลองเล่น (ลูกบอลหวยแดง-ขาวในแบนเนอร์) · 🎫 โปรโมชั่น (โพย/ใบหวยในอาร์ตเวิร์ก)
+// ไอคอนเลือกตามแนวหวยล้วน ไม่ใช่แนวสล็อต/คาสิโน: 🎫 โปรโมชั่น (โพย/ใบสลากใน
+// อาร์ตเวิร์ก) · 🔢 ตรวจหวย (ตัวเลขผลรางวัล) · 📊 แนวทาง (สถิติ) · 🎱 ทดลองเล่น
+// (ลูกบอลหวยในแบนเนอร์) · 👑 เกี่ยวกับเรา (มงกุฎจากโลโก้)
 //
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -39,38 +41,50 @@ const logoAlt = "โลโก้ หวย365 ตัวอักษรเอี�
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
 // และมีลิงก์จาก footer)
 //
-// แถวเมนูเดสก์ท็อปรอบนี้มี 9 รายการ เพราะ /ตรวจหวย กับ /แนวทาง กลับเข้ามา —
+// แถวเมนูเดสก์ท็อปรอบนี้มี 9 รายการ เพราะ /ตรวจหวย กับ /แนวทาง อยู่ในเมนู —
 // ที่ช่วง lg จึงลดเป็น text-xs tracking-normal gap-2 แล้วค่อยคืนเป็น text-sm
 // tracking-wide gap-5 ที่ xl และ **ห้ามใส่ whitespace-nowrap กลับเข้าไป**:
 // ถ้าแถวแน่นเกิน โหมดพังของ nowrap คือรายการถูกตัดหายออกนอกขอบ (คลิกไม่ได้และ
 // มองไม่เห็นว่ามีอยู่) ส่วนโหมดพังของแบบปล่อยให้ตัดบรรทัดคือ label ขึ้นสองบรรทัด
 // ในแถบสูง 85px ซึ่งยังเห็นครบและกดได้ทุกอัน — เลือกอย่างหลังโดยตั้งใจ
 //
-// /ตรวจหวย และ /แนวทาง อยู่ในเมนูรอบนี้ เพราะ หวย365 เป็นเว็บหวยล้วนและทั้งสองไฟล์
-// ถูกย้ายกลับมาอยู่ใน src/pages/ แล้ว — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ถ้าแบรนด์ถัดไป
-// ไม่ใช่เว็บหวย ต้องถอดทั้งไฟล์และลิงก์ออกพร้อมกัน ไม่งั้น verify-build จะฟ้อง
-// href ที่ชี้ไป route ที่ไม่มีจริง
+// /ตรวจหวย และ /แนวทาง อยู่ในเมนูรอบนี้ เพราะ หวยคิง เป็นเว็บหวยล้วนและทั้งสองไฟล์
+// อยู่ใน src/pages/ แล้ว — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ถ้าแบรนด์ถัดไปไม่ใช่เว็บหวย
+// ต้องถอดทั้งไฟล์และลิงก์ออกพร้อมกัน ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป
+// route ที่ไม่มีจริง
+//
+// เมนูประกาศที่เดียว (const menu) แล้วทั้งแถวเดสก์ท็อปและลิ้นชักมือถือ map จาก
+// ตัวเดียวกัน — ห้ามแยกเป็นสองอาร์เรย์ ไม่งั้นรอบหน้าจะมีคนแก้แค่ฝั่งเดียว
 const menu = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎫" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔎" },
+  { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔢" },
   { name: "แนวทาง", path: "/แนวทาง", icon: "📊" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎱" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏛️" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👑" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
-  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#dc0203]/55 bg-[#140203]/95 px-4 shadow-[0_5px_20px_rgba(8,1,1,0.75)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#ffc93c]/25 bg-[#ffc93c]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
+  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#cd9a2c]/55 bg-[#0c0b0a]/95 px-4 shadow-[0_5px_20px_rgba(5,4,3,0.8)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#cd9a2c]/25 bg-[#cd9a2c]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
-          <Picture src={mainLogo} alt={logoAlt} loading="eager" widths={[130, 260, 390]} sizes="130px" class="h-[45px] w-auto drop-shadow-md xl:h-[55px]" formats={["avif", "webp"]} fallbackFormat="webp" />
+          <Picture
+            src={mainLogo}
+            alt={logoAlt}
+            loading="eager"
+            widths={[130, 260, 390]}
+            sizes="130px"
+            class="h-[45px] w-auto drop-shadow-md xl:h-[55px]"
+            formats={["avif", "webp"]}
+            fallbackFormat="webp"
+          />
         ) : (
-          <p class="rounded-md bg-[#dc0203] px-3 py-1 text-2xl font-black tracking-widest text-white drop-shadow-md">หวย365</p>
+          <p class="rounded-md bg-[#cd9a2c] px-3 py-1 text-2xl font-black tracking-widest text-[#120a02] drop-shadow-md">{BRAND_NAME}</p>
         )
       }
     </a>
@@ -80,11 +94,11 @@ const menu = [
         menu.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1 px-1 text-center text-xs font-bold tracking-normal uppercase transition-colors xl:gap-1.5 xl:text-sm xl:tracking-wide ${isActive(item.path) ? "text-[#f5282a]" : "text-[#f6e7e0]/80 hover:text-white"}`}>
+            class={`group relative flex h-full items-center gap-1 px-1 text-center text-xs font-bold tracking-normal uppercase transition-colors xl:gap-1.5 xl:text-sm xl:tracking-wide ${isActive(item.path) ? "text-[#fdeb7c]" : "text-[#f5e7c8]/80 hover:text-[#fce2d4]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#ffeab0] via-[#f5282a] to-[#8c0402] shadow-[0_-2px_10px_rgba(220,2,3,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] shadow-[0_-2px_10px_rgba(205,154,44,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -94,32 +108,35 @@ const menu = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden rounded-full border-2 border-[#ffc93c]/35 bg-[#3a0a0c]/60 px-6 py-2.5 text-sm font-bold text-[#f6e7e0] backdrop-blur-md transition-all hover:border-[#ffc93c]/70 hover:bg-[#ffc93c]/10 xl:flex">
+        class="hidden rounded-full border-2 border-[#cd9a2c]/35 bg-[#1c140b]/70 px-6 py-2.5 text-sm font-bold text-[#fcd4c3] backdrop-blur-md transition-all hover:border-[#cd9a2c]/70 hover:bg-[#cd9a2c]/10 hover:text-[#fce2d4] xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] px-6 py-2.5 text-sm font-black text-[#1a0303] shadow-[0_4px_15px_rgba(255,201,60,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,201,60,0.65)] xl:flex">
+        class="hidden rounded-full bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] px-6 py-2.5 text-sm font-black text-[#120a02] shadow-[0_4px_15px_rgba(205,154,44,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(205,154,44,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
-      <button id="hamburger-btn" class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#ffc93c]/35 bg-[#3a0a0c]/70 lg:hidden" aria-label="Menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ffc93c] transition-all duration-300"></span>
+      <button
+        id="hamburger-btn"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#cd9a2c]/35 bg-[#1c140b]/80 lg:hidden"
+        aria-label="เปิดเมนูหลัก">
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fdeb7c] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fdeb7c] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fdeb7c] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#dc0203]/60 bg-[#140203]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#cd9a2c]/60 bg-[#0c0b0a]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         menu.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#f5282a] bg-[#f5282a]/10 text-[#f5282a]" : "text-[#f6e7e0]/80 hover:bg-[#ffc93c]/5 hover:text-white"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#fdeb7c] bg-[#fdeb7c]/10 text-[#fdeb7c]" : "text-[#f5e7c8]/80 hover:bg-[#cd9a2c]/10 hover:text-[#fce2d4]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -129,10 +146,10 @@ const menu = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#ffeab0] via-[#ffc93c] to-[#c08a07] py-3.5 text-lg font-black text-[#1a0303] shadow-[0_5px_15px_rgba(255,201,60,0.45)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] py-3.5 text-lg font-black text-[#120a02] shadow-[0_5px_15px_rgba(205,154,44,0.45)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#ffc93c]/35 bg-[#3a0a0c]/60 py-3.5 text-lg font-bold text-[#f6e7e0]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#cd9a2c]/35 bg-[#1c140b]/70 py-3.5 text-lg font-bold text-[#fcd4c3]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

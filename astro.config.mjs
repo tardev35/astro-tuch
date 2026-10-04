@@ -37,7 +37,10 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  site: "https://up555bet.co",
+  // โดเมนไทย (IDN) — ตัว URL จะถูก normalize เป็น punycode
+  // xn----0wfj9hyax1e.com เองโดย new URL() ทั้ง canonical, sitemap, robots.txt
+  // และ JSON-LD จึงออกเป็น punycode ตรงกันหมด ไม่ต้องแปลงเอง
+  site: "https://หวย-คิง.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

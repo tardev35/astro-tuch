@@ -20,34 +20,42 @@ const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 // one card repeated twice. The flip is why `titleleft` is the wide text column's
 // heading in this file and the narrow column is the one that takes the picture.
 //
-// หวย365 (รอบแดงสด-ทอง-ดำ 2026-10-03): เว็บแทงหวยออนไลน์ พาเลตต์จาก logo.webp ที่
-// vivid เป็นแดงล้วน (#dc0203 #e00104 #e2020a) และ dominant เป็นดำ #020202 ส่วนทอง
-// มาจากตัวอักษรบนสไลด์ การ์ดใบนี้เป็น "การ์ดทึบ" ของคู่ — พื้นการ์ด #240406 ทึบ ไม่ไล่เฉด
-// อย่างใบคู่ และกรอบเป็นแดงแบรนด์ #dc0203 ไม่ใช่ทองลึก เพื่อให้สองบล็อกต่างกันตั้งแต่ขอบ
-// กรอบสว่างขึ้นเป็นทองแบรนด์ #ffc93c ตอน hover ออร่ามุมขวาบนเป็นแดงแบรนด์ตามผ้าซาติน
-// แดงในงานอาร์ต มุมซ้ายล่างเป็นทองแบรนด์ตามเหรียญทอง เส้นคั่นสองคอลัมน์เป็นทองลึก
-// #c08a07 หัวข้อไล่กลับทางกับใบคู่ คือแดงสว่าง #f5282a → ทองแบรนด์ #ffc93c → ทองอ่อน
-// #ffeab0 (ปลายแดงสว่างได้ 4.8:1 บนผิวการ์ด ส่วนแดงแบรนด์ #dc0203 ได้ 3.7:1 จึงไม่เอามา
-// เป็นสีตัวอักษร ใช้เป็นเส้นกับออร่าเท่านั้น) คอลัมน์แคบใช้ #f6e7e0 แบบลดความทึบ ไม่ใช่เฉดใหม่
-// ที่คิดขึ้นเอง เนื้อความ #f6e7e0 (BRAND_TEXT)
+// ความกว้างจริงของคอลัมน์แคบ (3fr) ที่หน้าแรกคิด `sizes` จาก — ถ้าแก้ค่าใดต่อไปนี้
+// ต้องไปแก้ `sizes` ใน src/pages/index.astro ด้วย:
+//   section max-w-[1400px] + px-4(16) · card md:p-10(40) · gap-8(32) · คอลัมน์แคบ md:pl-6(24)
+//   ≥1400px: (1400 − 32 − 80 − 32) × 0.3 − 24 = 1256 × 0.3 − 24 = 353px
+//   768–1399px: (100vw − 144) × 0.3 − 24 = calc(30vw − 67px)
+//   ≤767px: ยุบเหลือคอลัมน์เดียว card p-8(32) → 100vw − 32 − 64 = calc(100vw − 96px)
+// md:border-r 1px อยู่ในกล่องของคอลัมน์ซ้าย (border-box) จึงไม่กินความกว้างคอลัมน์ขวา
 //
-// ชุดของ LOTTO24 ที่เคยค้างในไฟล์นี้ (#2a0405 #a16207 #fbbf24 #fde68a #fc2b2c #d9b3b3
-// #f6e2e2) ออกครบทุกจุดแล้ว
+// หวยคิง (รอบทองโลหะ + ครีมอมพีช บนดำอมน้ำตาล 2026-10-04): brand-spec §2
+// บนหน้าแรกรอบนี้กล่องนี้ถือ docx H3 #4 ("2ตัว จ่าย100บาท") คู่กับ slide2 ซึ่งเป็น
+// งานอาร์ตที่พิมพ์ข้อความนั้นไว้บนตัวภาพเอง
+//
+// การ์ดใบนี้เป็น "การ์ดทึบ" ของคู่ — ผิวการ์ด #1c140b ทึบ ไม่ไล่เฉดอย่างใบคู่ และ
+// กรอบเป็นทองแบรนด์ #cd9a2c ไม่ใช่เส้นจาง เพื่อให้สองบล็อกต่างกันตั้งแต่ขอบ
+// กรอบสว่างขึ้นเป็นทองสว่าง #fdeb7c ตอน hover ออร่ามุมขวาบนเป็นทองแบรนด์ตามเหรียญ
+// ทองในงานอาร์ต มุมซ้ายล่างเป็นครีมอมพีช #fcd4c3 ตามชุดขาวของนางแบบ เส้นคั่นสอง
+// คอลัมน์เป็นเส้นจาง #5c3f12 หัวข้อไล่ทองสว่าง #fdeb7c → ทองแบรนด์ #cd9a2c →
+// ครีมอมพีช #fcd4c3 เนื้อความ #f5e7c8 (= BRAND_TEXT) glow เป็น rgba(205,154,44,…)
+//
+// ชุดแดงสด-ทอง-ดำของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #f5282a #ffc93c #ffeab0
+// #240406 #c08a07 #f6e7e0 rgba(255,201,60,…) rgba(8,1,2,…)) ออกครบทุกจุดแล้ว
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#dc0203]/55 bg-[#240406]/90 p-8 text-[#f6e7e0] shadow-[0_10px_30px_rgba(8,1,2,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#ffc93c]/65 hover:shadow-[0_15px_40px_rgba(255,201,60,0.28)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#dc0203]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#f5282a]/34">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#cd9a2c]/55 bg-[#1c140b]/92 p-8 text-[#f5e7c8] shadow-[0_10px_30px_rgba(12,11,10,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#fdeb7c]/70 hover:shadow-[0_15px_40px_rgba(205,154,44,0.28)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#cd9a2c]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#fdeb7c]/34">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#ffc93c]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#ffeab0]/30">
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#fcd4c3]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#fce2d4]/28">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-3 border-b border-[#c08a07]/60 pb-6 text-left text-base leading-relaxed text-[#f6e7e0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#5c3f12] pb-6 text-left text-base leading-relaxed text-[#f5e7c8] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
-            <HeadingTag class="mb-1 bg-gradient-to-r from-[#f5282a] via-[#ffc93c] to-[#ffeab0] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm">
+            <HeadingTag class="mb-1 bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#fcd4c3] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm">
               {titleleft}
             </HeadingTag>
           )
@@ -55,10 +63,10 @@ const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-2 text-left text-base leading-relaxed font-medium text-[#f6e7e0]/80 md:pl-6">
+      <article class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#f5e7c8] md:pl-6">
         {
           titleright && (
-            <HeadingTag class="bg-gradient-to-r from-[#f5282a] via-[#ffc93c] to-[#ffeab0] bg-clip-text text-center text-xl leading-normal font-black tracking-wide text-transparent uppercase drop-shadow-[0_0_5px_rgba(255,201,60,0.3)] md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#fcd4c3] bg-clip-text text-center text-xl leading-normal font-black tracking-wide text-transparent uppercase drop-shadow-[0_0_5px_rgba(205,154,44,0.3)] md:text-left">
               {titleright}
             </HeadingTag>
           )

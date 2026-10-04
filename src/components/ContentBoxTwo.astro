@@ -10,9 +10,9 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎰" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎟️" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a game-category
+// Without a `title` this box carries chrome (a login widget, a lottery-list
 // panel), never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
@@ -25,28 +25,32 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// UP555 (รอบทอง + เงินโครเมียม บนดำอมน้ำตาล 2026-10-03): โลโก้เป็นสองโลหะจริง — ตัว U
-// กับตัวอักษร UP เป็นเงินโครเมียม (dominant #d5d4d3 #dcdcdb #f3f3f2) ส่วนลูกศร วงรี
-// และเลข 555 เป็นทองเมทัลลิก (vivid #ebbb54 #fce675 #ab6d24) สองคอลัมน์ของกล่องนี้จึง
-// ถูกแยกด้วยคู่โลหะนั้นตรงๆ ไม่ใช่ด้วยความสว่างของสีเดียว — ฝั่งซ้ายเป็นทอง ป้ายไอคอน
-// ไล่ทองสว่าง #fce675 → ทองแบรนด์ #ebbb54 → ทองลึก #ab6d24 บนหมึกเข้ม #160d02 (พื้น
-// ทองสว่างต้องใช้หมึกเข้มเสมอ) ส่วนฝั่งขวาเป็นเงิน ป้ายไอคอนไล่เงินสว่าง #f3f3f2 →
-// เงินโครเมียม #d5d4d3 → ทองลึก #ab6d24 บนหมึกเข้มเดียวกัน ป้ายคอลัมน์ซ้ายเป็นทอง
-// แบรนด์ ฝั่งขวาเป็นเงินโครเมียม ซึ่งอยู่บนพื้นเพจดำอมน้ำตาล ไม่ได้อยู่บนพื้นสี หัวข้อ
-// docx (เมื่อมีการส่ง title มา) ไล่ทองสว่าง → ทองแบรนด์ → ทองลึก เส้นคั่นเป็นทองลึก
-// #6b4517 ทั้งสองฝั่ง เนื้อความ #f8eed9 (BRAND_TEXT)
+// หวยคิง (รอบทองโลหะ + ครีมอมพีช บนดำอมน้ำตาล 2026-10-04): brand-spec §2
+// งานอาร์ตรอบนี้มีคู่สีจริงสองสี — ทองโลหะของมงกุฎ/ลูกบอลหวย/ตัวอักษร "หวยคิง"
+// กับครีมอมพีชของชุดขาวนางแบบใน slide1/slide2 (`dominant` ของ slide1 คือ #fcd4c3)
+// สองคอลัมน์ของกล่องนี้จึงถูกแยกด้วยคู่นั้นตรงๆ ไม่ใช่ด้วยความสว่างของสีเดียว —
+// ฝั่งซ้ายเป็นทอง ป้ายไอคอนไล่ทองสว่าง #fdeb7c → ทองแบรนด์ #cd9a2c → ทองลึก #ab7314
+// บนหมึกเข้ม #120a02 (พื้นทองสว่างต้องใช้หมึกเข้มเสมอ) ป้ายคอลัมน์เป็นทองแบรนด์
+// #cd9a2c ส่วนฝั่งขวาเป็นครีม ป้ายไอคอนไล่ครีมอ่อน #fce2d4 → ครีมอมพีช #fcd4c3 →
+// ทองลึก #ab7314 บนหมึกเดียวกัน ป้ายคอลัมน์เป็น #fcd4c3 ทั้งคู่วางอยู่บนพื้นเพจดำ
+// อมน้ำตาล ไม่ได้อยู่บนพื้นสี หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองสว่าง →
+// ทองแบรนด์ → ทองลึก เส้นคั่นเป็นเส้นจาง #5c3f12 ทั้งสองฝั่ง
+// เนื้อความ #f5e7c8 (= BRAND_TEXT) glow เป็น rgba(205,154,44,…)
 //
-// ชุดเขียวมรกต-แดงสด-ทองของ DM899 ที่เคยค้างในไฟล์นี้ (#01a326 #4ade6b #12c23a
-// #01841b #fb252b #ff6b6e #8f0609 #0a4a18 #06140a #ffe9a8 #f2b422 #e4f2e4)
-// ออกครบทุกจุดแล้ว
+// ไอคอนเริ่มต้นเป็น 🔐 / 🎟️ — รอบนี้เป็นเว็บหวยล้วน ไม่ใช่คาสิโน ค่าเริ่มต้น 🎰 เดิม
+// จึงถูกถอดออก (LoginRtpSection ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
+//
+// ชุดทอง + เงินโครเมียมของ UP555 ที่เคยค้างในไฟล์นี้ (#ebbb54 #fce675 #ab6d24
+// #d5d4d3 #f3f3f2 #6b4517 #241705 #160d02 #f8eed9 rgba(235,187,84,…)
+// rgba(213,212,211,…)) ออกครบทุกจุดแล้ว — ครีมอมพีชมาแทนเงินโครเมียม
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#6b4517] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fce675] via-[#ebbb54] to-[#ab6d24] shadow-[0_0_10px_rgba(235,187,84,0.5)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#fce675] via-[#ebbb54] to-[#ab6d24] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#5c3f12] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] shadow-[0_0_10px_rgba(205,154,44,0.5)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -54,13 +58,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f8eed9]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5e7c8]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#6b4517] pb-3 text-xl leading-normal font-black tracking-widest text-[#ebbb54] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#5c3f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#cd9a2c] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fce675]/70 bg-gradient-to-br from-[#fce675] via-[#ebbb54] to-[#ab6d24] text-sm text-[#160d02] shadow-[0_5px_15px_rgba(235,187,84,0.40)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fdeb7c]/70 bg-gradient-to-br from-[#fdeb7c] via-[#cd9a2c] to-[#ab7314] text-sm text-[#120a02] shadow-[0_5px_15px_rgba(205,154,44,0.40)]">
               {iconleft}
             </span>
             {titleleft}
@@ -70,13 +74,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f8eed9]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5e7c8]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#6b4517] pb-3 text-xl leading-normal font-black tracking-widest text-[#d5d4d3] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#5c3f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#fcd4c3] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#f3f3f2]/70 bg-gradient-to-br from-[#f3f3f2] via-[#d5d4d3] to-[#ab6d24] text-sm text-[#160d02] shadow-[0_5px_15px_rgba(213,212,211,0.35)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fce2d4]/70 bg-gradient-to-br from-[#fce2d4] via-[#fcd4c3] to-[#ab7314] text-sm text-[#120a02] shadow-[0_5px_15px_rgba(252,212,195,0.35)]">
               {iconright}
             </span>
             {titleright}
