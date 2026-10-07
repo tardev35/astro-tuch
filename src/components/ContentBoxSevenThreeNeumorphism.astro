@@ -14,11 +14,11 @@ const leftHeading = titleleft ?? title;
 // wrapper <div>.
 //
 // Column order: TEXT (7fr) then IMAGE (3fr) — the mirror of
-// ContentBoxSevenThreeCyberCut, which runs image-then-text. The home page
-// renders one of each, so the two image+text blocks alternate sides instead of
-// stacking both pictures down the same edge. The wide column is therefore the
-// LEFT one and `title` falls back to it, so a caller that passes a single docx
-// heading gets it on the prose, never on the picture.
+// ContentBoxSevenThreePremium, which runs image-then-text. The home page renders
+// one of each, so the two image+text blocks alternate sides instead of stacking
+// both pictures down the same edge. The wide column is therefore the LEFT one
+// and `title` falls back to it, so a caller that passes a single docx heading
+// gets it on the prose, never on the picture.
 //
 // Only one column ever carries a heading on the page — the image column is
 // passed no `titleright`, so this block emits exactly one docx heading. The
@@ -27,37 +27,43 @@ const leftHeading = titleleft ?? title;
 // the slot down instead of covering it.
 //
 // Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-[1400px] + px-4, card p-8, grid gap-8, image column md:pl-8):
-//   >= 1400px : (1400 - 32 - 64 - 32) x 0.3 - 32 = 349.6 -> 350px
+// (section max-w-[1400px] + px-4(16×2=32), card p-8(32×2=64), grid gap-8(32),
+// image column md:pl-8(32)):
+//   >= 1400px : (1400 - 32 - 64 - 32) x 0.3 - 32 = 1272 x 0.3 - 32 = 349.6 -> 350px
 //   md..1399  : (100vw - 128) x 0.3 - 32          = calc(30vw - 70px)
 //   < md      : one column at p-8                 = calc(100vw - 96px)
 // Change any of those four numbers and the page's `sizes` has to move with it.
 //
-// HI59 (รอบฟ้า-ทองบนการ์ดสว่าง 2026-10-07, brand-spec §2): รอบนี้ neumorphism กลับมา
-// อยู่ในรูปแบบที่มันเกิดมาเพื่อสิ่งนี้จริงๆ คือแผ่นนูนบนผิวสว่าง ไม่ใช่บนผิวเกือบดำ —
-// ผิวแผ่นเป็นฟ้าน้ำแข็ง #e7f2fd กดเงาลงด้วยฟ้าหม่น #bed4e9 และยกแสงขึ้นด้วยขาวบริสุทธิ์
-// #ffffff ซึ่งเป็นคู่มืด/สว่างในโทนเดียวตามที่ความนูนแบบนี้ต้องการ ตอน hover เงาฝั่งสว่าง
-// ไต่ขึ้นเป็นทองแบรนด์ #fdbc04 ซึ่งเป็นสีที่โลโก้ใช้กับตัวเลข 59
-// หัวข้อรับทองหมึก #8a6102 ไว้เป็นตัวเน้นเพียงจุดเดียว (10.3:1 บนผิวแผ่น) คู่กับ
-// SevenThreeCyberCut ที่อยู่เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นฟ้าลึกทึบในการ์ดมุมตัด
-// สองบล็อกจึงคนละจังหวะสายตาทั้งรูปทรง ด้านที่วางรูป และสี กรอบการ์ดเป็นทองแบรนด์
-// เส้นคั่นคอลัมน์เป็นฟ้าขอบการ์ด #9ecbf2 เนื้อความ #0d2744 (= BRAND_TEXT)
+// BOOM369 (รอบเขียวนีออน-เงิน บนดำสนิท 2026-10-07, brand-spec §2): กล่องนี้ถือ
+// docx H3 #5 ("แนะนำเพื่อน โบนัส 0.8%") คู่กับ slide2 ซึ่งพิมพ์ข้อความนั้นไว้บนตัวภาพ
 //
-// ชุดแดงแบรนด์+ทองของ หวย24 ที่เคยค้างในไฟล์นี้ (#170707 #050101 #2a0606 #7a0505
-// #f5c33b #ff3b3b #f7e2d6) ออกครบทุกจุดแล้ว
+// แผ่นนูนใบนี้เป็นใบที่ลึกที่สุดในสามแผ่นนูนของหน้า: ผิวแผ่นเป็นผิวลึกสุด #041109
+// กดเงาลงด้วยดำสนิท #000000 และยกแสงขึ้นด้วยผิวการ์ดยก #0b231b ซึ่งเป็นคู่มืด/สว่าง
+// ในโทนเดียวตามที่ความนูนแบบนี้ต้องการ ตอน hover เงาฝั่งสว่างไต่ขึ้นเป็นเขียวนีออน
+// #42fb5a (ContentBoxTwoNeumorphism ใช้ผิว #0b231b และ ContentBoxNeumorphism ใช้
+// ผิว #07170f จึงไม่ซ้ำกันทั้งสามใบ)
+// หัวข้อรับเขียวนีออนทึบสีเดียว #42fb5a เป็นตัวเน้นเพียงจุดเดียว (14.6:1 บนผิวแผ่น)
+// คู่กับ SevenThreePremium ที่อยู่เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นไล่สามสีใน
+// การ์ดไล่เฉดกรอบเขียวลึก สองบล็อกจึงคนละจังหวะสายตาทั้งรูปทรง ด้านที่วางรูป และสี
+// กรอบการ์ดเป็นเขียวนีออนโปร่ง เส้นคั่นคอลัมน์เป็นเขียวลึก #036b26
+// เนื้อความ #cfe9d7 (= BRAND_TEXT)
+//
+// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#e7f2fd #bed4e9 #ffffff
+// #fdbc04 #8a6102 #9ecbf2 #0d2744) ออกครบทุกจุดแล้ว — รอบนี้เป็นการพลิกขั้วกลับจาก
+// การ์ดสว่างเป็นการ์ดมืด ไม่ใช่การเปลี่ยนเบอร์สีบนโครงเดิม
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#fdbc04]/55 bg-[#e7f2fd] p-8 shadow-[10px_10px_20px_#bed4e9,-10px_-10px_20px_#ffffff] transition-all duration-300 hover:shadow-[15px_15px_30px_#bed4e9,-15px_-15px_30px_#fdbc04]">
+    class="w-full rounded-[25px] border border-[#42fb5a]/35 bg-[#041109] p-8 shadow-[10px_10px_20px_#000000,-10px_-10px_20px_#0b231b] transition-all duration-300 hover:shadow-[15px_15px_30px_#000000,-15px_-15px_30px_#42fb5a]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0d2744]">
-        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#8a6102]">{leftHeading}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe9d7]">
+        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#42fb5a]">{leftHeading}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0d2744] md:border-l md:border-[#9ecbf2] md:pl-8">
-        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#8a6102]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe9d7] md:border-l md:border-[#036b26] md:pl-8">
+        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#42fb5a]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

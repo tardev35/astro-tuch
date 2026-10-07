@@ -17,48 +17,49 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //
 // ความกว้างจริงของคอลัมน์แคบ (3fr ฝั่งซ้าย) ที่หน้าแรกคิด `sizes` จาก — ถ้าแก้ค่าใด
 // ต่อไปนี้ต้องไปแก้ `sizes` ใน src/pages/index.astro ด้วย:
-//   section max-w-7xl(1280) + px-4(16) · card md:p-10(40) · gap-10(40) · คอลัมน์แคบไม่มี padding ใน
-//   ≥1312px: (1280 − 32 − 80 − 40) × 0.3 = 1128 × 0.3 = 338px
+//   section max-w-7xl(1280) + px-4(16×2=32) · card md:p-10(40×2=80) · gap-10(40)
+//   คอลัมน์แคบไม่มี padding ใน
+//   ≥1312px: (1280 − 32 − 80 − 40) × 0.3 = 1128 × 0.3 = 338.4 → 338px
 //   768–1311px: (100vw − 152) × 0.3 = calc(30vw − 46px)
-//   ≤767px: ยุบเหลือคอลัมน์เดียว card p-8(32) → 100vw − 32 − 64 = calc(100vw − 96px)
+//   ≤767px: ยุบเหลือคอลัมน์เดียว card p-8(32×2=64) → 100vw − 32 − 64 = calc(100vw − 96px)
 // md:border-l 1px อยู่ในกล่องของคอลัมน์ขวา จึงไม่กินความกว้างคอลัมน์ซ้าย
 //
-// หวยดีใจ (รอบแดงแบรนด์ + เงินโครเมียม บนดำอมแดง 2026-10-04): brand-spec §2
-// บนหน้าแรกรอบนี้กล่องนี้ถือ docx H3 #4 ("2ตัว จ่าย100บาท") คู่กับ slide2 ซึ่งเป็น
-// งานอาร์ตที่พิมพ์ข้อความนั้นไว้บนตัวภาพเอง
+// BOOM369 (รอบเขียวนีออน-เงิน บนดำสนิท 2026-10-07, brand-spec §2): บนหน้าแรกรอบนี้
+// กล่องนี้ถือ docx H3 #4 ("คืนยอดเสีย โบนัส 0.3%") คู่กับ slide1 ซึ่งเป็นงานอาร์ตที่
+// พิมพ์ข้อความนั้นไว้บนตัวภาพเอง
 //
-// นี่คือครึ่ง "การ์ดไล่เฉด กรอบแดงดำ" ของคู่บล็อกรูป+ข้อความ ส่วน
-// ContentBoxSevenThreeHuay ที่เป็นคู่กันเป็นการ์ดผิวทึบ กรอบแดงแบรนด์ สองบล็อกนี้
-// วางติดกันบนหน้าแรก (2ตัว จ่าย100บาท แล้วค่อย 3ตัว จ่าย1,000บาท) จึงต้องไม่อ่าน
-// เป็นการ์ดใบเดียวกันซ้ำสองรอบ และรูปถูกวางสลับฝั่งกัน — ที่นี่รูปอยู่คอลัมน์ซ้าย 3fr
-// ข้อความอยู่ขวา 7fr ส่วนอีกใบกลับด้านเป็น 7fr_3fr ให้ข้อความอยู่ซ้ายและรูปอยู่ขวา
+// นี่คือครึ่ง "การ์ดไล่เฉด กรอบเขียวลึก" ของคู่บล็อกรูป+ข้อความ ส่วน
+// ContentBoxSevenThreeNeumorphism ที่เป็นคู่กันเป็นแผ่นนูนผิวลึก สองบล็อกนี้วางติดกัน
+// บนหน้าแรก (คืนยอดเสีย 0.3% แล้วค่อย แนะนำเพื่อน 0.8%) จึงต้องไม่อ่านเป็นการ์ดใบ
+// เดียวกันซ้ำสองรอบ และรูปถูกวางสลับฝั่งกัน — ที่นี่รูปอยู่คอลัมน์ซ้าย 3fr ข้อความอยู่
+// ขวา 7fr ส่วนอีกใบกลับด้านเป็น 7fr_3fr ให้ข้อความอยู่ซ้ายและรูปอยู่ขวา
 //
-// ผิวการ์ดไล่จากผิวยก #211016 ลงไปหาพื้นลึกสุด #0d0407 กรอบและเส้นคั่นกลางเป็น
-// แดงดำ #4b0205 (ไม่ใช่กรอบแดงแบรนด์แบบการ์ดคู่ของมัน) สว่างขึ้นเป็นแดงแบรนด์
-// #dc0409 ตอน hover ออร่ามุมซ้ายบนเป็นแดงแบรนด์ มุมขวาล่างเป็นเงินกลาง #c3c7d1
-// หัวข้อไล่เงินสว่าง #eef0f4 → ทอง #f3c54e → แดงแบรนด์ #dc0409 ซึ่งเป็นลำดับสีคนละ
-// ชุดกับการ์ดคู่ของมันที่ไล่ทองไปหาเงิน เนื้อความ #edeaf0 (= BRAND_TEXT)
-// glow เป็น rgba(220,4,9,…)
+// ผิวการ์ดไล่จากผิวยก #0b231b ลงไปหาพื้นลึกสุด #041109 กรอบและเส้นคั่นกลางเป็น
+// เขียวลึก #036b26 (ไม่ใช่กรอบเขียวนีออนแบบ ContentBoxPremium) สว่างขึ้นเป็นเขียว
+// นีออน #42fb5a ตอน hover ออร่ามุมซ้ายบนเป็นเขียวนีออน มุมขวาล่างเป็นเงินโครเมียม
+// #dadcdc หัวข้อไล่ขาว #ffffff → ทอง #f3c44a → เขียวนีออน #42fb5a ซึ่งเป็นลำดับสี
+// คนละชุดกับการ์ดคู่ของมันที่ใช้นีออนทึบสีเดียว เนื้อความ #cfe9d7 (= BRAND_TEXT)
+// glow เป็น rgba(66,251,90,…)
 //
-// ชุดทองโลหะ + ครีมอมพีชของ หวยคิง ที่เคยค้างในไฟล์นี้ (#cd9a2c #fdeb7c #ab7314
-// #fcd4c3 #fce2d4 #1c140b #0c0b0a #5c3f12 #f5e7c8 rgba(205,154,44,…))
+// ชุดแดงแบรนด์ + เงินโครเมียมของ หวยดีใจ ที่เคยค้างในไฟล์นี้ (#dc0409 #f5363d
+// #4b0205 #211016 #0d0407 #eef0f4 #c3c7d1 #f3c54e #edeaf0 rgba(220,4,9,…))
 // ออกครบทุกจุดแล้ว
 const rightHeading = titleright ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#4b0205] bg-gradient-to-br from-[#211016]/96 to-[#0d0407]/96 p-8 text-[#edeaf0] shadow-[0_10px_30px_rgba(0,0,0,0.80)] backdrop-blur-xl transition-all duration-500 hover:border-[#dc0409]/80 hover:shadow-[0_15px_40px_rgba(220,4,9,0.32)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#dc0409]/28 blur-[60px] transition-all duration-500 group-hover:bg-[#f5363d]/38">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#036b26] bg-gradient-to-br from-[#0b231b]/96 to-[#041109]/96 p-8 text-[#cfe9d7] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#42fb5a]/80 hover:shadow-[0_15px_40px_rgba(66,251,90,0.32)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#42fb5a]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#42fb5a]/38">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#c3c7d1]/16 blur-[60px] transition-all duration-500 group-hover:bg-[#eef0f4]/26">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#dadcdc]/14 blur-[60px] transition-all duration-500 group-hover:bg-[#dadcdc]/24">
     </div>
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#edeaf0]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe9d7]">
         {
           titleleft && (
-            <HeadingTag class="bg-gradient-to-r from-[#eef0f4] via-[#f3c54e] to-[#dc0409] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#ffffff] via-[#f3c44a] to-[#42fb5a] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
               {titleleft}
             </HeadingTag>
           )
@@ -66,10 +67,10 @@ const rightHeading = titleright ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#edeaf0] md:border-l md:border-[#4b0205] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#cfe9d7] md:border-l md:border-[#036b26] md:pl-10">
         {
           rightHeading && (
-            <HeadingTag class="mb-2 bg-gradient-to-r from-[#eef0f4] via-[#f3c54e] to-[#dc0409] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
+            <HeadingTag class="mb-2 bg-gradient-to-r from-[#ffffff] via-[#f3c44a] to-[#42fb5a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
               {rightHeading}
             </HeadingTag>
           )

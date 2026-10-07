@@ -37,11 +37,12 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://hi59.info — ASCII ล้วน ไม่ต้องแปลง punycode
-  // แบบรอบก่อน (หวยดีใจ.com -> xn--82cx5btt7d4e.com)
-  // canonical, sitemap, robots.txt และ JSON-LD ทุกตัวอนุมานจากค่านี้ค่าเดียว
-  // ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://hi59.info",
+  // โดเมนจริงรอบนี้คือ https://boom-369.com — ASCII ล้วน ไม่ต้องแปลง punycode
+  // แบบรอบก่อนๆ (หวยดีใจ.com -> xn--82cx5btt7d4e.com)
+  // ⚠️ โดเมนมีขีดคั่น แต่ชื่อแบรนด์ไม่มี (BOOM369) — สะกดคนละแบบโดยตั้งใจ
+  // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
+  // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
+  site: "https://boom-369.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
