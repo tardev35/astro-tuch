@@ -37,12 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://boom-369.com — ASCII ล้วน ไม่ต้องแปลง punycode
+  // โดเมนจริงรอบนี้คือ https://uok-365.co — ASCII ล้วน ไม่ต้องแปลง punycode
   // แบบรอบก่อนๆ (หวยดีใจ.com -> xn--82cx5btt7d4e.com)
-  // ⚠️ โดเมนมีขีดคั่น แต่ชื่อแบรนด์ไม่มี (BOOM369) — สะกดคนละแบบโดยตั้งใจ
+  // ⚠️ โดเมนมีขีดคั่น แต่ชื่อแบรนด์ไม่มี (UOK365) — สะกดคนละแบบโดยตั้งใจ
+  // และ TLD รอบนี้เป็น .co ไม่ใช่ .com อย่ามองข้าม
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://boom-369.com",
+  site: "https://uok-365.co",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

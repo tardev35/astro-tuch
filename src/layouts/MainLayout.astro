@@ -5,22 +5,22 @@ import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
 import { BRAND_NAME, BRAND_TEXT, brandProfile, fontStack, iconVersion } from "../lib/brandProfile";
 import { canonicalFor } from "../lib/schema";
-// การหมุน variant รอบนี้ (HI59 -> BOOM369): NavbarStyle6 -> NavbarCyber และ
-// FooterStyle3 -> FooterCyber มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
+// การหมุน variant รอบนี้ (BOOM369 -> UOK365): NavbarCyber -> NavbarPremium และ
+// FooterCyber -> FooterPremium มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
 // จึงแปลว่าเปลี่ยนว่า import ชี้ไปไฟล์ไหน ไฟล์เดิมยังอยู่ครบในฐานะ inventory
 //
-// NavbarCyber เป็นแถบแนวนอนเต็มความกว้างที่ตัดมุมด้วย clip-path พร้อมขีดใต้
-// เรืองแสงใต้เมนูที่ active (คนละทรงกับ NavbarStyle6 ที่เป็นรางเมนูแนวตั้งลอย
-// ชิดซ้ายบนเดสก์ท็อป) คู่กับ FooterCyber ที่เป็นทรงตัดมุมหลังคาแหลมกลางจอบน
-// ตารางเส้นพื้นหลัง (คนละทรงกับ FooterStyle3 ที่เป็นกริด 12 คอลัมน์และมีการ์ด
-// CTA ลอยคร่อมขอบบน)
+// NavbarPremium เป็นแถบโค้งมนลอยติดบนสุด มีปุ่ม CTA คู่ทรงแคปซูลมุมขวาและขีดใต้
+// เมนูที่ active เป็นแท่งไล่เฉด (คนละทรงกับ NavbarCyber ที่ตัดมุมด้วย clip-path
+// เต็มความกว้าง) คู่กับ FooterPremium ที่เป็นกริด 12 คอลัมน์ขอบบนโค้ง 3rem มีออรา
+// เรืองอยู่เหนือขอบ (คนละทรงกับ FooterCyber ที่เป็นหลังคาแหลมกลางจอบนตารางเส้น)
 //
-// ทั้งคู่ถูก retheme เป็นเขียวนีออนของ BOOM369 บนพื้นเขียวเกือบดำก่อนต่อเข้ามา
-// และ **ถอดลิงก์ /ตรวจหวย กับ /แนวทาง ออกจาก directory ของ FooterCyber** (ซึ่ง
-// ยังค้างมาจากตอนที่ไฟล์นี้เป็นของแบรนด์หวย) เพราะ BOOM369 เป็นเว็บสล็อตเบทต่ำ
-// ไม่ใช่เว็บหวย — สองหน้านั้นอยู่ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์
-import Navbar from "../components/NavbarCyber.astro";
-import Footer from "../components/FooterCyber.astro";
+// ทั้งคู่ถูก retheme เป็นทองเมทัลลิก-เงินโครเมียมของ UOK365 บนพื้นน้ำตาลเกือบดำ
+// ก่อนต่อเข้ามา และ **ถอดลิงก์ /ตรวจหวย กับ /แนวทาง ออกจาก directory ของ
+// FooterPremium** (ซึ่งค้างมาจากตอนที่ไฟล์นี้เป็นของแบรนด์หวย) เพราะ UOK365 เป็น
+// เว็บสล็อตเบทต่ำ ไม่ใช่เว็บหวย — สองหน้านั้นอยู่ใน src/pages-disabled/ จึงไม่มี
+// route ให้ลิงก์ และ verify-build จะแดงถ้าเหลือไว้ (ฟุตเตอร์ขึ้นทุกหน้า)
+import Navbar from "../components/NavbarPremium.astro";
+import Footer from "../components/FooterPremium.astro";
 
 // Only banner1 is ever rendered, so only banner1 is imported.
 //
@@ -67,8 +67,8 @@ const mobileBanner = mobileBannerPath ? mobileBannerImages[mobileBannerPath].def
 const mobileBannerImg = mobileBanner ? await getImage({ src: mobileBanner, widths: [360, 480, 640, 828, 1080], format: "avif", quality: 60 }) : null;
 
 const {
-  title = "BOOM369 สุดยอดเกมสล็อตเบทต่ำ เว็บเดิมพัน ทางเข้าหลัก ปลอดภัย100%",
-  description = "BOOM369 สุดยอดเกมสล็อตเบทต่ำ มีทุนน้อยก็เล่นได้ เว็บเดิมพัน ทางเข้าหลัก รวมเกมค่ายตรง ถูกลิขสิทธิ์ ปลอดภัย100%",
+  title = `${BRAND_NAME} สุดยอดเกมสล็อตเบทต่ำ เว็บเดิมพัน ทางเข้าหลัก ปลอดภัย100%`,
+  description = `${BRAND_NAME} สุดยอดเกมสล็อตเบทต่ำ มีทุนน้อยก็เล่นได้ เว็บเดิมพัน ทางเข้าหลัก รวมเกมค่ายตรง ถูกลิขสิทธิ์ ปลอดภัย100%`,
   robots = "index, follow",
 } = Astro.props;
 
@@ -264,7 +264,7 @@ const profile = brandProfile(Astro.site);
         {mobileBannerImg && <source media="(max-width: 767px)" type="image/avif" srcset={mobileBannerImg.srcSet.attribute || mobileBannerImg.src} sizes="100vw" />}
         <Image
           src={mainBanner}
-          alt="แบนเนอร์ BOOM369 ฉากห้องโถงมืดที่ส่องด้วยแสงนีออนสีเขียว มีเหรียญทองและชิปคาสิโนสีเขียวทองลอยอยู่รอบภาพ ด้านซ้ายเป็นหญิงสาวผมยาวสีขาวเงิน สวมชุดสีขาวสลับเขียวมรกตขลิบทอง ติดป้ายชื่อ BOOM369 ที่หน้าอก และยื่นมือซ้ายออกมาข้างหน้า ด้านขวาเป็นโลโก้ BOOM369 ในวงแหวนเขียว ถัดลงมาเป็นข้อความตัวหนาขนาดใหญ่ว่า BOOM369 โดยคำว่า BOOM เป็นเขียวนีออนและเลข 369 เป็นขาวเงิน ใต้ลงมาเป็นข้อความไทยว่า สุดยอดเกมสล็อตเบทต่ำ พร้อมมงกุฎทองทางขวา และใต้สุดเป็นป้ายพื้นเข้มมีไอคอนโล่ติ๊กถูกสีเขียวคาดข้อความว่า เว็บเดิมพัน ทางเข้า หลัก ปลอดภัย100%"
+          alt={`แบนเนอร์ ${BRAND_NAME} ฉากโถงคาสิโนสีดำที่ส่องด้วยแสงทอง มีเส้นโค้งทองพาดเป็นวงรอบภาพ พร้อมเหรียญทอง ชิปคาสิโนดำ-ทอง ลูกเต๋าดำ ไพ่โพดำ และวงล้อรูเล็ตกระจายอยู่ ด้านซ้ายเป็นหญิงสาวผมยาวสีขาวเงิน สวมสูทสีขาวครีม ใส่ต่างหูทองและสร้อยคอ ยื่นฝ่ามือขวาออกมาข้างหน้า ด้านขวาบนเป็นโลโก้ ${BRAND_NAME} ตัวอักษร UOK สีทองเมทัลลิกวางทับเลข 365 สีเงินโครเมียมในวงแหวนทอง ถัดลงมาเป็นข้อความตัวหนาขนาดใหญ่สีทองว่า UOK365 ใต้ลงมาเป็นข้อความไทยว่า รวมสล็อต โดยคำว่า รวมสล็อต เป็นทองและคำว่า มือถือออนไลน์ เป็นขาวเงิน และใต้สุดเป็นป้ายขอบทองคาดข้อความว่า เบาคาร่า แทงบอล หวย ยิงปลา ครบ`}
           loading="eager"
           fetchpriority="high"
           widths={[412, 640, 828, 1024, 1280, 1600, 1900]}

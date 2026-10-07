@@ -12,38 +12,43 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // No level is hardcoded in the markup below — `as` decides it every time. The
 // header has no `whitespace-nowrap`: a full docx sentence has to wrap.
 //
-// HI59 (รอบฟ้า-ทองบนการ์ดสว่าง 2026-10-07, brand-spec §2): รอบนี้กลับขั้วจากทุก
-// แบรนด์ก่อนหน้า — การ์ดเนื้อหาเป็น "กระจกน้ำแข็งสว่าง" ไม่ใช่ผิวเกือบดำ เพราะโลโก้
-// เป็นฟ้า-ทองบนพื้นใส แบนเนอร์กับสไลด์เป็นท้องฟ้ากลางวัน และ bg.json ของดรอปนี้
-// เป็นสีพื้นม่วงฟ้าอ่อน #c1cce6
-// หน้านี้มีการ์ดมุมตัดสามใบ จึงแยกด้วย "ระดับความสว่างของผิว" ไม่ใช่แค่คนละสีหัวข้อ —
-// ใบนี้เป็นผิวสว่างที่สุด #f6fbff · TwoCyberCut เป็น #e7f2fd · SevenThreeCyberCut
-// เป็น #d3e7fa ที่ลึกที่สุดในสามใบ
-// เส้นรูดสี่มุมจับคู่ฟ้า-ทองของโลโก้ (ตัวอักษร HI ฟ้า กับตัวเลข 59 ทอง) ไขว้กัน —
-// ฟ้าแบรนด์ #0a84e0 คู่ฟ้าเรือง #5ec2ff บนแนวหนึ่ง ทองแบรนด์ #fdbc04 คู่ทองเข้ม
-// #c88a02 บนอีกแนวหนึ่ง หัวข้อไล่กรมท่าหัวข้อ #06355f → ฟ้าแบรนด์ → ทองเข้ม
-// #c88a02 คือเข้ม-ฟ้า-ทอง ซึ่งเป็นลำดับเดียวบนหน้านี้ที่จบด้วยทองเข้ม ทองสว่าง
-// #fdbc04 บนพื้นขาวอ่านไม่ออก จึงไม่เคยถูกใช้เป็นสีตัวอักษรบนการ์ดสว่าง
-// เนื้อความกรมท่าเข้ม #0d2744 (= BRAND_TEXT) เงาเป็นเงาฟ้าอ่อน rgba(6,53,95,…)
-// ไม่ใช่เงาดำทึบแบบรอบการ์ดมืด
+// This round the page hands this box a single <div> in its default slot holding
+// the section's two brief paragraphs plus the LINE / สมัครสมาชิก button row, so
+// the house rule of exactly ONE element per slot still holds. (ContentBoxSpecial,
+// which used to carry that button row in its own `actions` slot, is rotated out
+// this round and stays on disk as inventory.)
 //
-// ชุดแดงแบรนด์+ทองของ หวย24 ที่เคยค้างในไฟล์นี้ (#170707 #0a0303 #d20a0a #ff3b3b
-// #f5c33b #ffd45e #a9761a #f7e2d6) ออกครบทุกจุดแล้ว
+// UOK365 (รอบทองเมทัลลิก-เงินโครเมียม บนน้ำตาลเกือบดำ 2026-10-07, brand-spec §2):
+// รอบนี้กลับขั้วจาก HI59 — การ์ดเนื้อหาเป็นผิวน้ำตาลเกือบดำ ไม่ใช่กระจกน้ำแข็งสว่าง
+// เพราะโลโก้เป็นทองเมทัลลิกกับเงินโครเมียมบนพื้นดำ แบนเนอร์กับสไลด์เป็นโถงดำที่ส่อง
+// ด้วยแสงทอง และ bg.json ของดรอปนี้เป็น {"mode":"color","color":"#000000"}
+// หน้านี้มีการ์ดมุมตัดสามใบ จึงแยกด้วย "ระดับความลึกของผิว" ไม่ใช่แค่คนละสีหัวข้อ —
+// ใบนี้เป็นผิวยกที่สว่างที่สุด #191108 · TwoCyberCut เป็นผิวกลาง #120c07 ·
+// SevenThreeCyberCut เป็นผิวลึกสุด #070504
+// เส้นรูดสี่มุมจับคู่สองโลหะของโลโก้ (UOK ทอง กับ 365 เงิน) ไขว้กัน — ทองแบรนด์
+// #c8912f คู่ทองอ่อน #f5d98a บนแนวหนึ่ง เงินโครเมียม #d8dbe0 คู่ทองลึก #6d4412 บน
+// อีกแนวหนึ่ง หัวข้อไล่ทองอ่อน #f5d98a → ทองแบรนด์ #c8912f → เงินโครเมียม #d8dbe0
+// คือ ทอง-ทอง-เงิน ซึ่งเป็นลำดับเดียวบนหน้านี้ที่จบด้วยเงิน ทองลึก #6d4412 บนผิว
+// การ์ดอ่านไม่ออก (2.3:1 บนพื้นทอง / ต่ำบนพื้นมืด) จึงไม่เคยถูกใช้เป็นสีตัวอักษร
+// เนื้อความงาช้างอมอุ่น #ece1cc (= BRAND_TEXT) — 13.4:1 บนผิวใบนี้
+//
+// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#f6fbff #9ecbf2 #0a84e0
+// #5ec2ff #fdbc04 #c88a02 #06355f #0d2744 rgba(6,53,95,…)) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-6 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl border border-[#9ecbf2] bg-[#f6fbff]/96 p-8 text-left text-base leading-relaxed text-[#0d2744] shadow-[0_10px_30px_rgba(6,53,95,0.16)] backdrop-blur-md"
+    class="relative isolate w-full max-w-7xl border border-[#c8912f]/40 bg-[#191108]/96 p-8 text-left text-base leading-relaxed text-[#ece1cc] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md"
     style="clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#0a84e0] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#5ec2ff] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#fdbc04] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#c88a02] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#c8912f] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#f5d98a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#d8dbe0] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#6d4412] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-6 border-l-4 border-[#fdbc04] pl-6">
-          <HeadingTag class={`bg-gradient-to-r from-[#06355f] via-[#0a84e0] to-[#c88a02] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
+        <header class="mb-6 border-l-4 border-[#c8912f] pl-6">
+          <HeadingTag class={`bg-gradient-to-r from-[#f5d98a] via-[#c8912f] to-[#d8dbe0] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
         </header>
       )
     }

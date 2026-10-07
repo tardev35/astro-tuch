@@ -4,7 +4,12 @@ export interface Props {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, as: HeadingTag = "h2" } = Astro.props;
-const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "text-lg sm:text-xl md:text-2xl";
+// The h1 case runs one step SMALLER at base width than the h2 case does at sm,
+// on purpose: this box carries the page's longest sentence (the docx H1) inside
+// a floating badge, and every extra pixel of font size there turns into another
+// wrapped line and another 28px of card padding. It catches up at sm/md, where
+// the badge is wide enough to afford it.
+const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
 
 // Flattened single-slot variant: `isolate` on the card, `-z-10` on both aura
 // layers, the slot renders as a direct child. Do not re-add a wrapper <div>.
@@ -17,63 +22,71 @@ const headingSize = HeadingTag === "h1" ? "text-xl sm:text-2xl md:text-3xl" : "t
 // are `absolute` hairlines, so 100% of the badge's inner width belongs to the
 // title.
 //
-// BADGE CLEARANCE RE-DERIVED FOR HI59 (2026-10-07). This box carries docx H2 #3:
-//   "โปรโมชั่นเล่นสล็อต HI59 โบนัสสูง ให้เยอะกว่าใคร"
-// 47 code points; 9 of them are zero-width Thai marks, so it advances 39 cells
-// including its 3 spaces. Its four space-delimited chunks measure 14 / 4 / 6 / 12
-// cells, and the worst case assumed below is that the line breaker only breaks at
-// those 3 spaces (no Thai dictionary breaking). That is a SHORTER sentence than
-// the H1 the previous brand put in this file, which is why the padding comes down
-// from pt-44/md:pt-40 to pt-32/md:pt-28.
+// BADGE CLEARANCE RE-DERIVED FOR UOK365 (2026-10-07). This box carries docx H1 #1:
+//   "UOK365 สุดยอดเกมสล็อตเบทต่ำ รวมเกมค่ายตรง ถูกลิขสิทธิ์"
+// 54 code points; 9 of them are zero-width Thai marks, so it advances 45 cells
+// including its 3 spaces. Its four space-delimited chunks measure
+// 6 / 17 / 12 / 7 cells, and the worst case assumed below is that the line
+// breaker only breaks at those 3 spaces (no Thai dictionary breaking). No single
+// chunk is wider than one line at any width, so nothing can overflow sideways.
+// This is the LONGEST sentence the brief has, which is why the padding goes UP
+// from the pt-32/md:pt-28 the previous brand's H2 needed to a flat pt-36.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
-// and its bottom edge sits at that minus 24px (`-top-6`), measured from the
-// card's top. Text width = badge width - horizontal padding - border:
+// with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
+// minus 24px (`-top-6`), measured from the card's top. Text width = badge width
+// - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
-//               text-lg 18px -> ~10.4px/cell = 21 cells/line, 27px/line.
-//               Greedy at the 3 spaces: 14+1+4 | 6+1+12 -> 2 lines.
-//               Budget 3 lines = 3x27 + 24 = 105, edge 81 vs pt-32/128px
-//                                                       -> 47px clear
+//               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
+//               Greedy at the 3 spaces: 6 | 17 | 12+1+7 -> 3 lines.
+//               Budget 4 lines = 4x27 + 24 = 132, edge 108 vs pt-36/144px
+//                                                        -> 36px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
-//               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               All 39 cells on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
-//               vs pt-32/128px (sm inherits it)            -> 68px clear
+//               text-2xl 24px -> ~13.9px/cell = 35 cells/line, 36px/line.
+//               6+1+17 | 12+1+7 -> 2 lines. Budget 3 = 3x36 + 24 = 132,
+//               edge 108 vs pt-36/144px (sm inherits it)   -> 36px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               1 line. Budget 2 = 2x36 + 24 = 96, edge 72
-//               vs md:pt-28/112px                          -> 40px clear
-// So the padding RISES as the screen narrows (pt-32 base, md:pt-28), which is
-// the right way round: the badge wraps to more lines on a phone, not on a desk.
-// Do NOT shrink either value assuming the next brand's heading is shorter — redo
-// the arithmetic with that brand's real docx sentence.
+//               text-2xl stays (the h1 size tops out at sm) -> 43 cells/line,
+//               36px/line. 6+1+17+1+12 | 7 -> 2 lines.
+//               Budget 3 = 3x36 + 24 = 132, edge 108
+//               vs pt-36/144px                             -> 36px clear
+// One flat pt-36 covers every width with exactly 36px of daylight, because the
+// h1 size stops growing at sm: the badge keeps getting wider while the line box
+// stays 36px, so the worst case is the same at every breakpoint. Do NOT shrink
+// it assuming the next brand's heading is shorter — redo the arithmetic with
+// that brand's real docx sentence.
 //
-// HI59 (รอบฟ้า-ทองบนการ์ดสว่าง 2026-10-07, brand-spec §2): การ์ดเนื้อหาสว่างไล่จาก
-// #f6fbff ลงไปหา #e7f2fd ในกรอบฟ้าแบรนด์ #0a84e0 ซึ่งมาจาก vivid ของ logo.webp
-// (ตัวอักษร HI) ตรงๆ
+// UOK365 (รอบทองเมทัลลิก-เงินโครเมียม บนน้ำตาลเกือบดำ 2026-10-07, brand-spec §2):
+// การ์ดไล่จากผิวยก #191108 ลงไปหาผิวกลาง #120c07 ในกรอบทองแบรนด์ #c8912f ซึ่งมาจาก
+// vivid อันดับ 1 ของ logo.webp (#a46b25) ปรับให้สว่างพอเป็นเส้นขอบได้
 // จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นทองทึบ" ไม่ใช่แผ่นสีเดียวกับการ์ด — ไล่ทองอ่อน
-// #ffe27a → ทองแบรนด์ #fdbc04 → ทองเข้ม #c88a02 บนหมึกกรมท่า #04203f ตามกฎ
-// คอนทราสต์ของ §2 ที่ว่าพื้นทองต้องใช้หมึกเข้มเสมอ ห้ามใช้ตัวอักษรขาว/ครีม
-// (#04203f บนปลายไล่เฉดที่เข้มสุดคือ #c88a02 ได้ 4.9:1) ป้ายจึงเป็นจุดเดียวบนหน้านี้
-// ที่หัวข้อเป็นหมึกทึบบนพื้นทอง แทนที่จะเป็นตัวอักษรไล่เฉดบนพื้นสว่าง และทำให้มันไม่จม
-// ไปกับขอบการ์ดตอนที่มันคร่อมเส้นขอบอยู่
-// ออร่าสองมุมเป็นคู่ฟ้า-ทองของโลโก้ เนื้อความ #0d2744 (= BRAND_TEXT)
+// #f5d98a ไปหาทองแบรนด์ #c8912f บนหมึก #191005 ตามกฎคอนทราสต์ของ §2 ที่ว่าพื้นทอง
+// ต้องใช้หมึกเข้มเสมอ ห้ามใช้ตัวอักษรขาว/งาช้าง (#191005 บนปลายไล่เฉดที่เข้มสุดคือ
+// #c8912f ได้ 6.5:1 — ปลายทองลึก #6d4412 ตกลงไปที่ 2.3:1 จึงไม่ถูกใช้เป็นพื้นของ
+// ตัวหนังสือที่ไหนในไฟล์นี้) ป้ายจึงเป็นจุดเดียวบนหน้านี้ที่หัวข้อเป็นหมึกทึบบนพื้นทอง
+// แทนที่จะเป็นตัวอักษรไล่เฉดบนพื้นมืด และทำให้มันไม่จมไปกับขอบการ์ดตอนที่มันคร่อม
+// เส้นขอบอยู่ ซึ่งเป็นขั้วตรงข้ามกับป้ายแผ่นดำของ ContentBoxTwoFloatingBadge ที่อยู่
+// ใต้ลงไปบนหน้าเดียวกัน — ป้ายลอยสองใบบนหน้าเดียวจึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ
+// ออร่าสองมุมเป็นคู่สองโลหะของโลโก้ (UOK ทอง / 365 เงิน) เนื้อความ #ece1cc
+// (= BRAND_TEXT) — 13.4:1 บนผิวยก
 //
-// ชุดแดงแบรนด์+ทองของ หวย24 ที่เคยค้างในไฟล์นี้ (#170707 #0a0303 #d20a0a #f5c33b
-// #ff3b3b #ffd45e #f7e2d6) ออกครบทุกจุดแล้ว
+// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#f6fbff #e7f2fd #0a84e0
+// #065a9c #04203f #fdbc04 #ffe27a #c88a02 #5ec2ff #0d2744 rgba(6,53,95,…)) ออกครบ
+// ทุกจุดแล้ว พร้อมกับชุดเขียวนีออนของ BOOM369 ซึ่งไม่เคยอยู่ในไฟล์นี้
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#0a84e0]/60 bg-gradient-to-b from-[#f6fbff] to-[#e7f2fd] p-8 pt-32 text-left text-base leading-relaxed text-[#0d2744] shadow-[0_10px_30px_rgba(6,53,95,0.18)] md:pt-28">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#5ec2ff]/45 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#fdbc04]/35 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#c8912f]/60 bg-gradient-to-b from-[#191108] to-[#120c07] p-8 pt-36 text-left text-base leading-relaxed text-[#ece1cc] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#c8912f]/35 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#d8dbe0]/14 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#065a9c]/70 bg-gradient-to-r from-[#ffe27a] via-[#fdbc04] to-[#c88a02] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(6,53,95,0.35)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#04203f] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#065a9c] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#04203f] uppercase`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#6d4412] bg-gradient-to-r from-[#f5d98a] to-[#c8912f] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#191005] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#6d4412] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#191005] uppercase`}>{title}</HeadingTag>
         </div>
       )
     }
