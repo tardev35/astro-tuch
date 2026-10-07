@@ -6,6 +6,8 @@ export interface Props {
   iconright?: string;
 }
 const { title, as: HeadingTag = "h2", iconleft = "📝", iconright = "🔍" } = Astro.props;
+const hasActions = Astro.slots.has("actions");
+
 // House rule: exactly ONE element per slot. Each <article> is a gap-4 flex row
 // whose first item is the icon box, so the slot's single element becomes its
 // sibling. Passing two blocks into one slot would put a gap between them.
@@ -14,65 +16,79 @@ const { title, as: HeadingTag = "h2", iconleft = "📝", iconright = "🔍" } = 
 // the icon box, so deleting them would turn each <p> into its own flex item
 // beside the icon. Do not flatten them.
 //
+// `actions` is a THIRD slot, added 2026-10-07, and it sits below the grid at full
+// width rather than inside either half — a call-to-action pair that belongs to
+// the whole section, not to one of its two paragraphs. It renders nothing at all
+// when the page does not pass it, so every other caller is unaffected. It is NOT
+// a slot wrapper being re-added: the two halves are untouched.
+//
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant is the one that fits a docx
 // section whose two paragraphs split cleanly in two.
 //
-// DM899 (รอบเขียวมรกต-แดงสด-ทอง บนดำอมเขียว 2026-10-03): สองครึ่งบนการ์ดดำอมเขียว
-// #0a1a0e แบรนด์นี้มีสองสีจริง (logo.webp คือตัว D เขียว vivid #01841b #018b1b
-// ซ้อนตัว M แดง #fb252b #bb0303 #f91c20 ตามด้วยเลข 899 โครเมียม ส่วนทองมาจาก
-// ตัวอักษรไล่เฉดบนแบนเนอร์) สองป้ายไอคอนจึงแยกกันด้วย "สองสีของแบรนด์" ไม่ใช่ระดับ
-// ความสว่างของสีเดียว — ป้ายซ้ายเป็นฝั่งเขียว ไล่เขียวสว่าง #4ade6b → เขียวสว่าง
-// กลาง #12c23a → เขียวแบรนด์ #01a326 และใช้หมึกบนพื้นสว่าง #06140a (วัดได้ 5.6:1
-// บนปลายไล่เฉดที่เข้มสุดคือ #01a326 ซึ่งเป็นเหตุผลที่ไล่ไม่จบลงไปถึงเขียวแกน
-// #01841b ที่ตกเหลือ 3.9:1) ส่วนป้ายขวาเป็นฝั่งแดง ไล่แดงอ่อน #ff6b6e → แดงแบรนด์
-// #fb252b → แดงลึก #8f0609 และใช้ตัวอักษร "ขาว" ไม่ใช่หมึกเข้ม เพราะหมึก #06140a
-// บนแดงแบรนด์ได้แค่ 2.8:1 (ตก) คู่นี้จึงอ่านเป็นเขียวนำ แดงตาม ตามโลโก้จริง กรอบ
-// และเส้นไรผมเป็นเขียวแบรนด์ #01a326 แถวในตกลงไปที่พื้นลึกสุด #030a05 หัวข้อไล่
-// ขาวนวล #e4f2e4 → เขียวสว่าง #4ade6b → แดงแบรนด์ #fb252b เนื้อความ #e4f2e4
-// (BRAND_TEXT)
+// HI59 (รอบฟ้า-ทองบนการ์ดสว่าง 2026-10-07, brand-spec §2): สองครึ่งบนการ์ดกระจก
+// น้ำแข็ง #f6fbff แบรนด์นี้มีสองสีจริง (logo.webp คือตัวอักษร HI ฟ้า vivid #0283e2
+// #0393ec ติดกับตัวเลข 59 ทอง #fdbc04 #fecc04 ในวงแหวนโค้งทอง-ฟ้า) สองป้ายไอคอนจึง
+// แยกกันด้วย "สองสีของแบรนด์" ไม่ใช่ระดับความสว่างของสีเดียว และแต่ละป้ายใช้หมึกคนละขั้ว
+// ตามกฎคอนทราสต์ §2 — ป้ายซ้ายเป็นฝั่งทอง ไล่ทองอ่อน #ffe27a → ทองแบรนด์ #fdbc04 →
+// ทองเข้ม #c88a02 และใช้หมึกกรมท่า #04203f (พื้นทองต้องใช้หมึกเข้มเสมอ ห้ามขาว/ครีม)
+// ส่วนป้ายขวาเป็นฝั่งฟ้า ไล่ฟ้าลึก #065a9c → #044b80 → #033f70 และใช้หมึกสว่าง
+// #eaf5ff (พื้นฟ้าเข้มต้องใช้หมึกสว่าง) ซึ่งเป็นคู่ไล่เฉดเดียวกับที่ §2 กำหนดให้ปุ่มฟ้า
+// สองครึ่งตกลงไปที่ผิวรอง #e7f2fd กรอบและเส้นไรผมเป็นฟ้าขอบการ์ด #9ecbf2
+// หัวข้อไล่ทองเข้ม #c88a02 → ฟ้าลึก #065a9c → กรมท่าหัวข้อ #06355f คือทอง-ฟ้า-เข้ม
+// ซึ่งเริ่มด้วยทองต่างจากกล่องอื่นบนหน้าเดียวกันที่เริ่มด้วยฟ้า เนื้อความ #0d2744
+// (= BRAND_TEXT)
 //
-// ชุดแดงสด-ทอง-ดำของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #f5282a #8c0402 #ffc93c
-// #ffeab0 #c08a07 #240406 #140203 #1a0303 #f6e7e0) ออกครบทุกจุดแล้ว
+// ชุดเขียวมรกต-แดงสด-ทองของ DM899 ที่เคยค้างในไฟล์นี้ (#0a1a0e #030a05 #01a326
+// #01841b #12c23a #4ade6b #0a4a18 #fb252b #ff6b6e #8f0609 #06140a #102a16 #e4f2e4)
+// ออกครบทุกจุดแล้ว
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#01a326]/55 bg-[#0a1a0e]/93 p-6 text-[#e4f2e4] shadow-[0_10px_30px_rgba(0,0,0,0.80)] backdrop-blur-xl transition-all duration-500 hover:border-[#12c23a]/75 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9ecbf2] bg-[#f6fbff]/95 p-6 text-[#0d2744] shadow-[0_10px_30px_rgba(6,53,95,0.16)] backdrop-blur-xl transition-all duration-500 hover:border-[#0a84e0]/80 md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#12c23a] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#0a84e0] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#0a4a18] pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#4ade6b] via-[#01a326] to-[#01841b] shadow-[0_0_10px_rgba(1,163,38,0.5)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#e4f2e4] via-[#4ade6b] to-[#fb252b] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#9ecbf2] pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdbc04] via-[#0a84e0] to-[#065a9c] shadow-[0_0_10px_rgba(10,132,224,0.45)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#c88a02] via-[#065a9c] to-[#06355f] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#0a4a18] bg-[#030a05]/95 p-6 text-left text-base leading-relaxed text-[#e4f2e4] transition-all duration-300 hover:-translate-y-2 hover:border-[#12c23a]/75 hover:bg-[#102a16] hover:shadow-[0_15px_40px_rgba(1,163,38,0.28)]">
+        class="relative flex gap-4 rounded-2xl border border-[#9ecbf2] bg-[#e7f2fd]/95 p-6 text-left text-base leading-relaxed text-[#0d2744] transition-all duration-300 hover:-translate-y-2 hover:border-[#fdbc04] hover:bg-[#f6fbff] hover:shadow-[0_15px_40px_rgba(200,138,2,0.26)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#4ade6b]/65 bg-gradient-to-br from-[#4ade6b] via-[#12c23a] to-[#01a326] text-2xl text-[#06140a] shadow-[0_5px_15px_rgba(1,163,38,0.40)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#c88a02]/65 bg-gradient-to-br from-[#ffe27a] via-[#fdbc04] to-[#c88a02] text-2xl text-[#04203f] shadow-[0_5px_15px_rgba(200,138,2,0.40)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#0a4a18] bg-[#030a05]/95 p-6 text-left text-base leading-relaxed text-[#e4f2e4] transition-all duration-300 hover:-translate-y-2 hover:border-[#fb252b]/70 hover:bg-[#102a16] hover:shadow-[0_15px_40px_rgba(251,37,43,0.28)]">
+        class="relative flex gap-4 rounded-2xl border border-[#9ecbf2] bg-[#e7f2fd]/95 p-6 text-left text-base leading-relaxed text-[#0d2744] transition-all duration-300 hover:-translate-y-2 hover:border-[#0a84e0] hover:bg-[#f6fbff] hover:shadow-[0_15px_40px_rgba(10,132,224,0.28)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#ff6b6e]/70 bg-gradient-to-br from-[#ff6b6e] via-[#fb252b] to-[#8f0609] text-2xl text-white shadow-[0_5px_15px_rgba(251,37,43,0.35)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#065a9c]/70 bg-gradient-to-br from-[#065a9c] via-[#044b80] to-[#033f70] text-2xl text-[#eaf5ff] shadow-[0_5px_15px_rgba(6,90,156,0.40)]">
           {iconright}
         </div>
         <slot name="right" />
       </article>
     </div>
+
+    {
+      hasActions && (
+        <div class="mt-8 border-t border-[#9ecbf2] pt-6">
+          <slot name="actions" />
+        </div>
+      )
+    }
   </div>
 </section>

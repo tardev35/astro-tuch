@@ -15,77 +15,85 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // viewport and forcing horizontal scroll on a phone. Re-checked for this brand:
 // no `whitespace-nowrap` survives anywhere in this file.
 //
-// It is absolutely positioned at -top-6, so the card's top padding has to clear
-// the badge's own height minus that 24px offset. RE-DERIVED for หวย24's
-// /about-us section title, "อัตราจ่ายเลข 2 ตัว และเลข 3 ตัว ของ หวย24" —
-// 40 code points, ~36 advancing glyphs once the 4 zero-width Thai marks
-// (ั ่ ่ ่) are discounted. That is a little over HALF the 65-glyph UP555 title
-// the previous pt-36/md:pt-40 pair was sized against, so the padding comes back
-// down a step to pt-32/md:pt-36 — tighter, and still with a full spare line of
-// budget. The heading carries `leading-normal` (1.5), the badge adds py-2.5
-// (20px) and border-2 (4px), and the two ✦ spans plus gap-2 take ~48px of the
-// line box:
-//   base  text-base 16px -> 24px/line, ~218px of text width at 360px
-//         (w-[92%] 302 - px-4 32 - border 4 - sparks 48) = ~24 glyphs/line,
-//         so 36 glyphs wraps to 2. Budget 3 lines = 3x24 + 24 = 96px,
-//         bottom edge 72px vs pt-32/128px              -> 56px clear
-//   sm    text-xl 20px -> 30px/line, ~473px of text width
-//         (w-[92%] 589 - px-8 64 - border 4 - sparks 48) = ~43 glyphs/line,
-//         so 1 line. Budget 2 lines = 2x30 + 24 = 84px,
-//         bottom edge 60px vs pt-32/128px              -> 68px clear
-//   md    text-2xl 24px -> 36px/line, max-w-2xl gives ~556px = ~42 glyphs/line,
-//         so 1 line. Budget 2 lines = 2x36 + 24 = 96px,
-//         bottom edge 72px vs md:pt-36/144px           -> 72px clear
-// Do not push it either way without redoing the arithmetic against the real
-// sentence the next brand puts in here. The sibling *FloatingBadge files are not
-// rendered by this page and carry their own padding as inventory; whichever
-// brand wires one in next owns that same derivation for its own title.
+// CHANGE THAT MADE THE NUMBERS WORK THIS ROUND: the two ✦ glyphs are out of the
+// line box. The previous owner put them INSIDE the flex row, where they plus
+// their gap-2 ate ~48px of every line at every width — a fifth of the text column
+// on a phone. They are a pair of `absolute` side rules now, so 100% of the
+// badge's inner width belongs to the title and the card's top padding comes down
+// with it.
 //
-// หวย24 (รอบแดงแบรนด์ + ทอง บนดำอมแดง 2026-10-04, brand-spec §2): การ์ดไล่จากผิว
-// การ์ดยก #230d0d ลงไปหาพื้นเพจ #0a0303 ในกรอบแดงแบรนด์ #d20a0a ซึ่งต่างจาก
-// ContentBoxCyberCut ที่เป็นมุมตัดไร้ป้ายลอย ป้ายหัวข้อลอยบนพื้นเพจ #0a0303 ใน
-// กรอบแดงแบรนด์ ประกายสองข้างแยกตามคู่สีของโลโก้ — แดงสว่าง #ff3b3b ฝั่งซ้ายตาม
-// วงกลม "24" สีแดง และทองแบรนด์ #f5c33b ฝั่งขวาตามเวิร์ดมาร์ก หวย24 ที่เป็นทอง
-// เมทัลลิกสวมมงกุฎ ตัวหัวข้อสานสองสีเข้าด้วยกัน ทองสว่าง #ffd45e → ทองแบรนด์
-// #f5c33b → แดงสว่าง #ff3b3b ซึ่งเป็นทิศเดียวกับหัวข้อของ ContentBox.astro ที่
-// orchestrator รีธีมไว้ ป้ายคอลัมน์ซ้ายเป็นทองสว่าง ฝั่งขวาเป็นแดงสว่าง เส้นคั่น
-// เป็นแดงลึก #7a0505 เนื้อความ #f7e2d6 (BRAND_TEXT)
+// BADGE CLEARANCE RE-DERIVED FOR HI59 (2026-10-07). This box carries docx H2 #6:
+//   "เว็บ HI59 ฝากถอนได้ทุกช่องทาง ยอดเข้าบริษัทตรง ไม่ผ่านม้า"
+// 56 code points; 9 of them are zero-width Thai marks, so it advances 47 cells
+// including its 4 spaces. Its five space-delimited chunks measure
+// 3 / 4 / 16 / 13 / 7 cells, and the worst case assumed below is that the line
+// breaker only breaks at those 4 spaces (no Thai dictionary breaking).
 //
-// ชุดทอง-เงินโครเมียมของ UP555 ที่เคยค้างในไฟล์นี้ (#ebbb54 #fce675 #d5d4d3
-// #ab6d24 #130b03 #0c0502 #6b4517 #f8eed9 rgba(235,187,84,*) rgba(213,212,211,*)
-// rgba(5,2,1,*)) ออกครบทุกจุดแล้ว
+// Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
+// and its bottom edge sits at that minus 24px (`-top-6`), measured from the
+// card's top. Text width = badge width - horizontal padding - border:
+//   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
+//               text-base 16px -> ~9.3px/cell = 24 cells/line, 24px/line.
+//               Greedy at the 4 spaces: 3+1+4 | 16 | 13+1+7 -> 3 lines.
+//               Budget 4 lines = 4x24 + 24 = 120, edge 96 vs pt-36/144px
+//                                                        -> 48px clear
+//   base 360px  badge 302, text 266 -> 28 cells/line. 25 | 21 -> 2 lines.
+//               Budget 4, same 96 edge                     -> 48px clear
+//   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
+//               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
+//               39 | 7 -> 2 lines. Budget 3 = 3x30 + 24 = 114, edge 90
+//               vs pt-36/144px (sm inherits it)            -> 54px clear
+//   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
+//               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
+//               39 | 7 -> 2 lines. Budget 3 = 3x36 + 24 = 132, edge 108
+//               vs pt-36/144px                             -> 36px clear
+// One flat pt-36 covers every width here because the wider badge at md buys back
+// exactly what the taller text-2xl line costs. Do not push it either way without
+// redoing the arithmetic against the real sentence the next brand puts in here.
+//
+// HI59 (รอบฟ้า-ทองบนการ์ดสว่าง 2026-10-07, brand-spec §2): การ์ดสว่างไล่จาก #e7f2fd
+// ขึ้นไปหา #f6fbff ในกรอบทองแบรนด์ #fdbc04 ซึ่งกลับทางกับ ContentBoxFloatingBadge ที่
+// ไล่สว่าง→หม่น ในกรอบฟ้า
+// ป้ายลอยของใบนี้เป็น "แผ่นกรมท่าเข้ม" #04203f บนการ์ดสว่าง ซึ่งเป็นขั้วตรงข้ามกับป้าย
+// ทองทึบของ ContentBoxFloatingBadge ที่อยู่เหนือขึ้นไปบนหน้าเดียวกัน — สองป้ายลอยบน
+// หน้าเดียวจึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ หัวข้อบนพื้นเข้มจึงไล่เฉดได้ตามปกติ
+// ขาวฟ้า #e4f1fd → ทองอ่อน #ffe27a → ฟ้าเรือง #5ec2ff (#e4f1fd บนพื้นกรมท่าได้
+// 13.8:1) ซึ่งเป็นจุดเดียวในไฟล์นี้ที่สีตัวอักษรชุดโครมถูกใช้ ตามกฎ §2 ที่ว่า #e4f1fd
+// ต้องอยู่บนผิวโครมเข้มเท่านั้น
+// ประกายสองข้างเป็นเส้นตั้งคู่ฟ้า-ทองของโลโก้แทนที่จะเป็นอักขระ ป้ายคอลัมน์ซ้ายเป็น
+// ทองหมึก #8a6102 ฝั่งขวาเป็นฟ้าลึก #065a9c ซึ่งสลับฝั่งกับ ContentBoxTwoCyberCut
+// เส้นคั่นเป็นฟ้าขอบการ์ด #9ecbf2 เนื้อความ #0d2744 (= BRAND_TEXT)
+//
+// ชุดแดงแบรนด์+ทองของ หวย24 ที่เคยค้างในไฟล์นี้ (#230d0d #0a0303 #d20a0a #ff3b3b
+// #f5c33b #ffd45e #7a0505 #f7e2d6) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#d20a0a] bg-gradient-to-b from-[#230d0d] to-[#0a0303] p-8 pt-32 shadow-[0_10px_40px_rgba(0,0,0,0.85)] md:pt-36">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ff3b3b]/26 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#f5c33b]/20 blur-[60px]"></div>
+    class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#fdbc04] bg-gradient-to-b from-[#e7f2fd] to-[#f6fbff] p-8 pt-36 shadow-[0_10px_40px_rgba(6,53,95,0.20)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#5ec2ff]/40 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#fdbc04]/35 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center gap-2 rounded-lg border-2 border-[#d20a0a]/80 bg-[#0a0303] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(210,10,10,0.35)] sm:px-8">
-          <span aria-hidden="true" class="shrink-0 text-[#ff3b3b]">
-            ✦
-          </span>
-          <HeadingTag class="bg-gradient-to-r from-[#ffd45e] via-[#f5c33b] to-[#ff3b3b] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-lg border-2 border-[#fdbc04]/80 bg-[#04203f] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(6,53,95,0.45)] sm:px-8">
+          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 left-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#5ec2ff] to-transparent" />
+          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 right-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#fdbc04] to-transparent" />
+          <HeadingTag class="bg-gradient-to-r from-[#e4f1fd] via-[#ffe27a] to-[#5ec2ff] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
-          <span aria-hidden="true" class="shrink-0 text-[#f5c33b]">
-            ✦
-          </span>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e2d6]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#ffd45e] drop-shadow-[0_0_5px_rgba(245,195,59,0.35)]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0d2744]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#8a6102]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e2d6] md:border-l md:border-[#7a0505] md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#ff3b3b] drop-shadow-[0_0_5px_rgba(210,10,10,0.4)]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0d2744] md:border-l md:border-[#9ecbf2] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#065a9c]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

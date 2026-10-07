@@ -37,13 +37,11 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://หวยดีใจ.com ซึ่งเป็น IDN ภาษาไทย — เขียนเป็น
-  // punycode ตรงนี้เพราะ new URL() จะ normalize ให้เป็นค่านี้อยู่ดี การเขียนรูป
-  // ที่ normalize แล้วลงไปเลยทำให้ canonical/sitemap/og:url ตรงกับค่าที่ทุก
-  // helper คำนวณได้ ไม่ต้องลุ้นว่าไฟล์ไหน encode เองไม่เหมือนกัน
+  // โดเมนจริงรอบนี้คือ https://hi59.info — ASCII ล้วน ไม่ต้องแปลง punycode
+  // แบบรอบก่อน (หวยดีใจ.com -> xn--82cx5btt7d4e.com)
   // canonical, sitemap, robots.txt และ JSON-LD ทุกตัวอนุมานจากค่านี้ค่าเดียว
   // ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://xn--82cx5btt7d4e.com",
+  site: "https://hi59.info",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

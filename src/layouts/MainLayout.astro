@@ -5,18 +5,21 @@ import ogImage from "../assets/slide1.png";
 import "../styles/global.css";
 import { BRAND_NAME, BRAND_TEXT, brandProfile, fontStack, iconVersion } from "../lib/brandProfile";
 import { canonicalFor } from "../lib/schema";
-// การหมุน variant รอบนี้ (หวย24 -> หวยดีใจ): NavbarStyle10 -> NavbarStyle8 และ
-// FooterStyle3 -> FooterPremium มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
+// การหมุน variant รอบนี้ (หวยดีใจ -> HI59): NavbarStyle8 -> NavbarStyle6 และ
+// FooterPremium -> FooterStyle3 มีได้ทีละตัวเท่านั้น การ "หมุน" ของสองตระกูลนี้
 // จึงแปลว่าเปลี่ยนว่า import ชี้ไปไฟล์ไหน ไฟล์เดิมยังอยู่ครบในฐานะ inventory
 //
-// NavbarStyle8 เป็นแถบเมนูแนวนอนพร้อมเส้นใต้ active + ลิ้นชักสไลด์จากขวาบนมือถือ
-// (คนละทรงกับ NavbarStyle10 ที่เป็นเมนูเต็มจอ) คู่กับ FooterPremium ที่เป็นกริด
-// 5-3-4 มุมบนโค้งใหญ่และมีออราเหนือขอบ (คนละทรงกับ FooterStyle3 ที่เป็นกริด 12
-// คอลัมน์พร้อมการ์ด CTA ลอยคร่อมขอบบน) ทั้งคู่ถูก retheme เป็นแดงแบรนด์-เงิน
-// โครเมียมของ หวยดีใจ ก่อนต่อเข้ามา และเพิ่มลิงก์ /ตรวจหวย กับ /แนวทาง ให้ครบทั้ง
-// เมนูเดสก์ท็อป เมนูมือถือ และลิงก์ด่วนในฟุตเตอร์ เพราะรอบนี้เป็นเว็บหวย
-import Navbar from "../components/NavbarStyle8.astro";
-import Footer from "../components/FooterPremium.astro";
+// NavbarStyle6 เป็นรางเมนู "แนวตั้ง" ลอยชิดซ้ายบนเดสก์ท็อป พร้อมโลโก้ห้อยลงมา
+// จากขอบบนกลางจอ (คนละทรงกับ NavbarStyle8 ที่เป็นแถบแนวนอนเต็มความกว้าง) คู่กับ
+// FooterStyle3 ที่เป็นกริด 12 คอลัมน์และมีการ์ด CTA ลอยคร่อมขอบบน (คนละทรงกับ
+// FooterPremium ที่เป็นกริด 5-3-4 มุมบนโค้งใหญ่)
+//
+// ทั้งคู่ถูก retheme เป็นฟ้า-ทองของ HI59 บนพื้นกรมท่าเข้มก่อนต่อเข้ามา และ
+// **ถอดลิงก์ /ตรวจหวย กับ /แนวทาง ออกทั้งเมนูเดสก์ท็อป เมนูมือถือ และลิงก์ด่วน
+// ในฟุตเตอร์** เพราะ HI59 เป็นเว็บสล็อต ไม่ใช่เว็บหวย — สองหน้านั้นถูกย้ายไป
+// src/pages-disabled/ รอบนี้ จึงไม่มี route ให้ลิงก์ไปหาแล้ว
+import Navbar from "../components/NavbarStyle6.astro";
+import Footer from "../components/FooterStyle3.astro";
 
 // Only banner1 is ever rendered, so only banner1 is imported.
 //
@@ -63,8 +66,8 @@ const mobileBanner = mobileBannerPath ? mobileBannerImages[mobileBannerPath].def
 const mobileBannerImg = mobileBanner ? await getImage({ src: mobileBanner, widths: [360, 480, 640, 828, 1080], format: "avif", quality: 60 }) : null;
 
 const {
-  title = "หวยดีใจ รับแทงหวยออนไลน์ พร้อมให้แนวทาง เลขเข้าทุกงวด",
-  description = "หวยดีใจ รับแทงหวยออนไลน์ ทุกตัวไม่อั้น รัฐบาลไทย ลาว ฮานอย ออมสิน ธกส. พร้อมให้แนวทางก่อนหวยออก การันตีเลขเข้าทุกงวด",
+  title = "HI59 สล็อตไฮคลาส เล่นง่ายสไตล์VIP รวมค่ายพรีเมียม ยอดเข้าบริษัทตรง",
+  description = "HI59 สล็อตไฮคลาส เว็บตรง ลิขสิทธิ์แท้ เล่นง่ายสไตล์VIP รวมค่ายเกมพรีเมียม ส่งตรงจากเว็บแม่ ฝากถอนได้ทุกช่องทาง ยอดเข้าบริษัทตรง ปลอดภัย100%",
   robots = "index, follow",
 } = Astro.props;
 
@@ -212,7 +215,7 @@ const profile = brandProfile(Astro.site);
         background-attachment: fixed;
         background-repeat: no-repeat;
         margin: 0;
-        background-color: #0d0407;
+        background-color: #c1cce6;
         font-weight: 400;
         font-family: var(--font-sans) !important;
       }
@@ -260,7 +263,7 @@ const profile = brandProfile(Astro.site);
         {mobileBannerImg && <source media="(max-width: 767px)" type="image/avif" srcset={mobileBannerImg.srcSet.attribute || mobileBannerImg.src} sizes="100vw" />}
         <Image
           src={mainBanner}
-          alt="แบนเนอร์ หวยดีใจ ฉากพื้นสีขาวเงินไล่แสง มีริบบิ้นสีแดงและเส้นโค้งสีทองพาดโค้งทั่วภาพ มุมซ้ายมีลูกบอลหวยเลข 6 และมุมขวาล่างมีลูกบอลหวยเลข 3 ด้านขวาเป็นหญิงสาวผมยาวสีเข้ม สวมสูทและกระโปรงสั้นสีเงินเมทัลลิก ยิ้มพร้อมแบมือทั้งสองข้างหงายขึ้นมาข้างหน้า กลางภาพด้านบนเป็นตัวอักษรไทยคำว่า หวย สีเงินโครเมียม ต่อด้วย ดีใจ สีแดงเมทัลลิก มีมงกุฎทองวางอยู่ด้านหน้า ถัดลงมาเป็นป้ายพื้นแดงขอบทองคาดข้อความว่า หวยดีใจ รับแทงหวยออนไลน์ และล่างสุดเป็นข้อความว่า พร้อมให้แนวทาง เลขเข้าทุกงวด"
+          alt="แบนเนอร์ HI59 ฉากท้องฟ้ากลางวันสีฟ้าสดมีเมฆขาว ดาวเคราะห์และวงแหวนวงโคจรสีทองพาดอยู่เบื้องหลัง รอบภาพมีเหรียญทองลายมงกุฎลอยอยู่ กลางภาพด้านบนเป็นโลโก้ HI59 ตัวอักษร HI สีฟ้าและ 59 สีทองในวงแหวนโค้ง ถัดลงมาเป็นข้อความไทยตัวหนาว่า HI59 สล็อตไฮคลาส สีฟ้าสลับทอง และบรรทัดล่างว่า เล่นง่ายสไตล์VIP พร้อมมงกุฎทอง ใต้สุดเป็นป้ายพื้นขาวขอบทองคาดข้อความว่า รวมค่ายพรีเมียม ยอดเข้าบริษัทตรง ด้านขวาเป็นหญิงสาวผมบลอนด์ยาว สวมสูทสีขาวกระดุมทอง ยิ้มและยื่นมือขวาออกมาข้างหน้า"
           loading="eager"
           fetchpriority="high"
           widths={[412, 640, 828, 1024, 1280, 1600, 1900]}
