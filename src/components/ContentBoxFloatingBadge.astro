@@ -5,10 +5,13 @@ export interface Props {
 }
 const { title, as: HeadingTag = "h2" } = Astro.props;
 // The h1 case runs one step SMALLER at base width than the h2 case does at sm,
-// on purpose: this box carries the page's longest sentence (the docx H1) inside
-// a floating badge, and every extra pixel of font size there turns into another
-// wrapped line and another 28px of card padding. It catches up at sm/md, where
-// the badge is wide enough to afford it.
+// on purpose: whenever a brand hands this box the docx H1 it is handing it the
+// page's longest sentence, inside a floating badge, and every extra pixel of
+// font size there turns into another wrapped line and another 28px of card
+// padding. It catches up at sm/md, where the badge is wide enough to afford it.
+// This round the H1 lives in ContentBoxCyberCut and this box takes section 3's
+// H2, so only the h2 branch is exercised — the h1 branch is kept sized for the
+// next brand that does put an H1 here.
 const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
 
 // Flattened single-slot variant: `isolate` on the card, `-z-10` on both aura
@@ -23,14 +26,14 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // title.
 //
 // BADGE CLEARANCE RE-DERIVED FOR 789BETTING (2026-10-08). This box carries docx
-// H1 #1:
-//   "789BETTING คาสิโนฐานเข้าหลัก เดิมพันตรงกับบริษัท100%"
-// 52 code points; 8 of them are zero-width Thai marks (ิ ้ ั ั ั ิ ั plus one
-// more sara i), so it advances 44 cells including its 2 spaces. Its three
-// space-delimited chunks measure 10 / 14 / 18 cells, and the worst case assumed
-// below is that the line breaker only breaks at those 2 spaces (no Thai
-// dictionary breaking). No single chunk is wider than one line at any width, so
-// nothing can overflow sideways.
+// H2 #3:
+//   "โปรโมชั่นเล่น 789BETTING โบนัสสูงทุกรูปแบบเกม"
+// 46 code points; 7 of them are zero-width Thai marks (ั ่ in โปรโมชั่น, ่ in
+// เล่น, ั ู ุ ู in โบนัสสูงทุกรูปแบบเกม), so it advances 39 cells including its
+// 2 spaces. Its three space-delimited chunks measure 10 / 10 / 17 cells, and the
+// worst case assumed below is that the line breaker only breaks at those 2
+// spaces (no Thai dictionary breaking). No single chunk is wider than one line
+// at any width, so nothing can overflow sideways.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
@@ -38,21 +41,22 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy at the 2 spaces: 10 | 14 | 18 -> 3 lines.
-//               Budget 4 lines = 4x27 + 24 = 132, edge 108 vs pt-36/144px
-//                                                        -> 36px clear
+//               Greedy at the 2 spaces: 10+1+10 = 21 fits, then 17 -> 2 lines.
+//               Budget 3 lines = 3x27 + 24 = 105, edge 81 vs pt-36/144px
+//                                                        -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
-//               text-2xl 24px -> ~13.9px/cell = 35 cells/line, 36px/line.
-//               10+1+14 | 18 -> 2 lines. Budget 3 = 3x36 + 24 = 132, edge 108
-//               vs pt-36/144px (sm inherits it)            -> 36px clear
+//               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
+//               39 cells, 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
+//               vs pt-36/144px (sm inherits it)            -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl stays (the h1 size tops out at sm) -> 43 cells/line,
-//               36px/line. 44 cells is one over 43 -> 2 lines.
-//               Budget 3 = 3x36 + 24 = 132, edge 108
-//               vs pt-36/144px                             -> 36px clear
-// One flat pt-36 covers every width with 36px of daylight, because the h1 size
-// stops growing at sm: the badge keeps getting wider while the line box stays
-// 36px, so the worst case is the same at every breakpoint. All three
+//               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
+//               39 cells fits -> 1 line.
+//               Budget 2 = 2x36 + 24 = 96, edge 72
+//               vs pt-36/144px                             -> 72px clear
+// One flat pt-36 covers every width with 63px of daylight or better. It is held
+// at the value the h1 case needs (36px clear with a 44-cell sentence), not the
+// value this round's shorter h2 would allow, precisely so the next brand cannot
+// inherit a padding sized for the easy case. All three
 // *FloatingBadge files are held at this same flat pt-36 so the next brand
 // cannot inherit a padding that was only ever sized for the short one. Do NOT
 // shrink it assuming the next brand's heading is shorter — redo the arithmetic
