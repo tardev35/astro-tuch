@@ -37,13 +37,14 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://789betting-th.casino — ASCII ล้วน ไม่ต้องแปลง punycode
-  // แบบรอบก่อนๆ (หวยดีใจ.com -> xn--82cx5btt7d4e.com) และ TLD เป็น .casino ไม่ใช่ .com
-  // ⚠️ โดเมนมีขีดคั่นและมี th ต่อท้าย แต่ชื่อแบรนด์คือ 789BETTING เฉยๆ
-  // ไม่มีขีดและไม่มี th — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
+  // โดเมนจริงรอบนี้คือ https://takdee168-vip.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // เป็น ASCII ล้วน (ถอดเสียง "แตกดี" เป็น takdee) ไม่ต้องแปลง punycode แบบรอบ
+  // หวยดีใจ.com -> xn--82cx5btt7d4e.com และ TLD กลับมาเป็น .com
+  // ⚠️ โดเมนมีขีดคั่นและมี vip ต่อท้าย แต่ชื่อแบรนด์คือ แตกดี168 ซึ่งเป็นภาษาไทย
+  // — สะกดคนละแบบโดยธรรมชาติ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://789betting-th.casino",
+  site: "https://takdee168-vip.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
