@@ -302,11 +302,24 @@ async function replaceInFile(file, regex, value, label) {
   await writeFile(file, src.replace(regex, `$1"${value}"`));
 }
 
+// Navfoot.astro is an always-live chrome file (one copy, retouched every
+// rebrand — never rotated like Navbar*/Footer*), so its `const targetUrl`
+// is as safe a permanent target for this function as login.astro/register.astro
+// are. The mobile-only shortcut buttons it (and whichever Navbar* file is
+// currently active) render skip the /register, /login hop and go straight to
+// this link — see the comment above those two anchors in Navfoot.astro.
+//
+// The currently-active Navbar* file is NOT included here on purpose: that
+// family rotates every rebrand (see the "ContentBox family" rule), so there
+// is no single fixed path to target. Whoever retouches the newly-chosen
+// Navbar* file for a rebrand must carry its own `const targetUrl` forward by
+// hand — Navfoot.astro says so inline, and so does the outgoing Navbar* file.
 async function handleAffLink(value) {
   const url = validateLink(value, "ลิงก์ aff");
   await replaceInFile(join(PAGES, "login.astro"), AFF_RE, url, "ลิงก์ aff (login)");
   await replaceInFile(join(PAGES, "register.astro"), AFF_RE, url, "ลิงก์ aff (register)");
-  return ["src/pages/login.astro", "src/pages/register.astro"];
+  await replaceInFile(join(ROOT, "src", "components", "Navfoot.astro"), AFF_RE, url, "ลิงก์ aff (Navfoot มือถือ)");
+  return ["src/pages/login.astro", "src/pages/register.astro", "src/components/Navfoot.astro"];
 }
 
 async function handleLineLink(value) {
