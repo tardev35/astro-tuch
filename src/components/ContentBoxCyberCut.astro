@@ -12,43 +12,43 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // No level is hardcoded in the markup below — `as` decides it every time. The
 // header has no `whitespace-nowrap`: a full docx sentence has to wrap.
 //
-// This round the page hands this box a single <div> in its default slot holding
-// the section's two brief paragraphs plus the LINE / สมัครสมาชิก button row, so
-// the house rule of exactly ONE element per slot still holds. (ContentBoxSpecial,
-// which used to carry that button row in its own `actions` slot, is rotated out
-// this round and stays on disk as inventory.)
+// This round the page hands this box a single <p> in its default slot — docx
+// section 3's one paragraph — so the house rule of exactly ONE element per slot
+// holds. The LINE / สมัครสมาชิก button row lives in ContentBoxSpecial's
+// `actions` slot further down the page, not here.
 //
-// UOK365 (รอบทองเมทัลลิก-เงินโครเมียม บนน้ำตาลเกือบดำ 2026-10-07, brand-spec §2):
-// รอบนี้กลับขั้วจาก HI59 — การ์ดเนื้อหาเป็นผิวน้ำตาลเกือบดำ ไม่ใช่กระจกน้ำแข็งสว่าง
-// เพราะโลโก้เป็นทองเมทัลลิกกับเงินโครเมียมบนพื้นดำ แบนเนอร์กับสไลด์เป็นโถงดำที่ส่อง
-// ด้วยแสงทอง และ bg.json ของดรอปนี้เป็น {"mode":"color","color":"#000000"}
+// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08, brand-spec §2): รอบนี้เป็นแบรนด์
+// "ฮิวเดียว" — ทองเมทัลลิกบนดำสนิท ไม่มีสีที่สอง ต่างจากชุดตรุษจีนสามสีของ GUCCI168
+// (แดง-เขียวมรกต-ทอง) เพราะโลโก้เป็นเลข 789 ทองขัดเงาสามมิติทับคำว่า BETTING สีดำบน
+// แถบขีดขาว แบนเนอร์กับสไลด์เป็นโถงคาสิโนดำ-ทอง และ bg.json ของดรอปนี้เป็น
+// {"mode":"color","color":"#000000"} = ดำตัน
 // หน้านี้มีการ์ดมุมตัดสามใบ จึงแยกด้วย "ระดับความลึกของผิว" ไม่ใช่แค่คนละสีหัวข้อ —
-// ใบนี้เป็นผิวยกที่สว่างที่สุด #191108 · TwoCyberCut เป็นผิวกลาง #120c07 ·
-// SevenThreeCyberCut เป็นผิวลึกสุด #070504
-// เส้นรูดสี่มุมจับคู่สองโลหะของโลโก้ (UOK ทอง กับ 365 เงิน) ไขว้กัน — ทองแบรนด์
-// #c8912f คู่ทองอ่อน #f5d98a บนแนวหนึ่ง เงินโครเมียม #d8dbe0 คู่ทองลึก #6d4412 บน
-// อีกแนวหนึ่ง หัวข้อไล่ทองอ่อน #f5d98a → ทองแบรนด์ #c8912f → เงินโครเมียม #d8dbe0
-// คือ ทอง-ทอง-เงิน ซึ่งเป็นลำดับเดียวบนหน้านี้ที่จบด้วยเงิน ทองลึก #6d4412 บนผิว
-// การ์ดอ่านไม่ออก (2.3:1 บนพื้นทอง / ต่ำบนพื้นมืด) จึงไม่เคยถูกใช้เป็นสีตัวอักษร
-// เนื้อความงาช้างอมอุ่น #ece1cc (= BRAND_TEXT) — 13.4:1 บนผิวใบนี้
+// ใบนี้เป็นผิวยกที่สว่างที่สุด #17130a · TwoCyberCut เป็นผิวกลาง #0e0b05 ·
+// SevenThreeCyberCut เป็นผิวลึกสุด #060402
+// เส้นรูดสี่มุมไล่จากสว่างไปเข้มไขว้กัน — ทองแบรนด์ #fad354 คู่ทองแชมเปญ #ffe79a บน
+// แนวหนึ่ง บรอนซ์ #c9881f คู่ทองลึก #8a6410 บนอีกแนวหนึ่ง หัวข้อไล่ทองแบรนด์ #fad354 →
+// ทองแชมเปญ #ffe79a → ทองกลาง #ddab33 ซึ่งเป็นลำดับเดียวบนหน้านี้ที่เริ่มด้วยทองแบรนด์
+// ทองลึก #8a6410 กับเส้นไรผม #4a3407 อ่านไม่ออกบนผิวการ์ด จึงถูกใช้เป็นขอบและเส้นคั่น
+// เท่านั้น ไม่เคยเป็นสีตัวอักษร เนื้อความงาช้างอมทอง #f3e7cd (= BRAND_TEXT) —
+// 15.0:1 บนผิวใบนี้
 //
-// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#f6fbff #9ecbf2 #0a84e0
-// #5ec2ff #fdbc04 #c88a02 #06355f #0d2744 rgba(6,53,95,…)) ออกครบทุกจุดแล้ว
+// ชุดทองเมทัลลิก-เงินโครเมียมของ UOK365 ที่เคยค้างในไฟล์นี้ (#c8912f #f5d98a #d8dbe0
+// #6d4412 #191108 #ece1cc) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-6 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-7xl border border-[#c8912f]/40 bg-[#191108]/96 p-8 text-left text-base leading-relaxed text-[#ece1cc] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md"
+    class="relative isolate w-full max-w-7xl border border-[#fad354]/40 bg-[#17130a]/96 p-8 text-left text-base leading-relaxed text-[#f3e7cd] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md"
     style="clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#c8912f] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#f5d98a] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#d8dbe0] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#6d4412] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-1 w-32 bg-gradient-to-r from-[#fad354] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-1 w-32 bg-gradient-to-l from-[#ffe79a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-32 w-1 bg-gradient-to-b from-[#c9881f] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-32 w-1 bg-gradient-to-t from-[#8a6410] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-6 border-l-4 border-[#c8912f] pl-6">
-          <HeadingTag class={`bg-gradient-to-r from-[#f5d98a] via-[#c8912f] to-[#d8dbe0] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
+        <header class="mb-6 border-l-4 border-[#fad354] pl-6">
+          <HeadingTag class={`bg-gradient-to-r from-[#fad354] via-[#ffe79a] to-[#ddab33] bg-clip-text ${headingSize} leading-normal font-black text-transparent uppercase`}>{title}</HeadingTag>
         </header>
       )
     }

@@ -7,16 +7,18 @@ const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// หวยเต็ง (รอบเขียวป่า-ทอง 2026-10-01): footer ที่ใช้งานจริงรอบนี้ — รอบก่อน
-// BRAVO168 ใช้ FooterPremium ของเดิมในไฟล์นี้เป็นแดง-ดำ-เงินโครเมียมของ MAHAGAME66
-// ย้ายทั้งไฟล์มาเป็นพื้นเขียวเกือบดำ #03150a + ทองแบรนด์ #e5c04f (คำว่า "เต็ง"
-// บนโลโก้) + เขียวมรกต #0bb42f (คำว่า "หวย") แดง #de161d กับเงิน #e2e8ef/#9ba3ad
-// ออกครบทุกจุดแล้ว
+// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08): footer ที่ใช้งานจริงรอบนี้ —
+// รอบก่อน GUCCI168 ใช้ FooterStyle3 ส่วนไฟล์นี้ค้างเป็นชุดเขียวป่า-ทองของ หวยเต็ง
+// ย้ายทั้งไฟล์มาเป็นพื้นดำสนิท #060402 + ทองแบรนด์ #fad354 (vivid ของ logo.webp)
+// + ทองแชมเปญ #ffe79a + ทองกลาง #ddab33 + ทองลึก #8a6410 เนื้อความงาช้าง #f3e7cd
+// และตัวรองงาช้างหม่น #b5a888 — เขียวมรกต #0bb42f แดง #de161d และชุด #e5c04f
+// #03150a #d8ead9 #eafbe9 #8fae93 #fae474 #bd8d2d #3ee85c #026314 ของ หวยเต็ง
+// ออกครบทุกจุดแล้ว ไม่เหลือฮิวเก่าทั้งในคลาสและใน rgba()
 //
-// หวยเต็ง เป็นเว็บแทงหวยออนไลน์ — /ตรวจหวย และ /แนวทาง ถูกย้ายกลับมาที่
-// src/pages/ รอบนี้ จึงมีลิงก์ทั้งสองในคอลัมน์เมนูหลัก ถ้ารอบหน้าเป็นแบรนด์
-// สล็อต/คาสิโน ต้องถอดสองบรรทัดนั้นออกพร้อมกับย้ายไฟล์กลับไป pages-disabled
-// ไม่งั้นลิงก์จะกลายเป็น 404 และทำให้ build แดง
+// 789BETTING เป็นคาสิโนฐานเข้าหลักที่มีหวยเป็น "หนึ่งในหมวดเดิมพัน" ไม่ใช่เว็บหวย
+// — /ตรวจหวย และ /แนวทาง จอดอยู่ใน src/pages-disabled/ รอบนี้ จึงไม่มี route และ
+// สองบรรทัดนั้นถูกถอดออกจาก quickLinks แล้ว ถ้ารอบหน้าเป็นแบรนด์หวย ต้องย้ายไฟล์
+// กลับมาที่ src/pages/ พร้อมใส่ลิงก์คืน ไม่งั้นลิงก์จะเป็น 404 และทำให้ build แดง
 //
 // /ทางเข้า ยังลิงก์จากตรงนี้: หน้านั้นยัง route และ index อยู่ แค่ไม่มีในเมนู
 // navbar เพราะ toggle register/login เปิดอยู่ ทำให้มันกลายเป็นลิงก์ที่สามไปที่เดิม
@@ -25,8 +27,6 @@ const quickLinks = [
   { name: "โปรโมชั่น", path: "/promotion" },
   { name: "สมัครสมาชิก", path: "/register" },
   { name: "เข้าสู่ระบบ", path: "/login" },
-  { name: "ตรวจหวย", path: "/ตรวจหวย" },
-  { name: "แนวทาง", path: "/แนวทาง" },
   { name: "ทางเข้า", path: "/ทางเข้า" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
   { name: "เกี่ยวกับเรา", path: "/about-us" },
@@ -34,24 +34,25 @@ const quickLinks = [
 ];
 
 // ทุกบรรทัดมาจาก content.txt รอบนี้เท่านั้น — อะไรที่เจาะจงกว่านี้ (เลขใบอนุญาต
-// ปีที่ก่อตั้ง จำนวนสมาชิก ยอดฝากขั้นต่ำ ชื่อธนาคาร) คือการแต่งขึ้นเอง
-// ตัวเลขที่อ้างได้มีสี่ตัว: 2 ตัวจ่าย 100 · 3 ตัวจ่าย 1,000 · 3 ขั้นตอน · 24 ชั่วโมง
-const privileges = ["รัฐบาลไทย ลาวพัฒนา ฮานอย หวยหุ้น ในบัญชีเดียว", "ฮานอยปกติ ฮานอยพิเศษ และฮานอยวีไอพี", "2 ตัว จ่าย 100 บาท ตามรายการที่ร่วมเงื่อนไข", "3 ตัว จ่าย 1,000 บาท ตามรายการที่ร่วมเงื่อนไข", "ส่งโพยและตรวจผลผ่านมือถือจากระบบเดียว"];
+// ปีที่ก่อตั้ง จำนวนสมาชิก ยอดฝากขั้นต่ำ ชื่อค่ายเกม ชื่อธนาคาร) คือการแต่งขึ้นเอง
+// ตัวเลขที่อ้างได้มีสี่ตัว: คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · บริษัท 100% ·
+// 24 ชั่วโมง
+const betCategories = ["บาคาร่าและรูเล็ตตามโต๊ะที่เปิดให้บริการ", "สล็อตทั้งเกมคลาสสิก ฟรีสปิน โบนัส และตัวคูณ", "บอลเลือกคู่แข่งขันและตลาดเดิมพันตามช่วงเวลา", "หวยแบ่งรอบเปิดรับตามประเภทของรายการ", "เลือกเดิมพันหลายหมวดผ่านบัญชีเดียว"];
 
-// แถบคำโปรยล่างสุด: คำหน้าเป็นขาวอมเขียว คำหลังเป็นทองตามคำว่า "เต็ง" บนโลโก้
-// ทุกคู่เป็นคำที่บรีฟพูดไว้เอง ไม่มีคำโฆษณาอย่าง "เว็บตรง" หรือ "จ่ายจริง"
+// แถบคำโปรยล่างสุด: คำหน้าเป็นงาช้าง คำหลังเป็นทองแบรนด์ ทุกคู่เป็นคำที่บรีฟพูดไว้เอง
+// ไม่มีคำโฆษณาอย่าง "เว็บตรง" หรือ "จ่ายจริง"
 const claimChips = [
-  { lead: "หวย", tail: "ครบ" },
-  { lead: "ส่ง", tail: "โพย" },
-  { lead: "ตรวจ", tail: "ผล" },
-  { lead: "24", tail: "ชม." },
+  { lead: "คาสิโน", tail: "ครบ" },
+  { lead: "ฝากถอน", tail: "ตรง" },
   { lead: "บัญชี", tail: "เดียว" },
+  { lead: "แอดมิน", tail: "24ชม." },
+  { lead: "บริษัท", tail: "100%" },
 ];
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#e5c04f] bg-[#03150a] pt-16 pb-8 font-sans text-[#d8ead9] shadow-[0_-10px_30px_rgba(229,192,79,0.22)]">
-  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#e5c04f]/12 blur-[100px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#0bb42f]/10 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-[#fad354] bg-[#060402] pt-16 pb-8 font-sans text-[#f3e7cd] shadow-[0_-10px_30px_rgba(250,211,84,0.22)]">
+  <div class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#fad354]/12 blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#c9881f]/10 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -61,45 +62,45 @@ const claimChips = [
             mainLogo ? (
               <Picture
                 src={mainLogo}
-                alt="โลโก้ หวยเต็ง ตัวอักษรไทยหนาสามมิติ คำว่า หวย เป็นสีเขียวมรกตเงาวาวขอบทอง ต่อด้วยคำว่า เต็ง เป็นสีทองเงาวาวขอบเข้ม"
+                alt="โลโก้ 789BETTING เป็นตัวเลข 789 สีทองขัดเงาสามมิติตัวหนา วางทับคำว่า BETTING ที่เป็นตัวพิมพ์ใหญ่สีดำ โดยมีแถบขีดสีขาวคาดอยู่ใต้คำนั้น"
                 widths={[150, 300, 450]}
                 sizes="150px"
-                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(229,192,79,0.5)]"
+                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(250,211,84,0.5)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="text-4xl font-black drop-shadow-[0_0_10px_rgba(229,192,79,0.45)]">
-                <span class="bg-gradient-to-b from-[#3ee85c] to-[#026314] bg-clip-text text-transparent">หวย</span>
-                <span class="bg-gradient-to-b from-[#fae474] to-[#bd8d2d] bg-clip-text text-transparent">เต็ง</span>
+              <span class="text-4xl font-black drop-shadow-[0_0_10px_rgba(250,211,84,0.45)]">
+                <span class="bg-gradient-to-b from-[#ffe79a] to-[#8a6410] bg-clip-text text-transparent">789</span>
+                <span class="bg-gradient-to-b from-[#f3e7cd] to-[#b5a888] bg-clip-text text-transparent">BETTING</span>
               </span>
             )
           }
         </a>
-        <p class="text-base leading-relaxed text-[#d8ead9]">
-          {BRAND_NAME} เว็บแทงหวยออนไลน์ที่รวบรวมรายการหวยยอดนิยมไว้ให้เลือกผ่านบัญชีเดียว มีทั้งรัฐบาลไทย ลาวพัฒนา ฮานอย และหวยหุ้นต่างประเทศ รองรับการเข้าใช้งานผ่านมือถือโดยไม่ต้องสลับหลายเว็บไซต์
-          สมาชิกสามารถเลือกเลข ส่งโพย ตรวจสอบรายการ อัตราจ่าย และผลหวยตามรอบที่เปิดให้บริการได้จากระบบเดียว
+        <p class="text-base leading-relaxed text-[#f3e7cd]">
+          {BRAND_NAME} คาสิโนฐานเข้าหลักที่รวมช่องทางเดิมพันหลายประเภทไว้ในระบบเดียว รองรับทั้งบาคาร่า รูเล็ต บอล หวย สล็อต และเกมคาสิโนตามรายการที่เปิดให้บริการ สมาชิกสามารถเลือกเกม ตรวจสอบเครดิต โปรโมชั่น
+          และประวัติการเดิมพันผ่านบัญชีเดียวได้สะดวก โดยกติกา ช่วงเดิมพัน และเวลาเปิดรับของแต่ละหมวดอาจแตกต่างกันตามรายการ
         </p>
         <div class="mt-2 flex items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#e5c04f]/50 bg-[#e5c04f]/10 px-3 py-1.5 text-xs font-bold text-[#eafbe9] shadow-[0_0_10px_rgba(229,192,79,0.25)]">
-            <span aria-hidden="true" class="text-base">📱</span> ส่งโพยผ่านมือถือ
+          <div class="flex items-center gap-1.5 rounded border border-[#fad354]/50 bg-[#fad354]/10 px-3 py-1.5 text-xs font-bold text-[#ffe79a] shadow-[0_0_10px_rgba(250,211,84,0.25)]">
+            <span aria-hidden="true" class="text-base">📱</span> เดิมพันผ่านมือถือ
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-[#124a20] bg-[#0b3d18]/80 px-3 py-1.5 text-xs font-bold text-[#eafbe9]">
+          <div class="flex items-center gap-1.5 rounded border border-[#4a3407] bg-[#17130a]/80 px-3 py-1.5 text-xs font-bold text-[#f3e7cd]">
             <span aria-hidden="true" class="text-base">⏰</span> แอดมิน 24 ชั่วโมง
           </div>
         </div>
       </div>
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> เมนูหลัก
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#ffe79a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ffe79a] to-[#8a6410]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-[#d8ead9] transition-all hover:text-[#fae474]">
-                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#e5c04f] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
+                <a href={link.path} class="group flex items-center text-[#f3e7cd] transition-all hover:text-[#ffe79a]">
+                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#fad354] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
                     ➤
                   </span>
                   {link.name}
@@ -110,16 +111,16 @@ const claimChips = [
         </ul>
       </nav>
 
-      <nav aria-label="รายการหวยและอัตราจ่าย" class="flex flex-col gap-4">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> หวยและอัตราจ่าย
+      <nav aria-label="หมวดเดิมพันที่เปิดให้บริการ" class="flex flex-col gap-4">
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#ffe79a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ffe79a] to-[#8a6410]"></span> หมวดเดิมพัน
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
-            privileges.map((item) => (
+            betCategories.map((item) => (
               <li>
-                <a href="/promotion" class="group flex items-start text-[#d8ead9] transition-all hover:text-[#fae474]">
-                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#8fae93] transition-colors group-hover:bg-[#e5c04f] group-hover:shadow-[0_0_8px_rgba(229,192,79,0.85)]" />
+                <a href="/promotion" class="group flex items-start text-[#f3e7cd] transition-all hover:text-[#ffe79a]">
+                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b5a888] transition-colors group-hover:bg-[#fad354] group-hover:shadow-[0_0_8px_rgba(250,211,84,0.85)]" />
                   {item}
                 </a>
               </li>
@@ -129,8 +130,8 @@ const claimChips = [
       </nav>
 
       <div class="flex flex-col gap-5">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#eafbe9]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#fae474] to-[#bd8d2d]"></span> บริการลูกค้า
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#ffe79a]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#ffe79a] to-[#8a6410]"></span> บริการลูกค้า
         </p>
 
         <a
@@ -160,31 +161,31 @@ const claimChips = [
         }
 
         <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#eafbe9]/90 uppercase">รองรับวอลเลทและธนาคารชั้นนำ</p>
+          <p class="mb-3 text-xs font-bold tracking-wider text-[#ffe79a]/90 uppercase">รองรับวอลเลทและธนาคารชั้นนำ</p>
           <BankStrip size={26} />
         </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#e5c04f]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#fad354]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
       {
         claimChips.map((chip) => (
-          <span class="text-lg font-black text-[#eafbe9] italic md:text-2xl">
+          <span class="text-lg font-black text-[#f3e7cd] italic md:text-2xl">
             {chip.lead}
-            <span class="text-[#e5c04f]">{chip.tail}</span>
+            <span class="text-[#fad354]">{chip.tail}</span>
           </span>
         ))
       }
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#8fae93] md:flex-row">
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#b5a888] md:flex-row">
       <p>
-        &copy; {new Date().getFullYear()} <span class="font-bold text-[#eafbe9]">{BRAND_NAME}</span>. All rights reserved. เว็บแทงหวยออนไลน์ รวมหวยรัฐบาลไทย ลาวพัฒนา
-        ฮานอยปกติ ฮานอยพิเศษ ฮานอยวีไอพี และหวยหุ้นต่างประเทศไว้ในบัญชีเดียว ตารางเวลาและอัตราจ่ายของแต่ละรอบเป็นไปตามที่ระบบแสดงในหน้าส่งโพย
+        &copy; {new Date().getFullYear()} <span class="font-bold text-[#ffe79a]">{BRAND_NAME}</span>. All rights reserved. คาสิโนฐานเข้าหลัก รวมบาคาร่า รูเล็ต บอล หวย สล็อต
+        และเกมคาสิโนตามรายการที่เปิดให้บริการไว้ในบัญชีเดียว กติกา วงเงิน และเวลาเปิด-ปิดรับของแต่ละรายการเป็นไปตามที่ระบบแสดงก่อนยืนยันการเดิมพัน
       </p>
       <div class="flex gap-4">
-        <a href="/terms/" class="transition-colors hover:text-[#fae474]">เงื่อนไขการให้บริการ</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#fae474]">นโยบายความเป็นส่วนตัว</a>
+        <a href="/terms/" class="transition-colors hover:text-[#ffe79a]">เงื่อนไขการให้บริการ</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#ffe79a]">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

@@ -37,13 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://gucci168-play.com — ASCII ล้วน ไม่ต้องแปลง punycode
-  // แบบรอบก่อนๆ (หวยดีใจ.com -> xn--82cx5btt7d4e.com)
-  // ⚠️ โดเมนมีคำว่า -play ต่อท้ายและมีขีดคั่น แต่ชื่อแบรนด์คือ GUCCI168 เฉยๆ
-  // ไม่มีขีดและไม่มีคำว่า play — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
+  // โดเมนจริงรอบนี้คือ https://789betting-th.casino — ASCII ล้วน ไม่ต้องแปลง punycode
+  // แบบรอบก่อนๆ (หวยดีใจ.com -> xn--82cx5btt7d4e.com) และ TLD เป็น .casino ไม่ใช่ .com
+  // ⚠️ โดเมนมีขีดคั่นและมี th ต่อท้าย แต่ชื่อแบรนด์คือ 789BETTING เฉยๆ
+  // ไม่มีขีดและไม่มี th — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://gucci168-play.com",
+  site: "https://789betting-th.casino",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

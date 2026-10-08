@@ -15,31 +15,32 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // The two column labels always render as <p>, never <h2>. The docx a page is
 // filled from is a flat H1 + a handful of H2s (plus a real H3 pair this round),
 // and the rendered heading inventory is diffed against it on every rebrand — a
-// widget quietly adding two more <h2> is the thing that makes that diff
+// widget quietly adding two more headings is the thing that makes that diff
 // disagree. A <p> heading needs the section to carry its own accessible name
 // instead, which is what `label` is for.
 //
 // The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
 // so it is one of the three ContentBox* wrappers that cannot be hoisted away.
 //
-// UOK365 (รอบทองเมทัลลิก-เงินโครเมียม บนน้ำตาลเกือบดำ 2026-10-07, brand-spec §2):
-// การ์ดมุมตัดใบกลางในสามใบของหน้านี้ — ผิวกลาง #120c07 ซึ่งลึกกว่า ContentBoxCyberCut
-// (#191108) และตื้นกว่า SevenThreeCyberCut (#070504) สามใบจึงไล่ระดับความลึกกัน
-// ไม่ได้อ่านเป็นใบเดียวกันสามรอบ มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บนซ้ายเป็นทองแบรนด์
-// #c8912f กับเงินโครเมียม #d8dbe0 และคู่ล่างขวาเป็นทองอ่อน #f5d98a กับทองกลาง #a46b25
-// กรอบจึงพาสองโลหะของโลโก้ (ตัวอักษร UOK ทอง กับตัวเลข 365 เงิน ในวงแหวนทอง) มาไว้ที่
-// ตัวกรอบเองแทนที่จะใช้สีเดียว
-// ป้ายสองคอลัมน์แยกกันด้วยสี — ทองอ่อน #f5d98a ฝั่งซ้าย เงินโครเมียม #d8dbe0 ฝั่งขวา
-// ซึ่งสลับฝั่งกับ ContentBoxTwoFloatingBadge ทั้งคู่เป็นเฉดสว่างของสองโลหะ เพราะบนผิว
-// มืดต้องใช้ปลายสว่าง ทองลึก #6d4412 ตกต่ำกว่า AA จึงถูกใช้เป็นเส้นคั่นเท่านั้น
-// ไม่ใช่สีตัวอักษร
-// หัวข้อ docx ไล่เงินโครเมียม #d8dbe0 → ทองอ่อน #f5d98a → ทองแบรนด์ #c8912f ซึ่งเป็น
-// คนละลำดับกับอีกหกกล่องบนหน้าเดียวกัน (ใบนี้เป็นใบเดียวที่เริ่มด้วยเงิน)
-// เนื้อความ #ece1cc (= BRAND_TEXT) — 14.6:1 บนผิวกลาง
+// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08, brand-spec §2):
+// การ์ดมุมตัดใบกลางในสามใบของหน้านี้ — ผิวกลาง #0e0b05 ซึ่งลึกกว่า ContentBoxCyberCut
+// (#17130a) และตื้นกว่า SevenThreeCyberCut (#060402) สามใบจึงไล่ระดับความลึกกัน ไม่ได้
+// อ่านเป็นใบเดียวกันสามรอบ มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บนซ้ายเป็นทองแบรนด์ #fad354
+// กับบรอนซ์ #c9881f และคู่ล่างขวาเป็นทองแชมเปญ #ffe79a กับทองกลาง #ddab33 กรอบจึงพา
+// ทั้งช่วงของฮิวทองเดียวนี้ (แชมเปญ → ทองแบรนด์ → ทองกลาง → บรอนซ์) มาไว้ที่ตัวกรอบเอง
+// แทนที่จะใช้เฉดเดียว
+// ป้ายสองคอลัมน์แยกกันด้วยเฉด — ทองแชมเปญ #ffe79a ฝั่งซ้าย ทองแบรนด์ #fad354 ฝั่งขวา
+// ซึ่งสลับฝั่งกับ ContentBoxTwoFloatingBadge ทั้งคู่เป็นปลายสว่างของฮิวทอง เพราะบนผิวมืด
+// ต้องใช้ปลายสว่าง ทองลึก #8a6410 กับเส้นไรผม #4a3407 ตกต่ำกว่า AA จึงถูกใช้เป็นเส้นคั่น
+// เท่านั้น ไม่ใช่สีตัวอักษร
+// หัวข้อ docx ไล่ทองกลาง #ddab33 → ทองแชมเปญ #ffe79a → ทองแบรนด์ #fad354 ซึ่งเป็นคนละ
+// ลำดับกับอีกหกกล่องบนหน้าเดียวกัน (ใบนี้เป็นใบเดียวที่เริ่มด้วยทองกลาง)
+// เนื้อความ #f3e7cd (= BRAND_TEXT) — 15.9:1 บนผิวกลาง
 //
-// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#e7f2fd #9ecbf2 #0a84e0
-// #5ec2ff #fdbc04 #c88a02 #065a9c #8a6102 #06355f #0d2744 rgba(6,53,95,…)
-// rgba(10,132,224,…) rgba(200,138,2,…)) ออกครบทุกจุดแล้ว
+// ชุดทองเมทัลลิก-เงินโครเมียมของ UOK365 ที่เคยค้างในไฟล์นี้ (#c8912f #f5d98a #d8dbe0
+// #a46b25 #6d4412 #120c07 #ece1cc rgba(200,145,47,…) rgba(216,219,224,…)) ออกครบทุกจุด
+// แล้ว — รอบก่อนบังเอิญเป็นทองอีกเฉดหนึ่ง ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่
+// แล้ว" ไม่ได้หมายความว่าเป็นทองของแบรนด์นี้
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 // A real heading already names the region, so the aria-label is dropped in that
 // case and only stands in when the title rendered as chrome (`as="p"`).
@@ -48,38 +49,38 @@ const named = Boolean(title) && TitleTag !== "p";
 
 <section aria-label={named ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#c8912f]/35 bg-[#120c07]/95 p-8 text-[#ece1cc] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md transition-all duration-300 hover:border-[#c8912f]/80 hover:shadow-[0_15px_40px_rgba(200,145,47,0.26)]"
+    class="relative isolate w-full border border-[#fad354]/35 bg-[#0e0b05]/95 p-8 text-[#f3e7cd] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md transition-all duration-300 hover:border-[#fad354]/80 hover:shadow-[0_15px_40px_rgba(250,211,84,0.26)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#c8912f] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f5d98a] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#d8dbe0] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#a46b25] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fad354] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#ffe79a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#c9881f] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#ddab33] to-transparent"></div>
 
     {
       title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#d8dbe0] via-[#f5d98a] to-[#c8912f] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
+        <TitleTag class="mb-4 bg-gradient-to-r from-[#ddab33] via-[#ffe79a] to-[#fad354] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#ece1cc]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f3e7cd]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece1cc]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e7cd]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#6d4412] pb-2 text-xl leading-normal font-black text-[#f5d98a] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#c8912f] shadow-[0_0_5px_rgba(200,145,47,0.75)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#4a3407] pb-2 text-xl leading-normal font-black text-[#ffe79a] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#fad354] shadow-[0_0_5px_rgba(250,211,84,0.75)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#ece1cc] md:border-l md:border-[#6d4412] md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e7cd] md:border-l md:border-[#4a3407] md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#6d4412] pb-2 text-xl leading-normal font-black text-[#d8dbe0] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#d8dbe0] shadow-[0_0_5px_rgba(216,219,224,0.6)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#4a3407] pb-2 text-xl leading-normal font-black text-[#fad354] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#c9881f] shadow-[0_0_5px_rgba(201,136,31,0.7)]" /> {titleright}
             </p>
           )
         }

@@ -13,17 +13,19 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// Only what the brief actually names. HI59 is a สล็อตไฮคลาส brand, so every chip
-// below is one of the brief's own words: เกมสล็อต, ค่ายเกมพรีเมียม, เกมเปิดใหม่,
-// ฟรีสปิน, ตัวคูณ, ฟีเจอร์โบนัส, plus the two promotions it runs (คืนยอดเสีย 0.3%,
-// แนะนำเพื่อน 0.8%) and the ฝากถอน rail itself. The lottery markets the previous
-// holder of this file shipped (รัฐบาลไทย, หวยลาว, หวยฮานอย, หวยออมสิน, ธ.ก.ส.,
-// เลขเด็ด, อัตราจ่าย) are gone rather than re-typed, because this brand runs no
-// lottery at all — brand-spec §7 bans that whole vocabulary. No game studio is
+// Only what the brief actually names. 789BETTING is a คาสิโนฐานเข้าหลัก that
+// carries several categories at once, so every chip below is one of the brief's
+// own words: บาคาร่า, รูเล็ต, บอล, หวย, สล็อต, โต๊ะ, ตลาดเดิมพัน, เกมคลาสสิก,
+// ฟรีสปิน, ตัวคูณ, plus the two promotions it runs (คืนยอดเสีย 0.3%,
+// แนะนำเพื่อน 0.8%) and the ฝากถอน rail itself. หวย appears because this brief
+// lists it as one of the categories the hub carries — the lottery *page*
+// vocabulary brand-spec §4 bans (โพย, เลขเด็ด, แนวทาง, งวด, อัตราจ่าย, ตรวจหวย)
+// appears nowhere, and the previous holder of this file's สล็อตไฮคลาส wording
+// (ค่ายเกมพรีเมียม, เกมเปิดใหม่) is gone rather than re-typed. No game studio is
 // named: the brief names none, and an invented ค่ายเกม on a gambling page is a
 // real claim. The module picks one chip per row through data-winners-markets /
 // data-winner-market.
-const marketPool = ["เกมสล็อต", "ค่ายเกมพรีเมียม", "เกมเปิดใหม่", "ฟรีสปิน", "ตัวคูณ", "ฟีเจอร์โบนัส", "โบนัสคืนยอดเสีย 0.3%", "โบนัสแนะนำเพื่อน 0.8%", "ฝากถอน"];
+const marketPool = ["บาคาร่า", "รูเล็ต", "บอล", "หวย", "สล็อต", "โต๊ะ", "ตลาดเดิมพัน", "เกมคลาสสิก", "ฟรีสปิน", "ตัวคูณ", "โบนัสคืนยอดเสีย 0.3%", "โบนัสแนะนำเพื่อน 0.8%", "ฝากถอน"];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -41,10 +43,10 @@ const flag = (salt: string) => brandFlag(Astro.site, salt);
 // ตรวจสอบ", so the two states read อยู่ระหว่างตรวจสอบ / ฝากถอนสำเร็จ.
 const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
 const DONE_TEXT = "ฝากถอนสำเร็จ";
-const PENDING_CLASS = "border-[#c88a02]/70 text-[#ffe27a]";
+const PENDING_CLASS = "border-[#8a6410]/80 text-[#ddab33]";
 const DONE_CLASS = "border-[#4ade80]/55 text-[#4ade80]";
-const AMOUNT_CLASS = "text-[#5ec2ff]";
-const BIG_AMOUNT_CLASS = "text-[#fdbc04]";
+const AMOUNT_CLASS = "text-[#ffe79a]";
+const BIG_AMOUNT_CLASS = "text-[#fad354]";
 
 const initialRows = Array.from({ length: 8 }, (_, i) => {
   const amount = 15000 + pick(`pill-amount-${i}`, 80001);
@@ -64,31 +66,31 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 // feed is chrome and never emits a heading tag. The 🎰 is a real sibling of that
 // <p>, not a glyph inside its text, so it can carry its own aria-hidden.
 //
-// HI59 (รอบฟ้า-ทอง 2026-10-07, brand-spec §2): รอบนี้ทั้งเว็บเป็นการ์ดสว่าง แต่ฟีด
-// ถอนเงินเป็น "โครม" เหมือนแถบประกาศกับเมนู จึงอยู่ฝั่งผิวกรมท่าเข้ม #04203f ไม่ใช่
-// ฝั่งการ์ดสว่าง ตัวมันตั้งสีตัวอักษรเองทั้งแผง จึงไม่ inherit BRAND_TEXT และแถบนี้
-// ทำหน้าที่เป็นสะพานสีระหว่าง Announcement2 (กรมท่า) ด้านบนกับการ์ดเนื้อหาสว่างด้านล่าง
-// เม็ดยาแต่ละเม็ดเป็นพื้นลึกสุด #02162c ในกรอบผิวยก #073059 ที่สว่างขึ้นเป็นฟ้าแบรนด์
-// #0a84e0 ตอน hover ชิปหมวดเกมเป็นเส้นฟ้าแบรนด์ตัวอักษรฟ้าเรือง #5ec2ff
-// ยอดเงินเริ่มที่ฟ้าเรืองแล้วกระโดดไปทองแบรนด์ #fdbc04 เมื่อเกิน data-big-win-above
-// ซึ่งเป็นการสลับ "ฮิว" ตามคู่สีของโลโก้ (ตัวอักษร HI ฟ้า กับตัวเลข 59 ทอง) ไม่ใช่แค่
-// เปลี่ยนความสว่างของสีเดียว ชื่อผู้ถอนเป็นหมึกบนโครม #e4f1fd (13.8:1 บนผิวแผง)
-// หัวแถบไล่ทองอ่อน #ffe27a → ฟ้าเรือง #5ec2ff ตามเวิร์ดมาร์กทอง-ฟ้าบนแบนเนอร์
-// เขียว #4ade80 ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็น
-// สีจริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่
+// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08, brand-spec §2): รอบนี้ทั้งเว็บเป็นการ์ด
+// มืดบนพื้นดำตัน และฟีดถอนเงินเป็น "โครม" เหมือนแถบประกาศกับเมนู จึงอยู่ที่ผิวลึกสุด
+// #060402 ซึ่งลึกกว่าการ์ดเนื้อหาทุกใบ และทำหน้าที่เป็นสะพานระหว่าง Announcement5 ด้านบน
+// กับการ์ดเนื้อหาผิวยกด้านล่าง ตัวมันตั้งสีตัวอักษรเองทั้งแผง จึงไม่ inherit BRAND_TEXT
+// เม็ดยาแต่ละเม็ดเป็นพื้นผิวกลาง #0e0b05 ในกรอบเส้นไรผม #4a3407 ที่สว่างขึ้นเป็นทอง
+// แบรนด์ #fad354 ตอน hover ชิปหมวดเกมเป็นเส้นทองแบรนด์ตัวอักษรทองแชมเปญ #ffe79a
+// ยอดเงินเริ่มที่ทองแชมเปญ #ffe79a แล้วกระโดดไปทองแบรนด์อิ่มตัว #fad354 เมื่อเกิน
+// data-big-win-above ซึ่งรอบนี้เป็นการสลับ "ความอิ่มตัวของทองเดียวกัน" ไม่ใช่สลับฮิว
+// แบบรอบที่แบรนด์มีสองสี เพราะ §2 พินไว้ว่ารอบนี้ไม่มีสีที่สอง ชื่อผู้ถอนเป็นงาช้างอมทอง
+// #f3e7cd (16.8:1 บนผิวแผง) หัวแถบไล่ทองแชมเปญ #ffe79a → บรอนซ์ #c9881f ตามเวิร์ดมาร์ก
+// ทองสามมิติบนแบนเนอร์
+// เขียว #4ade80 ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็นสีจริง
+// ของธนาคาร จึงไม่ถูกรีแมปทั้งคู่
 //
-// ชุดเขียวมรกต-แดงสด-ทองของ DM899 ที่เคยค้างในไฟล์นี้ (#0a1a0e #030a05 #01a326
-// #0a4a18 #12c23a #4ade6b #ffe9a8 #f2b422 #fb252b #8f0609 #a8780f #e4f2e4)
-// ออกครบทุกจุดแล้ว
+// ชุดฟ้า-ทองของ HI59 ที่เคยค้างในไฟล์นี้ (#04203f #02162c #073059 #0a84e0 #5ec2ff
+// #fdbc04 #ffe27a #c88a02 #e4f1fd rgba(6,53,95,…) rgba(10,132,224,…)) ออกครบทุกจุดแล้ว
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
-    aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#0a84e0]/45 bg-[#04203f]/92 px-4 py-8 shadow-[0_15px_40px_rgba(6,53,95,0.30)] backdrop-blur-md">
+    aria-label={`รายการฝากถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#fad354]/45 bg-[#060402]/92 px-4 py-8 shadow-[0_15px_40px_rgba(250,211,84,0.18)] backdrop-blur-md">
     <div class="mb-6 flex items-center justify-center gap-2">
       <span aria-hidden="true" class="text-xl md:text-2xl">🎰</span>
-      <p class="bg-gradient-to-b from-[#ffe27a] to-[#5ec2ff] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#ffe79a] to-[#c9881f] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการฝากถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -105,14 +107,14 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#073059] bg-[#02162c] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(10,132,224,0.22)] hover:border-[#0a84e0]/70">
+            <div class="flex items-center gap-3 rounded-full border border-[#4a3407] bg-[#0e0b05] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(250,211,84,0.14)] hover:border-[#fad354]/70">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#e4f1fd]">
+              <div data-winner-user class="text-sm font-bold text-[#f3e7cd]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#0a84e0]/60 px-2 py-0.5 text-[10px] font-bold text-[#5ec2ff]">
+              <span data-winner-market class="rounded-full border border-[#fad354]/60 px-2 py-0.5 text-[10px] font-bold text-[#ffe79a]">
                 {row.market}
               </span>
               <span
