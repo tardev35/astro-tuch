@@ -49,43 +49,50 @@ const initialRows = Array.from({ length: 4 }, (_, i) => {
 });
 
 // Pending/verified stay semantic, not the brand hues — a status colour that
-// matches the accent tells the reader nothing. Pending is the muted body blue
-// on the raised chip surface, so it reads as "not finished yet" without
+// matches the accent tells the reader nothing, and this round the accent IS red,
+// which would read as "failed" on a status chip. Pending is the body cream
+// dimmed on the page surface, so it reads as "not finished yet" without
 // borrowing the accent; done keeps the success green every brand on this
 // template uses, which the palette rules leave unmapped on purpose.
-const PENDING_CLASS = "text-[#dbeafe]/80 bg-[#0a1726] animate-pulse";
+const PENDING_CLASS = "text-[#fbe8d5]/80 bg-[#241000] animate-pulse";
 const DONE_CLASS = "text-[#052e16] bg-gradient-to-r from-[#86efac] via-[#22c55e] to-[#15803d] font-black shadow-md";
 
 // The amount reacts to its own value rather than to a brand colour: an ordinary
-// row is the brand's sky blue, a row over the threshold lifts to the lemon
-// yellow with a glow. Both class lists live here, and the module only swaps
-// between them.
-const AMOUNT_CLASS = "text-[#7bcffb]";
-const AMOUNT_BIG_CLASS = "text-[#fce604] drop-shadow-[0_0_10px_rgba(252,230,4,0.55)]";
+// row is the warm cream, a row over the threshold lifts to the crown gold with a
+// glow. Both class lists live here, and the module only swaps between them.
+const AMOUNT_CLASS = "text-[#f5cbb0]";
+const AMOUNT_BIG_CLASS = "text-[#f2b705] drop-shadow-[0_0_10px_rgba(242,183,5,0.55)]";
 
-// แตกดี168 (รอบฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ 2026-10-08, brand-spec §2):
-// โลโก้เป็นคู่สีแบนๆ จริง — คำว่า แตกดี เหลืองมะนาว #fce604 วางเหนือเลข 168 ฟ้าสด
-// #0193fb และงานอาร์ตทั้งชุดเป็นท้องฟ้าฟ้า-ขาวกับเหรียญทอง แผงนอกจึงเป็นพื้นการ์ด
-// กรมท่า #07111d ในกรอบฟ้าเข้ม #064a86 ออร่าบนหัวเป็นฟ้าแบรนด์ #0193fb การ์ดแต่ละ
-// ใบตกลงไปที่ผิวลึกสุด #020609 ในเส้นพื้นชิปยก #0a1726 แล้วสว่างเป็นฟ้าตอน hover
-// ยอดเงินเป็นฟ้าอ่อน #7bcffb และยกเป็นเหลืองมะนาวพร้อมแสงเมื่อเกินเกณฑ์ หัวข้อไล่
-// เหลืองมะนาว #fce604 → ฟ้าอ่อน #7bcffb → ฟ้าแบรนด์ #0193fb ซึ่งเริ่มที่เหลืองแล้วไต่
-// ลงฟ้าตามที่ตาอ่านโลโก้จากบนลงล่าง (แตกดี เหลือง อยู่เหนือ 168 ฟ้า) เนื้อความ
-// #dbeafe (BRAND_TEXT) ตัวรองใช้ฟ้าหม่น #93b4d4 (9.4:1 บนผิวลึกสุด)
+// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09, brand-spec §2):
+// โลโก้เป็นหัวเสือโคร่งส้ม-ดำบนป้ายโล่แดงกว้าง มีคำว่า SUPERSLOTCLUB เป็นตัวอักษร
+// แดงสามมิติขอบโครเมียมแดง และงานอาร์ตทั้งชุดเป็นฉากป่าแดดส่องที่มีเหรียญทองลาย
+// รอยเท้าเสือกระจายเต็มภาพ แผงนอกจึงเป็นพื้นการ์ดผิวกลาง #301105 ในกรอบแดงลึก
+// #7d0f12 ออร่าบนหัวเป็นแดงแบรนด์ #e8232a การ์ดแต่ละใบตกลงไปที่ผิวลึกสุด #180800
+// ในเส้นขอบผิวยก #3d1709 แล้วสว่างเป็นแดงตอน hover ยอดเงินเป็นครีมอุ่น #f5cbb0 และ
+// ยกเป็นทองแบรนด์พร้อมแสงเมื่อเกินเกณฑ์ หัวข้อไล่ทองสว่าง #ffd666 → แดงเรืองไฟ
+// #ff5a46 → แดงแบรนด์ #e8232a ซึ่งเริ่มที่ทองแล้วไต่ลงแดงตามที่ตาอ่านโลโก้ (อุ้งเท้า
+// ทองเกาะอยู่เหนือป้ายโล่แดง) เนื้อความ #fbe8d5 (= BRAND_TEXT) ตัวรองใช้ชมพูอมเทา
+// หม่น #c9a898 (8.9:1 บนผิวลึกสุด)
+// §2 ห้าม #e8232a กับ #7d0f12 ถือตัวอักษร — ที่นี่อยู่ที่ขอบ ออรา และปลายไล่เฉด
+// บนหัวข้อซึ่งเป็น bg-clip-text ขนาด md:text-3xl font-black เท่านั้น
 //
-// ชุดทอง-เงินของ UP555 ที่เคยค้างในไฟล์นี้ (#ebbb54 #fce675 #d5d4d3 #6b4517
-// #130b03 #0c0502 #241705 #f8eed9) ออกครบทุกจุดแล้ว
+// ⚠️ รอบนี้ฮิวแบรนด์เองเป็น "แดง" และแบรนด์ก่อนๆ หลายเจ้าก็แดง เจอแดงที่ไหนห้าม
+// เหมาว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 ที่เคย
+// ค้างในไฟล์นี้ (#0193fb #7bcffb #fce604 #064a86 #07111d #020609 #0a1726 #dbeafe
+// #93b4d4 rgba(1,147,251,α) rgba(252,230,4,α)) และชุดทอง-เงินของ UP555 ก่อนนั้น
+// (#ebbb54 #fce675 #d5d4d3 #6b4517 #130b03 #0c0502 #241705 #f8eed9) ออกครบทุกจุด
+// แล้ว — ทองของรอบนี้เป็นคนละค่ากับ #fce604 #ebbb54 และ #fce675
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <section
     aria-label={`รายการฝากถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#064a86]/70 bg-[#07111d]/92 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-md md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#0193fb]/30 blur-[50px]"></div>
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#7d0f12]/70 bg-[#301105]/92 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-md md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-10 left-1/2 h-32 w-64 -translate-x-1/2 rounded-full bg-[#e8232a]/30 blur-[50px]"></div>
 
     <div class="relative z-10 mb-8 flex items-center justify-center gap-3">
       <span aria-hidden="true" class="text-2xl">💸</span>
-      <p class="bg-gradient-to-r from-[#fce604] via-[#7bcffb] to-[#0193fb] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}</p>
+      <p class="bg-gradient-to-r from-[#ffd666] via-[#ff5a46] to-[#e8232a] bg-clip-text text-xl font-black tracking-wide text-transparent md:text-3xl">รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}</p>
       <span aria-hidden="true" class="text-2xl">💸</span>
     </div>
 
@@ -104,7 +111,7 @@ const AMOUNT_BIG_CLASS = "text-[#fce604] drop-shadow-[0_0_10px_rgba(252,230,4,0.
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-card transition-all duration-500 ease-out">
-            <div class="flex flex-col rounded-[20px] border border-[#0a1726] bg-[#020609]/95 p-5 shadow-sm transition-all hover:border-[#0193fb]/60 hover:bg-[#0a1726]/90">
+            <div class="flex flex-col rounded-[20px] border border-[#3d1709] bg-[#180800]/95 p-5 shadow-sm transition-all hover:border-[#e8232a]/60 hover:bg-[#301105]/90">
               <div class="mb-4 flex items-start justify-between">
                 <div data-winner-bank class={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
@@ -120,14 +127,14 @@ const AMOUNT_BIG_CLASS = "text-[#fce604] drop-shadow-[0_0_10px_rgba(252,230,4,0.
                 </div>
               </div>
               <div>
-                <div class="text-sm text-[#93b4d4]">
+                <div class="text-sm text-[#c9a898]">
                   ยูสเซอร์:{" "}
-                  <span data-winner-user class="font-bold text-[#dbeafe]">
+                  <span data-winner-user class="font-bold text-[#fbe8d5]">
                     {row.user}
                   </span>
                 </div>
                 <div data-winner-big data-normal-class={AMOUNT_CLASS} data-big-class={AMOUNT_BIG_CLASS} class={`mt-1 text-2xl font-black ${row.big ? AMOUNT_BIG_CLASS : AMOUNT_CLASS}`}>
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#93b4d4]">THB</span>
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#c9a898]">THB</span>
                 </div>
               </div>
             </div>
@@ -136,9 +143,9 @@ const AMOUNT_BIG_CLASS = "text-[#fce604] drop-shadow-[0_0_10px_rgba(252,230,4,0.
       }
     </div>
 
-    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#93b4d4]">
-      ก่อนทำรายการฝากถอนผ่านช่องทางที่ระบบรองรับ ควรตรวจสอบจำนวนเงินและรายละเอียดบัญชีให้ตรงกับข้อมูลสมาชิก หากรายการยังอยู่ระหว่างตรวจสอบไม่ควรกดซ้ำทันที และสามารถติดตามประวัติรายการได้จากบัญชีสมาชิก
-      ทั้งนี้ผลลัพธ์ของสมาชิกคนหนึ่งไม่ใช่การรับประกันผลลัพธ์ของสมาชิกทุกคน
+    <p class="relative z-10 mt-6 text-center text-[11px] tracking-wide text-[#c9a898]">
+      ก่อนยืนยันรายการฝากถอน ควรตรวจสอบยอดเงิน ชื่อบัญชี และรายละเอียดบัญชีปลายทางให้ตรงกับข้อมูลที่ระบบแจ้งทุกครั้ง หากรายการยังอยู่ระหว่างตรวจสอบไม่ควรกดซ้ำทันที
+      และสามารถเก็บหลักฐานธุรกรรมไว้จนกว่าจะดำเนินการเสร็จสิ้น ทั้งนี้ผลลัพธ์ของสมาชิกคนหนึ่งไม่ใช่การรับประกันผลลัพธ์ของสมาชิกทุกคน
     </p>
 
     <script type="application/json" data-winners-banks set:html={JSON.stringify(bankPool)} />
