@@ -19,14 +19,16 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // The description is still held to the house 150-160 CHARACTER window (not
 // bytes — Thai is 3 bytes per character, so a byte count reads ~3x too long).
 // verify-build skips the length check on a noindex page, so nothing here will
-// catch it drifting. The sentence is 150 characters plus BRAND_NAME, so the
-// window holds for any brand name of 1-10 characters; WEPLAY168 (9) gives 159.
-// A longer name than that is the one case to re-measure rather than assume.
+// catch it drifting. The sentence is 146 characters plus BRAND_NAME, so the
+// window holds for any brand name of 4-14 characters; KINGKONG555 (11) gives
+// 157. Outside that range, re-measure with [...s].length rather than assume —
+// the previous wording was 150 + name and a 11-character brand pushed it to
+// 161, one character over, with no gate to catch it.
 ---
 
 <MainLayout
   title={`ไม่พบหน้าที่ต้องการ (404) | ${BRAND_NAME}`}
-  description={`ไม่พบหน้าที่คุณกำลังมองหาบนเว็บ ${BRAND_NAME} ลิงก์อาจหมดอายุ ถูกย้าย หรือพิมพ์ที่อยู่คลาดเคลื่อน กลับไปหน้าแรกเพื่อเข้าใช้งานเมนูทั้งหมดได้ตามปกติจากด้านบนของหน้า`}
+  description={`ไม่พบหน้าที่คุณกำลังมองหาบนเว็บ ${BRAND_NAME} ลิงก์อาจหมดอายุ ถูกย้าย หรือพิมพ์ที่อยู่คลาดเคลื่อน กลับไปหน้าแรกเพื่อใช้งานเมนูทั้งหมดได้ตามปกติจากด้านบนของหน้า`}
   robots="noindex, follow">
   <section class="mx-auto flex w-full max-w-2xl flex-col items-center px-4 py-20 text-center font-sans">
     <p class="text-6xl font-black tracking-widest opacity-40 md:text-8xl" aria-hidden="true">404</p>

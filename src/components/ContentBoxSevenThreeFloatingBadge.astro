@@ -15,7 +15,7 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// BADGE CLEARANCE RE-DERIVED FOR PIGPG (2026-10-09). This box carries docx
+// BADGE CLEARANCE RE-DERIVED FOR KINGKONG555 (2026-10-09). This box carries docx
 // H3 #5 "โปรโมชั่น แนะนำเพื่อน รับโบนัสแชร์ลิงก์ 0.8% ไม่จำกัด" — 53 code points,
 // 42 advancing cells once the 11 zero-width marks (ั ่ in โปรโมชั่น, ื ่ in
 // แนะนำเพื่อน, ั ั ์ ิ ์ in รับโบนัสแชร์ลิงก์, ่ ั in ไม่จำกัด) are discounted and
@@ -37,12 +37,11 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //               text-2xl 24px -> 43 cells/line, 36px/line. 42 cells, 1 line.
 //               Budget 2 = 2x36 + 24 = 96, edge 72 vs pt-36/144px
 //                                                          -> 72px clear
-// The flat pt-36 is deliberate: all three *FloatingBadge files are held on the
-// same value so the next brand cannot inherit a padding that was only ever
-// sized for a short title (an older round shipped pt-36 / pt-28 / pt-32 and the
-// pt-28 one went down to 4px of clearance the moment it got a 53-cell
-// sentence). Do not shrink it without redoing the arithmetic against the real
-// docx sentence the next brand puts in here.
+// The flat pt-36 is deliberate and is held across all four *FloatingBadge files
+// (this one, ContentBoxFloatingBadge, ContentBoxTwoFloatingBadge and
+// ContentBox3ThreeFloatingBadge) so the next brand cannot inherit a padding that
+// was only ever sized for a short title. Do not shrink it without redoing the
+// arithmetic against the real docx sentence the next brand puts in here.
 //
 // This block carries the image column on the RIGHT — and the grid stays at
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
@@ -54,51 +53,55 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // emits.
 //
 // Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-7xl/1280px + px-4, card border-2 1px x2 per side = 4, p-8,
+// (section max-w-7xl/1280px + px-4, card border-2 2px x2 per side = 4, p-8,
 // grid gap-10, and the image column adds md:pl-10 plus a 1px md:border-l):
 //   >= 1280px : (1280 - 32 - 4 - 64 - 40) x 0.3 - 41 = 342 - 41 = 301px
 //   md..1279  : (100vw - 140) x 0.3 - 41             = calc(30vw - 83px)
 //   < md      : one column at p-8, no md: padding     = calc(100vw - 100px)
 // Change any of those numbers and the page's `sizes` has to move with it.
 //
-// PIGPG (รอบแดงแล็กเกอร์-ทองแบบตรุษจีน 2026-10-09, brand-spec §2): นี่คือครึ่ง "ป้ายลอย"
+// KINGKONG555 (รอบเขียวป่า-ทองมงกุฎ 2026-10-09, brand-spec §2): นี่คือครึ่ง "ป้ายลอย"
 // ของคู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThreeCyberCut ที่เป็นการ์ดมุมตัดผิว
-// ลึก ใบนี้จึงเป็นการ์ดมนไล่จากผิวกลาง #2a0806 ลงไปหาผิวลึกสุด #120302 ในกรอบแดงสด
-// #d4200d ให้ต่างกันตั้งแต่ขอบ (อีกใบเป็นกรอบทอง)
-// ป้ายหัวข้อเป็น "แผ่นทองทึบ หมึกเข้ม" — ไล่ครีมงาช้าง #fdf9e4 → ทองสว่าง #ffd87a →
-// ทองแบรนด์ #f5b61d บนหมึกผิวลึกสุด #120302 (ทั้งสามจุดของไล่เฉดให้ 10:1 ขึ้นไป ตามกฎ
-// §2 ที่ว่าพื้นทองต้องใช้หมึกเข้มเสมอ ห้ามพลิกเป็นตัวอักษรครีม) ซึ่งเป็นขั้วกลับของป้าย
-// แล็กเกอร์แดงหมึกครีมใน ContentBoxFloatingBadge ทั้งพื้นและหมึก กรอบป้ายเป็นทองเข้ม
-// #b07a06 ไม่ใช่ทองแบรนด์ เพื่อไม่ให้ขอบป้ายกลืนกับพื้นป้าย
-// ออร่าสองมุมเป็นทองแบรนด์มุมซ้ายบน (ก้อนทองและเหรียญทอง) กับแดงเข้ม #6b0402 มุมขวาล่าง
-// (โคมแดง) เนื้อความ #fdeedd (= BRAND_TEXT) — 16.2:1 บนผิวกลาง
+// ลึกสุด ใบนี้จึงเป็นการ์ดมนไล่จากผิวกลาง #0f2e05 ลงไปหาผิวลึกสุด #051400 ในกรอบเขียวสด
+// #5cc211 ให้ต่างกันตั้งแต่ขอบ (อีกใบเป็นกรอบทอง)
+// ป้ายหัวข้อเป็น "แผ่นทองทึบ หมึกเข้ม" — ไล่เขียวครีม #e9f7d6 → ทองสว่าง #ffe066 →
+// ทองมงกุฎ #f2c230 บนหมึกเขียวเข้มสุด #06220a (ทั้งสามจุดของไล่เฉดให้ 10:1 ขึ้นไป ตามกฎ
+// §2 ที่ว่าพื้นทอง/พื้นไลม์ต้องใช้หมึก #06220a เสมอ ห้ามพลิกเป็นตัวอักษรครีม) ซึ่งเป็น
+// ขั้วกลับของป้ายแผ่นดำหมึกสว่างใน ContentBoxTwoFloatingBadge ทั้งพื้นและหมึก กรอบป้าย
+// เป็นทองลึก #a87a08 ไม่ใช่ทองมงกุฎ เพื่อไม่ให้ขอบป้ายกลืนกับพื้นป้าย
+// ออร่าสองมุมเป็นทองมงกุฎมุมซ้ายบน (มงกุฎและเหรียญทองในอาร์ตเวิร์ก) กับเขียวลึก #1a5c04
+// มุมขวาล่าง (ใบไม้ป่า) เนื้อความ #e9f7d6 (= BRAND_TEXT) — 14.6:1 บนผิวกลาง
 //
-// ชุดทองเมทัลลิกของ 789BETTING ที่เคยค้างในไฟล์นี้ (#fad354 #ffe79a #ddab33 #c9881f
-// #8a6410 #17130a #060402 #f3e7cd) และชุดเขียวมรกต-แดงสด-ทองของ DM899 ก่อนหน้านั้น
-// (#f2b422 #ffe9a8 #12c23a #01a326 #fb252b #102a16 #061008 #e4f2e4) ออกครบทุกจุดแล้ว
+// ชุดแดงแล็กเกอร์-ทองของ PIGPG ที่เคยค้างในไฟล์นี้ (#d4200d #a30303 #f5b61d #ffd87a
+// #fdf9e4 #b07a06 #6b0402 #2a0806 #120302 #fdeedd) ชุดม่วงนีออน-ทองของ WEPLAY168
+// (#a435f0 #fbe455 #ffd23d #c98a05 #1e0a3c #0a0117 #ece2ff) ชุดทองเมทัลลิกของ
+// 789BETTING (#fad354 #ffe79a #ddab33 #c9881f #8a6410 #17130a #060402 #f3e7cd) และ
+// ชุดเขียวมรกต-แดงสด-ทองของ DM899 (#f2b422 #ffe9a8 #12c23a #01a326 #fb252b #102a16
+// #061008 #e4f2e4) ออกครบทุกจุดแล้ว — DM899 ก็เป็นชุด "เขียว-ทอง" เหมือนกัน แต่เป็นคนละ
+// ค่าทุกตัว อย่าปล่อยไว้เพราะ "เขียวอยู่แล้ว"
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#d4200d]/55 bg-gradient-to-b from-[#2a0806]/95 to-[#120302]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5b61d]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#6b0402]/55 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#5cc211]/55 bg-gradient-to-b from-[#0f2e05]/95 to-[#051400]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f2c230]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#1a5c04]/55 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#b07a06] bg-gradient-to-r from-[#fdf9e4] via-[#ffd87a] to-[#f5b61d] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
-          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#120302] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#a87a08] bg-gradient-to-r from-[#e9f7d6] via-[#ffe066] to-[#f2c230] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
+          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#06220a] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeedd]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffd87a]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f7d6]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#f2c230]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeedd] md:border-l md:border-[#d4200d]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#f5b61d]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f7d6] md:border-l md:border-[#5cc211]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#8ce023]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

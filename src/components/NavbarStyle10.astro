@@ -8,26 +8,29 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// แตกดี168 (รอบฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ 2026-10-08): navbar ที่ใช้งานจริง
-// รอบนี้ — รอบก่อน (789BETTING) ใช้ NavbarStyle4Black ไฟล์นี้เคยเป็นของ หวย24
-// โทนแดงแบรนด์-ทองบนดำอมแดง ตอนนี้ย้ายมาเป็นฟ้าแบรนด์ #0193fb (vivid อันดับหนึ่ง
-// ของ logo.webp) คู่เหลืองมะนาว #fce604 (vivid อันดับสอง) บนพื้นกรมท่าเกือบดำ
-// #020609 / #07111d / #0b3c66 ชุดเดิมของ หวย24 (#d20a0a #f5c33b #ffd45e #0a0303
-// #2a0606 #7a0505 #a9761a #f7e2d6 rgba(210,10,10,α) rgba(245,195,59,α)) ออกครบ
-// ทุกจุดแล้ว ไม่เหลือฮิวเก่าในไฟล์ ไม่ว่าในคลาสหรือใน rgba()
-const logoAlt = "โลโก้ แตกดี168 บนพื้นโปร่ง เป็นคำว่า แตกดี ตัวอักษรไทยหนาสีเหลืองมะนาว วางอยู่เหนือเลข 168 ตัวหนาสีฟ้าสด และมีแถบมนบางสีขาวนวลคาดอยู่ใต้สุด";
+// KINGKONG555 (รอบเขียวป่า-ทองมงกุฎบนเขียวเกือบดำ 2026-10-09): navbar ที่ใช้งานจริง
+// รอบนี้ — รอบก่อน (WEPLAY168) ใช้ NavbarStyle6 ไฟล์นี้เคยเป็นของ แตกดี168 โทน
+// ฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ ตอนนี้ย้ายมาเป็นเขียวมะนาว #8ce023 (สีตัวอักษร
+// บนโลโก้) คู่ทองมงกุฎ #f2c230 (มงกุฎของกอริลลา) บนพื้นเขียวป่าเกือบดำ #051400 /
+// #0f2e05 / #1a5c04 ชุดเดิมของ แตกดี168 (#0193fb #fce604 #7bcffb #dbeafe #fff48a
+// #020609 #0b3c66 #07111d #064a86 #c9a703 #031018 rgba(1,147,251,α)
+// rgba(252,230,4,α)) ออกครบทุกจุดแล้ว ไม่เหลือฮิวเก่าในไฟล์ ไม่ว่าในคลาสหรือใน rgba()
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง เป็นหน้ากอริลลาขนดำแซมเขียวสวมมงกุฎทองประดับพลอยสีเขียว มีใบไม้เขียวแผ่อยู่ด้านหลังและกำปั้นสองข้างวางอยู่ด้านหน้า ใต้ลงมาเป็นคำว่า KINGKONG ตัวอักษรหนาสามมิติสีเขียวมะนาว ต่อด้วยเลข 555 ตัวหนาสีเงิน`;
 
-// เมนูชุดเดียว ใช้ทั้งแถบบนจอใหญ่และเมนูเต็มจอบนมือถือ — เดิมไฟล์นี้ประกาศ
+// เมนูชุดเดียว ใช้ทั้งแถบบนจอใหญ่และเมนูเต็มจอบนมือถือ — เดิมไฟล์นี้เคยประกาศ
 // อาร์เรย์ซ้ำสองชุด ซึ่งเป็นเหตุให้คนแก้ที่เดียวแล้วอีกที่ค้าง
 //
-// ไม่มี สมัครสมาชิก/เข้าสู่ระบบ ในเมนูรอบนี้ เพราะ toggle cta ของ uploader **ปิด**
-// อยู่: /login กับ /register กลับไปเป็นหน้า interstitial แบบ noindex ที่เด้งไปลิงก์
-// aff ทันที ไม่ใช่หน้าปุ่มที่ index ได้ กฎลำดับ "สมัครสมาชิก/เข้าสู่ระบบ ต่อจาก
-// โปรโมชั่น" จึงเป็น no-op รอบนี้ และ /ทางเข้า กลับเข้ามาอยู่ในเมนูแทน เพราะไม่มี
-// ลิงก์อื่นในเมนูที่พาไปที่เดียวกันอีกแล้ว (ปุ่ม CTA คู่มุมขวายังอยู่ — เป็นโครม
-// ของ variant นี้ คนละชุดกับรายการเมนู)
+// ลำดับ: หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · แล้วค่อยหน้าอ่านอื่นๆ
+// สองรายการกลางเป็น conversion action ไม่ใช่หน้าให้อ่าน จึงต้องอยู่ตรงที่สายตา
+// กวาดจากซ้ายไปขวาเจอก่อนหน้าข้อมูล — uploader ส่วนที่ 5 จะ append ต่อท้าย
+// อาร์เรย์เสมอ ทุกรอบรีแบรนด์จึงต้องเลื่อนขึ้นมาเอง
 //
-// ไม่มี /ตรวจหวย, /แนวทาง: แตกดี168 เป็นเว็บสล็อตล้วน ไม่ใช่เว็บหวย ทั้งสองไฟล์
+// toggle cta ของ uploader รอบนี้ **เปิด**: /login กับ /register เป็นหน้าปุ่มจริงที่
+// index ได้ จึงมีสองรายการนั้นในเมนู และ /ทางเข้า ถูกถอดออกโดยตั้งใจ เพราะหน้านั้น
+// มีไว้เสนอ เข้าสู่ระบบ/สมัครสมาชิก อยู่แล้ว การคงไว้คือลิงก์ที่สามไปที่เดียวกัน
+// (หน้า /ทางเข้า ยังมี route และยัง index อยู่ — ถอดแค่รายการในเมนู ห้ามลบไฟล์)
+//
+// ไม่มี /ตรวจหวย, /แนวทาง: KINGKONG555 เป็นเว็บสล็อตล้วน ไม่ใช่เว็บหวย ทั้งสองไฟล์
 // จอดอยู่ใน src/pages-disabled/ รอบนี้ จึงไม่มี route ให้ลิงก์ไป ถ้ารอบหน้าเป็น
 // แบรนด์หวย ต้องเพิ่มสองบรรทัดนี้คืนพร้อมกับย้ายไฟล์กลับเข้า src/pages/ ไม่งั้น
 // verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มีจริง
@@ -38,37 +41,37 @@ const logoAlt = "โลโก้ แตกดี168 บนพื้นโปร�
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
+  { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
+  { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
-  { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
-  { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
 ];
 
-// แถวเมนูรอบนี้มี 6 รายการ (น้อยกว่ารอบ หวย24 ที่มี 9 เพราะไม่มี ตรวจหวย/แนวทาง
-// และไม่มีคู่ สมัคร/เข้าสู่ระบบ) ที่ช่วง lg จึงอยู่สบายที่ text-sm gap-4 ได้เลย
-// แล้วค่อยขยายเป็น gap-6 ที่ xl ซึ่งเป็นช่วงที่ปุ่ม CTA คู่ขวาโผล่มาด้วย
+// แถวเมนูรอบนี้มี 7 รายการ (มากกว่ารอบ แตกดี168 ที่มี 6 เพราะ toggle cta เปิด
+// จึงมีคู่ สมัคร/เข้าสู่ระบบ เพิ่มมา แต่ /ทางเข้า ออกไป) ที่ช่วง lg จึงอยู่ที่
+// text-sm gap-4 แล้วค่อยขยายเป็น gap-6 ที่ xl ซึ่งเป็นช่วงที่ปุ่ม CTA คู่ขวาโผล่มา
 //
-// แถบบนสุดพูดได้เฉพาะสิ่งที่บรีฟพูด: สล็อตคลาสสิก · เกมโบนัส · ฟรีสปิน · ตัวคูณ ·
-// เกมเปิดใหม่ เท่านั้น ไม่มีบาคาร่า/รูเล็ต/บอล/หวย ซึ่งเป็นหมวดของแบรนด์ก่อนหน้า
-// และไม่ได้อยู่ในบรีฟรอบนี้
+// แถบบนสุดพูดได้เฉพาะสิ่งที่บรีฟพูด: สล็อตคลาสสิก · ฟรีสปิน · โบนัส · ตัวคูณ ·
+// เดิมพันเริ่มต้น 1 บาทในเกมที่กำหนด เท่านั้น ไม่มีบาคาร่า/รูเล็ต/บอล/หวย ซึ่งเป็น
+// หมวดของแบรนด์ก่อนหน้าและไม่ได้อยู่ในบรีฟรอบนี้
 ---
 
-<div class="hidden w-full border-b border-[#0193fb]/35 bg-gradient-to-r from-[#020609] via-[#0b3c66] to-[#020609] px-4 py-1.5 font-sans text-xs font-bold text-[#dbeafe]/85 lg:block">
+<div class="hidden w-full border-b border-[#8ce023]/35 bg-gradient-to-r from-[#051400] via-[#1a5c04] to-[#051400] px-4 py-1.5 font-sans text-xs font-bold text-[#e9f7d6]/85 lg:block">
   <div class="mx-auto flex max-w-7xl justify-between">
     <div class="flex gap-4">
-      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#fce604]">★</span> {BRAND_NAME} เกมสล็อตออนไลน์ รวมเกมเดิมพันหลายรูปแบบไว้ในระบบเดียว เลือกเกม ตรวจเครดิต และดูประวัติรายการจากบัญชีเดียว</span>
-      <span class="flex items-center gap-1 text-[#7bcffb]"><span aria-hidden="true" class="text-[#fce604]">✔</span> สล็อตคลาสสิก · เกมโบนัส · ฟรีสปิน · ตัวคูณ · เกมเปิดใหม่ตามรายการที่ให้บริการ</span>
+      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#f2c230]">★</span> {BRAND_NAME} ฐานเว็บสล็อตหลัก รวมเกมสล็อตหลายรูปแบบไว้ในแพลตฟอร์มเดียว เลือกค่าย ตรวจสอบเครดิต และติดตามรายการจากบัญชีเดียว</span>
+      <span class="flex items-center gap-1 text-[#bde397]"><span aria-hidden="true" class="text-[#f2c230]">✔</span> สล็อตคลาสสิก · ฟรีสปิน · โบนัส · ตัวคูณ · เดิมพันเริ่มต้น 1 บาทในเกมที่กำหนด</span>
     </div>
     <div class="flex gap-4">
-      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#fce604]">สอบถามแอดมินเรื่องสมัคร โปรโมชั่น และรายการฝากถอนได้ตลอด 24 ชั่วโมง</a>
+      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#f2c230]">สอบถามแอดมินเรื่องสมัคร โปรโมชั่น และรายการฝากถอนได้ตลอด 24 ชั่วโมง</a>
     </div>
   </div>
 </div>
 
 <header class="sticky top-2 z-50 mt-2 w-full px-2 font-sans md:px-4">
   <nav
-    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#0193fb]/45 bg-[#020609]/92 px-4 shadow-[0_10px_30px_rgba(1,147,251,0.30)] backdrop-blur-lg xl:px-8">
+    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#8ce023]/45 bg-[#051400]/92 px-4 shadow-[0_10px_30px_rgba(140,224,35,0.30)] backdrop-blur-lg xl:px-8">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
@@ -79,13 +82,13 @@ const links = [
             fetchpriority="high"
             widths={[120, 240, 360]}
             sizes="120px"
-            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(1,147,251,0.55)] xl:h-[45px]"
+            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(140,224,35,0.55)] xl:h-[45px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
             quality={45}
           />
         ) : (
-          <span class="bg-gradient-to-b from-[#fff48a] via-[#fce604] to-[#0193fb] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(1,147,251,0.45)]">{BRAND_NAME}</span>
+          <span class="bg-gradient-to-b from-[#ffe066] via-[#f2c230] to-[#8ce023] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(140,224,35,0.45)]">{BRAND_NAME}</span>
         )
       }
     </a>
@@ -95,14 +98,14 @@ const links = [
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#fce604] drop-shadow-[0_0_8px_rgba(1,147,251,0.5)]" : "text-[#dbeafe]/85 hover:text-[#fce604]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f2c230] drop-shadow-[0_0_8px_rgba(140,224,35,0.5)]" : "text-[#e9f7d6]/85 hover:text-[#f2c230]"}`}>
             <span aria-hidden="true" class="text-base transition-transform group-hover:scale-110">
               {item.icon}
             </span>
             <span>{item.name}</span>
             <div
               aria-hidden="true"
-              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#0193fb] to-[#fce604] shadow-[0_0_8px_rgba(1,147,251,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#8ce023] to-[#f2c230] shadow-[0_0_8px_rgba(140,224,35,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -112,35 +115,35 @@ const links = [
     <div class="z-50 flex items-center gap-3">
       <a
         href="/login"
-        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#0193fb]/60 bg-[#07111d] px-5 py-2 text-sm font-bold text-[#dbeafe] shadow-sm transition-all hover:border-[#fce604]/65 hover:bg-[#064a86] xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#8ce023]/60 bg-[#0f2e05] px-5 py-2 text-sm font-bold text-[#e9f7d6] shadow-sm transition-all hover:border-[#f2c230]/65 hover:bg-[#2f8c07] xl:flex">
         <span aria-hidden="true">🔑</span>
         <span>เข้าสู่ระบบ</span>
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#fff48a] via-[#fce604] to-[#c9a703] px-5 py-2 text-sm font-black text-[#031018] shadow-[0_0_15px_rgba(252,230,4,0.45)] transition-all hover:scale-105 xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#ffe066] via-[#f2c230] to-[#a87a08] px-5 py-2 text-sm font-black text-[#06220a] shadow-[0_0_15px_rgba(242,194,48,0.45)] transition-all hover:scale-105 xl:flex">
         <span aria-hidden="true">📝</span>
         <span>สมัครสมาชิก</span>
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#0193fb]/45 bg-gradient-to-b from-[#0b3c66] to-[#020609] shadow-sm lg:hidden"
+        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#8ce023]/45 bg-gradient-to-b from-[#1a5c04] to-[#051400] shadow-sm lg:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fce604] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fce604] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fce604] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#020609]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#051400]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
     <div class="flex max-h-[88vh] w-full flex-col items-center space-y-3 overflow-y-auto px-6 py-10">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#fce604] drop-shadow-[0_0_10px_rgba(1,147,251,0.6)]" : "text-[#dbeafe]/85 hover:text-[#fce604]"}`}>
+            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#f2c230] drop-shadow-[0_0_10px_rgba(140,224,35,0.6)]" : "text-[#e9f7d6]/85 hover:text-[#f2c230]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {item.icon}
             </span>
@@ -151,13 +154,13 @@ const links = [
       <div class="fs-item mt-4 flex w-full max-w-[280px] flex-col gap-4 pt-6">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#fff48a] via-[#fce604] to-[#c9a703] py-3.5 text-lg font-black text-[#031018] shadow-[0_0_20px_rgba(252,230,4,0.5)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffe066] via-[#f2c230] to-[#a87a08] py-3.5 text-lg font-black text-[#06220a] shadow-[0_0_20px_rgba(242,194,48,0.5)]">
           <span aria-hidden="true">📝</span>
           <span>สมัครสมาชิกใหม่</span>
         </a>
         <a
           href="/login"
-          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#0193fb]/60 bg-[#07111d] py-3.5 text-lg font-bold text-[#dbeafe] transition-colors hover:bg-[#064a86]">
+          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#8ce023]/60 bg-[#0f2e05] py-3.5 text-lg font-bold text-[#e9f7d6] transition-colors hover:bg-[#2f8c07]">
           <span aria-hidden="true">🔑</span>
           <span>เข้าสู่ระบบ</span>
         </a>

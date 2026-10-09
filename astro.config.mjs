@@ -37,13 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://weplay168-new.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://kingkong555-new.com — operator ระบุมาตรงๆ ในคำสั่ง
   // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ โดเมนมีขีดคั่นและมี new ต่อท้าย แต่ชื่อแบรนด์คือ WEPLAY168 เฉยๆ
+  // ⚠️ โดเมนมีขีดคั่นและมี new ต่อท้าย แต่ชื่อแบรนด์คือ KINGKONG555 เฉยๆ
   // — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://weplay168-new.com",
+  site: "https://kingkong555-new.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

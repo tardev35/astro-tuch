@@ -13,16 +13,25 @@ export interface Props {
 const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, ascols: ColTag = "p" } = Astro.props;
 
 // The badge is `absolute -top-6`, width-capped at w-[92%] max-w-2xl so a long
-// Thai title wraps instead of overflowing. Clearance check for PREMSUK365's
-// H2 "PREMSUK365 เปิดรับทุกเลขดัง เลขอั้น เว็บไหนอั้นเว็บเรารับหมด": at 320px
-// it wraps to 3 lines of text-lg/leading-normal (3 x 27px + 24px py + 4px
-// border = 109px, bottom edge at 85px) against pt-32/128px; from sm up it is
-// 2 lines of text-2xl (2 x 36px + 28px = 100px, bottom edge at 76px) against
-// sm:pt-24/96px. Do not trim the padding back for a short title.
+// Thai title wraps instead of overflowing. There is no `whitespace-nowrap` in
+// this file.
+//
+// Top padding is a FLAT pt-36 (144px), kept in sync with the other three
+// *FloatingBadge files (ContentBoxFloatingBadge, ContentBoxTwoFloatingBadge,
+// ContentBoxSevenThreeFloatingBadge) as of 2026-10-09. It used to be
+// `pt-32 sm:pt-24`, which was the one remaining variant still sized for a short
+// title — the responsive step DOWN at sm is the shape of the bug, because a
+// title that wraps at 320px can still wrap at 640px once the next brand hands
+// it a longer sentence. Worst case with a 3-chunk docx H2 at the badge's own
+// type scale: at 320px, 3 lines of text-lg/leading-normal (3 x 27px + 24px py-3
+// + 4px border = 109px, bottom edge at 85px) leaves 59px of daylight against
+// 144px; from sm up, 2 lines of text-2xl (2 x 36px + 28px = 100px, edge 76px)
+// leaves 68px. Do not trim the padding back for a short title and do not
+// re-introduce a responsive step.
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#e3c56a]/40 bg-gradient-to-b from-[#0d3a22] to-[#03130a] p-8 pt-32 shadow-[0_20px_50px_rgba(2,12,6,0.6)] sm:pt-24">
+  <div class="relative w-full max-w-7xl rounded-2xl border-2 border-[#e3c56a]/40 bg-gradient-to-b from-[#0d3a22] to-[#03130a] p-8 pt-36 shadow-[0_20px_50px_rgba(2,12,6,0.6)]">
     {
       title && (
         <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#e3c56a]/60 bg-gradient-to-b from-[#0d3a22] to-[#020c06] px-5 py-3 text-center shadow-[0_10px_20px_rgba(2,12,6,0.5)] sm:px-10">
