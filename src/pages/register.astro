@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/AnnouncementCyber.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -29,22 +29,28 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // กรอกและตรวจสอบข้อมูล → ยืนยันบัญชีและเข้าสู่ระบบ ใช้ได้แค่ในคอปปี้ title/meta
 // ห้ามแตกเป็นหัวข้อหรือรายการบนหน้า (หน้านี้มีโควตาเป็นปุ่มหนึ่งปุ่ม)
 //
-// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
-// ทองแบรนด์ #cc920a · ทองสว่าง #f7d14e · ทองซีด #fde9a6 · ทองเข้ม #8a6204 ·
-// ผิวกลาง #09190d · ผิวลึก #051007 · หมึกบนพื้นสว่าง #07170c
-// ปุ่มนี้เป็น PRIMARY เดียวกับ /ทางเข้า: ถมทองไล่เฉด #fde9a6 → #f7d14e → #cc920a
-// ขอบทองเข้ม #8a6204 บนหมึกเข้ม #07170c (≈11.8:1)
+// PIGPG (รอบแดงแล็กเกอร์-ทองแบบตรุษจีน 2026-10-09, brand-spec §2):
+// ทองแบรนด์ #f5b61d · ทองสว่าง #ffd87a · ทองเข้ม #b07a06 · ครีมงาช้าง #fdf9e4 ·
+// แดงสด #d4200d · แดงฐาน #a30303 · แดงเข้ม #6b0402 ·
+// ผิวกลาง #2a0806 · ผิวลึก #1c0503 · ผิวลึกสุด #120302
+// ปุ่มนี้เป็น PRIMARY เดียวกับ /ทางเข้า: ถมทองไล่เฉด #ffd87a → #f5b61d → #b07a06
+// ขอบทองเข้ม #b07a06 บนหมึกเข้ม #1c0503 (สเปกวัดไว้ ≈10.1:1)
 // ⚠️ ห้ามกลับด้าน (สเปก §2): พื้นถมทองต้องใช้หมึกเข้มเสมอ ห้ามขาวหรือครีม เพราะ
-// ขาวบนทองลงไปอยู่ราว 1.3:1 — ส่วน /login เป็น SECONDARY ผิวเขียวเข้ม จึงไม่ซ้ำกัน
-// ชุดฟ้า-เหลืองของแบรนด์ก่อนออกครบแล้ว ทั้ง raw hex และ rgba()
+// ขาวบนทองลงไปอยู่ราว 1.3:1 — ส่วน /login เป็น SECONDARY ถมแดง จึงไม่ซ้ำกัน
+// และ #d4200d ห้ามถือตัวอักษรเลย (3.5:1 บนผิวการ์ด) ใช้ได้แค่เส้นขอบและออรา
+// ชุดมรกต-ทองของแบรนด์ก่อนออกครบแล้ว ทั้ง raw hex และ rgba()
 //
-// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ และเรียกแบบ bare
+// Announcement หมุนมาเป็น AnnouncementCyber ทั้งเว็บรอบนี้ และเรียกแบบ bare
 // ทุกหน้า — ห้ามส่ง prop message จากหน้านี้
 //
+// แบรนด์นี้เป็นเว็บสล็อตออนไลน์ล้วน (ฐานเข้าเล่นสล็อตเว็บหลัก) มีแต่หมวดสล็อต
+// หมวดเกมอื่นและหมวดลอตเตอรีของแบรนด์ก่อนๆ ห้ามหลงเหลือ — รายการคำต้องห้าม
+// เต็มอยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep เจอ false positive
+//
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 154
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 157
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} เว็บพนันฐานเล่นหลัก กดปุ่มเดียวไปยังช่องทางหลัก สมัครผ่านมือถือได้ใน 3 ขั้นตอน กรอกและตรวจสอบข้อมูล แล้วยืนยันบัญชีเพื่อเข้าใช้งาน`;
+const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} ฐานเข้าเล่นสล็อตเว็บหลัก กดปุ่มเดียวไปยังช่องทางหลัก สมัครผ่านมือถือได้ใน 3 ขั้นตอน กรอกและตรวจสอบข้อมูล แล้วยืนยันบัญชีเพื่อเข้าใช้งาน`;
 
 const graph = pageGraph(Astro, {
   name: `สมัครสมาชิก ${BRAND_NAME}`,
@@ -58,7 +64,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เว็บพนันฐานเล่นหลัก สมัครผ่านมือถือได้ใน 3 ขั้นตอน`} description={pageDescription}>
+<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} ฐานเข้าเล่นสล็อตเว็บหลัก สมัครผ่านมือถือได้ใน 3 ขั้นตอน`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -70,8 +76,8 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#8a6204] bg-gradient-to-b from-[#fde9a6] via-[#f7d14e] to-[#cc920a] px-6 py-4 text-2xl font-black tracking-wide text-[#07170c] shadow-[0_10px_30px_rgba(204,146,10,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#07170c] hover:shadow-[0_15px_40px_rgba(204,146,10,0.60)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fde9a6]/60 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#b07a06] bg-gradient-to-b from-[#ffd87a] via-[#f5b61d] to-[#b07a06] px-6 py-4 text-2xl font-black tracking-wide text-[#1c0503] shadow-[0_10px_30px_rgba(245,182,29,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#1c0503] hover:shadow-[0_15px_40px_rgba(245,182,29,0.60)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ffd87a]/60 to-transparent"></div>
         สมัครสมาชิก
       </a>
     </div>

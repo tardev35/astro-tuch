@@ -25,13 +25,13 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // are `absolute` hairlines, so 100% of the badge's inner width belongs to the
 // title.
 //
-// BADGE CLEARANCE RE-DERIVED FOR KOON234 (2026-10-09). This box carries docx
-// H2 #2, which is the longest heading this file has ever been handed:
-//   "KOON234 อัปเกรดระบบ เล่นพนันออนไลน์ เข้มงวด ปลอดภัยขึ้น100%"
-// 59 code points; 8 of them are zero-width Thai marks (ั in อัปเกรดระบบ, ่ ั ์ in
-// เล่นพนันออนไลน์, ้ in เข้มงวด, ั ึ ้ in ปลอดภัยขึ้น100%), so it advances 51 cells
-// including its 4 spaces. Its five space-delimited chunks measure
-// 7 / 10 / 12 / 6 / 12 cells, and the worst case assumed below is that the line
+// BADGE CLEARANCE RE-DERIVED FOR PIGPG (2026-10-09). This box carries docx
+// H2 #2:
+//   "PIGPG เปิดระบบให้เล่นเกมสล็อต พร้อมถอนยอดได้ 24 ชั่วโมง"
+// 55 code points; 8 of them are zero-width Thai marks (ิ ้ ่ ็ in
+// เปิดระบบให้เล่นเกมสล็อต, ้ ้ in พร้อมถอนยอดได้, ั ่ in ชั่วโมง), so it advances
+// 47 cells including its 4 spaces. Its five space-delimited chunks measure
+// 5 / 19 / 12 / 2 / 5 cells, and the worst case assumed below is that the line
 // breaker only breaks at those 4 spaces (no Thai dictionary breaking). No single
 // chunk is wider than one line at any width, so nothing can overflow sideways.
 //
@@ -41,59 +41,59 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy at the 4 spaces: 7+1+10 = 18 fits (+12 would be 31),
-//               then 12+1+6 = 19 fits, then 12 -> 3 lines.
+//               Greedy at the 4 spaces: 5 alone (5+1+19 = 25 overflows),
+//               then 19, then 12+1+2+1+5 = 21 -> 3 lines.
 //               Budget 3 lines = 3x27 + 24 = 105, edge 81 vs pt-36/144px
 //                                                        -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               38 cells fit, then 12 -> 2 lines. Budget 2 = 2x30 + 24 = 84,
+//               41 cells fit, then 5 -> 2 lines. Budget 2 = 2x30 + 24 = 84,
 //               edge 60 vs pt-36/144px (sm inherits it)    -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
 //               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               38 cells, then 12 -> 2 lines.
+//               41 cells, then 5 -> 2 lines.
 //               Budget 2 = 2x36 + 24 = 96, edge 72
 //               vs pt-36/144px                             -> 72px clear
 // One flat pt-36 covers every width with 63px of daylight or better, so nothing
-// had to move this round even though the title grew from 39 cells to 51. All
-// three *FloatingBadge files are held at this same flat pt-36 so the next brand
-// cannot inherit a padding that was only ever sized for a short title. Do NOT
-// shrink it assuming the next brand's heading is shorter — redo the arithmetic
-// with that brand's real docx sentence.
+// had to move this round. All three *FloatingBadge files are held at this same
+// flat pt-36 so the next brand cannot inherit a padding that was only ever sized
+// for a short title. Do NOT shrink it assuming the next brand's heading is
+// shorter — redo the arithmetic with that brand's real docx sentence.
 //
-// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2): การ์ดไล่จากผิวยก
-// #0d2414 ลงไปหาผิวกลาง #09190d ในกรอบทองแบรนด์ #cc920a ซึ่งมาจาก vivid อันดับหนึ่งของ
-// logo.webp (เลข 234 ทองไล่เงาวาว) ตรงๆ
-// จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นทองทึบ" ไม่ใช่แผ่นสีเดียวกับการ์ด — ไล่ทองซีด
-// #fde9a6 ไปหาทองแบรนด์ #cc920a บนหมึก #07170c ตามกฎคอนทราสต์ของ §2 ที่ว่าพื้นทองต้องใช้
-// หมึกเข้มเสมอ ห้ามพลิกเป็นตัวอักษรขาวอมเขียว (#07170c บน #fde9a6 = 15.5:1 และบนปลาย
-// ไล่เฉดที่เข้มสุดคือ #cc920a = 6.8:1 — ทองเข้ม #8a6204 ไม่ถูกใช้เป็นพื้นของตัวหนังสือ
-// ที่ไหนในไฟล์นี้) ป้ายจึงเป็นจุดเดียวบนหน้านี้ที่หัวข้อเป็นหมึกทึบบนพื้นทองแทนที่จะเป็น
-// ตัวอักษรไล่เฉดบนพื้นมืด และทำให้มันไม่จมไปกับขอบการ์ดตอนที่มันคร่อมเส้นขอบอยู่
-// ออร่าสองมุมเป็นคู่สีของแบรนด์จริงๆ — เขียวมรกต #0a6b32 มุมขวาบน (ม่านและสูทเขียวในงาน
-// อาร์ต) คู่กับทองเข้ม #8a6204 มุมซ้ายล่าง (ริบบิ้นทอง) ไม่ใช่สองเฉดของทองเดียวแบบรอบ
-// 789BETTING เนื้อความ #e8f2e6 (= BRAND_TEXT) — 14.7:1 บนผิวยก
+// PIGPG (รอบแดงแล็กเกอร์-ทองแบบตรุษจีน 2026-10-09, brand-spec §2): การ์ดไล่จากผิวยก
+// #3a0d07 ลงไปหาผิวกลาง #2a0806 ในกรอบทองแบรนด์ #f5b61d ซึ่งมาจากเหรียญทองและก้อนทอง
+// ที่เต็มทั้งแบนเนอร์และสไลด์
+// จุดต่างของใบนี้คือป้ายลอยเป็น "ป้ายแล็กเกอร์แดงขอบทองหนา ตัวอักษรครีมงาช้าง" ซึ่งคือ
+// รูปร่างของโลโก้ PIGPG เองเป๊ะๆ (ป้ายแดงขอบทอง เขียน PIGPG ด้วยตัวสามมิติสีครีม) —
+// ไล่แดงเข้ม #a30303 → แดงลึก #6b0402 บนหมึกครีม #fdf9e4 (7.1:1 บน #a30303 และสูงกว่า
+// นั้นบน #6b0402) ป้ายจึงเป็นจุดเดียวบนหน้านี้ที่หัวข้อเป็นหมึกสว่างบนพื้นแดงทึบ แทนที่จะ
+// เป็นตัวอักษรไล่เฉดบนพื้นมืด และเป็นขั้วกลับของป้ายทองหมึกเข้มใน
+// ContentBoxSevenThreeFloatingBadge ที่อยู่ถัดลงไปสองบล็อก
+// ออร่าสองมุมเป็นคู่สีของแบรนด์จริงๆ — แดงสด #d4200d มุมขวาบน (โคมแดงและป้ายแล็กเกอร์ใน
+// งานอาร์ต) คู่กับทองเข้ม #b07a06 มุมซ้ายล่าง (ก้อนทอง) ไม่ใช่สองเฉดของทองเดียว
+// เนื้อความ #fdeedd (= BRAND_TEXT) — 14.8:1 บนผิวยก
 //
-// ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#0193fb #7bcffb #d4ecfd #064a86 #fce604 #fff48a
-// #c9a703 #0a1726 #07111d #dbeafe) และชุดทองเมทัลลิกของ 789BETTING/UOK365 ก่อนหน้านั้น
-// (#fad354 #ffe79a #ddab33 #8a6410 #c9881f #4a3407 #17130a #0e0b05 #0a0802 #f3e7cd
-// #c8912f #f5d98a #6d4412 #191108 #ece1cc) ออกครบทุกจุดแล้ว — ทองสองรอบก่อนเป็นคนละค่า
-// กับทองของรอบนี้ ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่แล้ว" ไม่ได้หมายความว่า
-// เป็นทองของแบรนด์นี้
+// ชุดมรกต-ทองของ KOON234 (#0a6b32 #2fbf6a #043d1c #cc920a #f7d14e #fde9a6 #8a6204
+// #0d2414 #09190d #e8f2e6 #07170c rgba(204,146,10,α)) ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168
+// (#0193fb #7bcffb #d4ecfd #064a86 #fce604 #fff48a #c9a703 #0a1726 #07111d #dbeafe)
+// และชุดทองเมทัลลิกของ 789BETTING/UOK365 ก่อนหน้านั้น (#fad354 #ffe79a #ddab33 #8a6410
+// #c9881f #4a3407 #17130a #0e0b05 #0a0802 #f3e7cd) ออกครบทุกจุดแล้ว — ทองสองรอบก่อน
+// เป็นคนละค่ากับทองของรอบนี้ ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่แล้ว" ไม่ได้
+// หมายความว่าเป็นทองของแบรนด์นี้
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#cc920a]/60 bg-gradient-to-b from-[#0d2414] to-[#09190d] p-8 pt-36 text-left text-base leading-relaxed text-[#e8f2e6] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#0a6b32]/45 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#8a6204]/45 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#f5b61d]/60 bg-gradient-to-b from-[#3a0d07] to-[#2a0806] p-8 pt-36 text-left text-base leading-relaxed text-[#fdeedd] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#d4200d]/45 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#b07a06]/45 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#8a6204] bg-gradient-to-r from-[#fde9a6] to-[#cc920a] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#07170c] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#043d1c] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#07170c] uppercase`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#f5b61d] bg-gradient-to-r from-[#a30303] to-[#6b0402] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#ffd87a] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#b07a06] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#fdf9e4] uppercase`}>{title}</HeadingTag>
         </div>
       )
     }

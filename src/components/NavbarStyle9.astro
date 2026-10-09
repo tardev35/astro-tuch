@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
 const logoAlt =
-  "โลโก้ DM899 บนพื้นโปร่งใส ด้านซ้ายเป็นวงโค้งครึ่งวงกลมสีเขียวตัดแดง มีตัวอักษร D สีเขียวสามมิติซ้อนทับตัว M สีแดงอยู่ตรงกลาง ถัดมาเป็นคำว่า DM ตัวหนาสามมิติ โดย D เป็นสีเขียวและ M เป็นสีแดง ปิดท้ายด้วยเลข 899 ตัวหนาสามมิติสีเงินโครเมียมไล่แสง";
+  "โลโก้ PIGPG บนพื้นโปร่งใส ด้านบนเป็นหัวหมูการ์ตูนสีชมพูแก้มแดง ขยิบตาและยิ้มกว้าง สวมหมวกทรงจีนสีแดงที่มีเหรียญทองกลางหมวกและยอดทรงกลมสีทองด้านบน รอบหัวหมูมีเหรียญทองและก้อนทองวางเรียงเป็นพัด ด้านล่างเป็นป้ายแล็กเกอร์สีแดงขอบทองหนา คาดคำว่า PIGPG ด้วยตัวอักษรหนาสามมิติสีครีมงาช้าง และมีพลอยสีแดงทรงข้าวหลามตัดอยู่ใต้ป้าย";
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -20,16 +20,15 @@ const logoAlt =
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
 // และมีลิงก์จาก footer)
 //
-// ไม่มี /ตรวจหวย กับ /แนวทาง รอบนี้: DM899 เป็นเว็บสล็อตคาสิโน ไม่ใช่เว็บหวย
-// สองหน้านั้นถูกพักไว้ใน src/pages-disabled/ ลิงก์ทั้งคู่จึงถูกถอดออกจากเมนูแล้ว
-// (แบรนด์ก่อนที่ใช้ไฟล์นี้คือ หวยเต็ง ซึ่งเปิดสองหน้านั้นไว้) ถ้าทิ้งไว้
-// verify-build.mjs จะทำให้ build แดงเพราะ href ชี้ไป route ที่ไม่มีจริงใน dist/
+// ไม่มี /ตรวจหวย กับ /แนวทาง รอบนี้: PIGPG เป็นฐานเข้าเล่นสล็อต ไม่ใช่เว็บหวย
+// สองหน้านั้นถูกพักไว้ใน src/pages-disabled/ ลิงก์ทั้งคู่จึงไม่มีในเมนู ถ้าเติม
+// เข้ามา verify-build.mjs จะทำให้ build แดงเพราะ href ชี้ไป route ที่ไม่มีจริงใน dist/
 //
 // เมนูชุดนี้ถูกประกาศครั้งเดียวตรงนี้ แล้ว render ทั้งแถบ desktop และ drawer
 // มือถือจากตัวเดียวกัน — ถ้าแยกสองชุดเมื่อไหร่ มันจะเพี้ยนกันเองรอบถัดไป
 //
-// ไอคอนเลือกให้ตรงหมวดของเว็บสล็อตคาสิโน ไม่ใช่แว่นขยาย/กราฟสถิติของเว็บหวย
-// รอบก่อน และทุกตัวอยู่ใน <span aria-hidden="true"> แยกจาก label เสมอ
+// ไอคอนเลือกให้ตรงหมวดของเว็บสล็อต และทุกตัวอยู่ใน <span aria-hidden="true">
+// แยกจาก label เสมอ ไม่เคยฝังอยู่ในข้อความของ label
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
@@ -40,41 +39,40 @@ const links = [
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 
-// DM899: เขียวมรกต + แดงสด + ทอง บนดำอมเขียว (2026-10-03)
-// แถบไล่จาก #030a05 → #0a2410 → #030a05 (ดำอมเขียวตามพื้นแบนเนอร์ #05140c #0b1b13)
-// ม่านมือถือใช้ #030a05 ตัวเดียวกัน ขอบและเส้นคั่นเป็นเขียวแบรนด์ #01a326 อัลฟาต่ำ
-// ข้อความ active เป็นทองอ่อน #ffe9a8 ข้อความปกติเป็นสีเนื้อความ #e4f2e4
-// ขีดใต้เมนู active ไล่ ทองอ่อน #ffe9a8 → เขียวสว่าง #12c23a → แดงแบรนด์ #fb252b
-// ซึ่งคือสามสีของโลโก้เรียงตามลำดับที่ตาเห็นจริง
-// ออร่ากลมหลังโลโก้เป็นเขียวแบรนด์ #01a326 เรืองแสงใต้โลโก้เป็น rgba(1,163,38,α)
-// — คู่เขียว-แดงมาจากโลโก้ตรงๆ ที่ตัว D เป็นเขียวและตัว M เป็นแดง ส่วนทองมาจาก
-// ตัวอักษรบนแบนเนอร์
+// PIGPG: แดงแล็กเกอร์ + ทอง + ครีมงาช้าง บนแดงเกือบดำ (2026-10-09)
+// แถบไล่จาก #120302 → #3a0d07 → #120302 (แดงเกือบดำ เข้มกว่าพื้นเพจที่เป็น
+// gradient #6b0000 → #7a4100 เพื่อให้แถบ sticky แยกตัวออกจากเนื้อหาที่เลื่อนผ่าน)
+// ม่านมือถือใช้ #120302 ตัวเดียวกัน ขอบและเส้นคั่นเป็นทองแบรนด์ #f5b61d อัลฟาต่ำ
+// ข้อความ active เป็นทองอ่อน #ffd87a ข้อความปกติเป็นสีเนื้อความ #fdeedd
+// ขีดใต้เมนู active ไล่ ครีม #fdf9e4 → ทอง #f5b61d → แดงสด #d4200d ซึ่งคือสามสี
+// ของโลโก้เรียงตามลำดับที่ตาเห็นจริง (ตัวอักษรครีม → ขอบป้ายทอง → ป้ายแดง)
+// ออร่ากลมหลังโลโก้เป็นทอง #f5b61d เรืองแสงใต้โลโก้เป็น rgba(245,182,29,α)
 //
-// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้นเขียวทึบ (#4ade6b→#12c23a→#01a326)
-// ให้ปุ่ม conversion เด่นออกจากพื้นดำทั้งแถบ ส่วน "เข้าสู่ระบบ" เป็นปุ่มโครงทอง
-// ไม่ทึบ จะได้ไม่แย่งสายตากันเอง หมึกบนปุ่มเขียวเป็น #06140a (เขียวเกือบดำ)
-// ได้คอนทราสต์ 5.6:1 ขึ้นไปทั้งสามสต็อปของไล่เฉด — สต็อปเข้มสุดของไล่เฉดหยุดที่
-// #01a326 ไม่ลงไปถึง #01841b เพราะคู่นั้นเหลือ 3.9:1 ซึ่งตกเกณฑ์สำหรับ text-sm
-// ชุดเขียวป่า-ทองของ หวยเต็ง (#03150a #062a12 #0b3d18 #e5c04f #fae474 #0bb42f
-// #024a0f #026314 #d8ead9 #eafbe9 #0a1a0c #bd8d2d) ถูกแทนครบทุกจุดแล้ว
+// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้นทองทึบ (#ffd87a→#f5b61d→#b07a06)
+// ให้ปุ่ม conversion เด่นออกจากพื้นแดงเกือบดำทั้งแถบ ส่วน "เข้าสู่ระบบ" เป็นปุ่ม
+// โครงแดงไม่ทึบ จะได้ไม่แย่งสายตากันเอง หมึกบนปุ่มทองเป็น #2a0806 (แดงเกือบดำ)
+// ได้คอนทราสต์ 5.0:1 ขึ้นไปทั้งสามสต็อปของไล่เฉด — สต็อปเข้มสุดหยุดที่ #b07a06
+// ไม่ลงไปถึง #8a5f05 เพราะคู่นั้นเหลือ 3.6:1 ซึ่งตกเกณฑ์สำหรับ text-sm
+// ชุดเขียว-แดง-ทองของ DM899 (#01a326 #12c23a #4ade6b #fb252b #030a05 #0a2410
+// #e4f2e4 #ffe9a8 #06140a #0a4a18 #f2b422 #8f0609) ถูกแทนครบทุกจุดแล้ว
 //
 // โลโก้คง loading="eager" ไว้ (อยู่เหนือ fold บน header ที่ sticky) แต่ไม่มี
 // fetchpriority="high" — LCP คือ hero banner ใน MainLayout มีภาพเดียวที่ได้ high
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-50 w-full border-b border-[#01a326]/45 bg-gradient-to-r from-[#030a05] via-[#0a2410] to-[#030a05] shadow-[0_4px_25px_rgba(1,8,3,0.92)]">
+  <nav class="relative z-50 w-full border-b border-[#f5b61d]/45 bg-gradient-to-r from-[#120302] via-[#3a0d07] to-[#120302] shadow-[0_4px_25px_rgba(10,2,1,0.92)]">
     <div class="mx-auto flex h-[70px] w-full max-w-[1600px] items-center justify-between px-4 lg:h-[85px] lg:px-8">
       <div class="flex items-center">
         <a href="/" class="relative flex-shrink-0 transition-transform hover:scale-105">
-          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#01a326]/35 blur-xl"></div>
+          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#f5b61d]/35 blur-xl"></div>
           <Picture
             src={mainLogo!}
             alt={logoAlt}
             loading="eager"
             widths={[110, 220, 330]}
             sizes="110px"
-            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(1,163,38,0.6)] lg:h-[50px]"
+            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(245,182,29,0.6)] lg:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
@@ -86,17 +84,17 @@ const links = [
           links.map((link) => (
             <a
               href={link.path}
-              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#ffe9a8]" : "text-[#e4f2e4]/80 hover:text-[#ffe9a8]"}`}>
+              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#ffd87a]" : "text-[#fdeedd]/80 hover:text-[#ffd87a]"}`}>
               <div
                 aria-hidden="true"
-                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#0a4a18]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#6b0402]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
               />
               <span aria-hidden="true" class="relative z-10 text-base">
                 {link.icon}
               </span>
               <span class="relative z-10">{link.name}</span>
               <div
-                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#ffe9a8] via-[#12c23a] to-[#fb252b] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#fdf9e4] via-[#f5b61d] to-[#d4200d] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
               />
             </a>
           ))
@@ -106,28 +104,28 @@ const links = [
       <div class="flex items-center gap-3 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#f2b422]/60 px-6 py-2.5 text-sm font-bold text-[#ffe9a8] shadow-[0_0_10px_rgba(242,180,34,0.22)] transition-all hover:border-[#f2b422] hover:bg-[#0a4a18] hover:text-[#ffe9a8] xl:flex">
+          class="hidden items-center justify-center rounded-full border border-[#d4200d]/70 px-6 py-2.5 text-sm font-bold text-[#ffd87a] shadow-[0_0_10px_rgba(212,32,13,0.28)] transition-all hover:border-[#d4200d] hover:bg-[#6b0402] hover:text-[#fdf9e4] xl:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#4ade6b] via-[#12c23a] to-[#01a326] px-6 py-2.5 text-sm font-extrabold text-[#06140a] shadow-[0_0_20px_rgba(1,163,38,0.55)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
+          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#ffd87a] via-[#f5b61d] to-[#b07a06] px-6 py-2.5 text-sm font-extrabold text-[#2a0806] shadow-[0_0_20px_rgba(245,182,29,0.55)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
           สมัครสมาชิก
         </a>
 
         <button
           id="hamburger-btn"
-          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#01a326] bg-gradient-to-tr from-[#0a2410] to-[#8f0609] shadow-[0_0_15px_rgba(1,163,38,0.6)] lg:hidden"
+          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#f5b61d] bg-gradient-to-tr from-[#3a0d07] to-[#a30303] shadow-[0_0_15px_rgba(245,182,29,0.6)] lg:hidden"
           aria-label="เปิดเมนู">
-          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#ffe9a8] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#ffe9a8] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#ffe9a8] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#ffd87a] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#ffd87a] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#ffd87a] transition-all duration-300"></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#030a05]/98 backdrop-blur-2xl lg:hidden">
+  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#120302]/98 backdrop-blur-2xl lg:hidden">
     <div class="flex w-full flex-col items-center space-y-3 px-6 py-8">
       <Picture
         src={mainLogo!}
@@ -135,7 +133,7 @@ const links = [
         aria-hidden="true"
         widths={[110, 220, 330]}
         sizes="110px"
-        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(1,163,38,0.65)]"
+        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(245,182,29,0.65)]"
         formats={["avif", "webp"]}
         fallbackFormat="webp"
       />
@@ -144,7 +142,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#ffe9a8] drop-shadow-[0_0_8px_rgba(242,180,34,0.85)]" : "text-[#e4f2e4]/80 hover:text-[#ffe9a8]"}`}>
+            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#ffd87a] drop-shadow-[0_0_8px_rgba(245,182,29,0.85)]" : "text-[#fdeedd]/80 hover:text-[#ffd87a]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {link.icon}
             </span>
@@ -153,14 +151,14 @@ const links = [
         ))
       }
 
-      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#01a326]/50 pt-6 opacity-0">
+      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#f5b61d]/50 pt-6 opacity-0">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#4ade6b] via-[#12c23a] to-[#01a326] py-3.5 text-lg font-extrabold text-[#06140a] shadow-[0_0_20px_rgba(1,163,38,0.55)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffd87a] via-[#f5b61d] to-[#b07a06] py-3.5 text-lg font-extrabold text-[#2a0806] shadow-[0_0_20px_rgba(245,182,29,0.55)]">
           <span aria-hidden="true">📝</span>
           <span>สมัครสมาชิก</span>
         </a>
-        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#f2b422]/60 py-3.5 text-lg font-bold text-[#ffe9a8] hover:bg-[#0a4a18]/60">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#d4200d]/70 py-3.5 text-lg font-bold text-[#ffd87a] hover:bg-[#6b0402]/60">เข้าสู่ระบบ</a>
       </div>
     </div>
   </div>

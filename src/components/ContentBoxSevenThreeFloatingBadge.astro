@@ -15,32 +15,34 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// BADGE CLEARANCE RE-DERIVED FOR 789BETTING (2026-10-08). This box carries docx
-// H3 #5 "แนะนำเพื่อน โบนัส 0.8%" — 22 code points, 19 advancing cells once the
-// 3 zero-width marks (ื ่ ั) are discounted and the 2 spaces counted. Measured
-// here rather than inherited on trust. The heading keeps `leading-normal` (1.5)
-// and the badge adds py-2.5 (20px) plus border-2 (4px); there are no spark spans
-// in this variant, so the full inner width is text:
+// BADGE CLEARANCE RE-DERIVED FOR PIGPG (2026-10-09). This box carries docx
+// H3 #5 "โปรโมชั่น แนะนำเพื่อน รับโบนัสแชร์ลิงก์ 0.8% ไม่จำกัด" — 53 code points,
+// 42 advancing cells once the 11 zero-width marks (ั ่ in โปรโมชั่น, ื ่ in
+// แนะนำเพื่อน, ั ั ์ ิ ์ in รับโบนัสแชร์ลิงก์, ่ ั in ไม่จำกัด) are discounted and
+// the 4 spaces counted. Measured here rather than inherited on trust. The
+// heading keeps `leading-normal` (1.5) and the badge adds py-2.5 (20px) plus
+// border-2 (4px); there are no spark spans in this variant, so the full inner
+// width is text. The five space-delimited chunks measure 7 / 9 / 12 / 4 / 6
+// cells and the worst case assumed is a break only at those 4 spaces:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               19 cells fits on 1 line. Budget 2 lines = 2x27 + 24 = 78,
-//               edge 54 vs pt-36/144px                     -> 90px clear
+//               Greedy: 7+1+9 = 17, then 12+1+4 = 17, then 6 -> 3 lines.
+//               Budget 3 lines = 3x27 + 24 = 105, edge 81 vs pt-36/144px
+//                                                          -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               19 cells, 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
+//               all 42 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
 //               vs pt-36/144px                             -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl 24px -> 43 cells/line, 36px/line. 19 cells, 1 line.
+//               text-2xl 24px -> 43 cells/line, 36px/line. 42 cells, 1 line.
 //               Budget 2 = 2x36 + 24 = 96, edge 72 vs pt-36/144px
 //                                                          -> 72px clear
-// This round's heading is the SHORT one of the three, so the clearance is
-// generous rather than tight — and the flat pt-36 is deliberate anyway: all
-// three *FloatingBadge files are held on the same value so the next brand
-// cannot inherit a padding that was only ever sized for the short one (the
-// previous round shipped pt-36 / pt-28 / pt-32+md:pt-36, and the pt-28 one went
-// down to 4px of clearance the moment it got a 53-cell sentence). Do not shrink
-// it without redoing the arithmetic against the real docx sentence the next
-// brand puts in here.
+// The flat pt-36 is deliberate: all three *FloatingBadge files are held on the
+// same value so the next brand cannot inherit a padding that was only ever
+// sized for a short title (an older round shipped pt-36 / pt-28 / pt-32 and the
+// pt-28 one went down to 4px of clearance the moment it got a 53-cell
+// sentence). Do not shrink it without redoing the arithmetic against the real
+// docx sentence the next brand puts in here.
 //
 // This block carries the image column on the RIGHT — and the grid stays at
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
@@ -52,50 +54,51 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // emits.
 //
 // Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-7xl/1280px + px-4, card p-8, grid gap-10, and the image column
-// adds md:pl-10 plus a 1px md:border-l):
-//   >= 1280px : (1280 - 32 - 64 - 40) x 0.3 - 41 = 343.2 - 41 = 302.2 -> 302px
-//   md..1279  : (100vw - 136) x 0.3 - 41         = calc(30vw - 82px)
-//   < md      : one column at p-8, no md: padding = calc(100vw - 96px)
+// (section max-w-7xl/1280px + px-4, card border-2 1px x2 per side = 4, p-8,
+// grid gap-10, and the image column adds md:pl-10 plus a 1px md:border-l):
+//   >= 1280px : (1280 - 32 - 4 - 64 - 40) x 0.3 - 41 = 342 - 41 = 301px
+//   md..1279  : (100vw - 140) x 0.3 - 41             = calc(30vw - 83px)
+//   < md      : one column at p-8, no md: padding     = calc(100vw - 100px)
 // Change any of those numbers and the page's `sizes` has to move with it.
 //
-// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08, brand-spec §2): นี่คือครึ่ง "ป้ายลอย"
-// ของคู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThreeCyberCut ที่เป็นการ์ดมุมตัด
-// ผิวลึกสุด ใบนี้จึงเป็นการ์ดมนไล่จากผิวยก #17130a ลงไปหาผิวลึกสุด #060402 ในกรอบทอง
-// แบรนด์ #fad354 ให้ต่างกันตั้งแต่ขอบ ป้ายหัวข้อลอยบนพื้น #060402 ในกรอบทองเดียวกัน
-// ไล่ทองแชมเปญ #ffe79a → ทองกลาง #ddab33 → บรอนซ์ #c9881f (6.9:1 บนพื้นป้าย — หัวข้อนี้
-// สั้น อยู่บรรทัดเดียวทุกความกว้าง หางไล่เฉดจึงยังอ่านออกทั้งบรรทัด) ซึ่งเป็นลำดับเดียว
-// บนหน้านี้ที่จบด้วยบรอนซ์
-// ออร่าสองมุมเป็นบรอนซ์ #c9881f มุมซ้ายบนกับทองลึก #8a6410 มุมขวาล่าง คือ "ทองอุ่น/
-// ทองเข้ม" ของฮิวเดียวกัน รอบนี้ไม่มีสีที่สองเลย เนื้อความ #f3e7cd (= BRAND_TEXT)
+// PIGPG (รอบแดงแล็กเกอร์-ทองแบบตรุษจีน 2026-10-09, brand-spec §2): นี่คือครึ่ง "ป้ายลอย"
+// ของคู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThreeCyberCut ที่เป็นการ์ดมุมตัดผิว
+// ลึก ใบนี้จึงเป็นการ์ดมนไล่จากผิวกลาง #2a0806 ลงไปหาผิวลึกสุด #120302 ในกรอบแดงสด
+// #d4200d ให้ต่างกันตั้งแต่ขอบ (อีกใบเป็นกรอบทอง)
+// ป้ายหัวข้อเป็น "แผ่นทองทึบ หมึกเข้ม" — ไล่ครีมงาช้าง #fdf9e4 → ทองสว่าง #ffd87a →
+// ทองแบรนด์ #f5b61d บนหมึกผิวลึกสุด #120302 (ทั้งสามจุดของไล่เฉดให้ 10:1 ขึ้นไป ตามกฎ
+// §2 ที่ว่าพื้นทองต้องใช้หมึกเข้มเสมอ ห้ามพลิกเป็นตัวอักษรครีม) ซึ่งเป็นขั้วกลับของป้าย
+// แล็กเกอร์แดงหมึกครีมใน ContentBoxFloatingBadge ทั้งพื้นและหมึก กรอบป้ายเป็นทองเข้ม
+// #b07a06 ไม่ใช่ทองแบรนด์ เพื่อไม่ให้ขอบป้ายกลืนกับพื้นป้าย
+// ออร่าสองมุมเป็นทองแบรนด์มุมซ้ายบน (ก้อนทองและเหรียญทอง) กับแดงเข้ม #6b0402 มุมขวาล่าง
+// (โคมแดง) เนื้อความ #fdeedd (= BRAND_TEXT) — 16.2:1 บนผิวกลาง
 //
-// ชุดเขียวมรกต-แดงสด-ทองของ DM899 ที่เคยค้างในไฟล์นี้ (#f2b422 #ffe9a8 #12c23a #01a326
-// #fb252b #102a16 #061008 #e4f2e4) ออกครบทุกจุดแล้ว
+// ชุดทองเมทัลลิกของ 789BETTING ที่เคยค้างในไฟล์นี้ (#fad354 #ffe79a #ddab33 #c9881f
+// #8a6410 #17130a #060402 #f3e7cd) และชุดเขียวมรกต-แดงสด-ทองของ DM899 ก่อนหน้านั้น
+// (#f2b422 #ffe9a8 #12c23a #01a326 #fb252b #102a16 #061008 #e4f2e4) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#fad354]/55 bg-gradient-to-b from-[#17130a]/95 to-[#060402]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#c9881f]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#8a6410]/40 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#d4200d]/55 bg-gradient-to-b from-[#2a0806]/95 to-[#120302]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5b61d]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#6b0402]/55 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#fad354]/70 bg-[#060402] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
-          <HeadingTag class="bg-gradient-to-r from-[#ffe79a] via-[#ddab33] to-[#c9881f] bg-clip-text text-lg leading-normal font-black tracking-tight text-transparent uppercase sm:text-xl md:text-2xl">
-            {title}
-          </HeadingTag>
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#b07a06] bg-gradient-to-r from-[#fdf9e4] via-[#ffd87a] to-[#f5b61d] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
+          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#120302] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e7cd]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffe79a]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeedd]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffd87a]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3e7cd] md:border-l md:border-[#fad354]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#ddab33]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeedd] md:border-l md:border-[#d4200d]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#f5b61d]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
