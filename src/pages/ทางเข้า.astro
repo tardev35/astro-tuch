@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 
@@ -18,53 +18,53 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // broken promise once the body is gone, and is the line most likely to tempt
 // the next rebrand into writing it back.
 //
-// cta toggle รอบนี้ปิด (brand-spec §1): /login และ /register กลับไปเป็น
-// interstitial แบบ noindex ที่ auto-forward จึงไม่มีเมนู สมัครสมาชิก/เข้าสู่ระบบ
-// ในนาวบาร์ และ /ทางเข้า กลับมาอยู่ในเมนูตามเดิม หน้านี้จึงเป็น "ทางเข้าหลัก"
-// ที่รวมสองปุ่มนั้นไว้ที่เดียว ห้ามลบไฟล์นี้
+// cta toggle รอบนี้เปิด: /login และ /register เป็น button page ที่ index ได้
+// หน้านี้จึงถูกถอดออกจากเมนูนาวบาร์ตามกติกา (เพราะเป็นลิงก์ที่สามไปที่เดียวกัน)
+// แต่ยัง route และ index อยู่ และฟุตเตอร์ยังลิงก์มาที่นี่ — ห้ามลบไฟล์นี้ และห้ามย้าย
+// ไป src/pages-disabled/
 //
-// แตกดี168 (รอบฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ 2026-10-08, brand-spec §2):
-// รอบนี้พลิกจากฮิวเดียว (ทองเมทัลลิกล้วนบนดำสนิท) ของแบรนด์ก่อนหน้า มาเป็น
-// **คู่สีจริงสองฮิว** — โลโก้เป็นคำว่า "แตกดี" สีเหลืองมะนาวแบนๆ วางเหนือเลข
-// "168" สีฟ้าสด ไม่มีโลหะไม่มีไล่เฉด งานศิลป์เป็นฉากท้องฟ้าฟ้า-ขาว เหรียญทอง
-// มงกุฎ และตัวละครผมขาวเงินในชุดฟ้า-ขาว แต่ bg.json ยังเป็นดำตัน #000000
-// พื้นเว็บจึงยังมืดและการ์ดเป็นผิวกรมท่าเกือบดำ ให้สองฮิวอ่านเป็นนีออน
-// ฟ้าแบรนด์ #0193fb · ฟ้าอ่อน #7bcffb · ฟ้ากลาง #0b6fc4 · ฟ้าลึก #064a86 ·
-// เหลืองมะนาว #fce604 · เหลืองอ่อน #fff48a · เหลืองเข้ม #c9a703 ·
-// ผิวการ์ด #0a1726 · ผิวลึก #040b14 · หมึกบนพื้นสว่าง #031018
+// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
+// รอบนี้พลิกจากคู่ฟ้าสด-เหลืองมะนาวของแบรนด์ก่อนหน้า มาเป็นคู่ **มรกต-ทอง** —
+// โลโก้เป็นคำว่า KOON เงินโครเมียมขอบเขียวเข้ม กับเลข 234 ทองไล่เงาวาว คร่อม
+// วงแหวนเขียว-ทอง งานศิลป์เป็นห้องรับรองโทนเขียวมรกตเข้ม ริบบิ้นทองพลิ้ว แสง
+// ประกายทอง และ bg.json เป็น {"mode":"color","color":"#061801"} = เขียวเกือบดำ
+// พื้นเว็บจึงมืดจัดและการ์ดเป็นผิวเขียวเกือบดำที่ยกขึ้นหนึ่งขั้น
+// ทองแบรนด์ #cc920a · ทองสว่าง #f7d14e · ทองซีด #fde9a6 · ทองเข้ม #8a6204 ·
+// เขียวสว่าง #2fbf6a · เขียวมรกต #0a6b32 · เขียวเข้ม #043d1c ·
+// ผิวการ์ดยก #0d2414 · ผิวกลาง #09190d · ผิวลึก #051007 · หมึกบนพื้นสว่าง #07170c
 //
-// รอบนี้มีสองฮิวให้ใช้แยกลำดับปุ่มได้จริง ไม่ต้องพึ่ง ถม-vs-โปร่ง อย่างรอบก่อน:
-// สมัครสมาชิก = แอ็กชันหลัก ถม **ฟ้าไล่เฉด** #7bcffb → #0193fb → #0b6fc4
-// ขอบฟ้าลึก #064a86 บนหมึกเข้ม #031018 (สเปกวัดไว้ 6.0:1 บนฟ้าแบรนด์ ผ่าน AA)
-// เข้าสู่ระบบ = แอ็กชันรอง ผิวเข้ม #0a1726 → #040b14 ขอบเหลือง #fce604/55 บน
-// ตัวอักษรเหลืองมะนาว #fce604 (14.1:1 บนผิวการ์ด) พร้อม hover ยกขอบเป็นเหลืองเต็ม
-// ⚠️ ห้ามกลับด้าน (สเปก §2): พื้นที่ถมฟ้าหรือเหลืองต้องใช้หมึกเข้ม #031018 เสมอ
-// ห้ามขาวหรือครีม — ตัวอักษรสว่างบนฟ้า/เหลืองลงไปอยู่ราว 1.2:1
-// ออราด้านบนของปุ่มใช้ปลายสว่างของฮิวตัวเอง rgba(1,147,251,α) และ
-// rgba(252,230,4,α) ไม่มี rgba อื่นในไฟล์นี้
-// ชุดทองเมทัลลิกของแบรนด์ก่อนถูกแทนครบแล้ว ทั้งคลาส Tailwind raw hex และ rgba()
+// สองฮิวแยกลำดับปุ่มได้จริง ไม่ต้องพึ่ง ถม-vs-โปร่ง:
+// สมัครสมาชิก = แอ็กชันหลัก ถม **ทองไล่เฉด** #fde9a6 → #f7d14e → #cc920a
+// ขอบทองเข้ม #8a6204 บนหมึกเข้ม #07170c (สเปกวัดไว้ ≈11.8:1 ผ่าน AAA)
+// เข้าสู่ระบบ = แอ็กชันรอง ผิวเขียวเข้ม #09190d → #051007 ขอบทอง #cc920a/55 บน
+// ตัวอักษรทองสว่าง #f7d14e พร้อม hover ยกขอบเป็นทองสว่างเต็ม
+// ⚠️ ห้ามกลับด้าน (สเปก §2): พื้นที่ถมทองต้องใช้หมึกเข้ม #07170c เสมอ ห้ามขาว
+// หรือครีม — ตัวอักษรสว่างบนทองลงไปอยู่ราว 1.3:1
+// ออราด้านบนของปุ่มใช้ปลายสว่างของฮิวตัวเอง rgba(204,146,10,α) และ
+// rgba(247,209,78,α) ไม่มี rgba อื่นในไฟล์นี้นอกจากเงาดำล้วน
+// ชุดฟ้า-เหลืองของแบรนด์ก่อนถูกแทนครบแล้ว ทั้งคลาส Tailwind raw hex และ rgba()
 // (ค่าเดิมอยู่ใน brand-spec §2 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีแบรนด์เก่าเจอ
 // false positive)
 //
-// Announcement หมุนมาเป็น Announcement3 ทั้งเว็บรอบนี้ (รอบก่อนเป็น Announcement5)
-// default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว และทุกหน้าเรียกแบบ
-// bare จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกันข้ามหน้า
+// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ (รอบก่อนเป็น
+// Announcement3) default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว และ
+// ทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกันข้ามหน้า
 //
-// แบรนด์นี้เป็น **เว็บสล็อตออนไลน์** ล้วน ไม่ใช่คาสิโนรวมและไม่ใช่เว็บหวย คำหมวด
-// คาสิโนสดและคำหมวดลอตเตอรีของแบรนด์ก่อนๆ ห้ามหลงเหลือ — รายการคำต้องห้ามเต็ม
-// อยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำของแบรนด์เก่าเจอ
-// false positive ในคอมเมนต์ และสองหน้าลอตเตอรียัง park อยู่ใน src/pages-disabled/
-// จะลิงก์ไปไม่ได้เลย
-// บรีฟบรรทัด 4 และ 15 ระบุว่าหลัง Login สมาชิกเลือกเกมสล็อต ตรวจสอบเครดิต
-// โปรโมชั่น และประวัติรายการผ่านบัญชีเดียวได้
-// ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 24 ชั่วโมง
+// แบรนด์นี้เป็น **เว็บพนันออนไลน์รวมช่องทางเข้าเล่น** ไม่ใช่เว็บหวยและไม่ใช่เว็บ
+// เกมค่ายเดียว คำหมวดเกมและคำหมวดลอตเตอรีของแบรนด์ก่อนๆ ห้ามหลงเหลือ — รายการ
+// คำต้องห้ามเต็มอยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำของแบรนด์
+// เก่าเจอ false positive ในคอมเมนต์ และสองหน้าลอตเตอรียัง park อยู่ใน
+// src/pages-disabled/ จะลิงก์ไปไม่ได้เลย
+// บรีฟบรรทัด 4 และ 15 ระบุว่าหลังเข้าสู่ระบบ สมาชิกตรวจสอบบัญชี โปรโมชั่น และ
+// รายการใช้งานได้จากหน้าเดียว
+// ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง / 100%
 // ห้ามแต่งชื่อค่ายเกม ชื่อธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ
 // จำนวนสมาชิก หรือปีก่อตั้ง — หน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
 // wc -m — git-bash กล่องนี้ไม่มี UTF-8 locale จึงนับเป็นไบต์ = เกินจริงราว 3 เท่า)
-// หน้านี้ยาว 158
-const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ เพื่อเข้าเล่นเกมสล็อตถูกลิขสิทธิ์ ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้จากบัญชีเดียว`;
+// หน้านี้ยาว 154
+const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ เข้าใช้งานเมนูสมาชิก ตรวจสอบบัญชี โปรโมชั่น และรายการใช้งานจากหน้าเดียว ไม่ผ่านเอเย่นต์`;
 
 const graph = pageGraph(Astro, {
   name: `ทางเข้า ${BRAND_NAME} เว็บหลัก`,
@@ -87,11 +87,11 @@ const graph = pageGraph(Astro, {
         <a
           href="/login"
           aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fce604]/55 bg-gradient-to-b from-[#0a1726] to-[#040b14] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#fce604] hover:shadow-[0_15px_40px_rgba(252,230,4,0.35)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fce604]/20 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#cc920a]/55 bg-gradient-to-b from-[#09190d] to-[#051007] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#f7d14e] hover:shadow-[0_15px_40px_rgba(247,209,78,0.35)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#cc920a]/20 to-transparent"></div>
 
           <svg
-            class="h-9 w-9 text-[#fce604] transition-colors group-hover:text-[#fff48a]"
+            class="h-9 w-9 text-[#f7d14e] transition-colors group-hover:text-[#fde9a6]"
             aria-hidden="true"
             focusable="false"
             fill="none"
@@ -102,7 +102,7 @@ const graph = pageGraph(Astro, {
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#fce604]">เข้าสู่ระบบ</span>
+          <span class="text-3xl font-bold tracking-wide text-[#f7d14e]">เข้าสู่ระบบ</span>
         </a>
       </div>
 
@@ -110,14 +110,14 @@ const graph = pageGraph(Astro, {
         <a
           href="/register"
           aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#064a86] bg-gradient-to-b from-[#7bcffb] via-[#0193fb] to-[#0b6fc4] px-6 py-4 shadow-[0_10px_30px_rgba(1,147,251,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#031018] hover:shadow-[0_15px_40px_rgba(1,147,251,0.60)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#7bcffb]/60 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#8a6204] bg-gradient-to-b from-[#fde9a6] via-[#f7d14e] to-[#cc920a] px-6 py-4 shadow-[0_10px_30px_rgba(204,146,10,0.40)] transition-all duration-300 hover:scale-105 hover:border-[#07170c] hover:shadow-[0_15px_40px_rgba(204,146,10,0.60)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fde9a6]/60 to-transparent"></div>
 
-          <svg class="h-9 w-9 text-[#031018]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-9 w-9 text-[#07170c]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
           </svg>
 
-          <span class="text-3xl font-black tracking-wide text-[#031018]">สมัครสมาชิก</span>
+          <span class="text-3xl font-black tracking-wide text-[#07170c]">สมัครสมาชิก</span>
         </a>
       </div>
     </div>

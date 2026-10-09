@@ -10,9 +10,9 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎰" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🧭" } = Astro.props;
 
-// Without a `title` this box carries chrome (a login widget, a game-list panel),
+// Without a `title` this box carries chrome (a login widget, a channel panel),
 // never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
@@ -25,33 +25,36 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// แตกดี168 (รอบฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ 2026-10-08, brand-spec §2):
-// โลโก้รอบนี้เป็นคำว่า แตกดี สีเหลืองมะนาวแบนๆ วางเหนือเลข 168 สีฟ้าสด มีสองฮิวจริง
-// ต่างจากทองเมทัลลิกฮิวเดียวของ 789BETTING รอบก่อน สองคอลัมน์ของกล่องนี้จึงถูกแยก
-// ด้วย "คู่สี" ตรงๆ ไม่ใช่ด้วยระดับความสว่างของโลหะเดียว: ฝั่งซ้ายเป็นแผ่นฟ้าทึบ
-// ไล่ฟ้าซีด #d4ecfd → ฟ้าอ่อน #7bcffb → ฟ้าแบรนด์ #0193fb บนหมึกเข้ม #031018
-// (11.2:1 บน #7bcffb และ 6.0:1 บน #0193fb — §2 ห้ามพลิกแผ่นสีสดไปใช้หมึกสว่าง)
-// ป้ายคอลัมน์เป็นฟ้าอ่อน ส่วนฝั่งขวาเป็นแผ่นกรมท่าลึก ไล่ผิวยก #0a1726 → ผิวลึกสุด
-// #020609 ในกรอบฟ้าเข้ม #064a86 บนไอคอนเหลืองมะนาว #fce604 ป้ายคอลัมน์เป็นเหลือง
-// มะนาว ซึ่งใช้เป็นสีตัวอักษรบนพื้นมืดได้ (14.1:1 บนผิวยก)
-// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ฟ้าซีด #d4ecfd → ฟ้าอ่อน #7bcffb →
-// เหลืองมะนาว #fce604 เส้นคั่นเป็นฟ้าเข้ม #064a86 ทั้งสองฝั่ง สันหัวข้อไล่ฟ้าอ่อน →
-// ฟ้าแบรนด์ → ฟ้าเข้ม เนื้อความ #dbeafe (= BRAND_TEXT)
+// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
+// โลโก้รอบนี้เป็นคำว่า KOON เงินโครเมียมขอบเขียวเข้มคู่กับเลข 234 ทองไล่เงาวาว คร่อม
+// วงแหวนเขียว-ทอง แบนเนอร์กับสไลด์เป็นห้องรับรองโทนเขียวมรกตเข้มกับริบบิ้นทอง แบรนด์จึงมี
+// สองฮิวจริง — เขียวมรกตเข้มกับทอง — ต่างจากคู่ฟ้าสด-เหลืองมะนาวของ แตกดี168 รอบก่อน
+// สองคอลัมน์ของกล่องนี้ถูกแยกด้วยคู่สีตรงๆ: ฝั่งซ้ายเป็นแผ่นทองทึบ ไล่ทองซีด #fde9a6 →
+// ทองสว่าง #f7d14e → ทองแบรนด์ #cc920a บนหมึกเข้ม #07170c (15.5:1 บน #fde9a6 และ 6.8:1
+// บน #cc920a — §2 ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง) ป้ายคอลัมน์เป็นทองสว่าง ส่วนฝั่งขวาเป็น
+// แผ่นเขียวลึก ไล่เขียวมรกต #0a6b32 → เขียวเข้ม #043d1c ในกรอบเขียวสว่าง #2fbf6a บนไอคอน
+// ทองสว่าง #f7d14e ป้ายคอลัมน์เป็นเขียวสว่าง ซึ่งใช้เป็นสีตัวอักษรบนพื้นมืดได้ (6.9:1
+// บนผิวยก)
+// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ทองซีด #fde9a6 → ทองสว่าง #f7d14e → เขียวสว่าง
+// #2fbf6a เส้นคั่นเป็นเขียวเข้ม #043d1c ทั้งสองฝั่ง สันหัวข้อไล่ทองสว่าง → ทองแบรนด์ →
+// เขียวเข้ม เนื้อความ #e8f2e6 (= BRAND_TEXT)
 //
-// ไอคอนเริ่มต้นเป็น 🔐 / 🎰 — รอบนี้เป็นเว็บสล็อตออนไลน์ล้วน ไม่ใช่คาสิโนรวมหรือ
-// เว็บหวย (LoginRtpSection ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
+// ไอคอนเริ่มต้นเป็น 🔐 / 🧭 — รอบนี้เป็นเว็บพนันออนไลน์ที่รวบรวมช่องทางเข้าเล่นไว้ในระบบ
+// เดียว ไม่ใช่เว็บสล็อตหรือเว็บหวย จึงไม่ใช่ตู้สล็อตแบบรอบก่อน (LoginRtpSection ส่งไอคอน
+// มาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
 //
-// ชุดทองเมทัลลิกของ 789BETTING ที่เคยค้างในไฟล์นี้ (#fad354 #ffe79a #ddab33
-// #8a6410 #c9881f #4a3407 #17130a #060402 #0a0802 #f3e7cd rgba(250,211,84,…))
-// ออกครบทุกจุดแล้ว
+// ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 ที่เคยค้างในไฟล์นี้ (#0193fb #7bcffb #d4ecfd #0b6fc4
+// #064a86 #fce604 #0a1726 #020609 #031018 #dbeafe rgba(1,147,251,…)) และชุดทองเมทัลลิก
+// ของ 789BETTING ก่อนหน้านั้น (#fad354 #ffe79a #ddab33 #8a6410 #c9881f #4a3407 #17130a
+// #060402 #0a0802 #f3e7cd) ออกครบทุกจุดแล้ว
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#064a86] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#7bcffb] via-[#0193fb] to-[#064a86] shadow-[0_0_10px_rgba(1,147,251,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#d4ecfd] via-[#7bcffb] to-[#fce604] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#043d1c] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f7d14e] via-[#cc920a] to-[#043d1c] shadow-[0_0_10px_rgba(204,146,10,0.6)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#fde9a6] via-[#f7d14e] to-[#2fbf6a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -59,13 +62,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbeafe]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8f2e6]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#064a86] pb-3 text-xl leading-normal font-black tracking-widest text-[#7bcffb] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#043d1c] pb-3 text-xl leading-normal font-black tracking-widest text-[#f7d14e] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#0b6fc4] bg-gradient-to-br from-[#d4ecfd] via-[#7bcffb] to-[#0193fb] text-sm text-[#031018] shadow-[0_5px_15px_rgba(1,147,251,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#8a6204] bg-gradient-to-br from-[#fde9a6] via-[#f7d14e] to-[#cc920a] text-sm text-[#07170c] shadow-[0_5px_15px_rgba(204,146,10,0.4)]">
               {iconleft}
             </span>
             {titleleft}
@@ -75,13 +78,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dbeafe]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e8f2e6]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#064a86] pb-3 text-xl leading-normal font-black tracking-widest text-[#fce604] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#043d1c] pb-3 text-xl leading-normal font-black tracking-widest text-[#2fbf6a] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#064a86] bg-gradient-to-br from-[#0a1726] to-[#020609] text-sm text-[#fce604] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#2fbf6a]/60 bg-gradient-to-br from-[#0a6b32] to-[#043d1c] text-sm text-[#f7d14e] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
               {iconright}
             </span>
             {titleright}

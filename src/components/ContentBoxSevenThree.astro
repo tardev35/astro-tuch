@@ -18,44 +18,45 @@ const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 // block emits exactly one docx heading. No `whitespace-nowrap` anywhere.
 //
 // Drawn width of the 3fr image column (the RIGHT one here), for the
-// `widths`/`sizes` the page passes — section max-w-[1400px] + px-4, card p-8 /
-// md:p-10, grid gap-8, and the image column adds md:pl-6:
-//   >= 1400px : (1400 - 32 - 80 - 32) x 0.3 - 24 = 376.8 - 24 -> 353px
-//   md..1399  : (100vw - 144) x 0.3 - 24         = calc(30vw - 67px)
-//   < md      : one column at p-8, no pl-6       = calc(100vw - 96px)
+// `widths`/`sizes` the page passes — section max-w-[1400px] + px-4, card border
+// 1px x2, p-8 / md:p-10, grid gap-8, and the image column adds md:pl-6 (24px):
+//   >= 1400px : (1400 - 32 - 2 - 80 - 32) x 0.3 - 24 = 376.2 - 24 -> 352px
+//   md..1399  : (100vw - 146) x 0.3 - 24             = calc(30vw - 68px)
+//   < md      : one column at p-8, no pl-6           = calc(100vw - 98px)
 // Change any of those numbers and the page's `sizes` has to move with it.
 //
-// UOK365 (รอบทองเมทัลลิก-เงินโครเมียม บนน้ำตาลเกือบดำ 2026-10-07, brand-spec §2):
-// คู่กับ ContentBoxSevenThreeCyberCut ที่อยู่ใต้ลงไปบนหน้าเดียวกัน ใบนี้กลับด้านกันทั้ง
-// เลย์เอาต์ ผิว และรูปทรง — การ์ดโค้งผิวยก #191108 ในกรอบทองแบรนด์ #c8912f มีเส้น
-// ทองอ่อน #f5d98a พาดขอบบนเป็นเส้นผมหนึ่งพิกเซล ส่วนใบมุมตัดเป็นผิวลึกสุด #070504
-// หัวข้อฝั่งซ้ายของใบนี้เป็นเงินโครเมียม #d8dbe0 ทึบ ไม่ไล่เฉด และมีแถบตั้งไล่ทองนำหน้า
-// ซึ่งเป็นจุดเดียวบนหน้านี้ที่หัวข้อเป็นเงินล้วน — ของอีกใบเป็นทองอ่อน #f5d98a ทึบ
-// (แบรนด์นี้มีฮิวเดียวคือทอง เงินเป็น "โลหะตัวที่สอง" ไม่ใช่สีแบรนด์ตัวที่สอง ความต่าง
-// ของทองมาจากระดับความสว่างเท่านั้น ตาม §2)
-// เส้นคั่นกลางเป็นทองลึก #6d4412 ออร่ามุมบนซ้ายเป็นทองกลาง #a46b25
-// เนื้อความ #ece1cc (= BRAND_TEXT) — 13.4:1 บนผิวยก
+// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
+// คู่กับ ContentBoxSevenThreeCyberCut ที่อยู่เหนือขึ้นไปบนหน้าเดียวกัน ใบนี้กลับด้านกัน
+// ทั้งเลย์เอาต์ ผิว และรูปทรง — การ์ดโค้งผิวยก #0d2414 ในกรอบทองแบรนด์ #cc920a มีเส้น
+// ทองซีด #fde9a6 พาดขอบบนเป็นเส้นผมหนึ่งพิกเซล ส่วนใบมุมตัดเป็นผิวลึก #051007
+// หัวข้อฝั่งซ้ายของใบนี้เป็นทองสว่าง #f7d14e ทึบ ไม่ไล่เฉด และมีแถบตั้งไล่ "ทองซีด →
+// ทองแบรนด์ → เขียวมรกต" นำหน้า ซึ่งเป็นแถบเดียวบนหน้านี้ที่พาทั้งสองฮิวไว้ในแถบเดียว —
+// ของอีกใบเป็นทองซีด #fde9a6 ทึบพร้อมพรอมป์ &gt;_ สองใบจึงคนละเฉดทองและคนละเครื่องหมาย
+// นำหน้า
+// ออร่ามุมบนซ้ายเป็นเขียวมรกต #0a6b32 ซึ่งอิ่มขึ้นเป็นเขียวสว่าง #2fbf6a ตอน hover
+// เส้นคั่นกลางเป็นเขียวเข้ม #043d1c เนื้อความ #e8f2e6 (= BRAND_TEXT) — 14.7:1 บนผิวยก
 //
-// ชุดทอง-ดำของ NAZA99 ที่เคยค้างในไฟล์นี้ (#e4b34d #fdf2ac #140c02 #8a5f12 #f3e8cf
-// rgba(228,179,77,…) rgba(10,5,1,…) rgba(192,143,43,…)) ออกครบทุกจุดแล้ว — รอบก่อน
-// บังเอิญเป็นทองอีกเฉดหนึ่ง ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่แล้ว" ไม่ได้
-// หมายความว่าเป็นทองของแบรนด์นี้
+// ชุดทองเมทัลลิก-เงินโครเมียมของ UOK365 ที่เคยค้างในไฟล์นี้ (#c8912f #f5d98a #d8dbe0
+// #a46b25 #6d4412 #191108 #ece1cc rgba(200,145,47,…)) และชุดทอง-ดำของ NAZA99 ก่อนหน้า
+// นั้น (#e4b34d #fdf2ac #140c02 #8a5f12 #f3e8cf) ออกครบทุกจุดแล้ว — สองรอบก่อนบังเอิญ
+// เป็นทองอีกเฉดหนึ่ง ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่แล้ว" ไม่ได้หมายความว่า
+// เป็นทองของแบรนด์นี้
 const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#c8912f]/55 bg-[#191108]/94 p-8 text-[#ece1cc] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#f5d98a]/60 hover:shadow-[0_15px_40px_rgba(200,145,47,0.30)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#f5d98a]/80 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#a46b25]/40 blur-[60px] transition-all duration-500 group-hover:bg-[#f5d98a]/22">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#cc920a]/55 bg-[#0d2414]/94 p-8 text-[#e8f2e6] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#fde9a6]/60 hover:shadow-[0_15px_40px_rgba(204,146,10,0.30)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#fde9a6]/80 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#0a6b32]/45 blur-[60px] transition-all duration-500 group-hover:bg-[#2fbf6a]/30">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 border-b border-[#6d4412] pb-6 text-left text-base leading-relaxed text-[#ece1cc] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#043d1c] pb-6 text-left text-base leading-relaxed text-[#e8f2e6] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           leftHeading && (
-            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#d8dbe0] uppercase drop-shadow-[0_2px_10px_rgba(200,145,47,0.45)]">
-              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f5d98a] via-[#c8912f] to-[#6d4412] shadow-[0_0_10px_rgba(200,145,47,0.6)]" />
+            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#f7d14e] uppercase drop-shadow-[0_2px_10px_rgba(204,146,10,0.45)]">
+              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde9a6] via-[#cc920a] to-[#0a6b32] shadow-[0_0_10px_rgba(204,146,10,0.6)]" />
               {leftHeading}
             </HeadingTag>
           )
@@ -63,10 +64,10 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#ece1cc] md:pl-6">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e8f2e6] md:pl-6">
         {
           titleright && (
-            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#d8dbe0] uppercase drop-shadow-[0_0_8px_rgba(200,145,47,0.45)] md:text-left">
+            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#f7d14e] uppercase drop-shadow-[0_0_8px_rgba(204,146,10,0.45)] md:text-left">
               {titleright}
             </HeadingTag>
           )

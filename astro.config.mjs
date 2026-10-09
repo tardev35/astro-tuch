@@ -44,7 +44,7 @@ export default defineConfig({
   // — สะกดคนละแบบโดยธรรมชาติ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://takdee168-vip.com",
+  site: "https://koon234-play.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

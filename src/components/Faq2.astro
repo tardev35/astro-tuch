@@ -21,61 +21,63 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // second at any level.
 //
 // <details> carries the open/close state, the keyboard handling and the
-// expanded/collapsed announcement, so there is no JS in this file. The shared
-// `name` makes the group exclusive — opening one answer closes the others, again
-// with no script. It is deliberately brand-neutral ("site-faq"): a group name
-// carrying a previous brand's slug is the kind of string a rebrand misses. The
-// badge and the arrow are aria-hidden, so a question's accessible name is the
-// question text itself.
+// expanded/collapsed announcement, so there is no JS in this file and no
+// aria-expanded to keep in sync by hand. The shared `name` makes the group
+// exclusive — opening one answer closes the others, again with no script. It is
+// deliberately brand-neutral ("site-faq"): a group name carrying a previous
+// brand's slug is the kind of string a rebrand misses. The badge and the arrow
+// are aria-hidden, so a question's accessible name is the question text itself.
 //
-// GUCCI168 (รอบแดง-เขียวมรกต-ทอง บนพื้นเกือบดำอมแดง 2026-10-08, brand-spec §3):
-// รอบนี้เป็นการพลิกขั้วกลับจากแผงกระจกน้ำแข็งสว่างของ HI59 มาเป็นแผงมืด ไม่ใช่การเปลี่ยน
-// แค่เบอร์สีบนโครงเดิม กรอบมุมตัดเฉียงเป็นแดงแบรนด์ #c41115 ล้อมแผงผิวการ์ดกลาง #140705
-// แถบไล่เฉดบนกรอบวิ่งแดงสว่าง #e0201f → เขียวสว่าง #2bbf63 ตามแถบแดงบนหมวกเขียวมรกต
-// ของเทพเจ้าโชคลาภในโลโก้
-// ป้ายเครื่องหมายคำถามเป็นทองเต็มใบ ไล่ทองอ่อน #ffdf91 → ทองแบรนด์ #d9a521 บนหมึกเข้ม
-// #1a0604 (14.6:1 และ 8.9:1 ตามลำดับ — พื้นทองต้องใช้หมึกเข้มเสมอตาม §3) ซึ่งเป็นจุดที่
-// ทองของแบรนด์ (ขอบทองของเลข 168 และเหรียญทองจีน) โผล่ในแผงนี้
-// คำถามเป็นทองอ่อน #ffdf91 บนผิวแผงมืด ส่วนคำตอบเป็นสีเนื้อความ #f6e3cf (= BRAND_TEXT,
-// 15.1:1 บนผิว #140705) เส้นคั่นคำตอบเป็นเขียวมรกต #0b7a33 แบบโปร่ง และลูกศรเป็น
-// เขียวสว่าง #2bbf63 หัวข้อไล่ทองอ่อน #ffdf91 → ทองแบรนด์ #d9a521 → แดงสว่าง #e0201f
-// คือทอง-ทอง-แดง ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
+// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
+// รอบนี้พลิกจากแผงแดง-เขียว-ทองของ GUCCI168 มาเป็นคู่ "มรกต-ทอง" ของแบรนด์นี้ กรอบมุมตัด
+// เฉียงเป็นเขียวมรกต #0a6b32 ล้อมแผงผิวการ์ดกลาง #09190d แถบไล่เฉดบนกรอบวิ่งเขียวสว่าง
+// #2fbf6a → ทองแบรนด์ #cc920a ตามวงแหวนเขียว-ทองที่คร่อมโลโก้ KOON234
+// ป้ายเครื่องหมายคำถามเป็นทองเต็มใบ ไล่ทองซีด #fde9a6 → ทองแบรนด์ #cc920a บนหมึกเข้ม
+// #07170c (15.5:1 และ 6.8:1 ตามลำดับ — พื้นทองต้องใช้หมึกเข้มเสมอตาม §2) ซึ่งเป็นจุดที่
+// ทองของแบรนด์ (เลข 234 ทองไล่เงาและริบบิ้นทองในงานอาร์ต) โผล่ในแผงนี้
+// คำถามเป็นทองซีด #fde9a6 บนผิวแผงมืด (14.9:1) ส่วนคำตอบเป็นสีเนื้อความ #e8f2e6
+// (= BRAND_TEXT, 17.5:1 บนผิว #09190d) เส้นคั่นคำตอบเป็นเขียวมรกต #0a6b32 แบบโปร่ง และ
+// ลูกศรเป็นเขียวสว่าง #2fbf6a หัวข้อไล่ทองซีด #fde9a6 → เขียวสว่าง #2fbf6a → ทองสว่าง
+// #f7d14e คือทอง-เขียว-ทอง ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
 //
-// ชุดฟ้า-ทองบนการ์ดสว่างของ HI59 ที่เคยค้างในไฟล์นี้ (#f6fbff #9ecbf2 #0a84e0 #5ec2ff
-// #065a9c #06355f #fdbc04 #ffe27a #c88a02 #04203f #0d2744) ออกครบทุกจุดแล้ว
+// ชุดแดง-เขียวมรกต-ทองของ GUCCI168 ที่เคยค้างในไฟล์นี้ (#c41115 #e0201f #7a0505 #0b7a33
+// #2bbf63 #d9a521 #ffdf91 #1a0604 #140705 #f6e3cf) และชุดฟ้า-ทองบนการ์ดสว่างของ HI59
+// ก่อนหน้านั้น (#f6fbff #9ecbf2 #0a84e0 #5ec2ff #065a9c #06355f #fdbc04 #ffe27a #c88a02
+// #04203f #0d2744) ออกครบทุกจุดแล้ว — เขียวของ GUCCI168 (#0b7a33 / #2bbf63) ใกล้เคียง
+// เขียวของรอบนี้มาก แต่เป็นคนละค่า จึงถูกเปลี่ยนทุกจุด ไม่ปล่อยไว้เพราะ "เขียวอยู่แล้ว"
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
       <header class="mb-6">
-        <HeadingTag class="bg-gradient-to-r from-[#ffdf91] via-[#d9a521] to-[#e0201f] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#fde9a6] via-[#2fbf6a] to-[#f7d14e] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#d9a521] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#cc920a] to-transparent" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#c41115] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#e0201f] via-[#2bbf63] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#0a6b32] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#2fbf6a] via-[#cc920a] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
 
-        <details name="site-faq" class="faq-item relative bg-[#140705] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details name="site-faq" class="faq-item relative bg-[#09190d] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ffdf91] to-[#d9a521] font-black text-[#1a0604] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#fde9a6] to-[#cc920a] font-black text-[#07170c] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#ffdf91]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#2bbf63] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#fde9a6]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#2fbf6a] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#0b7a33]/70 pl-4 text-left text-base leading-relaxed text-[#f6e3cf]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#0a6b32]/70 pl-4 text-left text-base leading-relaxed text-[#e8f2e6]">{faq.a}</p>
         </details>
       </div>
     ))
