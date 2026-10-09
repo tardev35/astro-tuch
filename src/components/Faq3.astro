@@ -16,29 +16,36 @@ export interface Props {
 const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 // `name` on <details> gives the exclusive-accordion behaviour natively, so this
-// FAQ needs no <script> at all. The value only has to be unique on the page.
+// FAQ needs no <script> at all. The value only has to be unique on the page, so
+// it is deliberately BRAND-NEUTRAL — the outgoing copy of this file shipped
+// `faq-789betting`, which is a previous brand's name baked into rendered HTML
+// that no rebrand's colour sweep would ever look at. Do not put a brand in it.
 //
-// 789BETTING (รอบทองเมทัลลิกบนดำสนิท 2026-10-08, brand-spec §2): แผงพื้นการ์ดเป็นผิว
-// การ์ดกลาง #0e0b05 ในเส้นกรอบทองลึก #8a6410 ที่สว่างขึ้นเป็นทองแบรนด์ #fad354 ตอน hover
-// พร้อมพื้นไต่ขึ้นเป็นผิวการ์ดยก #17130a หัวข้อไล่ทองแชมเปญ #ffe79a → ทองแบรนด์ #fad354
-// → ทองกลาง #ddab33 ตามโลโก้ที่ตัวเลข 789 เป็นทองขัดเงาสามมิติทับคำว่า BETTING สีดำบน
-// แถบขีดขาว — ลำดับแชมเปญ-ทอง-ทองกลางนี้ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักตัว รอบนี้
-// แบรนด์มีฮิวเดียว ไม่มีสีที่สองให้ปิดท้ายไล่เฉดแบบรอบก่อนๆ
-// เนื้อความใช้สี BRAND_TEXT #f3e7cd คำถามสว่างขึ้นเป็นทองแบรนด์ตอนชี้ และเครื่องหมาย +
-// ตอนเปิดเป็นทองแบรนด์
+// `faqs` ships with NO default on purpose: a forgotten prop then renders an
+// empty accordion instead of some previous brand's questions. index.astro hands
+// it the same array the FAQPage node is built from.
 //
-// ชุดเขียวนีออน-เงินของ BOOM369 ที่เคยค้างในไฟล์นี้ (#42fb5a #04ab3a #036b26 #07170f
-// #0b231b #cfe9d7 #ffffff) ออกครบทุกจุดแล้ว
+// WEPLAY168 (รอบม่วงนีออน-ทองอาร์เขต 2026-10-09, brand-spec §2): แผงพื้นการ์ดเป็นผิว
+// การ์ดกลาง #17062e ในเส้นกรอบม่วงลึก #5b1a75 ที่สว่างขึ้นเป็นม่วงแบรนด์ #a435f0 ตอน
+// hover พร้อมพื้นไต่ขึ้นเป็นผิวการ์ดยก #1e0a3c หัวข้อไล่ทองอุ่น #ffd23d → ทองแบรนด์
+// #fbe455 → เงินอมม่วง #efe6ff ตามโลโก้ที่เลข 168 เป็นทองสามมิติอยู่ข้างคำว่า WEPLAY
+// สีเงินอมม่วง — ลำดับทอง-ทอง-เงินนี้ไม่ซ้ำกับกล่องเนื้อหาใบอื่นบนหน้าเดียวกันสักตัว
+// เนื้อความใช้สี BRAND_TEXT #ece2ff คำถามสว่างขึ้นเป็นทองอุ่นตอนชี้ และเครื่องหมาย +
+// ตอนเปิดเป็นทองอุ่น — ทองแบรนด์ #fbe455 ไม่ถือตัวอักษรทึบที่ไหนในไฟล์นี้ เพราะ §2
+// พินมันไว้ให้ทำงานเดียวคือ <strong> ในเนื้อความซึ่งหน้าเพจเป็นคนใส่
+//
+// ชุดทองเมทัลลิกของ 789BETTING ที่เคยค้างในไฟล์นี้ (#fad354 #ffe79a #ddab33 #8a6410
+// #0e0b05 #17130a #f3e7cd) ออกครบทุกจุดแล้ว
 ---
 
 <section aria-label={sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[950px] px-4 font-sans">
   {
     title && (
       <header class="mb-8 text-center">
-        <HeadingTag class="bg-gradient-to-r from-[#ffe79a] via-[#fad354] to-[#ddab33] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#ffd23d] via-[#fbe455] to-[#efe6ff] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fad354] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fbe455] to-transparent" />
       </header>
     )
   }
@@ -47,9 +54,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     {
       faqs.map((faq) => (
         <details
-          name="faq-789betting"
-          class="faq-item rounded-3xl border border-[#8a6410] bg-[#0e0b05]/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all hover:border-[#fad354]/70 hover:bg-[#17130a]/90">
-          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#f3e7cd] transition-colors hover:text-[#fad354]">
+          name="faq-accordion"
+          class="faq-item rounded-3xl border border-[#5b1a75] bg-[#17062e]/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all hover:border-[#a435f0]/70 hover:bg-[#1e0a3c]/90">
+          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#ece2ff] transition-colors hover:text-[#ffd23d]">
             <p class="text-left text-base leading-relaxed font-bold">{faq.q}</p>
             <span aria-hidden="true" class="faq-icon ml-4 flex h-6 w-6 shrink-0 items-center justify-center text-2xl transition-transform duration-300 ease-in-out">
               +
@@ -57,7 +64,7 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
           </summary>
 
           <div class="faq-answer overflow-hidden">
-            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#f3e7cd]">{faq.a}</p>
+            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#ece2ff]">{faq.a}</p>
           </div>
         </details>
       ))
@@ -74,7 +81,7 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    color: #fad354;
+    color: #ffd23d;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

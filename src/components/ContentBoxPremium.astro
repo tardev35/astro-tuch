@@ -13,43 +13,48 @@ const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 // No level is hardcoded below — `as` decides the tag, and the header carries no
 // `whitespace-nowrap`, so a full docx sentence wraps instead of overflowing.
 //
-// แตกดี168 (รอบฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ 2026-10-08, brand-spec §2):
-// แบรนด์รอบนี้เป็น "คู่สีจริง" — ฟ้าสด #0193fb นำ (เลข 168 ในโลโก้) และเหลืองมะนาว
-// #fce604 เป็นฮิวที่สองจริง (คำว่า แตกดี) ไม่ใช่โลหะคั่นแบบรอบทองของ 789BETTING
-// พื้นเพจเป็นดำตัน #000000 ตาม bg.json การ์ดจึงต้องยกขึ้นจากพื้นด้วยผิวกรมท่า
+// WEPLAY168 (รอบม่วงนีออน-ทองอาร์เขต 2026-10-09, brand-spec §2):
+// แบรนด์รอบนี้เป็น "คู่สีจริง" — ม่วงไฟฟ้า #a435f0 นำ (ตัวเครื่องเกมพกพาในโลโก้และ
+// ผนังตู้อาร์เขตในแบนเนอร์) และทอง #fbe455 เป็นฮิวที่สองจริง (เหรียญทองกับเลข 168)
+// พื้นเพจเป็นครามเกือบดำอมม่วง #0c0024 ตาม bg.json ผิวการ์ดทุกใบจึงต้อง "สว่างกว่า"
+// พื้น เพื่อให้การ์ดยกลอยขึ้นจากหน้า ไม่ใช่จมลงไปแบบรอบแดงแล็กเกอร์ของ PIGPG
 //
 // การ์ดใบนี้ถือ docx H1 ของหน้าแรก จึงหนักแน่นที่สุดในหน้า และเป็นใบเดียวที่หัวข้อ
-// ขึ้นที่ text-3xl ต้องไม่อ่านเป็นใบเดียวกับ ContentBoxTwoPremium และ
-// ContentBoxSevenThreePremium ที่อยู่หน้าเดียวกัน จึงแยกด้วยรูปทรงและสีกรอบ:
-// สันตั้งไล่ฟ้าหน้าหัวข้อ + ผิวการ์ดไล่จากผิวยก #0a1726 ลงไปหาผิวลึก #040b14 และ
-// กรอบเป็น "กรอบฟ้าแบรนด์" #0193fb (SevenThreePremium ใช้กรอบฟ้าเข้ม #064a86
-// ส่วน TwoPremium ใช้ผิวทึบ #07111d กรอบเหลืองเข้ม #c9a703)
-// หัวข้อไล่ฟ้าอ่อน #7bcffb → ฟ้าซีด #d4ecfd → เหลืองมะนาว #fce604 คือ "ฟ้านำเข้า
-// เหลือง" ซึ่งเป็นทิศคนละชุดกับทุกกล่องบนหน้าเดียวกัน — ฟ้านำเพราะบนโลโก้จริง
-// เลข 168 สีฟ้าคือมวลสีที่วัดได้มากที่สุด (43.8%)
+// ขึ้นที่ text-3xl ต้องไม่อ่านเป็นใบเดียวกับ ContentBox (ใบธรรมดาที่ถือ H2 #3),
+// ContentBoxSevenThreePremium และ ContentBoxTwoPremium ที่อยู่หน้าเดียวกัน จึงแยก
+// ด้วยรูปทรงและสีกรอบ: สันตั้งไล่ม่วงหน้าหัวข้อ + ผิวการ์ดไล่จากผิวยก #1e0a3c ลงไป
+// หาผิวลึก #110321 และกรอบเป็น "กรอบม่วงแบรนด์" #a435f0 เข้มกว่าใบธรรมดา
+// (SevenThreePremium ใช้กรอบม่วงลึก #5b1a75 ส่วน TwoPremium ใช้ผิวทึบ #17062e
+// กรอบทองเข้ม #c98a05 และ ContentBox ใบธรรมดาเป็นผิวทึบ #1e0a3c กับเส้นคาดบนสุด)
 //
-// ออรามุมซ้ายบนเป็นฟ้าแบรนด์ มุมขวาล่างเป็นเหลืองเข้ม #c9a703 (เหรียญทองในงานอาร์ต)
-// เส้นใต้หัวข้อเป็นฟ้าเข้ม #064a86 เนื้อความ #dbeafe (= BRAND_TEXT, 14.4:1 บนผิวยก
-// และ 16.2:1 บนผิวลึก) glow ทุกจุดเป็น rgba(1,147,251,…)
+// หัวข้อไล่ม่วงอ่อน #d2a6ff → เงินอมม่วง #efe6ff → ทองแบรนด์ #fbe455 คือ "ม่วงนำ
+// เข้าทอง" ซึ่งเป็นทิศคนละชุดกับทุกกล่องบนหน้าเดียวกัน — ม่วงนำเพราะทั้งโลโก้และฉาก
+// อาร์เขตในแบนเนอร์เป็นม่วงเป็นมวลสีหลัก
 //
-// ชุดตรุษจีนแดง-เขียวมรกต-ทองของ GUCCI168 ที่เคยค้างในไฟล์นี้ (#c41115 #e0201f
-// #7a0505 #0b7a33 #2bbf63 #d9a521 #ffdf91 #1d0b08 #090302 #f6e3cf
-// rgba(196,17,21,…)) ออกครบทุกจุดแล้ว
+// ออรามุมซ้ายบนเป็นม่วงแบรนด์ มุมขวาล่างเป็นทองเข้ม #c98a05 (เหรียญทองในงานอาร์ต)
+// เส้นใต้หัวข้อเป็นม่วงลึก #5b1a75 เนื้อความ #ece2ff (= BRAND_TEXT, 12.5:1 บนผิวยก
+// และสูงกว่านั้นบนผิวลึก) glow ทุกจุดเป็น rgba(164,53,240,…)
+// §2 ห้าม #a435f0 ถือตัวอักษรปกติ (3.1:1 กับตัวอักษรสว่าง) จึงอยู่ที่ขอบ สัน และออรา
+// เท่านั้น ส่วน #c98a05 ไม่เคยเป็นตัวอักษรบนพื้นมืดเลย
+//
+// ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 ที่เคยค้างในไฟล์นี้ (#0193fb #7bcffb #d4ecfd
+// #064a86 #fce604 #fff48a #c9a703 #0a1726 #040b14 #dbeafe rgba(1,147,251,…))
+// ออกครบทุกจุดแล้ว — และทองของรอบนี้เป็นคนละค่ากับ #fce604 รอบก่อน
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#0193fb]/55 bg-gradient-to-br from-[#0a1726]/96 to-[#040b14]/96 p-8 text-left text-base leading-relaxed text-[#dbeafe] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#0193fb]/90 hover:shadow-[0_15px_40px_rgba(1,147,251,0.35)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#0193fb]/32 blur-[55px] transition-all duration-500 group-hover:bg-[#0193fb]/48">
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#a435f0]/60 bg-gradient-to-br from-[#1e0a3c]/96 to-[#110321]/96 p-8 text-left text-base leading-relaxed text-[#ece2ff] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#a435f0]/90 hover:shadow-[0_15px_40px_rgba(164,53,240,0.38)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#a435f0]/34 blur-[55px] transition-all duration-500 group-hover:bg-[#a435f0]/50">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#c9a703]/24 blur-[55px] transition-all duration-500 group-hover:bg-[#fce604]/30">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#c98a05]/26 blur-[55px] transition-all duration-500 group-hover:bg-[#fbe455]/30">
     </div>
 
     {
       title && (
-        <header class="mb-6 flex items-center gap-4 border-b border-[#064a86] pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#7bcffb] via-[#0193fb] to-[#064a86] shadow-[0_0_10px_rgba(1,147,251,0.65)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#7bcffb] via-[#d4ecfd] to-[#fce604] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-6 flex items-center gap-4 border-b border-[#5b1a75] pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#d2a6ff] via-[#a435f0] to-[#5b1a75] shadow-[0_0_10px_rgba(164,53,240,0.7)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#d2a6ff] via-[#efe6ff] to-[#fbe455] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
