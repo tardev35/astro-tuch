@@ -9,54 +9,76 @@ export interface Props {
   as?: "h2" | "h3" | "h4";
 }
 const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
-// This is the 7fr_3fr half of the pair, so the WIDE column is the left one and
-// `title` is the shorthand for ITS heading — the mirror image of
-// ContentBoxSevenThreeCyberCut, where `title` lands in the wide right column.
-// That is what lets the two blocks put their picture on opposite edges while
-// each keeps its heading in the text column. This box only ever carries docx
-// article headings; the narrow image column is passed no `titleright`, so the
-// block emits exactly one docx heading. No `whitespace-nowrap` anywhere.
+// This is a 7fr_3fr block, so the WIDE column is the left one and `title` is the
+// shorthand for ITS heading. The narrow right column is the picture's, and the
+// page passes it no `titleright`, so the block emits exactly one docx heading.
+// The heading sits in normal flow, never `absolute`, so a title that wraps
+// pushes the slot down instead of covering it — no badge arithmetic here. No
+// `whitespace-nowrap` anywhere in this file.
 //
-// Drawn width of the 3fr image column (the RIGHT one here), for the
-// `widths`/`sizes` the page passes — section max-w-[1400px] + px-4, card border
-// 1px x2, p-8 / md:p-10, grid gap-8, and the image column adds md:pl-6 (24px):
-//   >= 1400px : (1400 - 32 - 2 - 80 - 32) x 0.3 - 24 = 376.2 - 24 -> 352px
+// DRAWN WIDTH OF THE 3fr IMAGE COLUMN (the RIGHT one here), recomputed from the
+// classes in this file for the `widths`/`sizes` the page passes. Tailwind sets
+// box-sizing: border-box globally, so max-w-* caps the box INCLUDING padding and
+// border:
+//   section  max-w-[1400px] + px-4 (16x2=32)  -> card outer = min(100vw,1400) - 32
+//   card     border (1x2=2) + p-8 (32x2=64) / md:p-10 (40x2=80)
+//   grid     gap-8 (32, md+ only)
+//   image column adds md:pl-6 (24). The md:border-r + md:pr-6 are on the TEXT
+//   column, so they come out of ITS track, not the picture's.
+//   >= 1400px : (1400 - 32 - 2 - 80 - 32) x 0.3 - 24 = 1254 x 0.3 - 24 = 352px
 //   md..1399  : (100vw - 146) x 0.3 - 24             = calc(30vw - 68px)
-//   < md      : one column at p-8, no pl-6           = calc(100vw - 98px)
-// Change any of those numbers and the page's `sizes` has to move with it.
+//   < md      : one column at p-8, no md:pl-6        = calc(100vw - 98px),
+//               which exceeds the 600px bitmap above a 698px viewport, so the
+//               page caps that band at 600px rather than asking for pixels the
+//               source file does not have.
+// Change any padding/gap/border/cap here and the page's `sizes` has to move
+// with it.
 //
-// KOON234 (รอบมรกตเข้ม-ทองบนเขียวเกือบดำ 2026-10-09, brand-spec §2):
-// คู่กับ ContentBoxSevenThreeCyberCut ที่อยู่เหนือขึ้นไปบนหน้าเดียวกัน ใบนี้กลับด้านกัน
-// ทั้งเลย์เอาต์ ผิว และรูปทรง — การ์ดโค้งผิวยก #0d2414 ในกรอบทองแบรนด์ #cc920a มีเส้น
-// ทองซีด #fde9a6 พาดขอบบนเป็นเส้นผมหนึ่งพิกเซล ส่วนใบมุมตัดเป็นผิวลึก #051007
-// หัวข้อฝั่งซ้ายของใบนี้เป็นทองสว่าง #f7d14e ทึบ ไม่ไล่เฉด และมีแถบตั้งไล่ "ทองซีด →
-// ทองแบรนด์ → เขียวมรกต" นำหน้า ซึ่งเป็นแถบเดียวบนหน้านี้ที่พาทั้งสองฮิวไว้ในแถบเดียว —
-// ของอีกใบเป็นทองซีด #fde9a6 ทึบพร้อมพรอมป์ &gt;_ สองใบจึงคนละเฉดทองและคนละเครื่องหมาย
-// นำหน้า
-// ออร่ามุมบนซ้ายเป็นเขียวมรกต #0a6b32 ซึ่งอิ่มขึ้นเป็นเขียวสว่าง #2fbf6a ตอน hover
-// เส้นคั่นกลางเป็นเขียวเข้ม #043d1c เนื้อความ #e8f2e6 (= BRAND_TEXT) — 14.7:1 บนผิวยก
+// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2-§4):
+// กล่องนี้ถือ docx H3 #4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ slide1
+// ซึ่งพิมพ์คำว่า โปรโมชั่น / คืนยอดเสีย กับเลข 0.3% ตัวทองขนาดใหญ่ไว้ในตัวภาพเอง
+// (⚠️ คู่สไลด์กลับด้านจากรอบก่อน — รอบก่อน slide2 คือ 0.3% รอบนี้ slide1 คือ 0.3%
+// ตัวเลขที่พิมพ์อยู่บนงานอาร์ตเป็นตัวตัดสิน ไม่ใช่ลำดับไฟล์)
 //
-// ชุดทองเมทัลลิก-เงินโครเมียมของ UOK365 ที่เคยค้างในไฟล์นี้ (#c8912f #f5d98a #d8dbe0
-// #a46b25 #6d4412 #191108 #ece1cc rgba(200,145,47,…)) และชุดทอง-ดำของ NAZA99 ก่อนหน้า
-// นั้น (#e4b34d #fdf2ac #140c02 #8a5f12 #f3e8cf) ออกครบทุกจุดแล้ว — สองรอบก่อนบังเอิญ
-// เป็นทองอีกเฉดหนึ่ง ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "ทองอยู่แล้ว" ไม่ได้หมายความว่า
-// เป็นทองของแบรนด์นี้
+// ใบนี้เป็นใบที่ "จม" ที่สุดในหน้า — ผิวลึกสุด #241700 ซึ่งลึกกว่าพื้นเพจ #382400 เอง
+// จึงอ่านว่ายุบลงไปในหน้า ตรงข้ามกับ ContentBoxPremium (ไล่ผิวยก #4e3406 → ผิวเพจ)
+// และ ContentBox (ผิวยกทึบ) ที่ลอยขึ้นมา ส่วน ContentBoxTwoCyberCut อยู่ที่ผิวกลาง
+// #432b03 ตรงกลางระหว่างสองขั้ว
+// กรอบเป็นทองกลางเข้ม #cf9a18 ซึ่งเป็นทองเฉดเดียวในชุดที่ยังรองหมึก #231500 ได้ (7.0:1)
+// มีเส้นไรผมทองสว่าง #ffe87a พาดขอบบนหนึ่งพิกเซล — ซ้ายบนเป็นออราเงินลึก #3f4859
+// (หมวกนักบินในเงา) ที่อิ่มขึ้นเป็นโครเมียม #cfd6e3 ตอน hover ซึ่งเป็นใบเดียวในหน้าที่
+// ออราหลักเป็นเงินล้วน ไม่ใช่ทอง
+// หัวข้อฝั่งซ้ายเป็นทองสว่าง #ffe87a ทึบ ไม่ไล่เฉด และมีแถบตั้งไล่ "โครเมียมสว่าง
+// #eef2f8 → ทองแบรนด์ #fbc134 → ทองลึก #96690a" นำหน้า ซึ่งเป็นแถบเดียวในหน้าที่
+// เริ่มจากเงินแล้วไหลลงทอง (ของ ContentBoxPremium เริ่มจากทองสว่าง)
+// เส้นคั่นคอลัมน์เป็นทองลึกสุด #6b4a05 เนื้อความ #fdf3df (= BRAND_TEXT) — 16.0:1 บน
+// ผิวลึกสุด
+// §2 ห้าม #96690a #6b4a05 และ #3f4859 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งสามอยู่ใน
+// ไล่เฉดของแถบ เส้นคั่น และออราเท่านั้น
+//
+// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
+// เป็นตัวๆ: ชุดมรกต-ทองของ KOON234 ที่เคยค้างในไฟล์นี้ (#0a6b32 #2fbf6a #043d1c
+// #cc920a #f7d14e #fde9a6 #0d2414 #e8f2e6 rgba(204,146,10,α)) ชุดทองเมทัลลิก-เงิน
+// โครเมียมของ UOK365 (#c8912f #f5d98a #d8dbe0 #a46b25 #6d4412 #191108 #ece1cc) และ
+// ชุดทอง-ดำของ NAZA99 ก่อนหน้านั้น (#e4b34d #fdf2ac #140c02 #8a5f12 #f3e8cf) ออกครบ
+// ทุกจุดแล้ว — NAZA99 เป็นชื่อที่ใกล้ NAZA168 มากและก็เป็นทองเหมือนกัน แต่เป็นคนละ
+// แบรนด์และคนละค่าสีทุกตัว
 const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#cc920a]/55 bg-[#0d2414]/94 p-8 text-[#e8f2e6] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#fde9a6]/60 hover:shadow-[0_15px_40px_rgba(204,146,10,0.30)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#fde9a6]/80 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#0a6b32]/45 blur-[60px] transition-all duration-500 group-hover:bg-[#2fbf6a]/30">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#cf9a18]/55 bg-[#241700]/94 p-8 text-[#fdf3df] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#ffe87a]/60 hover:shadow-[0_15px_40px_rgba(251,193,52,0.30)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#ffe87a]/80 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#3f4859]/55 blur-[60px] transition-all duration-500 group-hover:bg-[#cfd6e3]/25">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 border-b border-[#043d1c] pb-6 text-left text-base leading-relaxed text-[#e8f2e6] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#6b4a05] pb-6 text-left text-base leading-relaxed text-[#fdf3df] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           leftHeading && (
-            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#f7d14e] uppercase drop-shadow-[0_2px_10px_rgba(204,146,10,0.45)]">
-              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde9a6] via-[#cc920a] to-[#0a6b32] shadow-[0_0_10px_rgba(204,146,10,0.6)]" />
+            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#ffe87a] uppercase drop-shadow-[0_2px_10px_rgba(251,193,52,0.45)]">
+              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#eef2f8] via-[#fbc134] to-[#96690a] shadow-[0_0_10px_rgba(251,193,52,0.6)]" />
               {leftHeading}
             </HeadingTag>
           )
@@ -64,10 +86,10 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e8f2e6] md:pl-6">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#fdf3df] md:pl-6">
         {
           titleright && (
-            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#f7d14e] uppercase drop-shadow-[0_0_8px_rgba(204,146,10,0.45)] md:text-left">
+            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#ffe87a] uppercase drop-shadow-[0_0_8px_rgba(251,193,52,0.45)] md:text-left">
               {titleright}
             </HeadingTag>
           )

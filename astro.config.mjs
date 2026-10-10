@@ -37,13 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://superslot-club.net — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://naza168-slot.org — operator ระบุมาตรงๆ ในคำสั่ง
   // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ โดเมนมีขีดคั่นกลางและลงท้าย .net ไม่ใช่ .com แต่ชื่อแบรนด์คือ SUPERSLOTCLUB
-  // เขียนติดกันไม่มีขีด — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
+  // ⚠️ โดเมนลงท้าย **.org** ไม่ใช่ .com และมีขีดคั่นหน้าคำว่า slot แต่ชื่อแบรนด์คือ
+  // NAZA168 เขียนติดกันไม่มีขีด — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://flash877-slot.com",
+  site: "https://naza168-slot.org",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

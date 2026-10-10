@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -18,41 +18,40 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // script binds to, so the loading animation fires on the click instead of on
 // page load. Only the button's colours are ours to change.
 //
-// CtaRedirect.astro เป็น shared chrome ที่ orchestrator retheme ให้แล้วรอบนี้ —
-// หน้านี้แค่ render มัน ห้ามแก้ไฟล์นั้นจากหน้านี้
-//
 // The copy is rewritten every round rather than patched: the page used to be a
 // noindex interstitial, so any inherited title/description still promises an
 // automatic forward that no longer happens. It is an indexed page now, which
 // means verify-build holds its description to the same 150–160 character window
 // as every other page.
 //
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2):
-// ทองสายฟ้า #f5c518 (ฮิวหลัก) · ทองสว่าง #ffdd73 · ทองเข้ม #b8860f ·
-// แดงสายฟ้า #ff3b14 (ฮิวที่สอง) · แดงเข้ม #8c0f0a · เนื้อความ #fdf0e2 ·
-// หมึกบนพื้นถมทอง #2a0300 · ชั้นผิว ยก #7d1008 / กลาง #6d0804 / ลึก #5c0000 /
-// ลึกสุด #430000 (พื้นเพจจาก bg.json = #5c0000 แดงเลือดนกเข้ม)
+// NAZA168 (รอบทองอวกาศ-เงินโครเมียม 2026-10-10, brand-spec §2):
+// ทองแบรนด์ #fbc134 (ฮิวหลัก) · ทองสว่าง #ffe87a · ทองกลางเข้ม #cf9a18 ·
+// เงินโครเมียม #cfd6e3 (ฮิวที่สอง) · เนื้อความ #fdf3df · หมึกบนพื้นถมทอง #231500 ·
+// ชั้นผิว ยก #4e3406 / กลาง #432b03 / ลึก #382400 / ลึกสุด #241700
+// (พื้นเพจจาก bg.json = #382400 น้ำตาลไหม้เข้ม)
 // ปุ่มนี้เป็นคู่ SECONDARY เดียวกับ /ทางเข้า: จมลงจากการ์ด ContentBox (ผิวยก
-// #7d1008) ด้วยชั้นลึก #5c0000 → #430000 ขอบแดง #ff3b14/55 บนเนื้อความ #fdf0e2
-// (12.9:1 / 15.1:1) hover ยกขอบเป็นแดงเต็ม #ff3b14
+// #4e3406) ด้วยชั้นลึก #382400 → #241700 ขอบเงินโครเมียม #cfd6e3/55 บนเนื้อความ
+// #fdf3df (13.5:1 / 16.0:1) hover ยกขอบเป็นเงินเต็ม #cfd6e3
 // — ส่วน /register เป็น PRIMARY ถมทอง จึงไม่ซ้ำกัน
-// ⚠️ ห้ามใช้ผิวยก #7d1008 เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
-// ⚠️ แดงสายฟ้า #ff3b14 ไม่เคยถือตัวอักษร (≈3.6:1 บนผิวการ์ด) ใช้ได้แค่เส้นขอบ
-// ออรา และเงา — ออราใช้ rgba(255,59,20,α) เท่านั้นในไฟล์นี้ นอกจากเงาดำล้วน
-// ⚠️ แบรนด์รอบก่อนก็เป็นคู่ "แดง-ทอง" เหมือนกัน เจอแดงหรือทองที่ไหนห้ามเหมาว่าเป็น
-// ของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางใน brand-spec §2
+// ⚠️ ห้ามใช้ผิวยก #4e3406 เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
+// ⚠️ #96690a #6b4a05 #3f4859 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา
+// — ออราใช้ rgba(207,214,227,α) เท่านั้นในไฟล์นี้ นอกจากเงาดำล้วน
+// ⚠️ แบรนด์รอบก่อน (FLASH877) ก็เป็นแบรนด์ "ทอง" เหมือนกัน เจอทองที่ไหนห้ามเหมาว่า
+// เป็นของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางใน brand-spec §2 — ชุด
+// #f5c518 #ffdd73 #b8860f #ff3b14 #5c0000 #430000 #fdf0e2 #2a0300
+// rgba(245,197,24,α) rgba(255,59,20,α) ออกครบแล้ว และรอบนี้ไม่มีสีแดงเป็นฮิวเลย
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ และเรียกแบบ bare ทุกหน้า
-// — ห้ามส่ง prop message จากหน้านี้
+// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ และเรียกแบบ bare
+// ทุกหน้า — ห้ามส่ง prop message จากหน้านี้
 //
-// แบรนด์นี้เป็นเว็บตรงฐานสล็อตหลักล้วนๆ — รายการคำต้องห้ามเต็มอยู่ใน
+// แบรนด์นี้เป็นเว็บสล็อตนาซ่าล้วนๆ ไม่ใช่เว็บหวย — รายการคำต้องห้ามเต็มอยู่ใน
 // brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep เจอ false positive
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 24 ชั่วโมง / 100% / 2026
+// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 24 ชั่วโมง / 100%
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 155
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 158
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} เว็บตรงฐานสล็อตหลัก กดปุ่มเดียวไปยังช่องทางหลัก เข้าใช้งานบัญชีเดียวเพื่อค้นหาเกม ตรวจสอบเครดิต โปรโมชั่น และประวัติรายการได้สะดวก`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} เว็บสล็อตนาซ่า กดปุ่มเดียวไปยังช่องทางหลัก เข้าใช้งานเพื่อค้นหาเกม ตรวจสอบเครดิต ติดตามโปรโมชั่น และตรวจสอบยอดเดิมพันจากแพลตฟอร์มเดียว`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -66,7 +65,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บตรงฐานสล็อตหลัก เข้าใช้งานจากช่องทางหลัก`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บสล็อตนาซ่า เข้าใช้งานจากช่องทางหลัก`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -78,8 +77,8 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#ff3b14]/55 bg-gradient-to-b from-[#5c0000] to-[#430000] px-6 py-4 text-2xl font-bold tracking-wide text-[#fdf0e2] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#ff3b14] hover:shadow-[0_15px_40px_rgba(255,59,20,0.45)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ff3b14]/30 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#cfd6e3]/55 bg-gradient-to-b from-[#382400] to-[#241700] px-6 py-4 text-2xl font-bold tracking-wide text-[#fdf3df] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#cfd6e3] hover:shadow-[0_15px_40px_rgba(207,214,227,0.4)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#cfd6e3]/25 to-transparent"></div>
         เข้าสู่ระบบ
       </a>
     </div>

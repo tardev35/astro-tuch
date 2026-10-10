@@ -19,7 +19,7 @@ const bankPool = [
 // server-rendered text and the text the module swaps in can never drift apart.
 // Same for the two status classes: the module reads them off the row, so it
 // never has to learn what this brand's palette is.
-const PENDING_TEXT = "[กำลังตรวจสอบ]";
+const PENDING_TEXT = "[อยู่ระหว่างตรวจสอบ]";
 const DONE_TEXT = "[ถอนสำเร็จ]";
 const PENDING_CLASS = "is-pending";
 const DONE_CLASS = "is-verified";
@@ -52,35 +52,38 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
   pending: brandFlag(Astro.site, `winner-pending-${i}`),
 }));
 
-// BOOM369 (รอบเขียวนีออน-เงิน บนดำสนิท 2026-10-07, brand-spec §2): แผงเทอร์มินัลเป็น
-// ผิวการ์ดลึกสุด #041109 ในสันเขียวนีออนแบรนด์ #42fb5a สองข้าง เส้นบนเป็นเงินโครเมียม
-// #dadcdc ตามตัวเลข 369 บนโลโก้ เส้นล่างเป็นเขียวนีออนตามคำว่า BOOM หัวแถบรับเงิน
-// โครเมียม ส่วนยอดเงินรับเขียวนีออนพร้อมเรืองแสง rgba(66,251,90,…) แถว hover ตกลง
-// ผิวการ์ดยก #0b231b เนื้อความใช้ #cfe9d7 (= BRAND_TEXT)
+// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2):
+// แผงเทอร์มินัลเป็นผิวการ์ดลึกสุด #241700 ในสันทองอวกาศแบรนด์ #fbc134 สองข้าง เส้นบน
+// เป็นเงินโครเมียม #cfd6e3 ตามเลข 168 และหมวกนักบินบนโลโก้ เส้นล่างเป็นทองแบรนด์ตาม
+// คำว่า NAZA หัวแถบรับเงินโครเมียม ส่วนยอดเงินรับทองแบรนด์พร้อมเรืองแสง
+// rgba(251,193,52,…) แถว hover ตกลงผิวการ์ดยก #4e3406 ป้ายกำกับหม่นใช้ #9aa6bb
+// (4.7:1 บนผิวยก — §2 อนุญาตเฉพาะตัวอักษรขนาดปกติ ซึ่งตรงกับที่ใช้ที่นี่)
+// เนื้อความ/ชื่อผู้ใช้เป็นครีมอุ่น #fdf3df (= BRAND_TEXT)
 //
-// ชุดเขียวนีออน-โครเมียมของ CK268 ที่เคยค้างในไฟล์นี้ (#8bfc13 #071007 #0f1b0e
-// #e8f0e6 #c9ff8f #d5e6cd rgba(139,252,19,…)) ออกครบทุกจุดแล้ว — รอบก่อนบังเอิญเป็น
-// เขียวนีออนอีกเฉดหนึ่ง ซึ่งเป็นกรณีที่พลาดง่ายที่สุด เพราะ "เขียวอยู่แล้ว" ไม่ได้
-// หมายความว่าเป็นเขียวของแบรนด์นี้
+// ⚠️ ชุดเขียวนีออน-เงินของ BOOM369 ที่เคยค้างในไฟล์นี้ (#42fb5a #8dffa0 #04ab3a
+// #041109 #cfe9d7 #9fb8aa #0b231b #dadcdc rgba(66,251,90,α)) ออกครบทุกจุดแล้ว —
+// #dadcdc ของ BOOM369 เป็นเงินคนละค่ากับ #cfd6e3 ของรอบนี้ และ #cfe9d7 เป็นเขียว
+// อมเทา ไม่ใช่เงินโครเมียม อย่าปล่อยไว้เพราะ "เทาๆ เหมือนกัน"
 //
-// ป้าย ONLINE ใช้เขียวนีออนของแบรนด์ได้ตาม §2 (ตัวบ่งชี้ "สด" บนแบรนด์เขียวยังอ่านว่า
-// สดอยู่ เพราะมันกะพริบ) ส่วนสีสถานะ pending/verified ใน <style> ท้ายไฟล์เป็นสีเชิง
-// ความหมาย ไม่ใช่สีแบรนด์ จึงคงไว้ตามเดิม เช่นเดียวกับสีประจำธนาคารในรายชื่อด้านบน
+// ป้าย ONLINE รอบนี้ใช้ทองแบรนด์ได้ เพราะรอบนี้ไม่มีฮิวเขียว/แดงที่จะไปชนกับสีสถานะ
+// ส่วนสี pending/verified ใน <style> ท้ายไฟล์เป็นสีเชิงความหมาย ไม่ใช่สีแบรนด์ จึงคงไว้
+// ตามเดิม เช่นเดียวกับสีประจำธนาคารในรายชื่อด้านบน
 //
-// ข้อความ aria-label ไม่ระบุช่องทางฝากถอนหรือชื่อธนาคาร เพราะบรีฟรอบนี้ไม่ได้ให้ไว้
+// ข้อความ aria-label ไม่ระบุช่องทางฝากถอน ชื่อธนาคาร หรือตัวเลขใดๆ เพราะบรีฟรอบนี้
+// ไม่ได้ให้ไว้ — §6 อนุญาตเฉพาะตัวเลขของบรีฟเอง (0.3% · 0.8% · 24 ชั่วโมง · 100%)
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4">
   <section
     aria-label={`รายการถอนล่าสุดของสมาชิก ${BRAND_NAME} สมาชิกตรวจสอบยอดและสถานะรายการของตัวเองได้จากบัญชีสมาชิก`}
-    class="relative border-r-4 border-l-4 border-[#42fb5a]/55 bg-[#041109]/92 px-4 py-8 shadow-[0_0_30px_rgba(66,251,90,0.35)] md:p-10"
+    class="relative border-r-4 border-l-4 border-[#fbc134]/55 bg-[#241700]/92 px-4 py-8 shadow-[0_0_30px_rgba(251,193,52,0.35)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#dadcdc] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#42fb5a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#cfd6e3] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#fbc134] to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#42fb5a]/45 pb-4">
-      <p class="text-xl font-black tracking-[0.2em] text-[#dadcdc] drop-shadow-[0_0_8px_rgba(66,251,90,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
-      <span class="shrink-0 animate-pulse border border-[#42fb5a]/55 px-2 py-1 text-xs font-bold tracking-widest text-[#42fb5a]">ONLINE</span>
+    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#fbc134]/45 pb-4">
+      <p class="text-xl font-black tracking-[0.2em] text-[#cfd6e3] drop-shadow-[0_0_8px_rgba(251,193,52,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
+      <span class="shrink-0 animate-pulse border border-[#fbc134]/55 px-2 py-1 text-xs font-bold tracking-widest text-[#fbc134]">ONLINE</span>
     </div>
 
     <div
@@ -96,14 +99,14 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-left transform transition-all duration-500 ease-out">
-            <div class="flex items-center justify-between border-l-2 border-[#42fb5a]/70 bg-gradient-to-r from-[#42fb5a]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#0b231b]">
+            <div class="flex items-center justify-between border-l-2 border-[#fbc134]/70 bg-gradient-to-r from-[#fbc134]/14 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#4e3406]">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-white/10 bg-black/50 mix-blend-screen ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
                 </div>
-                <div class="font-mono text-sm text-[#9fb8aa]">
+                <div class="font-mono text-sm text-[#9aa6bb]">
                   USR_ID:{" "}
-                  <span data-winner-user class="font-bold text-[#cfe9d7]">
+                  <span data-winner-user class="font-bold text-[#fdf3df]">
                     {row.user}
                   </span>
                 </div>
@@ -118,8 +121,8 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
                   class={`winner-status font-mono text-[10px] tracking-widest ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? PENDING_TEXT : DONE_TEXT}
                 </div>
-                <div class="font-mono text-xl font-black text-[#42fb5a] drop-shadow-[0_0_8px_rgba(66,251,90,0.45)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#9fb8aa]">THB</span>
+                <div class="font-mono text-xl font-black text-[#fbc134] drop-shadow-[0_0_8px_rgba(251,193,52,0.45)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#9aa6bb]">THB</span>
                 </div>
               </div>
             </div>

@@ -13,60 +13,68 @@ const leftHeading = titleleft ?? title;
 // `leading-normal` to cancel the hoisted `leading-relaxed`. Do not re-add a
 // wrapper <div>.
 //
-// Column order: TEXT (7fr) then IMAGE (3fr) — the mirror of
-// ContentBoxSevenThreePremium, which runs image-then-text. The home page renders
-// one of each, so the two image+text blocks alternate sides instead of stacking
-// both pictures down the same edge. The wide column is therefore the LEFT one
-// and `title` falls back to it, so a caller that passes a single docx heading
-// gets it on the prose, never on the picture.
+// Column order: TEXT (7fr) then IMAGE (3fr). The wide column is the LEFT one and
+// `title` falls back to it, so a caller that passes a single docx heading gets
+// it on the prose, never on the picture. The image column is passed no
+// `titleright`, so this block emits exactly one docx heading. The heading sits
+// in normal flow, never `absolute`, so there is no floating badge here and no
+// vertical-clearance arithmetic to do.
 //
-// Only one column ever carries a heading on the page — the image column is
-// passed no `titleright`, so this block emits exactly one docx heading. The
-// heading sits in normal flow, never `absolute`, so there is no floating badge
-// here and no vertical-clearance arithmetic to do: a title that wraps pushes
-// the slot down instead of covering it.
-//
-// Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-[1400px] + px-4(16×2=32), card border(1×2=2), p-8(32×2=64),
-// grid gap-8(32), image column md:border-l(1) + md:pl-8(32) = 33):
+// DRAWN WIDTH OF THE 3fr IMAGE COLUMN, recomputed from the classes in this file
+// for the `widths`/`sizes` the page passes. Tailwind sets box-sizing:
+// border-box globally, so max-w-* caps the box INCLUDING padding and border:
+//   section  max-w-[1400px] + px-4 (16x2=32)  -> card outer = min(100vw,1400) - 32
+//   card     border (1x2=2) + p-8 (32x2=64)   [no md:p-10 on this one]
+//   grid     gap-8 (32, md+ only)
+//   image column adds md:border-l (1) + md:pl-8 (32) = 33
 //   >= 1400px : (1400 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1270 x 0.3 - 33 = 348px
 //   md..1399  : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
-//   < md      : one column at p-8                    = calc(100vw - 98px)
-// Change any of those numbers and the page's `sizes` has to move with it.
+//   < md      : one column at p-8, no md: padding    = calc(100vw - 98px),
+//               which exceeds the 600px bitmap above a 698px viewport, so the
+//               page caps that band at 600px.
+// These are DIFFERENT numbers from ContentBoxSevenThree above it on the page —
+// that file pays md:p-10 and md:pl-6, this one pays p-8 and md:pl-8 + a border.
+// Change any of them and the page's `sizes` has to move with it.
 //
-// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09, brand-spec §2-§4):
+// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2-§4):
 // กล่องนี้ถือ docx H3 #5 ("โปรโมชั่น แนะนำเพื่อน รับโบนัสแชร์ลิงก์ 0.8% ไม่จำกัด")
-// คู่กับ slide2 ซึ่งพิมพ์คำว่า โปรโมชั่น / แนะนำเพื่อน โบนัส กับเลข 0.8% ตัวแดง
-// ขอบทองขนาดใหญ่ไว้ในตัวภาพเอง
+// คู่กับ slide2 ซึ่งพิมพ์คำว่า โปรโมชั่น / แนะนำเพื่อน โบนัส กับเลข 0.8% ตัวทอง
+// ขนาดใหญ่ไว้ในตัวภาพเอง (⚠️ คู่สไลด์กลับด้านจากรอบก่อน — ตัวเลขบนงานอาร์ตเป็นตัวตัดสิน)
 //
-// แผ่นนูนใบนี้เป็นใบที่ลึกที่สุดในสามแผ่นนูนของหน้า: ผิวแผ่นเป็นผิวลึกสุด #180800
-// กดเงาลงด้วยดำสนิท และยกแสงขึ้นด้วยผิวการ์ดยก #3d1709 ซึ่งเป็นคู่มืด/สว่างในโทน
-// แดง-น้ำตาลเดียวกันตามที่ความนูนแบบนี้ต้องการ ตอน hover เงาฝั่งสว่างไต่ขึ้นเป็น
-// แดงลึก #7d0f12 (ContentBoxTwoNeumorphism ใช้ผิว #3d1709 และ
-// ContentBoxNeumorphism ใช้ผิว #301105 จึงไม่ซ้ำกันทั้งสามใบ)
-// หัวข้อรับทองแบรนด์ #f2b705 ทึบสีเดียวเป็นตัวเน้นเพียงจุดเดียว คู่กับ
-// SevenThreePremium ที่อยู่เหนือขึ้นไปในหน้าเดียวกันซึ่งหัวข้อเป็นไล่สามสีในการ์ด
-// ไล่เฉดกรอบแดงลึก สองบล็อกจึงคนละจังหวะสายตาทั้งรูปทรง ด้านที่วางรูป และสี
-// กรอบการ์ดเป็นทองเข้ม #a8730a แบบโปร่ง เส้นคั่นคอลัมน์เป็นแดงลึก #7d0f12
-// เนื้อความ #fbe8d5 (= BRAND_TEXT)
-// #a8730a กับ #7d0f12 ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2 — อยู่ที่ขอบและเงาเท่านั้น
+// แผ่นนูนใบนี้วางบนผิวกลาง #432b03 ซึ่งอยู่ระหว่างผิวลึกสุด #241700 ของ
+// ContentBoxSevenThree ที่อยู่เหนือขึ้นไปบนหน้าเดียวกัน กับผิวยก #4e3406 ของ
+// ContentBoxTwoNeumorphism ที่อยู่ถัดลงไป สองแผ่นนูนในหน้าจึงคนละผิวและไม่อ่านเป็น
+// ใบเดียวกันสองรอบ ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว จึงกดเงาลงด้วยดำสนิท
+// และยกแสงขึ้นด้วยทองลึกสุด #6b4a05 ตอน hover ฝั่งสว่างไต่ขึ้นเป็นทองลึก #96690a
+// (ของ ContentBoxTwoNeumorphism ไต่ขึ้นเป็นทองกลางเข้ม #cf9a18 — คนละปลาย)
+// สีแบรนด์จึงถูกเก็บไว้ที่หัวข้อ ไม่ใช่ในเงา: หัวข้อรับทองแบรนด์ #fbc134 ทึบสีเดียว
+// เป็นตัวเน้นเพียงจุดเดียว คู่กับใบบนที่หัวข้อเป็นทองสว่าง #ffe87a พร้อมแถบตั้งไล่สาม
+// สีนำหน้า สองบล็อกรูปจึงคนละจังหวะสายตาทั้งผิว ความนูน และหัวข้อ
+// กรอบการ์ดเป็นทองลึก #96690a แบบโปร่ง เส้นคั่นคอลัมน์เป็นทองลึกสุด #6b4a05
+// เนื้อความ #fdf3df (= BRAND_TEXT) — 11.9:1 บนผิวกลาง
+// §2 ห้าม #96690a กับ #6b4a05 ถือตัวอักษร — ในไฟล์นี้ทั้งคู่อยู่ที่ขอบ เส้นคั่น และเงา
+// เท่านั้น
 //
-// ชุดม่วงนีออน-ทองอาร์เขตของ WEPLAY168 ที่เคยค้างในไฟล์นี้ (#0a0117 #1e0a3c
-// #5b1a75 #c98a05 #ffd23d #fbe455 #ece2ff) และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168
-// ก่อนนั้น (#020609 #0a1726 #c9a703 #064a86 #fce604 #dbeafe) ออกครบทุกจุดแล้ว
+// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
+// เป็นตัวๆ: ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่เคยค้างในไฟล์นี้ (#e8232a
+// #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a #f5cbb0 #fbe8d5 #3d1709
+// #301105 #180800) ชุดม่วงนีออน-ทองอาร์เขตของ WEPLAY168 (#0a0117 #1e0a3c #5b1a75
+// #c98a05 #ffd23d #fbe455 #ece2ff) และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#020609
+// #0a1726 #c9a703 #064a86 #fce604 #dbeafe) ออกครบทุกจุดแล้ว — ทองของรอบนี้ (#fbc134)
+// เป็นคนละค่ากับ #f2b705 / #fbe455 / #fce604 / #ffd23d ทุกตัว
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#a8730a]/35 bg-[#180800] p-8 shadow-[10px_10px_20px_#000000,-10px_-10px_20px_#3d1709] transition-all duration-300 hover:shadow-[15px_15px_30px_#000000,-15px_-15px_30px_#7d0f12]">
+    class="w-full rounded-[25px] border border-[#96690a]/35 bg-[#432b03] p-8 shadow-[10px_10px_20px_#000000,-10px_-10px_20px_#6b4a05] transition-all duration-300 hover:shadow-[15px_15px_30px_#000000,-15px_-15px_30px_#96690a]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5]">
-        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#f2b705]">{leftHeading}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df]">
+        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#fbc134]">{leftHeading}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5] md:border-l md:border-[#7d0f12] md:pl-8">
-        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#f2b705]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df] md:border-l md:border-[#6b4a05] md:pl-8">
+        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#fbc134]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

@@ -10,7 +10,7 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "⚡" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🚀" } = Astro.props;
 
 // Without a `title` this box carries chrome (a login widget, a channel panel),
 // never docx article content, so both column labels render as <p> and the
@@ -19,53 +19,55 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 // LoginRtpSection renders it without a title, which is why the page's heading
 // inventory stops at the docx's own sections.
 //
-// Reached BOTH through LoginRtpSection (a nested import) and directly from
-// index.astro this round, so a grep for "components/ContentBoxTwo.astro" in
-// src/pages/ is not the whole story — it is LIVE either way and has to carry the
-// current brand's colours.
+// Reached ONLY through LoginRtpSection this round (index.astro does not import
+// it directly — the docx's two-column sections went to ContentBoxTwoCyberCut and
+// ContentBoxTwoNeumorphism). A grep for "components/ContentBoxTwo.astro" in
+// src/pages/ therefore finds nothing, and that does NOT mean it is inventory:
+// match the bare filename instead. It is LIVE and has to carry this brand's
+// colours.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2):
-// โลโก้รอบนี้เป็นเหรียญกลมขอบทองพื้นแดงเข้ม มีสายฟ้าทอง-ส้มผ่ากลาง คำว่า FLASH เป็น
-// ทองสามมิติและเลข 877 เป็นแดงสด แบนเนอร์กับสไลด์เป็นฉากคาสิโนจีนมงคล ม่านกำมะหยี่แดง
-// โคมไฟคริสตัล เทพเจ้าโชคลาภ เสือการ์ตูนใส่แว่นดำ แพนด้า กล่องของขวัญแดง-ทอง เหรียญทอง
-// ไพ่ ชิป และวงล้อ 777 แบรนด์จึงมีสองฮิวจริง — **ทองสายฟ้านำ** แดงสายฟ้าเป็นฮิวที่สอง
-// ซึ่งกลับทิศจากคู่ "แดงนำ-ทองรอง" ของ SUPERSLOTCLUB รอบก่อน
-// กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจแดงเลือดนก #5c0000 ตรงๆ จึงเป็น
-// จังหวะ "โปร่ง" ของหน้า คั่นระหว่างบล็อกรูปสองใบกับการ์ดสองครึ่งของ ContentBoxSpecial
-// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นทองทึบ vs แผ่นแดงลึกทึบ": ฝั่งซ้ายเป็นแผ่นทอง ไล่ทองสว่าง
-// #ffdd73 → ทองสายฟ้า #f5c518 → ทองเข้ม #b8860f บนหมึกแดงเกือบดำ #2a0300 (5.8:1 ที่
-// ปลายเข้มสุด — §2 ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง และห้ามไล่ลงไปถึง #8a6208 ใต้ตัวอักษร
-// เพราะเหลือ ~3.4:1) ป้ายคอลัมน์ซ้ายเป็นทองสายฟ้า ส่วนฝั่งขวาเป็นแผ่นแดงลึกทึบ ไล่แดง
-// เข้ม #8c0f0a → แดงลึกสุด #5a0603 ในกรอบแดงสายฟ้า #ff3b14 บนไอคอนทองสว่าง ป้ายคอลัมน์
-// ขวาเป็นครีมอมส้ม #f8d2bb (10.2:1 บนพื้นเพจ) — §2 ห้าม #ff3b14 ถือตัวอักษรที่นี่
-// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ครีมอมส้ม #f8d2bb → ทองสว่าง #ffdd73 → ทอง
-// สายฟ้า #f5c518 เส้นคั่นเป็นแดงเข้มทั้งสองฝั่ง สันหัวข้อไล่ทองสว่าง → ทองสายฟ้า →
-// แดงลึกสุด เนื้อความ #fdf0e2 (= BRAND_TEXT) — 14.1:1 บนพื้นเพจ
+// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2):
+// โลโก้รอบนี้เป็นเหรียญตรากลมขอบทองหนาบนพื้นเกือบดำ ข้างในเป็นหมวกนักบินอวกาศสีเงิน-
+// ทองพร้อมบังตาสะท้อนสีทองเข้ม มีจรวดทองพุ่งผ่านวงแหวน คำว่า NAZA เป็นทองสามมิติและ
+// เลข 168 เป็นเงินโครเมียมขอบทอง แบนเนอร์กับสไลด์เป็นฉากอวกาศในทางเดินสถานีสีทอง
+// ดาวเคราะห์มีวงแหวน โลกสีน้ำเงิน ตู้สล็อต 777 มงกุฎทอง เหรียญทอง และมาสคอตนักบิน
+// อวกาศการ์ตูน แบรนด์จึงมีสองฮิวจริง — **ทองอวกาศ #fbc134 นำ** และ **เงินโครเมียม
+// #cfd6e3 เป็นฮิวที่สอง** รอบนี้ไม่มีสีแดงอยู่ในชุดเลย
+// กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจน้ำตาลคั่วเข้ม #382400 ตรงๆ จึงเป็น
+// จังหวะ "โปร่ง" ของหน้า คั่นหลังบล็อกเนื้อหาของบรีฟทั้งแปดส่วน
+// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นทองทึบ vs แผ่นเงินลึกทึบ": ฝั่งซ้ายเป็นแผ่นทอง ไล่ทอง
+// สว่าง #ffe87a → ทองแบรนด์ #fbc134 → ทองกลางเข้ม #cf9a18 บนหมึกน้ำตาลเกือบดำ #231500
+// (7.0:1 ที่ปลายเข้มสุด — §2 ห้ามไล่ลงไปถึง #96690a ใต้ตัวอักษร เพราะเหลือ 3.7:1 และ
+// ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง) ป้ายคอลัมน์ซ้ายเป็นทองแบรนด์ ส่วนฝั่งขวาเป็นแผ่นเงินลึก
+// ทึบ ไล่เงินลึก #3f4859 → ผิวลึกสุด #241700 ในกรอบโครเมียม #cfd6e3 บนไอคอนทองสว่าง
+// ป้ายคอลัมน์ขวาเป็นโครเมียม #cfd6e3 — §2 ห้าม #3f4859 ถือตัวอักษรที่ไหนเลย
+// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ครีมรอง #d9c9a6 → ทองสว่าง #ffe87a → ทอง
+// แบรนด์ #fbc134 เส้นคั่นเป็นทองลึกสุด #6b4a05 ทั้งสองฝั่ง สันหัวข้อไล่ทองสว่าง → ทอง
+// แบรนด์ → เงินลึก #3f4859 เนื้อความ #fdf3df (= BRAND_TEXT) — 13.5:1 บนพื้นเพจ
 //
-// ไอคอนเริ่มต้นเป็น 🔐 / ⚡ — รอบนี้เป็นเว็บตรงฐานสล็อตหลักธีมสายฟ้า ไม่ใช่เว็บหวย
-// (LoginRtpSection กับ index.astro ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
+// ไอคอนเริ่มต้นเป็น 🔐 / 🚀 — รอบนี้เป็นเว็บสล็อตธีมอวกาศ/นักบินอวกาศ ไม่ใช่เว็บหวย
+// (LoginRtpSection ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
 //
-// ⚠️ แบรนด์รอบก่อน (SUPERSLOTCLUB) **ก็แดง-ทองเหมือนกัน** เจอแดงหรือทองที่ไหนห้ามเหมา
-// ว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่
-// เคยค้างในไฟล์นี้ (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a
-// #f5cbb0 #c9a898 #fbe8d5 #2b0a00 #3d1709 #301105 #180800 rgba(232,35,42,α)
-// rgba(242,183,5,α)) ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023 #5cc211 #2f8c07
-// #1a5c04 #f2c230 #ffe066 #a87a08 #bde397 #e9f7d6 #14380a #06220a) ชุดม่วงนีออน-ทอง
-// ของ WEPLAY168 (#a435f0 #7a1fc4 #fbe455 #efe6ff #ece2ff #d2a6ff #ffd23d #5b1a75
-// #c98a05 #1e0a3c) และชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #a30303 #f5b61d #ffd87a
-// #b07a06 #6b0402 #fdeedd) ออกครบทุกจุดแล้ว — แดงของ PIGPG (#d4200d) และของ
-// SUPERSLOTCLUB (#e8232a) ใกล้แดงของรอบนี้มาก แต่เป็นคนละค่า และทองของรอบนี้ (#f5c518)
-// ก็คนละค่ากับ #f2b705 / #f2c230 / #f5b61d ทุกตัว
+// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
+// เป็นตัวๆ: ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 ที่เคยค้างในไฟล์นี้ (#f5c518 #ffdd73
+// #b8860f #8a6208 #ff3b14 #8c0f0a #5a0603 #7d1008 #6d0804 #5c0000 #430000 #fdf0e2
+// #f8d2bb #d4a894 #2a0300 rgba(245,197,24,α) rgba(255,59,20,α)) ชุดแดงเสือโคร่ง-ทอง
+// ถ่านไฟของ SUPERSLOTCLUB (#e8232a #ff5a46 #7d0f12 #f2b705 #ffd666 #c08a0b #a8730a
+// #f5cbb0 #fbe8d5) ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023 #f2c230 #ffe066
+// #a87a08 #e9f7d6) ชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0 #fbe455 #ffd23d #5b1a75)
+// และชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #f5b61d #ffd87a #fdeedd) ออกครบทุกจุดแล้ว
+// — #f5c518 ของรอบก่อนใกล้ #fbc134 ของรอบนี้มาก แต่เป็นคนละค่า และ #ffdd73 / #ffd666
+// / #ffe066 / #ffd87a ก็เป็นคนละค่ากับ #ffe87a ทุกตัว
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#8c0f0a] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffdd73] via-[#f5c518] to-[#5a0603] shadow-[0_0_10px_rgba(245,197,24,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#f8d2bb] via-[#ffdd73] to-[#f5c518] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#6b4a05] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe87a] via-[#fbc134] to-[#3f4859] shadow-[0_0_10px_rgba(251,193,52,0.6)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#d9c9a6] via-[#ffe87a] to-[#fbc134] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -73,13 +75,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#8c0f0a] pb-3 text-xl leading-normal font-black tracking-widest text-[#f5c518] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#6b4a05] pb-3 text-xl leading-normal font-black tracking-widest text-[#fbc134] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#b8860f] bg-gradient-to-br from-[#ffdd73] via-[#f5c518] to-[#b8860f] text-sm text-[#2a0300] shadow-[0_5px_15px_rgba(245,197,24,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#cf9a18] bg-gradient-to-br from-[#ffe87a] via-[#fbc134] to-[#cf9a18] text-sm text-[#231500] shadow-[0_5px_15px_rgba(251,193,52,0.4)]">
               {iconleft}
             </span>
             {titleleft}
@@ -89,13 +91,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#8c0f0a] pb-3 text-xl leading-normal font-black tracking-widest text-[#f8d2bb] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#6b4a05] pb-3 text-xl leading-normal font-black tracking-widest text-[#cfd6e3] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#ff3b14]/60 bg-gradient-to-br from-[#8c0f0a] to-[#5a0603] text-sm text-[#ffdd73] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#cfd6e3]/60 bg-gradient-to-br from-[#3f4859] to-[#241700] text-sm text-[#ffe87a] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
               {iconright}
             </span>
             {titleright}
