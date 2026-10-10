@@ -7,7 +7,7 @@ export interface FaqItem {
 export interface Props {
   title?: string;
   /** The docx's own level for this section. This brief marks
-   *  "คำถามที่พบบ่อยเกี่ยวกับ KINGKONG555" as an H2, so index.astro passes
+   *  "คำถามที่พบบ่อยเกี่ยวกับ DUCK1688" as an H2, so index.astro passes
    *  as="h2". It defaults to <p> so a page that hangs a chrome FAQ here stays
    *  out of the heading inventory. */
   as?: "h2" | "h3" | "p";
@@ -15,32 +15,39 @@ export interface Props {
 }
 
 // No defaults for `faqs` beyond an empty list — a stale default here would ship
-// a previous brand's questions. The page passes both props.
+// a previous brand's questions. The page passes both props, and the SAME array
+// goes to pageGraph({ faqs }).
 //
 // The questions themselves stay <span> inside <summary>: they are accordion
 // controls, not docx headings, and the rendered heading inventory is diffed
 // against the brief on every rebrand. The <section> keeps its aria-label either
 // way, so nothing is lost for assistive tech.
 //
-// <details name="faq-kingkong555"> keeps a single panel open at a time with no
+// <details name="faq-duck1688"> keeps a single panel open at a time with no
 // script, and the open state is keyed off [open] in the stylesheet rather than a
 // hand-written .rotate-45 override. No <script> in this file.
 //
-// KINGKONG555 (รอบเขียวป่า-ทองมงกุฎ 2026-10-09, brand-spec §2):
-// โลโก้แบรนด์นี้เป็นสองฮิวจริง — คำว่า KINGKONG เขียวมะนาว #8ce023 กับมงกุฎทอง #f2c230
-// บนหัวกอริลลา แผงคำถามเป็นส่วนที่ต้องอ่านยาว จึงเดินโครงด้วยเขียวเป็นหลักเพื่อไม่ให้
-// ลายตา แล้วปล่อยทองมาเป็นจุดเน้นเฉพาะที่ — ผิวการ์ดกลาง #0f2e05 ในกรอบเขียวลึก
-// #1a5c04 เส้นไรผมมุมบนซ้ายกับสถานะเปิดเป็นเขียวสด #5cc211 หัวข้อ (ที่หน้าเพจส่งมาเป็น
-// prop) ไล่เขียวมะนาว #8ce023 → ทองสว่าง #ffe066 → ทองมงกุฎ #f2c230 ซึ่งเป็นคู่
-// "เขียวนำ ทองตาม" แบบเดียวกับที่ตาอ่านโลโก้จากมวลสีมากไปน้อย และเป็นลำดับไล่เฉดที่
-// ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกัน มาร์กนำหน้าคำถามเป็นทองมงกุฎ แผ่นป้ายหัวข้อไล่จาก
-// ผิวยก #14380a ลงไปใส ส่วนกล่อง + ตกลงไปที่ผิวลึกสุด #051400 คำถามที่ hover ขึ้นเป็น
-// เขียวอ่อน #bde397 เนื้อความใช้ #e9f7d6 (BRAND_TEXT) — 14.6:1 บนผิวกลาง
+// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2):
+// โลโก้แบรนด์นี้เป็นสองฮิวจริง — เป็ดการ์ตูนเหลืองสวมมงกุฎทองที่ปากเป็นส้มอำพัน
+// #f58b2a กับคำว่า DUCK เป็นทองเป็ด #f3bb34 แผงคำถามเป็นส่วนที่ต้องอ่านยาว จึงเดิน
+// โครงด้วยทองเป็นหลักเพื่อไม่ให้ลายตา แล้วปล่อยส้มมาเป็นจุดเน้นเฉพาะที่ — ผิวการ์ด
+// กลาง #171106 ในกรอบทองเส้น #5c3f04 เส้นไรผมมุมบนซ้ายกับสถานะเปิดเป็นทองเป็ด
+// #f3bb34 หัวข้อ (ที่หน้าเพจส่งมาเป็น prop) ไล่ทองเป็ด #f3bb34 → ส้มอำพัน #f58b2a →
+// ส้มอ่อน #ffc98a ซึ่งเป็นคู่ "ทองนำ ส้มตาม" แบบเดียวกับที่ตาอ่านโลโก้จากมวลสีมากไป
+// น้อย และเป็นลำดับไล่เฉดที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกัน มาร์ก ❖ นำหน้าคำถาม
+// เป็นส้มอำพัน แผ่นป้ายหัวข้อไล่จากผิวยก #1f1709 ลงไปใส ส่วนกล่อง + ตกลงไปที่ผิวลึก
+// #0d0903 คำถามที่ hover ขึ้นเป็นทองสว่าง #fde464 เนื้อความใช้ #f6ecd9 (BRAND_TEXT)
+// — 15.9:1 บนผิวกลาง
+// ⚠️ พื้นเพจรอบนี้ดำสนิท #000000 ทุกผิวในไฟล์นี้จึงสว่างกว่าพื้น ไม่มีชั้นไหนจม
 //
-// ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 ที่เคยค้างในไฟล์นี้ (#0193fb #7bcffb #fce604
-// #fff48a #064a86 #0a1726 #07111d #020609 #dbeafe rgba(1,147,251,α)) และชุดทอง-เงิน
-// ของ UOK365 ก่อนหน้านั้น (#c8912f #6d4412 #f5d98a #d8dbe0 #191108 #120c07 #070504
-// #ece1cc) ออกครบทุกจุดแล้ว พร้อมกับชื่อ details group ของรอบนั้น
+// ⚠️ ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211
+// #2f8c07 #1a5c04 #f2c230 #ffe066 #bde397 #e9f7d6 #14380a #0f2e05 #051400
+// rgba(140,224,35,α)) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 รอบก่อน (#fbc134 #ffe87a
+// #cf9a18 #96690a #6b4a05 #cfd6e3 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700)
+// ชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#0193fb #7bcffb #fce604 #fff48a #064a86 #0a1726
+// #07111d #020609 #dbeafe) และชุดทอง-เงินของ UOK365 (#c8912f #6d4412 #f5d98a
+// #d8dbe0 #191108 #120c07 #070504 #ece1cc) ออกครบทุกจุดแล้ว พร้อมกับชื่อ details
+// group ของรอบนั้น — ทองรอบนี้เป็นคนละค่ากับทุกตัวข้างบน
 const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
@@ -49,9 +56,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   {
     title && (
       <div
-        class="mb-8 flex items-center gap-3 border-l-4 border-[#5cc211] bg-gradient-to-r from-[#14380a] via-[#0f2e05]/60 to-transparent px-4 py-2.5"
+        class="mb-8 flex items-center gap-3 border-l-4 border-[#f3bb34] bg-gradient-to-r from-[#1f1709] via-[#171106]/60 to-transparent px-4 py-2.5"
         style="clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
-        <TitleTag class="bg-gradient-to-r from-[#8ce023] via-[#ffe066] to-[#f2c230] bg-clip-text text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-2xl">
+        <TitleTag class="bg-gradient-to-r from-[#f3bb34] via-[#f58b2a] to-[#ffc98a] bg-clip-text text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-2xl">
           {title}
         </TitleTag>
       </div>
@@ -62,14 +69,14 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     {
       faqs.map((faq) => (
         <details
-          name="faq-kingkong555"
-          class="faq-item group relative overflow-hidden border border-[#1a5c04] bg-[#0f2e05]/92 backdrop-blur-sm transition-all duration-300 hover:border-[#5cc211]/75 hover:shadow-[0_15px_40px_rgba(140,224,35,0.26)]"
+          name="faq-duck1688"
+          class="faq-item group relative overflow-hidden border border-[#5c3f04] bg-[#171106]/94 backdrop-blur-sm transition-all duration-300 hover:border-[#f3bb34]/75 hover:shadow-[0_15px_40px_rgba(243,187,52,0.26)]"
           style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#5cc211] to-transparent" />
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#f3bb34] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2.5 text-base font-bold text-[#e9f7d6] transition-colors group-hover:text-[#bde397] md:text-lg">
-              <span aria-hidden="true" class="text-xs text-[#f2c230]">
+            <span class="flex items-center gap-2.5 text-base font-bold text-[#f6ecd9] transition-colors group-hover:text-[#fde464] md:text-lg">
+              <span aria-hidden="true" class="text-xs text-[#f58b2a]">
                 ❖
               </span>
               {faq.q}
@@ -77,13 +84,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#1a5c04] bg-[#051400] text-lg font-black text-[#e9f7d6] transition-all duration-300 group-hover:border-[#5cc211]/85 group-hover:text-[#bde397]"
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center border border-[#5c3f04] bg-[#0d0903] text-lg font-black text-[#f6ecd9] transition-all duration-300 group-hover:border-[#f3bb34]/85 group-hover:text-[#fde464]"
               style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#1a5c04] p-5 pt-4 text-left text-base leading-relaxed text-[#e9f7d6]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#5c3f04] p-5 pt-4 text-left text-base leading-relaxed text-[#f6ecd9]">{faq.a}</div>
         </details>
       ))
     }
@@ -98,13 +105,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(140, 224, 35, 0.75);
-    box-shadow: 0 15px 40px rgba(140, 224, 35, 0.26);
+    border-color: rgba(243, 187, 52, 0.75);
+    box-shadow: 0 15px 40px rgba(243, 187, 52, 0.26);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #5cc211;
-    color: #f2c230;
+    border-color: #f3bb34;
+    color: #f58b2a;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

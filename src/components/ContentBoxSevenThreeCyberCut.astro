@@ -1,7 +1,7 @@
 ---
 export interface Props {
-  /** The section's docx heading. Renders in the right (7fr) column unless a
-   *  `titleright` overrides it — same prop shape as the plain sibling. */
+  /** The section's docx heading. Renders in the left (7fr) TEXT column unless a
+   *  `titleleft` overrides it — same prop shape as the Premium sibling. */
   title?: string;
   titleleft?: string;
   titleright?: string;
@@ -10,91 +10,94 @@ export interface Props {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
-const rightHeading = titleright ?? title;
+const leftHeading = titleleft ?? title;
 
 // Flattened: `isolate` on the card, `-z-10` on the four corner rules, each
 // column's text classes on its own <article> with the slot as a direct child.
 // The headings carry `leading-normal` so the hoisted `leading-relaxed` cannot
 // leak into them. Do not re-add a wrapper <div>.
 //
-// Only one column ever carries a heading on the page — the image column is
-// passed no `titleleft`, so this block emits exactly one docx heading. The title
-// rail is in normal flow (never `absolute`) and carries no `whitespace-nowrap`,
-// so there is no floating badge here and no vertical-clearance arithmetic to
-// do: a two-line title at mobile width pushes the slot down instead of covering
-// it, and `min-w-0` lets the heading wrap inside the flex row rather than
-// overflow.
+// COLUMN ORDER: TEXT (7fr) then IMAGE (3fr) — `title` is the shorthand for the
+// LEFT column's heading and the picture goes in slot="right". Only one column
+// ever carries a heading on the page: the image column is passed no
+// `titleright`, so this block emits exactly one docx heading. The title rail is
+// in normal flow (never `absolute`) and carries no `whitespace-nowrap`, so there
+// is no floating badge here and no vertical-clearance arithmetic to do — a
+// two-line title at mobile width pushes the slot down instead of covering it,
+// and `min-w-0` lets the heading wrap inside the flex row rather than overflow.
 //
-// Column order: IMAGE (3fr) then TEXT (7fr) — the mirror of
-// ContentBoxSevenThreeFloatingBadge, which runs text-then-image, so the pair's
-// two pictures alternate sides instead of stacking down one edge.
+// ความกว้างจริงของคอลัมน์รูป (3fr ฝั่งขวา) ที่หน้าแรกคิด `widths`/`sizes` จาก — แก้
+// ค่าใดต่อไปนี้ต้องไปแก้หน้าแรกด้วย (section max-w-7xl/1280 + px-4(32) · card
+// border 1×2=2 · p-8(64) · grid gap-8(32) · คอลัมน์รูปมี md:border-l(1) +
+// md:pl-8(32) = 33 อยู่ในกล่องของมันเอง):
+//   ≥1280px   : (1280 − 32 − 2 − 64 − 32) × 0.3 − 33 = 345 − 33 = 312px
+//   md..1279  : (100vw − 130) × 0.3 − 33             = calc(30vw − 72px)
+//   698..767  : คอลัมน์เดียวที่ p-8 กว้างเกิน 600 จึงติดเพดาน max-w-[600px] = 600px
+//   <698      : คอลัมน์เดียวที่ p-8                  = calc(100vw − 98px)
 //
-// Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-7xl/1280px + px-4, card border 1px x2, p-8, grid gap-8, and NO
-// inner padding on the image column — the border/padding pair is on the text
-// column):
-//   >= 1280px : (1280 - 32 - 2 - 64 - 32) x 0.3 = 345px
-//   md..1279  : (100vw - 130) x 0.3             = calc(30vw - 39px)
-//   < md      : one column at p-8               = calc(100vw - 98px)
-// Change any of those numbers and the page's `sizes` has to move with it.
+// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2-§4):
+// กล่องนี้ถือ docx H3 #5 ("โปรโมชั่น แนะนำเพื่อน รับโบนัสแชร์ลิงก์ 0.8% ไม่จำกัด")
+// คู่กับ slide2 ซึ่งพิมพ์คำว่า โปรโมชั่น / แนะนำเพื่อน / โบนัส กับเลข 0.8% ไว้ในภาพ
 //
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2):
-// การ์ดมุมตัดใบที่ลึกที่สุดในสามใบของหน้านี้ — ผิวลึกสุด #430000 ซึ่ง "จม" ลงไปจาก
-// พื้นเพจ #5c0000 เทียบกับ ContentBoxCyberCut ที่เป็นผิวยก #7d1008 และ
-// ContentBoxTwoFloatingBadge ที่ไล่จากผิวกลาง #6d0804 ขึ้นผิวยก สามใบจึงไล่ระดับ
-// ความลึกลงมา ไม่ได้ซ้ำผิวเดียวกันสามรอบ
-// หัวข้อเป็นทองสายฟ้าทึบ #f5c518 (10.3:1 บนผิวลึกสุด) ซึ่งเป็นกล่อง docx เดียวบนหน้านี้
-// ที่หัวข้อเป็นสีทึบบนพื้นมืด ไม่ใช่ตัวอักษรไล่เฉด ต่างจากป้ายลอยแผ่นทองของ
-// ContentBoxSevenThreeFloatingBadge ที่เป็นคู่ของมัน ทั้งสองบล็อก SevenThree จึงคนละ
-// จังหวะสายตาทั้งรูปทรง สีหัวข้อ และด้านที่วางรูป
-// เส้นรูดสี่มุมจับคู่ทอง-แดงไขว้กัน — ทองสายฟ้า #f5c518 คู่ทองสว่าง #ffdd73 บนแนวนอน
-// แดงสายฟ้า #ff3b14 คู่แดงเข้ม #8c0f0a บนแนวตั้ง เครื่องหมาย ⚡ เป็นทองสว่าง อ้างถึง
-// สายฟ้าทองที่ผ่ากลางเหรียญในโลโก้ (เป็น span aria-hidden ไม่ใช่เนื้อหา) เส้นคั่นเป็น
-// แดงเข้ม #8c0f0a เนื้อความ #fdf0e2 (= BRAND_TEXT) — 15.8:1 บนผิวลึกสุด ซึ่งเป็น
-// คอนทราสต์สูงสุดของทั้งหน้า
+// การ์ดมุมตัดใบที่ "ลึก" ที่สุดของหน้านี้ — ผิวลึก #0d0903 เทียบกับ
+// ContentBoxCyberCut ที่เป็นผิวยก #1f1709 สองใบมุมตัดจึงอยู่คนละปลายของลำดับความลึก
+// ⚠️ พื้นเพจรอบนี้ดำสนิท #000000 จึงไม่มีผิวไหน "จม" ต่ำกว่าพื้นได้ #0d0903 ยังสว่าง
+// กว่าพื้นอยู่ การ์ดยังลอย เพียงลอยน้อยที่สุดในหน้า
+// หัวข้อเป็นทองเป็ดทึบ #f3bb34 (12.0:1 บนผิวลึก) ซึ่งเป็นกล่อง docx เดียวบนหน้านี้ที่
+// หัวข้อเป็นสีทึบ ไม่ใช่ตัวอักษรไล่เฉด ต่างจาก ContentBoxSevenThreePremium ที่เป็นคู่
+// ของมันและไล่เฉดทอง→ส้ม ทั้งสองบล็อก SevenThree จึงคนละจังหวะสายตาทั้งรูปทรง
+// (มุมตัด vs มุมโค้ง) ผิว (ลึก vs ไล่เฉด) และสีหัวข้อ (ทึบ vs ไล่เฉด)
+// เส้นรูดสี่มุมจับคู่ทอง-ส้มไขว้กัน — ทองเป็ด #f3bb34 คู่ทองสว่าง #fde464 บนแนวนอน
+// ส้มอำพัน #f58b2a คู่ส้มลึก #a3510c บนแนวตั้ง เครื่องหมาย ◆ เป็นส้มอำพัน อ้างถึงปาก
+// เป็ดสีส้มในโลโก้ (เป็น span aria-hidden ไม่ใช่เนื้อหา) เส้นคั่นเป็นทองเส้น #5c3f04
+// เนื้อความ #f6ecd9 (= BRAND_TEXT) — 17.4:1 บนผิวลึก ซึ่งเป็นคอนทราสต์สูงสุดของหน้า
 //
-// ⚠️ SUPERSLOTCLUB รอบก่อนก็เป็นคู่แดง-ทอง ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดเขียวป่า-
-// ทองมงกุฎของ KINGKONG555 ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211 #2f8c07 #1a5c04
-// #f2c230 #ffe066 #a87a08 #e9f7d6 #14380a #0f2e05 #051400) ชุดแดงเสือโคร่ง-ทองถ่านไฟ
-// ของ SUPERSLOTCLUB (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #fbe8d5
-// #3d1709 #241000) ชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0 #fbe455 #efe6ff #ffd23d
-// #5b1a75 #c98a05 #1e0a3c) ชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #a30303 #f5b61d
-// #ffd87a #b07a06 #6b0402) และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#0193fb #7bcffb
-// #fce604 #dbeafe) ออกครบทุกจุดแล้ว
+// ⚠️ NAZA168 รอบก่อนก็ทอง ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดทองอวกาศ-เงินโครเมียม
+// ของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #cfd6e3 #eef2f8 #9aa6bb
+// #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700) ชุดทองสายฟ้า-แดงเลือดนก
+// ของ FLASH877 ที่เคยค้างในไฟล์นี้ (#f5c518 #ffdd73 #b8860f #8a6208 #ff3b14 #8c0f0a
+// #5a0603 #7d1008 #6d0804 #5c0000 #430000 #fdf0e2) ชุดเขียวป่า-ทองมงกุฎของ
+// KINGKONG555 (#8ce023 #5cc211 #2f8c07 #1a5c04 #f2c230 #ffe066 #a87a08 #e9f7d6
+// #14380a #0f2e05 #051400) ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a
+// #ff5a46 #7d0f12 #f2b705 #ffd666 #c08a0b #fbe8d5 #3d1709 #241000) ชุดม่วงนีออน-ทอง
+// ของ WEPLAY168 (#a435f0 #fbe455 #efe6ff #ffd23d #5b1a75 #c98a05 #1e0a3c)
+// ชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #a30303 #f5b61d #ffd87a #b07a06 #6b0402)
+// และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#0193fb #7bcffb #fce604 #dbeafe) ออกครบทุกจุด
+// แล้ว — รอบนี้ไม่มีแดง ไม่มีเขียว ไม่มีม่วง และไม่มีเงินโครเมียม
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#f5c518]/40 bg-[#430000]/95 p-8 text-[#fdf0e2] shadow-[0_10px_30px_rgba(0,0,0,0.65)] backdrop-blur-md transition-all duration-300 hover:border-[#ffdd73]/75 hover:shadow-[0_15px_40px_rgba(245,197,24,0.28)]"
+    class="relative isolate w-full border border-[#f3bb34]/40 bg-[#0d0903]/96 p-8 text-[#f6ecd9] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all duration-300 hover:border-[#fde464]/75 hover:shadow-[0_15px_40px_rgba(243,187,52,0.28)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f5c518] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#ffdd73] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ff3b14] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#8c0f0a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f3bb34] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fde464] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#f58b2a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#a3510c] to-transparent"></div>
 
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[3fr_7fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9]">
         {
-          titleleft && (
-            <div class="flex items-baseline gap-2 border-b border-[#8c0f0a] pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#ffdd73]">
-                ⚡
+          leftHeading && (
+            <div class="flex items-baseline gap-2 border-b border-[#5c3f04] pb-2">
+              <span aria-hidden="true" class="shrink-0 text-[#f58b2a]">
+                ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f5c518] uppercase">{titleleft}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f3bb34] uppercase">{leftHeading}</HeadingTag>
             </div>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2] md:border-l md:border-[#8c0f0a] md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9] md:border-l md:border-[#5c3f04] md:pl-8">
         {
-          rightHeading && (
-            <div class="flex items-baseline gap-2 border-b border-[#8c0f0a] pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#ffdd73]">
-                ⚡
+          titleright && (
+            <div class="flex items-baseline gap-2 border-b border-[#5c3f04] pb-2">
+              <span aria-hidden="true" class="shrink-0 text-[#f58b2a]">
+                ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f5c518] uppercase">{rightHeading}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f3bb34] uppercase">{titleright}</HeadingTag>
             </div>
           )
         }

@@ -20,56 +20,61 @@ const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ
 // The column labels used to emit HeadingTag, which put this page's own layout
 // wording into the h2/h3 inventory that gets diffed against the docx. They are
 // <p> now — same size, weight, tracking and colour, no heading tag. On the
-// SUPERSLOTCLUB homepage this box carries docx H2 #6 (ระบบฝากถอนเข้าบริษัท
-// โดยตรง ไม่ผ่านม้า): the brief's two paragraphs for that section run one per
-// column, so the block emits exactly one docx heading.
+// DUCK1688 homepage this box carries docx H2 #2 (เว็บ DUCK1688 สล็อตเบทต่ำ ทุนน้อย
+// แต่กำไรงาม การันตีความน่าเชื่อถือ): the brief's two paragraphs for that section
+// run one per column, so the block emits exactly one docx heading and no slot
+// receives two siblings.
 //
-// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09, brand-spec §2):
-// แบรนด์รอบนี้มีคู่สีจริงอยู่แล้วบนโลโก้ (หัวเสือส้ม-ดำกับอุ้งเท้าเล็บขาวเกาะอยู่บน
-// ป้ายโล่แดง ตัวอักษร SUPERSLOTCLUB แดงสามมิติขอบโครเมียม และเหรียญทองลายรอยเท้า
-// เสือบนแบนเนอร์) จึงไม่ต้องแยกสองคอลัมน์ด้วยระดับความสว่างของสีเดียว —
-// สันฝั่งซ้ายเป็นฝั่งแดง ไล่แดงเรืองไฟ #ff5a46 → แดงแบรนด์ #e8232a → แดงลึก
-// #7d0f12 ป้ายใช้ครีมอุ่น #f5cbb0 (10.7:1) เพราะ §2 ห้าม #e8232a ถือตัวอักษร
-// ส่วนสันฝั่งขวาเป็นฝั่งทอง ไล่ทองสว่าง #ffd666 → ทองแบรนด์ #f2b705 → ทองเข้ม
-// #a8730a ป้ายใช้ทองแบรนด์ #f2b705 (8.7:1) ทั้งสองป้ายวางบนผิวการ์ด #301105 ไม่ได้
-// อยู่บนพื้นสี (ถ้าเป็นพื้นแดงสดหรือทองสด ต้องพลิกไปใช้หมึกเข้ม #2b0a00 ตาม §2 —
-// ที่นี่ไม่มีพื้นสี)
-// หัวข้อ docx ไล่ครีมอุ่น #f5cbb0 → ทองแบรนด์ #f2b705 → แดงเรืองไฟ #ff5a46 ซึ่งเป็น
-// ลำดับคนละชุดกับการ์ด H1/H2 ใบอื่นในหน้า กรอบเป็นทองเข้ม #a8730a โปร่ง (ต่างจาก
-// กรอบแดงแบรนด์ของ ContentBoxPremium และกรอบแดงลึกของ
-// ContentBoxSevenThreePremium) เส้นคั่นกลางเป็นแดงลึก #7d0f12
-// เนื้อความ #fbe8d5 (= BRAND_TEXT) glow เป็น rgba(242,183,5,…) และ
-// rgba(232,35,42,…)
+// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2):
+// แบรนด์รอบนี้มีคู่สีจริงอยู่บนโลโก้ — เป็ดการ์ตูนเหลืองสวมมงกุฎทองที่ "ปาก" เป็นส้ม
+// อำพัน คำว่า DUCK เป็นทองสามมิติและ 1688 เป็นขาว-โครเมียมขอบทอง บนแผ่นป้ายดำขอบทอง
+// หนา จึงไม่ต้องแยกสองคอลัมน์ด้วยระดับความสว่างของสีเดียว: สันฝั่งซ้ายเป็นฝั่งทอง
+// ไล่ทองสว่าง #fde464 → ทองเป็ด #f3bb34 → ทองกลาง #c8901a ป้ายใช้ทองเป็ด #f3bb34
+// (10.3:1 บนผิวการ์ด) ส่วนสันฝั่งขวาเป็นฝั่งส้ม ไล่ส้มอ่อน #ffc98a → ส้มอำพัน
+// #f58b2a → ส้มลึก #a3510c ป้ายใช้ส้มอำพัน #f58b2a (7.0:1) ทั้งสองป้ายวางบนผิว
+// การ์ด #171106 ไม่ได้อยู่บนพื้นสี (ถ้าเป็นพื้นทองสดหรือส้มสด ต้องพลิกไปใช้หมึกเข้ม
+// #1a1203 ตาม §2 — ที่นี่ไม่มีพื้นสี)
+// หัวข้อ docx ไล่ส้มอ่อน #ffc98a → ทองเป็ด #f3bb34 → ทองสว่าง #fde464 ซึ่งเป็นลำดับ
+// คนละชุดกับการ์ด H1/H2 ใบอื่นในหน้า กรอบเป็นทองลึก #8a5f08 โปร่ง (ต่างจากกรอบทองเป็ด
+// ของ ContentBoxCyberCut และกรอบทองลึกทึบของ ContentBoxSevenThreePremium)
+// เส้นคั่นกลางเป็นทองเส้น #5c3f04
+// ผิวการ์ดเป็นผิวกลาง #171106 ซึ่งยังสว่างกว่าพื้นเพจดำสนิท การ์ดจึงลอยขึ้น ไม่จม
+// เนื้อความ #f6ecd9 (= BRAND_TEXT) — 15.9:1 บนผิวกลาง
+// glow เป็น rgba(243,187,52,…) และ rgba(245,139,42,…)
 //
-// ชุดม่วงนีออน-ทองอาร์เขตของ WEPLAY168 ที่เคยค้างในไฟล์นี้ (#a435f0 #5b1a75
-// #d2a6ff #efe6ff #fbe455 #ffd23d #c98a05 #17062e #ece2ff rgba(251,228,85,α)
-// rgba(164,53,240,α)) และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 ก่อนนั้น (#0193fb
-// #7bcffb #d4ecfd #064a86 #fce604 #fff48a #c9a703 #07111d #dbeafe) ออกครบทุกจุด
-// แล้ว — ทองของรอบนี้เป็นคนละค่ากับ #fbe455 #ffd23d #fce604 และ #c98a05
+// ⚠️ แบรนด์รอบก่อน (NAZA168) ก็ทองเหมือนกัน ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี:
+// ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05
+// #eef2f8 #cfd6e3 #9aa6bb #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700)
+// ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่เคยค้างในไฟล์นี้ (#e8232a #ff5a46
+// #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a #f5cbb0 #fbe8d5 #301105 #3d1709)
+// ชุดม่วงนีออน-ทองอาร์เขตของ WEPLAY168 (#a435f0 #5b1a75 #d2a6ff #efe6ff #fbe455
+// #ffd23d #c98a05 #17062e #ece2ff) และชุดฟ้าสด-เหลืองมะนาวของ แตกดี168 (#0193fb
+// #7bcffb #d4ecfd #064a86 #fce604 #fff48a #c9a703 #07111d #dbeafe) ออกครบทุกจุดแล้ว
+// — ทองของรอบนี้คือ #f3bb34 / #fde464 / #c8901a เท่านั้น และไม่มีเงินโครเมียมเลย
 const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-normal font-black tracking-widest uppercase";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#a8730a]/40 bg-[#301105]/93 p-8 text-[#fbe8d5] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#f2b705]/70 hover:shadow-[0_15px_40px_rgba(242,183,5,0.22)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#7d0f12]/45 to-transparent opacity-70"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#a8730a]/24 blur-[60px]"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a5f08]/55 bg-[#171106]/94 p-8 text-[#f6ecd9] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f3bb34]/70 hover:shadow-[0_15px_40px_rgba(243,187,52,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#5c3f04]/55 to-transparent opacity-75"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#a3510c]/40 blur-[60px]"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-3 border-b border-[#a8730a]/30 pb-4">
-          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd666] via-[#f2b705] to-[#a8730a] shadow-[0_0_10px_rgba(242,183,5,0.55)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#f5cbb0] via-[#f2b705] to-[#ff5a46] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-3 border-b border-[#8a5f08]/40 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde464] via-[#f3bb34] to-[#8a5f08] shadow-[0_0_10px_rgba(243,187,52,0.55)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#ffc98a] via-[#f3bb34] to-[#fde464] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9]">
         {
           titleleft && (
-            <p class={`${columnLabel} border-[#e8232a]/45 text-[#f5cbb0]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff5a46] via-[#e8232a] to-[#7d0f12] shadow-[0_0_10px_rgba(232,35,42,0.7)]" />
+            <p class={`${columnLabel} border-[#8a5f08]/50 text-[#f3bb34]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fde464] via-[#f3bb34] to-[#c8901a] shadow-[0_0_10px_rgba(243,187,52,0.7)]" />
               {titleleft}
             </p>
           )
@@ -77,11 +82,11 @@ const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-norma
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5] md:border-l md:border-[#7d0f12] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9] md:border-l md:border-[#5c3f04] md:pl-10">
         {
           titleright && (
-            <p class={`${columnLabel} border-[#a8730a]/45 text-[#f2b705]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd666] via-[#f2b705] to-[#a8730a] shadow-[0_0_10px_rgba(242,183,5,0.55)]" />
+            <p class={`${columnLabel} border-[#a3510c]/50 text-[#f58b2a]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffc98a] via-[#f58b2a] to-[#a3510c] shadow-[0_0_10px_rgba(245,139,42,0.6)]" />
               {titleright}
             </p>
           )

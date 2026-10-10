@@ -3,14 +3,14 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** 365LOTTO's identity is a PAIR — the logo's gold "365" beside the red
-   *  rings in "LOTTO" — so the two accents are the two hues rather than two
-   *  brightnesses of one: "gold" is the bright gold plate (#fdf3b4 -> #e0b03a,
-   *  dark glyph) and "red" the deep red one (#e01f26 -> #a40304, gold glyph).
+  /** DUCK1688's identity is a PAIR — the logo's gold "DUCK" above the duck's
+   *  orange-amber bill — so the two accents are the two hues rather than two
+   *  brightnesses of one: "gold" is the bright gold plate (#fde464 -> #c8901a,
+   *  dark glyph) and "amber" the bill plate (#ffc98a -> #f58b2a, dark glyph).
    *  Every earlier brand's spelling stays accepted so an inventory page that
    *  still passes one keeps building — "sheen"/"steel"/"silver"/"blue" render
-   *  as the gold plate and "deep"/"crimson"/"green" as the red plate. */
-  accent?: "gold" | "red" | "sheen" | "deep" | "crimson" | "steel" | "silver" | "green" | "blue";
+   *  as the gold plate and "red"/"deep"/"crimson"/"green" as the amber one. */
+  accent?: "gold" | "amber" | "red" | "deep" | "crimson" | "sheen" | "steel" | "silver" | "green" | "blue";
 }
 
 export interface Props {
@@ -24,16 +24,27 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// 365LOTTO palette: every card sits on the card surface (#1a0709) inside a deep
-// gold hairline (#9c6a12), hovering onto the raised surface (#2a0b0e), and the
-// icon plate alternates between the gold and the red above — the logo's own
-// two-colour pair, alternating down the list.
+// DUCK1688 palette (brand-spec §2): every card sits on the mid surface
+// (#171106) inside a gold hairline (#5c3f04), hovering onto the raised surface
+// (#1f1709), and the icon plate alternates between the gold and the amber plate
+// above — the logo's own two-colour pair, alternating down the list. Both plates
+// are LIGHT with dark ink #1a1203 (10.4:1 on #f3bb34, 7.1:1 on #f58b2a); §2
+// forbids flipping a gold/amber fill to a light glyph, and it forbids #8a5f08 /
+// #5c3f04 / #a3510c carrying text at any size, so neither plate gradient runs
+// down into them under a glyph.
 //
-// The title is the number highlight (#ffe9a3) rather than a gradient: every
-// docx sub-point this component carries on the 365LOTTO landing page IS a
-// payout or bonus figure (2 ตัวจ่าย 100, 3 ตัวจ่าย 1,000, แนะนำเพื่อน 0.8%,
-// คืนยอดเสีย 0.3%), which is the one thing that colour is reserved for. The
-// gold/red accent still separates the cards — on the plate, border and hover.
+// The title is bright gold #fde464 rather than a gradient: on the DUCK1688
+// landing page the three items this component carries are the brief's own
+// ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 #6, and a flat accent reads as a
+// numbered list where a gradient would read as three separate section headings.
+// The gold/amber accent still separates the cards — on the plate, border and
+// hover.
+//
+// ⚠️ NAZA168 รอบก่อนก็ทอง และไฟล์นี้เคยค้างชุดทอง-แดงของ 365LOTTO ไว้ (#fdf3b4
+// #e0b03a #e01f26 #a40304 #fadc64 #ffe9a3 #9c6a12 #1a0709 #2a0b0e #120406 #f0ddc4
+// rgba(224,31,38,α) rgba(250,220,100,α)) ออกครบแล้ว — รอบนี้ไม่มีสีแดงเลย และทอง
+// ของรอบนี้คือ #f3bb34 / #fde464 / #c8901a เท่านั้น ไม่ใช่ #fbc134 ของ NAZA168
+// ไม่ใช่ #f5c518 ของ FLASH877 และไม่ใช่ #e0b03a / #fadc64 ของ 365LOTTO
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
@@ -48,23 +59,23 @@ const GOLD = new Set(["gold", "sheen", "steel", "silver", "blue"]);
       const isGold = GOLD.has(item.accent ?? "gold");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#9c6a12] bg-[#1a0709]/90 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#5c3f04] bg-[#171106]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isGold
-              ? "hover:border-[#fadc64]/75 hover:bg-[#2a0b0e] hover:shadow-[0_10px_20px_rgba(250,220,100,0.28)]"
-              : "hover:border-[#e01f26]/75 hover:bg-[#2a0b0e] hover:shadow-[0_10px_20px_rgba(224,31,38,0.28)]"
+              ? "hover:border-[#f3bb34]/75 hover:bg-[#1f1709] hover:shadow-[0_10px_20px_rgba(243,187,52,0.28)]"
+              : "hover:border-[#f58b2a]/75 hover:bg-[#1f1709] hover:shadow-[0_10px_20px_rgba(245,139,42,0.28)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isGold
-                ? "border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-[#120406] shadow-[0_0_15px_rgba(250,220,100,0.4)]"
-                : "border border-[#e01f26]/70 bg-gradient-to-br from-[#e01f26] to-[#a40304] text-[#fadc64] shadow-[0_0_15px_rgba(224,31,38,0.45)] group-hover:rotate-3"
+                ? "border border-[#8a5f08] bg-gradient-to-br from-[#fde464] to-[#c8901a] text-[#1a1203] shadow-[0_0_15px_rgba(243,187,52,0.4)]"
+                : "border border-[#a3510c] bg-gradient-to-br from-[#ffc98a] to-[#f58b2a] text-[#1a1203] shadow-[0_0_15px_rgba(245,139,42,0.45)] group-hover:rotate-3"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#ffe9a3] drop-shadow-[0_0_8px_rgba(224,31,38,0.35)]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#f0ddc4]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#fde464] drop-shadow-[0_0_8px_rgba(245,139,42,0.35)]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#f6ecd9]">{item.description}</p>}
           </div>
         </div>
       );

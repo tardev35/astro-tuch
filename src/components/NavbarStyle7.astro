@@ -19,12 +19,12 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 // อยู่แล้ว พอสองอันนั้นขึ้นเป็นเมนูเอง มันก็กลายเป็นลิงก์ที่สามไปที่เดิม
 // (หน้ายังถูก route และ index ตามปกติ)
 //
-// ไม่มี /ตรวจหวย และ /แนวทาง: UP555 เป็นเว็บคาสิโน บรีฟพูดถึงหวยในฐานะ "หนึ่งใน
-// หมวดเกม" เท่านั้น ไม่ใช่เว็บหวย สองหน้านั้นจอดอยู่ที่ src/pages-disabled/ จึง
-// ไม่ถูก route ถ้าปล่อยลิงก์ไว้ verify-build จะจับว่าเป็น href ไปยัง route ที่ไม่มีจริง
+// ไม่มี /ตรวจหวย และ /แนวทาง: DUCK1688 เป็นเว็บสล็อตพีจี บรีฟไม่พูดถึงหวยเลย
+// สักคำ สองหน้านั้นจอดอยู่ที่ src/pages-disabled/ จึงไม่ถูก route ถ้าปล่อยลิงก์ไว้
+// verify-build จะจับว่าเป็น href ไปยัง route ที่ไม่มีจริง
 //
-// ไอคอนเลือกให้ตรงแนวคาสิโนรวมทุกประเภทตามบรีฟ (สล็อต บาคาร่า บอล หวย) ตัวละหนึ่ง
-// อัน และอยู่ใน <span aria-hidden> ที่เป็น "พี่น้อง" ของตัวหนังสือเสมอ ไม่ใช่อยู่ข้างใน
+// ไอคอนเลือกให้ตรงแนวสล็อตล้วนตามบรีฟ ตัวละหนึ่งอัน และอยู่ใน <span aria-hidden>
+// ที่เป็น "พี่น้อง" ของตัวหนังสือเสมอ ไม่ใช่อยู่ข้างใน
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
@@ -36,31 +36,35 @@ const links = [
 ];
 
 const logoAlt =
-  "โลโก้ UP555 เป็นตัว U สีเงินโครเมียมที่มีลูกศรสีทองพุ่งขึ้นอยู่ข้างใน ล้อมรอบด้วยวงรีสีทองวางเอียง ถัดมาเป็นตัวอักษร UP สีเงินโครเมียมและเลข 555 สีทองเมทัลลิก ตัวหนาทรงเอียงเรียงติดกันเป็นบรรทัดเดียว";
+  "โลโก้ DUCK1688 เป็นเป็ดการ์ตูนสีเหลืองสวมมงกุฎทอง ขยิบตาหนึ่งข้างและยิ้มกว้าง ปากสีส้มอำพัน โผล่อยู่เหนือแผ่นป้ายสีดำขอบทองหนา บนแผ่นป้ายเขียนคำว่า DUCK เป็นตัวอักษรสามมิติสีทองและเลข 1688 สีขาวโครเมียมขอบทอง เรียงติดกันเป็นบรรทัดเดียว";
 
-// พาเลตต์ UP555 (ทอง + เงินโครเมียม บนดำอมน้ำตาล 2026-10-03): โลโก้แบรนด์นี้เป็น
-// "สองโทนจริง" — ตัว U กับ UP เป็นเงินโครเมียม (#d5d4d3 #f3f3f2) ส่วนลูกศร วงรี
-// และเลข 555 เป็นทอง (#ebbb54 #fce675 #ab6d24) navbar จึงเดินสองโทนนั้นคู่กัน:
-// ทองถือสถานะ active / ปุ่มสมัคร / เส้นขอบ ส่วนเงินถือเมนูที่ยังไม่ถูกเลือกและ
-// ปุ่มเข้าสู่ระบบ แทนที่จะไล่เฉดทองอย่างเดียว พื้นเป็นดำอมน้ำตาล #0c0502 / #130b03
-// ตามสีพื้นที่วัดได้จาก banner1 กับ slide1
+// พาเลตต์ DUCK1688 (ทองเป็ด + ส้มปากเป็ด บนดำสนิท 2026-10-10): โลโก้แบรนด์นี้
+// เป็นทองเป็นหลักจริงๆ — ตัว DUCK มงกุฎ ขอบป้าย และตัวเป็ดเป็นทอง (#f3bb34
+// #fde464 #c8901a) ส่วน "ฮิวที่สอง" คือส้มอำพันของปากเป็ด (#f58b2a #ffc98a)
+// navbar จึงเดินสองโทนนั้นคู่กัน: ทองถือสถานะ active / ปุ่มสมัคร / เส้นขอบ ส่วน
+// ส้มถือจุดเรืองใต้เมนูที่ hover และขีดกลางของแฮมเบอร์เกอร์ แทนที่จะไล่เฉดทอง
+// อย่างเดียว พื้นเป็นดำสนิท #000000 / #0d0903 ตาม bg.json ของดรอปนี้
 //
-// ชุดทองของ FAH999 ที่เคยอยู่ในไฟล์นี้ (#a3732c #0a0907 #e8c25a #f7e7a8 #e7dcc4
-// #6b4a18 #12100b #1c160e #140f06) ออกครบทุกจุดแล้ว
+// ชุดทอง-เงินของ UP555 ที่เคยอยู่ในไฟล์นี้ (#ebbb54 #fce675 #ab6d24 #d5d4d3
+// #f3f3f2 #0c0502 #130b03 #241705 #160d02 #c08a30) ออกครบทุกจุดแล้ว และชุด
+// ทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cfd6e3 #3f4859) ไม่เคย
+// เข้ามาในไฟล์นี้ตั้งแต่แรก
 //
-// หมึกบนปุ่มสมัคร: #160d02 บนปลายเกรเดียนต์ทองเข้ม #c08a30 = 6.4:1 และบนทองหลัก
-// #ebbb54 = 10.7:1 ผ่าน AA ทั้งคู่ — ปลายเกรเดียนต์ตั้งไว้ที่ #c08a30 ไม่ใช่ทองลึก
-// #ab6d24 (ซึ่งเหลือ 4.5:1 พอดีเส้น) ถ้าจะทำปลายให้เข้มกว่านี้ต้องสลับหมึกเป็นทองอ่อน
+// เมนูที่ยังไม่ถูกเลือกใช้ครีมหม่น #d8c69b (≈ 10.8:1 บนพื้น #000000) ไม่ใช่เงิน
+// โครเมียมแบบรอบก่อน — รอบนี้ไม่มีฮิวเย็นเลย
+// หมึกบนปุ่มสมัคร: #1a1203 บนปลายเกรเดียนต์ทองเข้ม #c8901a = 6.4:1 และบนทองหลัก
+// #f3bb34 = 10.4:1 ผ่าน AA ทั้งคู่ — ปลายเกรเดียนต์ตั้งไว้ที่ #c8901a ไม่ใช่ทองลึก
+// #8a5f08 (ซึ่งตกต่ำกว่า 4.5:1) ถ้าจะทำปลายให้เข้มกว่านี้ต้องสลับหมึกเป็นทองอ่อน
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-40 w-full border-b border-[#ab6d24]/60 bg-[#0c0502]/95 shadow-[0_5px_25px_rgba(235,187,84,0.18)] backdrop-blur-xl">
+  <nav class="relative z-40 w-full border-b border-[#8a5f08]/70 bg-[#000000]/95 shadow-[0_5px_25px_rgba(243,187,52,0.18)] backdrop-blur-xl">
     <div class="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4 lg:h-[80px] xl:px-8">
       <div class="flex items-center gap-4">
         <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2 lg:hidden" aria-label="Menu">
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#ebbb54] shadow-[0_0_5px_rgba(235,187,84,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#d5d4d3] shadow-[0_0_5px_rgba(213,212,211,0.5)] transition-all duration-300"></span>
-          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#ebbb54] shadow-[0_0_5px_rgba(235,187,84,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#f3bb34] shadow-[0_0_5px_rgba(243,187,52,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 rounded-full bg-[#f58b2a] shadow-[0_0_5px_rgba(245,139,42,0.5)] transition-all duration-300"></span>
+          <span class="hamburger-line h-[2px] w-6 origin-center rounded-full bg-[#f3bb34] shadow-[0_0_5px_rgba(243,187,52,0.5)] transition-all duration-300"></span>
         </button>
 
         <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
@@ -73,12 +77,12 @@ const logoAlt =
                 fetchpriority="high"
                 widths={[110, 220, 330]}
                 sizes="110px"
-                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(235,187,84,0.45)] lg:h-[50px]"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(243,187,52,0.45)] lg:h-[50px]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#f3f3f2] via-[#ebbb54] to-[#ab6d24] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(235,187,84,0.5)] lg:text-3xl">{BRAND_NAME}</span>
+              <span class="bg-gradient-to-b from-[#fde464] via-[#f3bb34] to-[#c8901a] bg-clip-text text-2xl font-black text-transparent drop-shadow-[0_0_8px_rgba(243,187,52,0.5)] lg:text-3xl">{BRAND_NAME}</span>
             )
           }
         </a>
@@ -88,13 +92,13 @@ const logoAlt =
         {
           links.map((link) => (
             <a href={link.path} class="group relative flex h-full flex-col items-center justify-center text-sm font-bold transition-all xl:text-base">
-              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#fce675] drop-shadow-[0_0_8px_rgba(235,187,84,0.5)]" : "text-[#d5d4d3]/70 group-hover:text-[#fce675]"}`}>
+              <span class={`flex items-center gap-1.5 transition-colors duration-300 ${isActive(link.path) ? "text-[#fde464] drop-shadow-[0_0_8px_rgba(243,187,52,0.5)]" : "text-[#d8c69b]/75 group-hover:text-[#fde464]"}`}>
                 <span aria-hidden="true">{link.icon}</span>
                 {link.name}
               </span>
               <div
                 aria-hidden="true"
-                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full bg-[#ebbb54] transition-all duration-300 ${isActive(link.path) ? "opacity-100 scale-100 shadow-[0_0_10px_rgba(235,187,84,1)]" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
+                class={`absolute bottom-5 h-1.5 w-1.5 rounded-full transition-all duration-300 ${isActive(link.path) ? "bg-[#f3bb34] opacity-100 scale-100 shadow-[0_0_10px_rgba(243,187,52,1)]" : "bg-[#f58b2a] opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"}`}
               />
             </a>
           ))
@@ -104,13 +108,13 @@ const logoAlt =
       <div class="flex items-center gap-3">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#d5d4d3]/40 bg-[#130b03]/70 px-6 py-2.5 text-sm font-bold text-[#f3f3f2] transition-all hover:border-[#ebbb54]/70 hover:bg-[#241705]/80 hover:text-[#fce675] md:flex">
+          class="hidden items-center justify-center rounded-full border border-[#f58b2a]/50 bg-[#0d0903]/80 px-6 py-2.5 text-sm font-bold text-[#ffc98a] transition-all hover:border-[#f3bb34]/80 hover:bg-[#1f1709]/90 hover:text-[#fde464] md:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #c08a30, #ebbb54, #c08a30);"
-          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#160d02] shadow-[0_0_20px_rgba(235,187,84,0.3)] transition-all hover:shadow-[0_0_25px_rgba(235,187,84,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
+          style="background-image: linear-gradient(in oklab to right, #c8901a, #f3bb34, #c8901a);"
+          class="flex items-center justify-center rounded-full px-5 py-2 text-xs font-extrabold text-[#1a1203] shadow-[0_0_20px_rgba(243,187,52,0.3)] transition-all hover:shadow-[0_0_25px_rgba(243,187,52,0.5)] hover:brightness-110 lg:px-7 lg:py-2.5 lg:text-sm">
           สมัครสมาชิก
         </a>
       </div>
@@ -121,9 +125,9 @@ const logoAlt =
 
   <div
     id="mobile-bottom-sheet"
-    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#ab6d24]/60 bg-[#0c0502] shadow-[0_-10px_40px_rgba(0,0,0,0.8)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    class="pb-safe fixed bottom-0 left-0 z-[60] w-full translate-y-full transform rounded-t-3xl border-t border-[#8a5f08]/70 bg-[#0d0903] shadow-[0_-10px_40px_rgba(0,0,0,0.85)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
     <div class="flex w-full cursor-pointer justify-center pt-3 pb-2" id="close-sheet-btn">
-      <div class="h-1.5 w-12 rounded-full bg-[#241705]"></div>
+      <div class="h-1.5 w-12 rounded-full bg-[#5c3f04]"></div>
     </div>
 
     <div class="flex flex-col space-y-2 px-6 pt-2 pb-8">
@@ -131,22 +135,22 @@ const logoAlt =
         links.map((link) => (
           <a
             href={link.path}
-            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#ebbb54]/20 to-transparent border border-[#ab6d24]/50 text-[#fce675]" : "bg-white/5 border-transparent text-[#d5d4d3]/60"}`}>
+            class={`sheet-item flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${isActive(link.path) ? "bg-gradient-to-r from-[#f3bb34]/20 to-transparent border border-[#8a5f08]/60 text-[#fde464]" : "bg-white/5 border-transparent text-[#d8c69b]/70"}`}>
             <div class="flex items-center gap-4">
               <span aria-hidden="true" class="text-2xl drop-shadow-lg">{link.icon}</span>
               <span class="text-base font-bold tracking-wide">{link.name}</span>
             </div>
-            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#ebbb54] shadow-[0_0_8px_rgba(235,187,84,1)]" />}
+            {isActive(link.path) && <span class="h-2 w-2 rounded-full bg-[#f3bb34] shadow-[0_0_8px_rgba(243,187,52,1)]" />}
           </a>
         ))
       }
 
       <div class="mt-2 grid grid-cols-2 gap-3 border-t border-white/5 pt-4">
-        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#d5d4d3]/35 bg-[#d5d4d3]/5 py-3.5 text-sm font-bold text-[#f3f3f2]">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex items-center justify-center rounded-xl border border-[#f58b2a]/45 bg-[#f58b2a]/10 py-3.5 text-sm font-bold text-[#ffc98a]">เข้าสู่ระบบ</a>
         <a
           href="/register"
-          style="background-image: linear-gradient(in oklab to right, #c08a30, #ebbb54, #c08a30);"
-          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#160d02] shadow-[0_0_15px_rgba(235,187,84,0.4)]">
+          style="background-image: linear-gradient(in oklab to right, #c8901a, #f3bb34, #c8901a);"
+          class="flex items-center justify-center rounded-xl py-3.5 text-sm font-extrabold text-[#1a1203] shadow-[0_0_15px_rgba(243,187,52,0.4)]">
           สมัครสมาชิก
         </a>
       </div>
