@@ -43,7 +43,7 @@ export default defineConfig({
   // เขียนติดกันไม่มีขีด — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://superslot-club.net",
+  site: "https://flash877-slot.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

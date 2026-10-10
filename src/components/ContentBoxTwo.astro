@@ -10,7 +10,7 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🐯" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "⚡" } = Astro.props;
 
 // Without a `title` this box carries chrome (a login widget, a channel panel),
 // never docx article content, so both column labels render as <p> and the
@@ -19,52 +19,53 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 // LoginRtpSection renders it without a title, which is why the page's heading
 // inventory stops at the docx's own sections.
 //
-// Reached only through LoginRtpSection (a nested import), so a grep for
-// "components/ContentBoxTwo.astro" in src/pages/ finds nothing — it is LIVE, not
-// inventory, and has to carry the current brand's colours.
+// Reached BOTH through LoginRtpSection (a nested import) and directly from
+// index.astro this round, so a grep for "components/ContentBoxTwo.astro" in
+// src/pages/ is not the whole story — it is LIVE either way and has to carry the
+// current brand's colours.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09, brand-spec §2):
-// โลโก้รอบนี้เป็นหัวเสือโคร่งส้ม-ดำคำรามมองตรงออกมา อุ้งเท้าเล็บขาวเกาะอยู่บนขอบบน
-// ของป้ายโล่แดงกว้าง บนป้ายมีคำว่า SUPERSLOTCLUB เป็นตัวอักษรแดงสามมิติขอบโครเมียม
-// แดง และมีเพชรแดงเล็กๆ ที่กลางล่าง แบนเนอร์กับสไลด์เป็นฉากป่าแดดส่องที่มีน้ำตก
-// ซากปราสาทหิน ลูกเสือการ์ตูนปลอกคอแดงกับเหรียญทองลายรอยเท้าเสือกระจายเต็มภาพ
-// แบรนด์จึงมีสองฮิวจริง — แดงเสือโคร่งนำ ทองถ่านไฟเป็นฮิวที่สอง — ต่างจากคู่เขียวป่า-
-// ทองมงกุฎของ KINGKONG555 รอบก่อน
-// สองคอลัมน์ของกล่องนี้ถูกแยกด้วยคู่สีตรงๆ: ฝั่งซ้ายเป็นแผ่นทองทึบ ไล่ทองสว่าง
-// #ffd666 → ทองแบรนด์ #f2b705 → ทองกลางเข้ม #c08a0b บนหมึกน้ำตาลเกือบดำ #2b0a00
-// (6.0:1 ที่ปลายเข้มสุด — §2 ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง และห้ามใช้ #a8730a
-// เป็นปลายเข้มของแผ่นที่มีหมึกเพราะได้แค่ 4.48:1) ป้ายคอลัมน์เป็นทองแบรนด์ ส่วน
-// ฝั่งขวาเป็นแผ่นแดงลึกทึบ ไล่แดงลึก #7d0f12 → แดงลึกสุด #4a0605 ในกรอบแดงแบรนด์
-// #e8232a บนไอคอนทองสว่าง ป้ายคอลัมน์เป็นแดงเรืองไฟ #ff5a46 ซึ่ง §2 อนุญาตให้ถือ
-// ตัวอักษรขนาดใหญ่/หนาได้ (5.2:1) ขณะที่ #e8232a ใช้ไม่ได้เลย (3.5:1)
-// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ครีมอุ่น #f5cbb0 → ทองสว่าง #ffd666 →
-// ทองแบรนด์ #f2b705 เส้นคั่นเป็นแดงลึกทั้งสองฝั่ง สันหัวข้อไล่ทองสว่าง → ทองแบรนด์
-// → แดงลึก เนื้อความ #fbe8d5 (= BRAND_TEXT)
+// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2):
+// โลโก้รอบนี้เป็นเหรียญกลมขอบทองพื้นแดงเข้ม มีสายฟ้าทอง-ส้มผ่ากลาง คำว่า FLASH เป็น
+// ทองสามมิติและเลข 877 เป็นแดงสด แบนเนอร์กับสไลด์เป็นฉากคาสิโนจีนมงคล ม่านกำมะหยี่แดง
+// โคมไฟคริสตัล เทพเจ้าโชคลาภ เสือการ์ตูนใส่แว่นดำ แพนด้า กล่องของขวัญแดง-ทอง เหรียญทอง
+// ไพ่ ชิป และวงล้อ 777 แบรนด์จึงมีสองฮิวจริง — **ทองสายฟ้านำ** แดงสายฟ้าเป็นฮิวที่สอง
+// ซึ่งกลับทิศจากคู่ "แดงนำ-ทองรอง" ของ SUPERSLOTCLUB รอบก่อน
+// กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจแดงเลือดนก #5c0000 ตรงๆ จึงเป็น
+// จังหวะ "โปร่ง" ของหน้า คั่นระหว่างบล็อกรูปสองใบกับการ์ดสองครึ่งของ ContentBoxSpecial
+// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นทองทึบ vs แผ่นแดงลึกทึบ": ฝั่งซ้ายเป็นแผ่นทอง ไล่ทองสว่าง
+// #ffdd73 → ทองสายฟ้า #f5c518 → ทองเข้ม #b8860f บนหมึกแดงเกือบดำ #2a0300 (5.8:1 ที่
+// ปลายเข้มสุด — §2 ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง และห้ามไล่ลงไปถึง #8a6208 ใต้ตัวอักษร
+// เพราะเหลือ ~3.4:1) ป้ายคอลัมน์ซ้ายเป็นทองสายฟ้า ส่วนฝั่งขวาเป็นแผ่นแดงลึกทึบ ไล่แดง
+// เข้ม #8c0f0a → แดงลึกสุด #5a0603 ในกรอบแดงสายฟ้า #ff3b14 บนไอคอนทองสว่าง ป้ายคอลัมน์
+// ขวาเป็นครีมอมส้ม #f8d2bb (10.2:1 บนพื้นเพจ) — §2 ห้าม #ff3b14 ถือตัวอักษรที่นี่
+// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ครีมอมส้ม #f8d2bb → ทองสว่าง #ffdd73 → ทอง
+// สายฟ้า #f5c518 เส้นคั่นเป็นแดงเข้มทั้งสองฝั่ง สันหัวข้อไล่ทองสว่าง → ทองสายฟ้า →
+// แดงลึกสุด เนื้อความ #fdf0e2 (= BRAND_TEXT) — 14.1:1 บนพื้นเพจ
 //
-// ไอคอนเริ่มต้นเป็น 🔐 / 🐯 — รอบนี้เป็นคลับคนเล่นสล็อตธีมเสือโคร่ง ไม่ใช่เว็บหวย
-// และไม่ใช่เว็บพนันรวมช่องทาง (LoginRtpSection ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกัน
-// หลงเท่านั้น)
+// ไอคอนเริ่มต้นเป็น 🔐 / ⚡ — รอบนี้เป็นเว็บตรงฐานสล็อตหลักธีมสายฟ้า ไม่ใช่เว็บหวย
+// (LoginRtpSection กับ index.astro ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลงเท่านั้น)
 //
-// ⚠️ รอบนี้ฮิวแบรนด์เองเป็น "แดง" และแบรนด์ก่อนๆ หลายเจ้าก็แดง เจอแดงที่ไหนห้าม
-// เหมาว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555
-// ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211 #2f8c07 #1a5c04 #f2c230 #ffe066 #a87a08
-// #bde397 #e9f7d6 #14380a #06220a rgba(242,194,48,α) rgba(140,224,35,α)) ชุดม่วง
-// นีออน-ทองของ WEPLAY168 (#a435f0 #7a1fc4 #fbe455 #efe6ff #ece2ff #d2a6ff
-// #ffd23d #5b1a75 #c98a05 #190633 #1e0a3c #17062e #0a0117) ชุดแดงแล็กเกอร์-ทอง
-// ของ PIGPG (#d4200d #a30303 #f5b61d #ffd87a #fdf9e4 #b07a06 #6b0402 #fdc4a3
-// #120302 #fdeedd) และชุดทองเมทัลลิกของ 789BETTING (#fad354 #ffe79a #8a6410
-// #060402 #f3e7cd) ออกครบทุกจุดแล้ว — แดงของ PIGPG (#d4200d) ใกล้แดงของรอบนี้มาก
-// แต่เป็นคนละค่า และทองของรอบนี้ก็เป็นคนละค่ากับทุกชุดข้างบน
+// ⚠️ แบรนด์รอบก่อน (SUPERSLOTCLUB) **ก็แดง-ทองเหมือนกัน** เจอแดงหรือทองที่ไหนห้ามเหมา
+// ว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่
+// เคยค้างในไฟล์นี้ (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a
+// #f5cbb0 #c9a898 #fbe8d5 #2b0a00 #3d1709 #301105 #180800 rgba(232,35,42,α)
+// rgba(242,183,5,α)) ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023 #5cc211 #2f8c07
+// #1a5c04 #f2c230 #ffe066 #a87a08 #bde397 #e9f7d6 #14380a #06220a) ชุดม่วงนีออน-ทอง
+// ของ WEPLAY168 (#a435f0 #7a1fc4 #fbe455 #efe6ff #ece2ff #d2a6ff #ffd23d #5b1a75
+// #c98a05 #1e0a3c) และชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #a30303 #f5b61d #ffd87a
+// #b07a06 #6b0402 #fdeedd) ออกครบทุกจุดแล้ว — แดงของ PIGPG (#d4200d) และของ
+// SUPERSLOTCLUB (#e8232a) ใกล้แดงของรอบนี้มาก แต่เป็นคนละค่า และทองของรอบนี้ (#f5c518)
+// ก็คนละค่ากับ #f2b705 / #f2c230 / #f5b61d ทุกตัว
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#7d0f12] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd666] via-[#f2b705] to-[#7d0f12] shadow-[0_0_10px_rgba(242,183,5,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#f5cbb0] via-[#ffd666] to-[#f2b705] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#8c0f0a] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffdd73] via-[#f5c518] to-[#5a0603] shadow-[0_0_10px_rgba(245,197,24,0.6)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#f8d2bb] via-[#ffdd73] to-[#f5c518] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -72,13 +73,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#7d0f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#f2b705] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#8c0f0a] pb-3 text-xl leading-normal font-black tracking-widest text-[#f5c518] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#a8730a] bg-gradient-to-br from-[#ffd666] via-[#f2b705] to-[#c08a0b] text-sm text-[#2b0a00] shadow-[0_5px_15px_rgba(242,183,5,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#b8860f] bg-gradient-to-br from-[#ffdd73] via-[#f5c518] to-[#b8860f] text-sm text-[#2a0300] shadow-[0_5px_15px_rgba(245,197,24,0.4)]">
               {iconleft}
             </span>
             {titleleft}
@@ -88,13 +89,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbe8d5]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#7d0f12] pb-3 text-xl leading-normal font-black tracking-widest text-[#ff5a46] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#8c0f0a] pb-3 text-xl leading-normal font-black tracking-widest text-[#f8d2bb] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e8232a]/60 bg-gradient-to-br from-[#7d0f12] to-[#4a0605] text-sm text-[#ffd666] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#ff3b14]/60 bg-gradient-to-br from-[#8c0f0a] to-[#5a0603] text-sm text-[#ffdd73] shadow-[0_5px_15px_rgba(0,0,0,0.6)]">
               {iconright}
             </span>
             {titleright}

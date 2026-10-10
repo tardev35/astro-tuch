@@ -19,15 +19,15 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // hairlines, so 100% of the badge's inner width belongs to the title and the
 // card's top padding is sized against that full width.
 //
-// BADGE CLEARANCE RE-DERIVED FOR KINGKONG555 (2026-10-09). This box carries docx
+// BADGE CLEARANCE RE-DERIVED FOR FLASH877 (2026-10-10). This box carries docx
 // H2 #2:
-//   "KINGKONG555 เกมสล็อตเบทต่ำ มีทุนน้อยก็เล่นได้"
-// 44 code points; 8 of them are zero-width Thai marks (็ ่ in เกมสล็อตเบทต่ำ,
-// ี ุ ้ ็ ่ ้ in มีทุนน้อยก็เล่นได้), so it advances 37 cells including its
-// 2 spaces. Its three space-delimited chunks measure 11 / 12 / 12 cells, and the
-// worst case assumed below is that the line breaker only breaks at those 2
-// spaces (no Thai dictionary breaking). No chunk is wider than one line at any
-// width, so nothing can overflow sideways.
+//   "FLASH877 สล็อตเว็บตรง ไม่ผ่านเอเย่นต์ การันตี เว็บฐานหลัก100%"
+// 55 code points; 8 of them are zero-width Thai marks (็ in สล็อตเว็บตรง x2,
+// ่ ่ ่ ์ in ไม่ผ่านเอเย่นต์, ั ี in การันตี, ็ ั in เว็บฐานหลัก100%), so it
+// advances 51 cells including its 4 spaces. Its five space-delimited chunks
+// measure 8 / 10 / 11 / 5 / 13 cells, and the worst case assumed below is that
+// the line breaker only breaks at those 4 spaces (no Thai dictionary breaking).
+// No chunk is wider than one line at any width, so nothing can overflow sideways.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
@@ -35,16 +35,18 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-base 16px -> ~9.3px/cell = 24 cells/line, 24px/line.
-//               Greedy at the 2 spaces: 11+1+12 = 24 | 12 -> 2 lines.
+//               Greedy at the 4 spaces: 8+1+10 = 19 | 11+1+5 = 17 | 13
+//                                                              -> 3 lines.
 //               Budget 3 lines = 3x24 + 24 = 96, edge 72 vs pt-36/144px
 //                                                        -> 72px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               all 37 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
-//               vs pt-36/144px (sm inherits it)            -> 84px clear
+//               Greedy: 8+1+10+1+11 = 31, +1+5 = 37 | 13     -> 2 lines.
+//               Budget 2 = 2x30 + 24 = 84, edge 60 vs pt-36/144px
+//                                                        -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
 //               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               37 cells, 1 line. Budget 2 = 2x36 + 24 = 96, edge 72
+//               37 | 13 -> 2 lines. Budget 2 = 2x36 + 24 = 96, edge 72
 //               vs pt-36/144px                             -> 72px clear
 // The flat pt-36 is held across every *FloatingBadge file (this one,
 // ContentBoxFloatingBadge, ContentBoxSevenThreeFloatingBadge and
@@ -55,38 +57,42 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // without redoing the arithmetic against the real sentence the next brand puts
 // in here.
 //
-// KINGKONG555 (รอบเขียวป่า-ทองมงกุฎ 2026-10-09, brand-spec §2): การ์ดไล่จากผิวกลาง
-// #0f2e05 ขึ้นไปหาผิวยก #14380a ในกรอบทองมงกุฎ #f2c230
-// ป้ายลอยของใบนี้เป็น "แผ่นดำเขียวลึกสุด" #051400 หมึกไล่เฉดสว่าง ซึ่งเป็นขั้วตรงข้ามกับ
+// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2): การ์ดไล่จากผิวกลาง
+// #6d0804 ขึ้นไปหาผิวยก #7d1008 ในกรอบทองสายฟ้า #f5c518 ทั้งสองชั้นสว่างกว่าพื้นเพจ
+// #5c0000 การ์ดจึงลอยขึ้น
+// ป้ายลอยของใบนี้เป็น "แผ่นแดงลึกสุด #430000 หมึกไล่เฉดสว่าง" ซึ่งเป็นขั้วตรงข้ามกับ
 // ป้ายลอยแผ่นทองทึบหมึกเข้มของ ContentBoxSevenThreeFloatingBadge ที่อยู่ถัดลงไปบนหน้า
-// เดียวกัน — สองป้ายลอยบนหน้าเดียวจึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ หัวข้อบนพื้นมืดจึงไล่
-// เฉดได้ตามปกติ เขียวมะนาว #8ce023 → เขียวครีม #e9f7d6 → ทองมงกุฎ #f2c230 ซึ่งเป็นลำดับ
-// ไล่เฉดที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักตัว (ปลายที่เข้มสุด #f2c230 บน #051400
-// ได้ 12.8:1)
-// ประกายสองข้างเป็นเส้นตั้งคู่เขียวมะนาว-ทองสว่าง แทนที่จะเป็นอักขระ ป้ายคอลัมน์ซ้ายเป็น
-// ทองมงกุฎ #f2c230 ฝั่งขวาเป็นเขียวมะนาว #8ce023 ซึ่งสลับคู่สีกับ ContentBoxTwoCyberCut
-// ที่ใช้ ทอง vs เขียวอ่อน #bde397
-// เขียวกลาง #2f8c07 เขียวลึก #1a5c04 และทองลึก #a87a08 เป็นขอบและเส้นคั่นเท่านั้น
-// เนื้อความ #e9f7d6 (= BRAND_TEXT)
+// เดียวกัน — สองป้ายลอยบนหน้าเดียวจึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ หัวข้อบนพื้นมืดจึง
+// ไล่เฉดได้ตามปกติ แดงสายฟ้า #ff3b14 → ทองสว่าง #ffdd73 → ทองสายฟ้า #f5c518 ซึ่งเป็น
+// ลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ และเป็นจุดเดียวที่ #ff3b14 ถือตัวอักษร
+// ในไฟล์นี้ (ตัวหนา text-base ขึ้นไปบนแผ่น #430000 = 4.7:1 ผ่าน AA-large ตาม §2 ที่
+// อนุญาตให้แดงสายฟ้าถือได้เฉพาะ display ขนาดใหญ่/หนา)
+// ประกายสองข้างเป็นเส้นตั้งคู่ทองสายฟ้า-แดงสายฟ้า ตรงกับสายฟ้าทองผ่ากลางเหรียญแดงใน
+// โลโก้ ป้ายคอลัมน์ซ้ายเป็นทองสายฟ้า #f5c518 ฝั่งขวาเป็นทองสว่าง #ffdd73
+// ทองเข้ม #b8860f แดงเข้ม #8c0f0a และทองลึก #8a6208 เป็นขอบ เส้นคั่น และเงาเท่านั้น
+// เนื้อความ #fdf0e2 (= BRAND_TEXT) — 12.8:1 บนผิวกลาง
 //
-// ชุดทองเมทัลลิกของ 789BETTING ที่เคยค้างในไฟล์นี้ (#fad354 #ffe79a #ddab33 #c9881f
-// #8a6410 #4a3407 #17130a #0e0b05 #060402 #f3e7cd) ชุดม่วงนีออน-ทองของ WEPLAY168
-// (#a435f0 #fbe455 #efe6ff #ffd23d #c98a05 #1e0a3c #0a0117 #ece2ff) และชุดทอง-เงินของ
-// UOK365 (#f5d98a #c8912f #6d4412 #d8dbe0 #120c07 #191108 #070504 #ece1cc) ออกครบ
-// ทุกจุดแล้ว
+// ⚠️ SUPERSLOTCLUB รอบก่อนก็เป็นคู่แดง-ทอง ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดเขียวป่า-
+// ทองมงกุฎของ KINGKONG555 ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211 #2f8c07 #1a5c04
+// #f2c230 #ffe066 #a87a08 #bde397 #e9f7d6 #14380a #0f2e05 #051400 #06220a) ชุดแดง
+// เสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705
+// #ffd666 #c08a0b #fbe8d5 #3d1709 #241000) ชุดทองเมทัลลิกของ 789BETTING (#fad354
+// #ffe79a #ddab33 #c9881f #8a6410 #4a3407 #f3e7cd) ชุดม่วงนีออน-ทองของ WEPLAY168
+// (#a435f0 #fbe455 #efe6ff #ffd23d #c98a05 #1e0a3c #ece2ff) และชุดทอง-เงินของ UOK365
+// (#f5d98a #c8912f #6d4412 #d8dbe0 #ece1cc) ออกครบทุกจุดแล้ว
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#f2c230]/70 bg-gradient-to-b from-[#0f2e05] to-[#14380a] p-8 pt-36 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#8ce023]/28 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#a87a08]/32 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#f5c518]/70 bg-gradient-to-b from-[#6d0804] to-[#7d1008] p-8 pt-36 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/28 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#ff3b14]/30 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-lg border-2 border-[#8ce023]/80 bg-[#051400] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(0,0,0,0.65)] sm:px-8">
-          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 left-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#8ce023] to-transparent" />
-          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 right-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#ffe066] to-transparent" />
-          <HeadingTag class="bg-gradient-to-r from-[#8ce023] via-[#e9f7d6] to-[#f2c230] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-lg border-2 border-[#f5c518]/80 bg-[#430000] px-4 py-2.5 text-center shadow-[0_5px_15px_rgba(0,0,0,0.65)] sm:px-8">
+          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 left-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#f5c518] to-transparent" />
+          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 right-2 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#ff3b14] to-transparent" />
+          <HeadingTag class="bg-gradient-to-r from-[#ff3b14] via-[#ffdd73] to-[#f5c518] bg-clip-text text-base leading-normal font-black tracking-tighter text-transparent uppercase sm:text-xl md:text-2xl">
             {title}
           </HeadingTag>
         </div>
@@ -94,13 +100,13 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f7d6]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#f2c230]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#f5c518]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e9f7d6] md:border-l md:border-[#1a5c04] md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#8ce023]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2] md:border-l md:border-[#8c0f0a] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#ffdd73]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>
