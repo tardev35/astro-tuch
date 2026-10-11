@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement6.astro";
+import Announcement from "../components/Announcement4.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 
@@ -23,51 +23,52 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // แต่ยัง route และ index อยู่ และฟุตเตอร์ยังลิงก์มาที่นี่ — ห้ามลบไฟล์นี้ และห้ามย้าย
 // ไป src/pages-disabled/
 //
-// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2):
-// โลโก้เป็นเป็ดการ์ตูนสีเหลืองสวมมงกุฎทอง ขยิบตา ปากสีส้มอำพัน ใต้ลงมาเป็นคำว่า DUCK
-// ทองสามมิติ และ 1688 สีขาวโครเมียมขอบทอง บนแผ่นป้ายดำขอบทองหนา พื้นเพจจาก bg.json
-// เป็น {"mode":"color","color":"#000000"} = **ดำสนิท** ไม่มีชั้นไหนลึกกว่าพื้นได้อีก
-// การ์ด ContentBox เป็นผิวยก #1f1709 ที่สว่างกว่าพื้น ปุ่มบนการ์ดจึงห้ามใช้ผิวยก
-// ตัวเดียวกัน ไม่งั้นจมหาย
-// ทองเป็ด #f3bb34 (ฮิวหลัก) · ทองสว่าง #fde464 · ทองกลาง #c8901a ·
-// ส้มอำพันปากเป็ด #f58b2a (ฮิวที่สอง) · เนื้อความ #f6ecd9 · หมึกบนพื้นถมทอง #1a1203 ·
-// ชั้นผิว ยก #1f1709 / กลาง #171106 / ลึก #0d0903 / พื้นเพจ #000000
+// FAH999 (รอบชมพูฮ็อต-ทอง 2026-10-11, brand-spec §2):
+// โลโก้เป็นสาวหูกระต่ายสีชมพู ขยิบตา มีไพ่โพดำ-โพแดง ชิปเดิมพันชมพูมงกุฎทอง เหรียญทอง
+// และตู้สล็อต 777 ทอง ใต้ลงมาเป็นคำว่า FAH999 ชมพูสามมิติขอบขาว-ทอง บนแผ่นป้ายเข้ม
+// ขอบทองหนา พื้นเพจจาก bg.json รอบนี้เป็น {"mode":"color","color":"#2e002c"}
+// = **พลัมดำ** ไม่ใช่ดำสนิทแบบรอบก่อน จึงมีชั้นที่ลึกกว่าพื้นได้ (#210220)
+// ชมพูแบรนด์ #ff3fa4 (ฮิวหลัก) · ชมพูไฮไลต์ #ff6cbb · ชมพูซีด #ffd1ea ·
+// ชมพูลึก #b3006a · ทอง #f5c53d (ฮิวที่สอง) · ทองอ่อน #ffe49a ·
+// เนื้อความ #fde8f3 (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) ·
+// หมึกเข้ม #2b0019 ใช้ได้เฉพาะบนพื้นถมชมพูหรือทอง
+// ชั้นผิว: ยก #4a0b42 (= การ์ด) / กลาง #3a0534 / พื้นเพจ #2e002c / ลึก #210220
 //
 // ขั้วของปุ่มตามสเปก (พื้นสว่าง = หมึกเข้ม · พื้นเข้ม = หมึกสว่าง):
-// สมัครสมาชิก = แอ็กชันหลัก ถม **ทองไล่เฉด** #fde464 → #f3bb34 → #c8901a
-// ขอบ #c8901a บนหมึกเข้ม #1a1203 (ปลายเข้มสุด #c8901a ได้ 6.4:1)
-// เข้าสู่ระบบ = แอ็กชันรอง จมลงจากการ์ดด้วยชั้น #171106 → #0d0903
-// ขอบส้มอำพัน #f58b2a/55 บนเนื้อความ #f6ecd9 — hover ยกขอบเป็นส้มเต็ม
-// ⚠️ ห้ามกลับด้าน และห้ามไล่เฉดทองลงไปถึง #8a5f08 ใต้ตัวอักษร ปลายเข้มของไล่เฉด
-// จึงหยุดที่ #c8901a · #8a5f08 #5c3f04 #a3510c ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
-// เส้นขอบ ออรา และเงา
-// ออราด้านบนของปุ่มใช้ปลายสว่างของฮิวตัวเอง rgba(243,187,52,α) และ
-// rgba(245,139,42,α) ไม่มี rgba อื่นในไฟล์นี้นอกจากเงาดำล้วน
-// ⚠️ แบรนด์รอบก่อน (NAZA168) ก็เป็นแบรนด์ "ทอง" เหมือนกัน เจอทองที่ไหนห้ามเหมาว่า
-// เป็นของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางใน brand-spec §2 — ชุด
-// #fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #cfd6e3 #3f4859 #fdf3df #4e3406
-// #432b03 #382400 #241700 rgba(251,193,52,α) rgba(207,214,227,α) ออกครบแล้ว
-// และรอบนี้ไม่มีสีแดงและไม่มีเงินโครเมียมเป็นฮิวเลย
+// สมัครสมาชิก = แอ็กชันหลัก ถม **ชมพูไล่เฉด** #ffd1ea → #ff6cbb → #ff3fa4
+// ขอบ #b3006a บนหมึกเข้ม #2b0019 (ปลายเข้มสุด #ff3fa4 ได้ 5.8:1)
+// เข้าสู่ระบบ = แอ็กชันรอง จมลงจากการ์ดด้วยชั้น #3a0534 → #210220
+// ขอบทอง #f5c53d/55 บนเนื้อความ #fde8f3 — hover ยกขอบเป็นทองเต็ม
+// ⚠️ ห้ามกลับด้าน และห้ามไล่เฉดชมพูลงไปถึง #b3006a ใต้ตัวอักษร เพราะหมึก #2b0019
+// บน #b3006a ได้แค่ 2.8:1 ปลายเข้มของไล่เฉดจึงหยุดที่ #ff3fa4 ·
+// #b3006a #7a0046 #4d002b #9c6f08 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา
+// ออราด้านบนของปุ่มใช้ปลายสว่างของฮิวตัวเอง rgba(255,63,164,α) และ
+// rgba(245,197,61,α) ไม่มี rgba อื่นในไฟล์นี้นอกจากเงาดำล้วน
+// ⚠️ แบรนด์ก่อนๆ มีทั้งแบรนด์ชมพูและแบรนด์ทอง เจอชมพูหรือทองที่ไหนห้ามเหมาว่าเป็น
+// ของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางแบนใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำ
+// ที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive — ชุดทอง-ส้มอำพัน
+// ของรอบก่อนออกครบทุกจุดในไฟล์นี้แล้ว และรอบนี้ไม่มีส้มอำพันเป็นฮิวเลย
 //
-// Announcement หมุนมาเป็น Announcement6 ทั้งเว็บรอบนี้ (รอบก่อน NAZA168 ใช้
-// AnnouncementPremium) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว
+// Announcement หมุนมาเป็น Announcement4 ทั้งเว็บรอบนี้ (รอบก่อนใช้ Announcement6 —
+// brand-spec §3 หมุนออก) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว
 // และทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกับ
 // index.astro
 //
-// แบรนด์นี้เป็น **สล็อตพีจีเว็บเป็ด** ล้วนๆ ไม่ใช่เว็บหวยและไม่ใช่คาสิโนโต๊ะสด
+// แบรนด์นี้เป็น **ฟาสล็อตเว็บตรง** ล้วนๆ ไม่ใช่เว็บของหมวดอื่น (รายชื่อหมวดที่
+// ห้ามเอ่ยอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่)
 // สองหน้าของหมวดลอตเตอรียัง park อยู่ใน src/pages-disabled/ จึงไม่มี route และลิงก์
 // ค้างจะกลายเป็น href ตายที่ทำให้บิลด์แดง รายการคำต้องห้ามเต็มอยู่ใน brand-spec §7
 // ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำของแบรนด์เก่าเจอ false positive
-// บรีฟบรรทัด 4 ระบุว่าสมาชิกค้นหาเกม เลือกยอดเดิมพัน และตรวจสอบรายละเอียดของแต่ละ
-// ค่ายได้สะดวก — คอปปี้ของหน้านี้พูดได้แค่เท่านั้น
+// บรีฟบรรทัด 6 ระบุว่าสมาชิกเข้าถึงข้อมูลเครดิต ประวัติรายการ และหมวดเกมได้จากบัญชี
+// เดียว — คอปปี้ของหน้านี้พูดได้แค่เท่านั้น
 // ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง
 // ห้ามแต่งชื่อค่ายเกม ชื่อธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ
 // จำนวนสมาชิก หรือปีก่อตั้ง — หน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
 // wc -m — git-bash กล่องนี้ไม่มี UTF-8 locale จึงนับเป็นไบต์ = เกินจริงราว 3 เท่า)
-// หน้านี้ยาว 155
-const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ สล็อตพีจีเว็บเป็ด รวมเกมเดิมพัน ค่ายหลัก เล่นง่าย เบทต่ำ แต่กำไรงาม ไม่ผ่านเว็บเอเย่นต์`;
+// หน้านี้ยาว 153
+const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ ฟาสล็อตเว็บตรง เล่นสล็อตระบบแท้ Login ใช้งานง่าย เล่นสล็อตได้ทุกค่าย ออนไลน์ 24 ชั่วโมง`;
 
 const graph = pageGraph(Astro, {
   name: `ทางเข้า ${BRAND_NAME} เว็บหลัก`,
@@ -90,11 +91,11 @@ const graph = pageGraph(Astro, {
         <a
           href="/login"
           aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#f58b2a]/55 bg-gradient-to-b from-[#171106] to-[#0d0903] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#f58b2a] hover:shadow-[0_15px_40px_rgba(245,139,42,0.4)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#f58b2a]/25 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#f5c53d]/55 bg-gradient-to-b from-[#3a0534] to-[#210220] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#f5c53d] hover:shadow-[0_15px_40px_rgba(245,197,61,0.4)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#f5c53d]/25 to-transparent"></div>
 
           <svg
-            class="h-9 w-9 text-[#f6ecd9] transition-colors group-hover:text-[#ffc98a]"
+            class="h-9 w-9 text-[#fde8f3] transition-colors group-hover:text-[#ffe49a]"
             aria-hidden="true"
             focusable="false"
             fill="none"
@@ -105,7 +106,7 @@ const graph = pageGraph(Astro, {
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#f6ecd9]">เข้าสู่ระบบ</span>
+          <span class="text-3xl font-bold tracking-wide text-[#fde8f3]">เข้าสู่ระบบ</span>
         </a>
       </div>
 
@@ -113,14 +114,14 @@ const graph = pageGraph(Astro, {
         <a
           href="/register"
           aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#c8901a] bg-gradient-to-b from-[#fde464] via-[#f3bb34] to-[#c8901a] px-6 py-4 shadow-[0_10px_30px_rgba(243,187,52,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#1a1203] hover:shadow-[0_15px_40px_rgba(243,187,52,0.6)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fde464]/60 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#b3006a] bg-gradient-to-b from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] px-6 py-4 shadow-[0_10px_30px_rgba(255,63,164,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#2b0019] hover:shadow-[0_15px_40px_rgba(255,63,164,0.6)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ffd1ea]/60 to-transparent"></div>
 
-          <svg class="h-9 w-9 text-[#1a1203]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-9 w-9 text-[#2b0019]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
           </svg>
 
-          <span class="text-3xl font-black tracking-wide text-[#1a1203]">สมัครสมาชิก</span>
+          <span class="text-3xl font-black tracking-wide text-[#2b0019]">สมัครสมาชิก</span>
         </a>
       </div>
     </div>

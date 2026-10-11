@@ -13,7 +13,7 @@ const { title, as: TitleTag = "p", titleleft, titleright, label } = Astro.props;
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
 // The two column labels always render as <p>, never <h2>. The docx a page is
-// filled from is a flat H1 + a handful of H2s (plus a real H3 pair this round),
+// filled from is a flat H1 + a handful of H2s (plus a real H3 set this round),
 // and the rendered heading inventory is diffed against it on every rebrand — a
 // widget quietly adding two more headings is the thing that makes that diff
 // disagree. A <p> heading needs the section to carry its own accessible name
@@ -22,33 +22,32 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
 // so it is one of the three ContentBox* wrappers that cannot be hoisted away.
 //
-// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2):
-// แบรนด์รอบนี้เป็นคู่สีจริง — ทองอวกาศ #fbc134 นำ (ขอบเหรียญตราและคำว่า NAZA) และ
-// เงินโครเมียม #cfd6e3 เป็นฮิวที่สอง (หมวกนักบินอวกาศ เลข 168 และผนังสถานีอวกาศ)
-// พื้นเพจเป็นน้ำตาลคั่วเข้ม #382400 ตาม bg.json รอบนี้ไม่มีสีแดงในชุดเลย
+// FAH999 (รอบชมพูฮอต-ทอง บนพลัมดำ 2026-10-11, brand-spec §2):
+// แบรนด์รอบนี้เป็นคู่สีจริง — ชมพูฮอต #ff3fa4 นำ (ตัวอักษร FAH999 สามมิติ หูกระต่าย
+// หัวใจเรืองแสง ชิปชมพู) และทอง #f5c53d เป็นฮิวที่สอง (เหรียญ มงกุฎ ตู้สล็อต 777)
+// พื้นเพจเป็นพลัมดำ #2e002c ตาม bg.json รอบนี้จึงมี "ผิวที่ลึกกว่าพื้นเพจ" ได้
 //
-// การ์ดมุมตัดใบเดียวของหน้านี้ — ผิวกลาง #432b03 ซึ่งลึกกว่าผิวยก #4e3406 ของ
-// ContentBox กับ ContentBoxTwoNeumorphism และตื้นกว่าผิวลึกสุด #241700 ของ
+// การ์ดมุมตัดใบเดียวของหน้านี้ — ผิวกลาง #3a0534 ซึ่งลึกกว่าผิวยก #4a0b42 ของ
+// ContentBox กับ ContentBoxTwoNeumorphism และตื้นกว่าผิวลึกสุด #210220 ของ
 // ContentBoxSevenThree ทั้งหน้าจึงไล่ระดับความลึกกันทีละชั้น ไม่ได้อ่านเป็นใบเดียวกันซ้ำ
-// มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บนซ้ายเป็นทองแบรนด์ #fbc134 (แนวนอน) กับโครเมียม
-// #cfd6e3 (แนวตั้ง) และคู่ล่างขวาเป็นทองสว่าง #ffe87a (แนวนอน) กับเงินลึก #3f4859
-// (แนวตั้ง) กรอบจึงพาทั้งสองฮิวมาไว้ที่ตัวกรอบเอง ทองวางแนวนอน เงินวางแนวตั้ง
-// ป้ายสองคอลัมน์แยกกันด้วย "ทอง vs โครเมียม" ตรงๆ — ทองแบรนด์ #fbc134 (7.0:1) ฝั่งซ้าย
-// โครเมียม #cfd6e3 (7.9:1) ฝั่งขวา ส่วนทองลึก #96690a กับเงินลึก #3f4859 ตกต่ำกว่า AA
-// จึงเป็นจุดสี่เหลี่ยม เส้นคั่น และขอบเท่านั้น ไม่ใช่สีตัวอักษร
-// หัวข้อ docx ไล่ทองแบรนด์ #fbc134 → ทองสว่าง #ffe87a → โครเมียมสว่าง #eef2f8 ซึ่งเป็น
-// ลำดับคนละชุดกับอีกหกกล่องบนหน้าเดียวกัน
-// เนื้อความ #fdf3df (= BRAND_TEXT) — 11.9:1 บนผิวกลาง #432b03
+// มุมตัดถูกไล่ด้วยเส้นคู่ละสอง — คู่บนซ้ายเป็นชมพูแบรนด์ #ff3fa4 (แนวนอน) กับทอง
+// #f5c53d (แนวตั้ง) และคู่ล่างขวาเป็นชมพูซีด #ffd1ea (แนวนอน) กับทองลึก #9c6f08
+// (แนวตั้ง) กรอบจึงพาทั้งสองฮิวมาไว้ที่ตัวกรอบเอง ชมพูวางแนวนอน ทองวางแนวตั้ง
+// ป้ายสองคอลัมน์แยกกันด้วย "ชมพู vs ทอง" ตรงๆ — ชมพูอ่อน #ff6cbb ฝั่งซ้าย ทอง
+// #f5c53d ฝั่งขวา ส่วนชมพูเข้ม #7a0046 กับทองลึก #9c6f08 ตกต่ำกว่า AA จึงเป็นจุด
+// สี่เหลี่ยม เส้นคั่น และขอบเท่านั้น ไม่ใช่สีตัวอักษร
+// หัวข้อ docx ไล่ชมพูแบรนด์ #ff3fa4 → ชมพูซีด #ffd1ea → ทอง #f5c53d ซึ่งเป็นลำดับ
+// คนละชุดกับอีกหกกล่องบนหน้าเดียวกัน
+// เนื้อความ #fde8f3 (= BRAND_TEXT) — 14.4:1 บนผิวกลาง #3a0534
 //
-// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
-// เป็นตัวๆ: ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211
-// #2f8c07 #1a5c04 #f2c230 #ffe066 #a87a08 #bde397 #e9f7d6 #0f2e05) ชุดม่วงนีออน-ทอง
-// ของ WEPLAY168 (#a435f0 #7a1fc4 #fbe455 #efe6ff #ece2ff #d2a6ff #ffd23d #5b1a75
-// #c98a05 #1e0a3c #17062e #0a0117) ชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #f5b61d
-// #ffd87a #fdf9e4 #b07a06 #6b0402 #2a0806 #fdc4a3 #fdeedd) ชุดมรกต-ทองของ KOON234
-// (#0a6b32 #2fbf6a #cc920a #f7d14e #e8f2e6) และชุดทองเมทัลลิกของ 789BETTING/UOK365
-// (#fad354 #ffe79a #ddab33 #c9881f #8a6410 #f3e7cd) ออกครบทุกจุดแล้ว — ทองของรอบนี้
-// (#fbc134) เป็นคนละค่ากับทุกตัวข้างบน อย่าปล่อยไว้เพราะ "ทองอยู่แล้ว"
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 ที่เคย
+// ค้างในไฟล์นี้ (#8ce023 #5cc211 #2f8c07 #1a5c04 #f2c230 #ffe066 #a87a08 #bde397
+// #e9f7d6 #0f2e05) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18
+// #96690a #6b4a05 #eef2f8 #cfd6e3 #3f4859 #fdf3df #4e3406 #432b03 #382400 #241700)
+// ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #f58b2a #a3510c #f6ecd9)
+// และชุดชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #7e22ce #e9d5f5) ออกครบทุกจุดแล้ว
+// ⚠️ BPLAY639 ก็เป็นแบรนด์ชมพู — "มีชมพูอยู่แล้ว" ไม่พิสูจน์อะไร #f472b6 ไม่ใช่
+// #ff3fa4 และ #f5c518 ของ GOT777 ต่างจาก #f5c53d ของรอบนี้แค่สองตัวอักษร
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 // A real heading already names the region, so the aria-label is dropped in that
 // case and only stands in when the title rendered as chrome (`as="p"`).
@@ -57,38 +56,38 @@ const named = Boolean(title) && TitleTag !== "p";
 
 <section aria-label={named ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#fbc134]/35 bg-[#432b03]/95 p-8 text-[#fdf3df] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md transition-all duration-300 hover:border-[#fbc134]/80 hover:shadow-[0_15px_40px_rgba(251,193,52,0.26)]"
+    class="relative isolate w-full border border-[#ff3fa4]/35 bg-[#3a0534]/95 p-8 text-[#fde8f3] shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md transition-all duration-300 hover:border-[#ff3fa4]/80 hover:shadow-[0_15px_40px_rgba(255,63,164,0.26)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#fbc134] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#ffe87a] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#cfd6e3] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#3f4859] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#ff3fa4] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#ffd1ea] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#f5c53d] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#9c6f08] to-transparent"></div>
 
     {
       title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#fbc134] via-[#ffe87a] to-[#eef2f8] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
+        <TitleTag class="mb-4 bg-gradient-to-r from-[#ff3fa4] via-[#ffd1ea] to-[#f5c53d] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#fdf3df]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#fde8f3]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde8f3]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#96690a] pb-2 text-xl leading-normal font-black text-[#fbc134] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#cfd6e3] shadow-[0_0_5px_rgba(207,214,227,0.8)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#7a0046] pb-2 text-xl leading-normal font-black text-[#ff6cbb] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#f5c53d] shadow-[0_0_5px_rgba(245,197,61,0.8)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf3df] md:border-l md:border-[#96690a] md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde8f3] md:border-l md:border-[#7a0046] md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#96690a] pb-2 text-xl leading-normal font-black text-[#cfd6e3] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#96690a] shadow-[0_0_5px_rgba(251,193,52,0.8)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#7a0046] pb-2 text-xl leading-normal font-black text-[#f5c53d] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#9c6f08] shadow-[0_0_5px_rgba(255,63,164,0.8)]" /> {titleright}
             </p>
           )
         }

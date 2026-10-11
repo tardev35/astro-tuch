@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement6.astro";
+import Announcement from "../components/Announcement4.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -25,40 +25,41 @@ import lineImage from "../assets/contact-line.webp";
 // ที่อยู่/อีเมลเข้า structured data (address/PostalAddress/email ใน JSON-LD
 // ทำให้เกทของ verify-build แดง)
 //
-// Announcement หมุนมาเป็น Announcement6 ทั้งเว็บรอบนี้ (รอบก่อน NAZA168 ใช้
-// AnnouncementPremium) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว
+// Announcement หมุนมาเป็น Announcement4 ทั้งเว็บรอบนี้ (รอบก่อนใช้ Announcement6 —
+// brand-spec §3 หมุนออก) — default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว
 // และทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกับ
 // index.astro
 //
-// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2):
-// โลโก้เป็นเป็ดการ์ตูนสีเหลืองสวมมงกุฎทอง ขยิบตา ปากสีส้มอำพัน ใต้ลงมาเป็นคำว่า DUCK
-// ทองสามมิติ และ 1688 สีขาวโครเมียมขอบทอง บนแผ่นป้ายดำขอบทองหนา พื้นเพจจาก bg.json
-// รอบนี้เป็น {"mode":"color","color":"#000000"} = **ดำสนิท** ไม่มีชั้นไหนลึกกว่าพื้นได้
-// อีก การ์ด ContentBox จึงเป็นผิวยก #1f1709 ที่สว่างกว่าพื้น — ปุ่มบนการ์ดจึงต้องไม่ใช้
+// FAH999 (รอบชมพูฮ็อต-ทอง 2026-10-11, brand-spec §2):
+// โลโก้เป็นสาวหูกระต่ายสีชมพู ขยิบตา มีไพ่โพดำ-โพแดง ชิปเดิมพันชมพูมงกุฎทอง เหรียญทอง
+// และตู้สล็อต 777 ทอง ใต้ลงมาเป็นคำว่า FAH999 ชมพูสามมิติขอบขาว-ทอง บนแผ่นป้ายเข้ม
+// ขอบทองหนา พื้นเพจจาก bg.json รอบนี้เป็น {"mode":"color","color":"#2e002c"}
+// = **พลัมดำ** ไม่ใช่ดำสนิทแบบรอบก่อน จึงมีชั้นที่ลึกกว่าพื้นได้ (#210220)
+// การ์ด ContentBox เป็นผิวยก #4a0b42 ที่สว่างกว่าพื้น — ปุ่มบนการ์ดจึงต้องไม่ใช้
 // ผิวยกตัวเดียวกัน ไม่งั้นจะจมหายไปกับการ์ด
-// ทองเป็ด #f3bb34 (ฮิวหลัก) · ทองสว่าง #fde464 · ทองกลาง #c8901a ·
-// ส้มอำพันปากเป็ด #f58b2a (ฮิวที่สอง) · ส้มอ่อน #ffc98a · เนื้อความ #f6ecd9
-// (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) · หมึกบนพื้นถมทอง/ถมส้ม #1a1203 ·
-// ชั้นผิว: ยก #1f1709 / กลาง #171106 / ลึก #0d0903 / พื้นเพจ #000000
+// ชมพูแบรนด์ #ff3fa4 (ฮิวหลัก) · ชมพูไฮไลต์ #ff6cbb · ชมพูซีด #ffd1ea ·
+// ชมพูลึก #b3006a · ทอง #f5c53d (ฮิวที่สอง) · ทองอ่อน #ffe49a ·
+// เนื้อความ #fde8f3 (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) ·
+// หมึกบนพื้นถมชมพู/ถมทอง #2b0019 ·
+// ชั้นผิว: ยก #4a0b42 / กลาง #3a0534 / พื้นเพจ #2e002c / ลึก #210220
 //
 // ขั้วของปุ่ม (พื้นสว่าง = หมึกเข้ม · พื้นเข้ม = หมึกสว่าง):
-// สมัครสมาชิก = PRIMARY ถมทองไล่เฉด #fde464 → #f3bb34 → #c8901a ขอบ #c8901a
-// บนหมึกเข้ม #1a1203 (ปลายเข้มสุด #c8901a ได้ 6.4:1) ·
-// เข้าสู่ระบบ = SECONDARY จมลงจากการ์ดด้วยชั้น #171106 → #0d0903 ขอบส้มอำพัน
-// #f58b2a/55 บนเนื้อความ #f6ecd9
-// ⚠️ ห้ามกลับด้าน: พื้นถมทองต้องใช้หมึกเข้มเสมอ และห้ามไล่เฉดทองลงไปถึง #8a5f08
-// ใต้ตัวอักษร ปลายเข้มของไล่เฉดจึงหยุดที่ #c8901a
-// ⚠️ #8a5f08 #5c3f04 #a3510c ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา
-// ออราใช้ rgba(243,187,52,α) สำหรับทอง และ rgba(245,139,42,α) สำหรับส้มอำพัน
+// สมัครสมาชิก = PRIMARY ถมชมพูไล่เฉด #ffd1ea → #ff6cbb → #ff3fa4 ขอบ #b3006a
+// บนหมึกเข้ม #2b0019 (ปลายเข้มสุด #ff3fa4 ได้ 5.8:1) ·
+// เข้าสู่ระบบ = SECONDARY จมลงจากการ์ดด้วยชั้น #3a0534 → #210220 ขอบทอง
+// #f5c53d/55 บนเนื้อความ #fde8f3
+// ⚠️ ห้ามกลับด้าน: พื้นถมชมพูต้องใช้หมึกเข้มเสมอ และห้ามไล่เฉดชมพูลงไปถึง #b3006a
+// ใต้ตัวอักษร (หมึก #2b0019 บน #b3006a ได้แค่ 2.8:1) ปลายเข้มจึงหยุดที่ #ff3fa4
+// ⚠️ #b3006a #7a0046 #4d002b #9c6f08 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา
+// และเงา — ออราใช้ rgba(255,63,164,α) สำหรับชมพู และ rgba(245,197,61,α) สำหรับทอง
 // ไม่มี rgba อื่นในไฟล์นี้นอกจากเงาดำล้วนและสีเขียวของ LINE
 // ส่วน #00B900 บนปุ่ม LINE เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ จึงคงไว้ตามเดิม
 //
-// ⚠️ แบรนด์รอบก่อน (NAZA168) ก็เป็นแบรนด์ "ทอง" เหมือนกัน และเจ็ดในแปดรอบหลังสุด
-// ก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับ
-// ตารางใน brand-spec §2 — ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a
-// #cf9a18 #96690a #6b4a05 #cfd6e3 #3f4859 #fdf3df #4e3406 #432b03 #382400
-// #241700 rgba(251,193,52,α) rgba(207,214,227,α)) ออกครบทุกจุดแล้ว และรอบนี้
-// **ไม่มีสีแดงและไม่มีเงินโครเมียมเป็นฮิวเลย**
+// ⚠️ แบรนด์ก่อนๆ มีทั้งแบรนด์ชมพูและแบรนด์ทอง (เจ็ดในเก้ารอบหลังสุดมีทอง) เจอชมพู
+// หรือทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางแบนใน
+// brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false
+// positive — ชุดทอง-ส้มอำพันของรอบก่อนออกครบทุกจุดในไฟล์นี้แล้ว และรอบนี้
+// **ไม่มีส้มอำพันเป็นฮิวเลย**
 //
 // ป้ายที่อยู่ไม่ประกาศสีตัวอักษรเลย ให้สืบทอดจากการ์ด สีแบรนด์มีเฉพาะบนเส้นขอบซ้าย
 // ซึ่งเป็นเส้นตกแต่ง ไม่ใช่ body copy
@@ -68,22 +69,23 @@ import lineImage from "../assets/contact-line.webp";
 // and the structured data from drifting apart. 150–160 CODE POINTS, counted
 // with [...s].length exactly like verify-build.mjs — do NOT use `wc -m` on this
 // box: git-bash has no UTF-8 locale here, so it counts BYTES and reads ~3x too
-// long. This one is 155.
+// long. This one is 157.
 //
-// แบรนด์นี้เป็น **สล็อตพีจีเว็บเป็ด** ล้วนๆ ไม่ใช่เว็บหวยและไม่ใช่คาสิโนโต๊ะสด
+// แบรนด์นี้เป็น **ฟาสล็อตเว็บตรง** ล้วนๆ ไม่ใช่เว็บของหมวดอื่น (รายชื่อหมวดที่
+// ห้ามเอ่ยอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่)
 // สองหน้าของหมวดลอตเตอรียัง park อยู่ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์ไป
 // รายการคำต้องห้ามเต็มอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำของ
 // แบรนด์เก่าเจอ false positive
-// บรีฟบรรทัด 20–21 ระบุเรื่องที่แอดมินช่วยได้ไว้แค่: การสมัคร การเข้าสู่ระบบ
-// การค้นหาเกมสล็อต โปรโมชั่น และรายการธุรกรรมที่อยู่ระหว่างตรวจสอบ โดยระบุเวลา
-// ให้บริการตลอด 24 ชั่วโมง — ห้ามเขียนเกินนี้
+// บรีฟบรรทัด 20–21 ระบุเรื่องที่แอดมินช่วยได้ไว้แค่: การสมัคร การเข้าสู่ระบบ Login
+// ไม่สำเร็จ เกมไม่แสดง โปรโมชั่นไม่เข้าบัญชี และรายการธุรกรรมที่อยู่ระหว่างตรวจสอบ
+// โดยระบุเวลาให้บริการตลอด 24 ชั่วโมง — ห้ามเขียนเกินนี้
 // ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง
 // ห้ามแต่งชื่อธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ชื่อค่ายเกม ค่า RTP ยอดฝากขั้นต่ำ
 // จำนวนสมาชิก หรือปีก่อตั้ง
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = `ติดต่อแอดมิน ${BRAND_NAME} สล็อตพีจีเว็บเป็ด เปิดให้บริการตลอด 24 ชั่วโมง สอบถามการสมัคร การเข้าสู่ระบบ การค้นหาเกมสล็อต โปรโมชั่น หรือรายการธุรกรรมที่รอตรวจสอบ`;
+const pageDescription = `ติดต่อแอดมิน ${BRAND_NAME} ฟาสล็อตเว็บตรง เปิดให้บริการตลอด 24 ชั่วโมง สอบถามการสมัคร Login ไม่สำเร็จ เกมไม่แสดง โปรโมชั่นไม่เข้าบัญชี หรือรายการธุรกรรมที่รอตรวจสอบ`;
 
 const graph = pageGraph(Astro, {
   type: "ContactPage",
@@ -123,7 +125,7 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} สล็อตพีจีเว็บเป็ด แอดมินดูแลตลอด 24 ชั่วโมง`} description={pageDescription}>
+<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} ฟาสล็อตเว็บตรง แอดมินดูแลตลอด 24 ชั่วโมง`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -144,7 +146,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#f3bb34] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#ff3fa4] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 font-bold opacity-90">{BRAND_ADDRESS.label}</p>
           {BRAND_ADDRESS.lines.map((line) => (
             <span class="block">{line}</span>
@@ -167,14 +169,14 @@ const graph = pageGraph(Astro, {
       <a
         href="/register"
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="flex items-center justify-center rounded-lg border border-[#c8901a] bg-gradient-to-b from-[#fde464] via-[#f3bb34] to-[#c8901a] px-8 py-3 font-black text-[#1a1203] shadow-[0_0_14px_rgba(243,187,52,0.45)] transition-transform hover:scale-105">
+        class="flex items-center justify-center rounded-lg border border-[#b3006a] bg-gradient-to-b from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] px-8 py-3 font-black text-[#2b0019] shadow-[0_0_14px_rgba(255,63,164,0.45)] transition-transform hover:scale-105">
         สมัครสมาชิก
       </a>
 
       <a
         href="/login"
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="flex items-center justify-center rounded-lg border border-[#f58b2a]/55 bg-gradient-to-b from-[#171106] to-[#0d0903] px-8 py-3 font-bold text-[#f6ecd9] shadow-[0_0_12px_rgba(245,139,42,0.3)] transition-all hover:scale-105 hover:border-[#f58b2a] hover:shadow-[0_0_18px_rgba(245,139,42,0.45)]">
+        class="flex items-center justify-center rounded-lg border border-[#f5c53d]/55 bg-gradient-to-b from-[#3a0534] to-[#210220] px-8 py-3 font-bold text-[#fde8f3] shadow-[0_0_12px_rgba(245,197,61,0.3)] transition-all hover:scale-105 hover:border-[#f5c53d] hover:shadow-[0_0_18px_rgba(245,197,61,0.45)]">
         เข้าสู่ระบบ
       </a>
 

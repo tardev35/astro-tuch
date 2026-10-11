@@ -25,64 +25,61 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // aria-expanded to keep in sync by hand. The shared `name` makes the group
 // exclusive — opening one answer closes the others, again with no script. It is
 // deliberately brand-neutral ("site-faq"): a group name carrying a previous
-// brand's slug is the kind of string a rebrand misses.  The badge and the arrow
+// brand's slug is the kind of string a rebrand misses. The badge and the arrow
 // are aria-hidden, so a question's accessible name is the question text itself.
 //
-// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09, brand-spec §2):
-// กรอบมุมตัดเฉียงเป็นแดงเสือโคร่ง #e8232a ล้อมแผงผิวกลาง #301105 แถบไล่เฉดบนกรอบวิ่ง
-// ทองแบรนด์ #f2b705 → ทองสว่าง #ffd666 ตามขอบทองของเหรียญรอยเท้าเสือในงานอาร์ต
-// ป้ายเครื่องหมายคำถามเป็นทองเต็มใบ ไล่ครีมอุ่น #f5cbb0 → ทองแบรนด์ #f2b705 บนหมึก
-// น้ำตาลเกือบดำ #2b0a00 (8.7:1 ขึ้นไป — พื้นทองต้องใช้หมึกเข้มเสมอตาม §2 และห้ามพลิก
-// ไปใช้หมึกสว่าง) ซึ่งเป็นจุดที่ทองของแบรนด์โผล่ในแผงนี้
-// คำถามเป็นทองสว่าง #ffd666 บนผิวแผงมืด ส่วนคำตอบเป็นสีเนื้อความ #fbe8d5
-// (= BRAND_TEXT, 14.6:1 บนผิว #301105) เส้นคั่นคำตอบเป็นแดงแบรนด์แบบโปร่ง และลูกศร
-// เป็นทองแบรนด์ หัวข้อไล่ทองแบรนด์ #f2b705 → ครีมอุ่น #f5cbb0 → ทองสว่าง #ffd666 คือ
-// ทอง-ครีม-ทอง ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
-// §2 ห้าม #e8232a ถือตัวอักษร (3.5:1) — ที่นี่เป็นกรอบ เส้นคั่น และเส้นใต้หัวข้อเท่านั้น
+// FAH999 (รอบชมพูฮอต-ทอง บนพลัมดำ 2026-10-11, brand-spec §2):
+// กรอบมุมตัดเฉียงเป็นชมพูฮอต #ff3fa4 ล้อมแผงผิวกลาง #3a0534 แถบไล่เฉดบนกรอบวิ่ง
+// ทอง #f5c53d → ทองสว่าง #ffe49a ตามขอบทองของมงกุฎและเหรียญในงานอาร์ต
+// ป้ายเครื่องหมายคำถามเป็นทองเต็มใบ ไล่ทองสว่าง #ffe49a → ทองแบรนด์ #f5c53d บนหมึก
+// พลัมเกือบดำ #2b0019 (11.5:1 — พื้นทองต้องใช้หมึกเข้มเสมอตาม §2 และห้ามพลิกไปใช้
+// หมึกสว่าง) ซึ่งเป็นจุดที่ทองของแบรนด์โผล่ในแผงนี้
+// คำถามเป็นชมพูซีด #ffd1ea บนผิวแผงมืด ส่วนคำตอบเป็นสีเนื้อความ #fde8f3
+// (= BRAND_TEXT, 14.4:1 บนผิว #3a0534) เส้นคั่นคำตอบเป็นชมพูแบรนด์แบบโปร่ง และลูกศร
+// เป็นทองแบรนด์ หัวข้อไล่ชมพูแบรนด์ #ff3fa4 → ทองสว่าง #ffe49a → ชมพูซีด #ffd1ea คือ
+// ชมพู-ทอง-ชมพู ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
+// §2 ห้าม #b3006a #7a0046 #4d002b #9c6f08 ถือตัวอักษร — ที่นี่ไม่มีตัวไหนถือตัวอักษรเลย
 //
-// ⚠️ รอบนี้ฮิวแบรนด์เองเป็น "แดง" และแบรนด์ก่อนๆ หลายเจ้าก็แดง เจอแดงที่ไหนห้าม
-// เหมาว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดแดงแล็กเกอร์-ทองแบบตรุษจีนของ PIGPG
-// ที่เคยค้างในไฟล์นี้ (#d4200d #f5b61d #ffd87a #fdf9e4 #2a0806 #120302 #fdeedd)
-// ชุดมรกต-ทองของ KOON234 ก่อนนั้น (#0a6b32 #2fbf6a #cc920a #f7d14e #fde9a6 #09190d
-// #e8f2e6 #07170c) ชุดแดง-เขียวมรกต-ทองของ GUCCI168 (#c41115 #e0201f #7a0505
-// #0b7a33 #2bbf63 #d9a521 #ffdf91 #1a0604 #140705 #f6e3cf) และชุดฟ้า-ทองบนการ์ดสว่าง
-// ของ HI59 (#f6fbff #9ecbf2 #0a84e0 #5ec2ff #065a9c #06355f #fdbc04 #ffe27a #c88a02
-// #04203f #0d2744) ออกครบทุกจุดแล้ว — แดงของ PIGPG (#d4200d) และของ GUCCI168
-// (#c41115 / #e0201f) ใกล้แดงของรอบนี้มาก แต่เป็นคนละค่า จึงถูกเปลี่ยนทุกจุด
-// ไม่ปล่อยไว้เพราะ "แดงอยู่แล้ว"
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB
+// ที่เคยค้างในไฟล์นี้ (#e8232a #f2b705 #ffd666 #f5cbb0 #2b0a00 #301105 #fbe8d5)
+// ชุดแดงแล็กเกอร์-ทองของ PIGPG ก่อนนั้น (#d4200d #f5b61d #ffd87a #fdf9e4 #2a0806
+// #fdeedd) ชุดมรกต-ทองของ KOON234 (#0a6b32 #2fbf6a #cc920a #f7d14e #e8f2e6) และชุด
+// ชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #e9d5f5 #7e22ce #fdf2f8) ออกครบทุกจุดแล้ว
+// ⚠️ BPLAY639 ก็เป็นแบรนด์ชมพู — "มีชมพูอยู่แล้ว" ไม่พิสูจน์อะไร #f472b6 ไม่ใช่
+// #ff3fa4 และ #f5c518 ของ GOT777 ต่างจาก #f5c53d ของรอบนี้แค่สองตัวอักษร
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
       <header class="mb-6">
-        <HeadingTag class="bg-gradient-to-r from-[#f2b705] via-[#f5cbb0] to-[#ffd666] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#ff3fa4] via-[#ffe49a] to-[#ffd1ea] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#e8232a] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#ff3fa4] to-transparent" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#e8232a] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#f2b705] via-[#ffd666] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#ff3fa4] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#f5c53d] via-[#ffe49a] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
 
-        <details name="site-faq" class="faq-item relative bg-[#301105] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details name="site-faq" class="faq-item relative bg-[#3a0534] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#f5cbb0] to-[#f2b705] font-black text-[#2b0a00] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ffe49a] to-[#f5c53d] font-black text-[#2b0019] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#ffd666]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#f2b705] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#ffd1ea]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#f5c53d] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#e8232a]/70 pl-4 text-left text-base leading-relaxed text-[#fbe8d5]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#ff3fa4]/70 pl-4 text-left text-base leading-relaxed text-[#fde8f3]">{faq.a}</p>
         </details>
       </div>
     ))

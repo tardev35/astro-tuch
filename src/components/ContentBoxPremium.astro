@@ -13,54 +13,53 @@ const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 // No level is hardcoded below — `as` decides the tag, and the header carries no
 // `whitespace-nowrap`, so a full docx sentence wraps instead of overflowing.
 //
-// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2):
-// งานอาร์ตรอบนี้เป็นชุด "นักบินอวกาศทอง-โครเมียม" — โลโก้เป็นเหรียญตรากลมขอบทองหนา
-// ข้างในเป็นหมวกนักบินอวกาศสีเงิน-ทอง คำว่า NAZA เป็นทองสามมิติ ส่วน 168 เป็นเงิน
-// โครเมียม แบรนด์จึงมีสองฮิวจริง — **ทองอวกาศ #fbc134 นำ** และ **เงินโครเมียม
-// #cfd6e3 เป็นฮิวที่สอง** พื้นเพจเป็นน้ำตาลคั่วเข้ม #382400 ตาม bg.json รอบนี้
-// **ไม่มีสีแดงอยู่ในชุดเลย**
+// FAH999 (รอบชมพูฮอต-ทอง บนพลัมดำ 2026-10-11, brand-spec §2):
+// งานอาร์ตรอบนี้เป็นชุด "กระต่ายสาวชมพู-ทอง" — โลโก้เป็นสาวผมน้ำตาลใส่หูกระต่ายชมพู
+// ขยิบตา ข้างบนซ้ายเป็นไพ่เอซโพดำกับโพแดง ข้างขวาเป็นตู้สล็อต 777 สีทอง ด้านล่างเป็น
+// คำว่า FAH999 ตัวชมพูสามมิติกลิตเตอร์ ขอบขาว-ทอง บนแผ่นป้ายมืดขอบทองหนา แบรนด์จึงมี
+// สองฮิวจริง — **ชมพูฮอต #ff3fa4 นำ** และ **ทอง #f5c53d เป็นฮิวที่สอง** พื้นเพจเป็น
+// พลัมดำ #2e002c ตาม bg.json รอบนี้ **ไม่มีสีเขียว ไม่มีเงิน และไม่มีส้มในชุดเลย**
 //
-// การ์ดใบนี้ถือ docx H1 ของหน้าแรก จึงหนักแน่นที่สุดในหน้าและเป็นใบเดียวที่หัวข้อขึ้นที่
-// text-3xl ต้องไม่อ่านเป็นใบเดียวกับ ContentBox (ใบธรรมดาที่ถือ H2 #3 — ผิวยกทึบ
-// #4e3406 เส้นคาดทองบนสุด หัวข้อไล่ #ffe87a → #fbc134 → #cfd6e3) ที่อยู่ถัดลงไปสอง
-// บล็อก จึงแยกด้วย: ผิวการ์ดเป็น "ไล่เฉด" จากผิวยก #4e3406 ลงไปหาผิวเพจ #382400
-// แทนที่จะเป็นผิวทึบ กรอบทองเข้มกว่า (/60) และมีสันตั้งไล่ทองหน้าหัวข้อแทนเส้นคาดบน
+// การ์ดใบนี้ถือ docx H2 #6 ("สมัครเล่นสล็อต FAH999 ง่ายๆ 3 ขั้นตอน") และเป็นหัวแถว
+// ของบล็อก FeatureHighlights สามใบที่ตามมา ต้องไม่อ่านเป็นใบเดียวกับ ContentBox
+// (ใบธรรมดาที่ถือ H2 #3 — ผิวยกทึบ เส้นคาดบนสุด) ที่อยู่เหนือขึ้นไป จึงแยกด้วย:
+// ผิวการ์ดเป็น "ไล่เฉด" จากผิวยก #4a0b42 ลงไปหาผิวกลาง #3a0534 แทนที่จะเป็นผิวทึบ
+// กรอบชมพูเข้มกว่า (/60) และมีสันตั้งไล่ชมพู→ทองหน้าหัวข้อแทนเส้นคาดบน
 //
-// หัวข้อไล่ทองสว่าง #ffe87a → โครเมียมสว่าง #eef2f8 → ทองแบรนด์ #fbc134 คือ
-// "ทอง → โครเมียม → ทอง" ซึ่งเป็นลำดับคนละชุดกับทุกกล่องบนหน้าเดียวกัน และเป็นลำดับ
-// ที่ตรงกับตัวเหรียญตราจริงๆ (ขอบทอง → หมวกเงิน → ตัวอักษร NAZA ทอง)
+// หัวข้อไล่ชมพูซีด #ffd1ea → ทอง #f5c53d → ชมพูแบรนด์ #ff3fa4 คือ "ชมพู → ทอง →
+// ชมพู" ซึ่งเป็นลำดับคนละชุดกับทุกกล่องบนหน้าเดียวกัน และเป็นลำดับที่ตรงกับโลโก้จริงๆ
+// (ตัวอักษรขอบขาว-ชมพู → ขอบทองของแผ่นป้าย → ตัว FAH999 ชมพู)
 //
-// ออรามุมซ้ายบนเป็นทองแบรนด์ มุมขวาล่างเป็นเงินลึก #3f4859 (หมวกนักบินในเงามืด)
-// ซึ่งอิ่มขึ้นเป็นโครเมียม #cfd6e3 ตอน hover เส้นใต้หัวข้อเป็นทองลึก #96690a
-// เนื้อความ #fdf3df (= BRAND_TEXT, 10.6:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด)
-// glow ทุกจุดเป็น rgba(251,193,52,…)
-// §2 ห้าม #96690a #6b4a05 และ #3f4859 ถือตัวอักษรทุกขนาด — ทั้งสามตัวในไฟล์นี้อยู่ที่
-// เส้น ขอบ และออราเท่านั้น
+// ออรามุมซ้ายบนเป็นชมพูแบรนด์ มุมขวาล่างเป็นทองลึก #9c6f08 (เหรียญทองในเงา) ซึ่งอิ่ม
+// ขึ้นเป็นทอง #f5c53d ตอน hover เส้นใต้หัวข้อเป็นชมพูเข้ม #7a0046
+// เนื้อความ #fde8f3 (= BRAND_TEXT, 12.7:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด)
+// glow ทุกจุดเป็น rgba(255,63,164,…)
+// §2 ห้าม #9c6f08 #7a0046 #b3006a และ #4d002b ถือตัวอักษรทุกขนาด — ทั้งสี่ตัวในไฟล์นี้
+// อยู่ที่เส้น ขอบ และออราเท่านั้น
 //
-// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
-// เป็นตัวๆ: ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่เคยค้างในไฟล์นี้ (#e8232a
-// #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a #f5cbb0 #c9a898 #fbe8d5
-// #3d1709 #241000 rgba(232,35,42,α)) ชุดทองสายฟ้า-แดงของ FLASH877 (#f5c518 #ffdd73
-// #b8860f #8a6208 #ff3b14 #5c0000) ชุดเขียว-ทองมงกุฎของ KINGKONG555 (#f2c230
-// #ffe066 #a87a08) ชุดม่วงนีออนของ WEPLAY168 (#a435f0 #5b1a75 #1e0a3c) และชุดแดง
-// แล็กเกอร์ของ PIGPG (#d4200d #f5b61d #ffd87a) ออกครบทุกจุดแล้ว — ทองของรอบนี้
-// (#fbc134) เป็นคนละค่ากับ #f2b705 / #f5c518 / #f2c230 / #f5b61d ทุกตัว และทองสว่าง
-// (#ffe87a) ก็คนละค่ากับ #ffd666 / #ffdd73 / #ffe066 / #ffd87a
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 ที่เคย
+// ค้างในไฟล์นี้ (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3 #3f4859
+// #fdf3df #4e3406 #382400) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a
+// #8a5f08 #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9) ชุดทอง-แดงของ GOT777 (#f5c518
+// #ffe9a8 #96690f #d21622) และชุดชมพู-ม่วงของ BPLAY639 (#f472b6 #fdf2f8 #e9d5f5
+// #7e22ce #c4b5fd) ออกครบทุกจุดแล้ว — ⚠️ #f5c518 ของ GOT777 ต่างจาก #f5c53d ของ
+// รอบนี้แค่สองตัวอักษร ห้ามกะด้วยตา และ #f472b6 ของ BPLAY639 ก็เป็นชมพูคนละค่ากับ
+// #ff3fa4 ทั้งที่เป็น "แบรนด์ชมพู" เหมือนกัน
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#fbc134]/60 bg-gradient-to-br from-[#4e3406]/96 to-[#382400]/96 p-8 text-left text-base leading-relaxed text-[#fdf3df] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#fbc134]/90 hover:shadow-[0_15px_40px_rgba(251,193,52,0.38)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#fbc134]/34 blur-[55px] transition-all duration-500 group-hover:bg-[#fbc134]/50">
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#ff3fa4]/60 bg-gradient-to-br from-[#4a0b42]/96 to-[#3a0534]/96 p-8 text-left text-base leading-relaxed text-[#fde8f3] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#ff3fa4]/90 hover:shadow-[0_15px_40px_rgba(255,63,164,0.38)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#ff3fa4]/30 blur-[55px] transition-all duration-500 group-hover:bg-[#ff3fa4]/46">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#3f4859]/60 blur-[55px] transition-all duration-500 group-hover:bg-[#cfd6e3]/28">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#9c6f08]/60 blur-[55px] transition-all duration-500 group-hover:bg-[#f5c53d]/26">
     </div>
 
     {
       title && (
-        <header class="mb-6 flex items-center gap-4 border-b border-[#96690a] pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe87a] via-[#fbc134] to-[#96690a] shadow-[0_0_10px_rgba(251,193,52,0.7)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#ffe87a] via-[#eef2f8] to-[#fbc134] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-6 flex items-center gap-4 border-b border-[#7a0046] pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd1ea] via-[#ff3fa4] to-[#9c6f08] shadow-[0_0_10px_rgba(255,63,164,0.7)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#ffd1ea] via-[#f5c53d] to-[#ff3fa4] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>

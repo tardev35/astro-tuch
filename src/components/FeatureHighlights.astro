@@ -3,14 +3,15 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** DUCK1688's identity is a PAIR — the logo's gold "DUCK" above the duck's
-   *  orange-amber bill — so the two accents are the two hues rather than two
-   *  brightnesses of one: "gold" is the bright gold plate (#fde464 -> #c8901a,
-   *  dark glyph) and "amber" the bill plate (#ffc98a -> #f58b2a, dark glyph).
-   *  Every earlier brand's spelling stays accepted so an inventory page that
-   *  still passes one keeps building — "sheen"/"steel"/"silver"/"blue" render
-   *  as the gold plate and "red"/"deep"/"crimson"/"green" as the amber one. */
-  accent?: "gold" | "amber" | "red" | "deep" | "crimson" | "sheen" | "steel" | "silver" | "green" | "blue";
+  /** FAH999's identity is a PAIR — the hot-pink FAH999 lettering and bunny ears
+   *  above the gold coins, crowns and 777 cabinets — so the two accents are the
+   *  two hues rather than two brightnesses of one: "pink" is the brand-pink
+   *  plate (#ff6cbb -> #ff3fa4, dark glyph) and "gold" the coin plate
+   *  (#ffe49a -> #d19a12, dark glyph). Every earlier brand's spelling stays
+   *  accepted so an inventory page that still passes one keeps building —
+   *  "amber"/"sheen"/"steel"/"silver"/"blue" render as the gold plate and
+   *  "red"/"deep"/"crimson"/"green" as the pink one. */
+  accent?: "pink" | "gold" | "amber" | "red" | "deep" | "crimson" | "sheen" | "steel" | "silver" | "green" | "blue";
 }
 
 export interface Props {
@@ -24,58 +25,63 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// DUCK1688 palette (brand-spec §2): every card sits on the mid surface
-// (#171106) inside a gold hairline (#5c3f04), hovering onto the raised surface
-// (#1f1709), and the icon plate alternates between the gold and the amber plate
+// FAH999 palette (brand-spec §2): every card sits on the mid surface (#3a0534)
+// inside a dark-pink hairline (#4d002b), hovering onto the raised surface
+// (#4a0b42), and the icon plate alternates between the pink and the gold plate
 // above — the logo's own two-colour pair, alternating down the list. Both plates
-// are LIGHT with dark ink #1a1203 (10.4:1 on #f3bb34, 7.1:1 on #f58b2a); §2
-// forbids flipping a gold/amber fill to a light glyph, and it forbids #8a5f08 /
-// #5c3f04 / #a3510c carrying text at any size, so neither plate gradient runs
-// down into them under a glyph.
+// are LIGHT with dark ink #2b0019 (7.3:1 on #ff6cbb, 5.8:1 on #ff3fa4, 7.5:1 on
+// #d19a12); §2 forbids flipping a pink/gold fill to a light glyph, and it
+// forbids #b3006a / #7a0046 / #4d002b / #9c6f08 carrying text at any size, so
+// neither plate gradient runs down into them under a glyph — the pink plate
+// stops at #ff3fa4 and the gold plate at #d19a12.
 //
-// The title is bright gold #fde464 rather than a gradient: on the DUCK1688
-// landing page the three items this component carries are the brief's own
+// The title is pale pink #ffd1ea rather than a gradient: on the FAH999 landing
+// page the three items this component carries are the brief's own
 // ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 #6, and a flat accent reads as a
 // numbered list where a gradient would read as three separate section headings.
-// The gold/amber accent still separates the cards — on the plate, border and
+// The pink/gold accent still separates the cards — on the plate, border and
 // hover.
 //
-// ⚠️ NAZA168 รอบก่อนก็ทอง และไฟล์นี้เคยค้างชุดทอง-แดงของ 365LOTTO ไว้ (#fdf3b4
-// #e0b03a #e01f26 #a40304 #fadc64 #ffe9a3 #9c6a12 #1a0709 #2a0b0e #120406 #f0ddc4
-// rgba(224,31,38,α) rgba(250,220,100,α)) ออกครบแล้ว — รอบนี้ไม่มีสีแดงเลย และทอง
-// ของรอบนี้คือ #f3bb34 / #fde464 / #c8901a เท่านั้น ไม่ใช่ #fbc134 ของ NAZA168
-// ไม่ใช่ #f5c518 ของ FLASH877 และไม่ใช่ #e0b03a / #fadc64 ของ 365LOTTO
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ไฟล์นี้เคยค้างชุดทองเป็ด-ส้มอำพันของ
+// DUCK1688 ไว้ (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a #a3510c
+// #1a1203 #f6ecd9 #1f1709 #171106 rgba(243,187,52,α) rgba(245,139,42,α)) และก่อนนั้น
+// เป็นชุดทอง-แดงของ 365LOTTO (#fdf3b4 #e0b03a #e01f26 #a40304 #fadc64 #ffe9a3
+// #9c6a12 #1a0709 #2a0b0e #120406 #f0ddc4) ออกครบแล้ว — รอบนี้ไม่มีส้มและไม่มีแดงเลย
+// ทองของรอบนี้คือ #f5c53d / #ffe49a / #d19a12 เท่านั้น ไม่ใช่ #f3bb34 ของ DUCK1688
+// ไม่ใช่ #fbc134 ของ NAZA168 และไม่ใช่ #f5c518 ของ GOT777 ที่ต่างกันแค่สองตัวอักษร
+// ส่วนชมพู #ff3fa4 / #ff6cbb ก็เป็นคนละค่ากับ #f472b6 ของ BPLAY639 ซึ่งเป็นแบรนด์
+// ชมพูเหมือนกัน
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
 // slot, because a ContentBox* slot takes exactly one element and no wrapper
 // <div> may be re-added inside one.
-const GOLD = new Set(["gold", "sheen", "steel", "silver", "blue"]);
+const GOLD = new Set(["gold", "amber", "sheen", "steel", "silver", "blue"]);
 ---
 
 <div class="relative z-10 mx-auto mb-8 flex w-full max-w-[1400px] flex-col gap-5 px-4 font-sans">
   {
     items.map((item) => {
-      const isGold = GOLD.has(item.accent ?? "gold");
+      const isGold = GOLD.has(item.accent ?? "pink");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#5c3f04] bg-[#171106]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#4d002b] bg-[#3a0534]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isGold
-              ? "hover:border-[#f3bb34]/75 hover:bg-[#1f1709] hover:shadow-[0_10px_20px_rgba(243,187,52,0.28)]"
-              : "hover:border-[#f58b2a]/75 hover:bg-[#1f1709] hover:shadow-[0_10px_20px_rgba(245,139,42,0.28)]"
+              ? "hover:border-[#f5c53d]/75 hover:bg-[#4a0b42] hover:shadow-[0_10px_20px_rgba(245,197,61,0.28)]"
+              : "hover:border-[#ff3fa4]/75 hover:bg-[#4a0b42] hover:shadow-[0_10px_20px_rgba(255,63,164,0.28)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isGold
-                ? "border border-[#8a5f08] bg-gradient-to-br from-[#fde464] to-[#c8901a] text-[#1a1203] shadow-[0_0_15px_rgba(243,187,52,0.4)]"
-                : "border border-[#a3510c] bg-gradient-to-br from-[#ffc98a] to-[#f58b2a] text-[#1a1203] shadow-[0_0_15px_rgba(245,139,42,0.45)] group-hover:rotate-3"
+                ? "border border-[#9c6f08] bg-gradient-to-br from-[#ffe49a] to-[#d19a12] text-[#2b0019] shadow-[0_0_15px_rgba(245,197,61,0.45)] group-hover:rotate-3"
+                : "border border-[#b3006a] bg-gradient-to-br from-[#ff6cbb] to-[#ff3fa4] text-[#2b0019] shadow-[0_0_15px_rgba(255,63,164,0.4)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#fde464] drop-shadow-[0_0_8px_rgba(245,139,42,0.35)]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#f6ecd9]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#ffd1ea] drop-shadow-[0_0_8px_rgba(255,63,164,0.35)]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#fde8f3]">{item.description}</p>}
           </div>
         </div>
       );

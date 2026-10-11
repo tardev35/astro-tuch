@@ -7,31 +7,32 @@ interface Props {
 
 const { label } = Astro.props;
 
-// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10): หน้าจอคั่นตอนกดปุ่มไป
+// FAH999 (รอบชมพูบานเย็น-ทอง 2026-10-11): หน้าจอคั่นตอนกดปุ่มไป
 // ลิงก์พันธมิตร แสดงเฉพาะ /login กับ /register — ไม่มีไฟล์อื่นในเว็บ render ตัวนี้
 // ถ้าไม่ retheme ผู้ใช้จะเห็นสีของแบรนด์ก่อนบนจอที่กำลัง convert พอดี
-// สีทุกค่ามาจาก brand-spec §2: backdrop เป็นดำสนิท rgba(0,0,0) = พื้นเพจรอบนี้
-// (bg.json = #000000) ออร่าบนเป็นทองแบรนด์ rgba(243,187,52) คู่กับส้มอำพัน
-// rgba(245,139,42) ด้านล่าง แผงการ์ดเป็นผิวยก rgba(31,23,9) = #1f1709
-// ⚠️ รอบนี้พื้นเพจดำสนิท แผงการ์ดจึงต้อง "สว่างกว่า" backdrop ไม่ใช่เข้มกว่า
-// ออร์บไล่จากทองสว่าง #fde464 เข้าหาทองแบรนด์ #f3bb34 แล้วจบที่ทองลึก #8a5f08
-// (ออร์บเป็นรูปทรง ไม่ใช่ตัวอักษร #8a5f08 จึงใช้ได้ตรงนี้ที่เดียว)
-// วงแหวนคู่หมุนสวนทางกันและแยก "สี" กันจริง รอบนี้เป็นสองฮิวจริง (วงนอกทองแบรนด์
-// #f3bb34 วงในส้มอำพัน #f58b2a) เพราะโลโก้รอบนี้เป็นเป็ดการ์ตูนสีเหลืองสวมมงกุฎทอง
-// ที่มีปากสีส้มอำพัน อยู่เหนือแผ่นป้ายดำขอบทอง — ส้มเป็นฮิวที่สองจริง ไม่ใช่
-// โลหะเดียว รางวงแหวนใช้เส้นขอบ/คั่นจาง rgba(163,81,12) = #a3510c ส้มลึก
+// สีทุกค่ามาจาก brand-spec §2: backdrop เป็นม่วงพลัม rgba(46,0,44) = พื้นเพจรอบนี้
+// (bg.json = #2e002c) ออร่าบนเป็นชมพูแบรนด์ rgba(255,63,164) คู่กับทอง
+// rgba(245,197,61) ด้านล่าง แผงการ์ดเป็นผิวยก rgba(74,11,66) = #4a0b42
+// ⚠️ รอบนี้พื้นเพจ **ไม่ใช่ดำสนิท** แล้ว แต่แผงการ์ดยังต้องสว่างกว่า backdrop
+// ออร์บไล่จากชมพูอ่อน #ffd1ea เข้าหาชมพูแบรนด์ #ff3fa4 แล้วจบที่ชมพูลึก #b3006a
+// (ออร์บเป็นรูปทรง ไม่ใช่ตัวอักษร #b3006a จึงใช้ได้ตรงนี้ที่เดียว)
+// วงแหวนคู่หมุนสวนทางกันและแยก "สี" กันจริง รอบนี้เป็นสองฮิวจริง (วงนอกชมพูแบรนด์
+// #ff3fa4 วงในทอง #f5c53d) เพราะโลโก้รอบนี้เป็นสาวหูกระต่ายสีชมพูเหนือตัวอักษร
+// FAH999 ชมพูประกายบนแผ่นป้ายเข้ม **ขอบทอง** — ทองเป็นฮิวที่สองจริง ไม่ใช่
+// ชมพูเฉดเดียว รางวงแหวนใช้เส้นขอบ/คั่นจาง rgba(156,111,8) = #9c6f08 ทองลึก
 // (เป็นเส้น ไม่ใช่ตัวอักษร)
-// ส่วนชื่อแบรนด์ไล่ ทองสว่าง #fde464 -> ทองแบรนด์ #f3bb34 -> ทองกลางเข้ม #c8901a
-// ⚠️ ปลายเข้มของ "ตัวอักษร" หยุดที่ #c8901a ไม่ใช่ #8a5f08 — #8a5f08 บนแผง #1f1709
-// ได้แค่ 3.1:1 ตกแม้แต่เกณฑ์ตัวอักษรใหญ่ ส่วน #c8901a ได้ 6.3:1 ผ่านสบาย
-// (brand-spec §2: #8a5f08 / #5c3f04 / #a3510c ห้ามถือตัวอักษรทุกขนาด)
-// ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #cfd6e3
-// #3f4859 #432b03 #241700 #fdf3df rgba(251,193,52,α) rgba(207,214,227,α)
-// rgba(253,243,223,α) rgba(255,232,122,α) rgba(36,23,0,α) rgba(67,43,3,α))
-// และชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518 #ffdd73 #b8860f #ff3b14
-// #fdf0e2) ไม่เหลือแล้ว
-// ⚠️ รอบก่อนก็เป็นแบรนด์ "ทอง" เหมือนกัน แต่คนละค่าทุกตัว และรอบนี้ไม่มีเงิน
-// โครเมียมเป็นฮิวเลย — ฮิวที่สองเป็นส้มอำพัน ให้เทียบเป็นตัวเลข อย่าเทียบด้วยตา
+// ส่วนชื่อแบรนด์ไล่ ชมพูอ่อน #ffd1ea -> ชมพูไฮไลต์ #ff6cbb -> ชมพูแบรนด์ #ff3fa4
+// ⚠️ ปลายเข้มของ "ตัวอักษร" หยุดที่ #ff3fa4 ไม่ใช่ #b3006a — #b3006a บนแผง #4a0b42
+// ได้แค่ 2.2:1 ตกแม้แต่เกณฑ์ตัวอักษรใหญ่ ส่วน #ff3fa4 ได้ 4.6:1 ผ่านทั้งเกณฑ์
+// ตัวใหญ่และตัวปกติ (brand-spec §2: #b3006a / #7a0046 / #4d002b / #9c6f08
+// ห้ามถือตัวอักษรทุกขนาด)
+// ชุดทองเป็ด-ส้มปากเป็ดของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08 #f58b2a
+// #a3510c #f6ecd9 #1f1709 rgba(243,187,52,α) rgba(245,139,42,α)
+// rgba(246,236,217,α) rgba(253,228,100,α) rgba(163,81,12,α) rgba(31,23,9,α))
+// และชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18 #cfd6e3
+// #432b03 #241700 #fdf3df) ไม่เหลือแล้ว
+// ⚠️ สองรอบก่อนเป็นแบรนด์ "ทอง" ทั้งคู่ รอบนี้ทองถูกลดชั้นเป็นฮิวที่สอง และฮิวนำ
+// เป็นชมพูบานเย็น — ให้เทียบเป็นตัวเลข อย่าเทียบด้วยตา
 // แก้เฉพาะสีใน <style> เท่านั้น — markup, จังหวะเวลา และ <script> คงเดิม
 // เพราะ data-cta-redirect บน <a> คือสิ่งที่สคริปต์ผูกไว้
 ---
@@ -60,7 +61,7 @@ const { label } = Astro.props;
     place-items: center;
     padding: 1.5rem;
     background:
-      radial-gradient(circle at 50% 12%, rgba(243, 187, 52, 0.26) 0%, transparent 55%), radial-gradient(circle at 50% 90%, rgba(245, 139, 42, 0.2) 0%, transparent 55%), rgba(0, 0, 0, 0.96);
+      radial-gradient(circle at 50% 12%, rgba(255, 63, 164, 0.26) 0%, transparent 55%), radial-gradient(circle at 50% 90%, rgba(245, 197, 61, 0.2) 0%, transparent 55%), rgba(46, 0, 44, 0.96);
     animation: cta-fade 0.25s ease-out both;
   }
 
@@ -73,12 +74,12 @@ const { label } = Astro.props;
     max-width: 420px;
     padding: 3rem 2rem;
     text-align: center;
-    border: 1px solid rgba(243, 187, 52, 0.6);
+    border: 1px solid rgba(255, 63, 164, 0.6);
     border-radius: 1.5rem;
-    background: rgba(31, 23, 9, 0.94);
+    background: rgba(74, 11, 66, 0.94);
     box-shadow:
       0 1rem 3rem rgba(0, 0, 0, 0.7),
-      0 0 2rem rgba(243, 187, 52, 0.32);
+      0 0 2rem rgba(255, 63, 164, 0.32);
   }
 
   .brand {
@@ -86,7 +87,7 @@ const { label } = Astro.props;
     font-size: 1.375rem;
     font-weight: 700;
     letter-spacing: 0.3em;
-    background: linear-gradient(180deg, #fde464 0%, #f3bb34 50%, #c8901a 100%);
+    background: linear-gradient(180deg, #ffd1ea 0%, #ff6cbb 50%, #ff3fa4 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -106,14 +107,14 @@ const { label } = Astro.props;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: radial-gradient(circle, #fde464 0%, #f3bb34 55%, #8a5f08 100%);
-    box-shadow: 0 0 2rem rgba(243, 187, 52, 0.6);
+    background: radial-gradient(circle, #ffd1ea 0%, #ff3fa4 55%, #b3006a 100%);
+    box-shadow: 0 0 2rem rgba(255, 63, 164, 0.6);
     animation: cta-pulse 2s ease-in-out infinite;
   }
 
   .ring {
     position: absolute;
-    border: 3px solid rgba(163, 81, 12, 0.8);
+    border: 3px solid rgba(156, 111, 8, 0.8);
     border-radius: 50%;
     animation: cta-spin linear infinite;
   }
@@ -121,14 +122,14 @@ const { label } = Astro.props;
   .ring-1 {
     width: 100%;
     height: 100%;
-    border-top-color: #f3bb34;
+    border-top-color: #ff3fa4;
     animation-duration: 4s;
   }
 
   .ring-2 {
     width: 80%;
     height: 80%;
-    border-bottom-color: #f58b2a;
+    border-bottom-color: #f5c53d;
     animation-duration: 6s;
     animation-direction: reverse;
   }
@@ -138,14 +139,14 @@ const { label } = Astro.props;
     font-size: 1.125rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: #f6ecd9;
+    color: #fde8f3;
   }
 
   .sub {
     margin: 0.75rem 0 0 0;
     font-size: 0.875rem;
     line-height: 1.6;
-    color: rgba(246, 236, 217, 0.8);
+    color: rgba(253, 232, 243, 0.8);
   }
 
   @keyframes cta-spin {
@@ -158,11 +159,11 @@ const { label } = Astro.props;
     0%,
     100% {
       transform: scale(1);
-      box-shadow: 0 0 2rem rgba(243, 187, 52, 0.6);
+      box-shadow: 0 0 2rem rgba(255, 63, 164, 0.6);
     }
     50% {
       transform: scale(1.15);
-      box-shadow: 0 0 3rem rgba(253, 228, 100, 0.45);
+      box-shadow: 0 0 3rem rgba(255, 209, 234, 0.45);
     }
   }
 

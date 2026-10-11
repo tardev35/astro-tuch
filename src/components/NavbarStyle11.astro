@@ -21,17 +21,29 @@ const mainLogo = targetPath ? images[targetPath].default : null;
 //
 // No /ทางเข้า entry: the cta toggle is on for this brand, so เข้าสู่ระบบ and
 // สมัครสมาชิก are menu items in their own right and that page would be a third
-// link to the same two destinations. The page stays routed and indexed.
+// link to the same two destinations. The page stays routed and indexed, and the
+// footer still links it.
 //
-// No /ตรวจหวย or /แนวทาง either — GOT777 is a เว็บเกมสล็อต, so both lottery
-// pages were moved back to src/pages-disabled/ this round and must not be
+// No /ตรวจหวย or /แนวทาง either — FAH999 is a ฟาสล็อตเว็บตรง, a SLOT site, so
+// both lottery pages stay in src/pages-disabled/ this round and must not be
 // linked from here. A link to a route that does not exist fails verify-build.
 //
-// GOT777 palette (2026-09-29): ทองแบรนด์ #f5c518 เป็นสีหลัก · ทองอ่อน #ffe9a8
-// เป็นหัวข้อและ hover · ทองเข้ม #96690f เป็นปลายเกรเดียนต์ · แดงเลือดหมู
-// #d21622 / #7b0304 เป็นคู่สีรอง (ตามเลข 777 ในโลโก้) · พื้นดำอมน้ำตาล #0a0503
-// ยกระดับด้วย #160b06 / #241108 · เนื้อความ #ece0cb — ชุดสีแดงล้วนของ
-// LOTTOPLUS และทอง-เงินของ MEPAY77 ที่ค้างอยู่ในไฟล์นี้ถูกถอดออกหมดแล้ว
+// FAH999 palette (2026-10-11, brand-spec §2): ชมพูบานเย็น #ff3fa4 เป็นฮิวนำ
+// (ตัวอักษรบนโลโก้ หูกระต่าย หัวใจ และชิป) · ชมพูอ่อน #ffd1ea เป็น hover และ
+// ปลายสว่างของไล่เฉด · ชมพูลึก #b3006a เป็นปลายเข้มของไล่เฉด (เป็นรูปทรง
+// ไม่ใช่ตัวอักษร) · ทอง #f5c53d เป็นฮิวที่สอง (เหรียญ มงกุฎ ตู้ 777) · ทองลึก
+// #9c6f08 เป็นต้นเข้มของขีด active · พื้นแถบ #210220 ยกเป็น #3a0534 / #4a0b42 ·
+// เนื้อความ #fde8f3 · หมึกเข้ม #2b0019 อยู่บนพื้นชมพูเท่านั้น
+//
+// ⚠️ ไฟล์นี้ค้างชุดทอง-แดงเลือดหมูของ GOT777 ไว้ (#f5c518 #ffe9a8 #96690f
+// #d21622 #7b0304 #0a0503 #160b06 #241108 #3a1a0c #ece0cb #fff6dd) ถอดออกครบแล้ว
+// ทอง #f5c518 ของ GOT777 ต่างจากทอง #f5c53d ของรอบนี้แค่สองตัวอักษร ห้ามเทียบ
+// ด้วยตา และชุดทองเป็ด-ส้มปากเป็ดของ DUCK1688 รอบก่อน (#f3bb34 #f58b2a #1f1709)
+// ก็ไม่มีในไฟล์นี้อยู่แล้ว
+//
+// ⚠️ #b3006a และ #9c6f08 ห้ามถือตัวอักษร — อยู่ได้เฉพาะในไล่เฉด ขอบ และออรา
+// ปลายเข้มของไล่เฉดที่ "รองหมึก #2b0019" หยุดที่ #ff3fa4 (5.8:1) ไม่ใช่ #b3006a
+// (2.8:1 ตก AA หนัก)
 //
 // The desktop bar switches on at xl, not lg: seven items with icons plus the
 // pair of CTA buttons does not fit a 1024 px row without crushing the labels.
@@ -47,29 +59,32 @@ const links = [
 
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
+
+const logoAlt =
+  "โลโก้ FAH999 เป็นสาวผมน้ำตาลใส่หูกระต่ายสีชมพู เท้าแก้มทั้งสองข้างและขยิบตา มีไพ่เอซโพดำกับเอซโพแดง ชิปคาสิโนชมพูขอบทอง เหรียญทอง และตู้สล็อต 777 สีทองล้อมอยู่ ด้านล่างเป็นตัวอักษร FAH999 สีชมพูประกายสามมิติขอบขาว-ทอง บนแผ่นป้ายสีเข้มขอบทอง";
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#f5c518]/45 bg-[#0a0503]/95 px-4 shadow-[0_5px_20px_rgba(10,5,3,0.85)] backdrop-blur-lg xl:px-6">
+    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#ff3fa4]/45 bg-[#210220]/95 px-4 shadow-[0_5px_20px_rgba(33,2,32,0.85)] backdrop-blur-lg xl:px-6">
     <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="โลโก้ GOT777 ตัวอักษร GOT สีทองเมทัลลิกมีอัญมณีสีแดงฝังอยู่กลางตัว O ต่อด้วยเลข 777 สีแดงเลือดหมูขอบทอง"
+            alt={logoAlt}
             loading="eager"
             fetchpriority="high"
             widths={[110, 220, 330]}
             sizes="110px"
             height={50}
-            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(245,197,24,0.5)] xl:h-[50px]"
+            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(255,63,164,0.55)] xl:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <p class="text-3xl font-black tracking-widest text-[#f5c518]">
-            GOT<span class="text-[#d21622]">777</span>
+          <p class="text-3xl font-black tracking-widest text-[#ff3fa4]">
+            FAH<span class="text-[#f5c53d]">999</span>
           </p>
         )
       }
@@ -80,11 +95,11 @@ const isActive = (path: string) => isActivePath(currentPath, path);
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f5c518]" : "text-[#ece0cb]/85 hover:text-[#fff6dd]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#ff3fa4]" : "text-[#fde8f3]/85 hover:text-[#ffd1ea]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#7b0304] via-[#d21622] to-[#f5c518] shadow-[0_-2px_10px_rgba(245,197,24,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#9c6f08] via-[#f5c53d] to-[#ff3fa4] shadow-[0_-2px_10px_rgba(255,63,164,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -94,35 +109,35 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     <div class="z-[110] flex items-center gap-3">
       <a
         href="/login"
-        class="hidden rounded-full border border-[#d21622]/60 bg-[#241108]/80 px-6 py-2.5 text-sm font-bold text-[#ece0cb] shadow-inner transition-all hover:border-[#d21622] hover:bg-[#3a1a0c]/90 xl:flex">
+        class="hidden rounded-full border border-[#f5c53d]/60 bg-[#3a0534]/80 px-6 py-2.5 text-sm font-bold text-[#fde8f3] shadow-inner transition-all hover:border-[#f5c53d] hover:bg-[#4a0b42]/90 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full border border-[#f5c518]/50 bg-gradient-to-r from-[#f5c518] to-[#96690f] px-6 py-2.5 text-sm font-black text-[#0a0503] shadow-[0_4px_15px_rgba(245,197,24,0.4)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(245,197,24,0.6)] xl:flex">
+        class="hidden rounded-full border border-[#ffd1ea]/50 bg-gradient-to-r from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] px-6 py-2.5 text-sm font-black text-[#2b0019] shadow-[0_4px_15px_rgba(255,63,164,0.4)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(255,63,164,0.6)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#f5c518]/55 bg-[#241108] xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#ff3fa4]/55 bg-[#3a0534] xl:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f5c518] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#f5c518] bg-[#0a0503]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
+    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#ff3fa4] bg-[#210220]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#f5c518] bg-[#241108] text-[#f5c518]" : "text-[#ece0cb]/80 hover:bg-white/5 hover:text-[#fff6dd]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#ff3fa4] bg-[#3a0534] text-[#ff3fa4]" : "text-[#fde8f3]/80 hover:bg-white/5 hover:text-[#ffd1ea]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -132,10 +147,10 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     <div class="mt-6 flex flex-col gap-3">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full border border-[#f5c518]/50 bg-gradient-to-r from-[#f5c518] to-[#96690f] py-3.5 text-lg font-black text-[#0a0503] shadow-md">
+        class="flex w-full justify-center rounded-full border border-[#ffd1ea]/50 bg-gradient-to-r from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] py-3.5 text-lg font-black text-[#2b0019] shadow-md">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-[#d21622]/60 bg-[#241108]/80 py-3.5 text-lg font-bold text-[#ece0cb]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-[#f5c53d]/60 bg-[#3a0534]/80 py-3.5 text-lg font-bold text-[#fde8f3]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>
