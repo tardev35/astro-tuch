@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement4.astro";
+import Announcement from "../components/Announcement2.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -20,39 +20,44 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 //
 // The copy is rewritten every round rather than patched: the page used to be a
 // noindex interstitial, so any inherited title/description still promises an
-// automatic forward that no longer happens. It is an indexed page now, which
-// means verify-build holds its description to the same 150–160 character window
-// as every other page.
+// automatic forward that no longer happens — the visitor has to press the
+// button now. It is an indexed page, which means verify-build holds its
+// description to the same 150–160 character window as every other page.
 //
-// FAH999 (รอบชมพูฮ็อต-ทอง 2026-10-11, brand-spec §2):
-// ชมพูแบรนด์ #ff3fa4 (ฮิวหลัก) · ชมพูไฮไลต์ #ff6cbb · ชมพูซีด #ffd1ea ·
-// ชมพูลึก #b3006a (รูปทรง/ขอบ/ออราเท่านั้น) · ทอง #f5c53d (ฮิวที่สอง) ·
-// เนื้อความ #fde8f3 (= BRAND_TEXT) · หมึกเข้ม #2b0019 ใช้ได้เฉพาะบนพื้นถมชมพูหรือทอง
-// ชั้นผิว: ยก #4a0b42 (= การ์ด ContentBox) / กลาง #3a0534 / พื้นเพจ #2e002c /
-// ลึก #210220 — รอบนี้พื้นเพจเป็นพลัมดำ ไม่ใช่ดำสนิท จึงมีชั้นที่ "ลึกกว่าพื้น" ได้
-// ปุ่มนี้เป็นคู่ SECONDARY เดียวกับ /ทางเข้า: จมลงจากการ์ดด้วยชั้น #3a0534 → #210220
-// ขอบทอง #f5c53d/55 บนเนื้อความ #fde8f3 — hover ยกขอบเป็นทองเต็ม
-// ส่วน /register เป็น PRIMARY ถมชมพู จึงไม่ซ้ำกัน
-// ⚠️ ห้ามใช้ผิวยก #4a0b42 เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
-// ⚠️ #b3006a #7a0046 #4d002b #9c6f08 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา
-// และเงา — ออราใช้ rgba(245,197,61,α) เท่านั้นในไฟล์นี้ นอกจากเงาดำล้วน
-// ⚠️ แบรนด์ก่อนๆ ก็มีทั้งชมพูและทอง (เจ็ดในเก้ารอบหลังสุดมีทอง) เจอชมพูหรือทอง
-// ที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตารางแบนใน
-// brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false
-// positive — ชุดทอง-ส้มอำพันของรอบก่อนออกครบทุกจุดในไฟล์นี้แล้ว และรอบนี้
-// ไม่มีสีส้มอำพันเป็นฮิวเลย
+// ⚠️ UFA324 เป็น **เว็บเล่นเกมกีฬาออนไลน์** (ฟุตบอล · มวย · เกมคาสิโน ซึ่งรวม
+// เกมไพ่ เกมโต๊ะ และสล็อต) ไม่ใช่เว็บสล็อตล้วนแบบแบรนด์ก่อน และไม่ใช่เว็บลอตเตอรี
+// คอปปี้ของหน้านี้จึงพูดถึง "ทางเข้าเดิมพัน" และ "คู่แข่งขัน" ไม่ใช่ "ค่ายเกม/
+// หมุนวงล้อ" — รายการคำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่
+// เพื่อไม่ให้ grep หาคำต้องห้ามเจอ false positive
+// ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% / 0.8% / 24 ชั่วโมง — ห้ามแต่งใบอนุญาต
+// หน่วยงานกำกับ ชื่อค่ายเกม ชื่อธนาคาร ชื่อลีก/ทีม/นักมวย หรือยอดขั้นต่ำเป็นตัวเลข
 //
-// Announcement หมุนมาเป็น Announcement4 ทั้งเว็บรอบนี้ (รอบก่อนใช้ Announcement6 —
-// brand-spec §3 หมุนออก) และเรียกแบบ bare ทุกหน้า — ห้ามส่ง prop message จากหน้านี้
+// UFA324 (รอบทองแชมเปี้ยน-เงินโครเมียม 2026-10-11, brand-spec §2):
+// ทองแบรนด์ #e5a81b (ฮิวหลัก) · ทองสว่าง #ffe08a · ทองกลางเข้ม #bb8410 ·
+// ทองลึก #7d5a07 (เส้น/ขอบ/ออราเท่านั้น) · เงินแบรนด์ #b9c2cc (ฮิวที่สอง) ·
+// เนื้อความ #f0e8d4 (= BRAND_TEXT) · หมึกบนพื้นทอง #140d01
+// ชั้นผิว: ยก #231c0e (= การ์ด ContentBox) / กลาง #17130a / จม #0d0b06 /
+// พื้นเพจ #000000 — รอบนี้ bg.json เป็นดำสนิท จึง **ไม่มีชั้นที่ลึกกว่าพื้นเพจ**
+// ได้อีก (รอบก่อนพื้นเพจเป็นพลัม จึงมีชั้นที่ลึกกว่าพื้นได้ — ค่าเดิมอยู่ใน §2)
+// ปุ่มนี้เป็นคู่ SECONDARY: จมลงจากการ์ดด้วยชั้น #17130a → #0d0b06 ขอบทอง
+// #e5a81b/50 บนเนื้อความ #f0e8d4 (13.9:1 บน #17130a) — hover ยกขอบเป็นทองเต็ม
+// ส่วน /register เป็น PRIMARY ถมพื้นทอง จึงไม่ซ้ำกัน
+// ⚠️ ห้ามใช้ผิวยก #231c0e เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
+// ⚠️ #7d5a07 #43300a #464f5a ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา
+// — ออราในไฟล์นี้ใช้ rgba(229,168,27,α) เท่านั้น นอกจากเงาดำล้วน
+// ⚠️ เจ็ดในสิบแบรนด์หลังสุดมีทอง "เจอทอง" ไม่ได้แปลว่าถูกค่า ให้เทียบเป็นตัวๆ กับ
+// ตารางแบนใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่า
+// เจอ false positive — ชุดชมพูฮ็อต-ทองของรอบก่อนออกครบทุกจุดในไฟล์นี้แล้ว
+// และรอบนี้ไม่มีชมพูเป็นฮิวเลย
 //
-// แบรนด์นี้เป็น **ฟาสล็อตเว็บตรง** ล้วนๆ — รายการคำต้องห้ามเต็มอยู่ใน
-// brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep เจอ false positive
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง
+// Announcement หมุนมาเป็น Announcement2 ทั้งเว็บรอบนี้ (ตัวที่แบรนด์ก่อนใช้ถูกหมุน
+// ออกตาม brand-spec §3) orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้
+// ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare — ห้ามส่ง prop message จากหน้านี้
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 151
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 156
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} ฟาสล็อตเว็บตรง กดปุ่มเดียวไปยังทางเข้าหลักของเว็บไซต์ เพื่อเลือกค่ายเกม ค้นหาเกมสล็อต และตรวจสอบข้อมูลบัญชีได้สะดวกจากบัญชีเดียว`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} เว็บเล่นเกมกีฬาออนไลน์ กดปุ่มเดียวไปยังทางเข้าเดิมพันหลัก เพื่อดูคู่แข่งขันฟุตบอล มวย เกมคาสิโน และจัดการบัญชีสมาชิกของตัวเองได้สะดวก`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -66,7 +71,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} ฟาสล็อตเว็บตรง เข้าใช้งานจากทางเข้าหลัก`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บเล่นเกมกีฬาออนไลน์ เข้าจากทางเข้าหลัก`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -78,8 +83,8 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#f5c53d]/55 bg-gradient-to-b from-[#3a0534] to-[#210220] px-6 py-4 text-2xl font-bold tracking-wide text-[#fde8f3] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#f5c53d] hover:shadow-[0_15px_40px_rgba(245,197,61,0.4)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#f5c53d]/25 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#e5a81b]/50 bg-gradient-to-b from-[#17130a] to-[#0d0b06] px-6 py-4 text-2xl font-bold tracking-wide text-[#f0e8d4] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#e5a81b] hover:shadow-[0_15px_40px_rgba(229,168,27,0.4)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#e5a81b]/25 to-transparent"></div>
         เข้าสู่ระบบ
       </a>
     </div>

@@ -11,14 +11,14 @@ export interface Props {
 }
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 
-// COLUMN ORDER CHANGED THIS ROUND: the grid is md:grid-cols-[7fr_3fr] with the
-// TEXT column FIRST and the picture in slot="right". `title` is therefore the
-// shorthand for the LEFT column's heading, not the right one. Two reasons: the
-// docx heading always has to land on the prose rather than on the picture, and
-// on a phone the single column then reads heading → text → picture instead of
-// opening with an image. The image column is passed no `titleright`, so this
-// block emits exactly one docx heading. No `whitespace-nowrap` anywhere: a full
-// docx sentence wraps instead of overflowing at mobile width.
+// COLUMN ORDER: the grid is md:grid-cols-[7fr_3fr] with the TEXT column FIRST
+// and the picture in slot="right". `title` is therefore the shorthand for the
+// LEFT column's heading, not the right one. Two reasons: the docx heading always
+// has to land on the prose rather than on the picture, and on a phone the single
+// column then reads heading → text → picture instead of opening with an image.
+// The image column is passed no `titleright`, so this block emits exactly one
+// docx heading. No `whitespace-nowrap` anywhere: a full docx sentence wraps
+// instead of overflowing at mobile width.
 //
 // ความกว้างจริงของคอลัมน์แคบ (3fr ฝั่งขวา = คอลัมน์รูป) ที่หน้าแรกคิด `sizes` จาก —
 // ถ้าแก้ค่าใดต่อไปนี้ต้องไปแก้ `widths`/`sizes` ใน src/pages/index.astro ด้วย
@@ -32,49 +32,51 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //               max-w-[600px] ของรูป = 600px
 //   <698      : คอลัมน์เดียวที่ p-8                  = calc(100vw − 98px)
 //
-// DUCK1688 (รอบทองเป็ด-ส้มปากเป็ด 2026-10-10, brand-spec §2-§4):
-// บนหน้าแรกรอบนี้กล่องนี้ถือ docx H3 #4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน")
-// คู่กับ slide1 ซึ่งเป็นงานอาร์ตที่พิมพ์คำว่า โปรโมชั่น / คืนยอดเสีย กับเลข 0.3%
-// ตัวทองสามมิติขนาดใหญ่ไว้ในตัวภาพเอง — ตัวเลขบนภาพเป็นตัวตัดสินการจับคู่
+// รอบนี้ (2026-10-11, brand-spec §2-§4): บนหน้าแรกกล่องนี้ถือ docx H3 #4
+// ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ **slide2** ซึ่งเป็นงานอาร์ตที่
+// พิมพ์คำว่า โปรโมชั่น และ คืนยอดเสีย 0.3% ไว้ในตัวภาพเอง — ตัวเลขบนภาพเป็นตัวตัดสิน
+// การจับคู่ ถ้าสลับไปใช้ slide1 (แนะนำเพื่อน โบนัส 0.8%) รูปจะขัดกับหัวข้อทันที
 //
 // นี่คือครึ่ง "การ์ดไล่เฉดมุมโค้ง" ของคู่บล็อกรูป+ข้อความ ส่วน
-// ContentBoxSevenThreeCyberCut ที่เป็นคู่กันเป็นการ์ดมุมตัดผิวลึก สองบล็อกนี้วางติด
+// ContentBoxSevenThreeCyberCut ที่เป็นคู่กันเป็นการ์ดมุมตัดผิวจม สองบล็อกนี้วางติด
 // กันบนหน้าแรก (คืนยอดเสีย 0.3% แล้วค่อย แนะนำเพื่อน 0.8%) จึงต้องไม่อ่านเป็นการ์ด
-// ใบเดียวกันซ้ำสองรอบ: ใบนี้ไล่เฉดจากผิวยก #1f1709 ลงผิวลึก #0d0903 หัวข้อเป็น
-// ตัวอักษรไล่เฉด ส่วนใบคู่เป็นผิวลึกทึบใบเดียวกับหัวข้อสีทึบ
-// กรอบและเส้นคั่นกลางเป็นทองลึก #8a5f08 (ไม่ใช่กรอบทองเป็ดแบบ ContentBoxCyberCut และ
-// ไม่ใช่กรอบทองลึกโปร่งแบบ ContentBoxTwoPremium) สว่างขึ้นเป็นทองเป็ด #f3bb34 ตอน
-// hover ออรามุมซ้ายบนเป็นทองเป็ด มุมขวาล่างเป็นส้มลึก #a3510c
-// หัวข้อไล่ทองเป็ด #f3bb34 → ส้มอ่อน #ffc98a → ส้มอำพัน #f58b2a ซึ่งเป็นลำดับสีคนละ
-// ชุดกับการ์ดคู่ของมันที่ใช้ทองเป็ดทึบสีเดียว
-// เนื้อความ #f6ecd9 (= BRAND_TEXT) glow เป็น rgba(243,187,52,…)
-// #8a5f08 / #5c3f04 / #a3510c ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2 — อยู่ที่ขอบ เส้นคั่น
+// ใบเดียวกันซ้ำสองรอบ: ใบนี้ไล่เฉดจากผิวยก #231c0e ลงผิวจม #0d0b06 หัวข้อเป็น
+// ตัวอักษรไล่เฉด ส่วนใบคู่เป็นผิวจมทึบใบเดียวกับหัวข้อสีทึบ
+// กรอบและเส้นคั่นกลางเป็นทองลึก #7d5a07 (ไม่ใช่กรอบทองแบรนด์แบบ ContentBoxCyberCut
+// และไม่ใช่กรอบทองลึกโปร่งแบบ ContentBoxTwoPremium) สว่างขึ้นเป็นทองแบรนด์ #e5a81b
+// ตอน hover ออรามุมซ้ายบนเป็นทองแบรนด์ มุมขวาล่างเป็นเงินลึก #464f5a
+// หัวข้อไล่ทองแบรนด์ #e5a81b → เงินสว่าง #f2f5f9 → ทองสว่าง #ffe08a ซึ่งเป็นลำดับสี
+// คนละชุดกับการ์ดคู่ของมันที่ใช้ทองแบรนด์ทึบสีเดียว
+// ⚠️ พื้นเพจรอบนี้ดำสนิท #000000 ทั้งสองปลายของไล่เฉดจึงยังสว่างกว่าพื้น การ์ดลอยอยู่
+// เนื้อความ #f0e8d4 (= BRAND_TEXT) glow เป็น rgba(229,168,27,…)
+// #7d5a07 / #43300a / #464f5a ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2 — อยู่ที่ขอบ เส้นคั่น
 // และออราเท่านั้น
 //
-// ⚠️ ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 รอบก่อน (#fbc134 #ffe87a #cf9a18 #96690a
+// ⚠️ เทียบสีเป็นค่า ไม่ใช่ตระกูลสี: ชุดชมพูฮอต-ทองบนพลัมดำของแบรนด์รอบก่อนหน้าทันที
+// (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b
+// #2b0019 #4a0b42 #3a0534 #2e002c #210220) ชุดทองเป็ด-ส้มอำพันที่เคยค้างในไฟล์นี้
+// (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a #a3510c #1f1709 #171106
+// #0d0903 #f6ecd9) ชุดทองอวกาศ-เงินโครเมียม (#fbc134 #ffe87a #cf9a18 #96690a
 // #6b4a05 #cfd6e3 #eef2f8 #9aa6bb #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03 #382400
-// #241700) ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB ที่เคยค้างในไฟล์นี้ (#e8232a
-// #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a #f5cbb0 #fbe8d5 #3d1709
-// #180800 #241000) ชุดม่วงนีออน-ทองอาร์เขตของ WEPLAY168 (#1e0a3c #0a0117 #5b1a75
-// #a435f0 #c98a05 #fbe455 #ffd23d #efe6ff #d2a6ff #ece2ff) และชุดฟ้าสด-เหลืองมะนาว
-// ของ แตกดี168 (#0a1726 #020609 #064a86 #0193fb #7bcffb #fff48a #c9a703 #fce604
-// #dbeafe) ออกครบทุกจุดแล้ว — ทองรอบนี้เป็นคนละค่ากับทุกตัวข้างบน
+// #241700) ชุดแดงเสือโคร่ง-ทองถ่านไฟ (#e8232a #f2b705 #ffd666 #c08a0b #fbe8d5) และ
+// ชุดม่วงนีออน-ทอง (#a435f0 #5b1a75 #c98a05 #fbe455 #ffd23d #1e0a3c) ออกครบทุกจุดแล้ว
+// — ทองรอบนี้เป็นคนละค่ากับทุกตัวข้างบน และเงินรอบนี้ไม่ใช่ #cfd6e3
 const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a5f08] bg-gradient-to-br from-[#1f1709]/96 to-[#0d0903]/96 p-8 text-[#f6ecd9] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f3bb34]/80 hover:shadow-[0_15px_40px_rgba(243,187,52,0.32)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#f3bb34]/30 blur-[60px] transition-all duration-500 group-hover:bg-[#f3bb34]/44">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7d5a07] bg-gradient-to-br from-[#231c0e]/96 to-[#0d0b06]/96 p-8 text-[#f0e8d4] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#e5a81b]/80 hover:shadow-[0_15px_40px_rgba(229,168,27,0.32)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#e5a81b]/30 blur-[60px] transition-all duration-500 group-hover:bg-[#e5a81b]/44">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#a3510c]/40 blur-[60px] transition-all duration-500 group-hover:bg-[#f58b2a]/28">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#464f5a]/40 blur-[60px] transition-all duration-500 group-hover:bg-[#b9c2cc]/24">
     </div>
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e8d4]">
         {
           leftHeading && (
-            <HeadingTag class="mb-2 bg-gradient-to-r from-[#f3bb34] via-[#ffc98a] to-[#f58b2a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
+            <HeadingTag class="mb-2 bg-gradient-to-r from-[#e5a81b] via-[#f2f5f9] to-[#ffe08a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
               {leftHeading}
             </HeadingTag>
           )
@@ -82,10 +84,10 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6ecd9] md:border-l md:border-[#8a5f08] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e8d4] md:border-l md:border-[#7d5a07] md:pl-10">
         {
           titleright && (
-            <HeadingTag class="bg-gradient-to-r from-[#f3bb34] via-[#ffc98a] to-[#f58b2a] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#e5a81b] via-[#f2f5f9] to-[#ffe08a] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
               {titleright}
             </HeadingTag>
           )

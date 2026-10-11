@@ -1,6 +1,7 @@
 ---
 import { isActivePath } from "../lib/nav";
 import { Picture } from "astro:assets";
+import { BRAND_NAME } from "../lib/brandProfile";
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 
 const imagePaths = Object.keys(images);
@@ -10,34 +11,43 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt =
-  "โลโก้ WEPLAY168 เป็นเครื่องเกมพกพาทรงเกมบอยสีม่วงที่หน้าจอมีตัวมนุษย์ต่างดาวพิกเซลสีทอง มีปุ่มกากบาทและปุ่มกลมสีทองอยู่ด้านล่าง โดยมีคำว่า WEPLAY ตัวอักษรสามมิติสีเงินอมม่วงและเลข 168 สีทองวาวพาดอยู่กลางเครื่อง บนแฉกสายฟ้าสีม่วง";
+// คำบรรยายเขียนจากไฟล์ logo.webp ของดรอป 2026-10-11 จริง (อ่านด้วย Read ก่อนเขียน)
+// ไม่ใช่คัดลอกของรอบก่อน — เครื่องเกมพกพาสีม่วงกับมนุษย์ต่างดาวพิกเซลของ
+// WEPLAY168 ไม่มีอยู่ในรูปรอบนี้เลย
+const logoAlt = `โลโก้ ${BRAND_NAME} เป็นเหรียญตราวงกลมขอบทอง กลางเหรียญเป็นลูกฟุตบอลทองคำวาววางอยู่บนถ้วยรางวัลทองที่มีหูจับโค้งสองข้าง ถัดลงมาเป็นตัวอักษร UFA สีทองสามมิติต่อด้วยเลข 324 สีเงินโครเมียม พาดกลางเหรียญ ใต้ตัวอักษรมีดาวห้าแฉกสีทองดวงเล็กและฐานถ้วยรางวัลสีทอง`;
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
 //
-// ไม่มี ตรวจหวย/แนวทาง แล้ว: WEPLAY168 เป็นเว็บสล็อต ไม่ใช่เว็บหวย สองหน้านั้นอยู่
-// ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์ไปหา — ลิงก์ที่ค้างอยู่จะ
+// ไม่มี ตรวจหวย/แนวทาง: UFA324 เป็นเว็บเล่นเกมกีฬาออนไลน์ ไม่ใช่เว็บหวย สองหน้านั้น
+// อยู่ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์ไปหา — ลิงก์ที่ค้างอยู่จะ
 // ทำให้ verify-build แดงด้วย (href ชี้ไป route ที่ไม่มีอยู่จริง) ลบออกจาก links
 // ตัวนี้ตัวเดียวพอ เพราะทั้งรางเดสก์ท็อปและ drawer มือถืออ่าน array เดียวกัน
 // ไม่มี ทางเข้า: toggle cta เปิดอยู่ /register กับ /login จึงเป็นหน้าจริงในเมนูแล้ว
 // ทางเข้าจะกลายเป็นลิงก์ที่สามที่พาไปที่เดียวกัน (หน้ายังถูก route และ index อยู่
 // และ footer ยังลิงก์ไปหาอยู่)
+// ไอคอนเลือกตามแนวแบรนด์กีฬา (ถ้วยรางวัล/ลูกฟุตบอล) ไม่ใช่สัญลักษณ์สล็อต และอยู่ใน
+// <span aria-hidden="true"> ที่เป็นพี่น้องของป้ายชื่อเสมอ ไม่ได้ฝังในข้อความ
 //
-// WEPLAY168 (รอบม่วงนีออน-ทองอาร์เขต 2026-10-09): navbar เป็น "โครม" จึงประกาศสี
-// ตัวอักษรของตัวเองครบทุกจุด ไม่ได้ inherit BRAND_TEXT ผิวแผงเป็นม่วงเกือบดำ
-// #140429 ให้เข้มกว่าพื้นเพจ #0c0024 เพียงเล็กน้อย แผงเมนูจึงอ่านเป็นชั้นลอย
-// การ์ด/สถานะ active เป็น #2a0c52 ขอบม่วงแบรนด์ #a435f0 ตัวหนังสือม่วงหม่น
-// #b69bd6 → เงินอมม่วง #efe6ff ตอน active แถบไฮไลต์ซ้ายไล่ทองแบรนด์ #fbe455 →
-// ทองอุ่น #ffd23d → ม่วงอ่อน #d2a6ff ตามคู่สีในโลโก้ที่ WEPLAY เป็นเงินอมม่วง
-// และ 168 เป็นทอง
-// ปุ่มสมัครไล่เฉดทองแบรนด์ #fbe455 → ทองอุ่น #ffd23d → ทองเข้ม #c98a05
-// — ชุดฟ้า-ทองของ HI59 (#04203f #073059 #0a84e0 #a9c9e8 #e4f1fd #fdbc04 #ffe27a
-// #c88a02 #065a9c #033f70 #02162c #cfe4f8 #eaf5ff #5ec2ff) ถูกถอดหมด
+// UFA324 (รอบทองแชมเปี้ยน-เงินโครเมียม 2026-10-11): navbar เป็น "โครม" จึงประกาศสี
+// ตัวอักษรของตัวเองครบทุกจุด ไม่ได้ inherit BRAND_TEXT ผิวแผงเป็น #17130a ให้สว่าง
+// กว่าพื้นเพจดำสนิท #000000 เล็กน้อย แผงเมนูจึงอ่านเป็นชั้นลอย การ์ด/สถานะ active
+// เป็น #312713 ขอบทองแบรนด์ #e5a81b ตัวหนังสือเงินหม่น #8792a0 (5.9:1 บนผิวแผง)
+// → งาช้างอุ่น #f0e8d4 ตอน active แถบไฮไลต์ซ้ายไล่ทองสว่าง #ffe08a → ทองแบรนด์
+// #e5a81b → เงินโครเมียม #b9c2cc ตามคู่สีในโลโก้ที่ UFA เป็นทองและ 324 เป็นเงิน
+// ปุ่มสมัครไล่เฉดทองสว่าง #ffe08a → ทองแบรนด์ #e5a81b → ทองกลางเข้ม #bb8410
+// — ชุดม่วง-ทองของ WEPLAY168 (#a435f0 #140429 #2a0c52 #b69bd6 #efe6ff #fbe455
+// #ffd23d #c98a05 #190633 #7a1fc4 #f3ebff #d2a6ff #0e0220 #c9b2e8 #4a0d85) ถูกถอดหมด
+// ⚠️ รอบก่อนก็มีทองเป็นฮิวที่สอง (#fbe455 #ffd23d) การเจอทองในไฟล์นี้จึงไม่ได้แปลว่า
+// เป็นของรอบนี้ — #e5a81b ไม่ใช่ #ffd23d และ #ffe08a ไม่ใช่ #fbe455 ให้เทียบเป็นค่า
 //
-// ปุ่มพื้นทองใช้หมึกม่วงเข้ม #190633 (คอนทราสต์ 11.0:1 บน #ffd23d) — ตัวอักษร
-// สว่างบนทองตก AA ส่วนปุ่มพื้นม่วงเข้มใช้หมึกขาวอมม่วง #f3ebff (6.0:1 บน
-// #7a1fc4) สลับกันไม่ได้ ถ้าจะปรับสีปุ่มรอบหน้า ให้เช็กคู่พื้น-หมึกใหม่ทุกครั้ง
+// ปุ่มพื้นทองใช้หมึกดำน้ำตาล #140d01 (9.8:1 บน #e5a81b · 6.3:1 บน #bb8410) —
+// ตัวอักษรสว่างบนทองตก AA ส่วนปุ่มพื้นมืดใช้หมึกงาช้าง #f0e8d4 (12.0:1 บน #312713)
+// หรือเงินโครเมียม #b9c2cc (10.9:1 บน #0d0b06) สลับกันไม่ได้ ถ้าจะปรับสีปุ่มรอบหน้า
+// ให้เช็กคู่พื้น-หมึกใหม่ทุกครั้ง
+// ⚠️ ปลายเข้มของไล่เฉดปุ่มทองต้องหยุดที่ #bb8410 ห้ามไล่ลงไปถึงทองลึก #7d5a07
+// ซึ่งรองหมึก #140d01 ได้แค่ 3.3:1 (ตก AA) — #7d5a07 #43300a #464f5a เป็นสีเส้น
+// และออราเท่านั้น ห้ามถือตัวอักษรทุกขนาด
 //
 // รางเมนูเดสก์ท็อปคงที่ 640px เพราะรอบนี้มี 7 เมนูเท่าเดิม (ไม่มี ตรวจหวย/แนวทาง
 // และไม่มี ทางเข้า) — ถ้ารอบหน้าเพิ่มเมนู ต้องขยายค่านี้ด้วย ไม่งั้นแต่ละช่องจะ
@@ -51,8 +61,8 @@ const links = [
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👾" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎮" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏆" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 ---
@@ -60,8 +70,8 @@ const links = [
 <header class="sticky top-0 z-50 w-full font-sans shadow-lg">
   <div class="pointer-events-none absolute top-0 left-0 z-50 hidden h-0 w-full items-start justify-center lg:flex">
     <div
-      class="pointer-events-auto flex h-[65px] w-[130px] items-center justify-center rounded-b-3xl border-x border-b border-[#a435f0] bg-gradient-to-b from-[#2a0c52] to-[#140429] shadow-[0_5px_18px_rgba(164,53,240,0.45)]">
-      <a href="/" class="drop-shadow-[0_0_8px_rgba(251,228,85,0.55)] transition-transform hover:scale-110">
+      class="pointer-events-auto flex h-[65px] w-[130px] items-center justify-center rounded-b-3xl border-x border-b border-[#e5a81b] bg-gradient-to-b from-[#312713] to-[#17130a] shadow-[0_5px_18px_rgba(229,168,27,0.45)]">
+      <a href="/" class="drop-shadow-[0_0_8px_rgba(255,224,138,0.55)] transition-transform hover:scale-110">
         <Picture
           src={mainLogo!}
           alt={logoAlt}
@@ -78,20 +88,20 @@ const links = [
   </div>
 
   <aside
-    class="fixed top-1/2 left-3 z-40 hidden h-[640px] max-h-[94vh] w-[92px] -translate-y-1/2 flex-col items-center justify-center rounded-2xl border border-[#a435f0]/70 bg-[#140429]/95 p-2 shadow-[5px_0_22px_rgba(10,1,23,0.65)] backdrop-blur-md lg:flex">
+    class="fixed top-1/2 left-3 z-40 hidden h-[640px] max-h-[94vh] w-[92px] -translate-y-1/2 flex-col items-center justify-center rounded-2xl border border-[#e5a81b]/70 bg-[#17130a]/95 p-2 shadow-[5px_0_22px_rgba(0,0,0,0.7)] backdrop-blur-md lg:flex">
     <div class="relative flex h-full w-full flex-col gap-2 overflow-hidden rounded-xl">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg transition-all ${isActive(link.path) ? "bg-[#2a0c52]" : "hover:bg-[#2a0c52]/70"}`}>
+            class={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg transition-all ${isActive(link.path) ? "bg-[#312713]" : "hover:bg-[#312713]/70"}`}>
             <span aria-hidden="true" class="mb-1 text-2xl drop-shadow-md transition-transform group-hover:scale-110">
               {link.icon ?? "🔗"}
             </span>
-            <span class={`text-xs font-bold transition-colors ${isActive(link.path) ? "text-[#efe6ff]" : "text-[#b69bd6] group-hover:text-[#efe6ff]"}`}>{link.name}</span>
+            <span class={`text-xs font-bold transition-colors ${isActive(link.path) ? "text-[#f0e8d4]" : "text-[#8792a0] group-hover:text-[#f0e8d4]"}`}>{link.name}</span>
             <div
               aria-hidden="true"
-              class={`absolute top-0 left-0 h-full w-[3px] origin-top bg-gradient-to-b from-[#fbe455] via-[#ffd23d] to-[#d2a6ff] transition-transform duration-300 ${isActive(link.path) ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`}
+              class={`absolute top-0 left-0 h-full w-[3px] origin-top bg-gradient-to-b from-[#ffe08a] via-[#e5a81b] to-[#b9c2cc] transition-transform duration-300 ${isActive(link.path) ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`}
             />
           </a>
         ))
@@ -99,11 +109,11 @@ const links = [
     </div>
   </aside>
 
-  <nav class="relative z-40 flex h-[60px] items-center justify-between border-b border-[#a435f0]/45 bg-[#140429] px-3 shadow-xl lg:hidden">
+  <nav class="relative z-40 flex h-[60px] items-center justify-between border-b border-[#e5a81b]/45 bg-[#17130a] px-3 shadow-xl lg:hidden">
     <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 p-2" aria-label="เปิดเมนู">
-      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#a435f0] transition-all duration-300"></span>
-      <span class="hamburger-line h-0.5 w-6 bg-[#a435f0] transition-all duration-300"></span>
-      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#a435f0] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#e5a81b] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 bg-[#e5a81b] transition-all duration-300"></span>
+      <span class="hamburger-line h-0.5 w-6 origin-center bg-[#e5a81b] transition-all duration-300"></span>
     </button>
 
     <a href="/" class="flex-shrink-0 transition-transform hover:scale-105">
@@ -122,7 +132,7 @@ const links = [
 
     <a
       href="/login"
-      class="flex h-[32px] items-center justify-center rounded border border-[#a435f0] bg-gradient-to-r from-[#7a1fc4] to-[#4a0d85] px-4 text-xs font-bold text-[#f3ebff] shadow-[0_0_12px_rgba(164,53,240,0.45)] transition-transform active:scale-95">
+      class="flex h-[32px] items-center justify-center rounded border border-[#b9c2cc] bg-gradient-to-r from-[#312713] to-[#17130a] px-4 text-xs font-bold text-[#f0e8d4] shadow-[0_0_12px_rgba(185,194,204,0.4)] transition-transform active:scale-95">
       เข้าสู่ระบบ
     </a>
   </nav>
@@ -131,13 +141,13 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 left-0 z-50 h-screen w-[260px] -translate-x-full transform overflow-y-auto border-r border-[#a435f0]/70 bg-[#140429] shadow-[10px_0_30px_rgba(10,1,23,0.7)] transition-transform duration-300 ease-out lg:hidden">
+    class="fixed top-0 left-0 z-50 h-screen w-[260px] -translate-x-full transform overflow-y-auto border-r border-[#e5a81b]/70 bg-[#17130a] shadow-[10px_0_30px_rgba(0,0,0,0.75)] transition-transform duration-300 ease-out lg:hidden">
     <div class="flex flex-col space-y-2.5 px-4 pt-16 pb-8">
       {
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center rounded-lg border px-4 py-3 transition-all ${isActive(link.path) ? "border-[#a435f0] bg-[#2a0c52] text-[#efe6ff] shadow-inner" : "border-transparent bg-white/5 text-[#b69bd6] hover:bg-white/10 hover:text-[#efe6ff]"}`}>
+            class={`sidebar-item flex items-center rounded-lg border px-4 py-3 transition-all ${isActive(link.path) ? "border-[#e5a81b] bg-[#312713] text-[#f0e8d4] shadow-inner" : "border-transparent bg-white/5 text-[#8792a0] hover:bg-white/10 hover:text-[#f0e8d4]"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon ?? "🔗"}
             </span>
@@ -146,11 +156,11 @@ const links = [
         ))
       }
 
-      <div class="mt-5 flex flex-col gap-2 border-t border-[#a435f0]/60 pt-5">
+      <div class="mt-5 flex flex-col gap-2 border-t border-[#e5a81b]/60 pt-5">
         <a
           href="/register"
-          class="sidebar-item flex items-center justify-center gap-2 rounded border border-[#c98a05] bg-gradient-to-r from-[#fbe455] via-[#ffd23d] to-[#c98a05] py-3 text-sm font-bold text-[#190633] shadow-md transition-transform active:scale-95">
-          <span aria-hidden="true">⚡</span>
+          class="sidebar-item flex items-center justify-center gap-2 rounded border border-[#bb8410] bg-gradient-to-r from-[#ffe08a] via-[#e5a81b] to-[#bb8410] py-3 text-sm font-bold text-[#140d01] shadow-md transition-transform active:scale-95">
+          <span aria-hidden="true">🏆</span>
           <span>สมัครสมาชิกใหม่</span>
         </a>
       </div>
@@ -160,14 +170,14 @@ const links = [
   <div class="fixed top-4 right-6 z-50 hidden items-center gap-3 lg:flex">
     <a
       href="/login"
-      class="group flex items-center gap-1.5 rounded border border-[#a435f0]/60 bg-[#0e0220]/90 px-6 py-2 text-sm font-bold text-[#c9b2e8] shadow-md backdrop-blur-sm transition-all hover:border-[#fbe455] hover:bg-[#2a0c52]/90">
+      class="group flex items-center gap-1.5 rounded border border-[#b9c2cc]/60 bg-[#0d0b06]/90 px-6 py-2 text-sm font-bold text-[#b9c2cc] shadow-md backdrop-blur-sm transition-all hover:border-[#ffe08a] hover:bg-[#312713]/90">
       <span aria-hidden="true">🔒</span>
       <span>เข้าสู่ระบบ</span>
     </a>
     <a
       href="/register"
-      class="group flex items-center gap-1.5 rounded border border-[#c98a05] bg-gradient-to-r from-[#fbe455] via-[#ffd23d] to-[#c98a05] px-6 py-2 text-sm font-bold text-[#190633] shadow-[0_0_15px_rgba(251,228,85,0.45)] transition-all hover:scale-105">
-      <span aria-hidden="true">👤</span>
+      class="group flex items-center gap-1.5 rounded border border-[#bb8410] bg-gradient-to-r from-[#ffe08a] via-[#e5a81b] to-[#bb8410] px-6 py-2 text-sm font-bold text-[#140d01] shadow-[0_0_15px_rgba(229,168,27,0.45)] transition-all hover:scale-105">
+      <span aria-hidden="true">⚽</span>
       <span>สมัครสมาชิก</span>
     </a>
   </div>

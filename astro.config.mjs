@@ -37,13 +37,13 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://fah999-game.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://ufa-324.org — operator ระบุมาตรงๆ ในคำสั่ง
   // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ โดเมนมีทั้ง **ขีดคั่น** และคำว่า **game** ต่อท้าย คือ fah999-game แต่ชื่อแบรนด์
-  // คือ FAH999 เฉยๆ ไม่มีทั้งสองอย่าง — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
+  // ⚠️ โดเมนมี **ขีดคั่น** กลาง และ TLD เป็น **.org** ไม่ใช่ .com คือ ufa-324.org
+  // แต่ชื่อแบรนด์คือ UFA324 เฉยๆ ไม่มีขีด — สะกดคนละแบบโดยตั้งใจ อย่า "แก้" ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://fah999-game.com",
+  site: "https://ufa-324.org",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

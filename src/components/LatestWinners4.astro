@@ -14,28 +14,30 @@ const bankPool = [
 ];
 
 // Only what this drop's brief actually names (src/assets/content.txt, listed in
-// brand-spec §6). FLASH877 is a เว็บตรงฐานสล็อตหลัก and nothing else, so every
-// chip below is one of the brief's own phrases. The previous holders of this
-// file were WEPLAY168 (a สล็อตออโต้ site) and 789BETTING (a multi-category hub);
-// their chips — เล่นสล็อตออโต้, เบทเริ่มต้น 1 บาท, เบทต่ำ, ไม่มีขั้นต่ำ, ค่ายหลัก,
-// บาคาร่า, รูเล็ต, บอล, หวย, โต๊ะ, ตลาดเดิมพัน — are all on §6's banned list and
-// are gone rather than re-typed. There is no หวย anywhere on this site this
-// round. No game studio and no bank is named as a game provider: the brief names
-// none, and an invented ค่ายเกม on a gambling page is a real claim. The module
-// picks one chip per row through data-winners-markets / data-winner-market.
+// brand-spec §7). This brand is a เว็บเล่นเกมกีฬาออนไลน์ — ฟุตบอล + มวย + เกม
+// คาสิโน (เกมไพ่ เกมโต๊ะ สล็อต) — NOT a slot-only site and NOT a lottery site, so
+// every chip below is one of the brief's own phrases. The previous holders of
+// this file were slot-only and multi-category brands; their chips —
+// เว็บตรงฐานสล็อตหลัก, ไม่ผ่านเอเย่นต์, ไม่ผ่านม้า, สล็อตคลาสสิก, เกมฟรีสปิน,
+// โบนัสตัวคูณ, เล่นสล็อตออโต้, เบทต่ำ, บาคาร่า, รูเล็ต, โต๊ะ, ตลาดเดิมพัน — are all
+// on §7's banned list and are gone rather than re-typed. There is no หวย anywhere
+// on this site this round. No game studio, no league, no team, no fighter and no
+// bank is named as a game provider: the brief names none, and an invented ค่ายเกม
+// or ลีก on a gambling page is a real claim. The module picks one chip per row
+// through data-winners-markets / data-winner-market.
 const marketPool = [
-  "เว็บตรงฐานสล็อตหลัก",
-  "ไม่ผ่านเอเย่นต์",
-  "ไม่ผ่านม้า",
-  "สล็อตคลาสสิก",
-  "เกมฟรีสปิน",
-  "โบนัสตัวคูณ",
-  "เกมใหม่จากค่ายที่เปิดให้บริการ",
-  "บัญชีเดียว",
-  "ตรวจสอบเครดิต",
+  "เดิมพันฟุตบอล",
+  "เดิมพันมวย",
+  "เกมคาสิโน",
+  "เกมไพ่",
+  "เกมโต๊ะ",
+  "สล็อตจากค่ายต่างๆ",
+  "อัตราต่อรอง",
+  "ประเภทการเดิมพัน",
   "คืนยอดเสีย 0.3%",
   "แนะนำเพื่อน 0.8%",
-  "ฝากถอนเข้าบัญชีบริษัทโดยตรง",
+  "ฝากถอนไม่มีขั้นต่ำ",
+  "แอดมิน 24 ชั่วโมง",
 ];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -49,15 +51,15 @@ const flag = (salt: string) => brandFlag(Astro.site, salt);
 // The status chip's two states are declared on the row itself
 // (data-pending-text / data-done-text and the matching -class pairs), so the
 // server-rendered state has to agree with one of them. `pending` below picks
-// which one this row shipped in. The wording is this brief's own: it calls a
-// transaction still being checked "รายการฝากถอนอยู่ระหว่างตรวจสอบ", so the two
+// which one this row shipped in. The wording is this brief's own: it tells
+// members to ตรวจสอบ...สถานะรายการ before confirming a transaction, so the two
 // states read อยู่ระหว่างตรวจสอบ / ฝากถอนสำเร็จ.
 const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
 const DONE_TEXT = "ฝากถอนสำเร็จ";
-const PENDING_CLASS = "border-[#b8860f]/80 text-[#f5c518]";
+const PENDING_CLASS = "border-[#bb8410]/80 text-[#e5a81b]";
 const DONE_CLASS = "border-[#4ade80]/55 text-[#4ade80]";
-const AMOUNT_CLASS = "text-[#fdf0e2]";
-const BIG_AMOUNT_CLASS = "text-[#ffdd73]";
+const AMOUNT_CLASS = "text-[#f0e8d4]";
+const BIG_AMOUNT_CLASS = "text-[#ffe08a]";
 
 const initialRows = Array.from({ length: 8 }, (_, i) => {
   const amount = 15000 + pick(`pill-amount-${i}`, 80001);
@@ -75,39 +77,44 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 // rotation, reading its configuration from the data-* attributes below. No
 // define:vars, no empty container filled by JS, no unguarded setInterval. The
 // feed's title is a <p> and the <section> carries an aria-label — a withdrawal
-// feed is chrome and never emits a heading tag. The ⚡ is a real sibling of that
+// feed is chrome and never emits a heading tag. The ⚽ is a real sibling of that
 // <p>, not a glyph inside its text, so it can carry its own aria-hidden.
 //
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2): ฟีดฝากถอนเป็น
-// "โครม" เหมือนแถบประกาศกับเมนู จึงอยู่ที่ผิวลึกสุด #430000 ซึ่งจมลงไปจากพื้นเพจแดง
-// เลือดนก #5c0000 และลึกกว่าการ์ดเนื้อหาทุกใบ ทำหน้าที่เป็นสะพานระหว่าง Announcement5
-// ด้านบนกับการ์ดเนื้อหาผิวยกด้านล่าง ตัวมันตั้งสีตัวอักษรเองทั้งแผง จึงไม่ inherit
-// BRAND_TEXT ผ่าน <html>
-// เม็ดยาแต่ละเม็ดเป็นพื้นผิวกลาง #6d0804 ในกรอบเส้นไรผมแดงเข้ม #8c0f0a ที่สว่างขึ้นเป็น
-// ทองสายฟ้า #f5c518 ตอน hover ชิปหมวดเกมเป็นเส้นทองสายฟ้าตัวอักษรครีมอมส้ม #f8d2bb
-// ยอดเงินเริ่มที่ครีม #fdf0e2 แล้วกระโดดไปทองสว่าง #ffdd73 เมื่อเกิน data-big-win-above
-// ซึ่งเป็นการสลับน้ำหนักภายในฮิวทองของแบรนด์ — ไม่ใช้ #ff3b14 ตรงนี้เพราะยอดเงินเป็น
-// text-sm ไม่ใช่ display ขนาดใหญ่ ซึ่ง §2 ห้ามไว้ (3.6:1 บนผิวการ์ด)
-// ชื่อผู้ทำรายการเป็นครีม #fdf0e2 หัวแถบไล่ทองสว่าง #ffdd73 → ทองสายฟ้า #f5c518 ตาม
-// คำว่า FLASH ที่เป็นทองสามมิติบนโลโก้ ไอคอน ⚡ มาจากสายฟ้าทองที่ผ่ากลางเหรียญ
-// เขียว #4ade80 ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็นสีจริง
-// ของธนาคาร จึงไม่ถูกรีแมปทั้งคู่
+// รอบนี้ (2026-10-11, brand-spec §2): พาเลตต์ทองแชมเปี้ยน-เงินโครเมียมบนพื้น
+// **ดำสนิท #000000** ฟีดฝากถอนเป็น "โครม" เหมือนแถบประกาศกับเมนู จึงอยู่ที่ผิวจม
+// #0d0b06 ซึ่งลึกกว่าการ์ดเนื้อหาทุกใบ ⚠️ แต่ยังสว่างกว่าพื้นเพจ — รอบนี้ไม่มีชั้น
+// ไหนจมต่ำกว่าพื้นได้ แผงนี้ทำหน้าที่เป็นสะพานระหว่างแถบประกาศด้านบนกับการ์ดเนื้อหา
+// ผิวยกด้านล่าง ตัวมันตั้งสีตัวอักษรเองทั้งแผง จึงไม่ inherit BRAND_TEXT ผ่าน <html>
+// เม็ดยาแต่ละเม็ดเป็นพื้นผิวกลาง #17130a ในกรอบเส้นไรผมทองดำ #43300a ที่สว่างขึ้นเป็น
+// ทองแบรนด์ #e5a81b ตอน hover ชิปหมวดเดิมพันเป็นเส้นทองแบรนด์ตัวอักษรเงินแบรนด์
+// #b9c2cc ซึ่งอ้างถึงเลข 324 เงินโครเมียมในโลโก้
+// ยอดเงินเริ่มที่งาช้าง #f0e8d4 แล้วกระโดดไปทองสว่าง #ffe08a เมื่อเกิน
+// data-big-win-above ซึ่งเป็นการสลับน้ำหนักภายในฮิวทองของแบรนด์
+// ชื่อผู้ทำรายการเป็นงาช้าง #f0e8d4 หัวแถบไล่ทองสว่าง #ffe08a → ทองแบรนด์ #e5a81b
+// ตามถ้วยแชมป์ทองกับลูกฟุตบอลทองบนโลโก้ ไอคอน ⚽ มาจากลูกฟุตบอลทองกลางเหรียญ
+// (รอบก่อนใช้ ⚡ ซึ่งเป็นสายฟ้าของแบรนด์อื่น ไม่เกี่ยวกับแบรนด์กีฬารอบนี้)
+// เขียว #4ade80 ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็นสี
+// จริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่ · ทองลึก #7d5a07 ทองดำ #43300a และเงินลึก
+// #464f5a ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2
 //
-// ⚠️ แบรนด์รอบก่อน (SUPERSLOTCLUB) ก็แดง-ทองเหมือนกัน ให้เทียบเป็นค่า: ชุดม่วงนีออน-
-// ทองอาร์เขตของ WEPLAY168 ที่เคยค้างในไฟล์นี้ (#a435f0 #5b1a75 #0a0117 #17062e #efe6ff
-// #d2a6ff #ece2ff #ffd23d #c98a05 rgba(164,53,240,α)) ชุดทองเมทัลลิกของ 789BETTING
-// (#fad354 #ffe79a #ddab33 #c9881f #8a6410 #4a3407 #0e0b05 #060402 #f3e7cd) และชุด
-// แดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a #7d0f12 #f2b705 #ffd666 #fbe8d5
-// #3d1709 #241000) ออกครบทุกจุดแล้ว
+// ⚠️ เจ็ดในสิบแบรนด์หลังสุดมีทอง ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดทองสายฟ้า-แดง
+// เลือดนกที่เคยค้างในไฟล์นี้ (#f5c518 #ffdd73 #b8860f #ff3b14 #8c0f0a #6d0804
+// #5c0000 #430000 #fdf0e2 #f8d2bb rgba(245,197,24,α)) ชุดชมพูฮอต-ทองบนพลัมดำของ
+// แบรนด์รอบก่อนหน้าทันที (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d #b3006a
+// #4d002b #4a0b42 #3a0534 #2e002c #210220) ชุดทองเป็ด-ส้มอำพัน (#f3bb34 #fde464
+// #c8901a #8a5f08 #5c3f04 #f58b2a #a3510c #1f1709 #171106 #0d0903 #f6ecd9) ชุดทอง
+// อวกาศ-เงินโครเมียม (#fbc134 #ffe87a #cf9a18 #cfd6e3 #eef2f8 #9aa6bb #3f4859
+// #4e3406 #382400 #241700) และชุดม่วงนีออน-ทอง (#a435f0 #5b1a75 #efe6ff #d2a6ff
+// #ffd23d #c98a05 #1e0a3c) ออกครบทุกจุดแล้ว
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการฝากถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#f5c518]/45 bg-[#430000]/92 px-4 py-8 shadow-[0_15px_40px_rgba(245,197,24,0.2)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#e5a81b]/45 bg-[#0d0b06]/92 px-4 py-8 shadow-[0_15px_40px_rgba(229,168,27,0.2)] backdrop-blur-md">
     <div class="mb-6 flex items-center justify-center gap-2">
-      <span aria-hidden="true" class="text-xl md:text-2xl">⚡</span>
-      <p class="bg-gradient-to-b from-[#ffdd73] to-[#f5c518] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการฝากถอนล่าสุดของสมาชิก</p>
+      <span aria-hidden="true" class="text-xl md:text-2xl">⚽</span>
+      <p class="bg-gradient-to-b from-[#ffe08a] to-[#e5a81b] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการฝากถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -124,14 +131,14 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#8c0f0a] bg-[#6d0804] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(245,197,24,0.16)] hover:border-[#f5c518]/70">
+            <div class="flex items-center gap-3 rounded-full border border-[#43300a] bg-[#17130a] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(229,168,27,0.16)] hover:border-[#e5a81b]/70">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#fdf0e2]">
+              <div data-winner-user class="text-sm font-bold text-[#f0e8d4]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#f5c518]/60 px-2 py-0.5 text-[10px] font-bold text-[#f8d2bb]">
+              <span data-winner-market class="rounded-full border border-[#e5a81b]/60 px-2 py-0.5 text-[10px] font-bold text-[#b9c2cc]">
                 {row.market}
               </span>
               <span
