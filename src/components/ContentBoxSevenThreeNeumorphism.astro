@@ -20,62 +20,74 @@ const leftHeading = titleleft ?? title;
 // in normal flow, never `absolute`, so there is no floating badge here and no
 // vertical-clearance arithmetic to do.
 //
-// DRAWN WIDTH OF THE 3fr IMAGE COLUMN, recomputed from the classes in this file
-// for the `widths`/`sizes` the page passes. Tailwind sets box-sizing:
+// DRAWN WIDTH OF THE 3fr IMAGE COLUMN, recomputed from the classes in THIS file
+// for the `widths`/`sizes` index.astro passes. Tailwind sets box-sizing:
 // border-box globally, so max-w-* caps the box INCLUDING padding and border:
-//   section  max-w-[1400px] + px-4 (16x2=32)  -> card outer = min(100vw,1400) - 32
+//   section  max-w-7xl (1280) + px-4 (16x2=32) -> card outer = min(100vw,1280) - 32
 //   card     border (1x2=2) + p-8 (32x2=64)   [no md:p-10 on this one]
 //   grid     gap-8 (32, md+ only)
 //   image column adds md:border-l (1) + md:pl-8 (32) = 33
-//   >= 1400px : (1400 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1270 x 0.3 - 33 = 348px
-//   md..1399  : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
+//   >= 1280px : (1280 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1150 x 0.3 - 33 = 312px
+//   md..1279  : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
 //   < md      : one column at p-8, no md: padding    = calc(100vw - 98px),
 //               which exceeds the 600px bitmap above a 698px viewport, so the
 //               page caps that band at 600px.
-// These are DIFFERENT numbers from ContentBoxSevenThree above it on the page —
-// that file pays md:p-10 and md:pl-6, this one pays p-8 and md:pl-8 + a border.
-// Change any of them and the page's `sizes` has to move with it.
+// These are DIFFERENT numbers from ContentBoxSevenThree, the other block on the
+// same page — that file caps at max-w-[1400px] and pays md:p-10 + md:pl-6, this
+// one caps at max-w-7xl and pays a flat p-8 + md:pl-8 + a column border. Change
+// any of them and the page's `sizes` has to move with it.
 //
-// FAH999 (รอบชมพูฮอต-ทอง บนพลัมดำ 2026-10-11, brand-spec §2-§4):
-// กล่องนี้ถือ docx H3 #4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ slide1
+// TIGERWIN369 (รอบทองอำพันเสือบนดำสนิท 2026-10-11, brand-spec §2-§4):
+// กล่องนี้ถือ docx H3 §4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ slide2
 // ซึ่งพิมพ์คำว่า โปรโมชั่น กับ คืนยอดเสีย 0.3% ไว้ในตัวภาพเอง — ตัวเลขบนงานอาร์ตเป็น
 // ตัวตัดสินการจับคู่ ไม่ใช่ลำดับไฟล์
 //
-// แผ่นนูนใบนี้วางบนผิวกลาง #3a0534 ซึ่งอยู่ระหว่างผิวลึกสุด #210220 ของ
-// ContentBoxSevenThree ที่อยู่ถัดลงไปบนหน้าเดียวกัน กับผิวยก #4a0b42 ของ
-// ContentBoxTwoNeumorphism สองแผ่นนูนในหน้าจึงคนละผิวและไม่อ่านเป็นใบเดียวกันสองรอบ
-// ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว จึงกดเงาลงด้วยผิวลึกสุด #210220 และยก
-// แสงขึ้นด้วยชมพูเข้ม #7a0046 ตอน hover ฝั่งสว่างไต่ขึ้นเป็นชมพูลึก #b3006a
-// (ของ ContentBoxTwoNeumorphism ไต่ขึ้นไปถึงชมพูแบรนด์ #ff3fa4 — คนละปลาย)
-// สีแบรนด์จึงถูกเก็บไว้ที่หัวข้อ ไม่ใช่ในเงา: หัวข้อรับ **ทอง #f5c53d ทึบสีเดียว**
-// เป็นตัวเน้นเพียงจุดเดียว คู่กับใบล่างที่หัวข้อเป็นชมพูซีด #ffd1ea พร้อมแถบตั้งไล่สาม
-// สีนำหน้า สองบล็อกรูปจึงคนละจังหวะสายตาทั้งผิว ความนูน และหัวข้อ
-// กรอบการ์ดเป็นทองลึก #9c6f08 แบบโปร่ง เส้นคั่นคอลัมน์เป็นชมพูเข้มสุด #4d002b
-// เนื้อความ #fde8f3 (= BRAND_TEXT) — 14.4:1 บนผิวกลาง
-// §2 ห้าม #9c6f08 #7a0046 #b3006a และ #4d002b ถือตัวอักษร — ในไฟล์นี้ทั้งสี่อยู่ที่ขอบ
-// เส้นคั่น และเงาเท่านั้น
+// รอบนี้เป็น **ทองล้วนสองระดับ ไม่มีเงิน ไม่มีเทา ไม่มีฮิวเย็น** — ทองอำพันเสือ
+// #d98324 นำ ทองสว่าง #f7b733 เป็นระดับที่สอง พื้นเพจ **ดำสนิท** #000000
+// ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้ ผิวจม #0f0903 คือชั้นที่ลึกที่สุด
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB
-// ที่เคยค้างในไฟล์นี้ (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b
-// #a8730a #f5cbb0 #fbe8d5 #3d1709 #301105 #180800) ชุดทองอวกาศ-เงินโครเมียมของ
-// NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #fdf3df #4e3406 #432b03 #382400
-// #241700) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #f58b2a #f6ecd9)
-// และชุดชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #7e22ce) ออกครบทุกจุดแล้ว — ชมพูของ
-// รอบนี้ (#ff3fa4 / #ff6cbb) เป็นคนละค่ากับ #f472b6 และทอง (#f5c53d) เป็นคนละค่ากับ
-// #f5c518 ของ GOT777 ที่ต่างกันแค่สองตัวอักษร
+// แผ่นนูนใบนี้วางบนผิวกลาง #1c1206 ซึ่งอยู่ระหว่างผิวจม #0f0903 ของ
+// ContentBoxSevenThree ที่อยู่ถัดลงไปบนหน้าเดียวกัน กับผิวยก #2d1c0a ของ
+// ContentBoxTwoNeumorphism สองแผ่นนูนในหน้าจึงคนละผิวและไม่อ่านเป็นใบเดียวกันสองรอบ
+// ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว จึงกดเงาลงด้วยผิวจม #0f0903 และยกแสง
+// ขึ้นด้วยอำพันลึกสุด #4a2a08 ตอน hover ฝั่งสว่างไต่ขึ้นเป็นอำพันลึก #8a5214
+// (ของ ContentBoxTwoNeumorphism ไต่ขึ้นไปถึงทองอำพันแบรนด์ #d98324 — คนละปลาย)
+// สีแบรนด์จึงถูกเก็บไว้ที่หัวข้อ ไม่ใช่ในเงา: หัวข้อรับ **ทองสว่าง #f7b733 ทึบสีเดียว**
+// เป็นตัวเน้นเพียงจุดเดียว คู่กับใบล่าง (ContentBoxSevenThree) ที่หัวข้อเป็นทองซีด
+// #ffd98a พร้อมแถบตั้งไล่สามสีนำหน้า สองบล็อกรูปจึงคนละจังหวะสายตาทั้งผิว ความนูน
+// มุมการ์ด และหัวข้อ
+// กรอบการ์ดเป็นอำพันลึก #8a5214 แบบโปร่ง เส้นคั่นคอลัมน์เป็นอำพันลึกสุด #4a2a08
+// เนื้อความ #f7e4c0 (= BRAND_TEXT) — 15.2:1 บนผิวกลาง #1c1206
+// §2 ห้าม #8a5214 และ #4a2a08 ถือตัวอักษร — ในไฟล์นี้ทั้งคู่อยู่ที่ขอบ เส้นคั่น และ
+// เงาเท่านั้น
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — รอบนี้เป็นทองรอบที่แปดในสิบรอบ "มีทอง
+// อยู่แล้ว" จึงไม่พิสูจน์อะไร: ชุดชมพูฮอต-ทองของ FAH999 ที่เคยค้างในไฟล์นี้ (#ff3fa4
+// #ff6cbb #ffd1ea #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b #4a0b42 #3a0534
+// #210220) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a
+// #0d0b06 #f0e8d4 #ffcf5e #ffe08a #7d5a07 #43300a #464f5a) ชุดแดงเสือโคร่ง-ทองถ่านไฟ
+// ของ SUPERSLOTCLUB (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666 #c08a0b #a8730a
+// #f5cbb0 #fbe8d5 #3d1709 #301105 #180800) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168
+// (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #fdf3df #4e3406 #432b03 #382400 #241700)
+// ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #f58b2a #f6ecd9) และชุด
+// ชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #7e22ce) ออกครบทุกจุดแล้ว
+// ⚠️ ระวังที่สุดในไฟล์นี้: SUPERSLOTCLUB มี #f2b705 ซึ่งเป็นทอง "ส้ม" เหมือนกัน แต่
+// G=183 ไม่ใช่ G=131 ของ #d98324 ของรอบนี้ และ DUCK1688 มี #f58b2a ซึ่งเป็น "ส้ม
+// อำพัน" ที่ใกล้ที่สุดในสิบรอบ แต่ R=245 ไม่ใช่ R=217 — ห้ามกะด้วยตา เทียบเป็นตัวเลข
+// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #b9c2cc #464f5a #cfd6e3 #eef2f8 #3f4859 ต้องไม่เหลือ
 ---
 
-<section class="relative z-10 mx-auto mb-8 w-full max-w-[1400px] px-4 font-sans">
+<section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#9c6f08]/35 bg-[#3a0534] p-8 shadow-[10px_10px_20px_#210220,-10px_-10px_20px_#7a0046] transition-all duration-300 hover:shadow-[15px_15px_30px_#210220,-15px_-15px_30px_#b3006a]">
+    class="w-full rounded-[25px] border border-[#8a5214]/35 bg-[#1c1206] p-8 shadow-[10px_10px_20px_#0f0903,-10px_-10px_20px_#4a2a08] transition-all duration-300 hover:shadow-[15px_15px_30px_#0f0903,-15px_-15px_30px_#8a5214]">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde8f3]">
-        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#f5c53d]">{leftHeading}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4c0]">
+        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#f7b733]">{leftHeading}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde8f3] md:border-l md:border-[#4d002b] md:pl-8">
-        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#f5c53d]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4c0] md:border-l md:border-[#4a2a08] md:pl-8">
+        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#f7b733]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
