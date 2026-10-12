@@ -1,47 +1,138 @@
 ---
 export interface Props {
+  /** The section's own docx heading — the only heading this box emits. */
+  title?: string;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  /** Column labels. On this template a three-column split is the page's own
+   *  layout wording for one docx section, not a docx sub-heading — so they
+   *  render as <p> carrying exactly the classes a heading would. Do NOT promote
+   *  them back to HeadingTag: they used to be hardcoded <h2>, which put three
+   *  phantom entries into the h2 inventory that gets diffed against the docx,
+   *  AND hardcoded a level the docx never chose. */
   titleleft?: string;
   titlecenter?: string;
   titleright?: string;
+  /** Names the <section> for assistive tech when the box is called with no
+   *  `title`, since <p> labels leave it with no accessible name. */
   label?: string;
+  iconleft?: string;
+  iconcenter?: string;
+  iconright?: string;
 }
-const { titleleft, titlecenter, titleright, label } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, iconleft = "🔎", iconcenter = "📝", iconright = "✅" } = Astro.props;
 
-const sectionLabel = label ?? titleleft ?? titlecenter ?? titleright ?? "หมวดหมู่เกมและบริการ";
+const sectionLabel = label ?? titleleft ?? titlecenter ?? titleright ?? "ขั้นตอนการใช้งาน";
+const hasIntro = Astro.slots.has("default");
+
+// The default slot is the section's INTRO paragraph and sits above the grid at
+// full width; the three named slots are the columns. Its wrapper carries a real
+// `mb-8` and is a sibling of the grid, so it is layout rather than an
+// inheritable-class carrier — it stays, exactly like ContentBoxTwoCyberCut's.
+// House rule still holds: ONE element per slot. The columns themselves are
+// flattened (each <article> carries the text classes and the slot is a direct
+// child) — do not re-add a wrapper <div> inside a column.
+//
+// On this brand's homepage the box carries docx H2 #6 (สมัครเล่นสล็อต PUNPRO168
+// ง่ายๆ 3 ขั้นตอน): the brief's intro paragraph goes in the default slot and its
+// three "ขั้นตอนที่ N" paragraphs go one per column. The brief writes those steps
+// as running prose rather than as a labelled sub-list, so the step labels are
+// <p> and the block emits exactly one docx heading.
+//
+// รอบนี้ (2026-10-12, brand-spec §2): พาเลตต์ชมพูฮอตพิงก์-ทอง บนพลัมเข้มอมม่วง
+// โลโก้เป็นเครื่องเกมพกพาสีชมพูหน้ายิ้มขยิบตา เหนือคำว่า PUNPRO ตัวหนาสามมิติชมพู
+// บานเย็นขอบทอง และเลข 168 ทองวาว — **ชมพูบานเย็น #f41571 นำ ทองสว่าง #fce343 รอง**
+// ⚠️ พื้นเพจรอบนี้เป็นพลัมเข้ม #2e0022 ตาม bg.json **ไม่ใช่ดำสนิท** การ์ดจึงวางบน
+// ผิวยก #4a1038 ที่ลอยขึ้นจากพื้น และยังมีชั้นที่จมกว่าพื้นได้จริง (#1c0014) ซึ่งใช้
+// เป็นพื้นของสามคอลัมน์
+// หัวข้อไล่ชมพูสว่าง #ff5ca8 → ทองสว่าง #fce343 → ชมพูบานเย็น #f41571 ซึ่งเป็นลำดับ
+// ที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
+// ป้ายสามคอลัมน์เป็นทองสว่าง #fce343 (12.1:1 บนผิวจม) ตามเลข 168 ทองในโลโก้ และตัว
+// เลขลำดับขั้นตอนอยู่บนแผ่นทองทึบไล่ #fce343 → #ffc554 บนหมึก #2a0012 ซึ่ง §2 ระบุว่า
+// เป็นหมึกตัวเดียวที่วางบนพื้นถมทองได้ (ห้ามไล่เข้มกว่า #ffc554 ใต้ตัวอักษร และห้าม
+// พลิกแผ่นทองไปใช้หมึกสว่าง)
+// กรอบการ์ดเป็นชมพูแบรนด์โปร่ง เส้นคั่นระหว่างคอลัมน์เป็นชมพูลึก #8a0a45 ออรามุมขวาบน
+// เป็นชมพูแบรนด์ #f41571 และมุมซ้ายล่างเป็นทอง #fce343 ตามคู่สีของโลโก้
+// เนื้อความ #fde7f2 (= BRAND_TEXT) — 12.6:1 บนผิวยก และ 17.2:1 บนผิวจมของคอลัมน์
+// §2 ห้าม #8a0a45 / #4a0426 ถือตัวอักษรทุกขนาด และ #ffd94a สงวนไว้ให้ <strong> ใน
+// ย่อหน้าเท่านั้น จึงไม่โผล่ในไฟล์นี้
+//
+// ⚠️ ไฟล์นี้เคยเป็น **เขียวมรกต** ทั้งใบ (#22c55e #4ade80 #16a34a #e8f5ee #0a0605)
+// ซึ่งเป็นของแบรนด์เก่ากว่านั้น ออกครบทุกจุดแล้ว — รอบนี้ไม่มีเขียวเลยทั้งเว็บ
+// ยกเว้น #00B900 ของปุ่ม LINE ซึ่งไม่ได้อยู่ในไฟล์นี้
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — แปดในสิบรอบหลังสุดมีทอง และ FAH999 กับ
+// PIGPG เป็นแบรนด์ชมพูมาก่อน: ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733
+// #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดชมพู
+// ฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d #7a0046 #4a0b42
+// #3a0534 #2e002c) และชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #f5b61d #ffd87a #fdf9e4
+// #fdeedd) ไม่ใช่ค่าของรอบนี้สักตัว — #ff3fa4 (R=255 G=63) ไม่ใช่ #f41571 (R=244
+// G=21) และ #f5c53d ไม่ใช่ #fce343
+const columnLabel = "flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fce343] uppercase";
+const stepBadge =
+  "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#8a0a45] bg-gradient-to-br from-[#fce343] to-[#ffc554] text-base text-[#2a0012] shadow-[0_5px_15px_rgba(252,227,67,0.3)]";
+const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#fde7f2] transition-all hover:-translate-y-1";
 ---
 
-<section aria-label={sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative w-full overflow-hidden rounded-3xl border border-[#22c55e]/30 bg-[#0a0605]/85 p-8 text-[#e8f5ee] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#4ade80]/50 md:p-10">
-    <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-[#16a34a]/40 pb-8 text-left text-base leading-relaxed text-[#e8f5ee]/75 transition-all hover:-translate-y-1 md:border-r md:border-b-0 md:pr-8 md:pb-0">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f41571]/35 bg-[#4a1038]/92 p-8 text-[#fde7f2] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#ff5ca8]/60 hover:shadow-[0_15px_40px_rgba(244,21,113,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#f41571]/35 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-20 -left-20 -z-10 h-44 w-44 rounded-full bg-[#fce343]/16 blur-[60px]"></div>
+
+    {
+      title && (
+        <header class="mb-6 flex flex-col gap-3 border-b border-[#8a0a45]/45 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#ff5ca8] via-[#fce343] to-[#f41571] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+          <div aria-hidden="true" class="h-[3px] w-20 rounded-full bg-gradient-to-r from-[#fce343] via-[#f41571] to-[#4a0426] shadow-[0_0_10px_rgba(244,21,113,0.55)]" />
+        </header>
+      )
+    }
+
+    {
+      hasIntro && (
+        <div class="mb-8 text-left text-base leading-relaxed text-[#fde7f2]">
+          <slot />
+        </div>
+      )
+    }
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
         {
           titleleft && (
-            <h2 class="flex items-center gap-2 text-lg font-black leading-normal tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]">🎯</span> {titleleft}
-            </h2>
+            <p class={columnLabel}>
+              <span aria-hidden="true" class={stepBadge}>
+                {iconleft}
+              </span>
+              {titleleft}
+            </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-[#16a34a]/40 pb-8 text-left text-base leading-relaxed text-[#e8f5ee]/75 transition-all hover:-translate-y-1 md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
         {
           titlecenter && (
-            <h2 class="flex items-center gap-2 text-lg font-black leading-normal tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]">⚡</span> {titlecenter}
-            </h2>
+            <p class={columnLabel}>
+              <span aria-hidden="true" class={stepBadge}>
+                {iconcenter}
+              </span>
+              {titlecenter}
+            </p>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#e8f5ee]/75 transition-all hover:-translate-y-1 md:pl-8">
+      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
         {
           titleright && (
-            <h2 class="flex items-center gap-2 text-lg font-black leading-normal tracking-widest text-[#4ade80] uppercase">
-              <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]">🚀</span> {titleright}
-            </h2>
+            <p class={columnLabel}>
+              <span aria-hidden="true" class={stepBadge}>
+                {iconright}
+              </span>
+              {titleright}
+            </p>
           )
         }
         <slot name="right" />

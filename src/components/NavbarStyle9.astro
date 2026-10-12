@@ -11,9 +11,9 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-10 จริง — หัวหมูการ์ตูนกับป้ายแล็กเกอร์
-// แดงของ PIGPG ที่เคยอยู่ในตัวแปรนี้ไม่มีอยู่ในรูปรอบนี้เลย
-const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส เป็นเหรียญกลมขอบทองหนาเงาวาว พื้นในเหรียญเป็นแดงเข้มไล่เงา มีสายฟ้าขนาดใหญ่สีทองไล่ส้มผ่าทแยงจากมุมขวาบนลงมามุมซ้ายล่างทะลุขอบเหรียญออกไปทั้งสองด้าน และมีประกายไฟแลบรอบสายฟ้า ด้านหน้าคาดคำว่า FLASH เป็นตัวอักษรละตินหนาสามมิติสีทองไล่เงาตัดขอบเข้ม ต่อด้วยตัวเลข 877 สามมิติสีแดงสดตัดขอบเข้ม วางพาดกลางเหรียญในแนวเอียงขึ้นเล็กน้อยไปทางขวา`;
+// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-12 จริง — เหรียญกลมขอบทองกับสายฟ้า
+// ของ FLASH877 ที่เคยอยู่ในตัวแปรนี้ไม่มีอยู่ในรูปรอบนี้เลยสักอย่าง
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส ด้านบนเป็นเครื่องเล่นเกมพกพาการ์ตูนตัวสีชมพูอมบานเย็น มีปุ่มกากบาททิศทางสีดำทางซ้ายและปุ่มกลมสีชมพูเข้มทางขวา หน้าจอเป็นสีครีมที่วาดเป็นใบหน้าการ์ตูนยิ้มกว้างกำลังขยิบตาข้างหนึ่ง แก้มเป็นวงกลมสีชมพู ด้านล่างถัดลงมาเป็นคำว่า PUNPRO ตัวอักษรละตินหนาสามมิติสีชมพูบานเย็นไล่เงาตัดขอบสีทอง และใต้สุดเป็นตัวเลข 168 หนาสามมิติสีทองวาวตัดขอบเข้ม มีประกายแสงสีทองกระจายรอบตัวอักษร`;
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -37,54 +37,56 @@ const links = [
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
-  { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🎮" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10): ไฟล์นี้ถูกเลื่อนขึ้นมาเป็น
-// navbar ที่ใช้งานจริงรอบนี้ แทน NavbarStyle8 ของ SUPERSLOTCLUB — หนึ่งไฟล์ต่อรอบ
+// PUNPRO168 (รอบชมพูฮอตพิงก์-ทอง 2026-10-12): ไฟล์นี้ถูกเลื่อนขึ้นมาเป็น
+// navbar ที่ใช้งานจริงรอบนี้ แทน NavbarPremium ของ TIGERWIN369 — หนึ่งไฟล์ต่อรอบ
 //
-// พาเลตต์ตาม brand-spec §2: **ทองเป็นฮิวนำ** (#f5c518 สายฟ้าผ่ากลางเหรียญ และ
-// คำว่า FLASH บนโลโก้) แดงสายฟ้าเป็นฮิวที่สองจริง (#ff3b14 เลข 877 บนโลโก้)
-// แถบไล่จาก #2b0000 → #6d0804 → #2b0000 = แดงเลือดนกเข้มกว่าพื้นเพจของดรอปนี้
-// ที่เป็น {"mode":"color","color":"#5c0000"} เพื่อให้แถบ sticky แยกตัวออกจาก
-// เนื้อหาที่เลื่อนผ่านใต้มัน ม่านมือถือใช้ #2b0000 ตัวเดียวกัน ขอบและเส้นคั่นเป็น
-// ทองแบรนด์ #f5c518 อัลฟาต่ำ ข้อความ active เป็นทองสว่าง #ffdd73 ข้อความปกติเป็น
-// สีเนื้อความ #fdf0e2
-// ขีดใต้เมนู active ไล่ ครีม #fdf0e2 → ทอง #f5c518 → แดงสด #ff3b14 ซึ่งคือสามสี
-// ของโลโก้เรียงตามลำดับที่ตาอ่านจริง (ประกายขอบ → FLASH ทอง → 877 แดง)
-// ออร่ากลมหลังโลโก้เป็นทอง #f5c518 เรืองแสงใต้โลโก้เป็น rgba(245,197,24,α)
+// พาเลตต์ตาม brand-spec §2: **ชมพูบานเย็นเป็นฮิวนำ** (#f41571 คือตัวอักษร PUNPRO
+// และตัวเครื่องเกมบนโลโก้) ทองสว่างเป็นฮิวที่สอง (#fce343 คือเลข 168 บนโลโก้)
+// แถบไล่จาก #1c0014 → #4a1038 → #1c0014 = พลัมเข้มกว่าพื้นเพจของดรอปนี้
+// ที่เป็น {"mode":"color","color":"#2e0022"} เพื่อให้แถบ sticky แยกตัวออกจาก
+// เนื้อหาที่เลื่อนผ่านใต้มัน ม่านมือถือใช้ #1c0014 ตัวเดียวกัน ขอบและเส้นคั่นเป็น
+// ชมพูแบรนด์ #f41571 อัลฟาต่ำ ข้อความ active เป็นทอง #fce343 ข้อความปกติเป็น
+// สีเนื้อความ #fde7f2
+// ขีดใต้เมนู active ไล่ ชมพูสว่าง #ff5ca8 → ชมพูบานเย็น #f41571 → ทอง #fce343
+// ซึ่งคือสามสีของโลโก้เรียงตามลำดับที่ตาอ่านจริง (เครื่องเกมชมพูอ่อน → PUNPRO
+// ชมพูเข้ม → 168 ทอง)
+// ออร่ากลมหลังโลโก้เป็นชมพู #f41571 เรืองแสงใต้โลโก้เป็น rgba(244,21,113,α)
 //
-// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้นทองทึบ (#ffdd73→#f5c518→#b8860f)
-// ให้ปุ่ม conversion เด่นออกจากพื้นแดงเข้มทั้งแถบ ส่วน "เข้าสู่ระบบ" เป็นปุ่มโครง
-// แดงไม่ทึบ จะได้ไม่แย่งสายตากันเอง หมึกบนปุ่มทองเป็น #2a0300 (แดงเกือบดำ) —
-// ตรวจแล้วทั้งสามสต็อป: บน #ffdd73 ≈ 12.9:1 · บน #f5c518 ≈ 11.0:1 · บนสต็อป
-// เข้มสุด #b8860f ≈ 5.8:1 ผ่าน AA ทั้งหมด ⚠️ ห้ามลากสต็อปเข้มลงไปถึง #8a6208
-// ของ brand-spec — ค่านั้นเป็นสีเงา/ออราเท่านั้น เอามารองหมึกจะเหลือ ~3.4:1
+// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้นทองทึบ (#fce343 → #ffc554)
+// ให้ปุ่ม conversion เด่นออกจากพื้นพลัมเข้มทั้งแถบ ส่วน "เข้าสู่ระบบ" เป็นปุ่มโครง
+// ชมพูไม่ทึบ จะได้ไม่แย่งสายตากันเอง หมึกบนปุ่มทองเป็น #2a0012 (ชมพูเกือบดำ) —
+// ตรวจแล้วทั้งสองสต็อป: บน #fce343 ≈ 14.6:1 · บนสต็อปเข้มสุด #ffc554 ≈ 12.1:1
+// ⚠️ ห้ามลากสต็อปเข้มลงไปถึง #f41571 หรือ #8a0a45 ใต้ตัวอักษร — ค่าหลังเป็นสี
+// เส้น/ออราเท่านั้น เอามารองหมึกจะตก AA ทันที
 //
-// ชุดแดงแล็กเกอร์-ทอง-ครีมงาช้างของ PIGPG ที่เคยอยู่ในไฟล์นี้ (#120302 #3a0d07
-// #a30303 #6b0402 #d4200d #f5b61d #ffd87a #fdf9e4 #fdeedd #b07a06 #2a0806
-// rgba(245,182,29,α) rgba(212,32,13,α)) ออกครบทุกจุดแล้ว — ทองของรอบนี้
-// (#f5c518) เป็นคนละค่ากับทอง #f5b61d ของ PIGPG และแดง #ff3b14 ก็คนละค่ากับ
-// #d4200d อย่าปล่อยของเก่าไว้เพราะ "ดูคล้ายกัน"
+// ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 ที่เคยอยู่ในไฟล์นี้ (#2b0000 #6d0804
+// #8c0f0a #f5c518 #ffdd73 #ff3b14 #fdf0e2 #b8860f #2a0300
+// rgba(245,197,24,α) rgba(255,59,20,α)) ออกครบทุกจุดแล้ว
+// ⚠️ ทองของรอบนี้ (#fce343 เหลืองสด) เป็นคนละค่ากับทอง #f5c518 ของ FLASH877
+// และชมพู #f41571 ก็คนละค่ากับชมพู #ff3fa4 ของ FAH999 ที่ยังค้างในไฟล์อื่น
+// อย่าปล่อยของเก่าไว้เพราะ "ดูคล้ายกัน"
 //
 // โลโก้คง loading="eager" ไว้ (อยู่เหนือ fold บน header ที่ sticky) แต่ไม่มี
 // fetchpriority="high" — LCP คือ hero banner ใน MainLayout มีภาพเดียวที่ได้ high
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-50 w-full border-b border-[#f5c518]/45 bg-gradient-to-r from-[#2b0000] via-[#6d0804] to-[#2b0000] shadow-[0_4px_25px_rgba(20,0,0,0.92)]">
+  <nav class="relative z-50 w-full border-b border-[#f41571]/45 bg-gradient-to-r from-[#1c0014] via-[#4a1038] to-[#1c0014] shadow-[0_4px_25px_rgba(12,0,8,0.92)]">
     <div class="mx-auto flex h-[70px] w-full max-w-[1600px] items-center justify-between px-4 lg:h-[85px] lg:px-8">
       <div class="flex items-center">
         <a href="/" class="relative flex-shrink-0 transition-transform hover:scale-105">
-          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#f5c518]/35 blur-xl"></div>
+          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#f41571]/35 blur-xl"></div>
           <Picture
             src={mainLogo!}
             alt={logoAlt}
             loading="eager"
             widths={[110, 220, 330]}
             sizes="110px"
-            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(245,197,24,0.6)] lg:h-[50px]"
+            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(244,21,113,0.6)] lg:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
@@ -96,17 +98,17 @@ const links = [
           links.map((link) => (
             <a
               href={link.path}
-              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#ffdd73]" : "text-[#fdf0e2]/80 hover:text-[#ffdd73]"}`}>
+              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#fce343]" : "text-[#fde7f2]/80 hover:text-[#fce343]"}`}>
               <div
                 aria-hidden="true"
-                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#8c0f0a]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#8a0a45]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
               />
               <span aria-hidden="true" class="relative z-10 text-base">
                 {link.icon}
               </span>
               <span class="relative z-10">{link.name}</span>
               <div
-                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#fdf0e2] via-[#f5c518] to-[#ff3b14] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#ff5ca8] via-[#f41571] to-[#fce343] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
               />
             </a>
           ))
@@ -116,28 +118,28 @@ const links = [
       <div class="flex items-center gap-3 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#ff3b14]/70 px-6 py-2.5 text-sm font-bold text-[#ffdd73] shadow-[0_0_10px_rgba(255,59,20,0.28)] transition-all hover:border-[#ff3b14] hover:bg-[#8c0f0a] hover:text-[#fdf0e2] xl:flex">
+          class="hidden items-center justify-center rounded-full border border-[#f41571]/70 px-6 py-2.5 text-sm font-bold text-[#ff5ca8] shadow-[0_0_10px_rgba(244,21,113,0.28)] transition-all hover:border-[#f41571] hover:bg-[#8a0a45] hover:text-[#fde7f2] xl:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#ffdd73] via-[#f5c518] to-[#b8860f] px-6 py-2.5 text-sm font-extrabold text-[#2a0300] shadow-[0_0_20px_rgba(245,197,24,0.55)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
+          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#fce343] to-[#ffc554] px-6 py-2.5 text-sm font-extrabold text-[#2a0012] shadow-[0_0_20px_rgba(252,227,67,0.55)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
           สมัครสมาชิก
         </a>
 
         <button
           id="hamburger-btn"
-          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#f5c518] bg-gradient-to-tr from-[#6d0804] to-[#8c0f0a] shadow-[0_0_15px_rgba(245,197,24,0.6)] lg:hidden"
+          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#f41571] bg-gradient-to-tr from-[#4a1038] to-[#8a0a45] shadow-[0_0_15px_rgba(244,21,113,0.6)] lg:hidden"
           aria-label="เปิดเมนู">
-          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#ffdd73] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#ffdd73] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#ffdd73] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#fce343] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#fce343] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#fce343] transition-all duration-300"></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#2b0000]/98 backdrop-blur-2xl lg:hidden">
+  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#1c0014]/98 backdrop-blur-2xl lg:hidden">
     <div class="flex w-full flex-col items-center space-y-3 px-6 py-8">
       <Picture
         src={mainLogo!}
@@ -145,7 +147,7 @@ const links = [
         aria-hidden="true"
         widths={[110, 220, 330]}
         sizes="110px"
-        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(245,197,24,0.65)]"
+        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(244,21,113,0.65)]"
         formats={["avif", "webp"]}
         fallbackFormat="webp"
       />
@@ -154,7 +156,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#ffdd73] drop-shadow-[0_0_8px_rgba(245,197,24,0.85)]" : "text-[#fdf0e2]/80 hover:text-[#ffdd73]"}`}>
+            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#fce343] drop-shadow-[0_0_8px_rgba(252,227,67,0.85)]" : "text-[#fde7f2]/80 hover:text-[#fce343]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {link.icon}
             </span>
@@ -163,14 +165,14 @@ const links = [
         ))
       }
 
-      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#f5c518]/50 pt-6 opacity-0">
+      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#f41571]/50 pt-6 opacity-0">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffdd73] via-[#f5c518] to-[#b8860f] py-3.5 text-lg font-extrabold text-[#2a0300] shadow-[0_0_20px_rgba(245,197,24,0.55)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#fce343] to-[#ffc554] py-3.5 text-lg font-extrabold text-[#2a0012] shadow-[0_0_20px_rgba(252,227,67,0.55)]">
           <span aria-hidden="true">📝</span>
           <span>สมัครสมาชิก</span>
         </a>
-        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#ff3b14]/70 py-3.5 text-lg font-bold text-[#ffdd73] hover:bg-[#8c0f0a]/60">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#f41571]/70 py-3.5 text-lg font-bold text-[#ff5ca8] hover:bg-[#8a0a45]/60">เข้าสู่ระบบ</a>
       </div>
     </div>
   </div>

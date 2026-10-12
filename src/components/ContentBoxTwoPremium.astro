@@ -20,63 +20,71 @@ const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ
 // The column labels used to emit HeadingTag, which put this page's own layout
 // wording into the h2/h3 inventory that gets diffed against the docx. They are
 // <p> now — same size, weight, tracking and colour, no heading tag. On this
-// brand's homepage the box carries docx H2 #2 (ทางเข้า ... เดิมพันบอล มวย และ
-// เกมคาสิโนอื่นๆ ครบวงจร): the brief's two paragraphs for that section run one
+// brand's homepage the box carries docx H2 #2 (PUNPRO168 เว็บเล่นสล็อตออนไลน์
+// เว็บคนนิยมเล่นมายาวนาน): the brief's two paragraphs for that section run one
 // per column, so the block emits exactly one docx heading and no slot receives
 // two siblings.
 //
-// รอบนี้ (2026-10-11, brand-spec §2): พาเลตต์ทองแชมเปี้ยน-เงินโครเมียมบนพื้นดำสนิท
-// แบรนด์มีคู่สีจริงอยู่บนโลโก้ — ถ้วยแชมป์ทองกับลูกฟุตบอลทอง ตัวอักษร UFA ทอง และ
-// เลข 324 **เงินโครเมียม** จึงไม่ต้องแยกสองคอลัมน์ด้วยระดับความสว่างของโลหะเดียว:
-// สันฝั่งซ้ายเป็นฝั่งทอง ไล่ทองสว่าง #ffe08a → ทองแบรนด์ #e5a81b → ทองกลางเข้ม
-// #bb8410 ป้ายใช้ทองแบรนด์ #e5a81b (9.0:1 บนผิวกลาง) ส่วนสันฝั่งขวาเป็นฝั่งเงิน
-// ไล่เงินสว่าง #f2f5f9 → เงินแบรนด์ #b9c2cc → เงินลึก #464f5a ป้ายใช้เงินแบรนด์
-// #b9c2cc (10.3:1) ทั้งสองป้ายวางบนผิวการ์ด #17130a ไม่ได้อยู่บนพื้นสี (ถ้าเป็นพื้น
-// ทองหรือพื้นเงินทึบ ต้องพลิกไปใช้หมึกเข้ม #140d01 / #0b0f14 ตาม §2 — ที่นี่ไม่มีพื้นสี)
-// หัวข้อ docx ไล่เงินแบรนด์ #b9c2cc → ทองแบรนด์ #e5a81b → ทองสว่าง #ffe08a ซึ่งเป็น
-// ลำดับคนละชุดกับการ์ด H1/H2 ใบอื่นในหน้า กรอบเป็นทองลึก #7d5a07 โปร่ง (ต่างจากกรอบ
-// ทองแบรนด์ของ ContentBoxCyberCut และกรอบทองลึกทึบของ ContentBoxSevenThreePremium)
-// เส้นคั่นกลางเป็นทองดำ #43300a
-// ⚠️ ผิวการ์ดเป็นผิวกลาง #17130a ซึ่งยังสว่างกว่าพื้นเพจดำสนิท #000000 การ์ดจึงลอยขึ้น
-// รอบนี้ไม่มีชั้นไหนจมต่ำกว่าพื้นได้
-// เนื้อความ #f0e8d4 (= BRAND_TEXT) — 15.3:1 บนผิวกลาง
-// glow เป็น rgba(229,168,27,…) และ rgba(185,194,204,…)
+// รอบนี้ (2026-10-12, brand-spec §2): พาเลตต์ชมพูฮอตพิงก์-ทอง บนพลัมเข้มอมม่วง
+// แบรนด์มีคู่สีจริงอยู่บนโลโก้ — คำว่า PUNPRO เป็นตัวหนาสามมิติ **ชมพูบานเย็น** และ
+// เลข 168 เป็นตัวหนาสามมิติ **ทองสว่าง** จึงไม่ต้องแยกสองคอลัมน์ด้วยระดับความสว่าง
+// ของชมพูเดียว: สันฝั่งซ้ายเป็นฝั่งชมพู ไล่ชมพูสว่าง #ff5ca8 → ชมพูบานเย็น #f41571 →
+// ชมพูลึก #8a0a45 ป้ายใช้ชมพูบานเย็น (4.3:1 บนผิวกลาง — เป็นตัวอักษร text-xl
+// font-black จึงเข้าเกณฑ์ตัวอักษรขนาดใหญ่) ส่วนสันฝั่งขวาเป็นฝั่งทอง ไล่ทองสว่าง
+// #fce343 → ทองอำพัน #ffc554 → ชมพูลึก #8a0a45 ป้ายใช้ทองสว่าง #fce343 (12.1:1)
+// ทั้งสองป้ายวางบนผิวการ์ด #3a0a2a ไม่ได้อยู่บนพื้นสี (ถ้าเป็นพื้นชมพูหรือพื้นทองทึบ
+// ต้องพลิกไปใช้หมึก #2a0012 ตาม §2 — ที่นี่ไม่มีพื้นสี)
+// หัวข้อ docx ไล่ทองสว่าง #fce343 → ชมพูบานเย็น #f41571 → ชมพูสว่าง #ff5ca8 ซึ่งเป็น
+// ลำดับคนละชุดกับการ์ด docx ใบอื่นในหน้า กรอบเป็นชมพูลึก #8a0a45 โปร่ง (ต่างจากกรอบ
+// ชมพูแบรนด์ของ ContentBoxFloatingBadge และกรอบชมพูลึกทึบของ
+// ContentBoxSevenThreePremium) เส้นคั่นกลางเป็นชมพูลึกสุด #4a0426
+// ⚠️ ผิวการ์ดเป็นผิวกลาง #3a0a2a ซึ่งสว่างกว่าพื้นเพจ #2e0022 การ์ดจึงลอยขึ้น และ
+// รอบนี้ยังมีชั้นที่ลึกกว่าพื้นได้จริง (#1c0014) ต่างจากรอบก่อนที่พื้นเป็นดำสนิท
+// เนื้อความ #fde7f2 (= BRAND_TEXT) — 14.2:1 บนผิวกลาง
+// glow เป็น rgba(244,21,113,…) และ rgba(252,227,67,…)
+// §2 ห้าม #8a0a45 / #4a0426 ถือตัวอักษร — ที่นี่อยู่ที่กรอบ ปลายไล่เฉดของสัน และเส้นคั่น
+// #ffd94a ถูกสงวนให้ <strong> ในย่อหน้าเท่านั้น จึงไม่โผล่ในไฟล์นี้
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — เจ็ดในสิบแบรนด์หลังสุดมีทอง: ชุดชมพูฮอต-
-// ทองบนพลัมดำของแบรนด์รอบก่อนหน้าทันทีที่เคยค้างในไฟล์นี้ (#ff3fa4 #ff6cbb #ffd1ea
-// #e8b9d4 #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b #2b0019 #4a0b42 #3a0534
-// #2e002c #210220) ชุดทองเป็ด-ส้มอำพัน (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04
-// #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9 #d8c69b #1f1709 #171106 #0d0903) ชุดทอง
-// อวกาศ-เงินโครเมียม (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3
-// #9aa6bb #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700) ชุดแดงเสือโคร่ง-
-// ทองถ่านไฟ (#e8232a #f2b705 #ffd666 #c08a0b #fbe8d5) และชุดม่วงนีออน-ทอง (#a435f0
-// #fbe455 #ffd23d #c98a05 #5b1a75 #1e0a3c) ออกครบทุกจุดแล้ว
-// ⚠️ เงินโครเมียมของรอบทองอวกาศคือ #cfd6e3 / #eef2f8 / #9aa6bb ซึ่ง **ไม่ใช่** เงิน
-// ของรอบนี้ (#b9c2cc / #f2f5f9 / #8792a0) — "มีเงินอยู่แล้ว" ไม่พิสูจน์อะไร
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — แปดในสิบแบรนด์หลังสุดมีทอง และ FAH999 กับ
+// PIGPG ก็เป็นแบรนด์ชมพูมาก่อน: ชุดทองอำพันเสือของ TIGERWIN369 ที่เคยค้างในไฟล์นี้
+// (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206
+// #0f0903) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a
+// #0d0b06 #f0e8d4 #ffe08a #7d5a07 #43300a #464f5a #140d01 #f2f5f9 #8792a0 #bb8410)
+// ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d #9c6f08
+// #b3006a #7a0046 #4d002b #2b0019 #4a0b42 #3a0534 #2e002c #210220) ชุดทองเป็ด-
+// ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a
+// #a3510c #1a1203 #f6ecd9 #d8c69b #1f1709 #171106 #0d0903) ชุดทองอวกาศ-เงินโครเมียม
+// ของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3 #9aa6bb
+// #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700) ชุดแดงเสือโคร่ง-ทองถ่านไฟ
+// (#e8232a #f2b705 #ffd666 #c08a0b #fbe8d5) และชุดม่วงนีออน-ทอง (#a435f0 #fbe455
+// #ffd23d #c98a05 #5b1a75 #1e0a3c) ออกครบทุกจุดแล้ว
+// ⚠️ ชมพูของ FAH999 คือ #ff3fa4 / #ff6cbb / #ffd1ea ซึ่ง **ไม่ใช่** ชมพูของรอบนี้
+// (#f41571 / #ff5ca8) และทอง #f5c53d ก็ไม่ใช่ #fce343 — "มีชมพูอยู่แล้ว" และ
+// "มีทองอยู่แล้ว" ไม่พิสูจน์อะไรเลย
 const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-normal font-black tracking-widest uppercase";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7d5a07]/55 bg-[#17130a]/94 p-8 text-[#f0e8d4] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#e5a81b]/70 hover:shadow-[0_15px_40px_rgba(229,168,27,0.22)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#43300a]/55 to-transparent opacity-75"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#464f5a]/40 blur-[60px]"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a0a45]/55 bg-[#3a0a2a]/94 p-8 text-[#fde7f2] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f41571]/70 hover:shadow-[0_15px_40px_rgba(244,21,113,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#4a0426]/55 to-transparent opacity-75"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#fce343]/18 blur-[60px]"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-3 border-b border-[#7d5a07]/40 pb-4">
-          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe08a] via-[#e5a81b] to-[#7d5a07] shadow-[0_0_10px_rgba(229,168,27,0.55)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#b9c2cc] via-[#e5a81b] to-[#ffe08a] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-3 border-b border-[#8a0a45]/40 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fce343] via-[#f41571] to-[#8a0a45] shadow-[0_0_10px_rgba(244,21,113,0.55)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#fce343] via-[#f41571] to-[#ff5ca8] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e8d4]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde7f2]">
         {
           titleleft && (
-            <p class={`${columnLabel} border-[#7d5a07]/50 text-[#e5a81b]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe08a] via-[#e5a81b] to-[#bb8410] shadow-[0_0_10px_rgba(229,168,27,0.7)]" />
+            <p class={`${columnLabel} border-[#8a0a45]/50 text-[#f41571]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff5ca8] via-[#f41571] to-[#8a0a45] shadow-[0_0_10px_rgba(244,21,113,0.7)]" />
               {titleleft}
             </p>
           )
@@ -84,11 +92,11 @@ const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-norma
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e8d4] md:border-l md:border-[#43300a] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fde7f2] md:border-l md:border-[#4a0426] md:pl-10">
         {
           titleright && (
-            <p class={`${columnLabel} border-[#464f5a]/60 text-[#b9c2cc]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f2f5f9] via-[#b9c2cc] to-[#464f5a] shadow-[0_0_10px_rgba(185,194,204,0.6)]" />
+            <p class={`${columnLabel} border-[#fce343]/40 text-[#fce343]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fce343] via-[#ffc554] to-[#8a0a45] shadow-[0_0_10px_rgba(252,227,67,0.55)]" />
               {titleright}
             </p>
           )

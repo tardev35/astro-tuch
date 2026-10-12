@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement3.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -10,7 +10,7 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // Button page, not an article — the cta toggle turned the old noindex
 // interstitial into a real indexable page whose only content is one button to
 // the same destination. One <h1> from the ContentBox title plus one button:
-// h1×1, h2×0, h3×0. Never write an article here and never add an <h2>.
+// h1x1, h2x0, h3x0. Never write an article here and never add a second heading.
 //
 // targetUrl is this brand's affiliate link, carried over from the interstitial
 // it replaced. **Do not edit it**, and keep rel="nofollow sponsored" plus
@@ -26,44 +26,45 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 //
 // บรีฟรอบนี้ (src/assets/content.txt) ไม่มีส่วน SUB-PAGES — คอปปี้ของหน้านี้จึงพูด
 // ได้แค่สิ่งที่บรีฟมีจริง (บรรทัด 10–13: คืนยอดเสีย 0.3% เข้ายูสทุกวัน และแนะนำเพื่อน
-// โบนัส 0.8%) ห้ามแตกเป็นหัวข้อหรือรายการบนหน้า หน้านี้มีโควตาเป็นปุ่มเดียว
-// หมายเหตุ: บรีฟรอบนี้ระบุ "สมัครเล่น 3 ขั้นตอน" ไว้จริง (บรรทัด 14–18) แต่เนื้อหานั้น
-// เป็นของ index.astro กับ /about-us — หน้านี้ห้ามเขียนเป็น prose ลงมา
+// โบนัส 0.8% ไม่จำกัด) ห้ามแตกเป็นหัวข้อหรือรายการบนหน้า หน้านี้มีโควตาเป็นปุ่มเดียว
+// หมายเหตุ: บรีฟรอบนี้ระบุ "สมัครเล่นสล็อต 3 ขั้นตอน" ไว้จริง (บรรทัด 14–18) แต่เนื้อหา
+// นั้นเป็นของ index.astro กับ /about-us — หน้านี้ห้ามเขียนเป็น prose ลงมา
 //
-// ⚠️ TIGERWIN369 เป็น **เกมคาสิโนรวม** (บาคาร่า · สล็อต · บอลออนไลน์ · ไฮโล ·
-// ยิงปลา) ไม่ใช่เว็บเกมกีฬาแบบแบรนด์ก่อน และไม่ใช่เว็บลอตเตอรี
-// รายการคำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
+// ⚠️ แบรนด์รอบนี้เป็น **เว็บเล่นสล็อตออนไลน์ล้วน** (สล็อตปันโปรในตำนาน) ไม่ใช่เว็บ
+// คาสิโนรวมแบบแบรนด์ก่อน ไม่ใช่เว็บกีฬา และไม่ใช่เว็บลอตเตอรี
+// รายการคำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
 // หาคำต้องห้ามเจอ false positive
-// ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง — ห้าม
-// แต่งใบอนุญาต หน่วยงานกำกับ ชื่อค่ายเกม ชื่อธนาคาร ชื่อลีก/ทีม หรือยอดขั้นต่ำเป็นตัวเลข
+// ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง / ปี 2026
+// — ห้ามแต่งใบอนุญาต หน่วยงานกำกับ ชื่อค่ายเกม ชื่อธนาคาร ค่า RTP หรือยอดขั้นต่ำ
 //
-// TIGERWIN369 (รอบทองอำพันเสือบนดำสนิท 2026-10-11, brand-spec §2):
-// ทองอำพัน #d98324 (ฮิวหลัก) · ทองสว่าง #f7b733 (ฮิวที่สอง) · ทองซีด #ffd98a
-// (ไฮไลต์ในเนื้อความเท่านั้น) · อำพันลึก #8a5214 และ #4a2a08 (เส้น/ขอบ/ออราเท่านั้น) ·
-// เนื้อความ #f7e4c0 (= BRAND_TEXT) · หมึกบนพื้นทอง #1a0d02
-// ชั้นผิว: ยก #2d1c0a (= การ์ด ContentBox) / กลาง #1c1206 / จม #0f0903 /
-// พื้นเพจ #000000 — รอบนี้ bg.json เป็นดำสนิท จึงไม่มีชั้นที่ลึกกว่าพื้นเพจได้อีก
-// ปุ่มนี้เป็น PRIMARY: ถมพื้นทองไล่เฉด #ffd98a → #f7b733 → #d98324 ขอบ #8a5214
-// บนหมึกเข้ม #1a0d02 (6.6:1 บนปลายเข้มสุด #d98324 และสูงกว่านั้นบนสองตัวแรก)
+// แบรนด์รอบนี้ (รอบชมพูฮอตพิงก์-ทองบนพลัมเข้ม 2026-10-12, brand-spec §2):
+// ชมพูฮอตพิงก์ #f41571 (ฮิวนำ) · ชมพูสว่าง #ff5ca8 (ระดับสอง) ·
+// ทองสว่าง #fce343 (ฮิวที่สอง) · ทองอำพัน #ffc554 (ปลายเข้มสุดของไล่เฉดทอง) ·
+// ทองไฮไลต์ #ffd94a (สงวนไว้ให้ <strong> ในย่อหน้า) · เนื้อความ #fde7f2
+// (= BRAND_TEXT) · เส้น/ออรา #8a0a45 และ #4a0426 · หมึกบนพื้นถม #2a0012
+// ชั้นผิว: ยก #4a1038 (= การ์ด ContentBox) / กลาง #3a0a2a / พื้นเพจ #2e0022 /
+// จม #1c0014 — รอบนี้ bg.json เป็นพลัมเข้ม ไม่ใช่ดำสนิท จึงมีชั้นที่ลึกกว่าพื้นเพจได้
+// ปุ่มนี้เป็น PRIMARY: ถมพื้นทองไล่เฉด #fce343 → #ffc554 ขอบ #8a0a45
+// บนหมึกเข้ม #2a0012 (12.1:1 บนปลายเข้มสุด #ffc554 และสูงกว่านั้นบน #fce343)
 // ⚠️ ห้ามกลับด้าน: พื้นถมทองต้องใช้หมึกเข้มเสมอ ห้ามครีมหรือขาว และไล่เฉดต้อง
-// **หยุดที่ #d98324** ห้ามไล่ลงไปถึง #8a5214 ใต้ตัวอักษร — #8a5214 อยู่ได้เฉพาะ
-// เป็นเส้นขอบของปุ่มนี้
-// — ส่วน /login เป็น SECONDARY ชั้นจม จึงไม่ซ้ำกัน · #8a5214 #4a2a08
+// **หยุดที่ #ffc554** ห้ามไล่เข้มกว่านั้นใต้ตัวอักษร — #8a0a45 อยู่ได้เฉพาะเป็น
+// เส้นขอบของปุ่มนี้
+// — ส่วน /login เป็น SECONDARY ชั้นจม จึงไม่ซ้ำกัน · #8a0a45 #4a0426
 // ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา — ออราในไฟล์นี้ใช้
-// rgba(217,131,36,α) เท่านั้น นอกจากเงาดำล้วน
-// ⚠️ รอบนี้เป็นทองรอบที่แปดในสิบรอบ "เจอทอง" ไม่ได้แปลว่าถูกค่า ให้เทียบเป็นตัวๆ กับ
-// ตารางแบนใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่า
-// เจอ false positive — ชุดทองแชมเปี้ยน-เงินโครเมียมของรอบก่อนออกครบทุกจุดในไฟล์นี้แล้ว
-// และรอบนี้ **ไม่มีเงิน ไม่มีเทา ไม่มีฮิวเย็นเลย**
+// rgba(252,227,67,α) เท่านั้น นอกจากเงาดำล้วน
+// ⚠️ ทั้งชมพูและทองเคยมาแล้วทั้งคู่ในรอบก่อนๆ "เจอทอง" ไม่ได้แปลว่าถูกค่า ให้เทียบ
+// เป็นตัวๆ กับตารางแบนใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของ
+// แบรนด์เก่าเจอ false positive — ชุดทองอำพันของแบรนด์ก่อนออกครบทุกจุดในไฟล์นี้แล้ว
+// และรอบนี้ **ไม่มีเขียว ไม่มีน้ำเงิน ไม่มีเทา ไม่มีส้มอิฐ**
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (ตัวที่แบรนด์ก่อนใช้ถูกหมุน
+// Announcement หมุนมาเป็น Announcement3 ทั้งเว็บรอบนี้ (ตัวที่แบรนด์ก่อนใช้ถูกหมุน
 // ออกตาม brand-spec §3) orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้
 // ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare — ห้ามส่ง prop message จากหน้านี้
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 156
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 157
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} เกมคาสิโนรวม กดปุ่มเดียวไปยังทางเข้าหลักของเว็บ พร้อมโปรโมชั่นคืนยอดเสีย 0.3% เข้ายูสทุกวัน และแนะนำเพื่อนรับโบนัส 0.8% ไม่จำกัด`;
+const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} เว็บเล่นสล็อตออนไลน์ กดปุ่มเดียวไปยังทางเข้าเล่นหลักของเว็บ พร้อมโปรโมชั่นคืนยอดเสีย 0.3% เข้ายูสทุกวัน และแนะนำเพื่อนรับโบนัส 0.8%`;
 
 const graph = pageGraph(Astro, {
   name: `สมัครสมาชิก ${BRAND_NAME}`,
@@ -77,7 +78,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/l360";
 ---
 
-<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เกมคาสิโนรวม เดิมพันไม่มีขั้นต่ำ ครบวงจร`} description={pageDescription}>
+<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เว็บเล่นสล็อตออนไลน์ ทางเข้าเล่นใหม่ 2026`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -89,8 +90,8 @@ const targetUrl = "https://yoalink.com/l360";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#8a5214] bg-gradient-to-b from-[#ffd98a] via-[#f7b733] to-[#d98324] px-6 py-4 text-2xl font-black tracking-wide text-[#1a0d02] shadow-[0_10px_30px_rgba(217,131,36,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#1a0d02] hover:shadow-[0_15px_40px_rgba(217,131,36,0.6)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ffd98a]/60 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#8a0a45] bg-gradient-to-b from-[#fce343] to-[#ffc554] px-6 py-4 text-2xl font-black tracking-wide text-[#2a0012] shadow-[0_10px_30px_rgba(252,227,67,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#2a0012] hover:shadow-[0_15px_40px_rgba(252,227,67,0.6)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fce343]/60 to-transparent"></div>
         สมัครสมาชิก
       </a>
     </div>
