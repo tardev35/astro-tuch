@@ -37,14 +37,14 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://tnd168-play.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://kmd88-play.com — operator ระบุมาตรงๆ ในคำสั่ง
   // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ ชื่อแบรนด์คือ "TND168" **ไม่มีขีด** แต่โดเมน **มีขีด** และมีหาง "-play"
-  // ต่อท้าย กับ TLD **.com** — รอบก่อน (punpro168.org) ชื่อแบรนด์กับโดเมนสะกด
-  // ตรงกันพอดี รอบนี้ไม่ตรง อย่าอนุมานโดเมนจากชื่อแบรนด์เด็ดขาด
+  // ⚠️ ชื่อแบรนด์คือ "KMD88" **ไม่มีขีด** แต่โดเมน **มีขีด** และมีหาง "-play"
+  // ต่อท้าย กับ TLD **.com** — เหมือนรอบก่อน (TND168 / tnd168-play.com) ที่ชื่อ
+  // แบรนด์กับโดเมนสะกดไม่ตรงกัน อย่าอนุมานโดเมนจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://tnd168-play.com",
+  site: "https://kmd88-play.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

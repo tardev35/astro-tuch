@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
+import Announcement from "../components/Announcement5.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -16,7 +16,7 @@ import lineImage from "../assets/contact-line.webp";
 // อะไรก่อนแจ้ง" list, no PIN/OTP notice, however well it reads. Every one of
 // those was invented by an earlier rebrand, not by the brief: the docx
 // SUB-PAGES section gives this route a Title and a Meta and never a body
-// (รอบนี้บรีฟไม่มีส่วน SUB-PAGES เลย — จบที่บรรทัด 29 ของ content.txt)
+// (รอบนี้บรีฟไม่มีส่วน SUB-PAGES เลย — จบที่บรรทัด 26 ของ content.txt)
 //
 // The <h1> names what the page IS ("ติดต่อทีมงาน <brand>"), not what an article
 // on it would have argued. A title that previews a body is the line that tempts
@@ -28,37 +28,39 @@ import lineImage from "../assets/contact-line.webp";
 // ที่อยู่/อีเมลเข้า structured data (address/PostalAddress/email ใน JSON-LD
 // ทำให้เกทของ verify-build แดง)
 //
-// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ (brand-spec §3) —
+// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (brand-spec §3) —
 // default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันแล้ว และทุกหน้าเรียกแบบ bare
 // จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกับ index.astro
 //
-// แบรนด์รอบนี้ (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2):
-// โลโก้เป็นเหรียญตรามังกรจีนทองขัดเงา มีตัวอักษร TND168 ทองสามมิติพาดกลางเหรียญ
+// แบรนด์รอบนี้ (รอบม่วงราชา-ทอง 2026-10-13, brand-spec §2):
+// โลโก้อ่านตรงๆ ได้ว่าคำว่า KMD เป็นตัวอักษรสามมิติสีม่วงขัดเงาขอบทอง ต่อด้วยเลข 88
+// สีทองเมทัลลิก ในวงแหวนทองบาง — จึงเป็น **สองฮิวจริง: ม่วงนำ ทองรอง**
 // พื้นเพจจาก bg.json รอบนี้เป็น {"mode":"color","color":"#000000"}
-// = **ดำสนิท** จึงไม่มีชั้นที่ "ลึกกว่าพื้นเพจ" ได้จริง แผ่นที่จมสุดคือ #070502
-// ทองหลัก #dfa310 (ฮิวเดียวของแบรนด์) · ทองสว่าง #ffe4a3 (ไฮไลต์/hover) ·
-// ทองไฮไลต์ #ffc93d (สงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น) ·
-// ข้อความรอง #c9b88e · เนื้อความ #f0e9dc (= BRAND_TEXT ที่การ์ด ContentBox
-// ตั้งให้แล้ว) · เส้น/ออรา #8a5c09 และ #43240b · หมึกบนพื้นถมทอง #140d02
-// ชั้นผิว: ยก #1b1307 (= การ์ด) / กลาง #120c04 / จม #070502 / พื้นเพจ #000000
+// = **ดำสนิท** จึงไม่มีชั้นที่ "ลึกกว่าพื้นเพจ" ได้จริง แผ่นที่จมสุดคือ #0a0213
+// ม่วงแบรนด์ #7505cc (ขอบ/ออรา) · ม่วงสว่าง #b453ff (ขอบ/ไล่เฉด) ·
+// ม่วงที่ถือตัวอักษรได้คือ #c07cff และ #d9b8ff · ทองแบรนด์ #e2b33f ·
+// ทองสว่าง #ffdf8c · ทองไฮไลต์ #ffd45e (สงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น) ·
+// เนื้อความ #ece2f8 (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) ·
+// เส้น/ออรา #3a0565 #2c0349 #7a5a0a · หมึกบนพื้นถมทองหรือพื้นสว่าง #1a0526
+// ชั้นผิว: ยก #1d0832 (= การ์ด) / กลาง #140522 / จม #0a0213 / พื้นเพจ #000000
 //
 // ขั้วของปุ่ม (พื้นสว่าง = หมึกเข้ม · พื้นเข้ม = หมึกสว่าง):
-// สมัครสมาชิก = PRIMARY ถมทองไล่เฉด #ffc93d → #dfa310 ขอบ #8a5c09 บนหมึก #140d02
-// (บนปลายเข้มสุด #dfa310 ได้ 8.7:1) ·
-// เข้าสู่ระบบ = SECONDARY จมลงจากการ์ดด้วยชั้น #120c04 → #070502 ขอบทอง
-// #dfa310/55 บนเนื้อความ #f0e9dc
+// สมัครสมาชิก = PRIMARY ถมทองไล่เฉด #ffdf8c → #e2b33f ขอบ #7a5a0a บนหมึก #1a0526
+// (บนปลายเข้มสุด #e2b33f ได้ 8.4:1) ·
+// เข้าสู่ระบบ = SECONDARY จมลงจากการ์ดด้วยชั้น #140522 → #0a0213 ขอบม่วง
+// #7505cc/60 บนเนื้อความ #ece2f8
 // ⚠️ ห้ามกลับด้าน: พื้นถมทองต้องใช้หมึกเข้มเสมอ และ **ห้ามไล่เฉดทองเข้มกว่า
-// #dfa310** ใต้ตัวอักษร
-// ⚠️ #8a5c09 #43240b ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่เส้นขอบ ออรา และเงา —
-// ออราใช้ rgba(223,163,16,α) และ rgba(255,201,61,α) ไม่มี rgba อื่นในไฟล์นี้
-// นอกจากเงาดำล้วนและสีเขียวของ LINE
+// #e2b33f** ใต้ตัวอักษร
+// ⚠️ #7505cc #b453ff #3a0565 #2c0349 #7a5a0a ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
+// เส้นขอบ ออรา และเงา — ออราใช้ rgba(117,5,204,α) และ rgba(226,179,63,α) ไม่มี
+// rgba อื่นในไฟล์นี้นอกจากเงาดำล้วนและสีเขียวของ LINE
 // ส่วน #00B900 บนปุ่ม LINE เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ จึงคงไว้ตามเดิม
 //
-// ⚠️ ทองเคยมาแล้วเก้าในสิบเอ็ดรอบหลังสุด "เจอทอง" ไม่ได้แปลว่าเป็นของรอบนี้ ให้เทียบ
-// เป็น "ค่า" ทีละตัวกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
-// หาสีของแบรนด์เก่าเจอ false positive — ชุดชมพู-ทองของแบรนด์ก่อนออกครบทุกจุดใน
-// ไฟล์นี้แล้ว และรอบนี้ **ไม่มีชมพู ไม่มีม่วง ไม่มีเขียว(นอกจาก LINE) ไม่มีน้ำเงิน
-// ไม่มีเทา/เงิน ไม่มีส้มอิฐ ไม่มีแดง**
+// ⚠️ กับดักรอบนี้คือ **ทั้งสองฮิว**: ทองมาแล้วเก้าในสิบสองรอบหลังสุด และม่วงก็เพิ่ง
+// มาสองรอบ "เจอทองหรือเจอม่วง" จึงไม่ได้พิสูจน์อะไร ให้เทียบเป็น "ค่า" ทีละตัวกับ
+// ตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ
+// false positive — ชุดทองมังกรบนดำของแบรนด์ก่อนออกครบทุกจุดในไฟล์นี้แล้ว และรอบนี้
+// **ไม่มีชมพู ไม่มีเขียว(นอกจาก LINE) ไม่มีน้ำเงิน ไม่มีเทา/เงิน ไม่มีส้ม ไม่มีแดง**
 //
 // contact-line.webp (mtime 2026-08-04) เป็นอาร์ตสต็อกกลางของเทมเพลต ไม่ใช่อาร์ตเวิร์ก
 // ของแบรนด์นี้ และไม่มีชื่อแบรนด์ใดพิมพ์อยู่บนรูป — alt จึงบรรยายรูปจริงตามที่เห็น
@@ -73,25 +75,25 @@ import lineImage from "../assets/contact-line.webp";
 // and the structured data from drifting apart. 150–160 CODE POINTS, counted
 // with [...s].length exactly like verify-build.mjs — do NOT use `wc -m` on this
 // box: git-bash has no UTF-8 locale here, so it counts BYTES and reads ~3x too
-// long. This one is 157.
+// long. This one is 153.
 //
-// แบรนด์นี้เป็น **แบรนด์คาสิโนรวมทุกหมวด** (บาคาร่า สล็อต รูเล็ต ไฮโล แทงบอล และ
-// คาสิโนไลฟ์สด) ไม่ใช่เว็บสล็อตล้วนแบบแบรนด์ก่อน ไม่ใช่เว็บกีฬาล้วน และไม่ใช่เว็บของ
-// หมวดลอตเตอรี สองหน้าของหมวดนั้นยัง park อยู่ใน src/pages-disabled/ จึงไม่มี route
-// ให้ลิงก์ไป รายการคำต้องห้ามเต็มอยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
-// grep หาคำของแบรนด์เก่าเจอ false positive
-// บรีฟบรรทัด 21–22 ระบุเรื่องที่แอดมินช่วยได้ไว้แค่: การสมัคร การเข้าสู่ระบบ
-// เกมคาสิโนไลฟ์สด โปรโมชั่น และรายการธุรกรรมที่อยู่ระหว่างตรวจสอบ โดยระบุเวลา
-// ให้บริการตลอด 24 ชั่วโมง — ห้ามเขียนเกินนี้ (และบรีฟยังกำกับว่าไม่ควรเปิดเผย
-// รหัสผ่าน PIN หรือ OTP ซึ่งไปอยู่ในตัววิ่ง AnnouncementPremium แล้ว ไม่ต้องเขียนซ้ำ
-// เป็น prose บนหน้านี้ — หน้านี้มีโควตาเป็นรูป ที่อยู่ และปุ่มเท่านั้น)
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 3 ขั้นตอน / 24 ชั่วโมง
+// แบรนด์นี้เป็น **คาสิโนรวมเกม** (บาคาร่า สล็อต บอลออนไลน์) ไม่ใช่เว็บสล็อตล้วน
+// แบบแบรนด์ก่อน ไม่ใช่เว็บกีฬาล้วน และไม่ใช่เว็บของหมวดลอตเตอรี สองหน้าของหมวดนั้น
+// ยัง park อยู่ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์ไป รายการคำต้องห้าม
+// เต็มอยู่ใน brand-spec §1 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำของแบรนด์เก่าเจอ
+// false positive
+// บรีฟบรรทัด 18–19 ระบุเรื่องที่แอดมินรับเรื่องไว้แค่: การเข้าสู่ระบบ การใช้งาน
+// เกมคาสิโน การเดิมพันฟุตบอล โปรโมชั่น และรายการฝากถอนที่อยู่ระหว่างตรวจสอบ
+// โดยระบุเวลาให้บริการตลอด 24 ชั่วโมง — ห้ามเขียนเกินนี้ (และบรีฟยังกำกับว่าไม่ควร
+// เปิดเผยรหัสผ่าน PIN หรือ OTP ซึ่งไม่ต้องเขียนซ้ำเป็น prose บนหน้านี้ — หน้านี้มี
+// โควตาเป็นรูป ที่อยู่ และปุ่มเท่านั้น)
+// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% / 0.8% / 24 ชั่วโมง
 // ห้ามแต่งชื่อธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ชื่อค่ายเกม ค่า RTP ยอดฝากขั้นต่ำ
 // จำนวนสมาชิก ปีก่อตั้ง หรือปีใดๆ (บรีฟรอบนี้ไม่ได้เอ่ยปีไว้เลย)
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = `ติดต่อแอดมิน ${BRAND_NAME} แบรนด์คาสิโนเซิร์ฟไทย เปิดบริการตลอด 24 ชั่วโมง สอบถามเรื่องการสมัคร การเข้าสู่ระบบ คาสิโนไลฟ์สด โปรโมชั่น และรายการที่อยู่ระหว่างตรวจสอบ`;
+const pageDescription = `ติดต่อทีมงาน ${BRAND_NAME} ผ่านช่องทางไลน์ได้ตลอด 24 ชั่วโมง สอบถามเรื่องการเข้าสู่ระบบ เกมคาสิโน การเดิมพันฟุตบอล โปรโมชั่น และรายการฝากถอนที่อยู่ระหว่างตรวจสอบ`;
 
 const graph = pageGraph(Astro, {
   type: "ContactPage",
@@ -131,7 +133,7 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} แอดมินดูแลตลอด 24 ชั่วโมง`} description={pageDescription}>
+<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} แอดมินเปิดบริการ 24 ชั่วโมง`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -152,7 +154,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#dfa310] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#7505cc] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 font-bold opacity-90">{BRAND_ADDRESS.label}</p>
           {BRAND_ADDRESS.lines.map((line) => (
             <span class="block">{line}</span>
@@ -175,14 +177,14 @@ const graph = pageGraph(Astro, {
       <a
         href="/register"
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="flex items-center justify-center rounded-lg border border-[#8a5c09] bg-gradient-to-b from-[#ffc93d] to-[#dfa310] px-8 py-3 font-black text-[#140d02] shadow-[0_0_14px_rgba(223,163,16,0.45)] transition-transform hover:scale-105">
+        class="flex items-center justify-center rounded-lg border border-[#7a5a0a] bg-gradient-to-b from-[#ffdf8c] to-[#e2b33f] px-8 py-3 font-black text-[#1a0526] shadow-[0_0_14px_rgba(226,179,63,0.45)] transition-transform hover:scale-105">
         สมัครสมาชิก
       </a>
 
       <a
         href="/login"
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="flex items-center justify-center rounded-lg border border-[#dfa310]/55 bg-gradient-to-b from-[#120c04] to-[#070502] px-8 py-3 font-bold text-[#f0e9dc] shadow-[0_0_12px_rgba(223,163,16,0.22)] transition-all hover:scale-105 hover:border-[#dfa310] hover:shadow-[0_0_18px_rgba(223,163,16,0.4)]">
+        class="flex items-center justify-center rounded-lg border border-[#7505cc]/60 bg-gradient-to-b from-[#140522] to-[#0a0213] px-8 py-3 font-bold text-[#ece2f8] shadow-[0_0_12px_rgba(117,5,204,0.28)] transition-all hover:scale-105 hover:border-[#e2b33f] hover:shadow-[0_0_18px_rgba(226,179,63,0.35)]">
         เข้าสู่ระบบ
       </a>
 

@@ -1,8 +1,9 @@
 ---
 import { isActivePath } from "../lib/nav";
 import { Picture } from "astro:assets";
+import { BRAND_NAME } from "../lib/brandProfile";
 
-const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.*", { eager: true });
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".webp")) || imagePaths.find((path) => path.endsWith(".png")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
@@ -24,26 +25,44 @@ const mainLogo = targetPath ? images[targetPath].default : null;
 // link to the same two destinations. The page stays routed and indexed, and the
 // footer still links it.
 //
-// No /ตรวจหวย or /แนวทาง either — FAH999 is a ฟาสล็อตเว็บตรง, a SLOT site, so
-// both lottery pages stay in src/pages-disabled/ this round and must not be
-// linked from here. A link to a route that does not exist fails verify-build.
+// No /ตรวจหวย or /แนวทาง either — KMD88 is a เว็บลิขสิทธิ์ไทยแท้ คาสิโนรวมเกม
+// (บาคาร่า / สล็อต / บอล), not a lottery site, so both lottery pages stay in
+// src/pages-disabled/ this round and must not be linked from here. A link to a
+// route that does not exist fails verify-build, and the navbar is on every page.
 //
-// FAH999 palette (2026-10-11, brand-spec §2): ชมพูบานเย็น #ff3fa4 เป็นฮิวนำ
-// (ตัวอักษรบนโลโก้ หูกระต่าย หัวใจ และชิป) · ชมพูอ่อน #ffd1ea เป็น hover และ
-// ปลายสว่างของไล่เฉด · ชมพูลึก #b3006a เป็นปลายเข้มของไล่เฉด (เป็นรูปทรง
-// ไม่ใช่ตัวอักษร) · ทอง #f5c53d เป็นฮิวที่สอง (เหรียญ มงกุฎ ตู้ 777) · ทองลึก
-// #9c6f08 เป็นต้นเข้มของขีด active · พื้นแถบ #210220 ยกเป็น #3a0534 / #4a0b42 ·
-// เนื้อความ #fde8f3 · หมึกเข้ม #2b0019 อยู่บนพื้นชมพูเท่านั้น
+// KMD88 (รอบม่วงราชา-ทอง 2026-10-13, brand-spec §2): navbar ที่ใช้งานจริงรอบนี้ —
+// รอบก่อน TND168 ใช้ NavbarStyle4Black ซึ่งเป็นแถบ sticky 75px ขอบล่างเส้นเดียว
+// รายการเมนูเป็น "แผ่นเฉียง skew-x-[-15deg]" ที่สวิตช์เดสก์ท็อปช้าถึง xl แล้ว
+// มือถือเป็น sidebar สไลด์เข้าจากขอบขวา — ไฟล์นี้เป็นคนละทรง: แถบ 80px ที่มี
+// ขีดใต้ไล่เฉดบานออกจากซ้าย ปุ่ม CTA ทรง **แคปซูลกลม** และมือถือเป็น **แผงดรอป
+// ดาวน์ที่กางลงมาจากใต้แถบทั้งความกว้าง** พร้อมปุ่มแฮมเบอร์เกอร์ทรงกลม
 //
-// ⚠️ ไฟล์นี้ค้างชุดทอง-แดงเลือดหมูของ GOT777 ไว้ (#f5c518 #ffe9a8 #96690f
-// #d21622 #7b0304 #0a0503 #160b06 #241108 #3a1a0c #ece0cb #fff6dd) ถอดออกครบแล้ว
-// ทอง #f5c518 ของ GOT777 ต่างจากทอง #f5c53d ของรอบนี้แค่สองตัวอักษร ห้ามเทียบ
-// ด้วยตา และชุดทองเป็ด-ส้มปากเป็ดของ DUCK1688 รอบก่อน (#f3bb34 #f58b2a #1f1709)
-// ก็ไม่มีในไฟล์นี้อยู่แล้ว
+// ของเดิมที่ค้างอยู่ในไฟล์เป็นชุดชมพูบานเย็น-ทองของ FAH999 (#ff3fa4 #ff6cbb
+// #ffd1ea #f5c53d #9c6f08 #b3006a #fde8f3 #210220 #3a0534 #4a0b42 #2b0019
+// rgba(255,63,164,α) rgba(33,2,32,α)) ย้ายทั้งไฟล์มาเป็นม่วง-ทองของรอบนี้แล้ว
+// ไม่เหลือชมพูเดิมเลยสักจุด ทั้งในคลาสและใน rgba()
 //
-// ⚠️ #b3006a และ #9c6f08 ห้ามถือตัวอักษร — อยู่ได้เฉพาะในไล่เฉด ขอบ และออรา
-// ปลายเข้มของไล่เฉดที่ "รองหมึก #2b0019" หยุดที่ #ff3fa4 (5.8:1) ไม่ใช่ #b3006a
-// (2.8:1 ตก AA หนัก)
+// แกนสีมาจากโลโก้จริงซึ่งอ่านเป็น "ม่วงนำ ทองรอง": คำว่า KMD เป็นม่วงสามมิติ
+// ขอบทอง เลข 88 เป็นทองเมทัลลิก และมีวงแหวนทองล้อมด้านหลัง แบนเนอร์เป็นฉาก
+// คาสิโนดำที่ส่องด้วยริบบิ้นแสงม่วงกับตัวอักษรไทยทอง
+// พื้นแถบ #140522 ยกเป็น #1d0832 / #2c0349 · ม่วงแบรนด์ #7505cc กับม่วงสว่าง
+// #b453ff อยู่ที่ขอบ ขีดใต้ ออรา และพื้นถมปุ่ม · ม่วงที่ "ถือตัวอักษรได้" คือ
+// #c07cff (5.3:1) และ #d9b8ff (8.6:1) · ทองแบรนด์ #e2b33f เป็นฮิวที่สองจริง
+// อยู่ที่ขอบปุ่มรอง ไอคอน และสถานะ active · ทองสว่าง #ffdf8c เป็นสี hover ·
+// เนื้อความเมนู #ece2f8 (= BRAND_TEXT)
+//
+// ⚠️ #7505cc #b453ff #3a0565 #2c0349 #7a5a0a **ห้ามถือตัวอักษรทุกขนาด** —
+// อยู่ได้เฉพาะในไล่เฉด ขอบ พื้นถม และออรา
+// ปุ่ม สมัครสมาชิก เป็นพื้น **ม่วงถม** ไล่ #b453ff -> #7505cc คู่กับหมึก **สว่าง**
+// #ece2f8 (ไม่ใช่หมึกเข้ม): #ece2f8 บน #7505cc ได้ 6.2:1 และบน #b453ff ได้ 4.6:1
+// ส่วนหมึกเข้ม #1a0526 บนม่วงคู่นี้ได้แค่ 2.9:1 / 4.0:1 ซึ่งตกทั้งคู่
+// ⚠️ ห้ามพลิกปุ่มนี้ไปใช้หมึกเข้ม และห้ามดันปลายสว่างของไล่เฉดให้สว่างกว่า
+// #b453ff (เช่น #c07cff รองหมึกสว่างได้แค่ 3.4:1)
+// ปุ่ม เข้าสู่ระบบ เป็นปุ่มรอง พื้นโปร่ง ขอบทอง ตัวอักษร #ece2f8 จึงไม่ติดปัญหานี้
+//
+// isActive มาจาก isActivePath ใน src/lib/nav — ห้ามเขียนเองในไฟล์นี้
+// Astro.url.pathname ถูก percent-encode ไว้ ถ้าเขียนเทียบสตริงตรงๆ หน้า
+// /ทดลองเล่น จะไม่มีรายการไหน active เลย
 //
 // The desktop bar switches on at xl, not lg: seven items with icons plus the
 // pair of CTA buttons does not fit a 1024 px row without crushing the labels.
@@ -52,7 +71,7 @@ const links = [
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🃏" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
@@ -60,13 +79,12 @@ const links = [
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt =
-  "โลโก้ FAH999 เป็นสาวผมน้ำตาลใส่หูกระต่ายสีชมพู เท้าแก้มทั้งสองข้างและขยิบตา มีไพ่เอซโพดำกับเอซโพแดง ชิปคาสิโนชมพูขอบทอง เหรียญทอง และตู้สล็อต 777 สีทองล้อมอยู่ ด้านล่างเป็นตัวอักษร FAH999 สีชมพูประกายสามมิติขอบขาว-ทอง บนแผ่นป้ายสีเข้มขอบทอง";
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส เป็นตัวอักษรละติน KMD สีม่วงเข้มขัดเงาแบบสามมิติที่ขอบตัวอักษรเป็นทอง ต่อด้วยเลข 88 สีทองเมทัลลิกวาว และมีวงแหวนทองเส้นบางขาดช่วงล้อมอยู่ด้านหลังตัวอักษรทั้งหมด`;
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#ff3fa4]/45 bg-[#210220]/95 px-4 shadow-[0_5px_20px_rgba(33,2,32,0.85)] backdrop-blur-lg xl:px-6">
+    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#7505cc]/50 bg-[#140522]/95 px-4 shadow-[0_5px_20px_rgba(10,2,19,0.85)] backdrop-blur-lg xl:px-6">
     <a href="/" class="z-[110] flex-shrink-0 transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
@@ -78,14 +96,12 @@ const logoAlt =
             widths={[110, 220, 330]}
             sizes="110px"
             height={50}
-            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(255,63,164,0.55)] xl:h-[50px]"
+            class="h-[40px] w-auto object-contain drop-shadow-[0_0_12px_rgba(117,5,204,0.65)] xl:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <p class="text-3xl font-black tracking-widest text-[#ff3fa4]">
-            FAH<span class="text-[#f5c53d]">999</span>
-          </p>
+          <p class="text-3xl font-black tracking-widest text-[#c07cff]">{BRAND_NAME}</p>
         )
       }
     </a>
@@ -95,11 +111,11 @@ const logoAlt =
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#ff3fa4]" : "text-[#fde8f3]/85 hover:text-[#ffd1ea]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#e2b33f]" : "text-[#ece2f8]/85 hover:text-[#ffdf8c]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#9c6f08] via-[#f5c53d] to-[#ff3fa4] shadow-[0_-2px_10px_rgba(255,63,164,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#7505cc] via-[#b453ff] to-[#e2b33f] shadow-[0_-2px_10px_rgba(117,5,204,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -109,35 +125,35 @@ const logoAlt =
     <div class="z-[110] flex items-center gap-3">
       <a
         href="/login"
-        class="hidden rounded-full border border-[#f5c53d]/60 bg-[#3a0534]/80 px-6 py-2.5 text-sm font-bold text-[#fde8f3] shadow-inner transition-all hover:border-[#f5c53d] hover:bg-[#4a0b42]/90 xl:flex">
+        class="hidden rounded-full border border-[#e2b33f]/60 bg-[#1d0832]/80 px-6 py-2.5 text-sm font-bold text-[#ece2f8] shadow-inner transition-all hover:border-[#e2b33f] hover:bg-[#2c0349]/90 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full border border-[#ffd1ea]/50 bg-gradient-to-r from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] px-6 py-2.5 text-sm font-black text-[#2b0019] shadow-[0_4px_15px_rgba(255,63,164,0.4)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(255,63,164,0.6)] xl:flex">
+        class="hidden rounded-full border border-[#e2b33f]/55 bg-gradient-to-r from-[#b453ff] via-[#8c1ad9] to-[#7505cc] px-6 py-2.5 text-sm font-black text-[#ece2f8] shadow-[0_4px_15px_rgba(117,5,204,0.5)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(117,5,204,0.7)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#ff3fa4]/55 bg-[#3a0534] xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#7505cc]/60 bg-[#1d0832] xl:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ff3fa4] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#c07cff] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#c07cff] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#c07cff] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#ff3fa4] bg-[#210220]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
+    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#7505cc] bg-[#140522]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 xl:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#ff3fa4] bg-[#3a0534] text-[#ff3fa4]" : "text-[#fde8f3]/80 hover:bg-white/5 hover:text-[#ffd1ea]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#e2b33f] bg-[#1d0832] text-[#e2b33f]" : "text-[#ece2f8]/80 hover:bg-white/5 hover:text-[#ffdf8c]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -147,10 +163,10 @@ const logoAlt =
     <div class="mt-6 flex flex-col gap-3">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full border border-[#ffd1ea]/50 bg-gradient-to-r from-[#ffd1ea] via-[#ff6cbb] to-[#ff3fa4] py-3.5 text-lg font-black text-[#2b0019] shadow-md">
+        class="flex w-full justify-center rounded-full border border-[#e2b33f]/55 bg-gradient-to-r from-[#b453ff] via-[#8c1ad9] to-[#7505cc] py-3.5 text-lg font-black text-[#ece2f8] shadow-md">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-[#f5c53d]/60 bg-[#3a0534]/80 py-3.5 text-lg font-bold text-[#fde8f3]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-[#e2b33f]/60 bg-[#1d0832]/80 py-3.5 text-lg font-bold text-[#ece2f8]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

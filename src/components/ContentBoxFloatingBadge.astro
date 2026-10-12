@@ -9,9 +9,8 @@ const { title, as: HeadingTag = "h2" } = Astro.props;
 // page's longest sentence, inside a floating badge, and every extra pixel of
 // font size there turns into another wrapped line and another 27px of card
 // padding. It catches up at sm/md, where the badge is wide enough to afford it.
-// THIS round the H1 does live here (PUNPRO168 docx heading #1), so the h1 branch
-// is the one exercised and the clearance below is derived from that exact
-// sentence.
+// THIS round the box carries docx H2 §7 instead, so the h2 branch is the one
+// exercised and the clearance below is derived from that exact sentence.
 const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
 
 // Flattened single-slot variant: `isolate` on the card, `-z-10` on both aura
@@ -25,17 +24,16 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // are `absolute` hairlines, so 100% of the badge's inner width belongs to the
 // title.
 //
-// BADGE CLEARANCE RE-DERIVED FOR PUNPRO168 (2026-10-12). This box carries the
-// docx H1, the longest heading on the page:
-//   "PUNPRO168 สล็อตปันโปรในตำนาน อัปเดตทางเข้าเล่นใหม่ 2026"
-// Its four space-delimited chunks advance 9 / 16 / 17 / 4 cells of glyph (Thai
-// zero-width marks do not advance: ็ ั in สล็อตปันโปรในตำนาน are 2 marks, ั ้ ่ ่
-// in อัปเดตทางเข้าเล่นใหม่ are 4 — ำ IS spacing and does advance), 46 cells of
-// glyph plus 3 spaces = 49 cells. The worst case assumed below is that the line
-// breaker only breaks at those 3 spaces — Thai dictionary breaking adds break
-// opportunities, so it can only ever pack the same text into FEWER lines, never
-// more. No single chunk is wider than one line at any width, so nothing can
-// overflow sideways.
+// BADGE CLEARANCE RE-DERIVED FOR KMD88 (2026-10-13). This box carries docx H2 §7:
+//   "แอดมิน KMD88 เปิดบริการ 24 ชั่วโมง"
+// Its five space-delimited chunks advance 5 / 5 / 8 / 2 / 5 cells of glyph (Thai
+// zero-width marks do not advance: ิ in แอดมิน is 1 mark, ิ ิ in เปิดบริการ are
+// 2 marks, ั ่ in ชั่วโมง are 2 marks — ำ would be spacing but does not occur
+// here), 25 cells of glyph plus 4 spaces = 29 cells. The worst case assumed
+// below is that the line breaker only breaks at those 4 spaces — Thai dictionary
+// breaking adds break opportunities, so it can only ever pack the same text into
+// FEWER lines, never more. No single chunk is wider than one line at any width,
+// so nothing can overflow sideways.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
@@ -43,80 +41,82 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy at the 3 spaces: 9 alone (adding 16 -> 26 overflows),
-//               then 16 (adding 17 -> 34 overflows), then 17+1+4 = 22 which
-//               fits exactly -> 3 lines. Budgeting a PESSIMISTIC 4th line in
-//               case that last line lands one cell over at some font metric:
-//               4x27 + 24 = 132, edge 108 vs pt-36/144px      -> 36px clear
+//               Greedy at the 4 spaces: 5, +1+5 = 11, +1+8 = 20 (adding 1+2 ->
+//               23 overflows 22), then 2+1+5 = 8 -> 2 lines. Budgeting a
+//               PESSIMISTIC 3rd line in case a font metric lands one cell over:
+//               3x27 + 24 = 105, edge 81 vs pt-36/144px        -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
-//               text-2xl 24px -> ~13.9px/cell = 35 cells/line, 36px/line.
-//               9+1+16 = 26 fits (adding 17 -> 44 overflows), then
-//               17+1+4 = 22 -> 2 lines. Budget 2 = 2x36 + 24 = 96,
-//               edge 72 vs pt-36/144px (sm inherits it)       -> 72px clear
+//               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
+//               All 29 cells fit on one line. Budget 2 = 2x30 + 24 = 84,
+//               edge 60 vs pt-36/144px (sm inherits it)         -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
 //               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               26 fits, adding 17 -> 44 overflows, then 22 -> 2 lines.
-//               Budget 2 = 2x36 + 24 = 96, edge 72
-//               vs pt-36/144px                                -> 72px clear
-// Worst case is the narrow-phone band: even with a pessimistic 4 wrapped lines
-// the badge bottom edge is 108px against 144px of card padding, i.e. 36px of
+//               29 cells fit on one line. Budget 2 = 2x36 + 24 = 96, edge 72
+//               vs pt-36/144px                                  -> 72px clear
+// Worst case is the narrow-phone band: even with a pessimistic 3 wrapped lines
+// the badge bottom edge is 81px against 144px of card padding, i.e. 63px of
 // visible daylight. One flat pt-36 covers every width, so nothing had to move
-// this round. All FOUR *FloatingBadge files are held at this same flat pt-36 —
-// this one, ContentBoxTwoFloatingBadge, ContentBoxSevenThreeFloatingBadge and
-// ContentBox3ThreeFloatingBadge — so the next brand cannot inherit a padding
+// this round either. All FOUR *FloatingBadge files are held at this same flat
+// pt-36 — this one, ContentBoxTwoFloatingBadge, ContentBoxSevenThreeFloatingBadge
+// and ContentBox3ThreeFloatingBadge — so the next brand cannot inherit a padding
 // that was only ever sized for a short title. Do NOT shrink it assuming the next
 // brand's heading is shorter, and do not re-introduce a responsive step down at
 // sm — redo the arithmetic with that brand's real docx sentence instead.
 //
-// PUNPRO168 (รอบชมพูฮอตพิงก์-ทอง บนพลัมเข้มอมม่วง 2026-10-12, brand-spec §2):
-// งานอาร์ตรอบนี้เป็นสาวผมบ๊อบสีชมพู เป็ด/แมว/กระต่ายการ์ตูนสวมมงกุฎทอง เหรียญทองลอย
-// หัวใจชมพู ตู้สล็อต 777 และกล่องของขวัญทองผูกโบว์ชมพู โลโก้เป็นเครื่องเกมพกพาสีชมพู
-// หน้ายิ้มขยิบตา เหนือคำว่า PUNPRO ตัวหนาสามมิติชมพูบานเย็นขอบทอง และเลข 168 ทองวาว
-// แบรนด์จึงเป็นคู่สีจริง — **ชมพูบานเย็น #f41571 นำ** และ **ทองสว่าง #fce343 รอง**
-// ⚠️ พื้นเพจรอบนี้เป็นพลัมเข้มอมม่วง #2e0022 ตาม bg.json **ไม่ใช่ดำสนิท** จึงมีชั้นที่
-// ลึกกว่าพื้นได้จริง (#1c0014) การ์ดใบนี้ไล่จากผิวยก #4a1038 ลงผิวกลาง #3a0a2a ใน
-// กรอบชมพูแบรนด์หนาสองพิกเซล
-// จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นชมพูทึบ หมึกพลัมเกือบดำ" ซึ่งเป็นขั้วกลับของทุก
-// หัวข้อบนหน้านี้ที่เป็นตัวอักษรสว่าง/ไล่เฉดบนพื้นมืด — ไล่ชมพูสว่าง #ff5ca8 → ชมพู
-// บานเย็น #f41571 บนหมึก #2a0012 (4.7:1 ที่ปลายเข้มสุด บนตัวอักษร font-black
-// ขนาด 18px ขึ้นไป) §2 ระบุว่า #2a0012 เป็นหมึกตัวเดียวที่วางบนพื้นถมชมพูหรือถมทองได้
-// และห้ามพลิกแผ่นชมพูไปใช้หมึกสว่าง ขอบป้ายเป็นทองสว่าง #fce343 (ขอบทองของตัวอักษร
-// PUNPRO) เส้นไรผมบนเป็นทองสว่าง และเส้นล่างเป็นชมพูลึก #8a0a45
-// ออราสองมุมเป็นคู่สีของแบรนด์จริงๆ — ทอง #fce343 มุมขวาบน (เหรียญทองและเลข 168)
-// คู่กับชมพูลึก #8a0a45 มุมซ้ายล่าง ไม่ใช่สองเฉดของชมพูเดียวกัน
-// เนื้อความ #fde7f2 (= BRAND_TEXT) — 12.6:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด
-// §2 ห้าม #8a0a45 / #4a0426 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ออราและเส้นไรผมเท่านั้น
-// และ #ffd94a ถูกสงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น จึงไม่โผล่ในไฟล์นี้เลย
+// KMD88 (รอบม่วงราชา-ทอง 2026-10-13, brand-spec §2): งานอาร์ตรอบนี้เป็นฉากคาสิโนดำ
+// ที่ส่องด้วยริบบิ้นแสงม่วง — คู่นายแบบ-นางแบบผมขาวเงินในชุดดำขลิบม่วง/ทอง ไพ่เอซ
+// ขอบทอง ชิปม่วงสลับทอง มงกุฎทอง ลูกเต๋าทอง และเหรียญทอง โลโก้เป็นคำว่า KMD ตัวอักษร
+// สามมิติม่วงขัดเงาขอบทอง ต่อด้วยเลข 88 ทองเมทัลลิก ในวงแหวนทองที่ขาดช่วง
+// แบรนด์จึงเป็นคู่สีจริง — **ม่วงแบรนด์ #7505cc นำ** และ **ทองแบรนด์ #e2b33f รอง**
+// ⚠️ พื้นเพจรอบนี้ **ดำสนิท** ตาม bg.json จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้ ผิวจม
+// #0a0213 คือก้นสุด การ์ดใบนี้ไล่จากผิวยก #1d0832 ลงผิวกลาง #140522 ในกรอบม่วงแบรนด์
+// หนาสองพิกเซล
+// จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นทองทึบ หมึกม่วงเกือบดำ" ซึ่งเป็นขั้วกลับของทุก
+// หัวข้อบนหน้านี้ที่เป็นตัวอักษรสว่าง/ไล่เฉดบนพื้นมืด — ไล่ทองสว่าง #ffdf8c → ทอง
+// แบรนด์ #e2b33f บนหมึก #1a0526 (8.4:1 ที่ปลายเข้มสุด) §2 ระบุว่า #1a0526 เป็นหมึก
+// ตัวเดียวที่วางบนพื้นถมทองหรือพื้นสว่างได้ และห้ามพลิกแผ่นทองไปใช้หมึกสว่าง ขอบป้าย
+// เป็นม่วงแบรนด์ #7505cc (เนื้อม่วงของตัวอักษร KMD รอบขอบทอง) เส้นไรผมบนเป็นม่วงสว่าง
+// #b453ff และเส้นล่างเป็นทองลึก #7a5a0a
+// ออราสองมุมเป็นคู่สีของแบรนด์จริงๆ — ทอง #e2b33f มุมขวาบน (เลข 88 กับวงแหวนทอง)
+// คู่กับม่วงแบรนด์ #7505cc มุมซ้ายล่าง ไม่ใช่สองเฉดของม่วงเดียวกัน
+// เนื้อความ #ece2f8 (= BRAND_TEXT) — 12.6:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด
+// §2 ห้าม #7505cc #b453ff #3a0565 #2c0349 #7a5a0a ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่
+// ออรา กรอบ และเส้นไรผมเท่านั้น และ #ffd45e ถูกสงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น
+// จึงไม่โผล่ในไฟล์นี้เลย
 //
-// ⚠️ รอบก่อนหน้าหลายเจ้าก็มีชมพูและแปดในสิบรอบมีทอง เจอสีที่ไหนห้ามเหมาว่าเป็นของ
-// รอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733
-// #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903) ชุด
-// ชมพูฮอต-ทองของ FAH999 ที่เคยค้างในไฟล์นี้ (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4
+// ⚠️ เก้าในสิบสองรอบหลังสุดมีทอง และม่วงก็เพิ่งมาสองรอบ เจอสีที่ไหนห้ามเหมาว่าเป็นของ
+// รอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 ที่เคยค้างอยู่ทั้ง
+// ไฟล์นี้ (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012
+// #4a1038 #3a0a2a #2e0022 #1c0014) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d #ffe4a3
+// #c9b88e #f0e9dc #8a5c09 #43240b #140d02 #1b1307 #120c04 #070502) ชุดทองอำพันเสือ
+// ของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02
+// #2d1c0a #1c1206 #0f0903) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4
 // #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b #2b0019 #4a0b42 #3a0534 #2e002c
 // #210220 #ffe49a) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18
 // #96690a #6b4a05 #eef2f8 #cfd6e3 #9aa6bb #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03
-// #382400 #231500) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a
-// #8a5f08 #5c3f04 #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9) และชุดทอง-แดงของ GOT777
-// (#f5c518 #ffe9a8 #96690f #d21622) ออกครบทุกจุดแล้ว
-// ⚠️ FAH999 ก็เป็นแบรนด์ชมพู "มีชมพูอยู่แล้ว" จึงไม่พิสูจน์อะไร — #ff3fa4 (R=255
-// G=63) ไม่ใช่ #f41571 (R=244 G=21) ซึ่งอิ่มกว่าและแดงกว่า และ #f5c53d ของ FAH999
-// ก็ไม่ใช่ #fce343 ของรอบนี้ ห้ามกะด้วยตา
-// ⚠️ **รอบนี้ไม่มีเขียว ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเทา/เงินโครเมียม ไม่มีส้มอิฐ และ
-// ไม่มีแดงเลือดนก**
+// #382400 #231500) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08
+// #5c3f04 #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9) และชุดทอง-แดงของ GOT777 (#f5c518
+// #ffe9a8 #96690f #d21622) ออกครบทุกจุดแล้ว
+// ⚠️ WEPLAY168 (#a435f0 #d2a6ff #c9b2e8 #5b1a75 #1e0a3c #0a0117) และ BPLAY639
+// (#7e22ce #c4b5fd #ddd6fe #14061f) ก็เป็นแบรนด์ม่วง "มีม่วงอยู่แล้ว" จึงไม่พิสูจน์
+// อะไร — #a435f0 (R=164 G=53) และ #7e22ce (R=126 G=34) ไม่ใช่ #7505cc (R=117 G=5)
+// ซึ่งเข้มและอิ่มกว่าทั้งคู่ และ #f5c53d / #fce343 / #fbe455 ก็ไม่ใช่ #e2b33f
+// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีเขียว ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเทา/เงินโครเมียม ไม่มี
+// ส้มอิฐ และไม่มีแดงเลือดนก**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#f41571]/60 bg-gradient-to-b from-[#4a1038] to-[#3a0a2a] p-8 pt-36 text-left text-base leading-relaxed text-[#fde7f2] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#fce343]/24 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#8a0a45]/70 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#7505cc]/65 bg-gradient-to-b from-[#1d0832] to-[#140522] p-8 pt-36 text-left text-base leading-relaxed text-[#ece2f8] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e2b33f]/22 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#7505cc]/60 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#fce343] bg-gradient-to-r from-[#ff5ca8] to-[#f41571] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#fce343] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#8a0a45] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#2a0012] uppercase`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#7505cc] bg-gradient-to-r from-[#ffdf8c] to-[#e2b33f] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#b453ff] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#7a5a0a] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#1a0526] uppercase`}>{title}</HeadingTag>
         </div>
       )
     }

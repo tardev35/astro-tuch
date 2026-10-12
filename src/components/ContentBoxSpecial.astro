@@ -5,7 +5,7 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", iconleft = "🎧", iconright = "📋" } = Astro.props;
+const { title, as: HeadingTag = "h2", iconleft = "🏦", iconright = "🧾" } = Astro.props;
 const hasActions = Astro.slots.has("actions");
 
 // House rule: exactly ONE element per slot. Each <article> is a gap-4 flex row
@@ -21,88 +21,93 @@ const hasActions = Astro.slots.has("actions");
 //
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant fits a docx section whose two
-// paragraphs split cleanly in two. On this brand's homepage it holds docx H2 #7,
-// the แอดมิน PUNPRO168 เปิดให้บริการ 24 ชั่วโมง pair: the left paragraph is the
-// support channel itself (เรื่องที่สอบถามได้ · เวลาให้บริการ · ช่องทางหลักที่
-// เว็บไซต์กำหนด) and the right one is the brief's own guidance on reporting a
-// problem so it matches the right record (ข้อความแจ้งเตือนและเวลาที่เกิดเหตุ ·
-// ชื่อกิจกรรมและรอบรับสิทธิ์ · เวลา จำนวนเงิน และหลักฐานรายการ) และปิดท้ายด้วย
-// คำเตือนเรื่องรหัสผ่าน PIN และ OTP
+// paragraphs split cleanly in two. On this brand's homepage it holds docx H2 §6,
+// the ระบบฝากถอนเข้าบริษัทเจ้าของโดยตรง pair: the left paragraph is the deposit/
+// withdrawal system itself (ตรวจสอบยอดเงิน · ช่องทางชำระเงิน · สถานะรายการ · ชื่อ
+// บริษัทหรือนิติบุคคลที่ควรตรวจสอบได้) and the right one is the brief's own
+// guidance before confirming a transfer (ชื่อบัญชีปลายทาง · จำนวนเงิน · เงื่อนไข
+// การฝากถอน) ปิดท้ายด้วยคำกำกับว่าการใช้บัญชีบริษัทไม่ได้รับประกันความปลอดภัยของ
+// ธุรกรรมทั้งหมด
 //
-// Default icons are 🎧 / 📋 — a support channel and a filled-in report, which is
-// exactly what those two paragraphs are about. Both render inside an aria-hidden
-// box, so neither is ever part of an accessible name.
+// Default icons are 🏦 / 🧾 — a company bank account and a transaction record,
+// which is exactly what those two paragraphs are about. Both render inside an
+// aria-hidden box, so neither is ever part of an accessible name.
 //
-// รอบนี้ (2026-10-12, brand-spec §2): สองครึ่งบนการ์ดกระจกผิวกลาง #3a0a2a ซึ่งสว่าง
-// กว่าพื้นเพจพลัมเข้ม **#2e0022 ไม่ใช่ดำสนิท** การ์ดจึงลอย และรอบนี้ยังมีชั้นที่จม
-// ต่ำกว่าพื้นได้จริง (#1c0014) ซึ่งใช้เป็นพื้นของสองครึ่ง
-// แบรนด์มีสองฮิวจริง — ชมพูบานเย็นนำ (คำว่า PUNPRO สามมิติและตัวเครื่องเกมบนโลโก้)
-// ทองสว่างรอง (เลข 168 สามมิติ เหรียญทอง มงกุฎ) — สองป้ายไอคอนจึงแยกกันด้วย
-// "แผ่นทองทึบ vs แผ่นมืดกรอบชมพู" ไม่ใช่ด้วยระดับความสว่างของชมพูเดียว: ป้ายซ้ายเป็น
-// แผ่นทองทึบ ไล่ครีมชมพู #fde7f2 → ทองสว่าง #fce343 → ทองอำพัน #ffc554 บนหมึก
-// #2a0012 (12.3:1 ที่ปลายเข้มสุด — §2 ห้ามไล่เข้มกว่า #ffc554 ใต้ตัวอักษร และห้าม
-// พลิกแผ่นทองไปใช้หมึกสว่าง) ส่วนป้ายขวาเป็นแผ่นมืดทึบ ไล่ชมพูลึกสุด #4a0426 → ผิวจม
-// #1c0014 ในกรอบชมพูแบรนด์ #f41571 บนไอคอนชมพูสว่าง #ff5ca8 — สองป้ายจึงเป็นขั้วกลับ
-// ของกันเอง ทั้งพื้นและหมึก และตรงกับโลโก้ที่ตัวอักษรชมพูวางคู่เลขทองวาว
-// สองครึ่งตกลงไปที่ผิวจม #1c0014 ครึ่งซ้ายเป็นกรอบชมพูแบรนด์ ครึ่งขวาเป็นกรอบทองสว่าง
-// ให้ต่างกันตั้งแต่ขอบ เส้นคาดหัวการ์ดเป็นทองสว่างโปร่ง
-// หัวข้อไล่ทองสว่าง #fce343 → ชมพูสว่าง #ff5ca8 → ชมพูบานเย็น #f41571 ซึ่งไม่ซ้ำลำดับ
-// กับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว
-// เนื้อความ #fde7f2 (= BRAND_TEXT) — 14.2:1 บนผิวกลาง และ 17.2:1 บนผิวจมของสองครึ่ง
-// §2 ห้าม #8a0a45 / #4a0426 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบแผ่นทองและไล่เฉด
-// ของแผ่นมืดเท่านั้น และ #ffd94a สงวนไว้ให้ <strong> ในย่อหน้า จึงไม่โผล่ในไฟล์นี้
+// KMD88 (รอบม่วงราชา-ทอง 2026-10-13, brand-spec §2): สองครึ่งบนการ์ดกระจกผิวยก
+// #1d0832 ⚠️ พื้นเพจรอบนี้ **ดำสนิท** (bg.json = {"mode":"color","color":"#000000"})
+// จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้ ผิวจม #0a0213 คือก้นสุด และเป็นพื้นของสองครึ่ง
+// แบรนด์มีสองฮิวจริง — ม่วงนำ (คำว่า KMD สามมิติและริบบิ้นแสงม่วงในอาร์ตเวิร์ก)
+// ทองรอง (เลข 88 วงแหวนทอง ไพ่เอซทอง มงกุฎทอง ลูกเต๋าทอง) — สองป้ายไอคอนจึงแยกกันด้วย
+// "แผ่นทองทึบ vs แผ่นมืดกรอบม่วง" ไม่ใช่ด้วยระดับความสว่างของม่วงเดียว: ป้ายซ้ายเป็น
+// แผ่นทองทึบ ไล่ทองสว่าง #ffdf8c → ทองแบรนด์ #e2b33f บนหมึก #1a0526 (8.4:1 ที่ปลาย
+// เข้มสุด — §2 ระบุว่า #1a0526 เป็นหมึกตัวเดียวที่วางบนพื้นถมทองหรือพื้นสว่างได้ และ
+// ห้ามพลิกแผ่นทองไปใช้หมึกสว่าง) ส่วนป้ายขวาเป็นแผ่นมืดทึบ ไล่ม่วงลึก #3a0565 → ผิวจม
+// #0a0213 ในกรอบม่วงแบรนด์ #7505cc บนไอคอนม่วงตัวอักษร #c07cff — สองป้ายจึงเป็นขั้ว
+// กลับของกันเอง ทั้งพื้นและหมึก และตรงกับโลโก้ที่ตัวอักษรม่วงวางคู่เลขทองวาว
+// สองครึ่งตกลงไปที่ผิวจม #0a0213 ครึ่งซ้ายเป็นกรอบม่วงแบรนด์ ครึ่งขวาเป็นกรอบทอง
+// แบรนด์ ให้ต่างกันตั้งแต่ขอบ เส้นคาดหัวการ์ดเป็นทองแบรนด์โปร่ง
+// หัวข้อไล่ม่วงอ่อน #d9b8ff → ม่วงตัวอักษร #c07cff → ทองแบรนด์ #e2b33f ซึ่งไม่ซ้ำ
+// ลำดับกับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว
+// เนื้อความ #ece2f8 (= BRAND_TEXT) — 12.6:1 บนผิวยก และ 16.4:1 บนผิวจมของสองครึ่ง
+// §2 ห้าม #7505cc #b453ff #3a0565 #2c0349 #7a5a0a ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่
+// ขอบ ไล่เฉดของแผ่นมืด และออราเท่านั้น และ #ffd45e สงวนไว้ให้ <strong> ในย่อหน้า
+// จึงไม่โผล่ในไฟล์นี้
 //
-// ⚠️ แปดในสิบแบรนด์หลังสุดมีทอง และ FAH999 กับ PIGPG เป็นแบรนด์ชมพูมาก่อน ให้เทียบ
-// เป็นค่า ไม่ใช่ตระกูลสี: ชุดทองอำพันเสือของ TIGERWIN369 ที่เคยค้างในไฟล์นี้ (#d98324
-// #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903)
-// ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #0d0b06
-// #f0e8d4 #ffe08a #7d5a07 #43300a #464f5a #140d01 #f2f5f9) ชุดชมพูฮอต-ทองของ FAH999
-// (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b
-// #2b0019 #4a0b42 #3a0534 #2e002c #210220) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34
-// #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9 #1f1709
-// #171106 #0d0903) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18
-// #96690a #6b4a05 #cfd6e3 #fdf3df #d9c9a6 #4e3406 #432b03 #382400 #241700 #231500)
-// ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518 #ffdd73 #b8860f #ff3b14 #8c0f0a)
-// ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023 #f2c230 #ffe066 #a87a08 #051400) และ
-// ชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0 #fbe455 #efe6ff #ffd23d #5b1a75 #c98a05
-// #1e0a3c) ออกครบทุกจุดแล้ว — ⚠️ "มีทองอยู่แล้ว" และ "มีชมพูอยู่แล้ว" ไม่พิสูจน์อะไร
-// ทองรอบนี้คือ #fce343 / #ffc554 และชมพูรอบนี้คือ #f41571 / #ff5ca8 ไม่ใช่ #f5c53d
-// และไม่ใช่ #ff3fa4
+// ⚠️ เก้าในสิบสองแบรนด์หลังสุดมีทอง และ WEPLAY168 กับ BPLAY639 เป็นแบรนด์ม่วงมาก่อน
+// ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 ที่เคยค้างอยู่ทั้ง
+// ไฟล์นี้ (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012
+// #4a1038 #3a0a2a #2e0022 #1c0014 #ffc554) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d
+// #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02 #1b1307 #120c04 #070502) ชุดทอง
+// อำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08
+// #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b
+// #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffe08a #7d5a07 #43300a #464f5a #140d01
+// #f2f5f9) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d
+// #9c6f08 #b3006a #7a0046 #4d002b #2b0019 #4a0b42 #3a0534 #2e002c #210220) ชุดทอง
+// เป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a
+// #a3510c #1a1203 #f6ecd9 #1f1709 #171106 #0d0903) ชุดทองอวกาศ-เงินโครเมียมของ
+// NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #cfd6e3 #fdf3df #d9c9a6 #4e3406
+// #432b03 #382400 #241700 #231500) ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518
+// #ffdd73 #b8860f #ff3b14 #8c0f0a) ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023
+// #f2c230 #ffe066 #a87a08 #051400) และชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0 #fbe455
+// #efe6ff #ffd23d #5b1a75 #c98a05 #1e0a3c #d2a6ff #c9b2e8 #0a0117) ออกครบทุกจุดแล้ว
+// ⚠️ "มีทองอยู่แล้ว" และ "มีม่วงอยู่แล้ว" ไม่พิสูจน์อะไร — ทองรอบนี้คือ #e2b33f /
+// #ffdf8c และม่วงรอบนี้คือ #7505cc / #b453ff / #c07cff / #d9b8ff ไม่ใช่ #f5c53d และ
+// ไม่ใช่ #a435f0 / #d2a6ff ของ WEPLAY168
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f41571]/35 bg-[#3a0a2a]/95 p-6 text-[#fde7f2] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#f41571]/75 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7505cc]/40 bg-[#1d0832]/95 p-6 text-[#ece2f8] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#7505cc]/80 md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#fce343] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#e2b33f] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#f41571]/30 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff5ca8] via-[#f41571] to-[#4a0426] shadow-[0_0_10px_rgba(244,21,113,0.6)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#fce343] via-[#ff5ca8] to-[#f41571] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#7505cc]/35 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#b453ff] via-[#7505cc] to-[#2c0349] shadow-[0_0_10px_rgba(117,5,204,0.65)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#d9b8ff] via-[#c07cff] to-[#e2b33f] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/95 p-6 text-left text-base leading-relaxed text-[#fde7f2] transition-all duration-300 hover:-translate-y-2 hover:border-[#f41571]/75 hover:bg-[#4a1038] hover:shadow-[0_15px_40px_rgba(244,21,113,0.24)]">
+        class="relative flex gap-4 rounded-2xl border border-[#7505cc]/35 bg-[#0a0213]/95 p-6 text-left text-base leading-relaxed text-[#ece2f8] transition-all duration-300 hover:-translate-y-2 hover:border-[#7505cc]/80 hover:bg-[#1d0832] hover:shadow-[0_15px_40px_rgba(117,5,204,0.26)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#8a0a45] bg-gradient-to-br from-[#fde7f2] via-[#fce343] to-[#ffc554] text-2xl text-[#2a0012] shadow-[0_5px_15px_rgba(252,227,67,0.35)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#7a5a0a] bg-gradient-to-br from-[#ffdf8c] to-[#e2b33f] text-2xl text-[#1a0526] shadow-[0_5px_15px_rgba(226,179,63,0.35)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#fce343]/35 bg-[#1c0014]/95 p-6 text-left text-base leading-relaxed text-[#fde7f2] transition-all duration-300 hover:-translate-y-2 hover:border-[#fce343]/70 hover:bg-[#4a1038] hover:shadow-[0_15px_40px_rgba(252,227,67,0.2)]">
+        class="relative flex gap-4 rounded-2xl border border-[#e2b33f]/35 bg-[#0a0213]/95 p-6 text-left text-base leading-relaxed text-[#ece2f8] transition-all duration-300 hover:-translate-y-2 hover:border-[#e2b33f]/70 hover:bg-[#1d0832] hover:shadow-[0_15px_40px_rgba(226,179,63,0.2)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#f41571]/60 bg-gradient-to-br from-[#4a0426] to-[#1c0014] text-2xl text-[#ff5ca8] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#7505cc]/70 bg-gradient-to-br from-[#3a0565] to-[#0a0213] text-2xl text-[#c07cff] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
           {iconright}
         </div>
         <slot name="right" />
@@ -111,7 +116,7 @@ const hasActions = Astro.slots.has("actions");
 
     {
       hasActions && (
-        <div class="mt-8 border-t border-[#f41571]/30 pt-6">
+        <div class="mt-8 border-t border-[#7505cc]/35 pt-6">
           <slot name="actions" />
         </div>
       )
