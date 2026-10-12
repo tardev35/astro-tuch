@@ -11,101 +11,119 @@ export interface Props {
 const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 
 // The badge is width-capped (w-[92%] max-w-2xl) and centred, never
-// whitespace-nowrap — re-checked for this brand, the string does not appear in
+// whitespace-nowrap — re-grepped for this brand, the string does not appear in
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// BADGE CLEARANCE RE-DERIVED FOR FLASH877 (2026-10-10). This box carries docx
-// H3 #5 "โปรโมชั่น แนะนำเพื่อน รับโบนัสแชร์ลิงก์ 0.8% ไม่จำกัด" — 53 code points,
-// 42 advancing cells once the 11 zero-width marks (ั ่ in โปรโมชั่น, ื ่ in
-// แนะนำเพื่อน, ั ั ์ ิ ์ in รับโบนัสแชร์ลิงก์, ่ ั in ไม่จำกัด) are discounted and
-// the 4 spaces counted. Measured here rather than inherited on trust. The
-// heading keeps `leading-normal` (1.5) and the badge adds py-2.5 (20px) plus
-// border-2 (4px); there are no spark spans in this variant, so the full inner
-// width is text. The five space-delimited chunks measure 7 / 9 / 12 / 4 / 6
-// cells and the worst case assumed is a break only at those 4 spaces:
+// BADGE CLEARANCE RE-DERIVED FOR TND168 (2026-10-12), against the REAL docx
+// sentence this round rather than a short placeholder. This box carries docx
+// H3 §5 "โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด" — 5 space-delimited chunks,
+// 4 spaces, and 30 advancing cells of text once the 7 zero-width marks are
+// discounted (ั ่ in โปรโมชั่น · ื ่ in แนะนำเพื่อน · ั in โบนัส · ่ ั in ไม่จำกัด),
+// i.e. chunks of 7 / 9 / 4 / 4 / 6 cells and 34 cells including the spaces.
+// The heading keeps `leading-normal` (1.5); the badge adds py-2.5 (20px) and
+// border-2 (4px), and there are no spark spans, so the full inner width is text.
+// Worst case assumed is a break only at those 4 spaces:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy: 7+1+9 = 17, then 12+1+4 = 17, then 6 -> 3 lines.
-//               Budget 3 lines = 3x27 + 24 = 105, edge 81 vs pt-36/144px
-//                                                          -> 63px clear
+//               Greedy: 7+1+9+1+4 = 22 fits, then 4+1+6 -> 2 lines.
+//               Height 2x27 + 24 = 78, edge 78 - 24 = 54 vs pt-36/144px
+//                                                          -> 90px clear
+//               Budget 3 lines = 3x27 + 24 = 105, edge 81  -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               all 42 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
+//               all 34 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
 //               vs pt-36/144px                             -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl 24px -> 43 cells/line, 36px/line. 42 cells, 1 line.
+//               text-2xl 24px -> 43 cells/line, 36px/line. 34 cells, 1 line.
 //               Budget 2 = 2x36 + 24 = 96, edge 72 vs pt-36/144px
 //                                                          -> 72px clear
-// The flat pt-36 is deliberate and is held across all four *FloatingBadge files
-// (this one, ContentBoxFloatingBadge, ContentBoxTwoFloatingBadge and
-// ContentBox3ThreeFloatingBadge) so the next brand cannot inherit a padding that
-// was only ever sized for a short title. Do not shrink it without redoing the
-// arithmetic against the real docx sentence the next brand puts in here.
+// Every band clears, so pt-36 is kept as it stands — it is NOT shrunk to fit
+// this one title. The flat pt-36 is deliberate and is held across all four
+// *FloatingBadge files (this one, ContentBoxFloatingBadge,
+// ContentBoxTwoFloatingBadge and ContentBox3ThreeFloatingBadge) so the next
+// brand cannot inherit a padding that was only ever sized for a short title.
+// Do not shrink it without redoing the arithmetic against the real docx
+// sentence the next brand puts in here.
 //
 // This block carries the image column on the RIGHT — and the grid stays at
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
 // paragraph gets the wide 7fr one. At [3fr_7fr] the image would take 70% of the
-// card and squeeze the docx paragraph into a 30% gutter. Its sibling
-// ContentBoxSevenThreeCyberCut keeps [3fr_7fr] with the image on the left, so
-// the pair mirrors instead of stacking both pictures down one edge. The page
-// passes neither titleleft nor titleright, so the badge is the only heading it
-// emits.
+// card and squeeze the docx paragraph into a 30% gutter. Its partner block this
+// round is ContentBoxSevenThree, which also keeps the picture on the right
+// (brand-spec §5 pins both slides to slot="right"), so the pair is told apart by
+// CARD SHAPE and HEADING TREATMENT rather than by mirroring the columns: that
+// one is a clipped-corner card at mid surface with a solid gold heading in the
+// text column, this one is a rounded card graded raised -> sunken with a floating
+// SOLID GOLD plate carrying dark ink. The page passes neither titleleft nor
+// titleright, so the badge is the only heading this block emits.
 //
-// Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes
-// (section max-w-7xl/1280px + px-4, card border-2 2px x2 per side = 4, p-8,
-// grid gap-10, and the image column adds md:pl-10 plus a 1px md:border-l):
-//   >= 1280px : (1280 - 32 - 4 - 64 - 40) x 0.3 - 41 = 342 - 41 = 301px
-//   md..1279  : (100vw - 140) x 0.3 - 41             = calc(30vw - 83px)
-//   < md      : one column at p-8, no md: padding     = calc(100vw - 100px)
+// Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes.
+// NOTE max-w-7xl sits on the CARD here, not on the <section>, so px-4 does NOT
+// come out of the 1280 cap once the cap binds (this is where the previous
+// round's comment double-counted it):
+//   card outer = min(100vw - 32, 1280); card border-2 (2x2=4) + p-8 (64);
+//   grid gap-10 (40); image column adds md:pl-10 (40) + md:border-l (1) = 41
+//   >= 1312px : (1280 - 4 - 64 - 40) x 0.3 - 41 = 1172 x 0.3 - 41 = 311px
+//   md..1311  : (100vw - 140) x 0.3 - 41        = calc(30vw - 83px)
+//   < md      : one column at p-8, no md: padding = calc(100vw - 100px), which
+//               passes the 600px bitmap above a 700px viewport, so the page caps
+//               that band at 600px
 // Change any of those numbers and the page's `sizes` has to move with it.
 //
-// FLASH877 (รอบทองสายฟ้า-แดงเลือดนก 2026-10-10, brand-spec §2): นี่คือครึ่ง "ป้ายลอย"
-// ของคู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThreeCyberCut ที่เป็นการ์ดมุมตัด
-// ผิวลึกสุด ใบนี้จึงเป็นการ์ดมนไล่จากผิวกลาง #6d0804 ลงไปหาผิวลึกสุด #430000 ในกรอบ
-// แดงสายฟ้า #ff3b14 ให้ต่างกันตั้งแต่ขอบ (อีกใบเป็นกรอบทอง)
-// ป้ายหัวข้อเป็น "แผ่นทองทึบ หมึกเข้ม" — ไล่ครีม #fdf0e2 → ทองสว่าง #ffdd73 → ทองสายฟ้า
-// #f5c518 บนหมึกแดงเกือบดำ #2a0300 (ปลายเข้มสุดของไล่เฉดยังให้ 11.5:1 ตามกฎ §2 ที่ว่า
-// พื้นถมทอง/ครีมต้องใช้หมึก #2a0300 เสมอ ห้ามพลิกเป็นตัวอักษรครีม และห้ามไล่เฉดลงไปถึง
-// #8a6208 ใต้ตัวอักษร) ซึ่งเป็นขั้วกลับของป้ายแผ่นแดงลึกหมึกสว่างใน
-// ContentBoxTwoFloatingBadge ทั้งพื้นและหมึก กรอบป้ายเป็นทองเข้ม #b8860f ไม่ใช่ทอง
-// สายฟ้า เพื่อไม่ให้ขอบป้ายกลืนกับพื้นป้าย
-// ออร่าสองมุมเป็นทองสายฟ้ามุมซ้ายบน (สายฟ้าทองและเหรียญทองในอาร์ตเวิร์ก) กับแดงลึกสุด
-// #5a0603 มุมขวาล่าง (ม่านกำมะหยี่แดง) เนื้อความ #fdf0e2 (= BRAND_TEXT) — 12.8:1
-// บนผิวกลาง
+// TND168 (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2): นี่คือครึ่ง "ป้ายลอย" ของ
+// คู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThree ที่เป็นการ์ดมุมตัดผิวกลาง
+// #120c04 ใบนี้จึงเป็นการ์ดมนไล่จากผิวยก #1b1307 ลงไปหาผิวจม #070502 ในกรอบทองหลัก
+// #dfa310 หนาสองพิกเซล ให้ต่างกันตั้งแต่มุมและทิศทางของผิว
+// ป้ายหัวข้อเป็น "แผ่นทองทึบ หมึกเข้ม" — ไล่งาช้างอุ่น #f0e9dc → ทองสว่าง #ffe4a3 →
+// ทองหลัก #dfa310 บนหมึก #140d02 (ปลายเข้มสุดของไล่เฉดยังให้ 8.7:1 ตามกฎ §2 ที่ว่า
+// พื้นถมทองต้องใช้หมึก #140d02 เสมอ ห้ามพลิกเป็นตัวอักษรสว่าง และห้ามไล่เฉดลงไปถึง
+// #8a5c09 ใต้ตัวอักษร) ซึ่งเป็นขั้วกลับของหัวข้อทุกใบอื่นบนหน้านี้ที่เป็นตัวอักษร
+// สว่างบนพื้นมืด กรอบป้ายเป็นทองลึก #8a5c09 ไม่ใช่ทองหลัก เพื่อไม่ให้ขอบป้ายกลืนกับ
+// พื้นป้าย
+// ออร่าสองมุมเป็นทองหลักมุมซ้ายบน (ไฮไลต์บนเกล็ดมังกรและเหรียญทองในอาร์ตเวิร์ก) กับ
+// บรอนซ์ลึก #43240b มุมขวาล่าง (เงาใต้กองชิปและกองเหรียญ)
+// เนื้อความงาช้างอุ่น #f0e9dc (= BRAND_TEXT) — 15.3:1 บนผิวยก #1b1307
+// ⚠️ รอบนี้เป็น **ฮิวเดียวล้วน (ทอง) ไม่มีสีที่สองเลย** พื้นเพจดำสนิท #000000 ตาม
+// bg.json จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้ — #070502 คือก้นสุดที่ใช้ได้
 //
-// ⚠️ SUPERSLOTCLUB รอบก่อนก็เป็นคู่แดง-ทอง ให้เทียบเป็นค่า ไม่ใช่ตระกูลสี: ชุดเขียวป่า-
-// ทองมงกุฎของ KINGKONG555 ที่เคยค้างในไฟล์นี้ (#8ce023 #5cc211 #2f8c07 #1a5c04
-// #f2c230 #ffe066 #a87a08 #e9f7d6 #14380a #0f2e05 #051400 #06220a) ชุดแดงเสือโคร่ง-
-// ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a #ff5a46 #7d0f12 #4a0605 #f2b705 #ffd666
-// #c08a0b #fbe8d5 #3d1709 #241000) ชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #a30303
-// #f5b61d #ffd87a #fdf9e4 #b07a06 #6b0402) ชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0
-// #fbe455 #ffd23d #c98a05 #1e0a3c #ece2ff) และชุดเขียวมรกต-แดงสด-ทองของ DM899
-// (#f2b422 #ffe9a8 #12c23a #01a326 #fb252b #102a16) ออกครบทุกจุดแล้ว — #fb252b กับ
-// #d4200d เป็นแดงเหมือนกันแต่คนละค่ากับ #ff3b14 อย่าปล่อยไว้เพราะ "แดงอยู่แล้ว"
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองมาแล้วเก้าใน
+// สิบเอ็ดรอบ "มีทองอยู่แล้ว" จึงไม่พิสูจน์อะไร: ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877
+// ที่เคยค้างอยู่ทั้งไฟล์นี้ (#f5c518 #ffdd73 #b8860f #ff3b14 #8c0f0a #6d0804 #430000
+// #5a0603 #2a0300 #fdf0e2 #8a6208) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 รอบก่อน (#f41571
+// #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012 #4a1038 #3a0a2a
+// #1c0014) ชุดเขียวป่า-ทองมงกุฎของ KINGKONG555 (#8ce023 #f2c230 #ffe066 #a87a08
+// #06220a) ชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a #f2b705 #ffd666
+// #c08a0b) ชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #f5b61d #ffd87a) ชุดม่วงนีออน-ทอง
+// ของ WEPLAY168 (#a435f0 #5b1a75 #1e0a3c) และชุดทองอำพันเสือของ TIGERWIN369 (#d98324
+// #f7b733 #ffd98a #f7e4c0 #8a5214 #4a2a08) ออกครบทุกจุดแล้ว
+// ⚠️ #f5c518 ของ FLASH877 กับ #f2b705 ของ SUPERSLOTCLUB เป็นทองที่ตาเห็นว่าใกล้
+// #dfa310 ของรอบนี้มาก แต่ G=197 และ G=183 ไม่ใช่ G=163 — เทียบเป็นตัวเลขทีละค่า
+// ⚠️ **รอบนี้ไม่มีแดงเลย** #ff3b14 #8c0f0a #5a0603 #2a0300 #e8232a #d4200d ต้องไม่
+// เหลือ และไม่มีชมพู ม่วง เงิน/เทา เขียว น้ำเงิน หรือส้มอำพันที่ไหนในไฟล์นี้
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#ff3b14]/55 bg-gradient-to-b from-[#6d0804]/95 to-[#430000]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f5c518]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#5a0603]/70 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#dfa310]/55 bg-gradient-to-b from-[#1b1307]/95 to-[#070502]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#dfa310]/32 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#43240b]/70 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#b8860f] bg-gradient-to-r from-[#fdf0e2] via-[#ffdd73] to-[#f5c518] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
-          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#2a0300] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#8a5c09] bg-gradient-to-r from-[#f0e9dc] via-[#ffe4a3] to-[#dfa310] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
+          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#140d02] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#f5c518]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e9dc]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#dfa310]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e2] md:border-l md:border-[#ff3b14]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffdd73]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e9dc] md:border-l md:border-[#dfa310]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#ffe4a3]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

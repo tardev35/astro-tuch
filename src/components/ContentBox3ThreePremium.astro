@@ -28,8 +28,8 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // default is the one that keeps chrome out of the heading inventory. A page
 // whose labels really are docx sub-points opts in with heading={true}.
 //
-// TIGERWIN369's brief (content.txt lines 16-18) writes its three steps as
-// RUNNING PROSE — "ขั้นตอนที่ 1 เข้าหน้าสมัครสมาชิก เลือกเมนูสมัครจาก…" is one
+// TND168's brief (content.txt lines 16-18) writes its three steps as RUNNING
+// PROSE — "ขั้นตอนที่ 1 เข้าหน้าสมัครสมาชิก เลือกเมนูสมัครจากทางเข้าหลักของ…" is one
 // sentence, not a labelled heading followed by a body — so index.astro leaves
 // this false and the three "ขั้นตอนที่ N …" openers stay <p>. Only the section's
 // own as="h2" title is a heading here, which is what keeps the page's inventory
@@ -37,61 +37,68 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#f7b733] uppercase";
-const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d98324] shadow-[0_0_8px_rgba(217,131,36,0.9)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ffe4a3] uppercase";
+const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#dfa310] shadow-[0_0_8px_rgba(223,163,16,0.9)]";
 
-// TIGERWIN369 (รอบทองอำพันเสือบนดำสนิท 2026-10-11, brand-spec §2):
-// รอบนี้เป็น **ทองล้วนสองระดับ ไม่มีเงิน ไม่มีเทา ไม่มีฮิวเย็น** — ทองอำพันเสือ
-// #d98324 นำ (ขนหัวเสือและขอบเหรียญตราบนโลโก้) และทองสว่าง #f7b733 เป็นระดับที่สอง
-// (หน้าตัวอักษร TIGERWIN369 สามมิติ และมงกุฎทองบนหัวเสือ) พื้นเพจ **ดำสนิท** #000000
+// TND168 (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2):
+// รอบนี้เป็น **ฮิวเดียวล้วน (ทอง) ไม่มีสีที่สองเลย** ต่างจากทั้ง PUNPRO168 รอบก่อน
+// ที่เป็นคู่ชมพู-ทอง และ TIGERWIN369 ที่เป็นทองสองระดับ — ทองหลัก #dfa310 (ตัวมังกร
+// จีนขัดเงาและตัวอักษร TND168 สามมิติบนเหรียญตรา) เป็นสีเดียวของแบรนด์ ส่วนทองสว่าง
+// #ffe4a3 และทองทราย #c9b88e เป็นค่าอื่นของทองเดียวกัน พื้นเพจ **ดำสนิท** #000000
 // ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้เลย ทุกผิวสว่างกว่า #000000
 //
-// ใบนี้ถือ docx H2 §6 ("สมัครเล่น TIGERWIN369 ง่ายๆ 3 ขั้นตอน") และนั่งอยู่ระหว่าง
-// ContentBoxSevenThree (มุมตัด ผิวจม #0f0903) กับ ContentBoxTwoCyberCut (มุมตัด ผิว
-// กลาง #1c1206) จึงเป็นใบ "มุมกลม ผิวยก #2d1c0a" ที่คั่นการ์ดมุมตัดสองใบไม่ให้ติดกัน
-// หัวข้อไล่ครีมหม่น #e3cfae → ทองสว่าง #f7b733 → ทองอำพัน #d98324 เป็นลำดับ
-// "ครีม → สว่าง → อำพัน" ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ ส่วนแถบตั้งนำหน้า
-// ไล่ทองซีด #ffd98a → ทองสว่าง #f7b733 → อำพันลึก #8a5214 จึงไม่ซ้ำกับหัวข้อของตัวเอง
-// ป้ายสามคอลัมน์เป็นทองสว่าง #f7b733 (9.3:1 บนผิวยก) พร้อมจุดนำทองอำพัน #d98324
-// กรอบการ์ดเป็นอำพันลึก #8a5214 ที่สว่างขึ้นเป็นทองอำพันตอน hover ออราใบเดียวบนหัว
-// การ์ดเป็นทองอำพันโปร่ง เส้นคั่นคอลัมน์เป็นอำพันลึก #8a5214
-// เนื้อความ #f7e4c0 (= BRAND_TEXT) — 13.3:1 บนผิวยก #2d1c0a
-// §2 ห้าม #8a5214 และ #4a2a08 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งคู่อยู่ที่ขอบ เส้นคั่น
-// และไล่เฉดของแถบเท่านั้น
+// ใบนี้ถือ docx H2 §6 ("สมัครเล่น TND168 คาสิโน 3 ขั้นตอน เข้าไลฟ์สดได้ 24 ชั่วโมง")
+// และนั่งอยู่ระหว่าง ContentBoxSevenThreeFloatingBadge (การ์ดมน ป้ายทองลอย ไล่ผิวยก
+// ลงผิวจม) กับ ContentBoxPremium (มุมกลม ไล่ผิวกลางลงผิวจม) จึงเป็นใบ "มุมกลม ผิวยก
+// #1b1307 ทึบ" ที่ยกตัวขึ้นมาเหนือทั้งสองใบที่ขนาบอยู่
+// หัวข้อไล่ทองทราย #c9b88e → ทองสว่าง #ffe4a3 → ทองหลัก #dfa310 เป็นลำดับ
+// "ทราย → สว่าง → ทองหลัก" ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ ส่วนแถบตั้ง
+// นำหน้าไล่ทองสว่าง #ffe4a3 → ทองหลัก #dfa310 → บรอนซ์ลึก #43240b จึงไม่ซ้ำกับ
+// หัวข้อของตัวเอง
+// ป้ายสามคอลัมน์เป็นทองสว่าง #ffe4a3 (13.5:1 บนผิวยก) พร้อมจุดนำทองหลัก #dfa310
+// กรอบการ์ดเป็นทองลึก #8a5c09 ที่สว่างขึ้นเป็นทองหลักตอน hover ออราใบเดียวบนหัว
+// การ์ดเป็นทองหลักโปร่ง เส้นคั่นคอลัมน์เป็นทองลึก #8a5c09
+// เนื้อความงาช้างอุ่น #f0e9dc (= BRAND_TEXT) — 15.3:1 บนผิวยก #1b1307
+// §2 ห้าม #8a5c09 (2.9:1) และ #43240b ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งคู่อยู่ที่ขอบ
+// เส้นคั่น และไล่เฉดของแถบเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — รอบนี้เป็นทองรอบที่แปดในสิบรอบ "มีทอง
-// อยู่แล้ว" จึงไม่พิสูจน์อะไร: ชุดทอง-ดำของ WIN999 ที่เคยค้างในไฟล์นี้ (#fcc403
-// #fdda04 #fffbea #4a3402 #101010 #e9e4d6) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324
-// (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffcf5e #ffe08a #7d5a07 #43300a
-// #464f5a) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #f5c53d #4a0b42
-// #3a0534 #210220) และชุดชมพูนีออน-ม่วงของ SEXYGAME666 (#fa42b5 #ffb3e2 #8b3df3
-// #c9a4ff #1d0c33 #4a0e33 #170a22 #08020d #f2dcee) ออกครบทุกจุดแล้ว
-// ⚠️ #fcc403 ของ WIN999 มี G=196 และ #fdda04 มี G=218 ส่วน #d98324 ของรอบนี้มี G=131
-// — ทั้งคู่เป็น "ทอง" แต่คนละค่าคนละความอิ่ม ให้เทียบเป็นตัวเลข ไม่ใช่ด้วยตา
-// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #b9c2cc #464f5a #cfd6e3 ต้องไม่เหลืออยู่ในไฟล์นี้
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองมาแล้วเก้าใน
+// สิบเอ็ดรอบ "มีทองอยู่แล้ว" จึงไม่พิสูจน์อะไร: ชุดทองอำพันเสือของ TIGERWIN369 ที่
+// เคยค้างอยู่ทั้งไฟล์นี้ (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08
+// #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 รอบก่อน (#f41571
+// #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #4a1038 #3a0a2a #1c0014)
+// ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #f0e8d4
+// #ffcf5e #ffe08a #7d5a07 #43300a #464f5a) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb
+// #ffd1ea #f5c53d #4a0b42 #3a0534) ชุดทอง-ดำของ WIN999 (#fcc403 #fdda04 #fffbea
+// #4a3402 #e9e4d6) และชุดชมพูนีออน-ม่วงของ SEXYGAME666 (#fa42b5 #ffb3e2 #8b3df3
+// #c9a4ff #1d0c33 #f2dcee) ออกครบทุกจุดแล้ว
+// ⚠️ #fcc403 ของ WIN999 มี G=196 และ #e5a81b ของ UFA324 มี G=168 ส่วน #dfa310 ของ
+// รอบนี้มี G=163 — ทั้งหมดเป็น "ทอง" แต่คนละค่า ให้เทียบเป็นตัวเลข ไม่ใช่ด้วยตา
+// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีม่วง/พลัม ไม่มีเงิน/เทา ไม่มีเขียว ไม่มีน้ำเงิน ไม่มี
+// ส้มอำพัน และไม่มีแดงเลย** #b9c2cc #464f5a #cfd6e3 ต้องไม่เหลืออยู่ในไฟล์นี้
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a5214] bg-[#2d1c0a]/95 p-8 text-[#f7e4c0] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#d98324]/70 hover:shadow-[0_15px_40px_rgba(217,131,36,0.24)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 right-1/3 -z-10 h-48 w-48 rounded-full bg-[#d98324]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#f7b733]/26">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a5c09] bg-[#1b1307]/95 p-8 text-[#f0e9dc] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#dfa310]/70 hover:shadow-[0_15px_40px_rgba(223,163,16,0.24)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 right-1/3 -z-10 h-48 w-48 rounded-full bg-[#dfa310]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#ffe4a3]/26">
     </div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#8a5214]/70 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd98a] via-[#f7b733] to-[#8a5214] shadow-[0_0_10px_rgba(217,131,36,0.55)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#e3cfae] via-[#f7b733] to-[#d98324] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#8a5c09]/70 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe4a3] via-[#dfa310] to-[#43240b] shadow-[0_0_10px_rgba(223,163,16,0.55)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#c9b88e] via-[#ffe4a3] to-[#dfa310] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f7e4c0]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f0e9dc]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-[#8a5214] pb-8 text-left text-base leading-relaxed text-[#f7e4c0] md:border-r md:border-b-0 md:pr-8 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#8a5c09] pb-8 text-left text-base leading-relaxed text-[#f0e9dc] md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -102,7 +109,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d98324] shadow-[
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-[#8a5214] pb-8 text-left text-base leading-relaxed text-[#f7e4c0] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#8a5c09] pb-8 text-left text-base leading-relaxed text-[#f0e9dc] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -113,7 +120,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d98324] shadow-[
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f7e4c0] md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f0e9dc] md:pl-8">
         {
           titleright && (
             <LabelTag class={columnLabel}>

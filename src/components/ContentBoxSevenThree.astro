@@ -19,7 +19,7 @@ const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 // DRAWN WIDTH OF THE 3fr IMAGE COLUMN (the RIGHT one here), recomputed from the
 // classes in THIS file for the `widths`/`sizes` index.astro passes. Tailwind sets
 // box-sizing: border-box globally, so max-w-* caps the box INCLUDING padding and
-// border:
+// border. NOTE the cap here is on the <section>, so px-4 comes out OF the 1400:
 //   section  max-w-[1400px] + px-4 (16x2=32)  -> card outer = min(100vw,1400) - 32
 //   card     border (1x2=2) + p-8 (32x2=64) / md:p-10 (40x2=80)
 //   grid     gap-8 (32, md+ only)
@@ -31,72 +31,72 @@ const { title, titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 //               which exceeds the 600px bitmap above a 698px viewport, so the
 //               page caps that band at 600px rather than asking for pixels the
 //               source file does not have.
-// These are DIFFERENT numbers from ContentBoxSevenThreeNeumorphism, the other
-// block on the same page — that one caps at max-w-7xl and pays a flat p-8 plus
-// md:pl-8 and a column border. Change any padding/gap/border/cap here and the
-// page's `sizes` has to move with it.
+// These are DIFFERENT numbers from ContentBoxSevenThreeFloatingBadge, the other
+// image block on the same page — that one puts max-w-7xl on the CARD (so px-4
+// does not come out of the cap), pays border-2 + a flat p-8 + gap-10, and its
+// image column adds md:pl-10 plus a 1px md:border-l, landing at 311px instead of
+// 352px. Change any padding/gap/border/cap here and the page's `sizes` has to
+// move with it.
 //
-// TIGERWIN369 (รอบทองอำพันเสือบนดำสนิท 2026-10-11, brand-spec §2-§4):
-// กล่องนี้ถือ docx H3 §5 ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด") คู่กับ slide1
-// ซึ่งพิมพ์คำว่า โปรโมชั่น กับ แนะนำเพื่อน โบนัส 0.8% ไว้ในตัวภาพเอง — ตัวเลขที่พิมพ์
-// อยู่บนงานอาร์ตเป็นตัวตัดสินการจับคู่ ไม่ใช่ลำดับไฟล์
+// TND168 (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2-§4):
+// กล่องนี้ถือ docx H3 §4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ slide1
+// ซึ่งพิมพ์คำว่า โปรโมชั่น กับ คืนยอดเสีย 0.3% ไว้ในตัวภาพเอง — ตัวเลขที่พิมพ์อยู่บน
+// งานอาร์ตเป็นตัวตัดสินการจับคู่ ไม่ใช่ลำดับไฟล์
 //
-// รอบนี้เป็น **ทองล้วนสองระดับ ไม่มีเงิน ไม่มีเทา ไม่มีฮิวเย็น** — ทองอำพันเสือ
-// #d98324 นำ (ขนหัวเสือ ขอบเหรียญตรา) ทองสว่าง #f7b733 เป็นระดับที่สอง (หน้าตัวอักษร
-// สามมิติ มงกุฎทอง) พื้นเพจ **ดำสนิท** #000000 ตาม bg.json
-// ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้เลย — ต่างจากรอบ FAH999 ที่พื้นเป็น
-// พลัมดำ #2e002c และใบนี้เคย "ยุบลงไปในหน้า" ได้ รอบนี้ผิวจม #0f0903 คือก้นสุดที่ใช้
-// ได้ และยังสว่างกว่าพื้นเพจ
+// รอบนี้เป็น **ฮิวเดียวล้วน (ทอง) ไม่มีสีที่สองเลย** — ทองหลัก #dfa310 (ตัวมังกรจีน
+// ขัดเงาและตัวอักษร TND168 สามมิติบนเหรียญตรา) ส่วนทองสว่าง #ffe4a3 กับทองทราย
+// #c9b88e เป็นค่าอื่นของทองเดียวกัน พื้นเพจ **ดำสนิท** #000000 ตาม bg.json
+// ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้เลย #070502 คือก้นสุดที่ใช้ได้
 //
-// ใบนี้เป็นใบที่ลึกที่สุดในหน้า (ผิวจม #0f0903) ตรงข้ามกับ ContentBoxPremium (ไล่ผิวยก
-// #2d1c0a → ผิวกลาง) และ ContentBox (ผิวยกทึบ) ที่ลอยขึ้นมา ส่วน ContentBoxTwoCyberCut
-// อยู่ที่ผิวกลาง #1c1206 ตรงกลางระหว่างสองขั้ว
-// มุมการ์ดเป็น **มุมตัด (clip-path)** ไม่ใช่มุมกลม — ต่างจาก
-// ContentBoxSevenThreeNeumorphism ที่อยู่เหนือขึ้นไปซึ่งเป็น rounded-[25px] แบบนูน
-// สองบล็อกรูปจึงต่างกันทั้งมุม ผิว ความนูน และหัวข้อ และมุมตัด 36px ของใบนี้ก็ลึกกว่า
-// มุมตัด 30px ของ ContentBoxTwoCyberCut ที่อยู่ล่างลงไปอีกสองส่วน
-// กรอบเป็นทองอำพัน #d98324 โปร่ง มีเส้นไรผมทองสว่าง #f7b733 พาดขอบบนหนึ่งพิกเซล
-// (ขอบมงกุฎทองในงานอาร์ต) ซ้ายบนเป็นออราอำพันลึก #8a5214 ที่อิ่มขึ้นเป็นทองอำพัน
-// #d98324 ตอน hover
-// หัวข้อฝั่งซ้ายเป็น **ทองอำพัน #d98324 ทึบสีเดียว** ไม่ไล่เฉด (ของ
-// ContentBoxSevenThreeNeumorphism เป็นทองสว่าง #f7b733 ทึบ — คนละระดับทอง) และมีแถบ
-// ตั้งไล่ "ทองสว่าง #f7b733 → ทองอำพัน #d98324 → อำพันลึก #8a5214" นำหน้า ซึ่งเป็น
-// แถบเดียวในหน้าที่เริ่มจากทองสว่างแล้วไหลลงอำพัน (ของ ContentBoxPremium เริ่มจาก
-// ทองซีด #ffd98a)
-// เส้นคั่นคอลัมน์เป็นอำพันลึกสุด #4a2a08 เนื้อความ #f7e4c0 (= BRAND_TEXT) — 16.5:1
-// บนผิวจม
-// §2 ห้าม #8a5214 และ #4a2a08 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งคู่อยู่ในไล่เฉดของ
-// แถบ เส้นคั่น ขอบ และออราเท่านั้น
+// ใบนี้เป็นการ์ดมุมตัดใบที่สองของหน้า นั่งอยู่ที่ **ผิวกลาง #120c04** ซึ่งตื้นกว่า
+// ผิวจม #070502 ของ ContentBoxTwoCyberCut (มุมตัด 30px) และลึกกว่าผิวยก #1b1307 ของ
+// ContentBox / ContentBox3ThreePremium ที่ลอยขึ้นมา ทั้งหน้าจึงไล่ระดับความลึกกัน
+// ทีละชั้น และสองการ์ดมุมตัดถูกคั่นด้วย ContentBox (มุมกลม ผิวยก) ไม่ได้ติดกัน
+// มุมตัด 36px ของใบนี้ลึกกว่ามุมตัด 30px ของ ContentBoxTwoCyberCut
+// กรอบเป็นทองหลัก #dfa310 โปร่ง มีเส้นไรผมทองสว่าง #ffe4a3 พาดขอบบนหนึ่งพิกเซล
+// (ขอบไฮไลต์บนเกล็ดมังกรในงานอาร์ต) ซ้ายบนเป็นออราบรอนซ์ลึก #43240b ที่อิ่มขึ้นเป็น
+// ทองหลักตอน hover
+// หัวข้อฝั่งซ้ายเป็น **ทองหลัก #dfa310 ทึบสีเดียว ไม่ไล่เฉด** ซึ่งเป็นใบเดียวในหน้าที่
+// หัวข้อเป็นสีทึบแบบ "ตัวอักษรสว่างบนพื้นมืด" (คู่ของมันคือ
+// ContentBoxSevenThreeFloatingBadge ที่กลับขั้วเป็นแผ่นทองทึบหมึกเข้ม) และมีแถบตั้ง
+// ไล่ "ทองสว่าง #ffe4a3 → ทองหลัก #dfa310 → ทองลึก #8a5c09" นำหน้า
+// เส้นคั่นคอลัมน์เป็นบรอนซ์ลึก #43240b เนื้อความงาช้างอุ่น #f0e9dc (= BRAND_TEXT) —
+// ~17:1 บนผิวกลาง
+// §2 ห้าม #8a5c09 (2.9:1) และ #43240b ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งคู่อยู่ใน
+// ไล่เฉดของแถบ เส้นคั่น ขอบ และออราเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — รอบนี้เป็นทองรอบที่แปดในสิบรอบ: ชุดชมพูฮอต-
-// ทองของ FAH999 ที่เคยค้างในไฟล์นี้ (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d #ffe49a
-// #9c6f08 #b3006a #7a0046 #4d002b #210220 #2e002c) ชุดทองแชมเปี้ยน-เงินโครเมียมของ
-// UFA324 (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffcf5e #ffe08a #7d5a07
-// #43300a #464f5a) ชุดมรกต-ทองของ KOON234 (#0a6b32 #2fbf6a #043d1c #cc920a #f7d14e
-// #fde9a6 #0d2414 #e8f2e6) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a
-// #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3 #3f4859 #fdf3df #382400 #241700 #231500)
-// ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #f58b2a #f6ecd9) และชุด
-// ชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #e9d5f5 #7e22ce #14061f) ออกครบทุกจุดแล้ว
-// ⚠️ #ffe49a ของ FAH999 ต่างจาก #ffd98a ของรอบนี้แค่สองตัวอักษร และ #f7d14e ของ
-// KOON234 ต่างจาก #f7b733 ของรอบนี้แค่สามตัว — ห้ามกะด้วยตา เทียบเป็นค่า
-// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #b9c2cc #464f5a #cfd6e3 #eef2f8 #3f4859 ต้องไม่เหลือ
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองมาแล้วเก้าใน
+// สิบเอ็ดรอบ: ชุดทองอำพันเสือของ TIGERWIN369 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#d98324
+// #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903)
+// ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 รอบก่อน (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc
+// #fde7f2 #8a0a45 #4a0426 #2a0012 #4a1038 #3a0a2a #2e0022 #1c0014) ชุดทองแชมเปี้ยน-
+// เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #f0e8d4 #ffcf5e #ffe08a
+// #7d5a07 #43300a #464f5a) ชุดมรกต-ทองของ KOON234 (#cc920a #fde9a6 #8a6204 #2fbf6a
+// #07170c) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a
+// #6b4a05 #eef2f8 #cfd6e3 #fdf3df #241700) และชุดทองเมทัลลิก-บรอนซ์ของ 789BETTING
+// (#fad354 #ffe79a #ddab33 #8a6410 #c9881f #f3e7cd #b5a888 #2a2008 #17130a)
+// ออกครบทุกจุดแล้ว
+// ⚠️ #ddab33 ของ 789BETTING และ #e5a81b ของ UFA324 เป็นทองที่ใกล้ #dfa310 ของรอบนี้
+// ที่สุด แต่คนละค่า และ #f7e4c0 ของ TIGERWIN369 ก็ไม่ใช่ #f0e9dc — เทียบเป็นตัวเลข
+// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีม่วง/พลัม ไม่มีเงิน/เทา ไม่มีเขียว ไม่มีน้ำเงิน ไม่มี
+// ส้มอำพัน และไม่มีแดงเลย** #b9c2cc #464f5a #cfd6e3 #eef2f8 #b5a888 ต้องไม่เหลือ
 const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full border border-[#d98324]/55 bg-[#0f0903]/96 p-8 text-[#f7e4c0] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#f7b733]/60 hover:shadow-[0_15px_40px_rgba(217,131,36,0.30)] md:p-10"
+    class="group relative isolate w-full border border-[#dfa310]/55 bg-[#120c04]/96 p-8 text-[#f0e9dc] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#ffe4a3]/60 hover:shadow-[0_15px_40px_rgba(223,163,16,0.30)] md:p-10"
     style="clip-path: polygon(36px 0, 100% 0, 100% calc(100% - 36px), calc(100% - 36px) 100%, 0 100%, 0 36px);">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#f7b733]/80 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#8a5214]/55 blur-[60px] transition-all duration-500 group-hover:bg-[#d98324]/40">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-[#ffe4a3]/80 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#43240b]/55 blur-[60px] transition-all duration-500 group-hover:bg-[#dfa310]/40">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 border-b border-[#4a2a08] pb-6 text-left text-base leading-relaxed text-[#f7e4c0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#43240b] pb-6 text-left text-base leading-relaxed text-[#f0e9dc] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           leftHeading && (
-            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#d98324] uppercase drop-shadow-[0_2px_10px_rgba(217,131,36,0.45)]">
-              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#f7b733] via-[#d98324] to-[#8a5214] shadow-[0_0_10px_rgba(217,131,36,0.6)]" />
+            <HeadingTag class="flex items-center gap-3 text-2xl leading-normal font-black tracking-wider text-[#dfa310] uppercase drop-shadow-[0_2px_10px_rgba(223,163,16,0.45)]">
+              <span aria-hidden="true" class="h-7 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe4a3] via-[#dfa310] to-[#8a5c09] shadow-[0_0_10px_rgba(223,163,16,0.6)]" />
               {leftHeading}
             </HeadingTag>
           )
@@ -104,10 +104,10 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f7e4c0] md:pl-6">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f0e9dc] md:pl-6">
         {
           titleright && (
-            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#d98324] uppercase drop-shadow-[0_0_8px_rgba(217,131,36,0.45)] md:text-left">
+            <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wider text-[#dfa310] uppercase drop-shadow-[0_0_8px_rgba(223,163,16,0.45)] md:text-left">
               {titleright}
             </HeadingTag>
           )

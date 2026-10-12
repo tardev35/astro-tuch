@@ -23,33 +23,45 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // previous brand's wording.
 //
 // State comes from the [open] attribute, not from an `active` class a script
-// toggles — that is why this variant has no <script> at all.
+// toggles — that is why this variant has no <script> at all. Do not reintroduce
+// one; a button + max-height accordion leaves the collapsed panel in the tab
+// order while invisible.
 //
-// NAZA168 (รอบทองอวกาศ-เงินโครเมียม บนน้ำตาลคั่วเข้ม 2026-10-10, brand-spec §2):
-// แถวที่ปิดอยู่ไล่จากผิวกลาง #432b03 ลงไปหาผิวลึกสุด #241700 ในกรอบทองลึกสุด #6b4a05
-// ซึ่งเป็นกรอบที่เงียบที่สุดในหน้า แล้วสว่างขึ้นเป็นทองแบรนด์ #fbc134 ตอน hover และตอน
-// แถวถูกเปิด เครื่องหมายบวกเป็นทองแบรนด์แล้วสลับเป็นโครเมียมสว่าง #eef2f8 ตอนเปิด —
-// สถานะเปิดจึง "เปลี่ยนฮิว" จากทองไปเงินจริงๆ ตามคู่สีของเหรียญตรา (NAZA ทอง / 168 เงิน)
-// ไม่ใช่แค่หมุนเครื่องหมาย
-// หัวข้อไล่โครเมียมสว่าง #eef2f8 → ทองสว่าง #ffe87a → ทองแบรนด์ #fbc134 ซึ่งเป็นลำดับ
-// "เงินนำเข้าทอง" ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกัน และทุกจุดของไล่เฉดยังอ่านออกบน
-// ผิวมืด — §2 ห้าม #96690a ถือตัวอักษร จึงไม่ถูกใช้เป็นปลายเข้มของหัวข้อที่นี่
-// คำถามเป็นทองสว่าง #ffe87a เนื้อความ #fdf3df (= BRAND_TEXT)
+// TND168 (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2):
+// รอบนี้เป็น **ฮิวเดียวล้วน (ทอง) ไม่มีสีที่สองเลย** — ทองหลัก #dfa310 มาจากตัวมังกร
+// จีนขัดเงาและตัวอักษร TND168 บนเหรียญตรา ส่วน #ffe4a3 (ไฮไลต์บนเกล็ดมังกร) กับ
+// #c9b88e เป็นค่าอื่นของทองเดียวกัน พื้นเพจ **ดำสนิท** #000000 ตาม bg.json
+// ⚠️ ต่างจากรอบ NAZA168 ที่สถานะ "เปิด" เคย **เปลี่ยนฮิว** จากทองไปเงินโครเมียม —
+// รอบนี้ไม่มีฮิวที่สองให้สลับไป สถานะเปิดจึงเลื่อน "ค่า" ของทองขึ้นแทน: เครื่องหมาย
+// บวกเป็นทองหลัก #dfa310 ตอนปิด แล้วสว่างขึ้นเป็นทองสว่าง #ffe4a3 ตอนเปิด
+// แถวที่ปิดอยู่ไล่จากผิวกลาง #120c04 ลงไปหาผิวจม #070502 ในกรอบทองลึก #8a5c09 ซึ่ง
+// เป็นกรอบที่เงียบที่สุดในหน้า แล้วสว่างขึ้นเป็นทองหลักตอน hover และตอนแถวถูกเปิด
+// หัวข้อไล่งาช้างอุ่น #f0e9dc → ทองหลัก #dfa310 → ทองสว่าง #ffe4a3 ซึ่งเป็นลำดับ
+// "งาช้าง → ทองหลัก → สว่าง" ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ และทุกสตอปของ
+// ไล่เฉดยังอ่านออกบนผิวมืด — §2 ห้าม #8a5c09 (2.9:1) กับ #43240b ถือตัวอักษร จึงไม่
+// ถูกใช้เป็นปลายเข้มของหัวข้อหรือของคำถามที่นี่
+// คำถามเป็นทองสว่าง #ffe4a3 (13.5:1) คำตอบเป็นงาช้างอุ่น #f0e9dc (= BRAND_TEXT)
 //
-// ⚠️ หกในเจ็ดแบรนด์ก่อนหน้าก็มีทอง เจอทองที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่า
-// เป็นตัวๆ: ชุดแดงสด-ทองของ หวย365 ที่เคยค้างในไฟล์นี้ (#dc0203 #f5282a #9c0201
-// #ffc93c #ffeab0 #c08a07 #240406 #180303 #f6e7e0) ชุดทอง-แดงเลือดหมูของ GOT777
-// (#f5c518 #ffe9a8 #96690f #d21622 #160b06 #0a0503 #fff6dd #ece0cb) และชุดแดง-ทอง
-// ของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909) ออกครบทุกจุดแล้ว —
-// #96690f ของ GOT777 ต่างจาก #96690a ของรอบนี้อยู่หลักเดียว และ #f5c518 ก็ไม่ใช่
-// #fbc134 นี่คือกรณีที่พลาดง่ายที่สุด ต้องเทียบเป็นค่า ไม่ใช่เทียบตระกูลสี
+// ⚠️ **กับดักรอบนี้คือทอง** ทองมาแล้วเก้าในสิบเอ็ดรอบ เจอทองที่ไหนห้ามเหมาว่าเป็นของ
+// รอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 ที่เคยค้างอยู่ทั้ง
+// ไฟล์นี้ (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3 #9aa6bb #fdf3df
+// #4e3406 #432b03 #241700) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 รอบก่อน (#f41571 #ff5ca8
+// #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #4a1038 #3a0a2a #1c0014) ชุดแดงสด-
+// ทองของ หวย365 (#dc0203 #f5282a #9c0201 #ffc93c #ffeab0 #c08a07 #240406 #f6e7e0)
+// ชุดทอง-แดงเลือดหมูของ GOT777 (#f5c518 #ffe9a8 #96690f #d21622 #fff6dd) และชุดแดง-
+// ทองของ หวยเฮง789 (#dc2224 #f4bc5d #ffefc2 #fbe3d4 #2b0909) ออกครบทุกจุดแล้ว
+// ⚠️ #ffc93c ของ หวย365 ต่างจาก #ffc93d ของรอบนี้อยู่ **ตัวอักษรเดียว** และ #f4bc5d
+// ของ หวยเฮง789 ก็ไม่ใช่ #dfa310 นี่คือกรณีที่พลาดง่ายที่สุดในไฟล์นี้ ต้องเทียบเป็น
+// ค่า ไม่ใช่เทียบตระกูลสี
+// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #eef2f8 #cfd6e3 #9aa6bb #3f4859 ต้องไม่เหลือในไฟล์นี้
+// รวมถึงใน <style> ด้านล่าง ซึ่งเป็นจุดที่ชุดเงินของ NAZA168 เคยรอดการสวีปมาก่อน
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
 <section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
   {
     title && (
-      <HeadingTag class="mb-8 bg-gradient-to-r from-[#eef2f8] via-[#ffe87a] to-[#fbc134] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
+      <HeadingTag class="mb-8 bg-gradient-to-r from-[#f0e9dc] via-[#dfa310] to-[#ffe4a3] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
         {title}
       </HeadingTag>
     )
@@ -58,16 +70,16 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   <div class="space-y-4">
     {
       faqs.map((faq) => (
-        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#6b4a05]/80 bg-gradient-to-br from-[#432b03] to-[#241700] transition-all hover:border-[#fbc134]/55">
+        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#8a5c09]/80 bg-gradient-to-br from-[#120c04] to-[#070502] transition-all hover:border-[#dfa310]/55">
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <p class="text-base leading-normal font-bold text-[#ffe87a]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#ffe4a3]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#fbc134]/50 text-lg leading-none font-black text-[#fbc134] transition-transform duration-300">
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#dfa310]/50 text-lg leading-none font-black text-[#dfa310] transition-transform duration-300">
               +
             </span>
           </summary>
-          <div class="faq-answer border-t border-[#6b4a05]/80 p-5 pt-0 text-left text-base leading-relaxed text-[#fdf3df]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#8a5c09]/80 p-5 pt-0 text-left text-base leading-relaxed text-[#f0e9dc]">{faq.a}</div>
         </details>
       ))
     }
@@ -82,13 +94,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(251, 193, 52, 0.6);
-    box-shadow: 0 0 20px rgba(251, 193, 52, 0.28);
+    border-color: rgba(223, 163, 16, 0.6);
+    box-shadow: 0 0 20px rgba(223, 163, 16, 0.28);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #cfd6e3;
-    color: #eef2f8;
+    border-color: #ffe4a3;
+    color: #ffe4a3;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;
