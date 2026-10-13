@@ -14,7 +14,7 @@ export interface Props {
   iconcenter?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, iconleft = "📱", iconcenter = "🏦", iconright = "🔐" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, iconleft = "📝", iconcenter = "🔑", iconright = "✅" } = Astro.props;
 
 const sectionLabel = label ?? title ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
@@ -28,24 +28,61 @@ const hasIntro = Astro.slots.has("default");
 // now, the columns dropped to <p>, and the lead paragraph has a slot of its own
 // instead of being folded into a column.
 //
-// 365LOTTO (รอบแดง-ทอง-เงินโครเมียม 2026-09-24): การ์ดแดงเกือบดำ #1a0709 ในกรอบ
-// ทองลึก #9c6a12 ที่สว่างขึ้นเป็นทองหลัก #fadc64 ตอน hover ป้ายลำดับขั้นตอนไล่
-// ทองสว่าง #fdf3b4 → ทองลึก #e0b03a บนตัวอักษรสีพื้นเพจ #120406 เส้นคั่นคอลัมน์
-// เป็นทองลึก ชื่อขั้นตอนเป็นทองสว่าง เนื้อความ #f0ddc4 (BRAND_TEXT) — ชุดดำอมแดง
-// ของ LOTTOKA (#140a0c #c21e22 #e2353a #ff8a8d #ded9da) ออกทั้งหมด
+// ⚠️ นี่คือเหตุผลที่รอบนี้ใช้กล่องนี้รับ docx H2 §6 ("สมัครเล่นคาสิโน <แบรนด์>
+// 3 ขั้นตอน" — content.txt บรรทัด 15 เป็น intro และ 16/17/18 เป็นสามคอลัมน์) แทนที่
+// จะใช้ FeatureHighlights: ตัวนั้น render <h3> ซึ่งจะดัน h3 ของหน้าเกินเช็กลิสต์
+// brand-spec §5 ไปสามตัว ส่วนสามช่องนี้เป็น <p> อยู่แล้ว
+// คำว่า Huay ในชื่อไฟล์เป็น **ป้ายสไตล์ ไม่ใช่เนื้อหา** — ไม่มีข้อความหวยฮาร์ดโค้ด
+// อยู่ในไฟล์นี้เลย และ GT66B ไม่ใช่เว็บหวย
+//
+// GT66B (รอบแดงมังกร-โครเมียมขาวบนดำสนิท 2026-10-13, brand-spec §2):
+// ถูกเลือกเพราะ "ทรง" — เป็นกล่องกรอบประดับที่เข้ากับอาร์ตมังกรจีนของดรอปนี้
+// โลโก้คืออักขระมังกรจีน 龍 แดงสด ต่อด้วยเวิร์ดมาร์ก GT66B ที่ GT กับ B เป็น
+// โครเมียมขาวสามมิติ และ 66 เป็นแดงสดไล่เฉด พื้นเพจ **ดำสนิท** #000000 ตาม bg.json
+// ⚠️ ลำดับความลึก: #1c0c0b ยก / #130c0c กลาง (ใบนี้) / #0b0303 จม / #000000 พื้น
+// ไม่มีชั้นไหนจมต่ำกว่าพื้นได้อีกแล้ว
+// ⚠️ **รอบนี้ไม่มีทอง (เกินมงกุฎเล็กบนป้ายสไลด์) ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน
+// ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** มีแค่แดง + โครเมียมขาว + ดำ
+//
+// ใบนี้เป็นการ์ดมุมกลม rounded-3xl ที่ **ผิวกลาง #130c0c** ทึบ จึงไม่อ่านเป็นใบ
+// เดียวกับ ContentBox (§3) ที่มุมกลมเหมือนกันแต่เป็นผิวยก #1c0c0b และไม่ซ้ำกับ
+// ContentBoxPremium (§1) ที่มุมกลมเหมือนกันแต่ **ไล่ผิว** กลาง→จม ใบนี้เป็นใบเดียว
+// ของหน้าที่มีสามคอลัมน์และมีแผ่นไอคอนโครเมียมทึบ
+// กรอบเป็นแดงถ่าน #8a0609 ที่สว่างขึ้นเป็นแดงแบรนด์ #fb141b ตอน hover ออรามุมขวาบน
+// เป็นแดงลึก #db040b ที่อิ่มขึ้นเป็นแดงแบรนด์
+// แถบตั้งหน้าหัวข้อไล่ โครเมียมสว่าง #fdfcfd → แดงสว่าง #ff5f63 → แดงลึก #db040b
+// หัวข้อ docx ไล่ โครเมียมสว่าง #fdfcfd → โครเมียมหม่น #b4bcc2 → แดงสว่าง #ff5f63
+// ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
+// ป้ายไอคอนสามใบเป็น **แผ่นโครเมียมทึบ** ไล่ #fdfcfd → #b4bcc2 บนหมึก #190505 ซึ่ง
+// §2 ระบุว่าเป็นหมึกตัวเดียวที่วางบนพื้นสว่างได้ (19.2:1 บน #fdfcfd) — ห้ามพลิกแผ่น
+// โครเมียมไปใช้หมึกสว่าง ชื่อขั้นตอนเป็นโครเมียมสว่าง #fdfcfd (18.5:1)
+// เส้นคั่นคอลัมน์เป็นแดงถ่าน #8a0609 เนื้อความ #eceaea (= BRAND_TEXT, ~17:1 บนผิวกลาง)
+// §2 ห้าม #fb141b #db040b #ec151c #8a0609 #3b0405 ถือตัวอักษรทุกขนาด — ในไฟล์นี้
+// ทั้งห้าค่าอยู่ที่ขอบ เส้นคั่น ออรา ปลายไล่เฉด และ **พื้น** ของแผ่นไอคอนเท่านั้น
+// #ffa0a2 ถูกสงวนไว้ให้ <strong> ในย่อหน้าตาม §2 จึงไม่โผล่ในไฟล์นี้
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** ไฟล์นี้เพิ่งถือ
+// ชุดแดง-ทอง-เงินโครเมียมของ 365LOTTO มาทั้งไฟล์ (#9c6a12 #fadc64 #fdf3b4 #e0b03a
+// #1a0709 #120406 #f0ddc4 #e01f26 #f3f6fa) และก่อนนั้นเป็นชุดดำอมแดงของ LOTTOKA
+// (#140a0c #c21e22 #e2353a #ff8a8d #ded9da) — ออกครบทุกค่าแล้ว ⚠️ #e01f26 ของ
+// 365LOTTO (R=224 G=31 B=38) และ #c21e22 ของ LOTTOKA (R=194) ไม่ใช่ #fb141b
+// (R=251 G=20 B=27) ของรอบนี้ และแดงของแบรนด์รอบก่อนหน้าทันที TKB55 คือ #fb131b
+// (G=19) ซึ่งต่างจากรอบนี้หนึ่งหลัก — "เจอแดงอยู่แล้ว" ไม่พิสูจน์อะไรเลย
+// ⚠️ แดงของแบรนด์อื่นที่ยังค้างในไฟล์ inventory: SUPERSLOTCLUB #e8232a · PIGPG
+// #d4200d · FLASH877 #ff3b14 — ให้เทียบเป็นตัวเลขทีละค่า ห้ามกะด้วยตา
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9c6a12]/50 bg-[#1a0709]/90 p-8 text-[#f0ddc4] shadow-[0_10px_30px_rgba(18,4,6,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#fadc64]/60 hover:shadow-[0_15px_40px_rgba(250,220,100,0.24)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#e01f26]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#fadc64]/26">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a0609]/50 bg-[#130c0c]/90 p-8 text-[#eceaea] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#fb141b]/60 hover:shadow-[0_15px_40px_rgba(251,20,27,0.24)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#db040b]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#fb141b]/26">
     </div>
 
     {
       title && (
-        <header class="mb-6 flex items-center gap-4 border-b border-[#9c6a12]/45 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdf3b4] via-[#fadc64] to-[#e01f26] shadow-[0_0_10px_rgba(250,220,100,0.55)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#fdf3b4] via-[#f3f6fa] to-[#e01f26] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-6 flex items-center gap-4 border-b border-[#8a0609]/45 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdfcfd] via-[#ff5f63] to-[#db040b] shadow-[0_0_10px_rgba(251,20,27,0.55)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#fdfcfd] via-[#b4bcc2] to-[#ff5f63] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
@@ -54,20 +91,20 @@ const hasIntro = Astro.slots.has("default");
 
     {
       hasIntro && (
-        <div class="mb-8 text-left text-base leading-relaxed text-[#f0ddc4]">
+        <div class="mb-8 text-left text-base leading-relaxed text-[#eceaea]">
           <slot />
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class="flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-8 text-left text-base leading-relaxed text-[#f0ddc4] md:border-r md:border-b-0 md:pr-8 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#8a0609]/45 pb-8 text-left text-base leading-relaxed text-[#eceaea] md:border-r md:border-b-0 md:pr-8 md:pb-0">
         {
           titleleft && (
-            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdfcfd] uppercase">
               <span
                 aria-hidden="true"
-                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fb141b]/60 bg-gradient-to-br from-[#fdfcfd] to-[#b4bcc2] text-sm text-[#190505] shadow-[0_0_10px_rgba(251,20,27,0.45)]">
                 {iconleft}
               </span>
               {titleleft}
@@ -77,13 +114,13 @@ const hasIntro = Astro.slots.has("default");
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-3 border-b border-[#9c6a12]/45 pb-8 text-left text-base leading-relaxed text-[#f0ddc4] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-3 border-b border-[#8a0609]/45 pb-8 text-left text-base leading-relaxed text-[#eceaea] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
-            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdfcfd] uppercase">
               <span
                 aria-hidden="true"
-                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fb141b]/60 bg-gradient-to-br from-[#fdfcfd] to-[#b4bcc2] text-sm text-[#190505] shadow-[0_0_10px_rgba(251,20,27,0.45)]">
                 {iconcenter}
               </span>
               {titlecenter}
@@ -93,13 +130,13 @@ const hasIntro = Astro.slots.has("default");
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#f0ddc4] md:pl-8">
+      <article class="flex flex-col gap-3 text-left text-base leading-relaxed text-[#eceaea] md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdf3b4] uppercase">
+            <p class="flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fdfcfd] uppercase">
               <span
                 aria-hidden="true"
-                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fadc64]/60 bg-gradient-to-br from-[#fdf3b4] to-[#e0b03a] text-sm text-[#120406] shadow-[0_0_10px_rgba(250,220,100,0.45)]">
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fb141b]/60 bg-gradient-to-br from-[#fdfcfd] to-[#b4bcc2] text-sm text-[#190505] shadow-[0_0_10px_rgba(251,20,27,0.45)]">
                 {iconright}
               </span>
               {titleright}

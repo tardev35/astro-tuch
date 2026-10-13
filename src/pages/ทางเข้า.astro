@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement2.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 
@@ -24,53 +24,57 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // แต่ยัง route และ index อยู่ และฟุตเตอร์ยังลิงก์มาที่นี่ — ห้ามลบไฟล์นี้ และห้ามย้าย
 // ไป src/pages-disabled/
 //
-// แบรนด์รอบนี้ (TKB55, รอบแดงเลือดนก-เงินโครเมียมบนดำสนิท 2026-10-13,
-// brand-spec §2): โลโก้คือคำว่า TKB เป็นตัวอักษรสามมิติสีแดงสด ต่อด้วยเลข 55
-// สีเงินโครเมียมขัดเงา และเหนือตัวอักษรเป็นมาสคอตโจรการ์ตูนใส่หน้ากากดำแบกถุงเงิน
-// แบนเนอร์และสไลด์เป็นฉากสตูดิโอดำสนิทที่ส่องด้วยริบบิ้นแสงแดงและผ้าซาตินแดงพลิ้ว —
-// **สองโทนจริง: แดงเลือดนกนำ เงินโครเมียมรอง** ไม่มีทองในดรอปนี้เลย
+// แบรนด์รอบนี้ (GT66B, รอบแดงมังกร-โครเมียมขาวบนดำสนิท 2026-10-13,
+// brand-spec §2): โลโก้คืออักขระมังกรจีน 龍 เขียนด้วยพู่กันสีแดงสดอยู่ซ้ายสุด
+// ต่อด้วยเวิร์ดมาร์ก GT66B ที่ GT เป็นโครเมียมขาวสามมิติ 66 เป็นแดงสดไล่เฉด
+// และ B เป็นโครเมียมขาว แบนเนอร์และสไลด์เป็นฉากคาสิโนดำสนิทที่ส่องด้วยริบบิ้นแสงแดง
+// มีชิปแดง-ดำ-เงิน ไพ่เอซโพดำ ลูกเต๋าแดง และวงล้อรูเล็ต —
+// **สองโทนจริง: แดงมังกรนำ โครเมียมขาวรอง** ไม่มีทองในดรอปนี้เลย
 // พื้นเพจจาก bg.json รอบนี้เป็น {"mode":"color","color":"#000000"} = ดำสนิท
-// ชั้นผิว: ยก #2a0d0f (= การ์ด ContentBox) / กลาง #1a0708 / จม #0d0304 / พื้น #000000
-// แดงแบรนด์ #fb131b · แดงลึก #c40304 #8a0206 #53050a ·
-// ตัวที่ถือตัวอักษรได้: เงินโครเมียม #e9eef4 (15.2:1) #aeb9c6 (8.9:1) ·
-// แดงอ่อน #ff8a8f (7.8:1) · แดงสว่าง #ff4d55 (5.6:1) ·
-// เนื้อความ #f2e4e5 (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) ·
-// หมึกบนพื้นถมแดง/พื้นสว่าง #1a0304
+// ชั้นผิว: ยก #1c0c0b (= การ์ด ContentBox) / กลาง #130c0c / จม #0b0303 / พื้น #000000
+// แดงแบรนด์ #fb141b · แดงลึก #db040b #8a0609 #3b0405 ·
+// ตัวที่ถือตัวอักษรได้: โครเมียม #fdfcfd (18.5:1) #b4bcc2 (9.9:1) ·
+// แดงอ่อน #ffa0a2 (9.8:1) · แดงสว่าง #ff5f63 (6.4:1) ·
+// เนื้อความ #eceaea (= BRAND_TEXT ที่การ์ด ContentBox ตั้งให้แล้ว) ·
+// หมึกบนพื้นถมแดง/พื้นสว่าง #190505
 //
 // ขั้วของปุ่มตามสเปก (พื้นสว่าง = หมึกเข้ม · พื้นเข้ม = หมึกสว่าง):
-// สมัครสมาชิก = แอ็กชันหลัก ถม **แดงไล่เฉด** #ff8a8f → #fb131b ขอบ #c40304
-// บนหมึกเข้ม #1a0304 (4.9:1 บนปลายเข้มสุด #fb131b · 8.7:1 บนปลายสว่าง #ff8a8f)
-// เข้าสู่ระบบ = แอ็กชันรอง จมลงจากการ์ดด้วยชั้น #1a0708 → #0d0304
-// ขอบแดง #fb131b/55 บนเนื้อความ #f2e4e5 — hover ยกขอบเป็นแดงสว่าง #ff4d55
-// ⚠️ ห้ามกลับด้าน และ **ห้ามไล่เฉดเข้มกว่า #fb131b** ใต้ตัวอักษร ·
-// #fb131b #c40304 #8a0206 #53050a ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
-// เส้นขอบ ออรา พื้นถม และเงา — ออราในไฟล์นี้ใช้ rgba(251,19,27,α) และ
-// rgba(255,138,143,α) เท่านั้น นอกจากเงาดำล้วน
-// ⚠️ กับดักรอบนี้คือ **แดง**: ไฟล์ inventory หลายตัวเคยเป็นของแบรนด์แดงมาก่อน
-// "มีแดงอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น "ค่า"
+// สมัครสมาชิก = แอ็กชันหลัก ถม **แดงไล่เฉด** #ffa0a2 → #fb141b ขอบ #db040b
+// บนหมึกเข้ม #190505 (5.0:1 บนปลายเข้มสุด #fb141b · 9.9:1 บนปลายสว่าง #ffa0a2)
+// เข้าสู่ระบบ = แอ็กชันรอง จมลงจากการ์ดด้วยชั้น #130c0c → #0b0303
+// ขอบแดง #fb141b/55 บนเนื้อความ #eceaea — hover ยกขอบเป็นแดงสว่าง #ff5f63
+// ⚠️ ห้ามกลับด้าน และ **ห้ามไล่เฉดเข้มกว่า #fb141b** ใต้ตัวอักษร ·
+// #fb141b #db040b #8a0609 #3b0405 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
+// เส้นขอบ ออรา พื้นถม และเงา — ออราในไฟล์นี้ใช้ rgba(251,20,27,α) และ
+// rgba(255,160,162,α) เท่านั้น นอกจากเงาดำล้วน
+// ⚠️ กับดักรอบนี้คือ **แดง** และหนักเป็นพิเศษ เพราะแบรนด์ก่อนหน้าทันที (TKB55)
+// ก็เป็นแดง-โลหะ-ดำเหมือนกัน แดงของมันคือ #fb131b ส่วนรอบนี้คือ #fb141b —
+// ต่างกันหนึ่งหลัก "มีแดงอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น "ค่า"
 // ทีละตัวกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของ
-// แบรนด์เก่าเจอ false positive — ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของแบรนด์ก่อน
-// (TSDET911) ออกครบทุกจุดในไฟล์นี้แล้ว
+// แบรนด์เก่าเจอ false positive — ชุดแดงเลือดนก-เงินโครเมียมของ TKB55 ออกครบทุกจุด
+// ในไฟล์นี้แล้ว
 // และรอบนี้ **ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (brand-spec §3) —
-// default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้แล้ว และทุกหน้าเรียกแบบ bare
-// จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะไม่ตรงกับ index.astro
+// Announcement หมุนมาเป็น Announcement2 ทั้งเว็บรอบนี้ (brand-spec §3 — รอบก่อน
+// TKB55 ใช้ Announcement5 จึงหมุนออก) default message ของไฟล์นั้นเป็นคอปปี้ของ
+// แบรนด์นี้แล้ว และทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้
+// ไม่งั้นตัววิ่งจะไม่ตรงกับ index.astro
 //
-// แบรนด์นี้เป็น **คาสิโน + กีฬา** (บาคาร่า · ไฮโล · บอล · สล็อต) ไม่ใช่เว็บ
-// สล็อตล้วน ไม่ใช่เว็บกีฬาล้วน และไม่ใช่เว็บหมวดลอตเตอรี สองหน้าของหมวดนั้น park
-// อยู่ใน src/pages-disabled/ จึงไม่มี route และลิงก์ค้างจะเป็น href ตายที่ทำให้
-// บิลด์แดง คำที่ห้ามหลงเหลือทั้งหมดอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
-// grep หาคำของแบรนด์เก่าเจอ false positive
+// แบรนด์นี้เป็น **คาสิโน** (บาคาร่า · ไฮโล · สล็อต) ตามบรีฟรอบนี้ — ไม่มีคำเกี่ยวกับ
+// กีฬา/บอล และไม่มีคำเกี่ยวกับหวยเลย สองหน้าของหมวดลอตเตอรี park อยู่ใน
+// src/pages-disabled/ จึงไม่มี route และลิงก์ค้างจะเป็น href ตายที่ทำให้บิลด์แดง
+// คำที่ห้ามหลงเหลือทั้งหมดอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาคำ
+// ของแบรนด์เก่าเจอ false positive — แบรนด์รอบก่อน (TKB55) ขายกรอบ "เว็บคาสิโนไทย /
+// ฝากถอนทุกธนาคาร / บอลออนไลน์" ซึ่งบรีฟรอบนี้ไม่มีเลยสักคำ
 // ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% · 0.8% · 24 ชั่วโมง — ห้ามแต่งชื่อค่ายเกม
 // ชื่อธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดเดิมพันขั้นต่ำ จำนวนสมาชิก หรือปี
 // ใดๆ (บรีฟรอบนี้ไม่ได้เอ่ยปีไว้เลย) — หน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
 // wc -m — git-bash กล่องนี้ไม่มี UTF-8 locale จึงนับเป็นไบต์ = เกินจริงราว 3 เท่า)
-// หน้านี้ยาว 155
+// หน้านี้ยาว 158
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ทำให้ตัวนับเห็นเป็น 5 อักขระ
-const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ เว็บคาสิโนไทยที่รวมบาคาร่า ไฮโล บอล และสล็อต ไว้ในแพลตฟอร์มเดียว ด้วยเซิร์ฟเวอร์ต่างประเทศ`;
+const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก กดเข้าสู่ระบบหรือสมัครสมาชิกได้จากหน้านี้ คาสิโนเซิร์ฟนอกที่รวมบาคาร่า ไฮโล และสล็อตจากค่ายเกมระดับเอเชียไว้ในแพลตฟอร์มเดียว ได้มาตรฐาน`;
 
 const graph = pageGraph(Astro, {
   name: `ทางเข้า ${BRAND_NAME} เว็บหลัก`,
@@ -93,11 +97,11 @@ const graph = pageGraph(Astro, {
         <a
           href="/login"
           aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fb131b]/55 bg-gradient-to-b from-[#1a0708] to-[#0d0304] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 hover:border-[#ff4d55] hover:shadow-[0_15px_40px_rgba(251,19,27,0.45)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fb131b]/35 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fb141b]/55 bg-gradient-to-b from-[#130c0c] to-[#0b0303] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 hover:border-[#ff5f63] hover:shadow-[0_15px_40px_rgba(251,20,27,0.45)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fb141b]/35 to-transparent"></div>
 
           <svg
-            class="h-9 w-9 text-[#f2e4e5] transition-colors group-hover:text-[#ff8a8f]"
+            class="h-9 w-9 text-[#eceaea] transition-colors group-hover:text-[#ffa0a2]"
             aria-hidden="true"
             focusable="false"
             fill="none"
@@ -108,7 +112,7 @@ const graph = pageGraph(Astro, {
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#f2e4e5]">เข้าสู่ระบบ</span>
+          <span class="text-3xl font-bold tracking-wide text-[#eceaea]">เข้าสู่ระบบ</span>
         </a>
       </div>
 
@@ -116,14 +120,14 @@ const graph = pageGraph(Astro, {
         <a
           href="/register"
           aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#c40304] bg-gradient-to-b from-[#ff8a8f] to-[#fb131b] px-6 py-4 shadow-[0_10px_30px_rgba(251,19,27,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#1a0304] hover:shadow-[0_15px_40px_rgba(251,19,27,0.6)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ff8a8f]/70 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#db040b] bg-gradient-to-b from-[#ffa0a2] to-[#fb141b] px-6 py-4 shadow-[0_10px_30px_rgba(251,20,27,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#190505] hover:shadow-[0_15px_40px_rgba(251,20,27,0.6)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#ffa0a2]/70 to-transparent"></div>
 
-          <svg class="h-9 w-9 text-[#1a0304]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-9 w-9 text-[#190505]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
           </svg>
 
-          <span class="text-3xl font-black tracking-wide text-[#1a0304]">สมัครสมาชิก</span>
+          <span class="text-3xl font-black tracking-wide text-[#190505]">สมัครสมาชิก</span>
         </a>
       </div>
     </div>
