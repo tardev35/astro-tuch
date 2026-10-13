@@ -19,64 +19,67 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // renders as a direct child. `leading-normal` on the column labels neutralises
 // the hoisted `leading-relaxed`. Do not re-add a wrapper <div>.
 //
-// TIGERWIN369 (รอบทองอำพันเสือบนดำสนิท 2026-10-11, brand-spec §2):
-// รอบนี้เป็น **ทองล้วนสองระดับ** — ทองอำพันเสือ #d98324 นำ (ขนหัวเสือ ขอบเหรียญตรา)
-// และทองสว่าง #f7b733 เป็นระดับที่สอง (หน้าตัวอักษร TIGERWIN369 สามมิติ มงกุฎทอง)
-// พื้นเพจ **ดำสนิท** #000000 ตาม bg.json
-// ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้เลย ทุกผิวสว่างกว่า #000000
+// This card carries docx H2 §2 of the home page (content.txt line 6 left /
+// line 7 right). The brief gives those two paragraphs no sub-labels, so the
+// page passes neither titleleft nor titleright and this box emits exactly one
+// heading — the section's own.
 //
-// แผ่นนูนใบนี้วางบนผิวยก #2d1c0a ซึ่งสว่างที่สุดในชุดผิวของรอบนี้ และสว่างกว่าผิวกลาง
-// #1c1206 ของ ContentBoxSevenThreeNeumorphism ที่อยู่ถัดลงไปในหน้าเดียวกัน สองแผ่นนูน
-// ในหน้าจึงไม่อ่านเป็นใบเดียวกันสองรอบ ที่นี่กดเงาลงไปหาผิวจม #0f0903 และยกแสงขึ้น
-// ด้วยอำพันลึก #8a5214 ซึ่งเป็นคู่มืด/สว่างในโทนน้ำตาล-ทองเดียวกันตามที่ความนูนแบบนี้
-// ต้องการ ตอน hover ฝั่งสว่างไต่ขึ้นถึงทองอำพันแบรนด์ #d98324 (ของอีกใบไต่ไปแค่
-// อำพันลึก #8a5214 — คนละปลาย)
+// TSDET911 (รอบน้ำเงินไฟฟ้า-เงินโครเมียม 2026-10-13, brand-spec §2):
+// รอบนี้เป็น **สองโทนจริง: น้ำเงินไฟฟ้านำ เงินโครเมียมรอง** ตามโลโก้ที่คำว่า TSDET
+// เป็นตัวอักษรสามมิติสีเงินโครเมียมขัดเงา ต่อด้วยเลข 911 สีน้ำเงินไฟฟ้า และปีกเหยี่ยว
+// สีน้ำเงินทางซ้าย พื้นเพจเป็นกรมเกือบดำ #00081f (bg.json)
+// ⚠️ ไม่มีชั้นไหนจมต่ำกว่าพื้นได้ — #040e26 คือก้นสุดที่ยังอ่านเป็นแผ่น
+//
+// แผ่นนูนใบนี้วางบนผิวยก #102a5e ซึ่งสว่างที่สุดในชุดผิวของรอบนี้ และสว่างกว่าผิวกลาง
+// #0a1c42 ของ ContentBoxNeumorphism (§7) ที่อยู่ถัดลงไปในหน้าเดียวกัน สองแผ่นนูนในหน้า
+// จึงไม่อ่านเป็นใบเดียวกันสองรอบ: ที่นี่มุม rounded-[30px] ไม่มีกรอบ กดเงาลงไปหา **พื้น
+// เพจ #00081f** และยกแสงขึ้นด้วยน้ำเงินลึกสุด #04186e ส่วนใบนั้นเป็นมุม rounded-[25px]
+// มีกรอบ #102a5e และยกแสงขึ้นด้วยผิวยกเดียวกัน ตอน hover ฝั่งสว่างของใบนี้ไต่ขึ้นถึง
+// น้ำเงินลึก #032dad (ของอีกใบไม่ไต่เลย — คนละพฤติกรรม)
 //
 // ความนูนแบบ neumorphic ต้องใช้คู่มืด/สว่างในโทนเดียว สีแบรนด์จึงถูกเก็บไว้ที่หัวข้อกับ
-// ป้ายคอลัมน์แทนที่จะไปอยู่ในเงา หัวข้อรอบนี้ไล่ทองอำพัน #d98324 → ทองสว่าง #f7b733
-// → ทองซีด #ffd98a ซึ่งเป็นลำดับ "อำพัน → สว่าง → ซีด" ที่ไม่ซ้ำกับกล่องอื่นบนหน้า
-// เดียวกันสักตัว
-// ป้ายสองคอลัมน์แยกสีกันคนละข้าง คือซ้ายครีมหม่น #e3cfae (10.9:1 บนผิวยก) และขวาทอง
-// อำพัน #d98324 (ป้ายนี้เป็น text-2xl font-black จึงเป็น large text)
-// เส้นคั่นเป็นอำพันลึก #4a2a08
-// เนื้อความ #f7e4c0 (= BRAND_TEXT, 13.3:1 บนผิวยก #2d1c0a)
-// §2 ห้าม #8a5214 และ #4a2a08 ถือตัวอักษร — ที่นี่ทั้งคู่อยู่ในเงาและเส้นคั่นเท่านั้น
+// ป้ายคอลัมน์แทนที่จะไปอยู่ในเงา หัวข้อรอบนี้ไล่ เงินโครเมียมหม่น #9db4d4 → ฟ้าสว่าง
+// #6ec8ff → เงินโครเมียมสว่าง #cfdcec ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกัน
+// สักใบ (§1 ไล่ ฟ้าสว่าง→เงินสว่าง→ฟ้าอ่อน · §3 ไล่ เงินสว่าง→ฟ้าสว่าง→น้ำเงินแบรนด์)
+// ป้ายสองคอลัมน์แยกสีกันคนละข้าง คือซ้ายเงินโครเมียมหม่น #9db4d4 (6.1:1 บนผิวยก) และ
+// ขวาฟ้าสว่าง #6ec8ff (7.4:1) — ทั้งคู่เป็น text-2xl font-black จึงเป็น large text
+// เส้นคั่นเป็นน้ำเงินลึก #04186e เนื้อความ #dde8f7 (= BRAND_TEXT, 11.6:1 บนผิวยก)
+// §2 ห้าม #0360f3 #0292fb #032dad #04186e #041a43 ถือตัวอักษร — ที่นี่ทั้งห้าค่าอยู่ใน
+// เงาและเส้นคั่นเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — รอบนี้เป็นทองรอบที่แปดในสิบรอบ: ชุดชมพูฮอต-
-// ทองของ FAH999 ที่เคยค้างในไฟล์นี้ (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4 #fde8f3 #f5c53d
-// #9c6f08 #b3006a #7a0046 #4d002b #4a0b42 #3a0534 #210220) ชุดทองแชมเปี้ยน-เงิน
-// โครเมียมของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffcf5e
-// #ffe08a #7d5a07 #43300a #464f5a) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134
-// #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #d9c9a6 #fdf3df #4e3406 #432b03) ชุดทอง
-// เป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #f58b2a #f6ecd9 #1f1709) ชุดทอง-
-// แดงของ GOT777 (#f5c518 #ffe9a8 #96690f #d21622) และชุดชมพู-ม่วงของ BPLAY639
-// (#f472b6 #fbcfe8 #e9d5f5 #7e22ce) ออกครบทุกจุดแล้ว
-// ⚠️ #d98324 มี G=131 ส่วน #e5a81b มี G=168 และ #f5c53d มี G=197 — เทียบเป็นตัวเลข
-// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #b9c2cc #464f5a #cfd6e3 #eef2f8 ต้องไม่เหลือในไฟล์นี้
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้เพิ่งถือชุดทองอำพันเสือของ TIGERWIN369
+// มาทั้งไฟล์ (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #2d1c0a #1c1206
+// #0f0903) และก่อนนั้นเป็นชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #f5c53d)
+// ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #464f5a) และชุดม่วงราชา-ทอง
+// ของ KMD88 ที่ออกรอบนี้ (#7505cc #b453ff #c07cff #d9b8ff #e2b33f #ece2f8 #bba8d4)
+// ออกครบทุกค่าแล้ว
+// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีเขียว ไม่มีส้ม และไม่มีแดงเลย** และ
+// เงินโครเมียม #cfdcec / #9db4d4 ของรอบนี้ไม่ใช่ #b9c2cc / #cfd6e3 / #9aa6bb ของรอบ
+// ก่อนๆ — เทียบเป็นตัวเลขทีละค่า
 const columnLabel = "text-2xl leading-normal font-black tracking-wide";
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#2d1c0a] p-8 shadow-[10px_10px_20px_#0f0903,-10px_-10px_20px_#8a5214] transition-all duration-300 hover:shadow-[15px_15px_30px_#0f0903,-15px_-15px_30px_#d98324]">
+    class="w-full rounded-[30px] bg-[#102a5e] p-8 shadow-[10px_10px_20px_#00081f,-10px_-10px_20px_#04186e] transition-all duration-300 hover:shadow-[15px_15px_30px_#00081f,-15px_-15px_30px_#032dad]">
     {
       title && (
-        <header class="mb-8 border-b border-[#4a2a08]/80 pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#d98324] via-[#f7b733] to-[#ffd98a] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-b border-[#04186e]/80 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#9db4d4] via-[#6ec8ff] to-[#cfdcec] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f7e4c0]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#dde8f7]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4c0]">
-        {titleleft && <p class={`${columnLabel} text-[#e3cfae]`}>{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dde8f7]">
+        {titleleft && <p class={`${columnLabel} text-[#9db4d4]`}>{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f7e4c0] md:border-l md:border-[#4a2a08]/70 md:pl-8">
-        {titleright && <p class={`${columnLabel} text-[#d98324]`}>{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dde8f7] md:border-l md:border-[#04186e]/70 md:pl-8">
+        {titleright && <p class={`${columnLabel} text-[#6ec8ff]`}>{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

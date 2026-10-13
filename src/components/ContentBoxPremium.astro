@@ -6,75 +6,67 @@ export interface Props {
 const { title, as: HeadingTag = "h1" } = Astro.props;
 const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
 
-// Single-slot variant, already flattened: the card carries `isolate` and the
+// Single-slot variant, already flattened: the card carries `isolate` and the two
 // decorative aura layers carry `-z-10`, so the slot renders as a direct child
 // with no `relative z-10` wrapper. Do not re-add one.
 //
 // No level is hardcoded below — `as` decides the tag, and the header carries no
 // `whitespace-nowrap`, so a full docx sentence wraps instead of overflowing.
 //
-// TND168 (รอบทองมังกรบนดำสนิท 2026-10-12, brand-spec §2):
-// งานอาร์ตรอบนี้เป็นชุด "มังกรจีนทอง" — โลโก้เป็นเหรียญตรากลมทอง กลางเหรียญเป็นมังกร
-// จีนขดตัวหล่อทองขัดเงาสามมิติ หัวหันขวา อ้าปาก มีลายเมฆทองที่ฐาน พาดกลางเหรียญเป็น
-// TND168 ตัวพิมพ์ใหญ่หนาแบบ serif ทองขัดเงาขอบเอียงลึก พื้นโปร่ง/ดำ แบนเนอร์และสไลด์
-// เป็นฉากคาสิโนดำ-ทองล้วน (คู่นายแบบ-นางแบบผมขาวเงินในชุดสูทดำแต่งทอง ริบบิ้นแสงทอง
-// ชิปดำขอบทอง ไพ่เอซทอง ลูกเต๋าทอง วงล้อรูเล็ต กองเหรียญทอง)
-// แบรนด์นี้จึงเป็น **ฮิวเดียวล้วน** ไม่ใช่คู่สองฮิว และไม่ใช่ทองสองระดับ — ทองหลัก
-// #dfa310 เป็นสีเดียว ส่วน #ffe4a3 / #c9b88e เป็นค่าอื่นของทองเดียวกัน
-// ⚠️ รอบนี้ **ไม่มีชมพู ไม่มีม่วง/พลัม ไม่มีเงิน ไม่มีเทา ไม่มีเขียว ไม่มีน้ำเงิน
-// ไม่มีส้มอำพัน และไม่มีแดง**
-// ⚠️ พื้นเพจ **ดำสนิท** #000000 ตาม bg.json จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้เลย —
-// แผ่นที่จมสุดคือ #070502 และยังสว่างกว่าพื้นเพจ
+// This card carries docx H1 §1 of the home page (content.txt line 4) — one
+// paragraph, one slot, no sub-headings, no FeatureHighlights this round and no
+// illustration inside the card, because this drop has no current-brand article
+// image (banner2/banner3 on disk are previous brands' art; an eager import IS
+// an emit, so importing one would ship it into dist/).
 //
-// การ์ดใบนี้ถือ docx H2 §7 ("แอดมิน TND168 เปิดบริการ 24 ชั่วโมง") และเป็นใบสุดท้าย
-// ของบล็อกเนื้อหา ต้องไม่อ่านเป็นใบเดียวกับ ContentBox3ThreePremium ที่อยู่เหนือ
-// ขึ้นไปทันที (มุมกลมเหมือนกัน) จึงแยกด้วยสองอย่าง: ผิวการ์ดเป็น **ไล่เฉดจากผิวกลาง
-// #120c04 ลงไปหาผิวจม #070502** ตรงข้ามกับผิวยก #1b1307 ทึบของใบนั้น และหัวข้อใช้
-// **เส้นใต้เต็มความกว้างไม่มีสันตั้ง** ต่างจากสันตั้ง + เส้นใต้ของใบนั้น และต่างจาก
-// แถบสั้น 20px ใต้หัวข้อของ ContentBox (§3)
+// TSDET911 (รอบน้ำเงินไฟฟ้า-เงินโครเมียม 2026-10-13, brand-spec §2):
+// งานอาร์ตรอบนี้อ่านตรงๆ ได้ว่าโลโก้คือคำว่า TSDET เป็นตัวอักษรสามมิติสีเงินโครเมียม
+// ขัดเงา ต่อด้วยเลข 911 สีน้ำเงินไฟฟ้า มีเครื่องหมายปีกเหยี่ยว/สวูชสีน้ำเงินอยู่ด้าน
+// ซ้ายของคำ แบนเนอร์และสไลด์ทั้งสองใบเป็นฉากสตูดิโอสีดำที่ส่องด้วยริบบิ้นแสงน้ำเงิน
+// และแฟลร์เลนส์สีฟ้า มีชายหนุ่มและหญิงสาวผมสีขาวเงินในชุดดำ-ขาว ชิปคาสิโนน้ำเงินสลับ
+// เงิน ไพ่เอซดำ-เงิน และวงล้อรูเล็ตขอบโครเมียม
+// ⚠️ **รอบนี้ไม่มีทองที่ไหนเลย** เป็น **สองโทนจริง: น้ำเงินไฟฟ้านำ เงินโครเมียมรอง**
+// ⚠️ พื้นเพจเป็นกรมเกือบดำ #00081f (bg.json) ลำดับความลึก: #102a5e ยก / #0a1c42 กลาง
+// (ใบนี้ไล่จากกลางลงไปหาจม) / #040e26 จม / #00081f พื้น — ไม่มีชั้นไหนจมต่ำกว่าพื้น
 //
-// หัวข้อไล่ทองหลัก #dfa310 → ทองสว่าง #ffe4a3 → ทองทราย #c9b88e คือลำดับ
-// "ทองหลัก → สว่าง → ทราย" ซึ่งไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ และทุกสตอปของ
-// ไล่เฉดยังอ่านออกบนผิวมืด (#c9b88e = 8.9:1) — §2 ห้าม #8a5c09 ถือตัวอักษร จึงไม่
-// ถูกใช้เป็นปลายเข้มของหัวข้อที่นี่
+// ใบนี้เป็นการ์ดมุมกลม rounded-3xl ไล่ผิวจาก **กลาง #0a1c42 ลงไปหาจม #040e26** จึง
+// ไม่อ่านเป็นใบเดียวกับ ContentBox (§3) ที่เป็นมุมกลมเหมือนกันแต่เป็นผิวยก #102a5e
+// ทึบ และต่างจาก ContentBoxTwoNeumorphism (§2) ที่ตามมาทันทีทั้งมุม (rounded-[30px]
+// นูน) ผิว (ยก) และเงา (ไม่มีกรอบ มีแต่คู่เงานูน)
+// หัวข้อไล่ ฟ้าสว่าง #6ec8ff → เงินโครเมียมสว่าง #cfdcec → ฟ้าอ่อน #4fb4ff ซึ่งเป็น
+// ลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ และทุกสตอปอ่านออกบนผิวมืด
+// (#4fb4ff = 6.0:1 · #6ec8ff = 7.4:1 · #cfdcec = 10.6:1)
+// ออรามุมซ้ายบนเป็นน้ำเงินแบรนด์ #0360f3 (เลข 911 และปีกเหยี่ยว) มุมขวาล่างเป็น
+// น้ำเงินลึกสุด #041a43 (เงาใต้กองชิป) ที่อิ่มขึ้นเป็น #032dad ตอน hover
+// เส้นใต้หัวข้อเป็นน้ำเงินลึก #04186e เนื้อความขาวอมฟ้า #dde8f7 (= BRAND_TEXT,
+// ~15:1 บนผิวกลาง และสูงกว่านั้นบนครึ่งล่างของไล่เฉด) glow ทุกจุดเป็น
+// rgba(3,96,243,α) หรือ rgba(2,146,251,α)
+// §2 ห้าม #0360f3 #0292fb #032dad #04186e #041a43 ถือตัวอักษรทุกขนาด — ในไฟล์นี้
+// ทั้งห้าค่าอยู่ที่ขอบ เส้น และออราเท่านั้น
 //
-// ออรามุมซ้ายบนเป็นทองหลัก มุมขวาล่างเป็นบรอนซ์ลึก #43240b (เงาใต้กองชิป) ซึ่งอิ่ม
-// ขึ้นเป็นทองสว่างตอน hover เส้นใต้หัวข้อเป็นทองลึก #8a5c09
-// เนื้อความงาช้างอุ่น #f0e9dc (= BRAND_TEXT, ~17:1 บนผิวกลาง และสูงกว่านั้นบนครึ่ง
-// ล่างของไล่เฉด) glow ทุกจุดเป็น rgba(223,163,16,…)
-// §2 ห้าม #8a5c09 (2.9:1) และ #43240b ถือตัวอักษรทุกขนาด — ทั้งคู่ในไฟล์นี้อยู่ที่
-// เส้น ขอบ และออราเท่านั้น
-//
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองมาแล้วเก้าใน
-// สิบเอ็ดรอบหลังสุด "มีทองอยู่แล้ว" จึงไม่ได้พิสูจน์อะไรเลย: ชุดทองอำพันเสือของ
-// TIGERWIN369 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae
-// #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168
-// รอบก่อน (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012
-// #4a1038 #3a0a2a #2e0022 #1c0014) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea
-// #fde8f3 #f5c53d #b3006a #4a0b42 #3a0534) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324
-// (#e5a81b #b9c2cc #231c0e #17130a #f0e8d4 #ffcf5e #ffe08a #7d5a07 #43300a #464f5a)
-// ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05
-// #eef2f8 #cfd6e3 #fdf3df #382400) ชุดทองเป็ด-ส้มปากเป็ดของ DUCK1688 (#f3bb34 #fde464
-// #c8901a #8a5f08 #f58b2a #ffc98a #a3510c #f6ecd9) และชุดทองเมทัลลิก-บรอนซ์ของ
-// 789BETTING (#fad354 #ffe79a #ddab33 #8a6410 #c9881f #f3e7cd #b5a888) ออกครบแล้ว
-// ⚠️ ทองหลักของรอบนี้ (#dfa310, R=223 G=163 B=16) จงใจ "เข้มและอุ่นกว่า" ทุกตัวข้างบน
-// — #e5a81b มี G=168, #ddab33 มี G=171 และ #f5c53d มี G=197 ให้เทียบเป็นตัวเลข
-// ⚠️ **รอบนี้ไม่มีเงิน/เทาเลย** #b9c2cc #464f5a #cfd6e3 #eef2f8 #b5a888 ต้องไม่
-// เหลืออยู่ในไฟล์นี้
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้เพิ่งถือชุดทองมังกรของ TND168 มา
+// ทั้งไฟล์ (#dfa310 #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02 #1b1307 #120c04
+// #070502) ก่อนหน้านั้นเป็นชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a
+// #f7e4c0) และชุดม่วงราชา-ทองของ KMD88 ที่กำลังออกรอบนี้ (#7505cc #b453ff #c07cff
+// #d9b8ff #3a0565 #2c0349 #1d0832 #140522 #0a0213 #e2b33f #ffd45e #ffdf8c #ece2f8
+// #bba8d4 #1a0526 #7a5a0a) — ออกครบทุกค่าแล้ว
+// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีเขียว ไม่มีส้ม และไม่มีแดงเลย** และ
+// เงินโครเมียมของรอบนี้ (#cfdcec / #9db4d4) ไม่ใช่เทาอมฟ้า #b9c2cc / #464f5a ของ
+// UFA324 หรือ #cfd6e3 / #9aa6bb / #3f4859 ของ NAZA168 — เทียบเป็นตัวเลขทีละค่า
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#dfa310]/60 bg-gradient-to-br from-[#120c04]/96 to-[#070502]/96 p-8 text-left text-base leading-relaxed text-[#f0e9dc] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#dfa310]/90 hover:shadow-[0_15px_40px_rgba(223,163,16,0.38)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#dfa310]/30 blur-[55px] transition-all duration-500 group-hover:bg-[#dfa310]/46">
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#0360f3]/60 bg-gradient-to-br from-[#0a1c42]/96 to-[#040e26]/96 p-8 text-left text-base leading-relaxed text-[#dde8f7] shadow-[0_10px_30px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-500 hover:border-[#0292fb]/90 hover:shadow-[0_15px_40px_rgba(3,96,243,0.38)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#0360f3]/30 blur-[55px] transition-all duration-500 group-hover:bg-[#0292fb]/46">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#43240b]/60 blur-[55px] transition-all duration-500 group-hover:bg-[#ffe4a3]/26">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#041a43]/80 blur-[55px] transition-all duration-500 group-hover:bg-[#032dad]/45">
     </div>
 
     {
       title && (
-        <header class="mb-6 border-b border-[#8a5c09] pb-4">
-          <HeadingTag class={`bg-gradient-to-r from-[#dfa310] via-[#ffe4a3] to-[#c9b88e] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-6 border-b border-[#04186e] pb-4">
+          <HeadingTag class={`bg-gradient-to-r from-[#6ec8ff] via-[#cfdcec] to-[#4fb4ff] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>

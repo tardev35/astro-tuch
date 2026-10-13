@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement3.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -24,42 +24,44 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // button now. It is an indexed page, which means verify-build holds its
 // description to the same 150–160 character window as every other page.
 //
-// ⚠️ แบรนด์รอบนี้เป็น **คาสิโนรวมเกม** (บาคาร่า · สล็อต · บอลออนไลน์) ไม่ใช่เว็บ
-// สล็อตล้วนแบบแบรนด์ก่อน ไม่ใช่เว็บกีฬาล้วน และไม่ใช่เว็บหมวดลอตเตอรี คอปปี้ของหน้านี้
-// จึงพูดถึงทางเข้าหลักกับเมนูจัดการบัญชี ตรวจสอบเครดิต และประวัติธุรกรรมเท่านั้น
-// — คำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §1/§6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
+// ⚠️ แบรนด์รอบนี้เป็น **คาสิโน + กีฬา** (บาคาร่า · ไฮโล · สล็อต · แทงบอล) ไม่ใช่
+// เว็บสล็อตล้วน ไม่ใช่เว็บกีฬาล้วน และไม่ใช่เว็บหมวดลอตเตอรี คอปปี้ของหน้านี้จึงพูดถึง
+// ทางเข้าเดิมพันหลักกับการตรวจสอบยอดเดิมพันผ่านบัญชีเดียวเท่านั้น (บรีฟบรรทัด 4)
+// — คำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
 // หาคำต้องห้ามเจอ false positive
 // ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% · 0.8% · 24 ชั่วโมง — ห้ามแต่งใบอนุญาต
 // หน่วยงานกำกับ ชื่อค่ายเกม ชื่อธนาคาร ค่า RTP ยอดขั้นต่ำ จำนวนสมาชิก หรือปีใดๆ
 // (บรีฟรอบนี้ไม่ได้เอ่ยปีไว้เลย)
 //
-// แบรนด์รอบนี้ (KMD88, รอบม่วงราชา-ทองบนดำสนิท 2026-10-13, brand-spec §2):
-// **สองฮิวจริง: ม่วงนำ ทองรอง** ไม่ใช่ทองล้วนแบบรอบก่อน
-// ม่วงแบรนด์ #7505cc · ม่วงสว่าง #b453ff · ม่วงที่ถือตัวอักษรได้ #c07cff (5.3:1)
-// และ #d9b8ff (8.6:1) · ทองแบรนด์ #e2b33f (8.1:1) · ทองสว่าง #ffdf8c (12.0:1) ·
-// เนื้อความ #ece2f8 (= BRAND_TEXT) · หมึกบนพื้นสว่าง/พื้นถมทอง #1a0526
-// ชั้นผิว: ยก #1d0832 (= การ์ด ContentBox) / กลาง #140522 / จม #0a0213 /
-// พื้นเพจ #000000 — รอบนี้ bg.json เป็นดำสนิท จึง **ไม่มี** ชั้นที่ลึกกว่าพื้นเพจ
-// ปุ่มนี้เป็นคู่ SECONDARY: จมลงจากการ์ดด้วยชั้น #140522 → #0a0213 ขอบม่วง
-// #7505cc/55 บนเนื้อความ #ece2f8 — hover ยกขอบเป็นม่วงสว่าง #b453ff
-// ส่วน /register เป็น PRIMARY ถมพื้นทอง จึงไม่ซ้ำกัน
-// ⚠️ ห้ามใช้ผิวยก #1d0832 เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
-// ⚠️ #7505cc #b453ff #3a0565 #2c0349 #7a5a0a ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
-// เส้นขอบ ออรา และเงา — ออราในไฟล์นี้ใช้ rgba(117,5,204,α) เท่านั้น นอกจากเงาดำล้วน
-// ⚠️ กับดักรอบนี้คือ **ทั้งสองฮิว**: ทองออกมาแล้วเก้าในสิบสองรอบหลังสุด และม่วงก็
-// เพิ่งออกสองรอบ "เจอทองหรือเจอม่วง" จึงไม่ได้พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น
-// "ค่า" ทีละตัวกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของ
-// แบรนด์เก่าเจอ false positive — ชุดทองของแบรนด์ก่อนออกครบทุกจุดในไฟล์นี้แล้ว
-// และรอบนี้ **ไม่มีชมพู ไม่มีเขียว ไม่มีน้ำเงิน ไม่มีแดง ไม่มีส้ม ไม่มีเทา/เงิน**
+// แบรนด์รอบนี้ (TSDET911, รอบน้ำเงินไฟฟ้า-เงินโครเมียมบนกรมเกือบดำ 2026-10-13,
+// brand-spec §2): **สองโทนจริง: น้ำเงินไฟฟ้านำ เงินโครเมียมรอง** ไม่มีทองในดรอปนี้
+// น้ำเงินแบรนด์ #0360f3 · ฟ้าสด #0292fb · น้ำเงินลึก #032dad #04186e #041a43 ·
+// ตัวที่ถือตัวอักษรได้: เงินโครเมียม #cfdcec (10.6:1) #9db4d4 (6.1:1) ·
+// ฟ้าไฮไลต์ #6ec8ff (7.4:1) · ฟ้าอ่อน #4fb4ff (6.0:1) ·
+// เนื้อความ #dde8f7 (= BRAND_TEXT) · หมึกบนพื้นสว่าง/พื้นถมฟ้า #021026
+// ชั้นผิว: ยก #102a5e (= การ์ด ContentBox) / กลาง #0a1c42 / จม #040e26 /
+// พื้นเพจ #00081f — รอบนี้ bg.json เป็นกรมเกือบดำ
+// ปุ่มนี้เป็นคู่ SECONDARY: จมลงจากการ์ดด้วยชั้น #0a1c42 → #040e26 ขอบน้ำเงิน
+// #0360f3/55 บนเนื้อความ #dde8f7 — hover ยกขอบเป็นฟ้าสด #0292fb
+// ส่วน /register เป็น PRIMARY ถมพื้นฟ้า จึงไม่ซ้ำกัน
+// ⚠️ ห้ามใช้ผิวยก #102a5e เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
+// ⚠️ #0360f3 #0292fb #032dad #04186e #041a43 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
+// เส้นขอบ ออรา พื้นถม และเงา — ออราในไฟล์นี้ใช้ rgba(3,96,243,α) เท่านั้น
+// นอกจากเงาดำล้วน
+// ⚠️ กับดักรอบนี้คือ **น้ำเงิน**: ไฟล์ inventory หลายตัวเคยเป็นของแบรนด์น้ำเงินมาก่อน
+// "มีน้ำเงินอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับ
+// ตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ
+// false positive — ชุดม่วง-ทองของแบรนด์ก่อนออกครบทุกจุดในไฟล์นี้แล้ว
+// และรอบนี้ **ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีเขียว ไม่มีแดง ไม่มีส้ม**
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (brand-spec §3)
+// Announcement หมุนมาเป็น Announcement3 ทั้งเว็บรอบนี้ (brand-spec §3)
 // orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้ไว้แล้ว
 // จึงเรียกแบบ bare — ห้ามส่ง prop message จากหน้านี้
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 152
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 157
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวไปยังทางเข้าหลักของเว็บ เพื่อเข้าหมวดเกมบาคาร่า สล็อต บอลออนไลน์ พร้อมเมนูจัดการบัญชี ตรวจสอบเครดิต และดูประวัติธุรกรรม`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวไปยังทางเข้าเดิมพันหลักของเว็บ เพื่อเข้าหมวดเกมบาคาร่า ไฮโล สล็อต และแทงบอล พร้อมตรวจสอบยอดเดิมพันและรายการผ่านบัญชีเดียว`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -73,7 +75,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/2u19";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} คาสิโนรวมเกม เข้าจากทางเข้าหลักของเว็บ`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บพนันลิขสิทธิ์ไทยแท้ เข้าจากทางเข้าเดิมพันหลัก`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -85,8 +87,8 @@ const targetUrl = "https://yoalink.com/2u19";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#7505cc]/55 bg-gradient-to-b from-[#140522] to-[#0a0213] px-6 py-4 text-2xl font-bold tracking-wide text-[#ece2f8] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#b453ff] hover:shadow-[0_15px_40px_rgba(117,5,204,0.45)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#7505cc]/35 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#0360f3]/55 bg-gradient-to-b from-[#0a1c42] to-[#040e26] px-6 py-4 text-2xl font-bold tracking-wide text-[#dde8f7] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#0292fb] hover:shadow-[0_15px_40px_rgba(3,96,243,0.45)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#0360f3]/35 to-transparent"></div>
         เข้าสู่ระบบ
       </a>
     </div>
