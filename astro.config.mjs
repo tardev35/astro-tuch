@@ -45,7 +45,7 @@ export default defineConfig({
   // ทั้งสองค่ามาจาก operator ตรงๆ ห้ามอนุมานจากกันและกัน และห้ามแก้ให้ตรงกัน
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://tsbet911-play.com",
+  site: "https://tkb55-play.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

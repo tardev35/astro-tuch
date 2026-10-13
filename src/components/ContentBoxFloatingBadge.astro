@@ -18,22 +18,24 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // The badge gets its own `isolate` too, because its hairlines are `-z-10` and
 // would otherwise paint against the card's stacking context instead of its own.
 //
-// There is no `whitespace-nowrap` anywhere in this file. The badge is width
-// capped (w-[92%] max-w-2xl) and centred, so a long Thai title wraps instead of
-// blowing past the viewport. The two ornaments stay OUT of the line box — they
-// are `absolute` hairlines, so 100% of the badge's inner width belongs to the
-// title.
+// There is no `whitespace-nowrap` anywhere in this file — checked again this
+// round, per the playbook's *FloatingBadge rule. The badge is width capped
+// (w-[92%] max-w-2xl) and centred, so a long Thai title wraps instead of blowing
+// past the viewport. The two ornaments stay OUT of the line box — they are
+// `absolute` hairlines, so 100% of the badge's inner width belongs to the title.
 //
-// BADGE CLEARANCE RE-DERIVED FOR KMD88 (2026-10-13). This box carries docx H2 §7:
-//   "แอดมิน KMD88 เปิดบริการ 24 ชั่วโมง"
+// BADGE CLEARANCE RE-DERIVED FOR TKB55 (2026-10-13). This box carries docx H2 §7:
+//   "แอดมิน TKB55 เปิดบริการ 24 ชั่วโมง"
 // Its five space-delimited chunks advance 5 / 5 / 8 / 2 / 5 cells of glyph (Thai
 // zero-width marks do not advance: ิ in แอดมิน is 1 mark, ิ ิ in เปิดบริการ are
 // 2 marks, ั ่ in ชั่วโมง are 2 marks — ำ would be spacing but does not occur
-// here), 25 cells of glyph plus 4 spaces = 29 cells. The worst case assumed
-// below is that the line breaker only breaks at those 4 spaces — Thai dictionary
-// breaking adds break opportunities, so it can only ever pack the same text into
-// FEWER lines, never more. No single chunk is wider than one line at any width,
-// so nothing can overflow sideways.
+// here), 25 cells of glyph plus 4 spaces = 29 cells. ⚠️ The brand name is five
+// characters wide again this round (TKB55, like KMD88 before it), so the cell
+// count is unchanged — but it was RE-COUNTED, not assumed. The worst case
+// assumed below is that the line breaker only breaks at those 4 spaces; Thai
+// dictionary breaking adds break opportunities, so it can only ever pack the
+// same text into FEWER lines, never more. No single chunk is wider than one line
+// at any width, so nothing can overflow sideways.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
@@ -63,60 +65,61 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // brand's heading is shorter, and do not re-introduce a responsive step down at
 // sm — redo the arithmetic with that brand's real docx sentence instead.
 //
-// KMD88 (รอบม่วงราชา-ทอง 2026-10-13, brand-spec §2): งานอาร์ตรอบนี้เป็นฉากคาสิโนดำ
-// ที่ส่องด้วยริบบิ้นแสงม่วง — คู่นายแบบ-นางแบบผมขาวเงินในชุดดำขลิบม่วง/ทอง ไพ่เอซ
-// ขอบทอง ชิปม่วงสลับทอง มงกุฎทอง ลูกเต๋าทอง และเหรียญทอง โลโก้เป็นคำว่า KMD ตัวอักษร
-// สามมิติม่วงขัดเงาขอบทอง ต่อด้วยเลข 88 ทองเมทัลลิก ในวงแหวนทองที่ขาดช่วง
-// แบรนด์จึงเป็นคู่สีจริง — **ม่วงแบรนด์ #7505cc นำ** และ **ทองแบรนด์ #e2b33f รอง**
+// TKB55 (รอบแดงเลือดนก-เงินโครเมียม 2026-10-13, brand-spec §2): งานอาร์ตรอบนี้เป็น
+// ฉากสตูดิโอคาสิโน **ดำสนิท** ที่ส่องด้วยริบบิ้นแสง **แดง** — คู่ชายหญิงผมขาวเงินใน
+// ชุดสูท/ชุดราตรีดำ-แดง ชิปคาสิโนแดง-ดำ-เงิน ไพ่เอซดำ ลูกเต๋าแดง ผ้าซาตินแดงพลิ้ว และ
+// วงล้อรูเล็ต โลโก้เป็นคำว่า TKB ตัวอักษรสามมิติสีแดงสด ต่อด้วยเลข 55 เงินโครเมียม
+// ขัดเงา เหนือคำขึ้นไปเป็นมาสคอตโจรการ์ตูนใส่หน้ากากดำแบกถุงเงิน $
+// แบรนด์จึงเป็นคู่โทนจริง — **แดงแบรนด์ #fb131b นำ** และ **เงินโครเมียม #e9eef4 รอง**
 // ⚠️ พื้นเพจรอบนี้ **ดำสนิท** ตาม bg.json จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้ ผิวจม
-// #0a0213 คือก้นสุด การ์ดใบนี้ไล่จากผิวยก #1d0832 ลงผิวกลาง #140522 ในกรอบม่วงแบรนด์
+// #0d0304 คือก้นสุด การ์ดใบนี้ไล่จากผิวยก #2a0d0f ลงผิวกลาง #1a0708 ในกรอบแดงแบรนด์
 // หนาสองพิกเซล
-// จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นทองทึบ หมึกม่วงเกือบดำ" ซึ่งเป็นขั้วกลับของทุก
-// หัวข้อบนหน้านี้ที่เป็นตัวอักษรสว่าง/ไล่เฉดบนพื้นมืด — ไล่ทองสว่าง #ffdf8c → ทอง
-// แบรนด์ #e2b33f บนหมึก #1a0526 (8.4:1 ที่ปลายเข้มสุด) §2 ระบุว่า #1a0526 เป็นหมึก
-// ตัวเดียวที่วางบนพื้นถมทองหรือพื้นสว่างได้ และห้ามพลิกแผ่นทองไปใช้หมึกสว่าง ขอบป้าย
-// เป็นม่วงแบรนด์ #7505cc (เนื้อม่วงของตัวอักษร KMD รอบขอบทอง) เส้นไรผมบนเป็นม่วงสว่าง
-// #b453ff และเส้นล่างเป็นทองลึก #7a5a0a
-// ออราสองมุมเป็นคู่สีของแบรนด์จริงๆ — ทอง #e2b33f มุมขวาบน (เลข 88 กับวงแหวนทอง)
-// คู่กับม่วงแบรนด์ #7505cc มุมซ้ายล่าง ไม่ใช่สองเฉดของม่วงเดียวกัน
-// เนื้อความ #ece2f8 (= BRAND_TEXT) — 12.6:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด
-// §2 ห้าม #7505cc #b453ff #3a0565 #2c0349 #7a5a0a ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่
-// ออรา กรอบ และเส้นไรผมเท่านั้น และ #ffd45e ถูกสงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น
-// จึงไม่โผล่ในไฟล์นี้เลย
+// จุดต่างของใบนี้คือป้ายลอยเป็น "แผ่นเงินโครเมียมทึบ หมึกแดงเกือบดำ" ซึ่งเป็นขั้วกลับ
+// ของทุกหัวข้อบนหน้านี้ที่เป็นตัวอักษรสว่าง/ไล่เฉดบนพื้นมืด — ไล่เงินสว่าง #e9eef4 →
+// เงินหม่น #aeb9c6 บนหมึก #1a0304 (16.9:1 ที่ปลายสว่าง และ 9.9:1 ที่ปลายเข้มสุด)
+// §2 ระบุว่า #1a0304 เป็นหมึกตัวเดียวที่วางบนพื้นสว่างหรือพื้นแดงตันได้ และห้ามพลิก
+// แผ่นสว่างไปใช้หมึกสว่าง ขอบป้ายเป็นแดงแบรนด์ #fb131b (เนื้อแดงของตัวอักษร TKB รอบ
+// เลขเงิน) เส้นไรผมบนเป็นแดงสว่าง #ff4d55 และเส้นล่างเป็นแดงลึกสุด #53050a
+// ออราสองมุมเป็นคู่โทนของแบรนด์จริงๆ — เงินโครเมียม #e9eef4 มุมขวาบน (เลข 55 กับขอบ
+// วงล้อรูเล็ต) คู่กับแดงแบรนด์ #fb131b มุมซ้ายล่าง ไม่ใช่สองเฉดของแดงเดียวกัน
+// เนื้อความ #f2e4e5 (= BRAND_TEXT) — 14.5:1 บนผิวยก และสูงกว่านั้นบนครึ่งล่างของไล่เฉด
+// §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ออรา กรอบ
+// และเส้นไรผมเท่านั้น และ #ff8a8f ถูกสงวนไว้ให้ <strong> ในย่อหน้าเท่านั้น จึงไม่โผล่
+// ในไฟล์นี้เลย
 //
-// ⚠️ เก้าในสิบสองรอบหลังสุดมีทอง และม่วงก็เพิ่งมาสองรอบ เจอสีที่ไหนห้ามเหมาว่าเป็นของ
-// รอบนี้ ให้เทียบค่าเป็นตัวๆ: ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 ที่เคยค้างอยู่ทั้ง
-// ไฟล์นี้ (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012
-// #4a1038 #3a0a2a #2e0022 #1c0014) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d #ffe4a3
-// #c9b88e #f0e9dc #8a5c09 #43240b #140d02 #1b1307 #120c04 #070502) ชุดทองอำพันเสือ
-// ของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02
-// #2d1c0a #1c1206 #0f0903) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #e8b9d4
-// #fde8f3 #f5c53d #9c6f08 #b3006a #7a0046 #4d002b #2b0019 #4a0b42 #3a0534 #2e002c
-// #210220 #ffe49a) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (#fbc134 #ffe87a #cf9a18
-// #96690a #6b4a05 #eef2f8 #cfd6e3 #9aa6bb #3f4859 #fdf3df #d9c9a6 #4e3406 #432b03
-// #382400 #231500) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08
-// #5c3f04 #f58b2a #ffc98a #a3510c #1a1203 #f6ecd9) และชุดทอง-แดงของ GOT777 (#f5c518
-// #ffe9a8 #96690f #d21622) ออกครบทุกจุดแล้ว
-// ⚠️ WEPLAY168 (#a435f0 #d2a6ff #c9b2e8 #5b1a75 #1e0a3c #0a0117) และ BPLAY639
-// (#7e22ce #c4b5fd #ddd6fe #14061f) ก็เป็นแบรนด์ม่วง "มีม่วงอยู่แล้ว" จึงไม่พิสูจน์
-// อะไร — #a435f0 (R=164 G=53) และ #7e22ce (R=126 G=34) ไม่ใช่ #7505cc (R=117 G=5)
-// ซึ่งเข้มและอิ่มกว่าทั้งคู่ และ #f5c53d / #fce343 / #fbe455 ก็ไม่ใช่ #e2b33f
-// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีเขียว ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเทา/เงินโครเมียม ไม่มี
-// ส้มอิฐ และไม่มีแดงเลือดนก**
+// ⚠️ **กับดักรอบนี้คือแดง** เจอสีแดงที่ไหนห้ามเหมาว่าเป็นของรอบนี้ ให้เทียบค่าเป็นตัวๆ:
+// SUPERSLOTCLUB (#e8232a #7d0f12 #4a0605 #180800) PIGPG (#d4200d #120302 #2a0806
+// #6b0402) และ FLASH877 (#ff3b14 #8c0f0a #2b0000 #f5c518 #ffdd73 #b8860f) ล้วนเป็น
+// แบรนด์แดงมาก่อน และไม่มีตัวไหนเป็น #fb131b (R=251 G=19 B=27) ของรอบนี้
+// ชุดม่วงราชา-ทองของ KMD88 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#7505cc #b453ff #c07cff #d9b8ff
+// #3a0565 #2c0349 #7a5a0a #e2b33f #ffdf8c #ece2f8 #1a0526 #1d0832 #140522 #0a0213)
+// ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911 (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec
+// #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26 #00081f #04186e #021026) ชุดชมพูฮอตพิงก์-
+// ทองของ PUNPRO168 (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a1038
+// #2a0012 #1c0014) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d #ffe4a3 #c9b88e #f0e9dc
+// #8a5c09 #43240b) ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0
+// #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a) ชุดทองอวกาศ-เงินโครเมียมของ NAZA168
+// (#fbc134 #ffe87a #cf9a18 #96690a #6b4a05 #eef2f8 #cfd6e3 #9aa6bb #3f4859 #fdf3df)
+// และชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a
+// #ffc98a #a3510c #1a1203 #f6ecd9) ออกครบทุกจุดแล้ว
+// ⚠️ เงินโครเมียมรอบนี้คือ #e9eef4 / #aeb9c6 ไม่ใช่ #cfdcec / #9db4d4 ของ TSDET911 และ
+// ไม่ใช่ #eef2f8 / #cfd6e3 / #9aa6bb ของ NAZA168 — "มีเงินโครเมียมอยู่แล้ว" ไม่พิสูจน์
+// อะไร ต้องเทียบเป็นตัวเลข
+// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#7505cc]/65 bg-gradient-to-b from-[#1d0832] to-[#140522] p-8 pt-36 text-left text-base leading-relaxed text-[#ece2f8] shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e2b33f]/22 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#7505cc]/60 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#fb131b]/65 bg-gradient-to-b from-[#2a0d0f] to-[#1a0708] p-8 pt-36 text-left text-base leading-relaxed text-[#f2e4e5] shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#e9eef4]/14 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#fb131b]/60 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#7505cc] bg-gradient-to-r from-[#ffdf8c] to-[#e2b33f] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#b453ff] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#7a5a0a] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#1a0526] uppercase`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#fb131b] bg-gradient-to-r from-[#e9eef4] to-[#aeb9c6] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.6)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#ff4d55] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#53050a] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#1a0304] uppercase`}>{title}</HeadingTag>
         </div>
       )
     }
