@@ -20,70 +20,79 @@ const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ
 // The column labels never emit HeadingTag — that would put this page's own
 // layout wording into the h2/h3 inventory that gets diffed against the docx.
 // They are <p> with the same size, weight, tracking and colour a heading would
-// carry. On this brand's homepage the box carries docx H2 §2
-// (เว็บพนันคาสิโน TKB55 บาคาร่า ไฮโล บอล สล็อต ครบ): the brief's two paragraphs for
-// that section run one per column, so the block emits exactly one docx heading
-// and no slot receives two siblings. No column label is passed either — the
-// brief gives §2 two running paragraphs with no sub-labels.
+// carry. On this brand's homepage the box carries docx H2 §7
+// (ช่องทางติดต่อแอดมิน … ทาง LINE OFFICIAL 24ชม.): the brief writes that section
+// as one running paragraph, so the page runs its two halves one per column, the
+// block emits exactly one docx heading, and no slot receives two siblings. No
+// column label is passed either — the brief gives §7 no sub-labels of its own.
 //
-// TKB55 (รอบแดงเลือดนก-เงินโครเมียม 2026-10-13, brand-spec §2): แบรนด์มีสองโทนจริง
-// อยู่บนโลโก้ — คำว่า TKB เป็นตัวอักษรสามมิติ **แดงสด** และเลข 55 เป็น **เงินโครเมียม
-// ขัดเงา** สองคอลัมน์จึงแยกด้วยคู่โทนนั้นตรงๆ ไม่ใช่ด้วยระดับความสว่างของแดงเดียว:
-// สันฝั่งซ้ายเป็นฝั่งแดง ไล่แดงสว่าง #ff4d55 → แดงแบรนด์ #fb131b → แดงลึก #8a0206
-// ป้ายใช้แดงสว่าง #ff4d55 (§2 ระบุว่าเป็นแดงที่ถือตัวอักษรได้ 5.6:1) ส่วนสันฝั่งขวาเป็น
-// ฝั่งเงินโครเมียม ไล่เงินสว่าง #e9eef4 → เงินหม่น #aeb9c6 → แดงลึกสุด #53050a ป้ายใช้
-// เงินโครเมียมสว่าง #e9eef4 (15.2:1) ทั้งสองป้ายวางบนผิวการ์ด ไม่ได้อยู่บนพื้นถมสี
-// ⚠️ พื้นเพจรอบนี้ **ดำสนิท** (bg.json) จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้ ผิวจม #0d0304
-// คือก้นสุด การ์ดใบนี้วางที่ผิวกลาง #1a0708 ซึ่งอยู่ระหว่างผิวยก #2a0d0f ของ
-// ContentBoxCyberCut (§1) ที่อยู่เหนือมัน กับผิวจม #0d0304 ของ Faq2 ที่ปิดท้ายหน้า
-// หัวข้อ docx ไล่ เงินโครเมียมหม่น #aeb9c6 → แดงสว่าง #ff4d55 → เงินโครเมียมสว่าง
-// #e9eef4 ซึ่งเป็นลำดับคนละชุดกับกล่อง docx ใบอื่นในหน้า กรอบเป็นแดงลึก #8a0206 โปร่ง
-// สว่างขึ้นเป็นแดงแบรนด์ #fb131b ตอน hover เส้นคั่นกลางเป็นแดงลึกสุด #53050a
-// เนื้อความ #f2e4e5 (= BRAND_TEXT) — 16.0:1 บนผิวกลาง
-// glow มีได้สองชุดตาม §2 ที่ใช้ในไฟล์นี้: rgba(251,19,27,…) และ rgba(233,238,244,…)
-// §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษร — ที่นี่อยู่ที่กรอบ ปลายไล่เฉด
-// ของสัน ออรา และเส้นคั่น และ #ff8a8f ถูกสงวนให้ <strong> ในย่อหน้าเท่านั้น
+// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2):
+// แบรนด์มีสองโทนจริงอยู่บนโลโก้ — คำว่า "รับตัง" เป็นตัวอักษรสามมิติผิวโครเมียม
+// อมฟ้าเงินขอบแดง ต่อด้วยเลข "168" **แดงสด** สามมิติ ทั้งหมดวางอยู่บน **กองเหรียญ
+// จีนทองรูสี่เหลี่ยม** กับริบบิ้นซาตินแดง สองคอลัมน์จึงแยกด้วยคู่โทนนั้นตรงๆ ไม่ใช่
+// ด้วยระดับความสว่างของสีเดียว: สันฝั่งซ้ายเป็นฝั่งทอง ไล่ทองสว่าง #ffdc8c → ทอง
+// แบรนด์ #f0b429 → ทองลึก #9a6c0c ป้ายใช้ทองแบรนด์ #f0b429 (§2 ระบุว่าถือตัวอักษร
+// ได้ 8.5:1) ส่วนสันฝั่งขวาเป็นฝั่งแดง ไล่แดงสว่าง #ff6b6e → แดงแบรนด์ #d30304 →
+// แดงเข้มสุด #4a0202 ป้ายใช้แดงสว่าง #ff6b6e (5.4:1 และเป็น text-xl font-black จึง
+// เป็น large text) ทั้งสองป้ายวางบนผิวการ์ด ไม่ได้อยู่บนพื้นถมสี
+// ⚠️ **ทองมาก่อนแดง** ตามลำดับนำของรอบนี้ ซึ่งกลับทางจากรอบก่อน (สมหวัง168 แดงนำ)
+// ⚠️ พื้นเพจรอบนี้เป็น **ดำอมแดง #1a0505** (bg.json) ลำดับความลึก: #2b100f ยก /
+// #200a09 กลาง / #140505 จม / #1a0505 พื้น การ์ดใบนี้วางที่ **ผิวกลาง #200a09**
+// ซึ่งอยู่ระหว่างผิวยกของ §6 ที่อยู่เหนือมัน กับผิวจมของ Faq3 ที่ปิดท้ายหน้า
+// หัวข้อ docx ไล่ ทองสว่าง #ffdc8c → แดงสว่าง #ff6b6e → ทองแบรนด์ #f0b429 ซึ่งเป็น
+// ลำดับคนละชุดกับกล่อง docx ใบอื่นในหน้า ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือ
+// พิกเซลของตัวอักษร** ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 — ห้ามเอา #d30304
+// #a00203 #4a0202 #9a6c0c มาเป็นสต็อป และห้ามเอา #cfd9e6 มาด้วย เพราะ §2 สงวนมัน
+// ไว้เป็นสีตัวอักษรรองอย่างเดียว ไม่ใช่สีระบบ
+// กรอบเป็นทองลึก #9a6c0c โปร่ง สว่างขึ้นเป็นทองแบรนด์ #f0b429 ตอน hover เส้นคั่น
+// กลางเป็นแดงเข้มสุด #4a0202 เนื้อความ #f5ece0 (= BRAND_TEXT) — 13.9:1 บนผิวกลาง
+// glow มีได้สองชุดตาม §2 ที่ใช้ในไฟล์นี้: rgba(240,180,41,…) และ rgba(211,3,4,…)
+// §2 ห้าม #d30304 #a00203 #4a0202 #9a6c0c ถือตัวอักษร — ที่นี่อยู่ที่กรอบ ปลายไล่เฉด
+// ของสัน ออรา และเส้นคั่นเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** โค้ดเบสนี้มีแบรนด์แดง
-// มาแล้วสามเจ้าและค่าของพวกมันยังค้างในไฟล์ inventory อื่น: SUPERSLOTCLUB (#e8232a
-// #7d0f12 #4a0605 #180800) PIGPG (#d4200d #120302 #2a0806 #6b0402) และ FLASH877
-// (#ff3b14 #8c0f0a #2b0000 #f5c518) — ไม่มีตัวไหนเป็น #fb131b (R=251 G=19 B=27)
-// ของรอบนี้ ชุดม่วงราชา-ทองของ KMD88 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#7505cc #b453ff
-// #c07cff #d9b8ff #3a0565 #2c0349 #7a5a0a #e2b33f #ffdf8c #ece2f8 #1d0832 #140522
-// #0a0213 #1a0526) ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911 (#0360f3 #0292fb #6ec8ff
-// #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26 #00081f #04186e #021026)
-// ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2
-// #8a0a45 #4a1038 #2a0012 #1c0014) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d #ffe4a3
-// #c9b88e #f0e9dc #8a5c09 #43240b #140d02) และชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324
-// (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffe08a #7d5a07 #464f5a #f2f5f9
-// #8792a0) ออกครบทุกจุดแล้ว
-// ⚠️ เงินโครเมียมรอบนี้คือ #e9eef4 / #aeb9c6 ซึ่งไม่ใช่ #cfdcec / #9db4d4 ของ TSDET911
-// และไม่ใช่ #b9c2cc / #8792a0 ของ UFA324 — "มีเงินโครเมียมอยู่แล้ว" ไม่พิสูจน์อะไร
-// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** โค้ดเบสนี้มีแบรนด์
+// แดงมาแล้วสามเจ้าติดกันและค่าของพวกมันยังค้างในไฟล์ inventory อื่น: สมหวัง168
+// (#fa0513 #ffadaf #ff5a5f #e3b23c #ffe5a8 #8a6210 #b90203 #8c0204 #5b0203 #3c0303
+// #170504 #f4ecea #ccb9b6 #2c1413 #1f0d0c #140706 #290f0f) TKB55 (#fb131b #ff8a8f
+// #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708 #0d0304 #c40304 #8a0206 #53050a
+// #1a0304 — ชุดนี้เพิ่งอยู่ทั้งไฟล์นี้) และ GT66B (#fb141b #ff5f63 #ffa0a2 #db040b
+// #ec151c #8a0609 #3b0405) — ไม่มีตัวไหนเป็น #d30304 (R=211 G=3 B=4) ของรอบนี้
+// ชุดม่วงราชา-ทองของ KMD88 (#7505cc #b453ff #c07cff #d9b8ff #3a0565 #2c0349 #7a5a0a
+// #e2b33f #ffdf8c #ece2f8 #1d0832 #140522 #0a0213 #1a0526) ชุดน้ำเงินไฟฟ้าของ
+// TSDET911 (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42
+// #040e26 #00081f #04186e #021026) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (#f41571
+// #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a1038 #2a0012 #1c0014) ชุดทอง
+// มังกรของ TND168 (#dfa310 #ffc93d #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02)
+// และชุดทองแชมเปี้ยนของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4
+// #ffe08a #7d5a07 #464f5a #f2f5f9 #8792a0) ออกครบทุกจุดแล้ว
+// ⚠️ ทองรอบนี้คือ #f0b429 ซึ่งไม่ใช่ #e3b23c ของสมหวัง168 (รอบก่อนหน้าทันที) ไม่ใช่
+// #dfa310 #e5a81b #e2b33f หรือ #fad354 — "มีทองอยู่แล้ว" ไม่พิสูจน์อะไร
+// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** และ
+// ไม่มีโครเมียม/เงินเป็นสีระบบ #e9eef4 #aeb9c6 #cfdcec #9db4d4 ต้องไม่เหลือที่นี่
 const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-normal font-black tracking-widest uppercase";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#8a0206]/70 bg-[#1a0708]/94 p-8 text-[#f2e4e5] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#fb131b]/80 hover:shadow-[0_15px_40px_rgba(251,19,27,0.28)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#53050a]/60 to-transparent opacity-75"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#e9eef4]/10 blur-[60px]"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9a6c0c]/70 bg-[#200a09]/94 p-8 text-[#f5ece0] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#f0b429]/80 hover:shadow-[0_15px_40px_rgba(240,180,41,0.28)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#4a0202]/60 to-transparent opacity-75"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#f0b429]/18 blur-[60px]"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-3 border-b border-[#8a0206]/60 pb-4">
-          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff4d55] via-[#fb131b] to-[#8a0206] shadow-[0_0_10px_rgba(251,19,27,0.6)]" />
-          <HeadingTag class="bg-gradient-to-r from-[#aeb9c6] via-[#ff4d55] to-[#e9eef4] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 flex items-center gap-3 border-b border-[#9a6c0c]/60 pb-4">
+          <span aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffdc8c] via-[#f0b429] to-[#9a6c0c] shadow-[0_0_10px_rgba(240,180,41,0.6)]" />
+          <HeadingTag class="bg-gradient-to-r from-[#ffdc8c] via-[#ff6b6e] to-[#f0b429] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0]">
         {
           titleleft && (
-            <p class={`${columnLabel} border-[#8a0206]/70 text-[#ff4d55]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff4d55] via-[#fb131b] to-[#8a0206] shadow-[0_0_10px_rgba(251,19,27,0.7)]" />
+            <p class={`${columnLabel} border-[#9a6c0c]/70 text-[#f0b429]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffdc8c] via-[#f0b429] to-[#9a6c0c] shadow-[0_0_10px_rgba(240,180,41,0.7)]" />
               {titleleft}
             </p>
           )
@@ -91,11 +100,11 @@ const columnLabel = "flex items-center gap-3 border-b pb-3 text-xl leading-norma
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5] md:border-l md:border-[#53050a] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0] md:border-l md:border-[#4a0202] md:pl-10">
         {
           titleright && (
-            <p class={`${columnLabel} border-[#aeb9c6]/40 text-[#e9eef4]`}>
-              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#e9eef4] via-[#aeb9c6] to-[#53050a] shadow-[0_0_10px_rgba(233,238,244,0.45)]" />
+            <p class={`${columnLabel} border-[#d30304]/50 text-[#ff6b6e]`}>
+              <span aria-hidden="true" class="h-6 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ff6b6e] via-[#d30304] to-[#4a0202] shadow-[0_0_10px_rgba(211,3,4,0.7)]" />
               {titleright}
             </p>
           )

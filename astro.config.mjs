@@ -37,18 +37,18 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://somwang168.services — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://rubtang168.services — operator ระบุมาตรงๆ ในคำสั่ง
   // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ รอบนี้ชื่อแบรนด์เป็น **ภาษาไทย** ("สมหวัง168") ส่วนโดเมนเป็น ASCII
-  // ("somwang168".services) — คนละสคริปต์กันคนละตัว จะเทียบตัวอักษรกันตรงๆ ยังไม่ได้
-  // เลยด้วยซ้ำ ต่างจากสองรอบก่อน (GT66B/gt66b-play.com และ TKB55/tkb55-play.com)
-  // ที่ฐานสะกดบังเอิญตรงกัน — **ความบังเอิญนั้นไม่เคยเป็นกฎ** และรอบ TSDET911
-  // ฐานโดเมนคือ "tsbet"911-play.com ซึ่งตัวอักษรที่สามยังคนละตัว (d ↔ b)
-  // ทั้งสองค่ามาจาก operator ตรงๆ ห้ามอนุมานจากกันและกัน และห้ามแก้ให้ตรงกัน
+  // ⚠️ รอบนี้ชื่อแบรนด์เป็น **ภาษาไทย** ("รับตัง168") ส่วนโดเมนเป็น ASCII
+  // ("rubtang168".services) — คนละสคริปต์กัน จะเทียบตัวอักษรกันตรงๆ ยังไม่ได้
+  // เลยด้วยซ้ำ เหมือนรอบก่อน (สมหวัง168/somwang168.services) แต่คนละคู่ค่า
+  // ⚠️ "rubtang" เป็นการถอดเสียง "รับตัง" ซึ่ง **อนุมานกลับไม่ได้** — ถ้า operator
+  // ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด (รอบ TSDET911 แบรนด์
+  // สะกด d แต่โดเมนสะกด b) ทั้งสองค่ามาจาก operator ตรงๆ ห้ามอนุมานจากกันและกัน
   // สังเกตว่า TLD รอบนี้เป็น .services ไม่ใช่ .com และไม่มีหาง -play
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://somwang168.services",
+  site: "https://rubtang168.services",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
