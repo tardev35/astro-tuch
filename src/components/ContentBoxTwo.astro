@@ -10,7 +10,7 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🃏" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "🎰" } = Astro.props;
 
 // Without a `title` this box carries chrome (a login widget, a channel panel),
 // never docx article content, so both column labels render as <p> and the
@@ -20,64 +20,66 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 // inventory stops at the docx's own sections.
 //
 // Reached ONLY through LoginRtpSection this round (index.astro does not import
-// it directly — the docx's two-column section went to ContentBoxTwoPremium
-// and the rest of the shape mix is in brand-spec §3).
+// it directly — the docx's two-column sections went to ContentBoxTwoNeumorphism
+// and ContentBoxTwoFloatingBadge, and the rest of the shape mix is in
+// brand-spec §3).
 // A grep for "components/ContentBoxTwo.astro" in src/pages/ therefore finds
 // nothing, and that does NOT mean it is inventory: match the bare filename
 // instead. It is LIVE and has to carry this brand's colours.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// TKB55 (รอบแดงเลือดนก-เงินโครเมียม 2026-10-13, brand-spec §2):
-// โลโก้คือคำว่า TKB เป็นตัวอักษรสามมิติ **สีแดงสด** ต่อด้วยเลข 55 สีเงินโครเมียม
-// ขัดเงา เหนือคำขึ้นไปเป็นมาสคอตโจรการ์ตูนใส่หน้ากากดำแบกถุงเงิน $ งานอาร์ตเป็น
-// ฉากสตูดิโอ **ดำสนิท** ที่ส่องด้วยริบบิ้นแสงแดง คู่ชายหญิงผมขาวเงินในชุดสูท/
-// ชุดราตรีดำ-แดง ชิปคาสิโนแดง-ดำ-ทอง ไพ่เอซดำ และลูกเต๋าแดง
-// ⚠️ รอบนี้เป็น **สองโทนจริง: แดงเลือดนกนำ เงินโครเมียมรอง** และ **ไม่มีทอง
-// ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีส้ม** — ถ้าเผลออยากใส่สีที่สอง
-// คำตอบคือเงินโครเมียม #e9eef4 / #aeb9c6 ไม่ใช่ทองหรืออำพัน
-// กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจ **ดำสนิท #000000** (bg.json)
+// สมหวัง168 (รอบแดงมังกร-ทองไทย 2026-10-17, brand-spec §2):
+// โลโก้คือคำว่า "สมหวัง" ตัวอักษรสามมิติโครเมียมขาวอมเงินขอบแดง ต่อด้วยเลข "168"
+// สีแดงสดตัวหนาสามมิติ มีเปลวไฟแดงกับลายกนกไทยสีแดงพันรอบ งานอาร์ตเป็นฉากคาสิโน
+// ไทย-จีนพื้นดำ ผ้าซาตินแดงพลิ้ว ลายกนก/นาคทองไทยขนาบสองข้าง กองชิปทอง-แดง-ดำ
+// ไพ่เอซ และวงล้อรูเล็ต
+// ⚠️ รอบนี้เป็น **สองโทนจริง: แดงมังกรนำ ทองไทยรอง** — ถ้าเผลออยากใส่สีที่สอง
+// คำตอบคือ **ทอง** #e3b23c / #ffe5a8 ไม่ใช่โครเมียม/เงิน (สีเงินอมฟ้าในคำว่า
+// "สมหวัง" เป็นรายละเอียดในรูป ไม่ใช่สีของระบบ — §2 สั่งไว้ตรงๆ)
+// กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจ **ดำอมแดง #290f0f** (bg.json)
 // ตรงๆ จึงเป็นจังหวะ "โปร่ง" ของหน้า คั่นหลังบล็อกเนื้อหาของบรีฟ — กล่องเนื้อหา
 // อีกแปดใบมีผิวและกรอบของตัวเองทั้งหมด ใบนี้จึงเป็นใบเดียวที่ไม่มีผิว
-// ลำดับความลึก: #2a0d0f ยก / #1a0708 กลาง / #0d0304 จม / #000000 พื้น — ไม่มีชั้น
-// ไหนจมต่ำกว่าพื้นได้
-// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นมืดกรอบแดง vs แผ่นโครเมียมทึบ" ซึ่งตรงกับสองโทนของ
-// โลโก้: ฝั่งซ้ายเป็นฝั่งแดง ป้ายไอคอนเป็นแผ่นมืดไล่ผิวยก #2a0d0f → ผิวจม #0d0304
-// ในกรอบแดงแบรนด์ #fb131b บนไอคอนแดงอ่อน #ff8a8f และป้ายคอลัมน์ซ้ายเป็นแดงสว่าง
-// #ff4d55 (5.6:1) ส่วนฝั่งขวาเป็นฝั่งโครเมียม ป้ายไอคอนเป็นแผ่นเงินทึบไล่ #e9eef4
-// → #aeb9c6 บนหมึก #1a0304 (§2 ระบุว่านี่คือหมึกตัวเดียวที่วางบนพื้นสว่างได้ —
-// ห้ามพลิกแผ่นโครเมียมไปใช้หมึกสว่าง) และป้ายคอลัมน์ขวาเป็นเงินโครเมียมสว่าง
-// #e9eef4 (15.2:1) — §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษรที่ไหนเลย
-// ในไฟล์นี้ทั้งสี่ค่าอยู่ที่ขอบ เส้นคั่น สันหัวข้อ และ **พื้น** ของแผ่นไอคอนเท่านั้น
-// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ เงินโครเมียมหม่น #aeb9c6 → แดงสว่าง
-// #ff4d55 → แดงอ่อน #ff8a8f ซึ่งไม่ซ้ำลำดับกับกล่องอื่นบนหน้าเดียวกันสักใบ
-// (ContentBox ไล่ #e9eef4 → #ff8a8f → #fb131b คนละลำดับกัน) สันหัวข้อไล่ เงิน
-// โครเมียมสว่าง #e9eef4 → แดงแบรนด์ #fb131b → แดงลึกกว่า #8a0206 เส้นคั่นเป็น
-// แดงเลือดหมู #53050a ทั้งสองฝั่ง เนื้อความ #f2e4e5 (= BRAND_TEXT) — 17.0:1 บน
-// พื้นเพจดำสนิท
+// ลำดับความลึก: #2c1413 ยก / #1f0d0c กลาง / #140706 จม / #290f0f พื้น
+// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นมืดกรอบแดง vs แผ่นทองทึบ" ซึ่งตรงกับสองโทนของงานอาร์ต:
+// ฝั่งซ้ายเป็นฝั่งแดง ป้ายไอคอนเป็นแผ่นมืดไล่ผิวยก #2c1413 → ผิวจม #140706 ในกรอบ
+// แดงแบรนด์ #fa0513 บนไอคอนแดงสว่าง #ff5a5f และป้ายคอลัมน์ซ้ายเป็นแดงสว่าง #ff5a5f
+// (5.7:1) ส่วนฝั่งขวาเป็นฝั่งทอง ป้ายไอคอนเป็นแผ่นทองทึบไล่ #e3b23c → #ffe5a8 บน
+// หมึก #170504 (§2 ระบุว่านี่คือหมึกตัวเดียวที่วางบนพื้นถมทอง/แดงได้ — ห้ามพลิก
+// แผ่นทองไปใช้หมึกสว่าง) และป้ายคอลัมน์ขวาเป็นทองไทย #e3b23c (8.9:1)
+// §2 ห้าม #fa0513 #b90203 #8c0204 #5b0203 #3c0303 #8a6210 ถือตัวอักษรที่ไหนเลย —
+// ในไฟล์นี้ทั้งหกค่าอยู่ที่ขอบ เส้นคั่น สันหัวข้อ และ **พื้น** ของแผ่นไอคอนเท่านั้น
+// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ ทองสว่าง #ffe5a8 → แดงสว่าง #ff5a5f →
+// ทองไทย #e3b23c ซึ่งไม่ซ้ำลำดับกับกล่องอื่นบนหน้าเดียวกันสักใบ สันหัวข้อไล่ ทอง
+// สว่าง #ffe5a8 → แดงแบรนด์ #fa0513 → แดงลึกกว่า #8c0204 เส้นคั่นเป็นแดงเกือบดำ
+// #5b0203 ทั้งสองฝั่ง เนื้อความ #f4ecea (= BRAND_TEXT) — 15.4:1 บนพื้นเพจ
+// #ffadaf สงวนไว้ให้ <strong> ในเนื้อความตาม §2 จึงไม่โผล่ในไฟล์นี้
 //
-// ไอคอนเริ่มต้นเป็น 🔐 / 🃏 — บรีฟรอบนี้เป็น **คาสิโน + กีฬา** (บาคาร่า · ไฮโล ·
-// บอล · สล็อต) ไม่ใช่เว็บสล็อตล้วน จึงไม่ใช้ 🎰 เป็นค่าตั้งต้น และไพ่มาจากบาคาร่า
-// ซึ่งบรีฟเรียกว่าเกมไพ่ตรงๆ (LoginRtpSection ส่งไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลง)
+// ไอคอนเริ่มต้นเป็น 🔐 / 🎰 — บรีฟรอบนี้เป็น **เว็บเกมสล็อตล้วน** ไม่ใช่คาสิโนและ
+// ไม่ใช่กีฬา จึงไม่ใช้ไพ่/ลูกเต๋า/ลูกบอลเป็นค่าตั้งต้นอีกต่อไป (LoginRtpSection ส่ง
+// ไอคอนมาเองอยู่แล้ว ค่านี้คือกันหลง)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้เพิ่งถือชุด **น้ำเงินไฟฟ้า-เงิน
-// โครเมียม** ของ TSDET911 มาทั้งไฟล์ (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec
-// #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26 #00081f #032dad #04186e #041a43 #021026)
-// และก่อนนั้นเป็นชุดม่วงราชา-ทอง ชุดทองมังกร ชุดทองอำพันเสือ และชุดชมพูฮอตพิงก์-ทอง
-// — ถูกถอดออกครบทุกค่า ไม่เหลือน้ำเงิน ไม่เหลือฟ้า ไม่เหลือม่วง ไม่เหลือทอง
-// ไม่เหลือชมพู ไม่เหลือเขียว และไม่เหลือส้ม/อำพันในไฟล์นี้แล้ว
-// ⚠️ **กับดักรอบนี้คือแดง** โค้ดเบสนี้เคยมีแบรนด์แดงมาก่อนสามเจ้า — SUPERSLOTCLUB
-// #e8232a (R:232 G:35 B:42) · PIGPG #d4200d (R:212 G:32 B:13) · FLASH877 #ff3b14
-// (R:255 G:59 B:20) แดงของรอบนี้คือ #fb131b (R:251 G:19 B:27) ซึ่งไม่ใช่ค่าใด
-// ในสามค่านั้นเลย ให้เทียบเป็นตัวเลขทีละค่า ห้ามกะด้วยตา
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้เพิ่งถือชุดแดงเลือดนก-เงินโครเมียม
+// ของ TKB55 มาทั้งไฟล์ (#fb131b #ff8a8f #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f
+// #1a0708 #0d0304 #c40304 #8a0206 #53050a #1a0304) และก่อนนั้นเป็นชุดน้ำเงินไฟฟ้า
+// ของ TSDET911 (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e
+// #0a1c42 #040e26 #00081f #032dad #04186e #041a43 #021026) ชุดม่วงราชา-ทองของ KMD88
+// ชุดทองมังกรของ TND168 และชุดทองอำพันเสือของ TIGERWIN369 — ถอดออกครบทุกค่า
+// ⚠️ **กับดักรอบนี้คือแดง และมันหนักเป็นพิเศษที่ไฟล์นี้** เพราะค่าที่เพิ่งอยู่ในนี้
+// (#fb131b) ก็เป็นแดงสดเหมือนกัน "เจอแดงอยู่แล้ว" จึงไม่พิสูจน์อะไรเลย — แดงของ
+// GT66B คือ #fb141b (G=20) ของ TKB55 คือ #fb131b (G=19) ของ SUPERSLOTCLUB คือ
+// #e8232a (R=232) ของ PIGPG คือ #d4200d (R=212) และของ FLASH877 คือ #ff3b14 (G=59)
+// ส่วนแดงรอบนี้คือ #fa0513 (R=250 G=5 B=19) ให้เทียบเป็นตัวเลขทีละค่า ห้ามกะด้วยตา
+// ⚠️ **รอบนี้ไม่มีโครเมียม/เงิน ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว
+// ไม่มีส้ม** #e9eef4 #aeb9c6 #cfdcec #9db4d4 ต้องไม่เหลืออยู่ในไฟล์นี้
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#53050a] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#e9eef4] via-[#fb131b] to-[#8a0206] shadow-[0_0_10px_rgba(251,19,27,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#aeb9c6] via-[#ff4d55] to-[#ff8a8f] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#5b0203] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe5a8] via-[#fa0513] to-[#8c0204] shadow-[0_0_10px_rgba(250,5,19,0.6)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#ffe5a8] via-[#ff5a5f] to-[#e3b23c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -85,13 +87,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ecea]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#53050a] pb-3 text-xl leading-normal font-black tracking-widest text-[#ff4d55] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#5b0203] pb-3 text-xl leading-normal font-black tracking-widest text-[#ff5a5f] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fb131b]/70 bg-gradient-to-br from-[#2a0d0f] to-[#0d0304] text-sm text-[#ff8a8f] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#fa0513] bg-gradient-to-br from-[#2c1413] to-[#140706] text-sm text-[#ff5a5f] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
               {iconleft}
             </span>
             {titleleft}
@@ -101,13 +103,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ecea]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#53050a] pb-3 text-xl leading-normal font-black tracking-widest text-[#e9eef4] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#5b0203] pb-3 text-xl leading-normal font-black tracking-widest text-[#e3b23c] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#c40304] bg-gradient-to-br from-[#e9eef4] to-[#aeb9c6] text-sm text-[#1a0304] shadow-[0_5px_15px_rgba(251,19,27,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#b90203] bg-gradient-to-br from-[#e3b23c] to-[#ffe5a8] text-sm text-[#170504] shadow-[0_5px_15px_rgba(250,5,19,0.4)]">
               {iconright}
             </span>
             {titleright}

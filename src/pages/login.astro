@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement2.astro";
+import Announcement from "../components/Announcement3.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -24,48 +24,49 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // button now. It is an indexed page, which means verify-build holds its
 // description to the same 150–160 character window as every other page.
 //
-// ⚠️ แบรนด์รอบนี้เป็น **คาสิโน** (บาคาร่า · ไฮโล · สล็อต) ตามบรีฟ — ไม่มีคำเกี่ยวกับ
-// กีฬา/บอล และไม่มีคำเกี่ยวกับหวยเลย คอปปี้ของหน้านี้จึงพูดถึงทางเข้าหลัก
-// การเข้าหมวดเกม การตรวจสอบเครดิต และการจัดการบัญชีสมาชิกเท่านั้น (บรีฟบรรทัด 4)
+// ⚠️ แบรนด์รอบนี้เป็น **เว็บเกมสล็อตล้วน** ตามบรีฟ — ไม่ใช่คาสิโน ไม่ใช่กีฬา
+// ไม่ใช่หวย คอปปี้ของหน้านี้จึงพูดถึงทางเข้าหลัก การเข้าใช้งานบัญชีสมาชิก
+// การตรวจสอบรายการเครดิต และการสอบถามแอดมินเท่านั้น (บรีฟบรรทัด 4 และ 6)
 // — คำที่ห้ามหลุดกลับมาอยู่ใน brand-spec §7 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep
-// หาคำต้องห้ามเจอ false positive · แบรนด์รอบก่อน (TKB55) ขายกรอบ "เว็บคาสิโนไทย /
-// ฝากถอนทุกธนาคาร / บอลออนไลน์" ซึ่งบรีฟรอบนี้ไม่มีเลยสักคำ
+// หาคำต้องห้ามเจอ false positive · สองแบรนด์ก่อนหน้าขายกรอบ
+// "คาสิโน + กีฬา + เซิร์ฟเวอร์นอก" ซึ่งบรีฟรอบนี้ไม่มีเลยสักคำ
 // ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% · 0.8% · 24 ชั่วโมง — ห้ามแต่งใบอนุญาต
 // หน่วยงานกำกับ ชื่อค่ายเกม ชื่อธนาคาร ค่า RTP ยอดขั้นต่ำ จำนวนสมาชิก หรือปีใดๆ
 // (บรีฟรอบนี้ไม่ได้เอ่ยปีไว้เลย)
 //
-// แบรนด์รอบนี้ (GT66B, รอบแดงมังกร-โครเมียมขาวบนดำสนิท 2026-10-13,
-// brand-spec §2): **สองโทนจริง: แดงมังกรนำ โครเมียมขาวรอง** ไม่มีทองในดรอปนี้
-// แดงแบรนด์ #fb141b · แดงลึก #db040b #8a0609 #3b0405 ·
-// ตัวที่ถือตัวอักษรได้: โครเมียม #fdfcfd (18.5:1) #b4bcc2 (9.9:1) ·
-// แดงอ่อนไฮไลต์ #ffa0a2 (9.8:1) · แดงสว่าง #ff5f63 (6.4:1) ·
-// เนื้อความ #eceaea (= BRAND_TEXT) · หมึกบนพื้นสว่าง/พื้นถมแดง #190505
-// ชั้นผิว: ยก #1c0c0b (= การ์ด ContentBox) / กลาง #130c0c / จม #0b0303 /
-// พื้นเพจ #000000 — รอบนี้ bg.json เป็นดำสนิท
-// ปุ่มนี้เป็นคู่ SECONDARY: จมลงจากการ์ดด้วยชั้น #130c0c → #0b0303 ขอบแดง
-// #fb141b/55 บนเนื้อความ #eceaea — hover ยกขอบเป็นแดงสว่าง #ff5f63
+// แบรนด์รอบนี้ (สมหวัง168, รอบแดงมังกร-ทองไทยบนพื้นดำอมแดง 2026-10-17,
+// brand-spec §2): **สองโทนจริง แดงมังกรนำ ทองไทยรอง** — รอบก่อนสีรองเป็น
+// โครเมียมขาว รอบนี้ดึง **ทอง** จากลายกนกในอาร์ตเวิร์กมาแทน
+// แดงแบรนด์ #fa0513 · แดงลึก #b90203 #8c0204 #3c0303 · ทองลึก #8a6210 ·
+// ตัวที่ถือตัวอักษรได้: ทองสว่าง #ffe5a8 (14.1:1) · ทองไทย #e3b23c (8.9:1) ·
+// แดงอ่อนไฮไลต์ #ffadaf (9.8:1) · ตัวอักษรรอง #ccb9b6 (9.2:1) ·
+// แดงสว่าง #ff5a5f (5.7:1) · เนื้อความ #f4ecea (= BRAND_TEXT) ·
+// หมึกบนพื้นสว่าง/พื้นถมแดง #170504
+// ชั้นผิว: ยก #2c1413 (= การ์ด ContentBox) / กลาง #1f0d0c / จม #140706 /
+// พื้นเพจ #290f0f — รอบนี้ bg.json เป็นดำอมแดง ไม่ใช่ดำสนิท
+// ปุ่มนี้เป็นคู่ SECONDARY: จมลงจากการ์ดด้วยชั้น #1f0d0c → #140706 ขอบ **ทอง**
+// #e3b23c/55 บนตัวอักษรทองสว่าง #ffe5a8 — hover ยกขอบเป็น #ffe5a8
 // ส่วน /register เป็น PRIMARY ถมพื้นแดง จึงไม่ซ้ำกัน
-// ⚠️ ห้ามใช้ผิวยก #1c0c0b เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
-// ⚠️ #fb141b #db040b #8a0609 #3b0405 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
-// เส้นขอบ ออรา พื้นถม และเงา — ออราในไฟล์นี้ใช้ rgba(251,20,27,α) เท่านั้น
+// ⚠️ ห้ามใช้ผิวยก #2c1413 เป็นพื้นปุ่ม มันเป็นสีเดียวกับการ์ดที่ปุ่มวางอยู่
+// ⚠️ #fa0513 #b90203 #8c0204 #3c0303 #8a6210 ห้ามถือตัวอักษรทุกขนาด ใช้ได้แค่
+// เส้นขอบ ออรา พื้นถม และเงา — ออราในไฟล์นี้ใช้ rgba(227,178,60,α) เท่านั้น
 // นอกจากเงาดำล้วน
-// ⚠️ กับดักรอบนี้คือ **แดง** และหนักเป็นพิเศษ เพราะแบรนด์ก่อนหน้าทันที (TKB55)
-// ก็เป็นแดง-โลหะ-ดำเหมือนกัน แดงของมันคือ #fb131b ส่วนรอบนี้คือ #fb141b —
-// ต่างกันหนึ่งหลัก "มีแดงอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น "ค่า"
-// ทีละตัวกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของ
-// แบรนด์เก่าเจอ false positive — ชุดแดงเลือดนก-เงินโครเมียมของ TKB55 ออกครบทุกจุด
-// ในไฟล์นี้แล้ว
-// และรอบนี้ **ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว
-// ไม่มีส้ม**
+// ⚠️ กับดักรอบนี้คือ **แดง** และหนักเป็นพิเศษ เพราะสองแบรนด์ก่อนหน้าก็เป็นแดง
+// เหมือนกันทั้งคู่ และต่างจากแดงรอบนี้ (#fa0513) แค่หลักเดียว
+// "มีแดงอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น "ค่า" ทีละตัวกับตาราง
+// ใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ
+// false positive — และรอบนี้ **ไม่มีโครเมียมขาว/เงินเป็นสีระบบ ไม่มีม่วง
+// ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
 //
-// Announcement หมุนมาเป็น Announcement2 ทั้งเว็บรอบนี้ (brand-spec §3 — รอบก่อน
-// TKB55 ใช้ Announcement5 จึงหมุนออก) orchestrator ตั้ง default message ของ
-// ไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare — ห้ามส่ง prop message
+// Announcement หมุนมาเป็น Announcement3 ทั้งเว็บรอบนี้ (brand-spec §3 — แบรนด์ก่อน
+// ใช้ Announcement5/Announcement2 จึงหมุนออกทั้งคู่) orchestrator ตั้ง
+// default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare
+// — ห้ามส่ง prop message
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 158
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) หน้านี้ยาว 152
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวไปยังทางเข้าหลักของคาสิโนเซิร์ฟนอก เพื่อเข้าหมวดเกมบาคาร่า ไฮโล และสล็อต พร้อมตรวจสอบเครดิตและจัดการบัญชีสมาชิกผ่านบัญชีเดียว`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} กดปุ่มเดียวไปยังทางเข้าหลักของเว็บเกมสล็อต เพื่อเข้าใช้งานบัญชีสมาชิก ตรวจสอบรายการเครดิตได้ และสอบถามแอดมินได้ตลอด 24 ชั่วโมง`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -79,7 +80,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/2u19";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} คาสิโนเซิร์ฟนอก เข้าจากทางเข้าหลัก`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บเกมสล็อต เข้าจากทางเข้าหลัก`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -91,8 +92,8 @@ const targetUrl = "https://yoalink.com/2u19";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#fb141b]/55 bg-gradient-to-b from-[#130c0c] to-[#0b0303] px-6 py-4 text-2xl font-bold tracking-wide text-[#eceaea] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#ff5f63] hover:shadow-[0_15px_40px_rgba(251,20,27,0.45)]">
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fb141b]/35 to-transparent"></div>
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#e3b23c]/55 bg-gradient-to-b from-[#1f0d0c] to-[#140706] px-6 py-4 text-2xl font-bold tracking-wide text-[#ffe5a8] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-all duration-300 hover:scale-105 hover:border-[#ffe5a8] hover:shadow-[0_15px_40px_rgba(227,178,60,0.4)]">
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#e3b23c]/20 to-transparent"></div>
         เข้าสู่ระบบ
       </a>
     </div>
