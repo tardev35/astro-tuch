@@ -22,94 +22,89 @@ const hasActions = Astro.slots.has("actions");
 //
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant fits a docx section whose one
-// long paragraph splits cleanly in two. On this brand's homepage it holds docx
-// H2 §7 (content.txt line 24, the LINE Official contact section): the left half
-// is the channel itself (เรื่องที่สอบถามได้ · 24 ชั่วโมง · เพิ่มเพื่อนผ่านลิงก์หรือ
-// QR Code จากเว็บไซต์ทางการเท่านั้น · บัญชีปลอมหรือผู้แอบอ้าง) and the right half
-// is the brief's own guidance once a problem is reported (อธิบายรายละเอียดให้
-// ชัดเจน · เก็บหลักฐานรายการ · ไม่เปิดเผยรหัสผ่านหรือรหัส OTP) ปิดท้ายด้วยคำกำกับ
-// ของบรีฟเองว่าระยะเวลาตอบกลับขึ้นอยู่กับการให้บริการจริงของเจ้าหน้าที่
+// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §3**
+// ("โปรโมชั่นเข้าเล่นเว็บสล็อต … เว็บแท้ 100%" — content.txt บรรทัด 8): ซีกซ้าย
+// คือรายการโปรโมชั่นสองรายการที่บรีฟระบุ (คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% ·
+// หลักเกณฑ์การรับสิทธิ์ต่างกัน) ซีกขวาคือสิ่งที่บรีฟสั่งให้ตรวจก่อนเข้าร่วม
+// (ยอดที่ใช้คำนวณโบนัส · รอบเวลารับเครดิต · ข้อกำหนดการถอนเงิน · สอบถามเจ้าหน้าที่)
+// หน้าแรกส่งไอคอน 🎁 / 📋 มาเอง ค่าตั้งต้น 💬 / 🛡️ เป็นแค่ตัวกันหลง ทั้งคู่อยู่ใน
+// กล่อง aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
 //
-// Default icons are 💬 / 🛡️ — a chat channel and the safety guidance beside it,
-// which is exactly what those two halves are about. Both render inside an
-// aria-hidden box, so neither is ever part of an accessible name.
+// ถอนชัวร์168 (รอบ **ชมพูบับเบิลกัมนำ · ทองเนยเป็นฮิวที่สอง · พลัมเข้มไม่เคยถือ
+// ตัวอักษร · บนดำสนิท** 2026-10-18) — พาเลตต์ตาม brand-spec §2
+// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #2b0f20 ยก / #1a0914 กลาง
+// (การ์ดใบนี้) / #0d040a จม (สองซีก) / #000000 พื้น
 //
-// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
-// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2
-// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #241509 ยก / #160d06 กลาง
-// (การ์ดใบนี้) / #0b0603 จม (สองซีก) / #000000 พื้น
-//
-// จังหวะรูปทรงของใบนี้: นั่งระหว่าง ContentBox3ThreePremium (§6 ผิวยกทึบ กรอบทองลึก
-// สามคอลัมน์ หัวข้อกึ่งกลางใต้เส้นคาด) กับ Faq2 (§8 แถวมุมตัดบนผิวจม ไม่มีการ์ดครอบ)
-// จึงเป็นใบ **"ผิวกลาง #160d06 กรอบแดงชาด สองซีกที่ตกลงไปอยู่ผิวจม"** และเป็นใบเดียว
-// ของหน้าที่มี **การ์ดซ้อนการ์ด** — ความลึกสามชั้นในบล็อกเดียว
+// จังหวะรูปทรงของใบนี้: นั่งระหว่าง ContentBoxSevenThreeCyberCut (§5 มุมตัด 30px
+// ผิวกลาง หัวข้อชมพูทึบ) กับ ContentBox3ThreePremium (§6 ผิวยกทึบ สามคอลัมน์ หัวข้อ
+// กึ่งกลางใต้เส้นคาด) จึงเป็นใบ **"ผิวกลาง กรอบพลัม สองซีกที่ตกลงไปอยู่ผิวจม"**
+// และเป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด** — ความลึกสามชั้นในบล็อกเดียว
 // ⚠️ หัวข้อของใบนี้เป็นใบเดียวที่ **คร่อมเส้นคู่บน-ล่าง** (border-y) ไม่ใช่ขีดใต้
 // แถบตั้ง แผ่นป้าย หรือเส้นคาดเหนือหัวข้อแบบใบอื่น
-// หัวข้อไล่ โรสโกลด์ #f2bba5 → ทองแบรนด์ #f7c92b → ทองสว่าง #ffe6a3 ("โรสไต่ขึ้น
-// ทองสว่าง") ซึ่งไม่ซ้ำลำดับกับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว
-// สองป้ายไอคอนเป็น **ขั้วกลับของกันเอง** ตามสองฮิวของแบรนด์: ซ้ายเป็น **แผ่นทองทึบ**
-// ไล่ทองสว่าง #ffe6a3 → ทองแบรนด์ #f7c92b บนหมึก #140c06 (§2 ระบุว่า #140c06 เป็น
-// หมึกตัวเดียวที่วางบนพื้นถมสว่างได้ — 15.6:1 บนทองสว่าง และ 7.9:1 บนทองแบรนด์
-// ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง) ส่วนขวาเป็น **แผ่นมืดทึบ** ไล่แดงลึก #5a0a0e →
-// ผิวจม #0b0603 ในกรอบแดงชาด #b3121b บนไอคอนโรสโกลด์ #f2bba5 — ตรงกับงานศิลป์ที่
-// ตัวอักษรทองขัดเงาวางคู่ชุดไทยแดงปักทอง
-// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบทองแบรนด์ ซีกขวากรอบโรสเข้ม #c98a74
-// เส้นคาดหัวการ์ดเป็นโรสโกลด์โปร่ง เนื้อความ #eadfce (= BRAND_TEXT) — 14.4:1 บนผิว
-// กลาง และ 15.3:1 บนผิวจมของสองซีก
-// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบ ไล่เฉดของ
-// แผ่นมืด เส้นคั่น และออราเท่านั้น
+// หัวข้อไล่ ชมพูอ่อน #ffb3de → ชมพูบับเบิลกัม #fa63b9 → ทองเนย #ffd84d ("ชมพูไต่
+// ขึ้นทอง") ซึ่งไม่ซ้ำลำดับกับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว ⚠️ ไล่เฉดนี้ถูก
+// bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้ตาม §2
+// (10.7 / 6.6 / 12.7 บนผิวการ์ด) — ห้ามเอา #6d0b3f หรือ #6b4708 มาเป็นสต็อป
+// สองป้ายไอคอนเป็น **ขั้วกลับของกันเอง** ตามสองฮิวของแบรนด์: ซ้ายเป็น **แผ่นถมสว่าง**
+// ไล่ชมพูอ่อน #ffb3de → ชมพูบับเบิลกัม #fa63b9 บนหมึก #2a0617 (§2 ระบุว่า #2a0617
+// เป็นหมึกตัวเดียวที่วางบนพื้นถมชมพู/ทองได้ — 7.0:1 บน #fa63b9 และสูงกว่านั้นบน
+// #ffb3de **ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง**) ส่วนขวาเป็น **แผ่นมืดทึบ** ไล่พลัม
+// เข้ม #6d0b3f → ผิวจม #0d040a ในกรอบทองลึก #6b4708 บนไอคอนทองเนย #ffd84d —
+// ตรงกับงานศิลป์ที่ปึกแบงก์ชมพูวางคู่กองเหรียญทอง
+// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบชมพูบับเบิลกัม ซีกขวากรอบทองลึก
+// เส้นคาดหัวการ์ดเป็นชมพูอ่อนโปร่ง เนื้อความ #fdeaf5 (= BRAND_TEXT) — 15.3:1 บนผิว
+// กลาง และสูงกว่านั้นบนผิวจมของสองซีก
+// §2 ห้าม #6d0b3f (1.5:1) และ #6b4708 (2.1:1) ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบ
+// ไล่เฉดของแผ่นมืด เส้นคั่น และออราเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองรอบนี้คือ
-// #f7c92b เท่านั้น ไม่ใช่ f0b429 (รับตัง168) e3b23c (สมหวัง168) dfa310 (TND168)
-// e5a81b (UFA324) e2b33f (KMD88) f2c230 (KINGKONG555) fad354 (789BETTING)
-// f5c518 (FLASH877) f7b733 (TIGERWIN369) fbe455 (WEPLAY168)
-// ชุดเต็มของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
-// f5ece0 2b100f 200a09 140505 1a0505) ชุดของ TKB55 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้
-// (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304 c40304 8a0206
-// 53050a 1a0304) ชุดม่วงราชาของ KMD88 (7505cc b453ff c07cff d9b8ff 3a0565 2c0349
-// ece2f8 1a0526) ชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec
-// 9db4d4 dde8f7 102a5e) ชุดชมพูฮอตของ PUNPRO168 (f41571 ff5ca8 fce343 ffd94a
-// f0c3dc fde7f2) ชุดทองมังกรของ TND168 (ffc93d ffe4a3 c9b88e f0e9dc 8a5c09) ชุดทอง
-// อำพันของ TIGERWIN369 (d98324 ffd98a f7e4c0 e3cfae 8a5214) ชุดทองแชมเปี้ยน-เงินของ
-// UFA324 (b9c2cc 231c0e 17130a f0e8d4 ffe08a 464f5a f2f5f9) และชุดม่วงนีออน-ทองของ
-// WEPLAY168 (a435f0 efe6ff ffd23d 5b1a75 c98a05 1e0a3c d2a6ff) ออกครบทุกจุดแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้นคือชมพูและทอง**
+// เพราะรอบที่แล้วก็ทอง+ชมพูบนดำ ชมพูรอบนี้ #fa63b9 ไม่ใช่ f5469f / ff8dc6 (มีโชค168)
+// f41571 / ff5ca8 (PUNPRO168) f472b6 (BPLAY639) หรือ fa42b5 (SEXYGAME666) · ทองรอบนี้
+// #ffd84d ไม่ใช่ fcd434 / ffeaa0 (มีโชค168) f7c92b / ffe6a3 (ขวัญใจ168) f0b429 /
+// ffdc8c (รับตัง168) e3b23c (สมหวัง168) dfa310 (TND168) e5a81b (UFA324) e2b33f
+// (KMD88) f2c230 (KINGKONG555) fad354 (789BETTING) หรือ f5c518 (FLASH877)
+// ชุดเต็มของมีโชค168 ที่เพิ่งอยู่ในไฟล์นี้ (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508
+// 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดของขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74
+// b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุดม่วงราชาของ KMD88
+// (7505cc b453ff c07cff d9b8ff 3a0565 2c0349 ece2f8) และชุดน้ำเงินไฟฟ้าของ TSDET911
+// (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7) ออกครบทุกจุดแล้ว
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีเงิน/โครเมียม ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีน้ำเงิน ไม่มีฟ้า
-// ไม่มีเขียว ไม่มีส้ม**
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ฟ้า ม่วง/ไวโอเลต เขียว ส้ม เงิน/โครเมียม โรสโกลด์ และ
+// แดงชาด**
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#b3121b]/45 bg-[#160d06]/95 p-6 text-[#eadfce] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#f2bba5]/70 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#6d0b3f]/55 bg-[#1a0914]/95 p-6 text-[#fdeaf5] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#fa63b9]/70 md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#f2bba5] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#ffb3de] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 border-y border-[#8a5f12] py-4">
-          <HeadingTag class="bg-gradient-to-r from-[#f2bba5] via-[#f7c92b] to-[#ffe6a3] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-y border-[#6b4708] py-4">
+          <HeadingTag class="bg-gradient-to-r from-[#ffb3de] via-[#fa63b9] to-[#ffd84d] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#f7c92b]/40 bg-[#0b0603]/95 p-6 text-left text-base leading-relaxed text-[#eadfce] transition-all duration-300 hover:-translate-y-2 hover:border-[#f7c92b]/80 hover:bg-[#160d06] hover:shadow-[0_15px_40px_rgba(247,201,43,0.24)]">
+        class="relative flex gap-4 rounded-2xl border border-[#fa63b9]/40 bg-[#0d040a]/95 p-6 text-left text-base leading-relaxed text-[#fdeaf5] transition-all duration-300 hover:-translate-y-2 hover:border-[#fa63b9]/80 hover:bg-[#1a0914] hover:shadow-[0_15px_40px_rgba(250,99,185,0.26)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#8a5f12] bg-gradient-to-br from-[#ffe6a3] to-[#f7c92b] text-2xl text-[#140c06] shadow-[0_5px_15px_rgba(247,201,43,0.3)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#6d0b3f] bg-gradient-to-br from-[#ffb3de] to-[#fa63b9] text-2xl text-[#2a0617] shadow-[0_5px_15px_rgba(250,99,185,0.35)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#c98a74]/40 bg-[#0b0603]/95 p-6 text-left text-base leading-relaxed text-[#eadfce] transition-all duration-300 hover:-translate-y-2 hover:border-[#f2bba5]/70 hover:bg-[#160d06] hover:shadow-[0_15px_40px_rgba(242,187,165,0.2)]">
+        class="relative flex gap-4 rounded-2xl border border-[#6b4708] bg-[#0d040a]/95 p-6 text-left text-base leading-relaxed text-[#fdeaf5] transition-all duration-300 hover:-translate-y-2 hover:border-[#ffd84d]/70 hover:bg-[#1a0914] hover:shadow-[0_15px_40px_rgba(255,216,77,0.2)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#b3121b] bg-gradient-to-br from-[#5a0a0e] to-[#0b0603] text-2xl text-[#f2bba5] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#6b4708] bg-gradient-to-br from-[#6d0b3f] to-[#0d040a] text-2xl text-[#ffd84d] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
           {iconright}
         </div>
         <slot name="right" />
@@ -118,7 +113,7 @@ const hasActions = Astro.slots.has("actions");
 
     {
       hasActions && (
-        <div class="mt-8 border-t border-[#8a5f12] pt-6">
+        <div class="mt-8 border-t border-[#6b4708] pt-6">
           <slot name="actions" />
         </div>
       )

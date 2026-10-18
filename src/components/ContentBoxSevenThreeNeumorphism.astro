@@ -36,63 +36,67 @@ const leftHeading = titleleft ?? title;
 // หน้าเดียวกัน ใบนั้นเป็น p-8 / gap-8 / md:pl-8 แล้วออกมา 312px / calc(30vw − 72px)
 // แก้ padding ที่ไหนก็ต้องไปแก้ `sizes` ของหน้าแรกตามด้วย
 //
-// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
-// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2–§4
-// กล่องนี้ถือ docx H3 §5 ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด") คู่กับ
-// **slide1.png** ซึ่งพิมพ์คำว่า แนะนำเพื่อน กับเลข 0.8% ไว้บนแผ่นป้ายในตัวภาพเอง
-// ⚠️ อีกใบคือ slide2.png = คืนยอดเสีย 0.3% ไปอยู่กับ §4 ส่วน banner2/banner3/
-// slide3/slide4 เป็นอาร์ตเวิร์กของแบรนด์ก่อน — ห้าม import ที่ไหนเลย
-// นี่คือบล็อก SevenThree ใบที่สองและใบสุดท้ายของรอบนี้ ตามเพดาน 2 ใบของ playbook
+// ถอนชัวร์168 (รอบ **ชมพูบับเบิลกัมนำ · ทองเนยเป็นฮิวที่สอง · พลัมเข้มไม่เคยถือ
+// ตัวอักษร · บนดำสนิท** 2026-10-18) — พาเลตต์ตาม brand-spec §2–§4
+// กล่องนี้ถือ **docx H3 §4** ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ
+// **slide2.png** ซึ่งพิมพ์คำว่า คืนยอดเสีย กับเลข 0.3% ไว้บนแผ่นป้ายในตัวภาพเอง
+// ⚠️ **รอบนี้ slide1/slide2 สลับบทบาทกับรอบที่แล้ว** รอบก่อน slide1 = คืนยอดเสีย
+// รอบนี้ **slide2 = คืนยอดเสีย 0.3%** และ slide1 = แนะนำเพื่อน 0.8% (ไปอยู่กับ §5)
+// ใครก๊อปบรรทัด import ของรอบก่อนมาจะได้รูปที่ขัดกับหัวข้อเหนือมัน ส่วน banner2/
+// banner3/slide3/slide4 เป็นอาร์ตเวิร์กของแบรนด์ก่อน — ห้าม import ที่ไหนเลย
+// (eager import = emit แม้ไม่ render)
+// นี่คือหนึ่งในสองบล็อก SevenThree ของรอบนี้ ตามเพดาน 2 ใบของ playbook
 //
-// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #241509 ยก / #160d06 กลาง /
-// #0b0603 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้ #0b0603 คือก้นสุด
+// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #2b0f20 ยก / #1a0914 กลาง /
+// #0d040a จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้ #0d040a คือก้นสุด
 //
-// จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบที่สองของหน้า** และนั่งลึกที่สุด
-// ในบรรดากล่องเนื้อหา — ผิวจม #0b0603 มุม rounded-[22px] **มีกรอบโรสเข้ม #c98a74**
-// กดเงาลงด้วยดำสนิท #000000 แล้วยกแสงขึ้นด้วยผิวยก #241509 ตอน hover ฝั่งสว่าง
-// ไต่ขึ้นเป็นทองลึก #8a5f12
-// เทียบกับแผ่นนูนอีกใบ (ContentBoxTwoNeumorphism §2): ใบนั้นมุม rounded-[30px]
-// **ไม่มีกรอบ** นั่งบนผิวยก #241509 และยกแสงด้วยแดงลึก — ต่างกันทั้งมุม ความลึก
-// ของผิว การมีกรอบ และคู่เงา จึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ
-// เทียบกับ §4 ที่อยู่ติดกันทันที: ใบนั้นเป็นมุมตัดเฉียงบนผิวกลางพร้อมเส้นรูดสี่มุม
-// และหัวข้อโรสโกลด์ทึบสีเดียว ส่วนใบนี้เป็นมุมกลมนูนบนผิวจม หัวข้อเป็นตัวอักษร
-// **ไล่เฉดสามสี** ทองแบรนด์ #f7c92b → โรสโกลด์ #f2bba5 → ทองสว่าง #ffe6a3
-// ("ทองเดินผ่านโรสกลับขึ้นทอง") พร้อม **แถบตั้งนำหน้า** ซึ่งเป็นลำดับและทรีตเมนต์
-// ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
+// จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบเดียวของหน้า** และนั่งลึกที่สุด
+// ในบรรดากล่องเนื้อหา — ผิวจม #0d040a มุม rounded-[22px] **มีกรอบพลัมเข้ม #6d0b3f**
+// กดเงาลงด้วยดำสนิท #000000 แล้วยกแสงขึ้นด้วยผิวยก #2b0f20 ตอน hover ฝั่งสว่าง
+// ไต่ขึ้นเป็นทองลึก #6b4708
+// เทียบกับ §5 ที่ตามมาทันที (อีกบล็อกรูปหนึ่ง): ใบนั้นเป็นมุมตัดเฉียงบนผิวกลาง
+// พร้อมเส้นรูดสี่มุม และหัวข้อเป็นชมพูบับเบิลกัม **ทึบสีเดียว** ส่วนใบนี้เป็นมุมกลม
+// นูนบนผิวจม หัวข้อเป็นตัวอักษร **ไล่เฉดสามสี** ทองเนย #ffd84d → ชมพูอ่อน #ffb3de
+// → ชมพูบับเบิลกัม #fa63b9 ("ทองเดินลงหาชมพู") พร้อม **แถบตั้งนำหน้า** ซึ่งเป็น
+// ลำดับและทรีตเมนต์ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
+// ⚠️ ไล่เฉดหัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือ
+// ตัวอักษรได้ตาม §2 (12.7 / 10.7 / 6.6 บนผิวจม) — ห้ามเอา #6d0b3f หรือ #6b4708
+// มาเป็นสต็อปของหัวข้อ
 // ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว สีแบรนด์จึงอยู่ที่หัวข้อกับกรอบ ไม่ใช่
-// ในเงา เส้นคั่นคอลัมน์เป็นทองลึก #8a5f12 เนื้อความ #eadfce (= BRAND_TEXT,
-// 15.3:1 บนผิวจม)
-// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่แถบตั้ง
-// เส้นคั่น และเงาเท่านั้น ส่วน #c98a74 (7.2:1) ถือตัวอักษรรองได้จริงแต่ที่นี่เป็นกรอบ
+// ในเงา เส้นคั่นคอลัมน์เป็นทองลึก #6b4708 เนื้อความ #fdeaf5 (= BRAND_TEXT, 18.3:1
+// บนผิวจมที่เกือบดำ)
+// §2 ห้าม #6d0b3f (1.5:1) และ #6b4708 (2.1:1) ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่
+// แถบตั้ง เส้นคั่น กรอบ และเงาเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** เพราะทองคือฮิวนำ
-// ทองรอบนี้คือ #f7c92b เท่านั้น ไม่ใช่ f0b429 (รับตัง168) e3b23c (สมหวัง168)
-// dfa310 (TND168) e5a81b (UFA324) e2b33f (KMD88) f2c230 (KINGKONG555)
-// fad354 (789BETTING) f5c518 (FLASH877) f7b733 (TIGERWIN369) fbe455 (WEPLAY168)
-// ชุดเต็มของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
-// f5ece0 2b100f 200a09 140505 1a0505) ชุดของ TKB55 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้
-// (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304 c40304 8a0206
-// 53050a 1a0304) ชุดม่วงราชาของ KMD88 (7505cc b453ff c07cff d9b8ff 3a0565 2c0349
-// ece2f8) ชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4
-// dde8f7) ชุดทองอำพันของ TIGERWIN369 (d98324 ffd98a f7e4c0 e3cfae 8a5214) ชุดทอง
-// มังกรของ TND168 (ffc93d ffe4a3 c9b88e f0e9dc 8a5c09) ชุดชมพูฮอตของ PUNPRO168
-// (f41571 ff5ca8 fce343 ffd94a f0c3dc fde7f2) และชุดชมพู-ม่วงของ BPLAY639
-// (f472b6 fbcfe8 7e22ce c4b5fd ddd6fe) ออกครบทุกจุดแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้นคือชมพูและทอง**
+// เพราะรอบที่แล้ว (มีโชค168) ก็ทอง+ชมพูบนดำเหมือนกัน ต่างกันที่ใครนำและค่าอะไร
+// ชมพูรอบนี้ **#fa63b9 / #ffb3de** ไม่ใช่ f5469f / ff8dc6 (มีโชค168) f41571 /
+// ff5ca8 (PUNPRO168) f472b6 / fbcfe8 (BPLAY639) หรือ ff3fa4 / ff6cbb (FAH999)
+// ทองรอบนี้ **#ffd84d** ไม่ใช่ fcd434 / ffeaa0 (มีโชค168) f7c92b / ffe6a3 (ขวัญใจ168)
+// f0b429 / ffdc8c (รับตัง168) e3b23c (สมหวัง168) dfa310 (TND168) e5a81b (UFA324)
+// e2b33f (KMD88) f2c230 (KINGKONG555) fad354 (789BETTING) f5c518 (FLASH877) หรือ
+// fbe455 (WEPLAY168)
+// ชุดเต็มของมีโชค168 ที่เพิ่งอยู่ในไฟล์นี้ (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508
+// 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดทองไทย-โรสโกลด์ของขวัญใจ168 (f7c92b ffe6a3
+// f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุดของ
+// รับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0) และชุด
+// น้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7)
+// ออกครบทุกจุดแล้ว
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีเงิน/โครเมียม ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีน้ำเงิน ไม่มีฟ้า
-// ไม่มีเขียว ไม่มีส้ม**
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ฟ้า ม่วง/ไวโอเลต เขียว ส้ม เงิน/โครเมียม โรสโกลด์ และ
+// แดงชาด**
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[22px] border border-[#c98a74]/40 bg-[#0b0603] p-8 shadow-[10px_10px_22px_#000000,-10px_-10px_22px_#241509] transition-all duration-300 hover:border-[#f2bba5]/60 hover:shadow-[15px_15px_32px_#000000,-15px_-15px_32px_#8a5f12] md:p-10">
+    class="w-full rounded-[22px] border border-[#6d0b3f] bg-[#0d040a] p-8 shadow-[10px_10px_22px_#000000,-10px_-10px_22px_#2b0f20] transition-all duration-300 hover:border-[#fa63b9]/70 hover:shadow-[15px_15px_32px_#000000,-15px_-15px_32px_#6b4708] md:p-10">
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeaf5]">
         {
           leftHeading && (
             <div class="flex items-center gap-3">
-              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe6a3] via-[#8a5f12] to-[#b3121b]" />
-              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#f7c92b] via-[#f2bba5] to-[#ffe6a3] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd84d] via-[#6b4708] to-[#6d0b3f]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#ffd84d] via-[#ffb3de] to-[#fa63b9] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
                 {leftHeading}
               </HeadingTag>
             </div>
@@ -101,12 +105,12 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce] md:border-l md:border-[#8a5f12] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeaf5] md:border-l md:border-[#6b4708] md:pl-10">
         {
           titleright && (
             <div class="flex items-center gap-3">
-              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe6a3] via-[#8a5f12] to-[#b3121b]" />
-              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#f7c92b] via-[#f2bba5] to-[#ffe6a3] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffd84d] via-[#6b4708] to-[#6d0b3f]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#ffd84d] via-[#ffb3de] to-[#fa63b9] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
                 {titleright}
               </HeadingTag>
             </div>

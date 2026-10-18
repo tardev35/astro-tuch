@@ -1,6 +1,8 @@
 ---
 import { isActivePath } from "../lib/nav";
 import { Picture } from "astro:assets";
+import { BRAND_NAME } from "../lib/brandProfile";
+
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 
 const imagePaths = Object.keys(images);
@@ -9,54 +11,104 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
+
+// ถอนชัวร์168 (รอบชมพูบับเบิลกัม-ทองเนย 2026-10-18): navbar ที่ใช้งานจริงรอบนี้
+// หมุนมาจาก NavbarStyle8 ของ มีโชค168 — ไฟล์นั้นเป็นแถบนอนแบนเต็มความกว้างติดขอบบน
+// ไม่มีแถบ info คาดเหนือ nav และเมนูมือถือเป็น drawer เลื่อนเข้าจากขอบขวากว้าง 260px
+// ส่วนไฟล์นี้เป็นคนละแกน: **มีแถบ info คาดเหนือ nav (เฉพาะ lg ขึ้นไป) ตัว nav สูง
+// 70px ติดหนึบ และเมนูมือถือเป็นแผงเต็มจอที่เฟดเข้าพร้อมไล่รายการขึ้นทีละตัว**
+//
+// ⚠️ ไฟล์นี้ล่าสุดถูกใช้ตอน UFAYES ซึ่งเป็น **เว็บพนันรวม** โทนแดงเลือดหมู-ดำ
+// (bg #3a0404 / #0a0101 คู่กับ red-400..red-800 ของ Tailwind) ทั้งสีและคำถูกเขียน
+// ใหม่ทั้งไฟล์ ไม่ใช่ find-and-replace: ข้อความของ UFAYES (เว็บตรง UFABET แทงบอล
+// คาสิโนสด สล็อต หวย ครบในบัญชีเดียว / ระบบฝากถอนออโต้) เป็นคำที่บรีฟรอบนี้ไม่มี
+// ถอนชัวร์168 เป็น **เว็บสล็อตล้วน** ที่พูดเรื่องความง่ายในการถอนเงิน ไม่มีบอล
+// ไม่มีคาสิโนสด และไม่ใช่เว็บหวย
+//
+// พาเลตต์ตาม .claude/brand-spec-tonchua168.md §2 — **ชมพูบับเบิลกัม #fa63b9 นำ
+// ทองเนย #ffd84d เป็นฮิวที่สอง** กลับด้านกับรอบก่อนที่ทองนำ ถ้าเจอ fcd434 หรือ
+// f5469f ที่ไหนคือของ มีโชค168 ที่ค้าง (เขียนเฮกซ์เก่าแบบไม่มี # เพื่อไม่ให้ sweep
+// ที่ไล่หาสีแบรนด์เก่าสะดุดที่คอมเมนต์นี้เอง)
+//
+// เมนูชุดเดียว hoist ไว้ใน links ด้านล่าง — ของเดิมประกาศซ้ำสองชุด (เดสก์ท็อป
+// กับแผงมือถือ) ซึ่งเป็นวิธีที่ทำให้คนแก้ชุดเดียวแล้วอีกชุดเพี้ยน
+// ไอคอนอยู่ใน array คู่กับ name/path แล้ว render เป็น <span aria-hidden="true">
+// ที่เป็น **พี่น้องของ label ไม่ใช่อยู่ในข้อความ** (เจ้าของสั่งไว้ตั้งแต่ TUNGMA168)
+//
+// ลำดับเมนู: หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · แล้วค่อยหน้าอ่าน
+// สองรายการกลางเป็น conversion action จึงอยู่ก่อนหน้าที่ไว้อ่าน
+// toggle cta ของ uploader เปิดอยู่รอบนี้ → /register กับ /login เป็นหน้าปุ่มจริง
+// และ **/ทางเข้า ถูกถอดออกจากเมนูตามกติกา** (หน้ายัง route และ footer ยังลิงก์ได้)
+// ไม่มี /ตรวจหวย และ /แนวทาง เพราะสองไฟล์นั้น park อยู่ใน src/pages-disabled/
+// จึงไม่มี route — ถ้าลิงก์ไว้ verify-build จะทำให้ build แดง
+//
+// isActive มาจาก lib/nav ห้ามเขียนเองในไฟล์นี้ — route ภาษาไทยอย่าง /ทดลองเล่น
+// ถูก percent-encode ใน Astro.url.pathname การเทียบสตริงตรงๆ จะไม่ไฮไลต์เลย
+const links = [
+  { name: "หน้าแรก", path: "/", icon: "🏠" },
+  { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
+  { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
+  { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "💗" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
+];
+
+const logoAlt = `โลโก้ ${BRAND_NAME} เป็นแมวการ์ตูนขนขาวแก้มชมพู หน้ายิ้มหลับตา ยกอุ้งเท้าข้างหนึ่งขึ้น นั่งอยู่หลังมือถือจอชมพูที่มีลูกศรดาวน์โหลดและปึกแบงก์ชมพู ใต้ลงมาเป็นคำว่า ถอน ตัวอักษรไทยหนาสามมิติสีทองเนยตัดขอบชมพู ต่อด้วยคำว่า ชัวร์ และเลข 168 ตัวหนาสามมิติสีชมพูบับเบิลกัมตัดขอบทอง มีหัวใจชมพูและประกายดาวสีทองลอยอยู่รอบตัวอักษร`;
 ---
 
-<header class="sticky top-0 z-50 w-full font-sans shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-  <div class="hidden items-center justify-between border-b border-red-900/50 bg-[#3a0404] px-6 py-1.5 text-xs font-medium tracking-wide lg:flex xl:px-10">
-    <div class="flex items-center gap-2 text-white/80">
-      <span class="text-sm text-red-400">✦</span>
-      ยินดีต้อนรับสู่ UFAYES เว็บตรง UFABET แทงบอล คาสิโนสด สล็อต หวย ครบในบัญชีเดียว
-    </div>
+<header class="sticky top-0 z-50 w-full font-sans shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+  <div class="hidden items-center justify-between border-b border-[#6d0b3f]/70 bg-[#1a0914] px-6 py-1.5 text-xs font-medium tracking-wide lg:flex xl:px-10">
+    <p class="flex items-center gap-2 text-[#fdeaf5]/80">
+      <span aria-hidden="true" class="text-sm text-[#ffd84d]">✦</span>
+      {BRAND_NAME} เว็บสล็อตฐานหลักถอนง่าย รวมเมนูสมัครสมาชิก ฝากถอน และโปรโมชั่นไว้ในเว็บไซต์เดียว
+    </p>
     <div class="flex items-center gap-5">
-      <a href="/login" class="flex items-center gap-1 text-white/80 transition-colors hover:text-red-400"><span aria-hidden="true">🔒</span> เข้าสู่ระบบ</a>
-      <a href="/register" class="flex items-center gap-1 font-bold text-white drop-shadow-[0_0_5px_rgba(220,38,38,0.6)] transition-colors hover:text-red-300"><span aria-hidden="true">⚽</span> สมัครสมาชิก ระบบฝากถอนออโต้</a>
+      <a href="/login" class="flex items-center gap-1 text-[#fdeaf5]/80 transition-colors hover:text-[#ffb3de]">
+        <span aria-hidden="true">🔑</span>
+        เข้าสู่ระบบ
+      </a>
+      <a href="/register" class="flex items-center gap-1 font-bold text-[#ffd84d] drop-shadow-[0_0_6px_rgba(250,99,185,0.55)] transition-colors hover:text-[#ffb3de]">
+        <span aria-hidden="true">📝</span>
+        สมัครสมาชิก
+      </a>
     </div>
   </div>
 
-  <nav class="relative z-[70] flex h-[70px] w-full items-center justify-between border-b border-red-900/40 bg-[#000]/95 px-4 shadow-xl backdrop-blur-md xl:px-10">
+  <nav class="relative z-[70] flex h-[70px] w-full items-center justify-between border-b border-[#fa63b9]/45 bg-black/95 px-4 shadow-xl backdrop-blur-md xl:px-10">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="UFAYES Logo"
+            alt={logoAlt}
             loading="eager"
             fetchpriority="high"
-            class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(220,38,38,0.45)] xl:h-[40px]"
+            widths={[120, 240, 360]}
+            sizes="120px"
+            class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(250,99,185,0.5)] xl:h-[40px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <span class="bg-gradient-to-b from-white via-zinc-200 to-red-500 bg-clip-text text-3xl font-black tracking-widest text-transparent drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]">UFAYES</span>
+          <span class="bg-gradient-to-b from-[#ffd84d] via-[#ffb3de] to-[#fa63b9] bg-clip-text text-3xl font-black tracking-widest text-transparent drop-shadow-[0_0_8px_rgba(250,99,185,0.55)]">{BRAND_NAME}</span>
         )
       }
     </a>
 
-    <div class="hidden h-full items-center gap-6 lg:flex xl:gap-10">
+    <div class="hidden h-full items-center gap-5 lg:flex xl:gap-8">
       {
-        [
-          { name: "หน้าแรก", path: "/" },
-          { name: "โปรโมชั่น", path: "/promotion" },
-          { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
-          { name: "ทางเข้า", path: "/ทางเข้า" },
-          { name: "ติดต่อเรา", path: "/contact-us" },
-        ].map((item) => (
+        links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center text-sm font-bold transition-colors xl:text-base ${isActive(item.path) ? "text-red-400 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]" : "text-white/80 hover:text-red-400"}`}>
+            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold transition-colors xl:text-base ${isActive(item.path) ? "text-[#fa63b9] drop-shadow-[0_0_8px_rgba(250,99,185,0.55)]" : "text-[#fdeaf5]/80 hover:text-[#ffb3de]"}`}>
+            <span aria-hidden="true" class="text-base">
+              {item.icon}
+            </span>
             <span>{item.name}</span>
-            <div
-              class={`absolute bottom-[-1px] left-0 h-[3px] w-full origin-left bg-gradient-to-r from-red-600 to-red-400 transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+            <span
+              aria-hidden="true"
+              class={`absolute bottom-[-1px] left-0 h-[3px] w-full origin-left bg-gradient-to-r from-[#fa63b9] to-[#ffd84d] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -66,42 +118,39 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     <div class="z-50 flex items-center gap-4">
       <a
         href="/register"
-        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-red-700 via-red-600 to-red-800 px-6 py-2 text-sm font-extrabold text-white shadow-[0_0_15px_rgba(220,38,38,0.45)] transition-all hover:scale-105 lg:flex">
+        class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#fa63b9] via-[#ff8ccd] to-[#ffd84d] px-6 py-2 text-sm font-extrabold text-[#2a0617] shadow-[0_0_16px_rgba(250,99,185,0.5)] transition-all hover:scale-105 lg:flex">
         สมัครสมาชิก
       </a>
 
-      <button id="hamburger-btn" class="relative flex h-[40px] w-[40px] flex-col items-end justify-center gap-[6px] p-2 lg:hidden" aria-label="Menu">
-        <span class="line-1 h-[2px] w-6 origin-center rounded-full bg-red-500 shadow-sm transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-4 origin-center rounded-full bg-red-500 shadow-sm transition-all duration-300"></span>
+      <button id="hamburger-btn" class="relative flex h-[40px] w-[40px] flex-col items-end justify-center gap-[6px] p-2 lg:hidden" aria-label="เปิดเมนู">
+        <span class="line-1 h-[2px] w-6 origin-center rounded-full bg-[#fa63b9] shadow-sm transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-4 origin-center rounded-full bg-[#ffd84d] shadow-sm transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#0a0101]/98 opacity-0 backdrop-blur-2xl transition-opacity duration-500">
-    <div class="flex w-full flex-col items-center space-y-6 px-6">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#0d040a]/98 opacity-0 backdrop-blur-2xl transition-opacity duration-500">
+    <div class="flex w-full flex-col items-center space-y-5 px-6">
       {
-        [
-          { name: "หน้าแรก", path: "/" },
-          { name: "โปรโมชั่น", path: "/promotion" },
-          { name: "ทดลองเล่น", path: "/ทดลองเล่น" },
-          { name: "ทางเข้า", path: "/ทางเข้า" },
-          { name: "ติดต่อเรา", path: "/contact-us" },
-        ].map((item) => (
+        links.map((item) => (
           <a
             href={item.path}
-            class={`fs-item text-3xl font-black tracking-widest uppercase transition-all duration-300 ${isActive(item.path) ? "text-red-400 drop-shadow-[0_0_10px_rgba(220,38,38,0.6)]" : "text-white/80 hover:text-white"}`}>
+            class={`fs-item flex items-center gap-3 text-2xl font-black tracking-wider transition-all duration-300 ${isActive(item.path) ? "text-[#fa63b9] drop-shadow-[0_0_10px_rgba(250,99,185,0.6)]" : "text-[#fdeaf5]/85 hover:text-[#ffb3de]"}`}>
+            <span aria-hidden="true" class="text-xl">
+              {item.icon}
+            </span>
             {item.name}
           </a>
         ))
       }
 
-      <div class="fs-item mt-4 flex w-full max-w-[250px] flex-col gap-4 pt-8">
+      <div class="fs-item mt-4 flex w-full max-w-[250px] flex-col gap-4 pt-6">
         <a
           href="/register"
-          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-red-700 to-red-500 py-3.5 text-lg font-extrabold text-white shadow-[0_0_20px_rgba(220,38,38,0.45)]">
+          class="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#fa63b9] to-[#ffd84d] py-3.5 text-lg font-extrabold text-[#2a0617] shadow-[0_0_20px_rgba(250,99,185,0.5)]">
           สมัครสมาชิก
         </a>
-        <a href="/login" class="flex w-full items-center justify-center rounded-full border-2 border-red-500/40 py-3.5 text-lg font-bold text-red-400 transition-colors hover:bg-red-500/10">
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border-2 border-[#fa63b9]/50 py-3.5 text-lg font-bold text-[#ffb3de] transition-colors hover:bg-[#fa63b9]/10">
           เข้าสู่ระบบ
         </a>
       </div>
@@ -110,10 +159,6 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 </header>
 
 <style is:global>
-  nav,
-  header {
-    font-family: kanit, sans-serif !important;
-  }
   #hamburger-btn.active .line-1 {
     transform: translateY(4px) rotate(45deg);
   }
@@ -135,19 +180,31 @@ const isActive = (path: string) => isActivePath(currentPath, path);
     transition-delay: 0.1s;
   }
   .fs-item:nth-child(2) {
-    transition-delay: 0.15s;
+    transition-delay: 0.14s;
   }
   .fs-item:nth-child(3) {
-    transition-delay: 0.2s;
+    transition-delay: 0.18s;
   }
   .fs-item:nth-child(4) {
-    transition-delay: 0.25s;
+    transition-delay: 0.22s;
   }
   .fs-item:nth-child(5) {
-    transition-delay: 0.3s;
+    transition-delay: 0.26s;
   }
   .fs-item:nth-child(6) {
+    transition-delay: 0.3s;
+  }
+  .fs-item:nth-child(7) {
+    transition-delay: 0.34s;
+  }
+  .fs-item:nth-child(8) {
     transition-delay: 0.4s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fs-item {
+      transition-duration: 0.01ms;
+      transform: none;
+    }
   }
 </style>
 

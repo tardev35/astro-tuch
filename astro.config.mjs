@@ -54,7 +54,7 @@ export default defineConfig({
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://xn--168-pkl3a1luf6d.com",
+  site: "https://xn--168-ell7cs5e5a5c2b0v.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
