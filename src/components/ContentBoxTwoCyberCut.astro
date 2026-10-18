@@ -12,12 +12,12 @@ export interface Props {
 const { title, as: TitleTag = "p", titleleft, titleright, label } = Astro.props;
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
-// The two column labels always render as <p>, never <h2>. The docx a page is
-// filled from is a flat H1 + a handful of H2s (plus a real H3 pair this round),
-// and the rendered heading inventory is diffed against it on every rebrand — a
-// widget quietly adding two more headings is the thing that makes that diff
-// disagree. A <p> heading needs the section to carry its own accessible name
-// instead, which is what `label` is for.
+// The two column labels always render as <p>, never a heading tag. The docx a
+// page is filled from is a flat H1 + a handful of H2s (plus a real H3 pair this
+// round), and the rendered heading inventory is diffed against it on every
+// rebrand — a widget quietly adding two more headings is the thing that makes
+// that diff disagree. A <p> heading needs the section to carry its own
+// accessible name instead, which is what `label` is for.
 //
 // The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
 // so it is one of the three ContentBox* wrappers that cannot be hoisted away.
@@ -27,46 +27,50 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // runs its two halves one per column and passes no `titleleft`/`titleright` —
 // inventing a pair would be the page's wording rather than the docx's.
 //
-// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2):
-// รอบนี้เป็น **สองโทนจริง: ทองนำ แดงรอง** — ทองแบรนด์ #f0b429 คือกองเหรียญจีนทอง
-// รูสี่เหลี่ยมที่กลบงานอาร์ตทั้งใบ ส่วนแดงแบรนด์ #d30304 คือเลข 168 สามมิติกับ
-// ริบบิ้นซาตินแดงที่พันรอบโลโก้ พื้นเพจเป็น **ดำอมแดง #1a0505** ตาม bg.json
-// ⚠️ ลำดับนำกลับทางจากรอบก่อน (สมหวัง168 แดงนำ ทองรอง) ซึ่งเป็นจุดที่แยกสองรอบนี้
-// ออกจากกัน ไม่ใช่แค่เปลี่ยนค่าเฮกซ์
-// ⚠️ **ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** และไม่มี
-// โครเมียม/เงินเป็นสีระบบ (#cfd9e6 เป็นสีตัวอักษรรองอย่างเดียว ไฟล์นี้ไม่ได้ใช้)
+// มีโชค168 (รอบ **ทองนำ · ชมพูบานเย็นเป็นฮิวที่สอง · พลัมเข้มเป็นเงา บนดำสนิท**
+// 2026-10-18, brand-spec §2): ทองแบรนด์ #fcd434 มาจากเลข 168 สามมิติกับเหรียญจีน
+// ทองรูสี่เหลี่ยมและทองแท่งจีนที่กลบงานอาร์ตทั้งใบ ส่วนชมพูบานเย็น #f5469f คือ
+// ริบบิ้นซาตินที่พันรอบโลโก้ หัวใจชมพู ดอกซากุระ และครึ่งล่างของตัวอักษร "มีโชค"
+// พื้นเพจเป็น **ดำสนิท #000000** (bg.json) ลำดับความลึก: #24101c ยก / #160a12 กลาง
+// / #0b0509 จม / #000000 พื้น
+// ⚠️ ฮิวที่สองกลับทางจากสามรอบก่อน (ขวัญใจ168 โรสโกลด์ · รับตัง168 แดงสด ·
+// สมหวัง168 แดงนำ) ซึ่งเป็นจุดที่แยกรอบนี้ออกจากพวกนั้น ไม่ใช่แค่เปลี่ยนค่าเฮกซ์
 //
-// การ์ดมุมตัดใบแรกของหน้านี้ (อีกใบคือ ContentBoxCyberCut ที่ §5) — ใบนี้อยู่ที่
-// **ผิวจม #140505** ซึ่งลึกกว่าผิวยก/ผิวกลางของ §5 และมุมตัดเป็น 30px ทิศซ้ายบน-
-// ขวาล่าง ส่วน §5 ใช้ 40px ทิศเดียวกันแต่คนละขนาดและไล่เฉดผิว สองใบยังถูกคั่นด้วย
-// §3 และ §4 ที่เป็นมุมกลมทั้งคู่
+// การ์ดมุมตัดใบแรกของหน้านี้ — ใบนี้อยู่ที่ **ผิวจม #0b0509** ซึ่งลึกกว่าผิวยกของ
+// ContentBoxSevenThree (§5) และเท่ากับ ContentBox3ThreeCyberCut (§6) แต่ตัดมุม
+// **ซ้ายบน-ขวาล่าง 30px** ส่วน §6 ตัด **ขวาบน-ซ้ายล่าง** เป็นภาพกระจก และ §5 ตัด
+// ทิศเดียวกับใบนี้แต่ 36px บนผิวยก สามใบยังถูกคั่นด้วย §3 และ §4 ที่เป็นมุมกลมทั้งคู่
 // มุมถูกไล่ด้วยเส้นคู่ละสอง และทุกเส้นเป็นคนละค่าของพาเลตต์ เพื่อให้กรอบเองพาทั้ง
-// ไล่ทอง-แดงมาไว้ที่ตัวกรอบ — คู่บนซ้ายเป็นแดงแบรนด์ #d30304 (แนวนอน) กับทองสว่าง
-// #ffdc8c (แนวตั้ง) และคู่ล่างขวาเป็นทองแบรนด์ #f0b429 (แนวนอน) กับทองลึก #9a6c0c
-// (แนวตั้ง) แดงวางแนวนอนมุมบน ทองวางแนวนอนมุมล่าง สลับขั้วกันสองมุม
-// ป้ายสองคอลัมน์แยกกันด้วย "แดงสว่าง vs ทองแบรนด์" ตรงๆ — แดงสว่าง #ff6b6e ฝั่งซ้าย
-// (5.4:1 และเป็น text-xl font-black จึงเป็น large text) ทองแบรนด์ #f0b429 ฝั่งขวา
-// (8.5:1) ส่วนแดงแบรนด์ #d30304 แดงลึก #a00203 แดงเข้มสุด #4a0202 และทองลึก #9a6c0c
-// ตกต่ำกว่า AA จึงเป็นจุดสี่เหลี่ยม เส้นคั่น และขอบเท่านั้น ไม่ใช่สีตัวอักษร
-// หัวข้อ docx ไล่ แดงสว่าง #ff6b6e → ทองสว่าง #ffdc8c → ทองแบรนด์ #f0b429 ซึ่งเป็น
-// ลำดับคนละชุดกับอีกเจ็ดกล่องบนหน้าเดียวกัน ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือ
-// พิกเซลของตัวอักษร** ไม่ใช่พื้นหลัง ทุกสต็อปจึงต้องเป็นค่าที่ §2 อนุญาตให้ถือ
-// ตัวอักษรได้ — ห้ามเอา #d30304 หรือ #9a6c0c มาเป็นปลายไล่เฉดของหัวข้อ
-// เนื้อความ #f5ece0 (= BRAND_TEXT) — 14.7:1 บนผิวจม ซึ่งเป็นคอนทราสต์สูงสุดของหน้า
+// ไล่ชมพู-ทองมาไว้ที่ตัวกรอบ — คู่บนซ้ายเป็นชมพูบานเย็น #f5469f (แนวนอน) กับทอง
+// แบรนด์ #fcd434 (แนวตั้ง) และคู่ล่างขวาเป็นทองแบรนด์ #fcd434 (แนวนอน) กับพลัมเข้ม
+// #8c0f52 (แนวตั้ง) ชมพูวางแนวนอนมุมบน ทองวางแนวนอนมุมล่าง สลับขั้วกันสองมุม
+// ป้ายสองคอลัมน์แยกกันด้วย "ชมพูอ่อน vs ทองแบรนด์" ตรงๆ — ชมพูอ่อน #ff8dc6 ฝั่งซ้าย
+// (9.9:1) ทองแบรนด์ #fcd434 ฝั่งขวา (12.4:1) ส่วนจุดนำหน้าเป็นชมพูบานเย็น #f5469f
+// กับทองแบรนด์ หัวข้อ docx ไล่ ชมพูบานเย็น #f5469f → ชมพูอ่อน #ff8dc6 → ทองแบรนด์
+// #fcd434 ซึ่งเป็นลำดับคนละชุดกับอีกเจ็ดกล่องบนหน้าเดียวกัน ⚠️ ไล่เฉดนี้ถูก
+// bg-clip-text จึง **คือพิกเซลของตัวอักษร** ไม่ใช่พื้นหลัง ทุกสต็อปจึงต้องเป็นค่าที่
+// §2 อนุญาตให้ถือตัวอักษรได้ — ห้ามเอา #8c0f52 หรือ #7a5508 มาเป็นปลายไล่เฉด
+// เนื้อความ #f6e4ee (= BRAND_TEXT) — 17.0:1 บนผิวจม ซึ่งเป็นคอนทราสต์สูงสุดของหน้า
+// #ffeaa0 สงวนไว้ให้ <strong> ในย่อหน้าตาม §2 จึงไม่โผล่ในไฟล์นี้
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** และสามแบรนด์ก่อน
-// หน้าเป็นแดงทั้งหมด: สมหวัง168 #fa0513 · TKB55 #fb131b · GT66B #fb141b ส่วนรอบนี้
-// คือ #d30304 ชุดเต็มของ GT66B ที่เคยค้างอยู่ทั้งไฟล์นี้ (#fb141b #ff5f63 #ffa0a2
-// #db040b #ec151c #8a0609 #3b0405 #fdfcfd #b4bcc2 #eceaea #190505 #1c0c0b #130c0c
-// #0b0303) ชุดของ TKB55 (#fb131b #ff8a8f #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f
-// #1a0708 #0d0304 #c40304 #8a0206 #53050a #1a0304) ชุดของสมหวัง168 (#fa0513 #ffadaf
-// #ff5a5f #e3b23c #ffe5a8 #8a6210 #b90203 #8c0204 #5b0203 #3c0303 #170504 #f4ecea
-// #ccb9b6 #2c1413 #1f0d0c #140706 #290f0f) ชุดทองมังกรของ TND168 (#dfa310 #ffe4a3
-// #ffc93d #8a6410) และชุดน้ำเงินไฟฟ้าของ TSDET911 (#0360f3 #0292fb #6ec8ff #cfdcec
-// #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26 #00081f #032dad #04186e #021026) ออกครบ
-// ทุกจุดแล้ว
-// ⚠️ #190505 (GT66B) #1a0708 (TKB55) และ #1a0304 (TKB55) หน้าตาใกล้ #1a0505 ของ
-// รอบนี้มาก — เทียบทีละหลัก ห้ามกะด้วยตา
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** เพราะเกือบทุกแบรนด์
+// ที่ผ่านไฟล์นี้มีทอง ทองรอบนี้คือ #fcd434 ไม่ใช่ f7c92b (ขวัญใจ168) f0b429
+// (รับตัง168) e3b23c (สมหวัง168) dfa310 ffc93d ffe4a3 (TND168) e2b33f (KMD88)
+// e5a81b (UFA324) fad354 (789BETTING) f5c518 (FLASH877) fce343 (PUNPRO168)
+// f3bb34 (DUCK1688) หรือ fbe455 (WEPLAY168)
+// ชุดทองไทย-โรสโกลด์-แดงชาดของขวัญใจ168 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (f7c92b ffe6a3
+// f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุดทองไทย-
+// แดงมังกรของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
+// f5ece0 2b100f 200a09 140505 1a0505) ชุดของ GT66B (fb141b ff5f63 ffa0a2 db040b
+// ec151c 8a0609 3b0405 fdfcfd b4bcc2 eceaea 190505 1c0c0b 130c0c 0b0303) ชุดของ
+// TKB55 (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304 c40304
+// 8a0206 53050a 1a0304) ชุดของสมหวัง168 (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210
+// b90203 8c0204 5b0203 3c0303 170504 f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f)
+// และชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff cfdcec 9db4d4 dde8f7 102a5e
+// 0a1c42 040e26 00081f 032dad 04186e 021026) ออกครบทุกค่าแล้ว
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า/ไซแอน ไม่มีม่วง/ไวโอเลต ไม่มีเขียว ไม่มีส้ม
+// ไม่มีเงิน/โครเมียมอมฟ้า ไม่มีโรสโกลด์ (f2bba5/c98a74) และไม่มีแดงชาด (b3121b)**
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 // A real heading already names the region, so the aria-label is dropped in that
 // case and only stands in when the title rendered as chrome (`as="p"`).
@@ -75,38 +79,38 @@ const named = Boolean(title) && TitleTag !== "p";
 
 <section aria-label={named ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#f0b429]/35 bg-[#140505]/95 p-8 text-[#f5ece0] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-md transition-all duration-300 hover:border-[#f0b429]/80 hover:shadow-[0_15px_40px_rgba(240,180,41,0.26)]"
+    class="relative isolate w-full border border-[#fcd434]/35 bg-[#0b0509]/95 p-8 text-[#f6e4ee] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-md transition-all duration-300 hover:border-[#fcd434]/80 hover:shadow-[0_15px_40px_rgba(245,70,159,0.26)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#d30304] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f0b429] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ffdc8c] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#9a6c0c] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f5469f] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fcd434] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#fcd434] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#8c0f52] to-transparent"></div>
 
     {
       title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#ff6b6e] via-[#ffdc8c] to-[#f0b429] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
+        <TitleTag class="mb-4 bg-gradient-to-r from-[#f5469f] via-[#ff8dc6] to-[#fcd434] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f5ece0]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f6e4ee]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4ee]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#4a0202] pb-2 text-xl leading-normal font-black text-[#ff6b6e] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#d30304] shadow-[0_0_5px_rgba(211,3,4,0.8)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#8c0f52] pb-2 text-xl leading-normal font-black text-[#ff8dc6] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#f5469f] shadow-[0_0_5px_rgba(245,70,159,0.8)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0] md:border-l md:border-[#4a0202] md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4ee] md:border-l md:border-[#8c0f52] md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#4a0202] pb-2 text-xl leading-normal font-black text-[#f0b429] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#f0b429] shadow-[0_0_5px_rgba(240,180,41,0.8)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#8c0f52] pb-2 text-xl leading-normal font-black text-[#fcd434] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#fcd434] shadow-[0_0_5px_rgba(252,212,52,0.8)]" /> {titleright}
             </p>
           )
         }

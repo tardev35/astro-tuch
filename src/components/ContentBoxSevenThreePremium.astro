@@ -32,71 +32,72 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //   698..767  : ยุบเหลือคอลัมน์เดียว p-8 → 100vw − 98 > 600 จึงติดเพดาน
 //               max-w-[600px] ของรูป = 600px
 //   <698      : คอลัมน์เดียวที่ p-8                  = calc(100vw − 98px)
-// ⚠️ ตัวเลขชุดนี้เป็นของ **ใบนี้** (p-10 / gap-10 / pl-10) ไม่ใช่ของ
-// ContentBoxSevenThreeCyberCut ที่รอบก่อนใช้ (p-8 แบนๆ / gap-8 / pl-8 → 312px และ
-// calc(30vw − 72px)) ห้ามลอกข้ามไฟล์
+// ⚠️ ตัวเลขชุดนี้เป็นของ **ใบนี้** (max-w-7xl / p-10 / gap-10 / pl-10) ไม่ใช่ของ
+// ContentBoxSevenThree ที่ถือ §5 บนหน้าเดียวกัน (max-w-[1400px] / gap-8 / pl-6 →
+// 352px และ calc(30vw − 68px)) ห้ามลอกข้ามไฟล์
 //
-// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2-§4):
-// บนหน้าแรกกล่องนี้ถือ docx H2 §3 ("โปรโมชั่นเดิมพัน … จากผู้ให้บริการเว็บเกมสล็อต
-// แท้ 100%") คู่กับ **slide1.png** ซึ่งเป็นภาพจัตุรัสที่แบ่งเป็นสองแผงซ้ายขวาในภาพ
-// เดียว และพิมพ์ทั้งสองข้อเสนอไว้ในตัวภาพเอง (คืนยอดเสีย 0.3% ฝั่งซ้าย แนะนำเพื่อน
-// โบนัส 0.8% ฝั่งขวา)
-// ⚠️ **เพราะภาพเดียวพูดถึงทั้งสองโปรโมชั่น มันจึงคู่กับ H2 ภาพรวม (§3) ไม่ใช่กับ H3
-// ตัวใดตัวหนึ่งใต้มัน** — เอาไปแขวนใต้ §4 หรือ §5 เมื่อไร ภาพจะขัดกับหัวข้อทันที
-// slide1 คือสไลด์เดียวที่ใช้ได้รอบนี้ slide2 (พิมพ์เวิร์ดมาร์ก 龍GT66B ของแบรนด์อื่น
-// ไว้บนภาพ) slide3/slide4 และ banner2/banner3 เป็นของเก่าทั้งหมด **ห้าม import**
-// เพราะ eager import = emit และจะทำให้ verify-build แดง
+// มีโชค168 (รอบ **ทองนำ · ชมพูบานเย็นเป็นฮิวที่สอง · พลัมเข้มเป็นเงา บนดำสนิท**
+// 2026-10-18, brand-spec §2-§4): บนหน้าแรกกล่องนี้ถือ docx H3 §4 ("โปรโมชั่น
+// คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ **slide1.png** ซึ่งพิมพ์คำว่า โปรโมชั่น /
+// คืนยอดเสีย / 0.3% ไว้ในตัวภาพเอง
+// ⚠️ **รอบที่แล้วสลับกัน** (slide2 = คืนยอดเสีย) — ข้อความที่พิมพ์อยู่บนงานอาร์ต
+// เป็นตัวตัดสินการจับคู่ ไม่ใช่เลขไฟล์ ใครก๊อปบรรทัด import ของรอบก่อนมาจะได้รูปที่
+// ขัดกับหัวข้อของตัวเอง slide3/slide4 และ banner2/banner3 เป็นอาร์ตของแบรนด์ก่อน
+// **ห้าม import** เพราะ eager import = emit และจะทำให้ verify-build แดง
 //
-// นี่คือบล็อกรูป+ข้อความ **บล็อกเดียว** ของรอบนี้ (เพดานของ playbook คือ 2) การ์ดเป็น
-// มุมโค้ง 3xl ไล่จากผิวยก #2b100f ลงผิวจม #140505 ในกรอบทองลึก #9a6c0c ที่สว่างขึ้น
-// เป็นทองแบรนด์ #f0b429 ตอน hover
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำอมแดง #1a0505** ลำดับความลึก: #2b100f ยก / #200a09 กลาง /
-// #140505 จม / #1a0505 พื้น — ผิวจมมืดกว่าพื้นเพจ
-// ออรามุมซ้ายบนเป็นทองแบรนด์ (กองเหรียญจีนทองในงานอาร์ต) มุมขวาล่างเป็นแดงแบรนด์
-// (ริบบิ้นซาตินแดง) ตามคู่โทนของโลโก้ และ **ทองมาก่อนแดง** ตามลำดับนำของรอบนี้
-// หัวข้อไล่ ทองแบรนด์ #f0b429 → แดงสว่าง #ff6b6e → ทองสว่าง #ffdc8c ซึ่งเป็นลำดับ
-// คนละชุดกับอีกเจ็ดกล่องบนหน้าเดียวกัน ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซล
-// ของตัวอักษร** ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 (#f0b429 8.5:1 · #ff6b6e 5.4:1
-// · #ffdc8c 12:1) — ห้ามเอา #d30304 #a00203 #4a0202 หรือ #9a6c0c มาเป็นสต็อป
-// เนื้อความ #f5ece0 (= BRAND_TEXT) glow ที่ใช้คือ rgba(240,180,41,…) และ
-// rgba(211,3,4,…) ตาม §2
-// §2 ห้าม #d30304 #a00203 #4a0202 #9a6c0c ถือตัวอักษร — ในไฟล์นี้อยู่ที่ขอบ เส้นคั่น
-// และออราเท่านั้น
+// นี่คือบล็อกรูป+ข้อความบล็อกแรกจากสองบล็อก (เพดานของ playbook คือ 2) การ์ดเป็น
+// มุมโค้ง 3xl ไล่จากผิวยก #24101c ลงผิวกลาง #160a12 ในกรอบทองลึก #7a5508 ที่สว่างขึ้น
+// เป็นทองแบรนด์ #fcd434 ตอน hover
+// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) ลำดับความลึก: #24101c ยก /
+// #160a12 กลาง / #0b0509 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้
+// ออรามุมซ้ายบนเป็นทองแบรนด์ (เหรียญจีนทองในงานอาร์ต) มุมขวาล่างเป็นชมพูบานเย็น
+// (ริบบิ้นซาตินชมพู) ตามคู่ฮิวของโลโก้ และ **ทองมาก่อนชมพู** ตามลำดับนำของรอบนี้
+// หัวข้อไล่ ทองแบรนด์ #fcd434 → ชมพูบานเย็น #f5469f → ชมพูอ่อน #ff8dc6 ซึ่งเป็น
+// ลำดับคนละชุดกับอีกเจ็ดกล่องบนหน้าเดียวกัน ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือ
+// พิกเซลของตัวอักษร** ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 (#fcd434 12.4:1 ·
+// #f5469f 6.2:1 · #ff8dc6 9.9:1) — ห้ามเอา #8c0f52 หรือ #7a5508 มาเป็นสต็อป
+// เนื้อความ #f6e4ee (= BRAND_TEXT) glow ที่ใช้คือ rgba(252,212,52,…) และ
+// rgba(245,70,159,…) ตาม §2 · #ffeaa0 สงวนไว้ให้ <strong> จึงไม่โผล่ในไฟล์นี้
 //
-// ⚠️ เทียบสีเป็นค่า ไม่ใช่ตระกูลสี — **กับดักรอบนี้คือแดง และสามแบรนด์ก่อนหน้าเป็น
-// แดงทั้งหมด**: สมหวัง168 #fa0513 · TKB55 #fb131b · GT66B #fb141b · SUPERSLOTCLUB
-// #e8232a · PIGPG #d4200d · FLASH877 #ff3b14 ไม่มีตัวไหนเป็น #d30304 ของรอบนี้
-// ชุดแดงเลือดนก-เงินโครเมียมของ TKB55 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#fb131b #ff8a8f
-// #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708 #0d0304 #c40304 #8a0206 #53050a)
-// ชุดม่วงราชา-ทองของ KMD88 (#7505cc #b453ff #c07cff #d9b8ff #3a0565 #2c0349 #7a5a0a
-// #e2b33f #ffdf8c #ece2f8 #1d0832 #140522 #0a0213) ชุดน้ำเงินไฟฟ้าของ TSDET911
-// (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26
-// #00081f #04186e #021026) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (#f41571 #ff5ca8
-// #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a1038 #2a0012 #1c0014) ชุดทองมังกรของ
-// TND168 (#dfa310 #ffc93d #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b) ชุดทองอำพันเสือ
-// ของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02
-// #2d1c0a #1c1206) และชุดทองแชมเปี้ยนของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a
-// #0d0b06 #f0e8d4 #ffe08a #7d5a07 #464f5a #f2f5f9) ออกครบทุกจุดแล้ว
-// ⚠️ ทองรอบนี้ #f0b429 ไม่ใช่ #e3b23c (สมหวัง168) #dfa310 #e5a81b #e2b33f หรือ
-// #fad354 — "มีทองอยู่แล้ว" ไม่พิสูจน์อะไร ต้องเทียบเป็นตัวเลข
-// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** และ
-// ไม่มีโครเมียม/เงินเป็นสีระบบ (#cfd9e6 เป็นสีตัวอักษรรองเท่านั้น ไฟล์นี้ไม่ได้ใช้)
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** เพราะเกือบทุก
+// แบรนด์ที่ผ่าน repo นี้มีทอง ทองรอบนี้คือ #fcd434 ไม่ใช่ f7c92b (ขวัญใจ168) f0b429
+// (รับตัง168) e3b23c (สมหวัง168) dfa310 ffc93d ffe4a3 (TND168) f2c230 ffe066
+// (KINGKONG555) e2b33f (KMD88) e5a81b (UFA324) fad354 (789BETTING) f5c518
+// (FLASH877) fce343 (PUNPRO168) f3bb34 (DUCK1688) หรือ fbe455 (WEPLAY168)
+// ชุดทองไทย-แดงมังกรของรับตัง168 ที่เคยค้างอยู่ทั้งไฟล์นี้ (f0b429 ffdc8c d30304
+// ff6b6e a00203 4a0202 9a6c0c f5ece0 2b100f 200a09 140505 1a0505) ชุดโรสโกลด์ของ
+// ขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06) ชุดของ
+// TKB55 (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304 c40304
+// 8a0206 53050a) ชุดม่วงราชา-ทองของ KMD88 (7505cc b453ff c07cff d9b8ff 3a0565
+// 2c0349 7a5a0a e2b33f ffdf8c ece2f8 1d0832 140522 0a0213) ชุดน้ำเงินไฟฟ้าของ
+// TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26
+// 00081f 04186e 021026) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (f41571 ff5ca8 fce343
+// ffd94a f0c3dc fde7f2 8a0a45 4a1038 2a0012 1c0014) ชุดทองมังกรของ TND168 (dfa310
+// ffc93d ffe4a3 c9b88e f0e9dc 8a5c09 43240b) ชุดทองอำพันเสือของ TIGERWIN369
+// (d98324 f7b733 ffd98a f7e4c0 e3cfae 8a5214 4a2a08 1a0d02 2d1c0a 1c1206) และ
+// ชุดทองแชมเปี้ยนของ UFA324 (e5a81b b9c2cc 231c0e 17130a 0d0b06 f0e8d4 ffe08a
+// 7d5a07 464f5a f2f5f9) ออกครบทุกค่าแล้ว
+// ⚠️ **ชมพูของรอบนี้คือ #f5469f ไม่ใช่ f41571/ff5ca8 ของ PUNPRO168** — ใกล้ตระกูล
+// เดียวกันแต่คนละค่า เทียบทีละหลัก ห้ามกะด้วยตา
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า/ไซแอน ไม่มีม่วง/ไวโอเลต ไม่มีเขียว ไม่มีส้ม
+// ไม่มีเงิน/โครเมียมอมฟ้า ไม่มีโรสโกลด์ และไม่มีแดง**
 const leftHeading = titleleft ?? title;
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9a6c0c] bg-gradient-to-br from-[#2b100f]/96 to-[#140505]/96 p-8 text-[#f5ece0] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#f0b429]/85 hover:shadow-[0_15px_40px_rgba(240,180,41,0.34)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#f0b429]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#f0b429]/40">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#7a5508] bg-gradient-to-br from-[#24101c]/96 to-[#160a12]/96 p-8 text-[#f6e4ee] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#fcd434]/85 hover:shadow-[0_15px_40px_rgba(252,212,52,0.34)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#fcd434]/26 blur-[60px] transition-all duration-500 group-hover:bg-[#fcd434]/40">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#d30304]/45 blur-[60px] transition-all duration-500 group-hover:bg-[#d30304]/60">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#f5469f]/45 blur-[60px] transition-all duration-500 group-hover:bg-[#f5469f]/60">
     </div>
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4ee]">
         {
           leftHeading && (
-            <HeadingTag class="mb-2 bg-gradient-to-r from-[#f0b429] via-[#ff6b6e] to-[#ffdc8c] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
+            <HeadingTag class="mb-2 bg-gradient-to-r from-[#fcd434] via-[#f5469f] to-[#ff8dc6] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">
               {leftHeading}
             </HeadingTag>
           )
@@ -104,10 +105,10 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0] md:border-l md:border-[#9a6c0c] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4ee] md:border-l md:border-[#7a5508] md:pl-10">
         {
           titleright && (
-            <HeadingTag class="bg-gradient-to-r from-[#f0b429] via-[#ff6b6e] to-[#ffdc8c] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
+            <HeadingTag class="bg-gradient-to-r from-[#fcd434] via-[#f5469f] to-[#ff8dc6] bg-clip-text text-center text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-left">
               {titleright}
             </HeadingTag>
           )

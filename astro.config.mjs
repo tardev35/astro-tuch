@@ -37,18 +37,24 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://rubtang168.services — operator ระบุมาตรงๆ ในคำสั่ง
-  // เป็น ASCII ล้วน ไม่ต้องแปลง punycode แบบรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com
-  // ⚠️ รอบนี้ชื่อแบรนด์เป็น **ภาษาไทย** ("รับตัง168") ส่วนโดเมนเป็น ASCII
-  // ("rubtang168".services) — คนละสคริปต์กัน จะเทียบตัวอักษรกันตรงๆ ยังไม่ได้
-  // เลยด้วยซ้ำ เหมือนรอบก่อน (สมหวัง168/somwang168.services) แต่คนละคู่ค่า
-  // ⚠️ "rubtang" เป็นการถอดเสียง "รับตัง" ซึ่ง **อนุมานกลับไม่ได้** — ถ้า operator
-  // ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด (รอบ TSDET911 แบรนด์
-  // สะกด d แต่โดเมนสะกด b) ทั้งสองค่ามาจาก operator ตรงๆ ห้ามอนุมานจากกันและกัน
-  // สังเกตว่า TLD รอบนี้เป็น .services ไม่ใช่ .com และไม่มีหาง -play
+  // โดเมนจริงรอบนี้คือ https://มีโชค168.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️ รอบนี้โดเมนเป็น **IDN ภาษาไทย** ไม่ใช่ ASCII แบบสามรอบก่อน
+  // (kwanjai168.services / rubtang168.services / somwang168.services) จึงต้องเก็บ
+  // เป็น **punycode** ตรงนี้ เหมือนรอบ หวยดีใจ.com -> xn--82cx5btt7d4e.com และ
+  // หวยคิง -> xn----0wfj9hyax1e.com:
+  //   มีโชค168.com -> xn--168-pkl3a1luf6d.com
+  // (ตรวจซ้ำได้ด้วย node -e "console.log(new URL('https://มีโชค168.com').hostname)")
+  // เก็บเป็น punycode เพราะ new URL() normalize ให้อยู่แล้ว และ canonical/sitemap/
+  // og:url ที่ออกไปจะได้เป็นสตริงเดียวกันเป๊ะทุกที่ ไม่ขึ้นกับว่าใครเขียน host
+  // ด้วยสคริปต์ไหน — ถ้าเขียนเป็นอักษรไทยตรงนี้ ไฟล์ผลลัพธ์บางที่จะเป็น percent-
+  // encoded UTF-8 และบางที่เป็น punycode ซึ่ง parser มองว่าเป็นคนละโฮสต์
+  // ⚠️ ชื่อแบรนด์กับโดเมนรอบนี้ "ตรงกัน" ในเชิงเสียง แต่ยังคนละค่าอยู่ดี — label
+  // ใน wrangler.toml ต้องเป็น punycode label ทั้งก้อน ห้ามตัดที่ขีด (ขีดใน
+  // xn--168-pkl3a1luf6d เป็นส่วนของการเข้ารหัส ไม่ใช่ช่องว่างระหว่างคำ)
+  // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://kwanjai168.services",
+  site: "https://xn--168-pkl3a1luf6d.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

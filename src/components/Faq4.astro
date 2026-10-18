@@ -1,4 +1,6 @@
 ---
+import { BRAND_NAME } from "../lib/brandProfile";
+
 export interface FaqItem {
   q: string;
   a: string;
@@ -7,7 +9,7 @@ export interface FaqItem {
 export interface Props {
   title?: string;
   /** The docx's own level for this section. This brief marks
-   *  "คำถามที่พบบ่อยเกี่ยวกับ<แบรนด์>" as an H2, so index.astro passes as="h2".
+   *  "คำถามที่พบบ่อยเกี่ยวกับ <แบรนด์>" as an H2, so index.astro passes as="h2".
    *  It defaults to <p> so a page that hangs a chrome FAQ here stays out of the
    *  heading inventory. */
   as?: "h2" | "h3" | "p";
@@ -23,57 +25,62 @@ export interface Props {
 // against the brief on every rebrand. The <section> keeps its aria-label either
 // way, so nothing is lost for assistive tech.
 //
-// <details name="faq-somwang168"> keeps a single panel open at a time with no
-// script, and the open state is keyed off [open] in the stylesheet rather than a
-// hand-written .rotate-45 override. No <script> in this file. The group name is
-// rebranded with everything else — leaving a previous brand's slug in a `name`
-// attribute is the quietest way to ship its fingerprint.
+// <details name={groupName}> keeps a single panel open at a time with no script,
+// and the open state is keyed off [open] in the stylesheet rather than a
+// hand-written .rotate-45 override. No <script> in this file.
+// ⚠️ The group name is INTERPOLATED from BRAND_NAME rather than typed, which is
+// both the rebrand rule (§7.1 — the brand name is never written into markup) and
+// the fix for the failure this attribute has had before: a hardcoded slug is the
+// quietest way to leave the previous brand's fingerprint in a live attribute,
+// because nothing visible changes when it rots.
 //
-// สมหวัง168 (รอบแดงมังกร-ทองไทย 2026-10-17, brand-spec §2):
-// รอบนี้เป็น **สองโทนจริง: แดงมังกรนำ ทองไทยรอง ไม่มีโครเมียม/เงิน ไม่มีม่วง
-// ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม ไม่มีชมพู** โลโก้คือคำว่า "สมหวัง"
-// ตัวอักษรสามมิติโครเมียมขาวอมเงินขอบแดง ต่อด้วยเลข "168" แดงสดตัวหนา มีเปลวไฟแดง
-// และลายกนกไทยสีแดงพันรอบ — สีรองของระบบดึงมาจาก **ลายกนก/นาคทอง** ในแบนเนอร์
-// ไม่ใช่จากโครเมียมในโลโก้
-// ⚠️ พื้นเพจเป็น **ดำอมแดง #290f0f** (bg.json) ลำดับความลึก: #2c1413 ยก / #1f0d0c
-// กลาง / #140706 จม / #290f0f พื้น — ผิวจมกับผิวกลางมืดกว่าพื้นเพจ
+// มีโชค168 (รอบ **ทองนำ · ชมพูบานเย็นเป็นฮิวที่สอง · พลัมเข้มเป็นเงา บนดำสนิท**
+// 2026-10-18, brand-spec §2): โลโก้คือแมวกวักนำโชคขนขาวลายส้มทอง นั่งเหนือคำว่า
+// "มีโชค" ตัวอักษรไทยหนาสามมิติไล่เฉด **ชมพูบานเย็นขึ้นทอง** ต่อด้วยเลข "168" ทอง
+// สามมิติ ล้อมด้วยริบบิ้นซาตินชมพู เหรียญจีนทองรูสี่เหลี่ยม ทองแท่งจีน หัวใจชมพู
+// และดอกซากุระ
+// ⚠️ พื้นเพจเป็น **ดำสนิท #000000** (bg.json) ลำดับความลึก: #24101c ยก / #160a12
+// กลาง / #0b0509 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้
 //
 // ใบนี้ถือ docx H2 §8 และเป็นบล็อกเนื้อหาสุดท้ายของหน้า อยู่ถัดจาก
-// ContentBoxTwoFloatingBadge (§7) ที่เป็น **การ์ดใบเดียวมุม 2xl ไล่ผิวกลางขึ้นผิวยก
-// พร้อมป้ายทองทึบลอยอยู่** — ที่นี่จึงเป็น **แถวมุมกลมหลายแถวบนผิวจม #140706**
-// ไม่ใช่การ์ดใบเดียว ไม่มีป้ายลอย และไม่มี clip-path ที่ไหนในไฟล์นี้เลย
-// แผ่นป้ายหัวข้อเป็นมุมกลมพร้อมรางซ้ายทองไทย #e3b23c หนาสี่พิกเซล ไล่พื้นจากผิวยก
-// #2c1413 ลงไปใส
-// หัวข้อ (ที่หน้าเพจส่งมาเป็น prop) ไล่ แดงสว่าง #ff5a5f → ทองไทย #e3b23c → ทอง
-// สว่าง #ffe5a8 ("แดงไล่ขึ้นทอง") ซึ่งเป็นลำดับที่ไม่ซ้ำกับอีกเจ็ดกล่องบนหน้าเดียวกัน
-// มาร์ก ❖ นำหน้าคำถามเป็นทองไทย #e3b23c (8.9:1) กรอบแถวเป็นแดงเกือบดำ #5b0203
-// เส้นไรผมมุมบนซ้ายเป็นแดงแบรนด์ #fa0513 กล่อง + นั่งบนผิวยก #2c1413 คำถามที่ hover
-// และสถานะเปิดขึ้นเป็นแดงสว่าง #ff5a5f เนื้อความ #f4ecea (= BRAND_TEXT) ตัวรอง
-// ถ้ามีจะเป็น #ccb9b6
-// §2 ห้าม #fa0513 #b90203 #8c0204 #5b0203 #3c0303 #8a6210 ถือตัวอักษรทุกขนาด —
-// ในไฟล์นี้ทั้งหกค่าอยู่ที่ราง ขอบ เส้นไรผม และออราเท่านั้น ไม่มีจุดไหนให้มันถือ
-// glyph และ #ffadaf สงวนไว้ให้ <strong> ในเนื้อความ จึงไม่อยู่ในไฟล์นี้
+// ContentBoxNeumorphism (§7) ที่เป็น **แผ่นนูนใบเดียวมุม 25px หัวข้อชมพูทึบกึ่งกลาง**
+// — ที่นี่จึงเป็น **แถวมุมกลมหลายแถวบนผิวจม #0b0509** ไม่ใช่การ์ดใบเดียว ไม่มีเงานูน
+// และไม่มี clip-path ที่ไหนในไฟล์นี้เลย
+// แผ่นป้ายหัวข้อเป็นมุมกลมพร้อมรางซ้ายชมพูบานเย็น #f5469f หนาสี่พิกเซล ไล่พื้นจาก
+// ผิวยก #24101c ลงไปใส
+// หัวข้อ (ที่หน้าเพจส่งมาเป็น prop) ไล่ ชมพูบานเย็น #f5469f → ทองแบรนด์ #fcd434 →
+// ชมพูอ่อน #ff8dc6 ซึ่งเป็นลำดับที่ไม่ซ้ำกับอีกเจ็ดกล่องบนหน้าเดียวกัน
+// มาร์ก ❖ นำหน้าคำถามเป็นทองแบรนด์ #fcd434 (12.4:1) กรอบแถวเป็นพลัมเข้ม #8c0f52
+// เส้นไรผมมุมบนซ้ายเป็นชมพูบานเย็น #f5469f กล่อง + นั่งบนผิวยก #24101c คำถามที่
+// hover และสถานะเปิดขึ้นเป็นชมพูอ่อน #ff8dc6 เนื้อความ #f6e4ee (= BRAND_TEXT)
+// §2 ห้าม #8c0f52 #7a5508 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งสองค่าอยู่ที่ราง ขอบ
+// เส้นไรผม และกรอบปุ่มเท่านั้น ไม่มีจุดไหนให้มันถือ glyph และ #ffeaa0 สงวนไว้ให้
+// <strong> ในเนื้อความ จึงไม่อยู่ในไฟล์นี้
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้เพิ่งถือชุดน้ำเงินไฟฟ้า-เงิน
-// โครเมียมของ TSDET911 มาทั้งไฟล์ (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4
-// #dde8f7 #102a5e #0a1c42 #040e26 #00081f #032dad #04186e #041a43) และก่อนนั้นเป็น
-// ชุดทองอำพันเสือและชุดทองเป็ด-ส้มปากเป็ด — ถอดออกครบทุกค่า รวมถึงชื่อ details group
-// ของแบรนด์ก่อน
-// ⚠️ **กับดักรอบนี้คือแดง** สองแบรนด์ก่อนหน้าก็เป็นแดงทั้งคู่: GT66B #fb141b (G=20)
-// และ TKB55 #fb131b (G=19) ส่วนแดงรอบนี้คือ #fa0513 (R=250 G=5 B=19) อ่านมาจาก
-// palette.json ของดรอปนี้ตรงๆ และแดงของ SUPERSLOTCLUB #e8232a · PIGPG #d4200d ·
-// FLASH877 #ff3b14 ที่ค้างในไฟล์ inventory ก็ไม่ใช่ค่านี้สักตัว
-// ⚠️ ทองรอบนี้ #e3b23c / #ffe5a8 / #8a6210 ไม่ใช่ #dfa310 / #ffe4a3 / #8a5c09 ของ
-// TND168 และไม่ใช่ #e5a81b / #ffe08a / #7d5a07 ของ UFA324 — เทียบเป็นตัวเลขทีละค่า
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ไฟล์นี้เพิ่งถือชุด
+// แดงมังกร-ทองไทยของสมหวัง168 มาทั้งไฟล์ (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210
+// b90203 8c0204 5b0203 3c0303 f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f) ก่อนนั้นเป็น
+// ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec
+// 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f 032dad 04186e 041a43) ชุดทองอำพันเสือ
+// และชุดทองเป็ด-ส้มปากเป็ด — ถอดออกครบทุกค่า รวมถึงชื่อ details group ของแบรนด์ก่อน
+// ⚠️ ทองรอบนี้คือ #fcd434 ไม่ใช่ f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c
+// (สมหวัง168) dfa310 ffe4a3 (TND168) e5a81b ffe08a 7d5a07 (UFA324) f2c230 ffe066
+// (KINGKONG555) หรือ fad354 (789BETTING)
+// ⚠️ ชมพูรอบนี้คือ #f5469f / #ff8dc6 ไม่ใช่ f41571 / ff5ca8 ของ PUNPRO168 และไม่ใช่
+// โรสโกลด์ f2bba5 / c98a74 ของขวัญใจ168 — เทียบเป็นตัวเลขทีละค่า
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า/ไซแอน ไม่มีม่วง/ไวโอเลต ไม่มีเขียว ไม่มีส้ม
+// ไม่มีเงิน/โครเมียมอมฟ้า ไม่มีโรสโกลด์ และไม่มีแดง**
 const { title, as: TitleTag = "p", faqs = [] } = Astro.props;
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
+const groupName = `faq-${BRAND_NAME}`;
 ---
 
 <section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
   {
     title && (
-      <div class="mb-8 flex items-center gap-3 rounded-2xl border-l-4 border-[#e3b23c] bg-gradient-to-r from-[#2c1413] via-[#140706]/60 to-transparent px-4 py-2.5">
-        <TitleTag class="bg-gradient-to-r from-[#ff5a5f] via-[#e3b23c] to-[#ffe5a8] bg-clip-text text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-2xl">
+      <div class="mb-8 flex items-center gap-3 rounded-2xl border-l-4 border-[#f5469f] bg-gradient-to-r from-[#24101c] via-[#0b0509]/60 to-transparent px-4 py-2.5">
+        <TitleTag class="bg-gradient-to-r from-[#f5469f] via-[#fcd434] to-[#ff8dc6] bg-clip-text text-xl leading-normal font-black tracking-widest text-transparent uppercase md:text-2xl">
           {title}
         </TitleTag>
       </div>
@@ -84,13 +91,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     {
       faqs.map((faq) => (
         <details
-          name="faq-somwang168"
-          class="faq-item group relative overflow-hidden rounded-2xl border border-[#5b0203] bg-[#140706]/95 backdrop-blur-sm transition-all duration-300 hover:border-[#e3b23c]/75 hover:shadow-[0_15px_40px_rgba(250,5,19,0.26)]">
-          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#fa0513] to-transparent" />
+          name={groupName}
+          class="faq-item group relative overflow-hidden rounded-2xl border border-[#8c0f52] bg-[#0b0509]/95 backdrop-blur-sm transition-all duration-300 hover:border-[#fcd434]/75 hover:shadow-[0_15px_40px_rgba(245,70,159,0.26)]">
+          <div aria-hidden="true" class="absolute top-0 left-0 h-[2px] w-16 bg-gradient-to-r from-[#f5469f] to-transparent" />
 
           <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <span class="flex items-center gap-2.5 text-base font-bold text-[#f4ecea] transition-colors group-hover:text-[#ff5a5f] md:text-lg">
-              <span aria-hidden="true" class="text-xs text-[#e3b23c]">
+            <span class="flex items-center gap-2.5 text-base font-bold text-[#f6e4ee] transition-colors group-hover:text-[#ff8dc6] md:text-lg">
+              <span aria-hidden="true" class="text-xs text-[#fcd434]">
                 ❖
               </span>
               {faq.q}
@@ -98,12 +105,12 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#8a6210] bg-[#2c1413] text-lg font-black text-[#f4ecea] transition-all duration-300 group-hover:border-[#e3b23c] group-hover:text-[#ff5a5f]">
+              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#7a5508] bg-[#24101c] text-lg font-black text-[#f6e4ee] transition-all duration-300 group-hover:border-[#fcd434] group-hover:text-[#ff8dc6]">
               +
             </span>
           </summary>
 
-          <div class="faq-answer border-t border-[#5b0203] p-5 pt-4 text-left text-base leading-relaxed text-[#f4ecea]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#8c0f52] p-5 pt-4 text-left text-base leading-relaxed text-[#f6e4ee]">{faq.a}</div>
         </details>
       ))
     }
@@ -118,13 +125,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(227, 178, 60, 0.75);
-    box-shadow: 0 15px 40px rgba(250, 5, 19, 0.26);
+    border-color: rgba(252, 212, 52, 0.75);
+    box-shadow: 0 15px 40px rgba(245, 70, 159, 0.26);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #e3b23c;
-    color: #ff5a5f;
+    border-color: #fcd434;
+    color: #ff8dc6;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

@@ -11,44 +11,48 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt =
-  "โลโก้ SUPERSLOTCLUB บนพื้นโปร่งใส ด้านบนเป็นหัวเสือโคร่งลายส้มสลับดำมองตรงมาทางผู้ชม ดวงตาสีเหลืองอำพัน สองข้างเป็นอุ้งเท้าเสือที่มีเล็บสีขาวเกี่ยวขอบป้ายไว้ ด้านล่างเป็นป้ายโล่สีแดงเลือดหมูขอบแดงเข้ม คาดคำว่า SUPERSLOTCLUB ด้วยตัวอักษรละตินหนาสามมิติสีแดงไล่เงาโครเมียม และมีพลอยแดงทรงข้าวหลามตัดอยู่กึ่งกลางขอบล่างของป้าย";
+// เขียนจาก src/assets/logo.webp ของดรอป 2026-10-18 จริง (เปิดอ่านด้วย Read ก่อนเขียน)
+// ไม่ใช่คัดลอกของรอบก่อน — หัวเสือโคร่งของ SUPERSLOTCLUB ที่เคยอยู่บรรทัดนี้ไม่มีใน
+// รูปรอบนี้เลย และหญิงสาวชุดแดงปักทองของขวัญใจ168 ก็ไม่มี
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส ด้านบนเป็นแมวกวักนำโชคตัวขาวลายส้มทอง หลับตายิ้มกว้าง แก้มชมพู สวมปลอกคอแดงห้อยกระพรวนทอง ยกอุ้งเท้าซ้ายขึ้นกวัก มีหัวใจชมพูลอยอยู่สองดวง ใต้ลงมาเป็นคำว่า มีโชค ตัวอักษรไทยหนาสามมิติไล่เฉดจากชมพูบานเย็นไปหาทอง ตัดขอบทองหนา ต่อด้วยเลข 168 ตัวหนาสามมิติสีทองขัดเงา ล้อมรอบด้วยริบบิ้นซาตินสีชมพูบานเย็นพลิ้วเป็นวง เหรียญจีนสีทองรูปวงกลมเจาะรูสี่เหลี่ยมตรงกลางปลิวกระจาย และทองแท่งจีนทรงเรือวางซ้อนกันที่ขอบล่าง`;
 
-// SUPERSLOTCLUB (รอบแดงเสือโคร่ง-ทองถ่านไฟ 2026-10-09): navbar ที่ใช้งานจริงรอบนี้ —
-// รอบก่อน KINGKONG555 ใช้ NavbarStyle10 จึงหมุนมาที่ไฟล์นี้ ของเดิมที่ค้างอยู่ข้างใน
-// เป็นชุดทอง-มรกต ของ KOON234 (#cc920a #f7d14e #fde9a6 #0a6b32 #2fbf6a #020803
-// #09190d #043d1c #07170c #e8f2e6 #9ab79f #e9eef0 #e8b52a rgba(204,146,10,α))
-// ย้ายทั้งไฟล์มาเป็นพาเลตต์ของแบรนด์นี้แล้ว ไม่เหลือเฉดทอง-เขียวเดิมอีก
+// มีโชค168 (รอบทอง-ชมพูบานเย็น บนดำสนิท 2026-10-18): navbar ที่ใช้งานจริงรอบนี้ —
+// รอบก่อน ขวัญใจ168 ใช้ NavbarStyle10 จึงหมุนมาที่ไฟล์นี้ ของเดิมที่ค้างอยู่ข้างใน
+// เป็นชุดแดงเสือโคร่ง-ทองถ่านไฟของ SUPERSLOTCLUB (#e8232a #7d0f12 #f2b705 #ffd666
+// #180800 #301105 #4a0605 #fbe8d5 #c9a898 #2b0a00 #c08a0b #e0a50e
+// rgba(232,35,42,α) rgba(242,183,5,α)) ย้ายทั้งไฟล์มาเป็นพาเลตต์ของแบรนด์นี้แล้ว
+// ไม่เหลือเฉดแดง-ส้มเดิมอีก
 //
-// NavbarStyle10 ของรอบก่อนเป็นแคปซูลลอยสูง 75px คู่กับแถบ info คาดเต็มความกว้าง
-// เหนือ nav และ drawer ที่เลื่อนลงจากขอบบน — ไฟล์นี้เป็นคนละทรง: แถบนอนแบนเต็ม
-// ความกว้าง ไม่มีแถบ info และ drawer เป็นแผงเลื่อนเข้าจากขอบ **ขวา** กว้าง 260px
+// NavbarStyle10 ของรอบก่อนเป็นแคปซูลลอย rounded-[20px] (top-2, max-w-7xl) ที่ไม่ชิด
+// ขอบจอ คู่กับแถบ info คาดเต็มความกว้างเหนือ nav และเมนูมือถือแบบเต็มจอที่เฟดเข้า —
+// ไฟล์นี้เป็นคนละทรง: แถบนอนแบนเต็มความกว้างติดขอบบน ไม่มีแถบ info และ drawer เป็น
+// แผงเลื่อนเข้าจากขอบ **ขวา** กว้าง 260px
 //
-// แกนสีมาจากโลโก้จริงซึ่งอ่านเป็น "แดงนำ ทองรอง ส้มเสือเป็นตัวเน้น": ป้ายโล่กับ
-// ตัวอักษร SUPERSLOTCLUB เป็นแดงไล่เงาโครเมียม หัวเสือเป็นส้ม-ดำ และเหรียญใน
-// แบนเนอร์/สไลด์เป็นทอง — ต่างจาก KINGKONG555 รอบก่อนที่เป็นคู่ เขียวมะนาว/ทองมงกุฎ
-// แดงเสือโคร่ง #e8232a ถือเส้นเน้น ขอบ แถบ active และแสงรอบโลโก้ · แดงลึก #7d0f12
-// เป็นปลายเย็นของเส้นคาดใต้แถบ · ทองถ่านไฟ #f2b705 กับทองอ่อน #ffd666 เป็นฮิวที่
-// สองจริง อยู่ที่ปลายสว่างของเส้นคาด หัว MENU และพื้นปุ่ม CTA พื้นน้ำตาลถ่านเกือบดำ
-// #180800 ยกระดับด้วย #301105 / #4a0605
-// เนื้อความ #fbe8d5 (BRAND_TEXT รอบนี้) เมนูปกติเป็น #c9a898 (8.9:1 บนพื้น)
+// แกนสีมาจากโลโก้จริงซึ่งอ่านเป็น "ทองนำ ชมพูบานเย็นเป็นฮิวที่สอง": คำว่า มีโชค ไล่
+// เฉดชมพู→ทอง เลข 168 เป็นทองล้วน ริบบิ้นรอบโลโก้เป็นชมพูบานเย็น และเหรียญจีนใน
+// แบนเนอร์/สไลด์เป็นทอง — ต่างจากขวัญใจ168 รอบก่อนที่เป็นคู่ ทอง/โรสโกลด์
+// ทองแบรนด์ #fcd434 ถือเส้นเน้น ขอบ และแสงรอบโลโก้ · ทองอ่อน #ffeaa0 เป็นหัว MENU ·
+// **ชมพูบานเย็น #f5469f ถือแถบ active และขอบปุ่มรอง** ซึ่งเป็นจุดที่ฮิวที่สองของรอบนี้
+// ต้องเห็นจริง · ชมพูอ่อน #ff8dc6 เป็นสี hover · พลัมเข้ม #8c0f52 เป็นปลายเย็นของ
+// เส้นคาดใต้แถบและพื้นปุ่ม hamburger พื้นดำอมพลัม #0b0509 ยกระดับด้วย #160a12 / #24101c
+// เนื้อความ #f6e4ee (BRAND_TEXT รอบนี้) เมนูปกติเป็น #d8b9c9 (≈10.8:1 บนพื้น)
 //
-// ปุ่ม CTA พื้น **ทอง** ไม่ใช่แดง และใช้ **หมึกเข้ม** #2b0a00 ไม่ใช่ตัวอักษรขาว
-// สองข้อนี้ผูกกัน: แดงแบรนด์ #e8232a เป็นสีกลางค่า หมึกเข้มบนแดงได้แค่ 2.7:1 และ
-// ตัวอักษรขาวบนแดงได้ 4.0:1 — ทั้งคู่ไม่ดีพอสำหรับปุ่มหลัก พื้นทองแทนได้ 6.0:1
-// ที่ปลายเข้มสุด (#c08a0b) และ 10.1:1 ที่ปลายสว่าง (#f2b705) กับหมึกนั้น
-// ⚠️ ห้ามพลิกกลับเป็นพื้นทอง-ตัวอักษรขาว ห้ามเปลี่ยนพื้นปุ่มเป็นแดง และห้ามดัน
-// ปลายเข้มของไล่เฉดให้เข้มกว่า #c08a0b (เช่น #a8730a ของ brand-spec ได้ 4.48:1 ตก)
+// ปุ่ม CTA พื้น **ทอง** และใช้ **หมึกเข้ม** #1a0612 ไม่ใช่ตัวอักษรขาว สองข้อนี้ผูกกัน:
+// ชมพูแบรนด์ #f5469f เป็นสีกลางค่า หมึกเข้มบนชมพูได้ 5.8:1 ส่วนตัวอักษรขาวบนชมพูได้
+// แค่ 3.4:1 — ไม่ดีพอสำหรับปุ่มหลัก พื้นทองแทนได้ 7.5:1 ที่ปลายเข้มสุด (#c89a08)
+// และ 13.5:1 ที่ปลายสว่าง (#fcd434) กับหมึกนั้น
+// ⚠️ ห้ามพลิกกลับเป็นพื้นทอง-ตัวอักษรขาว ห้ามเปลี่ยนพื้นปุ่มเป็นชมพู และห้ามดัน
+// ปลายเข้มของไล่เฉดให้เข้มกว่า #c89a08
 //
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย ทุกรายการมีไอคอนของตัวเอง
 // วางใน <span aria-hidden> แยกจากข้อความ ไม่ปนอยู่ในตัวอักษรของ label
+// ไอคอนเลือกตามหมวดของแบรนด์: 🎰 สำหรับ ทดลองเล่น เพราะรอบนี้เป็น **เว็บสล็อตล้วน**
 //
-// ไม่มี /ตรวจหวย และ /แนวทาง ในเมนูรอบนี้: SUPERSLOTCLUB เป็นคลับ/ชุมชนคนเล่นสล็อต
-// ไม่ใช่เว็บหวย สองหน้านั้นอยู่ใน src/pages-disabled/ จึงไม่มี route ใน dist/ —
-// ถ้าเหลือลิงก์ไว้ verify-build จะแดงเพราะ href ชี้ไป route ที่ไม่มีอยู่ (navbar
-// ขึ้นทุกหน้า) ถ้ารอบหน้าเป็นแบรนด์หวยแล้วย้ายไฟล์กลับเข้า src/pages/ ต้องเพิ่ม
-// สองลิงก์นี้คืน
+// ไม่มี /ตรวจหวย และ /แนวทาง ในเมนูรอบนี้: มีโชค168 เป็นเว็บสล็อต ไม่ใช่เว็บหวย
+// สองหน้านั้นอยู่ใน src/pages-disabled/ จึงไม่มี route ใน dist/ — ถ้าเหลือลิงก์ไว้
+// verify-build จะแดงเพราะ href ชี้ไป route ที่ไม่มีอยู่ (navbar ขึ้นทุกหน้า)
+// ถ้ารอบหน้าเป็นแบรนด์หวยแล้วย้ายไฟล์กลับเข้า src/pages/ ต้องเพิ่มสองลิงก์นี้คืน
 //
 // ไม่มี /ทางเข้า ในเมนูโดยตั้งใจ: toggle ของ register/login เปิดอยู่ หน้านั้น
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
@@ -59,28 +63,30 @@ const logoAlt =
 // เข้าสู่ระบบ ท้าย sidebar (มือถือเท่านั้นเหมือนกัน) — ตัดตัวกลางออกให้กดครั้งเดียว
 // ถึงลิงก์ aff เลย ส่วนรายการ สมัครสมาชิก/เข้าสู่ระบบ ใน `links` (ทั้งแถบบนจอใหญ่
 // และลิสต์ใน sidebar) ยังคงชี้ไป /register, /login ตามเดิม — สองหน้านั้นต้องเหลือ
-// ทางเข้าไว้ให้ Google เก็บ index ได้จริง targetUrl เป็นลิงก์เดียวกับที่ /register,
-// /login ใช้ ห้ามแก้ตรงนี้เอง อัปโหลดเดอร์อัปเดตให้พร้อมกัน — ดูคอมเมนต์เต็มที่
-// src/components/Navfoot.astro ซึ่งมีปุ่มคู่เดียวกันนี้
+// ทางเข้าไว้ให้ Google เก็บ index ได้จริง
+// ⚠️ targetUrl ต้องเป็น **ลิงก์ aff ของแบรนด์นี้** ซึ่งเท่ากับค่าใน Navfoot.astro,
+// src/pages/login.astro และ src/pages/register.astro เป๊ะๆ — ค่าที่ค้างอยู่ในไฟล์นี้
+// ตอนหมุนมาใช้ (https://yoalink.com/l360) เป็นของ SUPERSLOTCLUB คนละแบรนด์
+// ห้ามแก้ค่านี้เอง อัปโหลดเดอร์อัปเดตให้พร้อมกันทั้งสี่ไฟล์
 //
-// ⚠️ ไฟล์นี้หมุนออกตอนรีแบรนด์รอบหน้า (ดู "หนึ่งไฟล์ต่อหนึ่งรอบ" ด้านบน) — ถ้า navbar
-// ที่เลือกใหม่เป็นไฟล์อื่น ต้องย้าย const targetUrl กับสองจุดนี้ไปด้วย ไม่งั้นปุ่มลัด
-// มือถือของแบรนด์ถัดไปจะกลับไปพาไปหน้า /register, /login เหมือนเดิม
-const targetUrl = "https://yoalink.com/l360";
+// ⚠️ ไฟล์นี้หมุนออกตอนรีแบรนด์รอบหน้า — ถ้า navbar ที่เลือกใหม่เป็นไฟล์อื่น ต้องย้าย
+// const targetUrl กับสองจุดนี้ไปด้วย ไม่งั้นปุ่มลัดมือถือของแบรนด์ถัดไปจะกลับไปพาไป
+// หน้า /register, /login เหมือนเดิม
+const targetUrl = "https://yoalink.com/2u19";
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎮" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
-  { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-40 w-full bg-[#180800]/95 shadow-[0_4px_20px_rgba(0,0,0,0.9)] backdrop-blur-lg">
-    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-[#7d0f12] via-[#e8232a] to-[#f2b705] opacity-90"></div>
+  <nav class="relative z-40 w-full bg-[#0b0509]/95 shadow-[0_4px_20px_rgba(0,0,0,0.9)] backdrop-blur-lg">
+    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-[#8c0f52] via-[#f5469f] to-[#fcd434] opacity-90"></div>
 
     <div class="flex h-[65px] w-full items-center justify-between px-3 md:px-6 lg:h-[80px]">
       <div class="flex items-center">
@@ -94,12 +100,12 @@ const links = [
                 fetchpriority="high"
                 widths={[110, 220, 330]}
                 sizes="110px"
-                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(232,35,42,0.7)] lg:h-[45px]"
+                class="h-[35px] w-auto drop-shadow-[0_0_10px_rgba(245,70,159,0.7)] lg:h-[45px]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-r from-[#fbe8d5] via-[#ffd666] to-[#e8232a] bg-clip-text text-2xl font-black tracking-widest text-transparent">{BRAND_NAME}</span>
+              <span class="bg-gradient-to-r from-[#f6e4ee] via-[#ff8dc6] to-[#fcd434] bg-clip-text text-2xl font-black tracking-widest text-transparent">{BRAND_NAME}</span>
             )
           }
         </a>
@@ -110,10 +116,10 @@ const links = [
           links.map((link) => (
             <a href={link.path} class="group relative flex h-full items-center gap-1.5 text-sm font-bold transition-all xl:text-base">
               <span aria-hidden="true">{link.icon}</span>
-              <span class={`transition-colors duration-300 ${isActive(link.path) ? "text-[#fbe8d5] drop-shadow-[0_0_8px_rgba(232,35,42,0.9)]" : "text-[#c9a898] group-hover:text-[#fbe8d5]"}`}>
+              <span class={`transition-colors duration-300 ${isActive(link.path) ? "text-[#f6e4ee] drop-shadow-[0_0_8px_rgba(245,70,159,0.9)]" : "text-[#d8b9c9] group-hover:text-[#ff8dc6]"}`}>
                 {link.name}
               </span>
-              {isActive(link.path) && <div class="absolute bottom-0 left-0 h-[3px] w-full rounded-t-md bg-[#e8232a] shadow-[0_-2px_10px_rgba(232,35,42,0.95)]" />}
+              {isActive(link.path) && <div class="absolute bottom-0 left-0 h-[3px] w-full rounded-t-md bg-[#f5469f] shadow-[0_-2px_10px_rgba(245,70,159,0.95)]" />}
             </a>
           ))
         }
@@ -122,12 +128,12 @@ const links = [
       <div class="z-50 flex items-center gap-2 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded border border-[#e8232a]/65 px-6 py-2 text-sm font-bold text-[#fbe8d5] transition-all hover:bg-[#4a0605]/80 hover:shadow-[0_0_15px_rgba(232,35,42,0.45)] lg:flex">
+          class="hidden items-center justify-center rounded border border-[#f5469f]/65 px-6 py-2 text-sm font-bold text-[#f6e4ee] transition-all hover:bg-[#8c0f52]/80 hover:shadow-[0_0_15px_rgba(245,70,159,0.45)] lg:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="bg-theme-oklab hidden items-center justify-center rounded px-6 py-2 text-sm font-extrabold text-[#2b0a00] shadow-[0_0_20px_rgba(242,183,5,0.6)] transition-all hover:brightness-110 lg:flex">
+          class="bg-theme-oklab hidden items-center justify-center rounded px-6 py-2 text-sm font-extrabold text-[#1a0612] shadow-[0_0_20px_rgba(252,212,52,0.6)] transition-all hover:brightness-110 lg:flex">
           สมัครสมาชิก
         </a>
 
@@ -135,13 +141,13 @@ const links = [
           <a
             href={targetUrl}
             rel="nofollow sponsored"
-            class="bg-theme-oklab flex items-center justify-center rounded px-3 py-1.5 text-[11px] font-bold text-[#2b0a00] shadow-[0_0_10px_rgba(242,183,5,0.6)] md:px-4 md:text-xs">
+            class="bg-theme-oklab flex items-center justify-center rounded px-3 py-1.5 text-[11px] font-bold text-[#1a0612] shadow-[0_0_10px_rgba(252,212,52,0.6)] md:px-4 md:text-xs">
             สมัครสมาชิก
           </a>
-          <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 rounded border border-[#e8232a]/60 bg-[#4a0605]/70 p-1.5" aria-label="เปิดเมนู">
-            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#fbe8d5] transition-all duration-300"></span>
-            <span class="hamburger-line h-[2px] w-5 rounded-full bg-[#fbe8d5] transition-all duration-300"></span>
-            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#fbe8d5] transition-all duration-300"></span>
+          <button id="hamburger-btn" class="flex flex-col items-center justify-center space-y-1.5 rounded border border-[#f5469f]/60 bg-[#8c0f52]/70 p-1.5" aria-label="เปิดเมนู">
+            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#f6e4ee] transition-all duration-300"></span>
+            <span class="hamburger-line h-[2px] w-5 rounded-full bg-[#f6e4ee] transition-all duration-300"></span>
+            <span class="hamburger-line h-[2px] w-5 origin-center rounded-full bg-[#f6e4ee] transition-all duration-300"></span>
           </button>
         </div>
       </div>
@@ -152,10 +158,10 @@ const links = [
 
   <div
     id="mobile-sidebar"
-    class="fixed top-0 right-0 z-50 h-screen w-[260px] translate-x-full transform overflow-y-auto border-l border-[#e8232a]/50 bg-[#180800] shadow-[-10px_0_30px_rgba(0,0,0,0.95)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
-    <div class="flex items-center justify-between border-b border-[#e8232a]/30 px-5 py-5">
-      <span class="text-sm font-extrabold tracking-wider text-[#ffd666]">MENU</span>
-      <button id="close-sidebar-btn" class="p-1 text-xl text-[#fbe8d5] hover:text-[#f2b705]" aria-label="ปิดเมนู">✕</button>
+    class="fixed top-0 right-0 z-50 h-screen w-[260px] translate-x-full transform overflow-y-auto border-l border-[#f5469f]/50 bg-[#0b0509] shadow-[-10px_0_30px_rgba(0,0,0,0.95)] transition-transform duration-400 ease-[cubic-bezier(0.3,1,0.3,1)] lg:hidden">
+    <div class="flex items-center justify-between border-b border-[#f5469f]/30 px-5 py-5">
+      <span class="text-sm font-extrabold tracking-wider text-[#ffeaa0]">MENU</span>
+      <button id="close-sidebar-btn" class="p-1 text-xl text-[#f6e4ee] hover:text-[#ff8dc6]" aria-label="ปิดเมนู">✕</button>
     </div>
 
     <div class="flex flex-col space-y-2 px-4 pt-4 pb-8">
@@ -163,7 +169,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`sidebar-item flex items-center rounded-lg border px-4 py-3.5 transition-all ${isActive(link.path) ? "border-[#e8232a]/70 bg-[#4a0605]/85 text-[#fbe8d5]" : "border-transparent bg-[#301105] text-[#c9a898] hover:bg-[#4a0605]"}`}>
+            class={`sidebar-item flex items-center rounded-lg border px-4 py-3.5 transition-all ${isActive(link.path) ? "border-[#f5469f]/70 bg-[#8c0f52]/85 text-[#f6e4ee]" : "border-transparent bg-[#24101c] text-[#d8b9c9] hover:bg-[#8c0f52]"}`}>
             <span aria-hidden="true" class="mr-3 text-xl">
               {link.icon ?? "🔗"}
             </span>
@@ -172,11 +178,11 @@ const links = [
         ))
       }
 
-      <div class="mt-6 flex flex-col gap-3 border-t border-[#e8232a]/45 pt-6">
+      <div class="mt-6 flex flex-col gap-3 border-t border-[#f5469f]/45 pt-6">
         <a
           href={targetUrl}
           rel="nofollow sponsored"
-          class="sidebar-item hover:bg-theme-oklab flex justify-center gap-2 rounded-lg border border-[#e8232a]/70 bg-transparent py-3.5 text-sm font-bold text-[#fbe8d5] transition-colors hover:border-transparent hover:text-[#2b0a00]">
+          class="sidebar-item hover:bg-theme-oklab flex justify-center gap-2 rounded-lg border border-[#f5469f]/70 bg-transparent py-3.5 text-sm font-bold text-[#f6e4ee] transition-colors hover:border-transparent hover:text-[#1a0612]">
           <span aria-hidden="true">🔒</span> เข้าสู่ระบบ
         </a>
       </div>
@@ -199,14 +205,13 @@ const links = [
   }
 
   .bg-theme-oklab {
-    /* ปุ่มนี้เป็นพื้น **ทอง** ไล่เฉด ไม่ใช่แดงแบรนด์ และตัวอักษรเป็นหมึกเข้ม
-       #2b0a00 ไม่ใช่สีขาว — สองข้อนี้ผูกกัน แดง #e8232a เป็นสีกลางค่า หมึกเข้ม
-       บนแดงได้ 2.7:1 ตัวอักษรขาวบนแดงได้ 4.0:1 ไม่ผ่านทั้งคู่สำหรับปุ่มหลัก
-       พื้นทองกับหมึกนั้นได้ 6.0:1 ที่ปลายเข้มสุด (#c08a0b) และ 10.1:1 ที่ปลาย
-       สว่าง (#f2b705) — ห้ามดันปลายเข้มให้เข้มกว่า #c08a0b (เช่น #a8730a ได้
-       4.48:1 ตก) ห้ามเปลี่ยนพื้นเป็นแดง และห้ามพลิกไปใช้ตัวอักษรสีขาว
-       แดงแบรนด์ไปอยู่ที่เส้นคั่น เส้นใต้ แถบ active และขอบปุ่มรองแทน */
-    background-image: linear-gradient(in oklab to right, #c08a0b, #e0a50e, #f2b705);
+    /* ปุ่มนี้เป็นพื้น **ทอง** ไล่เฉด และตัวอักษรเป็นหมึกเข้ม #1a0612 ไม่ใช่สีขาว —
+       สองข้อนี้ผูกกัน ชมพูแบรนด์ #f5469f เป็นสีกลางค่า ตัวอักษรขาวบนชมพูได้แค่
+       3.4:1 ไม่ผ่านสำหรับปุ่มหลัก พื้นทองกับหมึกนั้นได้ 7.5:1 ที่ปลายเข้มสุด
+       (#c89a08) และ 13.5:1 ที่ปลายสว่าง (#fcd434) — ห้ามดันปลายเข้มให้เข้มกว่า
+       #c89a08 ห้ามเปลี่ยนพื้นเป็นชมพู และห้ามพลิกไปใช้ตัวอักษรสีขาว
+       ชมพูแบรนด์ไปอยู่ที่เส้นคั่น เส้นใต้ แถบ active และขอบปุ่มรองแทน */
+    background-image: linear-gradient(in oklab to right, #c89a08, #e8bc1c, #fcd434);
   }
 
   #hamburger-btn.active .hamburger-line:nth-child(1) {
