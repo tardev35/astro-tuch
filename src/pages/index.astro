@@ -1,319 +1,270 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/AnnouncementPremium.astro";
-import LatestWinners from "../components/LatestWinners4.astro";
-import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
-import ContentBoxTwoCyberCut from "../components/ContentBoxTwoCyberCut.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
+import Announcement from "../components/Announcement5.astro";
+import LatestWinners from "../components/LatestWinnersPremium.astro";
+import ContentBoxPremium from "../components/ContentBoxPremium.astro";
+import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
 import ContentBox from "../components/ContentBox.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBox3ThreeNeumorphism from "../components/ContentBox3ThreeNeumorphism.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import Faq from "../components/Faq3.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
+import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
+import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
+import Faq from "../components/Faq2.astro";
 import LoginRtpSection from "../components/LoginRtpSection.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { BRAND_NAME } from "../lib/brandProfile";
 import { pageGraph } from "../lib/schema";
-import imgPromotions from "../assets/slide1.png";
+import imgCashback from "../assets/slide2.png";
+import imgReferral from "../assets/slide1.png";
 
-// VARIANT ROTATION THIS ROUND, decided in .claude/brand-spec-rubtang168.md §3 and
-// NOT re-picked here: AnnouncementPremium replaces Announcement3, LatestWinners4
-// replaces LatestWinners3, Faq3 replaces Faq4, ReviewCardSumo replaces
-// ReviewCardSumo2, and the ContentBox shape-mix leaves Premium / TwoNeumorphism /
-// SevenThreeCyberCut / Neumorphism / 3ThreePremium / TwoFloatingBadge behind for
-// FloatingBadge / TwoCyberCut / SevenThreePremium / CyberCut / 3ThreeNeumorphism /
-// TwoPremium. NavbarStyle9 + FooterStyle2 are the layout's pair this round and the
-// brand font moves kanit -> google-sans; all of that is the orchestrator's shared-
-// chrome step, not this page's.
+// VARIANT ROTATION THIS ROUND, decided in .claude/brand-spec-kwanjai168.md §3 and
+// NOT re-picked here: Announcement5 replaces AnnouncementPremium, LatestWinnersPremium
+// replaces LatestWinners4, Faq2 replaces Faq3, ReviewCardSumo2 replaces ReviewCardSumo,
+// and the ContentBox shape-mix leaves FloatingBadge / TwoCyberCut / SevenThreePremium /
+// CyberCut / 3ThreeNeumorphism / TwoPremium behind for Premium / TwoNeumorphism /
+// SevenThreeCyberCut / SevenThreeNeumorphism / 3ThreePremium / Special. NavbarStyle10 +
+// FooterPremiumSumo are the layout's pair this round and the brand font moves
+// google-sans -> kanit; all of that is the orchestrator's shared-chrome step, not this
+// page's.
 // Plain ContentBox is the one sanctioned carry-over (brand-spec §3): it is the
-// always-live box that terms, privacy, 404 and the button pages render through, so
-// it cannot follow a rotation. Section 4 is the single docx section it carries.
+// always-live box that terms, privacy, 404, /promotion and the button pages render
+// through, so it cannot follow a rotation. Section 3 is the single docx section it
+// carries here.
 // ContentBoxTwo is live too but is NOT imported here — it is reached only through
 // LoginRtpSection, so an "is it used?" grep has to match the bare filename.
-// Every unused *Premium / *Cyber / *Huay / *FloatingBadge / *Style sibling, the
-// other Faq* and Announcement* files, the other LatestWinners* and ReviewCardSumo2
-// all stay on disk as inventory for the next brand — nothing was deleted, and the
-// earlier brands' hues still inside them are expected drift.
+// Every unused *Premium / *Cyber / *Huay / *FloatingBadge / *Style sibling, the other
+// Faq* and Announcement* files, the other LatestWinners* and ReviewCardSumo all stay on
+// disk as inventory for the next brand — nothing was deleted, and the earlier brands'
+// hues still inside them are expected drift.
 //
-// <Announcement /> runs bare on purpose: AnnouncementPremium's default message is
-// already this brand's copy, set by the orchestrator from this brief, and every
-// sub-page calls it bare too — so passing an override here is exactly how the
-// ticker ends up saying two different things on two pages of the same site.
+// <Announcement /> runs bare on purpose: Announcement5's default message is already
+// this brand's copy, set by the orchestrator from this brief, and every sub-page calls
+// it bare too — so passing an override here is exactly how the ticker ends up saying
+// two different things on two pages of the same site.
 //
-// PALETTE — THAI GOLD LEAD, DRAGON RED PARTNER, ON RED-BLACK (brand-spec §2). Read
-// off the artwork: the logo is the word รับตัง in 3-D chrome lettering with a cool
-// silver-blue face and red edges, followed by 168 in bold vivid-red 3-D numerals,
-// all of it sitting on a thick field of Chinese square-holed GOLD COINS with a
-// flowing red satin ribbon. The banner and slide1 are the same black Thai-Chinese
-// scene — a young man in black beside a woman with long dark hair, gold coin
-// showers, gold/black/red chip stacks, ace cards, red satin, gold ornamental
-// frames and a gold crown.
-// ⚠️ GOLD LEADS this round and red partners — the OPPOSITE order to the previous
-// brand (สมหวัง168, red lead / gold trim). The coin field is by far the largest
-// saturated area in the artwork, and that inversion is what separates these two
-// rounds; it is not just a hex swap.
-// ⚠️ There is NO chrome/silver as a system colour. The silver-blue inside the word
-// รับตัง is detail in the picture: §2 pulls it out as the muted SECONDARY TEXT
-// value #cfd9e6 only — never an accent, never a border, never a gradient stop.
-// ⚠️ The page background is RED-BLACK #1a0505 (bg.json), darker than last round's
-// #290f0f. Depth ramp: #2b100f raised / #200a09 mid / #140505 sunken / #1a0505 page
-// — mid and sunken both sit BELOW the page colour.
-// ⚠️ Compare by VALUE, never by colour family — RED is this round's trap and it is
-// sharper than ever because the PREVIOUS THREE brands were all red: สมหวัง168
-// #fa0513 (G=5), TKB55 #fb131b (G=19), GT66B #fb141b (G=20). This brand's red is
-// #d30304 (R=211 G=3 B=4), measured from logo.webp in this drop via palette.json,
-// and is none of those, nor PIGPG #d4200d (two digits away), SUPERSLOTCLUB #e8232a
-// or FLASH877 #ff3b14. The gold is the same story: #f0b429 is not สมหวัง168's
-// #e3b23c, TND168's #dfa310, UFA324's #e5a81b, KMD88's #e2b33f or 789BETTING's
-// #fad354.
-// Body copy is #f5ece0 (= BRAND_TEXT), 13.6:1 on the page background and 13.0:1 on
-// the raised surface. The ONE highlight colour a <strong> may take is #ffdc8c
-// (12:1). #f0b429 (8.5:1), #cfd9e6 (10.9:1) and #ff6b6e (5.4:1) carry headings,
-// links and secondary labels. #d30304, #a00203, #4a0202 and #9a6c0c never carry
-// text at any size: they are borders, plates, rules, gradient ends and glows.
-// #1a0505 is the only ink allowed on a solid gold or solid light-red fill. Glow
-// rgba is rgba(240,180,41,α), rgba(255,220,140,α), rgba(211,3,4,α) or
-// rgba(255,107,110,α).
+// PALETTE — GOLD LEADS, ROSE-GOLD IS THE REAL SECOND HUE, VERMILION IS A DEEP ACCENT
+// THAT NEVER LEADS, ON PURE BLACK (brand-spec §2). Read off the artwork: the logo is
+// the word ขวัญใจ in thick 3-D Thai lettering with a polished GOLD face and dark-red
+// edges, followed by 168 in 3-D gold numerals, all sitting on a curved gold ribbon; a
+// young woman stands behind it, black hair in a high bun dressed with dangling gold
+// hairpins and white flowers, hands making a small heart, in a red Thai gown embroidered
+// with gold, ringed by square-holed Chinese gold coins and two red hearts. The banner is
+// the same black scene with two women flanking the logo, white lilies, gold-embroidered
+// red and cream gowns and a shower of gold coins.
+// ⚠️ ROSE-GOLD #f2bba5 is the measured number-one vivid in palette.json for BOTH the
+// logo and the banner, and it is the thing that separates this round from the two before
+// it: รับตัง168 was gold-lead with VIVID RED as the partner, and สมหวัง168 before that
+// was RED-lead with gold trim. Bringing red back to the front would repeat สมหวัง168;
+// making red the partner would repeat รับตัง168. So rose-gold has to be VISIBLE on the
+// page — it carries §4's whole heading, §2's and §6's column labels, gradient stops in
+// §5/§7, and the §5 picture frame — not just be written down in a spec.
+// ⚠️ The page background is PURE BLACK #000000 (bg.json), not last round's red-black.
+// Depth ramp: #241509 raised / #160d06 mid / #0b0603 sunken / #000000 page.
+// ⚠️ Compare by VALUE, never by colour family — GOLD is this round's trap because gold
+// is the LEAD hue and nearly every brand that ever passed through this repo also had a
+// gold. This round's gold is #f7c92b (R=247 G=201 B=43) and nothing else: not f0b429
+// (รับตัง168), e3b23c (สมหวัง168), dfa310 (TND168), e2b33f (KMD88), e5a81b (UFA324),
+// fad354 (789BETTING), f5c518 (FLASH877), fce343 (PUNPRO168), f3bb34 (DUCK1688) or
+// fbe455 (WEPLAY168). This round's red is #b3121b — not d30304 (รับตัง168), fa0513
+// (สมหวัง168), fb131b (TKB55), fb141b (GT66B), d4200d (PIGPG), e8232a (SUPERSLOTCLUB)
+// or ff3b14 (FLASH877).
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// Body copy is #eadfce (= BRAND_TEXT), 13.5:1 on the raised surface and 15.8:1 on the
+// page. The ONE highlight colour a <strong> may take is #ffe6a3 (14.5:1). #f7c92b
+// (7.3:1), #f2bba5 (10.4:1) and #c98a74 (7.2:1) carry headings, links and secondary
+// labels. #b3121b, #5a0a0e and #8a5f12 never carry text at any size: borders, plates,
+// rules, gradient ends and auras only. #140c06 is the only ink allowed on a solid gold
+// or solid rose fill. Glow rgba is rgba(247,201,43,α), rgba(255,230,163,α),
+// rgba(242,187,165,α) or rgba(179,18,27,α).
+// ⚠️ No blue, cyan, purple, magenta, green, orange or silver/chrome this round. #cfd9e6
+// is รับตัง168's silver — if it is anywhere, it is stale, and this logo has no chrome
+// in it at all.
 //
-// IMAGE ROLES FOR THIS DROP (2026-10-18, brand-spec §4). ONE file is referenced
-// from this page and only one. slide1.png is a 600x600 square split into two
-// side-by-side panels in a single image: the LEFT panel prints โปรโมชั่น in huge
-// 3-D gold type over a black gold-framed plaque reading คืนยอดเสีย with 0.3% below
-// it, and the RIGHT panel prints โปรโมชั่น over a plaque reading แนะนำเพื่อน with
-// โบนัส 0.8% below it. Because the one picture states BOTH offers, it pairs with
-// the docx's H2 promotion OVERVIEW (§3) and not with either H3 underneath it —
-// hanging it under §4 or §5 would make the picture contradict the heading above it.
-// The alt below was written from THIS drop's bitmap, opened and read, and it is not
-// a counter. ⚠️ The alt deliberately gives the POSITION of the 0.3% / 0.8% numerals
-// on their plaques and asserts no colour for them: an earlier draft of the brand
-// spec called them vivid red, which the bitmap does not bear out. Nothing in an alt
-// may be copied from a spec table — it comes from the picture.
+// IMAGE ROLES FOR THIS DROP (2026-10-18, brand-spec §4). Exactly TWO files are
+// referenced from this page, both from this drop, and the NUMBER PRINTED ON THE ART is
+// what decides the pairing:
+//   slide2.png -> §4, because its own plaque reads คืนยอดเสีย with 0.3% under it
+//   slide1.png -> §5, because its own plaque reads แนะนำเพื่อน with 0.8% under it
+// Swapping them would make each picture contradict the heading above it. Both alts
+// below were written from THIS drop's bitmaps, opened and read with the Read tool; they
+// are not copied from any spec table and neither is a counter.
 // Deliberately NOT imported, and every file still on disk as inventory: banner2.png
-// (10-08) and banner3.png (09-27) are previous brands' article art, slide2.png
-// (10-13) literally carries the previous brand's 龍GT66B wordmark printed on the
-// image, and slide3/slide4.png (09-29) are an older brand's posters. An eager
-// import IS an emit, rendered or not, so importing any of them would ship a
-// competitor's picture into dist/ and turn verify-build red. There is therefore NO
-// current-drop article illustration this round, and a slide is never substituted
-// for one — the playbook pins slides to ContentBoxSevenThree* blocks only.
+// (10-08) and banner3.png (09-27) are previous brands' article art, and slide3.png /
+// slide4.png (09-29) are an older brand's posters. An eager import IS an emit, rendered
+// or not, so importing any of them would ship a competitor's picture into dist/ and turn
+// verify-build red. There is therefore NO current-drop article illustration this round,
+// and a slide is never substituted for one — the playbook pins slide* to
+// ContentBoxSevenThree* blocks only, and these two are the round's full 2-block budget.
 // banner1 and its mobile crop belong to MainLayout's own pinned globs and are never
 // referenced from a page; og.png is the same, MainLayout owns it.
-// slide1 is 600x600 on disk, so 600 is the top real candidate — anything above it
-// would not be a real pixel — and the picture carries max-w-[600px] so the art is
-// never upscaled past its own bitmap. The `sizes` list below is the 3fr column
-// arithmetic from inside ContentBoxSevenThreePremium itself (max-w-7xl section,
-// md:p-10, gap-10, md:pl-10 + md:border-l), NOT last round's numbers, which came
-// from ContentBoxSevenThreeCyberCut and pay a different padding:
-//   >= 1280px : 297px            (1280-32-2-80-40) x 0.3 - 41 = 297
-//   md..1279  : calc(30vw - 87px)
-//   698..767  : 600px (bitmap cap)
-//   < 698     : calc(100vw - 98px)
-// Neither this nor anything else on the page is the LCP element — MainLayout's hero
-// banner is — so the picture is loading="lazy" fetchpriority="low" decoding="async"
-// and never takes fetchpriority="high". formats/fallbackFormat/quality stay at the
-// house values: tools/avif-quality-service.mjs rescales AVIF quality on its own, so
-// quality={80} must not be hand-tuned per format.
-// Also deliberately unused, and named without the file extension on purpose because
-// the playbook's "is this component live?" check is a bare-filename grep:
-// ProviderGrid and GameRankingBoard have nothing to carry because the brief names no
-// game studio and no ranking; SmoothCarousel has no brief section asking for a
-// carousel and only one usable slide anyway; BankStrip already renders inside the
-// active footer; and FeatureHighlights is explicitly banned this round by
-// brand-spec §5, because its items render as <h3> and would add headings the brief
-// does not have.
+// Both slides are 600x600 on disk, so 600 is the top real candidate — anything above it
+// would not be a real pixel — and each picture carries max-w-[600px] so the art is never
+// upscaled past its own bitmap. The two `sizes` lists are NOT interchangeable: each is
+// the 3fr-column arithmetic from inside the variant that actually holds that picture,
+// and the two variants pay different padding.
+//   §4 ContentBoxSevenThreeCyberCut — max-w-7xl section, px-4, border 2, p-8, gap-8,
+//      image column md:border-l + md:pl-8 = 33:
+//        >= 1280px : (1280 - 32 - 2 - 64 - 32) x 0.3 - 33 = 312px
+//        md..1279  : calc(30vw - 72px)
+//        698..767  : 600px (bitmap cap)
+//        < 698     : calc(100vw - 98px)
+//   §5 ContentBoxSevenThreeNeumorphism — same section, border 2, md:p-10, gap-10, image
+//      column md:border-l + md:pl-10 = 41:
+//        >= 1280px : (1280 - 32 - 2 - 80 - 40) x 0.3 - 41 = 297px
+//        md..1279  : calc(30vw - 87px)
+//        698..767  : 600px (bitmap cap)
+//        < 698     : calc(100vw - 98px)
+// Neither picture is the LCP element — MainLayout's hero banner is — so both are
+// loading="lazy" fetchpriority="low" decoding="async" and neither ever takes
+// fetchpriority="high". formats/fallbackFormat/quality stay at the house values:
+// tools/avif-quality-service.mjs rescales AVIF quality on its own, so quality={80} must
+// not be hand-tuned per format.
+// Also deliberately unused, and named without the file extension on purpose because the
+// playbook's "is this component live?" check is a bare-filename grep: ProviderGrid and
+// GameRankingBoard have nothing to carry because the brief names no game studio and no
+// ranking; SmoothCarousel has no brief section asking for a carousel; BankStrip already
+// renders inside the active footer; and FeatureHighlights is explicitly banned this
+// round by brand-spec §5, because its items render as <h3> and would add headings the
+// brief does not have.
 //
-// VOCABULARY — brand-spec §7, the brief's own words only. This is a PURE SLOT brand
-// whose subject is the OPERATOR'S SERVICE CHANNEL, not a casino and not a
-// sportsbook. Everything the copy says traces to src/assets/content.txt:
-// ช่องทางรับบริการ, ผู้ให้บริการเว็บตรง, ลิขสิทธิ์แท้, ฐานหลักเกมสล็อตออนไลน์ 100%,
-// เกมสล็อตออนไลน์, เข้าเล่น, ฝากถอน, ติดต่อ, รับโปรโมชั่น, เจ้าหน้าที่, 24 ชั่วโมง,
-// อ่านเงื่อนไขก่อนดำเนินการ, ขอคำแนะนำเกี่ยวกับขั้นตอนการใช้งาน,
-// ตรวจสอบรายละเอียดบริการ, ข้อกำหนดของเว็บไซต์, คืนยอดเสีย 0.3%,
-// แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด, ประเภทบัญชี, ยอดเดิมพัน, ระยะเวลาของแคมเปญ,
-// อัตราที่ได้รับ, วิธีรับสิทธิ์, เงื่อนไขการใช้งาน, ยอดโบนัส, การถอนเงิน,
-// ช่วงเวลาสรุปยอด, ข้อกำหนดการใช้เครดิต, ไม่ได้เป็นการรับประกันผล, ผู้แนะนำ,
-// หลักเกณฑ์การคำนวณโบนัส, ประกาศโปรโมชั่นฉบับล่าสุด, สมัครสมาชิก, ช่องทางทางการ,
-// กรอกข้อมูลให้ถูกต้อง, รหัสผ่าน, รหัสยืนยัน, OTP, PIN, LINE Official,
-// บัญชีที่แอบอ้าง, หลักฐานรายการ, เวลาตอบกลับ.
-// ⚠️ GT66B and TKB55 sold themselves as คาสิโน + กีฬา and สมหวัง168 sold itself as
-// a "ช่องทางติดต่อผู้ให้บริการ / เกมสล็อตสั่งได้". This brief says none of those
-// phrases, and none of them survived here: the page was written FROM the brief
-// rather than find-and-replaced over the old sentences. There is no บาคาร่า, ไฮโล,
-// ยิงปลา, บอล/บอลออนไลน์/แทงบอล/กีฬา, อัตราต่อรอง, รายการแข่งขัน, คาสิโน,
-// เซิร์ฟเวอร์ต่างประเทศ, ยอดเข้าบริษัทโดยตรง, ฝากถอนทุกธนาคาร, ไม่มีขั้นต่ำ, จ่ายจริง,
-// แตกง่าย, ไม่บิดยูส, บัญชีม้า, ค่ายระดับเอเชีย or การันตีเว็บแท้ anywhere on this
-// page, and no lottery wording either.
-// Nothing here claims a licence number, a regulator, a legal-entity name, a game
-// studio, a bank, an RTP figure, a deposit minimum, a member count, a founding year
-// or a server location, because the brief names none. The only figures on the page
-// are the brief's own three: 0.3%, 0.8% and 24 ชั่วโมง (the "100%" and the
-// "3 ขั้นตอน" are inside the brief's own heading phrases, not added counts).
-// The brief hedges repeatedly (brand-spec §5) and every one of those clauses is
-// part of its paragraph below, not trimmed as downbeat filler.
+// VOCABULARY — brand-spec §6, the brief's own words only. This is a PURE SLOT brand
+// whose subject is the OPERATOR'S SERVICE CENTRE, not a casino, not a sportsbook and
+// not a lottery site. Everything the copy says traces to src/assets/content.txt:
+// ศูนย์บริการหลัก, ศูนย์รวมช่องทางบริการ, เกมสล็อตออนไลน์, ลิขสิทธิ์เว็บแท้100%,
+// สมัครสมาชิก, ลงทะเบียนสมาชิก, เข้าเล่น, เข้าสู่ระบบ, ฝากถอน, รายการฝากถอน,
+// ติดต่อเจ้าหน้าที่, ช่องทางติดต่อ, โปรโมชั่น, รับโปร, 24 ชั่วโมง, คืนยอดเสีย 0.3%,
+// แนะนำเพื่อน 0.8%, เครดิต, รอบเวลาคำนวณยอด, ประเภทเกมที่ร่วมรายการ,
+// เงื่อนไขการใช้โบนัส, รหัสแนะนำ, การเชื่อมโยงบัญชี, รอบจ่ายโบนัส, LINE Official,
+// QR Code, บัญชีปลอม, ผู้แอบอ้าง, หลักฐานรายการ, รหัสผ่าน, รหัส OTP,
+// ข้อมูลผู้ให้บริการ, หลักฐานทางการ, คุณสมบัติผู้สมัคร, ข้อกำหนดในการเปิดบัญชี,
+// ระยะเวลาตอบกลับ.
+// ⚠️ รับตัง168's own phrases ฐานหลัก and ช่องทางรับบริการ are GONE — this brief says
+// ศูนย์บริการหลัก and ศูนย์รวมช่องทางบริการ instead, and the page was written FROM the
+// brief rather than find-and-replaced over last round's sentences. There is no คาสิโน,
+// บาคาร่า, รูเล็ต, ไฮโล, ยิงปลา, บอล/แทงบอล/กีฬา, อัตราต่อรอง, หวย/แนวทาง/ตรวจหวย,
+// เว็บตรง, ไม่ผ่านเอเย่นต์, แตกง่าย, จ่ายจริง, การันตีเว็บแท้, ไม่มีขั้นต่ำ,
+// ฝากถอนทุกธนาคาร, บัญชีม้า, เซิร์ฟเวอร์ต่างประเทศ or ค่ายระดับเอเชีย anywhere here.
+// Nothing claims a licence number, a regulator, a legal-entity name, a game studio, a
+// bank, an RTP figure, a deposit minimum, a member count or a founding year, because
+// the brief names none. The only figures on the page are the brief's own: 0.3%, 0.8%,
+// 24 ชั่วโมง, 100% and 3 ขั้นตอน — all inside the brief's own phrases, not added counts.
+// The brief hedges repeatedly (ควรตรวจสอบข้อมูลผู้ให้บริการ…, ไม่ใช่การรับประกัน…,
+// ทั้งนี้ ระยะเวลาตอบกลับขึ้นอยู่กับ…) and every one of those clauses ships in full —
+// they are brief content, not downbeat filler to be trimmed.
 //
-// The brief, the artwork and the operator's prompt all agree on the brand name. Even
-// so the name is never typed on the page: it is interpolated from ${BRAND_NAME} so it
-// can never drift from brandProfile. No domain is written out anywhere here and no
-// URL is built with `+`.
+// The brief, the artwork and the operator's prompt all agree on the brand name. Even so
+// the name is never typed on the page: it is interpolated from ${BRAND_NAME} so it can
+// never drift from brandProfile, including inside the two alts. No domain is written out
+// anywhere here and no URL is built with `+`.
 //
-// Title and description are the brief's own Title/Description lines (content.txt
-// lines 1-2) verbatim, with the brand name interpolated. They are NOT padded up to
-// 150 characters — verify-build deliberately skips its 150-character floor on the
-// home page for exactly this reason.
-const pageTitle = `${BRAND_NAME} ช่องทางรับบริการจาก ฐานหลักเกมสล็อตออนไลน์`;
+// Title and description are the brief's own Title/Meta Description lines (content.txt
+// lines 3-4) verbatim, with the brand name interpolated. They are NOT padded up to 150
+// characters — verify-build deliberately skips its 150-character floor on the home page
+// for exactly this reason.
+const pageTitle = `${BRAND_NAME} ศูนย์บริการหลัก เข้าเล่น ฝากถอน ติดต่อ รับโปร ครบในเว็บเดียว`;
 
-const pageDescription = `${BRAND_NAME} ช่องทางรับบริการจาก ผู้ให้บริการเว็บตรง ลิขสิทธิ์แท้ ฐานหลักเกมสล็อตออนไลน์100% เข้าเล่น ฝากถอน ติดต่อ รับโปรโมชั่น จากเจ้าหน้าที่ได้ 24 ชั่วโมง`;
+const pageDescription = `${BRAND_NAME} ศูนย์บริการหลัก ทางเข้าเล่นเกมสล็อตออนไลน์ ลิขสิทธิ์เว็บแท้100% ผู้เล่นสามารถสมัคร เข้าเล่น ฝากถอน ติดต่อ รับโปรโมชั่น จบครบในเว็บเดียว`;
 
 // The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
-// H2-only. The two H3s are the docx's own H3 lines — the two promotion sub-points
-// that sit under section 3's โปรโมชั่น H2 in the brief's own outline. There is no
+// H2-only. The two H3s are the docx's own H3 lines — the two promotion sub-points that
+// sit under section 3's โปรโมชั่น H2 in the brief's own outline. There is no
 // FeatureHighlights H3 exception this round, and no component rendered here emits a
 // hardcoded heading, so the printed h3 count stays at exactly 2.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  ${BRAND_NAME} ช่องทางรับบริการจาก ผู้ให้บริการเว็บตรง ลิขสิทธิ์แท้
-//          ContentBoxFloatingBadge, brief paragraph on line 4
-//    2 H2  ${BRAND_NAME} ฐานหลักเกมสล็อต เข้าเล่น ฝากถอน ติดต่อ รับโปรโมชั่น ได้ 24 ชั่วโมง
-//          ContentBoxTwoCyberCut, line 6 run one half per column
-//    3 H2  โปรโมชั่นเดิมพัน ${BRAND_NAME} จากผู้ให้บริการเว็บเกมสล็อตแท้ 100%
-//          ContentBoxSevenThreePremium + slide1, line 8 left / picture right
-//    4 H3  โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน
+//    1 H1  ${BRAND_NAME} ศูนย์บริการหลักเกมสล็อตออนไลน์ ลิขสิทธิ์เว็บแท้100%
+//          ContentBoxPremium, brief paragraph on line 6
+//    2 H2  ผู้เล่นสามารถ สมัคร เข้าเล่น ${BRAND_NAME} ฝากถอน ติดต่อ รับโปร ในเว็บเดียว
+//          ContentBoxTwoNeumorphism, line 8 run one half per column
+//    3 H2  โปรโมชั่นเข้าเล่น ${BRAND_NAME} จากผู้ให้บริการเว็บเกมสล็อตแท้100%
 //          ContentBox (the plain, always-live variant), line 10
+//    4 H3  โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน
+//          ContentBoxSevenThreeCyberCut + slide2, line 12 left / picture right
 //    5 H3  โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด
-//          ContentBoxCyberCut, line 12
-//    6 H2  สมัครเล่นสล็อต ${BRAND_NAME} ง่ายๆ 3 ขั้นตอน
-//          ContentBox3ThreeNeumorphism heading={false}, line 14 + line 18 intro,
-//          steps 15/16/17
+//          ContentBoxSevenThreeNeumorphism + slide1, line 14 left / picture right
+//    6 H2  สมัครรับบริการเล่นสล็อต ${BRAND_NAME} ง่ายๆ 3 ขั้นตอน
+//          ContentBox3ThreePremium heading={false}, line 16 intro + steps 17-22
 //    7 H2  ช่องทางติดต่อแอดมิน ${BRAND_NAME} ทาง LINE OFFICIAL 24ชม.
-//          ContentBoxTwoPremium, line 20 run one half per column
-//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ${BRAND_NAME}
-//          Faq3 + faqs prop, lines 22-27
+//          ContentBoxSpecial, line 24 run one half per side
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ ${BRAND_NAME}
+//          Faq2 + faqs prop, lines 26-31
 // Final inventory for this page: h1 x1, h2 x5, h3 x2.
 //
-// ⚠️ Line 18 is NEW this round and has no counterpart in the previous brief. It
-// belongs to section 6 and ships as the SECOND SENTENCE of that section's intro
-// paragraph, not as a sibling <p> — the house rule is one element per slot.
+// Both ContentBoxSevenThree* variants lay out md:grid-cols-[7fr_3fr] with the TEXT
+// column FIRST and fall `title` back to that left column, so each picture goes in
+// slot="right": the heading always lands on the prose, never on the picture, and on a
+// phone the single column reads heading, text, picture rather than opening with an
+// image. Neither is passed a `titleright`, so neither image column carries a heading and
+// each block emits exactly one.
+// ContentBoxTwoNeumorphism is passed no titleleft/titleright — the brief gives §2 one
+// running paragraph with no sub-labels, and inventing a pair here would be this page's
+// own wording rather than the docx's. The paragraph runs one half per column, which
+// keeps every clause and still gives the component both of its slots. ContentBoxSpecial
+// is the same shape for §7 and takes no `actions` slot, because the brief asks for no
+// button pair there.
+// ContentBox3ThreePremium is passed heading={false} on purpose: the brief writes its
+// three steps as a SHORT LABEL LINE plus its own sentence, but marks none of the three
+// as a heading, so the three column labels render as <p> and only the section's own
+// as="h2" is a heading. Flipping that to true would put three h3s on the page that the
+// brief does not have. Each label is the brief's line 17/19/21 verbatim and each column
+// body is the matching line 18/20/22, so a column read end to end says exactly what
+// content.txt says.
 //
-// SHAPE RHYTHM, top to bottom — no two adjacent sections read as the same card, and
-// each neighbour pair differs in at least two of {corner, surface depth, heading
-// treatment}:
-//   §1 rounded-2xl GRADED from RAISED #2b100f down to SUNKEN #140505 in a 2px gold
-//      #f0b429 frame, two corner auras (gold top-right vs red bottom-left), heading
-//      INVERTED into a floating SOLID GOLD plate carrying #1a0505 ink — the opposite
-//      polarity of every other heading here
-//   §2 CLIPPED corners (30px, top-left/bottom-right) on flat SUNKEN #140505, four
-//      corner rules crossing red against gold, heading gradient #ff6b6e -> #ffdc8c
-//      -> #f0b429, two columns split by a dark-red rule
-//   §3 rounded-3xl GRADED raised -> sunken in a deep-gold #9a6c0c frame, two corner
-//      auras, heading gradient #f0b429 -> #ff6b6e -> #ffdc8c, picture in the 3fr
-//      right column
-//   §4 rounded-3xl on flat RAISED #2b100f with a gold top hairline and a 20px
-//      underline bar, heading gradient #ffdc8c -> #f0b429 -> #ff6b6e (the
-//      always-live box; its treatment is fixed by the orchestrator)
-//   §5 CLIPPED corners (40px, same direction as §2 but a different size) GRADED from
-//      RAISED #2b100f to MID #200a09 in a red #d30304 frame, four corner rules,
-//      heading SOLID #ffdc8c behind a gold left rail — the only heading on the page
-//      that is a single flat colour
-//   §6 rounded-[25px] NEUMORPHIC on MID #200a09 with twin shadows (#140505 pressed,
-//      #2b100f lifted), no frame, heading gradient #f0b429 -> #ffdc8c -> #ff6b6e and
-//      CENTRED over a gold rule, three columns with <p> step labels
-//   §7 rounded-3xl on flat MID #200a09 in a deep-gold frame, one corner aura, a
-//      vertical gold rail beside the heading, heading gradient #ffdc8c -> #ff6b6e
-//      -> #f0b429, two columns split by a dark-red rule
-//   §8 accordion rows on SUNKEN #140505 under a centred title, heading gradient
-//      #ff6b6e -> #f0b429 -> #ffdc8c, questions inside <summary> as <p>
-// The two clipped cards (§2, §5) are three sections apart and differ in clip size,
-// surface treatment, frame colour and heading treatment. The three rounded-3xl boxes
-// (§3, §4, §7) differ in column count, surface depth and gradient direction. All six
-// gradient headings run the six distinct orderings of {#ffdc8c, #f0b429, #ff6b6e},
-// and the two non-gradient headings (§1 dark ink on gold, §5 solid bright gold) are
-// each unique in a different way. ⚠️ Every one of those gradients is bg-clip-text,
-// so its stops ARE the glyph pixels — only §2's text-capable values may appear in
-// one, which is why #d30304 / #9a6c0c never end a heading gradient, and why #cfd9e6
-// never appears in one either (§2 reserves it for secondary TEXT, not for the system).
-//
-// ContentBoxSevenThreePremium lays out md:grid-cols-[7fr_3fr] with the TEXT column
-// FIRST, so the picture goes in slot="right": the heading always lands on the prose,
-// never on the picture, and on a phone the single column reads heading, text,
-// picture rather than opening with an image. It is passed no `titleright`, so the
-// image column carries no heading and the block emits exactly one.
-// ContentBoxTwoCyberCut and ContentBoxTwoPremium are passed no `titleleft`/
-// `titleright` either — the brief gives §2 and §7 one running paragraph each with no
-// sub-labels, and inventing a pair here would be this page's own wording rather than
-// the docx's. Each of those paragraphs runs one half per column, which keeps every
-// clause of the brief and still gives the component both of its slots.
-// ContentBox3ThreeNeumorphism is passed heading={false} on purpose: the brief writes
-// its three steps as running prose, not as labelled sub-headings with bodies, so the
-// three column labels render as <p> and only the section's own as="h2" is a heading.
-// Flipping that to true would put three h3s on the page that the brief does not have.
-// Each step's leading clause is the brief's OWN opening phrase for that step, lifted
-// verbatim, with the remainder of the same sentence in the column below it — read
-// end to end the column says exactly what content.txt line 15/16/17 says.
-// ⚠️ §1's floating badge was re-checked against the REAL title this round, which at
-// 47 advancing cells is the longest any *FloatingBadge has carried on this template
-// (last round's was 29). The arithmetic lives in ContentBoxFloatingBadge's own
-// frontmatter; the result is that pt-36 clears the wrapped badge by at least 36px at
-// every breakpoint even on a pessimistic extra-line budget, so NO *FloatingBadge
-// padding changed and the flat pt-36 stays in sync across all four files. There is
-// no `whitespace-nowrap` in any of them.
-//
-// Every brief paragraph ships in full — nothing merged, nothing summarised, and
-// every hedging clause is in place. §2, §6 and §7 run one paragraph half (or one
-// step) per column, and no slot receives more than one element, so the house rule's
-// "one element per slot" holds everywhere without a wrapper <div> being needed.
+// Every brief paragraph ships in full — nothing merged, nothing summarised. §2, §6 and
+// §7 run one paragraph half (or one step) per slot, and NO slot receives more than one
+// element, so the house rule's "one element per slot" holds everywhere without a wrapper
+// <div> being needed.
 //
 // Everything else on the page is chrome and emits no heading tag at any level:
-// AnnouncementPremium, LatestWinners4, LoginRtpSection and ReviewCardSumo render
-// their titles as <p>/<span> with an aria-label on the section, and Faq3's questions
-// live inside <summary> as <p>. The non-brief widgets sit before section 1 (the
-// ticker, then the member-ledger feed) and after section 8 (LoginRtpSection,
-// ReviewCardSumo, Navfoot) — never spliced between two content sections.
+// Announcement5, LatestWinnersPremium, LoginRtpSection and ReviewCardSumo2 render their
+// titles as <p>/<span> with an aria-label on the section, and Faq2's questions live
+// inside <summary> as <span>. The non-brief widgets sit before section 1 (the ticker,
+// then the member feed) and after section 8 (LoginRtpSection, ReviewCardSumo2, Navfoot)
+// — never spliced between two content sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's own
-// defaults (Faq3 deliberately ships an empty list, so a forgotten prop renders an
-// empty accordion rather than some previous brand's questions). The three pairs are
-// the brief's own Q/A block (content.txt lines 22-27), verbatim; only the "1." /
-// "2." / "3." list markers are dropped, since the accordion is the list.
+// defaults (Faq2 deliberately ships an empty list, so a forgotten prop renders an empty
+// accordion rather than some previous brand's questions). The three pairs are the
+// brief's own Q/A block (content.txt lines 26-31), verbatim; only the "1." / "2." / "3."
+// list markers are dropped, since the accordion is the list.
 const faqs = [
   {
-    q: `${BRAND_NAME} ติดต่อเจ้าหน้าที่ได้ตลอด 24 ชั่วโมงหรือไม่?`,
-    a: `เว็บไซต์ระบุช่องทางบริการตลอด 24 ชั่วโมง ผู้ใช้งานควรตรวจสอบช่องทางติดต่อที่เป็นทางการและเวลาตอบกลับล่าสุดก่อนสอบถาม เพื่อให้ติดต่อได้ถูกช่องทาง`,
+    q: `${BRAND_NAME} สามารถสมัครสมาชิกและเข้าเล่นผ่านเว็บไซต์เดียวได้หรือไม่?`,
+    a: `ตามรูปแบบบริการที่ระบุ ผู้ใช้งานสามารถเข้าถึงเมนูสมัครสมาชิกและเข้าสู่ระบบจากเว็บไซต์หลักได้ โดยควรตรวจสอบลิงก์ทางการก่อนกรอกข้อมูลหรือดำเนินการใด ๆ`,
   },
   {
-    q: `โปรโมชั่นคืนยอดเสีย 0.3% ของ${BRAND_NAME} รับอย่างไร?`,
-    a: `ควรตรวจสอบหลักเกณฑ์การคำนวณยอดเสีย รอบสรุปยอด วิธีรับเครดิต และข้อจำกัดของโปรโมชั่นจากประกาศล่าสุดหรือเจ้าหน้าที่ก่อนเข้าร่วม เพราะเงื่อนไขอาจแตกต่างกันตามรายการที่กำหนด`,
+    q: `โปรโมชั่นคืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% รับได้อย่างไร?`,
+    a: `สมาชิกควรตรวจสอบเงื่อนไขและวิธีรับสิทธิ์ของแต่ละโปรโมชั่นจากหน้าประกาศหรือเจ้าหน้าที่ เนื่องจากรอบคำนวณยอด วิธีรับโบนัส และข้อกำหนดการใช้เครดิตอาจแตกต่างกัน`,
   },
   {
-    q: `หากมีปัญหาเกี่ยวกับการฝากถอน ควรทำอย่างไร?`,
-    a: `ตรวจสอบสถานะรายการและเก็บหลักฐานที่เกี่ยวข้องไว้ จากนั้นติดต่อผ่านช่องทางทางการของเว็บไซต์เพื่อขอให้ตรวจสอบ ไม่ควรเปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่น`,
+    q: `หากฝากถอนมีปัญหา สามารถติดต่อแอดมินผ่าน LINE Official ได้หรือไม่?`,
+    a: `สามารถใช้ช่องทาง LINE Official ที่เว็บไซต์ระบุเพื่อสอบถามและแจ้งปัญหาได้ โดยควรเตรียมข้อมูลรายการที่เกี่ยวข้องให้พร้อม และไม่ส่งรหัสผ่านหรือรหัส OTP ให้เจ้าหน้าที่หรือบุคคลอื่น`,
   },
 ];
 
-// Every <strong> below wraps a whole space-delimited chunk of the brief's own
-// sentence. Thai has no inter-word space, so a highlight that starts or ends
-// mid-word lets the formatter break the line inside the tag and render a space that
-// splits the word — the copy must read identically with the tags removed. No two
-// <strong> elements are adjacent either: every pair is separated by at least one run
-// of plain text, so the whitespace between them can never collapse into a missing
-// space.
-// One highlight colour only: #ffdc8c, against the inherited body colour #f5ece0
-// (BRAND_TEXT). The paragraphs below carry no colour class of their own: every
-// ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#f5ece0]` on the element holding the
-// slot, so the prose inherits it and no page-level override can drift from the card.
-// No paragraph carries mx-auto or max-w-* either — the cards cap their own width,
-// and the only max-w-* on the page is the one capping the slide, which is an image
-// and not prose. No slot's copy names a colour.
+// Every <strong> below wraps a whole space-delimited chunk of the brief's own sentence.
+// Thai has no inter-word space, so a highlight that starts or ends mid-word lets the
+// formatter break the line inside the tag and render a space that splits the word — the
+// copy must read identically with the tags removed. No two <strong> elements are
+// adjacent either: every pair is separated by at least one run of plain text, so the
+// whitespace between them can never collapse into a missing space.
+// One highlight colour only: #ffe6a3 (brand-spec §2 reserves it for exactly this job),
+// against the inherited body colour #eadfce (BRAND_TEXT). The paragraphs below carry no
+// colour class of their own: every ContentBox* card in this mix already sets
+// `text-left text-base leading-relaxed text-[#eadfce]` on the element holding the slot,
+// so the prose inherits it and no page-level override can drift from the card. No
+// paragraph carries mx-auto or max-w-* either — the cards cap their own width, and the
+// only max-w-* on the page are the two capping the slides, which are images and not
+// prose. No slot's copy names a colour.
 
 // No breadcrumb: this is the homepage, so a trail from the root to itself would be a
 // single self-referential crumb. Every URL in the graph is derived by pageGraph from
 // `site:` — no domain is typed out in this file, no URL is built with `+`, and no
-// Review / AggregateRating / sameAs / address / email node is passed. `description`
-// is the exact same string MainLayout gets, and `faqs` is the exact same array <Faq>
-// gets.
+// Review / AggregateRating / sameAs / address / email node is passed. `description` is
+// the exact same string MainLayout gets, and `faqs` is the exact same array <Faq> gets.
 const graph = pageGraph(Astro, {
   name: pageTitle,
   description: pageDescription,
@@ -328,39 +279,72 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxFloatingBadge as="h1" title={`${BRAND_NAME} ช่องทางรับบริการจาก ผู้ให้บริการเว็บตรง ลิขสิทธิ์แท้`}>
+  <ContentBoxPremium as="h1" title={`${BRAND_NAME} ศูนย์บริการหลักเกมสล็อตออนไลน์ ลิขสิทธิ์เว็บแท้100%`}>
     <p>
-      {BRAND_NAME} นำเสนอช่องทางสำหรับผู้ที่ต้องการเข้าใช้งานเกมสล็อตออนไลน์และสอบถามข้อมูลเกี่ยวกับบริการต่าง ๆ
-      <strong class="text-[#ffdc8c]">ทั้งการเข้าเล่น ฝากถอน และโปรโมชั่น</strong>
-      ผู้ใช้งานสามารถติดต่อเจ้าหน้าที่ผ่านช่องทางที่เว็บไซต์กำหนด เพื่อขอคำแนะนำเกี่ยวกับขั้นตอนการใช้งานและตรวจสอบรายละเอียดบริการได้ตลอด 24 ชั่วโมง
-      <strong class="text-[#ffdc8c]">โดยควรอ่านเงื่อนไขของแต่ละรายการก่อนดำเนินการทุกครั้ง</strong>
+      {BRAND_NAME} ศูนย์รวมช่องทางบริการเกมสล็อตออนไลน์ที่จัดเตรียมเมนูสำหรับสมัครสมาชิก
+      <strong class="text-[#ffe6a3]">เข้าเล่น ฝากถอน และติดต่อเจ้าหน้าที่ไว้ในเว็บไซต์เดียว</strong>
+      ช่วยให้ผู้ใช้งานค้นหาข้อมูลที่ต้องการได้สะดวก ไม่ว่าจะเป็นขั้นตอนเริ่มต้นใช้งาน รายละเอียดโปรโมชั่น หรือการสอบถามปัญหาต่าง ๆ
+      <strong class="text-[#ffe6a3]">พร้อมช่องทางติดต่อทีมงานตลอด 24 ชั่วโมง</strong>
+      ทั้งนี้ ควรตรวจสอบข้อมูลผู้ให้บริการและสถานะลิขสิทธิ์จากหลักฐานทางการก่อนใช้งาน
     </p>
-  </ContentBoxFloatingBadge>
+  </ContentBoxPremium>
 
-  <ContentBoxTwoCyberCut as="h2" title={`${BRAND_NAME} ฐานหลักเกมสล็อต เข้าเล่น ฝากถอน ติดต่อ รับโปรโมชั่น ได้ 24 ชั่วโมง`}>
+  <ContentBoxTwoNeumorphism as="h2" title={`ผู้เล่นสามารถ สมัคร เข้าเล่น ${BRAND_NAME} ฝากถอน ติดต่อ รับโปร ในเว็บเดียว`}>
     <p slot="left">
-      {BRAND_NAME} มีช่องทางให้สอบถามข้อมูลเกี่ยวกับการเข้าเล่นเกมสล็อต
-      <strong class="text-[#ffdc8c]">การทำรายการฝากถอน และรายละเอียดโปรโมชั่นผ่านเจ้าหน้าที่ตามเวลาที่เว็บไซต์แจ้งไว้</strong>
-      ผู้ใช้งานสามารถติดต่อเพื่อขอความช่วยเหลือเมื่อพบปัญหาในการใช้งานหรือมีข้อสงสัยเกี่ยวกับเงื่อนไขต่าง ๆ
+      {BRAND_NAME} ออกแบบช่องทางบริการให้ผู้ใช้งานเข้าถึงเมนูสำคัญได้จากจุดเดียว
+      <strong class="text-[#ffe6a3]">ตั้งแต่การลงทะเบียนสมาชิก การเข้าสู่ระบบเพื่อเลือกเกมสล็อต ไปจนถึงการตรวจสอบรายการฝากถอนและโปรโมชั่นที่เปิดให้เข้าร่วม</strong>
+      โดยแต่ละเมนูควรมีรายละเอียดขั้นตอนและเงื่อนไขให้ศึกษาอย่างชัดเจน
     </p>
     <p slot="right">
-      ก่อนทำรายการ
-      <strong class="text-[#ffdc8c]">ควรตรวจสอบข้อมูลบัญชีและรายละเอียดที่เกี่ยวข้องให้ถูกต้อง</strong>
-      รวมถึงอ่านข้อกำหนดของเว็บไซต์เพื่อให้เข้าใจขั้นตอนและเงื่อนไขการให้บริการอย่างชัดเจน
+      หากพบปัญหาระหว่างใช้งานสามารถสอบถามเจ้าหน้าที่ผ่านช่องทางติดต่อที่เว็บไซต์ประกาศไว้
+      <strong class="text-[#ffe6a3]">ช่วยลดความยุ่งยากในการค้นหาข้อมูลและทำให้ติดตามสถานะรายการต่าง ๆ ได้สะดวกยิ่งขึ้น</strong>
     </p>
-  </ContentBoxTwoCyberCut>
+  </ContentBoxTwoNeumorphism>
 
-  <ContentBoxSevenThreePremium as="h2" title={`โปรโมชั่นเดิมพัน ${BRAND_NAME} จากผู้ให้บริการเว็บเกมสล็อตแท้ 100%`}>
+  <ContentBox as="h2" title={`โปรโมชั่นเข้าเล่น ${BRAND_NAME} จากผู้ให้บริการเว็บเกมสล็อตแท้100%`}>
+    <p>
+      {BRAND_NAME} นำเสนอข้อมูลโปรโมชั่นสำหรับสมาชิกที่สนใจสิทธิพิเศษจากการใช้งานเกมสล็อตออนไลน์ โดยมีรายการที่ระบุไว้ ได้แก่
+      <strong class="text-[#ffe6a3]">โปรโมชั่นคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8%</strong>
+      ซึ่งแต่ละรายการมีรูปแบบการรับสิทธิ์แตกต่างกัน
+      <strong class="text-[#ffe6a3]">ผู้ใช้งานควรอ่านรายละเอียดเกี่ยวกับยอดที่นำมาคำนวณ ระยะเวลารับสิทธิ์ และเงื่อนไขการใช้โบนัสก่อนเข้าร่วม</strong>
+      เพื่อให้เข้าใจข้อกำหนดและสามารถเลือกโปรโมชั่นที่ตรงกับความต้องการได้อย่างเหมาะสม
+    </p>
+  </ContentBox>
+
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน">
     <p slot="left">
-      {BRAND_NAME} มีการนำเสนอโปรโมชั่นสำหรับผู้ใช้งาน เช่น
-      <strong class="text-[#ffdc8c]">รายการคืนยอดเสียและโบนัสจากการแนะนำเพื่อน</strong>
-      โดยสิทธิ์ที่ได้รับอาจขึ้นอยู่กับประเภทบัญชี ยอดเดิมพัน ระยะเวลาของแคมเปญ และข้อกำหนดของแต่ละโปรโมชั่น ก่อนเข้าร่วมควรตรวจสอบรายละเอียดจากช่องทางทางการให้ครบถ้วน
-      <strong class="text-[#ffdc8c]">ทั้งอัตราที่ได้รับ วิธีรับสิทธิ์ และเงื่อนไขการใช้งาน</strong>
-      เพื่อหลีกเลี่ยงความเข้าใจคลาดเคลื่อนเกี่ยวกับยอดโบนัสหรือการถอนเงิน
+      โปรโมชั่นคืนยอดเสีย 0.3% เป็นสิทธิพิเศษที่ระบุการคืนเครดิตตามยอดเสียที่เข้าเงื่อนไขในแต่ละวัน
+      <strong class="text-[#ffe6a3]">สมาชิกสามารถตรวจสอบรายละเอียดเกี่ยวกับรอบเวลาคำนวณยอด ประเภทเกมที่ร่วมรายการ และวิธีรับเครดิตผ่านหน้าประกาศโปรโมชั่นหรือสอบถามเจ้าหน้าที่โดยตรง</strong>
+      ก่อนรับสิทธิ์ควรตรวจสอบว่าระบบเพิ่มเครดิตให้อัตโนมัติหรือต้องดำเนินการด้วยตนเอง รวมถึงเงื่อนไขการนำเครดิตไปใช้งาน ทั้งนี้
+      <strong class="text-[#ffe6a3]">เครดิตคืนยอดเสียไม่ใช่การรับประกันว่าจะได้รับผลตอบแทนจากการเดิมพัน</strong>
     </p>
     <Picture
       slot="right"
-      src={imgPromotions}
+      src={imgCashback}
+      loading="lazy"
+      fetchpriority="low"
+      widths={[312, 480, 600]}
+      sizes="(max-width: 697px) calc(100vw - 98px), (max-width: 767px) 600px, (max-width: 1279px) calc(30vw - 72px), 312px"
+      decoding="async"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      quality={80}
+      alt={`โปสเตอร์โปรโมชั่นรูปจัตุรัสของ ${BRAND_NAME} บนฉากพื้นดำ มุมซ้ายบนเป็นโลโก้ ${BRAND_NAME} ตัวอักษรไทยทองสามมิติในกรอบวงรีทองที่มีรูปหญิงสาวอยู่ข้างใน กลางภาพเป็นหญิงสาวผมยาวสีดำเกล้าขึ้น ประดับปิ่นทองห้อยระย้าและดอกไม้สีขาวที่ผม สวมต่างหูทองเส้นยาว สร้อยคอทองประดับพลอยสีแดง และชุดสีแดงปักลายทอง เธอขยิบตาหนึ่งข้างและชูนิ้วเป็นรูปหัวใจ โดยมีหัวใจสีแดงดวงเล็กลอยอยู่เหนือปลายนิ้ว ด้านหลังเป็นผ้าซาตินสีแดงพลิ้วและเหรียญจีนทองรูสี่เหลี่ยมร่วงกระจายทั่วภาพ ครึ่งล่างมีมงกุฎทองวางอยู่เหนือคำว่า โปรโมชั่น ซึ่งเป็นตัวอักษรไทยทองสามมิติขนาดใหญ่ ใต้ลงมาเป็นแผ่นป้ายพื้นดำขอบลวดลายทอง มีคำว่า คืนยอดเสีย เป็นตัวอักษรสีขาวพาดอยู่ครึ่งบนของป้าย และมีเลข 0.3% ตัวโตสีแดงตัดขอบทองพาดอยู่กลางป้ายใต้บรรทัดนั้น ขอบล่างของภาพเป็นกองเหรียญทองวางซ้อนกัน`}
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f7c92b]/60 shadow-[0_0_28px_rgba(179,18,27,0.35)]"
+    />
+  </ContentBoxSevenThreeCyberCut>
+
+  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด">
+    <p slot="left">
+      โปรโมชั่นแนะนำเพื่อนโบนัส 0.8% เป็นรายการสำหรับสมาชิกที่ต้องการศึกษาสิทธิประโยชน์จากการแนะนำผู้ใช้งานรายใหม่
+      <strong class="text-[#ffe6a3]">โดยควรตรวจสอบขั้นตอนการรับรหัสแนะนำ การเชื่อมโยงบัญชี และยอดที่ใช้คำนวณโบนัสให้ครบถ้วน</strong>
+      แม้โปรโมชั่นจะระบุว่าไม่จำกัด
+      <strong class="text-[#ffe6a3]">แต่ควรสอบถามข้อกำหนดเพิ่มเติมเกี่ยวกับจำนวนผู้เข้าร่วม รอบจ่ายโบนัส และเงื่อนไขการใช้เครดิต</strong>
+      เพื่อให้ทราบรายละเอียดที่ถูกต้องก่อนเข้าร่วมรายการและไม่เกิดความเข้าใจคลาดเคลื่อนภายหลัง
+    </p>
+    <Picture
+      slot="right"
+      src={imgReferral}
       loading="lazy"
       fetchpriority="low"
       widths={[297, 480, 600]}
@@ -369,64 +353,53 @@ const graph = pageGraph(Astro, {
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={80}
-      alt={`โปสเตอร์โปรโมชั่นของ ${BRAND_NAME} เป็นภาพจัตุรัสที่แบ่งเป็นสองแผงซ้ายขวาในภาพเดียว ทั้งสองแผงเป็นฉากพื้นดำที่มีผ้าซาตินสีแดงพลิ้วอยู่เบื้องหลัง และมีเหรียญจีนทองรูสี่เหลี่ยมร่วงลงมาเต็มพื้นหลัง เหนือหัวของแต่ละแผงเป็นโลโก้ ${BRAND_NAME} ที่ตัวอักษรไทยเป็นสามมิติผิวโครเมียมอมฟ้าเงินขอบแดง ต่อด้วยตัวเลขสามมิติสีแดงสด แผงซ้ายเป็นชายหนุ่มผมดำในชุดดำยืนอยู่ด้านซ้าย เคียงหญิงสาวผมยาวสีดำในชุดดำด้านขวา ใต้ลงมาเขียนคำว่า โปรโมชั่น เป็นตัวอักษรทองสามมิติขนาดใหญ่ แล้วเป็นแผ่นป้ายพื้นดำขอบลวดลายทองที่มีคำว่า คืนยอดเสีย พาดอยู่ครึ่งบนของป้าย และมีเลข 0.3% ตัวโตพาดอยู่กลางป้ายใต้บรรทัดนั้น ส่วนแผงขวาเป็นหญิงสาวผมยาวสีดำในชุดแดงยืนอยู่ด้านซ้าย เคียงชายหนุ่มผมดำในชุดดำด้านขวา ใต้ลงมาเขียนคำว่า โปรโมชั่น เป็นตัวอักษรทองสามมิติเช่นกัน แล้วเป็นแผ่นป้ายพื้นดำขอบลวดลายทองที่มีคำว่า แนะนำเพื่อน พาดอยู่ครึ่งบนของป้าย และมีคำว่า โบนัส คู่กับเลข 0.8% ตัวโตพาดอยู่กลางป้ายใต้บรรทัดนั้น ขอบล่างของทั้งสองแผงเป็นกองชิปวงกลมสีทองสลับแดงและดำ ไพ่เอซ และกองเหรียญทอง`}
-      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#f0b429]/60 shadow-[0_0_28px_rgba(211,3,4,0.32)]"
+      alt={`โปสเตอร์โปรโมชั่นรูปจัตุรัสของ ${BRAND_NAME} บนฉากพื้นดำ มุมซ้ายบนเป็นโลโก้ ${BRAND_NAME} ตัวอักษรไทยทองสามมิติในกรอบวงรีทองที่มีรูปหญิงสาวอยู่ข้างใน กลางภาพเป็นหญิงสาวผมยาวสีน้ำตาลเข้มเกล้าขึ้นเป็นมวยสูง ประดับปิ่นทองและดอกไม้สีขาว สวมต่างหูทองเส้นยาว สร้อยคอทองประดับพลอยสีแดง และชุดสีแดงปักลายทองที่มีลวดลายคล้ายมงกุฎบนอกเสื้อ เธอขยิบตาหนึ่งข้างและชูนิ้วเป็นรูปหัวใจ โดยมีหัวใจสีแดงดวงเล็กลอยอยู่เหนือปลายนิ้ว ด้านหลังเป็นผ้าซาตินสีแดงม้วนเป็นวงและเหรียญจีนทองรูสี่เหลี่ยมร่วงกระจายทั่วภาพ ครึ่งล่างมีมงกุฎทองวางอยู่เหนือคำว่า โปรโมชั่น ซึ่งเป็นตัวอักษรไทยทองสามมิติขนาดใหญ่ ใต้ลงมาเป็นแผ่นป้ายพื้นดำขอบลวดลายทอง มีคำว่า แนะนำเพื่อน เป็นตัวอักษรสีขาวพาดอยู่ครึ่งบนของป้าย และมีเลข 0.8% ตัวโตสีแดงตัดขอบทองพาดอยู่กลางป้ายใต้บรรทัดนั้น มุมล่างซ้ายและขวาเป็นกองเหรียญทองวางซ้อนกันเป็นตั้ง`}
+      class="mx-auto h-auto w-full max-w-[600px] rounded-2xl border border-[#c98a74]/55 shadow-[0_0_28px_rgba(242,187,165,0.22)]"
     />
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeNeumorphism>
 
-  <ContentBox as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน">
-    <p>
-      โปรโมชั่นคืนยอดเสีย 0.3% เป็นรายการที่ระบุว่าจะคืนยอดตามเงื่อนไขที่กำหนด
-      <strong class="text-[#ffdc8c]">โดยผู้ใช้งานควรตรวจสอบก่อนว่าคำนวณจากยอดเสียประเภทใด ครอบคลุมเกมไหน และต้องกดรับสิทธิ์ด้วยตนเองหรือไม่</strong>
-      รวมถึงตรวจสอบช่วงเวลาสรุปยอดและข้อกำหนดการใช้เครดิต หากสนใจโปรโมชั่นนี้ แนะนำให้อ่านเงื่อนไขล่าสุดจากเจ้าหน้าที่ก่อนเข้าร่วม เพื่อให้ทราบวิธีคำนวณและข้อจำกัดต่าง ๆ อย่างชัดเจน ทั้งนี้
-      <strong class="text-[#ffdc8c]">การได้รับเครดิตคืนไม่ได้เป็นการรับประกันผลการเดิมพันในครั้งต่อไป</strong>
-    </p>
-  </ContentBox>
-
-  <ContentBoxCyberCut as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด">
-    <p>
-      โปรโมชั่นแนะนำเพื่อนโบนัส 0.8% เป็นอีกหนึ่งรายการที่ผู้ใช้งานสามารถสอบถามรายละเอียดเพิ่มเติมได้จากเจ้าหน้าที่
-      <strong class="text-[#ffdc8c]">ก่อนส่งต่อข้อมูลควรตรวจสอบวิธีลงทะเบียนผู้แนะนำ เงื่อนไขของบัญชีที่เข้าร่วม และหลักเกณฑ์การคำนวณโบนัสให้ครบถ้วน</strong>
-      แม้จะมีการระบุว่าไม่จำกัด แต่จำนวนสิทธิ์ ยอดที่นำมาคำนวณ และข้อกำหนดอื่น ๆ
-      <strong class="text-[#ffdc8c]">ควรยืนยันจากประกาศโปรโมชั่นฉบับล่าสุด</strong>
-      เพื่อให้เข้าใจสิทธิประโยชน์ตามเงื่อนไขจริงและไม่คาดหวังผลตอบแทนเกินกว่าที่ระบุไว้
-    </p>
-  </ContentBoxCyberCut>
-
-  <ContentBox3ThreeNeumorphism
+  <ContentBox3ThreePremium
     as="h2"
     heading={false}
-    title={`สมัครเล่นสล็อต ${BRAND_NAME} ง่ายๆ 3 ขั้นตอน`}
-    titleleft="เข้าสู่หน้าสมัครสมาชิก"
-    titlecenter="กรอกข้อมูลและตรวจสอบความถูกต้อง"
-    titleright="ศึกษาวิธีเข้าเล่นและติดต่อเจ้าหน้าที่">
+    title={`สมัครรับบริการเล่นสล็อต ${BRAND_NAME} ง่ายๆ 3 ขั้นตอน`}
+    titleleft="ขั้นตอนที่ 1 เข้าสู่หน้าสมัครสมาชิก"
+    titlecenter="ขั้นตอนที่ 2 กรอกข้อมูลและยืนยันการสมัคร"
+    titleright="ขั้นตอนที่ 3 เข้าสู่ระบบและศึกษารายละเอียดบริการ">
     <p>
-      การเริ่มต้นใช้งาน{BRAND_NAME} สามารถตรวจสอบขั้นตอนเบื้องต้นได้จากช่องทางที่เว็บไซต์จัดเตรียมไว้
-      <strong class="text-[#ffdc8c]">โดยควรกรอกข้อมูลให้ถูกต้องและอ่านเงื่อนไขก่อนสมัครทุกครั้ง</strong>
-      เพื่อให้การใช้งานเป็นไปตามข้อกำหนดของผู้ให้บริการ
-      <strong class="text-[#ffdc8c]">ควรใช้ข้อมูลของตนเองเท่านั้น เก็บรหัสผ่านไว้เป็นความลับ และไม่ส่งรหัสยืนยันหรือข้อมูลสำคัญให้บุคคลอื่น</strong>
+      ผู้ที่ต้องการเริ่มต้นใช้งาน{BRAND_NAME} สามารถศึกษาขั้นตอนการสมัครสมาชิกจากหน้าเว็บไซต์หลัก
+      <strong class="text-[#ffe6a3]">โดยควรตรวจสอบความถูกต้องของช่องทางสมัครและอ่านเงื่อนไขก่อนกรอกข้อมูลส่วนตัว</strong>
+      เพื่อให้การลงทะเบียนเป็นไปอย่างเรียบร้อย
     </p>
-    <p slot="left">ตรวจสอบว่าเป็นเว็บไซต์หรือช่องทางทางการก่อนกรอกข้อมูลที่จำเป็น</p>
-    <p slot="center">อ่านข้อกำหนดเกี่ยวกับบัญชี การฝากถอน และการใช้งานให้ครบถ้วนก่อนยืนยัน</p>
-    <p slot="right">หากมีข้อสงสัยเกี่ยวกับขั้นตอนหรือโปรโมชั่น ให้สอบถามรายละเอียดก่อนทำรายการ</p>
-  </ContentBox3ThreeNeumorphism>
-
-  <ContentBoxTwoPremium as="h2" title={`ช่องทางติดต่อแอดมิน ${BRAND_NAME} ทาง LINE OFFICIAL 24ชม.`}>
     <p slot="left">
-      ผู้ใช้งานที่ต้องการสอบถามเรื่องการเข้าเล่น ฝากถอน หรือโปรโมชั่นของ{BRAND_NAME}
-      <strong class="text-[#ffdc8c]">สามารถตรวจสอบช่องทาง LINE Official จากหน้าเว็บไซต์ทางการก่อนเพิ่มเพื่อน</strong>
-      เพื่อหลีกเลี่ยงบัญชีที่แอบอ้างชื่อบริการ
+      เปิดหน้าเว็บไซต์ทางการและเลือกเมนูสมัครสมาชิก
+      <strong class="text-[#ffe6a3]">จากนั้นอ่านรายละเอียดเกี่ยวกับคุณสมบัติผู้สมัครและข้อกำหนดในการเปิดบัญชีให้ครบถ้วนก่อนดำเนินการ</strong>
+    </p>
+    <p slot="center">
+      กรอกข้อมูลที่ระบบร้องขอตามความเป็นจริง ตรวจสอบความถูกต้องก่อนยืนยัน
+      <strong class="text-[#ffe6a3]">และตั้งรหัสผ่านที่คาดเดาได้ยาก</strong>
+      ไม่ควรใช้ข้อมูลของบุคคลอื่นในการลงทะเบียน
     </p>
     <p slot="right">
-      เมื่อติดต่อเจ้าหน้าที่ควรแจ้งปัญหาอย่างชัดเจนและให้ข้อมูลเฉพาะที่จำเป็น
-      <strong class="text-[#ffdc8c]">โดยไม่เปิดเผยรหัสผ่านหรือรหัส OTP</strong>
-      หากพบปัญหาเกี่ยวกับรายการทางการเงิน
-      <strong class="text-[#ffdc8c]">ควรเก็บหลักฐานรายการไว้และสอบถามขั้นตอนตรวจสอบจากช่องทางที่ยืนยันได้</strong>
-      ทั้งนี้ ควรตรวจสอบเวลาตอบกลับและเงื่อนไขบริการจากประกาศล่าสุดอีกครั้ง
+      หลังสมัครเรียบร้อย สามารถตรวจสอบเมนูเข้าสู่ระบบ รายละเอียดเกมสล็อต วิธีทำรายการ และโปรโมชั่นที่เกี่ยวข้อง
+      <strong class="text-[#ffe6a3]">หากไม่เข้าใจขั้นตอนใดสามารถสอบถามเจ้าหน้าที่ผ่านช่องทางติดต่อทางการได้</strong>
     </p>
-  </ContentBoxTwoPremium>
+  </ContentBox3ThreePremium>
 
-  <Faq as="h2" title={`คำถามที่พบบ่อยเกี่ยวกับ${BRAND_NAME}`} faqs={faqs} />
+  <ContentBoxSpecial as="h2" title={`ช่องทางติดต่อแอดมิน ${BRAND_NAME} ทาง LINE OFFICIAL 24ชม.`}>
+    <p slot="left">
+      {BRAND_NAME} ระบุช่องทาง LINE Official สำหรับให้ผู้ใช้งานติดต่อสอบถามเกี่ยวกับการสมัครสมาชิก การเข้าสู่ระบบ รายการฝากถอน
+      <strong class="text-[#ffe6a3]">และรายละเอียดโปรโมชั่นตลอด 24 ชั่วโมง</strong>
+      ผู้ที่ต้องการความช่วยเหลือควรเพิ่มเพื่อนผ่านลิงก์หรือ QR Code ที่แสดงอยู่บนเว็บไซต์ทางการเท่านั้น
+      <strong class="text-[#ffe6a3]">เพื่อหลีกเลี่ยงบัญชีปลอมหรือผู้แอบอ้าง</strong>
+    </p>
+    <p slot="right">
+      <strong class="text-[#ffe6a3]">เมื่อแจ้งปัญหาควรอธิบายรายละเอียดให้ชัดเจนและเก็บหลักฐานรายการที่เกี่ยวข้องไว้สำหรับตรวจสอบ</strong>
+      โดยไม่เปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่น ทั้งนี้
+      <strong class="text-[#ffe6a3]">ระยะเวลาตอบกลับขึ้นอยู่กับการให้บริการจริงของเจ้าหน้าที่</strong>
+    </p>
+  </ContentBoxSpecial>
+
+  <Faq as="h2" title={`คำถามที่พบบ่อยเกี่ยวกับ ${BRAND_NAME}`} faqs={faqs} />
 
   <LoginRtpSection />
 

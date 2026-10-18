@@ -7,8 +7,11 @@ import { BRAND_NAME, brandFlag, brandPick } from "../lib/brandProfile";
 
 // สีใน bg-[#...] ชุดนี้คือสีประจำแบรนด์ของธนาคารเอง ไม่ใช่ส่วนหนึ่งของพาเลตต์แบรนด์
 // brand-spec §2 ระบุว่าสีเชิงความหมายห้ามแตะ จึงไม่ถูกสวีปทุกรอบรีแบรนด์
+// ⚠️ #1155cc #4e1c80 #fcd34d #0ea5e9 สี่ค่านี้ **ห้ามสวีป** แม้ว่ารอบนี้จะห้าม
+// น้ำเงิน ม่วง และทองนอกพาเลตต์ — มันคือสีของธนาคาร ไม่ใช่สีของแบรนด์นี้ และ
+// #fcd34d ก็ไม่ใช่ "ทองของแบรนด์เก่าที่ค้าง" แต่เป็นเหลืองประจำธนาคารของมันเอง
 // ชื่อธนาคารเดินทางเป็น JSON เฉยๆ เพื่อใช้เลือกสีป้ายกับโลโก้ — ไม่มีชื่อธนาคารโผล่ใน
-// ข้อความที่มองเห็นสักจุด เพราะบรีฟรอบนี้ไม่ได้ระบุชื่อธนาคารไว้เลย
+// ข้อความที่มองเห็นสักจุด เพราะบรีฟรอบนี้ไม่ได้ระบุชื่อธนาคารไว้เลย (§6 แบนชื่อธนาคาร)
 const bankPool = [
   { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
   { name: "SCB", color: "bg-[#4e1c80]", icon: scbLogo.src },
@@ -33,67 +36,88 @@ const bankPool = [
 //   • data-winner-status — รอตรวจสอบ vs ตรวจสอบแล้ว โมดูลเลือกต่อแถวจาก
 //     data-pending-chance ส่วนคำอยู่ใน data-pending-text/data-done-text และคลาสอยู่ใน
 //     คู่ -class ที่ตรงกัน
-//   • data-winner-big — เหนือ BIG_WIN แถวจะยกขึ้น ⚠️ รอบก่อนๆ "ก้อนใหญ่" อ่านเป็น
-//     **การเดินข้ามฮิว** (ทองไปมะนาว ทองไปชมพู) ซึ่งรอบนี้ทำไม่ได้ เพราะ §2 ห้ามทอง
-//     ม่วง ชมพู น้ำเงิน ฟ้า เขียว ส้ม ทั้งหมด TKB55 มีสองฮิวจริงอยู่แล้ว (แดงนำ
-//     เงินโครเมียมรอง) จึงเดินในสองสีนั้น: แถวปกติอยู่บน **เงินโครเมียม** เงียบๆ
-//     (หม่น #aeb9c6 → สว่าง #e9eef4) ส่วนแถวยอดก้อนใหญ่สว่างขึ้นเป็น **แดงแบรนด์**
-//     (#e9eef4 → #ff4d55 พร้อมออราแดง) ซึ่งเป็นความต่างสองขั้นที่เห็นจริง ไม่ใช่การ
-//     ขยับความสว่าง และไม่ต้องยืมฮิวที่สามเข้ามา
+//   • data-winner-big — เหนือ BIG_WIN แถวจะยกขึ้น ⚠️ "ก้อนใหญ่" ต้องอ่านเป็น
+//     **การเดินข้ามฮิว** ไม่ใช่การขยับความสว่างของสีเดียว รอบนี้มีสองฮิวจริงให้เดิน
+//     (ทองนำ โรสโกลด์เป็นฮิวที่สอง) จึงเดินในสองสีนั้น: แถวปกติอยู่บน **โรสโกลด์**
+//     (โรสเข้ม #c98a74 → โรสโกลด์ #f2bba5) ส่วนแถวยอดก้อนใหญ่ไต่ขึ้นเป็น
+//     **ทองแบรนด์** (#f2bba5 → #f7c92b พร้อมออราทอง) ซึ่งเป็นความต่างสองขั้นที่
+//     เห็นจริง และไม่ต้องยืมฮิวที่สามเข้ามา
+//     นี่คือจุดที่โรสโกลด์ "เห็นได้จริง" ที่สุดในไฟล์นี้: สี่ในห้าแถวตอนโหลดหน้า
 //
 // ตัวเลข HUD ก็ server-render และโมดูลนับต่อจากค่านั้นผ่าน data-seed — ไม่งั้นเลขจะ
 // รีเซ็ตเป็นศูนย์ให้เห็นตอน JS เริ่มทำงาน แล้วค่อยไต่ขึ้นใหม่
 //
 // ป้ายกำกับทุกตัวเป็น <p>/<span> ฟีดรายการเป็น chrome ไม่ใช่เนื้อหาบทความ จึง
 // **ไม่ปล่อย heading tag ระดับไหนเลย** และ <section> รับชื่อที่เข้าถึงได้จาก aria-label
+// (§8 ห้ามเลื่อน <p> ขึ้นเป็น h2 เพื่อ "แก้ชื่อที่ขาด")
 // ไม่มีไทล์ไหนอ้างยอดฝากถอนขั้นต่ำ ค่า RTP เลขใบอนุญาต หรือชื่อธนาคาร เพราะบรีฟ
 // (src/assets/content.txt) ไม่ได้ระบุสิ่งเหล่านั้นเป็นข้อเท็จจริงของฟีดนี้
 // บรรทัดรองพูดตรงๆ ว่าแถวข้างล่างคือตัวอย่าง "รูปแบบการแสดงรายการ" ไม่ใช่ยอดจริง
 // จึงไม่มีการอ้างตัวเลขของสมาชิกจริงที่ไหน
 //
 // ไทล์ที่สามถือโปรโมชั่นสองรายการที่บรีฟระบุเอง ด้วยตัวเลขของบรีฟเอง:
-// คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% — **ไม่ใช่ไทล์หวย** และต้องไม่กลับไปเป็นอีก
-// brand-spec §7 ห้ามคำเกี่ยวกับหวยทุกคำบนแบรนด์นี้ (TKB55 เป็นเว็บคาสิโน+กีฬา:
-// บาคาร่า ไฮโล บอล สล็อต — ส่วน /ตรวจหวย กับ /แนวทาง จอดอยู่ใน src/pages-disabled/)
-// คำที่ใช้มาจากคลังคำของบรีฟล้วน: ฝากถอน · ตรวจสอบ · บัญชีเดียว · ยอดที่เข้าเกณฑ์ ·
-// คืนยอดเสีย 0.3% · แนะนำเพื่อน · โบนัส 0.8% ชื่อแบรนด์ interpolate จาก BRAND_NAME
-// ไม่พิมพ์ตรงๆ และไม่มีโดเมนอยู่ในไฟล์นี้
+// คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% (content.txt บรรทัด 10) — **ไม่ใช่ไทล์หวย**
+// และต้องไม่กลับไปเป็นอีก §6 ห้ามคำเกี่ยวกับหวยทุกคำบนแบรนด์นี้ (/ตรวจหวย กับ
+// /แนวทาง จอดอยู่ใน src/pages-disabled/ รอบนี้ และห้ามมีลิงก์ไปสองหน้านั้น)
+// คำที่ใช้มาจากคลังคำของบรีฟล้วน (§6): รายการฝากถอน · โปรโมชั่น · คืนยอดเสีย 0.3% ·
+// แนะนำเพื่อน 0.8% · ผู้ใช้งาน — **ไม่มี "ฐานหลัก" และไม่มี "ช่องทางรับบริการ"**
+// ซึ่งเป็นวลีของรับตัง168 ชื่อแบรนด์ interpolate จาก BRAND_NAME ไม่พิมพ์ตรงๆ
+// และไม่มีโดเมนอยู่ในไฟล์นี้
 //
-// TKB55 (รอบแดงเลือดนก-เงินโครเมียมบนดำสนิท 2026-10-13, brand-spec §2):
-// ฟีดที่ใช้งานจริงรอบนี้ — รอบก่อน TSDET911 ใช้ LatestWinners3 จึงหมุนมาที่ไฟล์นี้
-// โลโก้อ่านตรงๆ ว่า: คำว่า TKB เป็นตัวอักษรสามมิติ **แดงสด** ต่อด้วยเลข 55
-// **เงินโครเมียมขัดเงา** และเหนือคำเป็นมาสคอตโจรการ์ตูนใส่หน้ากากดำแบกถุงเงิน $
-// ไอคอนหัวแผงจึงเป็นถุงเงิน ไม่ใช่มงกุฎของ TIGERWIN369 รอบก่อน (ดรอปนี้ไม่มีมงกุฎ
-// ไม่มีหัวเสือ ไม่มีวงแหวนทอง ไม่มีปีกเหยี่ยวน้ำเงิน และไม่มีโปสเตอร์หวย)
-// ⚠️ พื้นเพจรอบนี้ดำสนิท #000000 (bg.json) ทุกผิวในไฟล์นี้จึงสว่างกว่าพื้น ไม่มีชั้น
-// ไหนจมต่ำกว่าพื้นได้ ลำดับความลึก: #2a0d0f ยก / #1a0708 กลาง / #0d0304 จม
-// แผงนั่งบนผิวจม #0d0304 ในกรอบแดงแบรนด์ #fb131b โปร่ง แถวอยู่บนผิวกลาง #1a0708
-// และกดลงเป็นผิวจมตอนชี้ เส้นคั่นกับขอบแถวปกติเป็นแดงเลือดหมูเข้มสุด #53050a
-// หัวแผงเป็นเงินโครเมียมสว่าง #e9eef4 ส่วนชื่อแบรนด์เป็นแดงสว่าง #ff4d55 — สองสีนี้
-// คือสองสีของโลโก้ตรงตัว ชื่อยูสเซอร์เป็นสีเนื้อความ #f2e4e5 (= BRAND_TEXT)
-// ข้อความรองทั้งหมดเป็นเงินโครเมียมหม่น #aeb9c6 (8.9:1)
-// §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งสี่ค่า
-// (ที่ใช้สองค่า) อยู่ที่กรอบ เส้นคั่น จุด และออราเท่านั้น ไม่มีตัวอักษรไหนนั่งบนมัน
-// และ #ff8a8f ถูกสงวนให้ <strong> ในย่อหน้าของหน้าแรก จึงไม่โผล่ในไฟล์นี้เลย
-// ไล่เฉดที่ถูก bg-clip-text ทุกตัวใช้แต่ค่าที่ถือตัวอักษรได้ (#aeb9c6 #e9eef4 #ff4d55)
+// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
+// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2
+// ฟีดที่ใช้งานจริงรอบนี้ — รอบก่อน (รับตัง168) ใช้ LatestWinners4 จึงหมุนมาที่ไฟล์นี้
+// และไฟล์นี้ยังถือพาเลตต์ของ TKB55 อยู่ทั้งไฟล์ ต้องรีเธมทั้งใบก่อนใช้
+// โลโก้อ่านตรงๆ ว่า: คำว่า **ขวัญใจ** เป็นตัวอักษรไทยหนาสามมิติผิวทองขัดเงาตัดขอบ
+// แดงเข้ม ต่อด้วยเลข **168** ทองสามมิติ วางบนโบว์ริบบิ้นทองโค้ง ด้านหลังเป็นหญิงสาว
+// ผมดำเกล้ามวยประดับปิ่นทองห้อยระย้าและดอกไม้ขาว สวมชุดไทยแดงปักทอง ล้อมด้วย
+// **เหรียญจีนทองรูสี่เหลี่ยม กองเหรียญทอง และหัวใจแดงสองดวง**
+// ไอคอนหัวแผงจึงเป็น **เหรียญทอง** 🪙 ตรงกับกองเหรียญในงานอาร์ต ไม่ใช่ถุงเงินของ
+// TKB55 และไม่ใช่มงกุฎ/ไพ่เอซ/กองชิปของรับตัง168 (ดรอปนี้ไม่มีสามอย่างนั้นเลย)
+// ⚠️ พื้นเพจรอบนี้ **ดำสนิท #000000** (bg.json) ทุกผิวในไฟล์นี้จึงสว่างกว่าพื้น
+// ไม่มีชั้นไหนจมต่ำกว่าพื้นได้ ลำดับความลึก: #241509 ยก / #160d06 กลาง / #0b0603 จม
+// แผงนั่งบนผิวจม #0b0603 ในกรอบทองแบรนด์ #f7c92b โปร่ง แถวอยู่บนผิวกลาง #160d06
+// และกดลงเป็นผิวจมตอนชี้ เส้นคั่นกับขอบแถวปกติเป็นทองลึก #8a5f12
+// หัวแผงเป็นทองแบรนด์ #f7c92b ส่วนชื่อแบรนด์เป็น **โรสโกลด์ #f2bba5** — สองฮิวของ
+// รอบนี้ติดกันในบรรทัดเดียว ชื่อยูสเซอร์เป็นสีเนื้อความ #eadfce (= BRAND_TEXT)
+// ข้อความรองทั้งหมดเป็นโรสเข้ม #c98a74 (7.2:1)
+// แถบคาดบนสุดของแผงเป็นแผ่นไล่ แดงชาด #b3121b → ทองแบรนด์ #f7c92b → โรสโกลด์
+// #f2bba5 ซึ่งเป็น "สำเนียงลึก → ฮิวนำ → ฮิวที่สอง" อ่านจากซ้ายไปขวา
+// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ #b3121b อยู่ที่
+// แถบคาด จุดนำหน้าสถานะ และออรา ส่วน #8a5f12 อยู่ที่ขอบกับเส้นคั่น ไม่มีตัวอักษร
+// ไหนนั่งบนทั้งสองค่า และ #ffe6a3 ถูกสงวนให้ <strong> ในย่อหน้าของหน้าแรก จึงใช้ที่นี่
+// ได้เฉพาะเป็น "พื้นถม" ของแถบคาด/แผ่นป้าย ไม่ใช่สีตัวอักษร
+// ไล่เฉดที่ถูก bg-clip-text ทุกตัวใช้แต่ค่าที่ถือตัวอักษรได้ (#c98a74 #f2bba5 #f7c92b)
 // เพราะพิกเซลของไล่เฉดนั้น **คือตัวอักษร** ไม่ใช่พื้นหลัง
+// glow ที่ใช้มีสามชุดตาม §2: rgba(247,201,43,α) · rgba(242,187,165,α) ·
+// rgba(179,18,27,α) (บวก rgba(0,0,0,α) ที่เป็นเงาดำธรรมดา)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักของรอบนี้คือแดง** โค้ดเบสนี้มีแบรนด์
-// แดงมาแล้วหลายเจ้า การเจอแดงในไฟล์จึงไม่พิสูจน์อะไร ไฟล์นี้เพิ่งถือชุดทองอำพันเสือ
-// ของ TIGERWIN369 มาทั้งไฟล์ (d98324 / f7b733 / ffd98a / f7e4c0 / e3cfae / 8a5214 /
-// 4a2a08 / 2d1c0a / 1c1206 / 0f0903) และก่อนนั้นเป็นชุดเขียวป่า-ทองมงกุฎของ
-// KINGKONG555 (8ce023 / f2c230 / ffe066 / 1a5c04) ชุดทองแชมเปี้ยน-เงินของ UFA324
-// (e5a81b / b9c2cc / 231c0e / f0e8d4) ชุดม่วงนีออน-ทองของ WEPLAY168 (a435f0 / fbe455 /
-// 1e0a3c) และชุดแดงแบรนด์-ทองของ หวย24 (d20a0a / ff5c5c / 7a0505 / f5c33b) — ออกครบ
-// ทุกค่าแล้ว พร้อมคำหมวดหวยทั้งหมด
-// ⚠️ แดงรอบนี้คือ #fb131b (R=251 G=19 B=27) **คนละค่า** กับแดงของ SUPERSLOTCLUB
-// (e8232a) PIGPG (d4200d) FLASH877 (ff3b14) และ หวย24 (d20a0a) ที่ยังค้างในไฟล์อื่น
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง และหนักกว่าแดง**
+// แทบทุกแบรนด์ที่ผ่านไฟล์ในรีโปนี้มีทอง การเจอทองในไฟล์นี้จึง **ไม่พิสูจน์อะไรเลย**
+// ทองของแบรนด์อื่น: f0b429 (รับตัง168 — รอบที่แล้ว) e3b23c (สมหวัง168) dfa310
+// (TND168) e2b33f (KMD88) e5a81b (UFA324) fad354 (789BETTING) f5c518 (FLASH877)
+// fce343 (PUNPRO168) f2c230 + ffe066 (KINGKONG555) f3bb34 (DUCK1688) fbe455
+// (WEPLAY168) f7b733 + ffd98a (TIGERWIN369) f7d14e (KOON234) ffc93d + ffe4a3
+// (TND168) — **ทองรอบนี้คือ #f7c92b (R=247 G=201 B=43) เท่านั้น**
+// ชุดที่ถอดออกจากไฟล์นี้รอบนี้คือชุด **แดงเลือดนก-เงินโครเมียม** ของ TKB55
+// (fb131b / ff4d55 / e9eef4 / aeb9c6 / f2e4e5 / 2a0d0f / 1a0708 / 0d0304 / c40304 /
+// 8a0206 / 53050a) และก่อนนั้นเป็นชุดทองอำพันเสือของ TIGERWIN369 (d98324 / f7b733 /
+// ffd98a / f7e4c0 / e3cfae / 8a5214 / 4a2a08 / 2d1c0a / 1c1206 / 0f0903) ชุดเขียวป่า-
+// ทองมงกุฎของ KINGKONG555 (8ce023 / f2c230 / ffe066 / 1a5c04) ชุดทองแชมเปี้ยน-เงิน
+// ของ UFA324 (e5a81b / b9c2cc / 231c0e / f0e8d4) ชุดม่วงนีออน-ทองของ WEPLAY168
+// (a435f0 / fbe455 / 1e0a3c) และชุดแดงแบรนด์-ทองของ หวย24 (d20a0a / ff5c5c /
+// 7a0505 / f5c33b) — ออกครบทุกค่าแล้ว พร้อมคำหมวดหวยทั้งหมด
+// ⚠️ เงินอมฟ้า cfd9e6 ของรับตัง168 ไม่มีในไฟล์นี้และห้ามกลับมา — โลโก้รอบนี้เป็น
+// ทองล้วน ไม่มีโครเมียมเลย
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อให้สวีปที่ไล่หา "#" ไม่สะดุดที่คอมเมนต์)
+// ⚠️ แดงรอบนี้คือ #b3121b (R=179 G=18 B=27) และ **มันไม่เคยนำ** — คนละค่ากับ
+// d30304 (รับตัง168) fa0513 (สมหวัง168) fb131b (TKB55) fb141b (GT66B) d4200d
+// (PIGPG) e8232a (SUPERSLOTCLUB) ff3b14 (FLASH877) d20a0a (หวย24)
 //
 // ⚠️ สีเชิงความหมายคงไว้ตาม §2: จุด live กับสถานะ "ตรวจสอบแล้ว" ยังเป็นเขียว success
-// ของทุกแบรนด์ (emerald) ห้ามเปลี่ยนให้เป็นสีแบรนด์ เพราะนั่นคือการลบความหมาย
-// "สำเร็จ / อยู่ระหว่างตรวจสอบ" ออกจากแถว ส่วนสถานะรอใช้เงินโครเมียมหม่น #aeb9c6
-// (เงียบ ไม่ใช่สีนำ) — สถานะที่รออยู่ที่ทาด้วยแดงนำของแบรนด์จะเลิกอ่านเป็นการรอ
+// ของทุกแบรนด์ (emerald-400/500/900) ห้ามเปลี่ยนให้เป็นสีแบรนด์ เพราะนั่นคือการลบ
+// ความหมาย "สำเร็จ / อยู่ระหว่างตรวจสอบ" ออกจากแถว ส่วนสถานะรอใช้โรสเข้ม #c98a74
+// (เงียบ ไม่ใช่สีนำ) — สถานะที่รออยู่ที่ทาด้วยทองนำของแบรนด์จะเลิกอ่านเป็นการรอ
 // สีประจำธนาคารใน bankPool ด้านบนอยู่ใต้กฎเดียวกันและไม่ถูกแตะ
 const BIG_WIN = 40000;
 const AMOUNT_MIN = 100;
@@ -115,12 +139,12 @@ const initialRows = Array.from({ length: 5 }, (_, i) => {
 
 const seedTotal = initialRows.reduce((sum, row) => sum + row.amount, 0);
 
-const ROW_NORMAL = "border-[#53050a]";
-const ROW_BIG = "border-[#fb131b]/75 shadow-[0_0_15px_rgba(251,19,27,0.35)]";
-const AMOUNT_NORMAL = "from-[#aeb9c6] to-[#e9eef4]";
-const AMOUNT_BIG = "from-[#e9eef4] to-[#ff4d55] drop-shadow-[0_0_10px_rgba(251,19,27,0.5)]";
+const ROW_NORMAL = "border-[#8a5f12]";
+const ROW_BIG = "border-[#f7c92b]/75 shadow-[0_0_15px_rgba(247,201,43,0.35)]";
+const AMOUNT_NORMAL = "from-[#c98a74] to-[#f2bba5]";
+const AMOUNT_BIG = "from-[#f2bba5] to-[#f7c92b] drop-shadow-[0_0_10px_rgba(247,201,43,0.5)]";
 const STATUS_DONE = "text-emerald-400 font-bold";
-const STATUS_PENDING = "text-[#aeb9c6] font-bold";
+const STATUS_PENDING = "text-[#c98a74] font-bold";
 const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
 const DONE_TEXT = "ตรวจสอบแล้ว";
 ---
@@ -128,15 +152,18 @@ const DONE_TEXT = "ตรวจสอบแล้ว";
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
     aria-label={`ตัวอย่างรูปแบบรายการฝากถอนในระบบสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-3xl border border-[#fb131b]/50 bg-[#0d0304]/92 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-xl">
-    <div class="relative z-10 flex flex-col gap-4 border-b border-[#53050a] px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
+    class="relative overflow-hidden rounded-3xl border border-[#f7c92b]/50 bg-[#0b0603]/92 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+    <div aria-hidden="true" class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#b3121b] via-[#f7c92b] to-[#f2bba5]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-[#b3121b]/20 blur-[70px]"></div>
+
+    <div class="relative z-10 flex flex-col gap-4 border-b border-[#8a5f12] px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#fb131b]/50 bg-[#1a0708] text-2xl">💰</span>
+        <span aria-hidden="true" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#f7c92b]/50 bg-[#160d06] text-2xl">🪙</span>
         <div class="flex flex-col">
-          <p class="text-2xl font-black tracking-widest text-[#e9eef4] drop-shadow-sm">
-            รายการฝากถอนในระบบสมาชิก <span class="text-[#ff4d55]">{BRAND_NAME}</span>
+          <p class="text-2xl font-black tracking-widest text-[#f7c92b] drop-shadow-sm">
+            รายการฝากถอนในระบบสมาชิก <span class="text-[#f2bba5]">{BRAND_NAME}</span>
           </p>
-          <span class="mt-1 text-[11px] font-medium tracking-wide text-[#aeb9c6]">แถวด้านล่างเป็นข้อมูลตัวอย่างเพื่อแสดงรูปแบบการแสดงรายการในระบบสมาชิกเท่านั้น ไม่ใช่ยอดจริงของสมาชิก</span>
+          <span class="mt-1 text-[11px] font-medium tracking-wide text-[#c98a74]">แถวด้านล่างเป็นข้อมูลตัวอย่างเพื่อแสดงรูปแบบการแสดงรายการในระบบสมาชิกเท่านั้น ไม่ใช่ยอดจริงของสมาชิก</span>
         </div>
       </div>
       <div class="flex items-center gap-2 self-start rounded-full border border-emerald-500/40 bg-emerald-900/20 px-3 py-1.5 sm:self-auto">
@@ -145,24 +172,24 @@ const DONE_TEXT = "ตรวจสอบแล้ว";
       </div>
     </div>
 
-    <div class="relative z-10 grid grid-cols-2 gap-px overflow-hidden border-b border-[#53050a] bg-[#1a0708]/60 sm:grid-cols-3">
-      <div class="flex flex-col items-center gap-1 bg-[#0d0304] px-4 py-4">
-        <span class="text-[11px] font-medium tracking-wide text-[#aeb9c6]">ยอดรวมในรายการตัวอย่าง</span>
-        <span data-winners-total data-prefix="฿" data-seed={seedTotal} class="bg-gradient-to-r from-[#e9eef4] to-[#ff4d55] bg-clip-text text-lg font-black text-transparent tabular-nums sm:text-xl">
+    <div class="relative z-10 grid grid-cols-2 gap-px overflow-hidden border-b border-[#8a5f12] bg-[#160d06]/60 sm:grid-cols-3">
+      <div class="flex flex-col items-center gap-1 bg-[#0b0603] px-4 py-4">
+        <span class="text-[11px] font-medium tracking-wide text-[#c98a74]">ยอดรวมในรายการตัวอย่าง</span>
+        <span data-winners-total data-prefix="฿" data-seed={seedTotal} class="bg-gradient-to-r from-[#f2bba5] to-[#f7c92b] bg-clip-text text-lg font-black text-transparent tabular-nums sm:text-xl">
           ฿{seedTotal.toLocaleString("en-US")}
         </span>
       </div>
-      <div class="flex flex-col items-center gap-1 bg-[#0d0304] px-4 py-4">
-        <span class="text-[11px] font-medium tracking-wide text-[#aeb9c6]">จำนวนรายการตัวอย่าง</span>
-        <span data-winners-count data-seed={initialRows.length} class="text-lg font-black text-[#f2e4e5] tabular-nums sm:text-xl">{initialRows.length}</span>
+      <div class="flex flex-col items-center gap-1 bg-[#0b0603] px-4 py-4">
+        <span class="text-[11px] font-medium tracking-wide text-[#c98a74]">จำนวนรายการตัวอย่าง</span>
+        <span data-winners-count data-seed={initialRows.length} class="text-lg font-black text-[#eadfce] tabular-nums sm:text-xl">{initialRows.length}</span>
       </div>
-      <div class="col-span-2 flex flex-col items-center gap-1 bg-[#0d0304] px-4 py-4 sm:col-span-1">
-        <span class="text-[11px] font-medium tracking-wide text-[#aeb9c6]">โปรโมชั่นที่ตรวจสอบได้จากบัญชีเดียว</span>
-        <span class="text-base font-black text-[#ff4d55] sm:text-lg">คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%</span>
+      <div class="col-span-2 flex flex-col items-center gap-1 bg-[#0b0603] px-4 py-4 sm:col-span-1">
+        <span class="text-[11px] font-medium tracking-wide text-[#c98a74]">โปรโมชั่นที่ระบุไว้บนเว็บไซต์</span>
+        <span class="text-base font-black text-[#f7c92b] sm:text-lg">คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%</span>
       </div>
     </div>
 
-    <div class="relative z-10 hidden grid-cols-[2fr_1.3fr_1fr_0.8fr] gap-4 px-8 pt-4 text-[11px] font-bold tracking-widest text-[#aeb9c6] uppercase sm:grid">
+    <div class="relative z-10 hidden grid-cols-[2fr_1.3fr_1fr_0.8fr] gap-4 px-8 pt-4 text-[11px] font-bold tracking-widest text-[#c98a74] uppercase sm:grid">
       <span>ผู้ใช้งาน</span>
       <span>สถานะ</span>
       <span class="text-right">จำนวนเงิน</span>
@@ -187,17 +214,17 @@ const DONE_TEXT = "ตรวจสอบแล้ว";
               data-winner-big
               data-normal-class={ROW_NORMAL}
               data-big-class={ROW_BIG}
-              class={`grid grid-cols-[auto_1fr] items-center gap-4 rounded-xl border bg-[#1a0708]/90 p-3.5 shadow-sm transition-colors duration-300 hover:border-[#fb131b]/70 hover:bg-[#0d0304]/80 sm:grid-cols-[2fr_1.3fr_1fr_0.8fr] ${row.big ? ROW_BIG : ROW_NORMAL}`}>
+              class={`grid grid-cols-[auto_1fr] items-center gap-4 rounded-xl border bg-[#160d06]/90 p-3.5 shadow-sm transition-colors duration-300 hover:border-[#f2bba5]/70 hover:bg-[#0b0603]/80 sm:grid-cols-[2fr_1.3fr_1fr_0.8fr] ${row.big ? ROW_BIG : ROW_NORMAL}`}>
               <div class="col-span-2 flex items-center gap-3 sm:col-span-1">
-                <div data-winner-bank class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 shadow-inner ${row.bank.color}`}>
+                <div data-winner-bank class={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#8a5f12]/70 shadow-inner ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain" />
                 </div>
-                <span data-winner-user class="text-sm font-bold text-[#f2e4e5] tabular-nums">
+                <span data-winner-user class="text-sm font-bold text-[#eadfce] tabular-nums">
                   {row.user}
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] tracking-wide sm:text-xs">
-                <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#fb131b]" />
+                <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#b3121b]" />
                 <span
                   data-winner-status
                   data-pending-text={PENDING_TEXT}
@@ -215,7 +242,7 @@ const DONE_TEXT = "ตรวจสอบแล้ว";
                 class={`bg-gradient-to-r bg-clip-text text-right text-base font-black text-transparent tabular-nums sm:text-lg ${row.big ? AMOUNT_BIG : AMOUNT_NORMAL}`}>
                 ฿<span data-winner-amount>{row.amount.toLocaleString("en-US")}</span>
               </div>
-              <div class="text-right text-[11px] font-medium text-[#aeb9c6] sm:text-xs">เมื่อสักครู่</div>
+              <div class="text-right text-[11px] font-medium text-[#c98a74] sm:text-xs">เมื่อสักครู่</div>
             </div>
           </div>
         ))

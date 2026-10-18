@@ -28,72 +28,97 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // brand's slug is the kind of string a rebrand misses. The badge and the arrow
 // are aria-hidden, so a question's accessible name is the question text itself.
 //
-// TKB55 (รอบแดงเลือดนก-เงินโครเมียม 2026-10-13, brand-spec §2): แผงนี้ปิดท้ายสาย
-// บทความ จึงนั่งลึกที่สุดของหน้า — แถวคำถามอยู่บน **ผิวจม #0d0304** ซึ่งเป็นก้นสุด
-// ของลำดับความลึกรอบนี้ (#2a0d0f ยก / #1a0708 กลาง / #0d0304 จม / #000000 พื้น)
-// ⚠️ พื้นเพจรอบนี้ **ดำสนิท** ตาม bg.json จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้
-// กรอบมุมตัดเฉียงเป็นแดงแบรนด์ #fb131b ล้อมแผงผิวจม แถบไล่เฉดบนกรอบวิ่งเงินโครเมียม
-// สว่าง #e9eef4 → เงินโครเมียมหม่น #aeb9c6 ตามเลข 55 ขัดเงาในโลโก้และผมขาวเงินของ
-// คู่นายแบบ-นางแบบในงานอาร์ต
-// ป้ายเครื่องหมายคำถามเป็นแดงเต็มใบ ไล่แดงสว่าง #ff4d55 → แดงแบรนด์ #fb131b บนหมึก
-// แดงเกือบดำ #1a0304 (§2 ระบุว่า #1a0304 เป็นหมึกตัวเดียวที่วางบนพื้นแดงตันได้ —
-// 6.2:1 บน #ff4d55 และ 4.9:1 บน #fb131b และห้ามพลิกไปใช้หมึกสว่าง) กลีฟ ? เป็น
-// aria-hidden จึงเป็นของตกแต่งล้วน ไม่ได้ถือข้อมูล
-// คำถามเป็นเงินโครเมียมหม่น #aeb9c6 (8.9:1 บนผิวการ์ด สูงกว่านั้นบนผิวจม) ส่วนคำตอบ
-// เป็นสีเนื้อความ #f2e4e5 (= BRAND_TEXT, 16.8:1 บนผิว #0d0304) เส้นคั่นคำตอบเป็นแดง
-// แบรนด์แบบโปร่ง และลูกศรเป็นแดงสว่าง #ff4d55
-// หัวข้อไล่ แดงแบรนด์ #fb131b → แดงสว่าง #ff4d55 → เงินโครเมียมสว่าง #e9eef4 คือ
-// แดง-แดง-เงิน ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
-// §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษร — ที่นี่อยู่ที่กรอบ พื้นป้าย
-// และเส้นคั่น ไม่มีตัวไหนถือตัวอักษรเลย และ #ff8a8f ถูกสงวนไว้ให้ <strong> ในย่อหน้า
-// จึงไม่โผล่ในไฟล์นี้
+// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
+// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2
+// แผงนี้เป็น Faq ที่ใช้งานจริงรอบนี้ — รอบก่อน (รับตัง168) ใช้ Faq3 จึงหมุนมาที่ไฟล์นี้
+// และไฟล์นี้ยังถือพาเลตต์ของ TKB55 อยู่ทั้งไฟล์ ต้องรีเธมทั้งใบก่อนใช้
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** และโค้ดเบสนี้มีแบรนด์
-// แดงมาแล้วสามเจ้า: SUPERSLOTCLUB (#e8232a #7d0f12 #4a0605 #180800 #f2b705 #ffd666)
-// PIGPG (#d4200d #f5b61d #ffd87a #120302 #2a0806 #6b0402 #fdf9e4 #fdeedd) และ
-// FLASH877 (#ff3b14 #8c0f0a #2b0000 #f5c518) — ไม่มีตัวไหนเป็น #fb131b (R=251 G=19
-// B=27) ของรอบนี้ ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#f41571
-// #ff5ca8 #fce343 #ffc554 #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012 #3a0a2a) ชุดม่วง
-// ราชา-ทองของ KMD88 (#7505cc #b453ff #c07cff #e2b33f #ffdf8c #ece2f8 #1d0832 #140522
-// #0a0213) ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911 (#0360f3 #0292fb #6ec8ff #4fb4ff
-// #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26 #00081f) ชุดชมพูฮอต-ทองของ FAH999
-// (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d #ffe49a #7a0046 #4d002b #2b0019) ชุดทอง
-// อำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #1a0d02 #2d1c0a #0f0903)
-// และชุดมรกต-ทองของ KOON234 (#0a6b32 #2fbf6a #cc920a #f7d14e #e8f2e6) ออกครบทุกจุดแล้ว
-// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
+// รูปทรงของใบนี้ (ล็อกไว้ให้ไม่ซ้ำกับกล่อง docx ใบอื่นบนหน้าเดียวกัน):
+// **แถวมุมตัดเฉียงบนผิวจม ไม่มีการ์ดครอบทั้งลิสต์** — แต่ละคำถามเป็นแผ่นของตัวเอง
+// ห้ามเปลี่ยนไปเป็นการ์ดมุมกลมซ้อนในกล่องใหญ่ เพราะ ContentBoxSpecial กับ
+// ContentBox3ThreePremium ถือรูปทรงนั้นอยู่แล้วบนหน้าเดียวกัน
+// แผงนี้ปิดท้ายสายบทความ จึงนั่งลึกที่สุดของหน้า — แถวคำถามอยู่บน **ผิวจม #0b0603**
+// ซึ่งเป็นก้นสุดของลำดับความลึกรอบนี้ (#241509 ยก / #160d06 กลาง / #0b0603 จม /
+// #000000 พื้น)
+// ⚠️ พื้นเพจรอบนี้ **ดำสนิท #000000** ตาม bg.json จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้
+// กรอบมุมตัดเฉียงเป็นแดงชาด #b3121b ล้อมแผ่นผิวจม แถบไล่เฉดบนกรอบวิ่ง
+// **ทองแบรนด์ #f7c92b → โรสโกลด์ #f2bba5** = สองฮิวของรอบนี้อยู่บนขอบเดียวกัน
+// (ตามโลโก้ที่เป็นคำว่า ขวัญใจ ทองขัดเงาตัดขอบแดงเข้ม บนโบว์ริบบิ้นทอง และ vivid
+// อันดับหนึ่งที่ palette.json วัดได้คือโรสโกลด์/พีช)
+// ป้ายเครื่องหมายคำถามเป็น **แผ่นทองทึบ** ไล่ทองสว่าง #ffe6a3 → ทองแบรนด์ #f7c92b
+// บนหมึก #140c06 (§2 ระบุว่า #140c06 เป็นหมึกตัวเดียวที่วางบนพื้นถมทองได้ — 15.6:1
+// บน #ffe6a3 และ 7.9:1 บน #f7c92b ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง และห้ามลากปลาย
+// เข้มของไล่เฉดลงไปถึง #8a5f12 เพราะจะเหลือ 3.4:1) กลีฟ ? เป็น aria-hidden จึงเป็น
+// ของตกแต่งล้วน ไม่ได้ถือข้อมูล
+// คำถามเป็น **โรสโกลด์ #f2bba5** (10.4:1 บนผิวยก สูงกว่านั้นบนผิวจม) ส่วนคำตอบเป็น
+// สีเนื้อความ #eadfce (= BRAND_TEXT, 15.3:1 บนผิวจม) เส้นคั่นคำตอบเป็นโรสเข้ม
+// #c98a74 แบบโปร่ง และลูกศรเป็นทองแบรนด์ #f7c92b
+// หัวข้อไล่ ทองแบรนด์ #f7c92b → ทองสว่าง #ffe6a3 → โรสโกลด์ #f2bba5 คือ
+// ทอง-ทอง-โรส ซึ่งเป็นลำดับเดียวที่ยังไม่ถูกกล่อง docx ใบใดบนหน้าเดียวกันใช้
+// (ContentBox ใช้ สว่าง-ทอง-โรส · ContentBoxSpecial ใช้ โรส-ทอง-สว่าง ·
+// ContentBox3ThreePremium ใช้ สว่าง-โรส-ทอง · SevenThreeNeumorphism ใช้
+// ทอง-โรส-สว่าง · TwoNeumorphism ใช้ โรส-สว่าง-ทอง) และขีดใต้หัวข้อเป็น
+// **โรสโกลด์** ไม่ใช่ทอง ต่างจากขีดของ ContentBox3ThreePremium
+// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ที่นี่ #b3121b อยู่ที่กรอบ
+// 1px เท่านั้น ไม่มีตัวอักษรไหนนั่งบนมัน และอีกสองค่าไม่ปรากฏในไฟล์นี้เลย
+// glow ที่ใช้มีชุดเดียว rgba(242,187,165,α) ตาม §2
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง และหนักกว่าแดง**
+// แทบทุกแบรนด์ที่ผ่านไฟล์นี้มีทองของตัวเอง การเจอทองอยู่แล้วจึงไม่พิสูจน์อะไร
+// ทองที่เพิ่งกวาดออกจากไฟล์นี้และไฟล์พี่น้อง: f0b429 (รับตัง168) e3b23c (สมหวัง168)
+// dfa310 (TND168) e2b33f (KMD88) e5a81b (UFA324) fad354 (789BETTING) f5c518
+// (FLASH877) fce343 (PUNPRO168) f2b705 (SUPERSLOTCLUB) f7d14e (KOON234) ffd666
+// f2c230 ffe066 ffe49a 8a6210 — **ทองรอบนี้คือ #f7c92b (R=247 G=201 B=43) เท่านั้น**
+// ชุดที่ถอดออกจากไฟล์นี้รอบนี้คือชุด **แดงเลือดนก-เงินโครเมียม** ของ TKB55
+// (fb131b / ff4d55 / e9eef4 / aeb9c6 / f2e4e5 / 0d0304 / 1a0304) และก่อนนั้นคือ
+// ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (f41571 / ff5ca8 / fce343 / ffc554 / f0c3dc /
+// fde7f2 / 8a0a45 / 4a0426 / 2a0012 / 3a0a2a) ชุดม่วงราชา-ทองของ KMD88 (7505cc /
+// b453ff / c07cff / e2b33f / ffdf8c / ece2f8 / 1d0832 / 140522 / 0a0213) ชุดน้ำเงิน
+// ไฟฟ้า-เงินโครเมียมของ TSDET911 (0360f3 / 0292fb / 6ec8ff / 4fb4ff / cfdcec /
+// 9db4d4 / dde8f7 / 102a5e / 0a1c42 / 040e26 / 00081f) ชุดชมพูฮอต-ทองของ FAH999
+// (ff3fa4 / ff6cbb / ffd1ea / fde8f3 / f5c53d / ffe49a / 7a0046 / 4d002b / 2b0019)
+// ชุดส้มอำพันเสือของ TIGERWIN369 (d98324 / f7b733 / ffd98a / f7e4c0 / 1a0d02 /
+// 2d1c0a / 0f0903) และชุดมรกต-ทองของ KOON234 (0a6b32 / 2fbf6a / cc920a / f7d14e /
+// e8f2e6) — ออกครบทุกค่าแล้ว
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อให้สวีปที่ไล่หา "#" ไม่สะดุดที่คอมเมนต์)
+// ⚠️ แดงรอบนี้คือ #b3121b และ **มันไม่เคยนำ** — คนละค่ากับ d30304 (รับตัง168)
+// fa0513 (สมหวัง168) fb131b (TKB55) fb141b (GT66B) d4200d (PIGPG) e8232a
+// (SUPERSLOTCLUB) ff3b14 (FLASH877)
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีเขียว ไม่มีส้ม
+// และไม่มีเงิน/โครเมียมอมฟ้า** (cfd9e6 เป็นของรับตัง168 ห้ามเหลือไว้)
 ---
 
 <section class="mx-auto max-w-[950px] space-y-6 px-4 py-6 font-sans">
   {
     title && (
       <header class="mb-6">
-        <HeadingTag class="bg-gradient-to-r from-[#fb131b] via-[#ff4d55] to-[#e9eef4] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#f7c92b] via-[#ffe6a3] to-[#f2bba5] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fb131b] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#f2bba5] to-transparent shadow-[0_0_10px_rgba(242,187,165,0.55)]" />
       </header>
     )
   }
 
   {
     faqs.map((faq) => (
-      <div class="group relative bg-[#fb131b] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#e9eef4] via-[#aeb9c6] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
+      <div class="group relative bg-[#b3121b] p-[1px] [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-[#f7c92b] via-[#f2bba5] to-transparent opacity-45 transition-opacity group-hover:opacity-100" />
 
-        <details name="site-faq" class="faq-item relative bg-[#0d0304] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
+        <details name="site-faq" class="faq-item relative bg-[#0b0603] p-4 [clip-path:polygon(0_0,calc(100%-19px)_0,100%_19px,100%_100%,19px_100%,0_calc(100%-19px))]">
           <summary class="flex w-full cursor-pointer items-center gap-4 text-left">
             <span
               aria-hidden="true"
-              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ff4d55] to-[#fb131b] font-black text-[#1a0304] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
+              class="flex h-10 w-10 shrink-0 items-center justify-center bg-gradient-to-br from-[#ffe6a3] to-[#f7c92b] font-black text-[#140c06] italic [clip-path:polygon(20%_0,100%_0,80%_100%,0_100%)]">
               ?
             </span>
-            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#aeb9c6]">{faq.q}</span>
-            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#ff4d55] transition-transform duration-300">
+            <span class="flex-1 text-base leading-normal font-bold tracking-tight text-[#f2bba5]">{faq.q}</span>
+            <span aria-hidden="true" class="faq-arrow shrink-0 text-[#f7c92b] transition-transform duration-300">
               ▼
             </span>
           </summary>
 
-          <p class="faq-answer mt-4 border-l-2 border-[#fb131b]/70 pl-4 text-left text-base leading-relaxed text-[#f2e4e5]">{faq.a}</p>
+          <p class="faq-answer mt-4 border-l-2 border-[#c98a74]/70 pl-4 text-left text-base leading-relaxed text-[#eadfce]">{faq.a}</p>
         </details>
       </div>
     ))

@@ -24,72 +24,94 @@ const leftHeading = titleleft ?? title;
 // for the `widths`/`sizes` index.astro passes. Tailwind sets box-sizing:
 // border-box globally, so max-w-* caps the box INCLUDING padding and border:
 //   section  max-w-7xl (1280) + px-4 (16x2=32) -> card outer = min(100vw,1280) - 32
-//   card     border (1x2=2) + p-8 (32x2=64)   [no md:p-10 on this one]
-//   grid     gap-8 (32, md+ only)
-//   image column adds md:border-l (1) + md:pl-8 (32) = 33
-//   >= 1280px : (1280 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1150 x 0.3 - 33 = 312px
-//   768..1279 : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
+//   card     border (1x2=2) + md:p-10 (40x2=80)
+//   grid     gap-10 (40)
+//   image column adds md:border-l (1) + md:pl-10 (40) = 41
+//   >= 1280px : (1280 - 32 - 2 - 80 - 40) x 0.3 - 41 = 1126 x 0.3 - 41 = 297px
+//   768..1279 : (100vw - 154) x 0.3 - 41             = calc(30vw - 87px)
 //   < md      : one column at p-8, no md: padding    = calc(100vw - 98px),
 //               which exceeds the 600px bitmap above a 698px viewport, so the
 //               page caps that band at 600px.
-// These are DIFFERENT numbers from ContentBoxSevenThreePremium, the other block
-// on the same page — that file pays md:p-10 + gap-10 + md:pl-10 and comes out at
-// 297px / calc(30vw - 87px), this one caps at a flat p-8 + gap-8 + md:pl-8.
-// Change any of them and the page's `sizes` has to move with it.
+// ⚠️ ตัวเลขชุดนี้ **ต่างจาก** ContentBoxSevenThreeCyberCut ซึ่งเป็นอีกบล็อกรูปบน
+// หน้าเดียวกัน ใบนั้นเป็น p-8 / gap-8 / md:pl-8 แล้วออกมา 312px / calc(30vw − 72px)
+// แก้ padding ที่ไหนก็ต้องไปแก้ `sizes` ของหน้าแรกตามด้วย
 //
-// TKB55 (รอบแดงเลือดนก-เงินโครเมียม 2026-10-13, brand-spec §2-§4): กล่องนี้ถือ
-// docx H3 §5 ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด") คู่กับ **slide1.png**
-// ซึ่งพิมพ์คำว่า โปรโมชั่น · แนะนำเพื่อน · โบนัส 0.8% ไว้ในตัวภาพเอง
-// ⚠️ **ตัวเลขบนงานอาร์ตเป็นตัวตัดสินการจับคู่ ไม่ใช่ลำดับไฟล์** — brand-spec §4 สลับ
-// ชื่อไฟล์สองตัวนี้ไว้ แต่ภาพจริงบนดิสก์คือ slide1 = แนะนำเพื่อน 0.8% และ
-// slide2 = คืนยอดเสีย 0.3%
+// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
+// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2–§4
+// กล่องนี้ถือ docx H3 §5 ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด") คู่กับ
+// **slide1.png** ซึ่งพิมพ์คำว่า แนะนำเพื่อน กับเลข 0.8% ไว้บนแผ่นป้ายในตัวภาพเอง
+// ⚠️ อีกใบคือ slide2.png = คืนยอดเสีย 0.3% ไปอยู่กับ §4 ส่วน banner2/banner3/
+// slide3/slide4 เป็นอาร์ตเวิร์กของแบรนด์ก่อน — ห้าม import ที่ไหนเลย
+// นี่คือบล็อก SevenThree ใบที่สองและใบสุดท้ายของรอบนี้ ตามเพดาน 2 ใบของ playbook
 //
-// รอบนี้เป็น **สองโทนจริง — แดงเลือดนกนำ เงินโครเมียมรอง** ตามโลโก้ (TKB แดงสามมิติ
-// + 55 เงินโครเมียมขัดเงา + มาสคอตโจรแบกถุงเงิน $) พื้นเพจ **ดำสนิท** #000000
-// ⚠️ พื้นเพจดำสนิท จึงไม่มีผิวไหนจมต่ำกว่าพื้นได้ ผิวจม #0d0304 คือชั้นที่ลึกที่สุด
+// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #241509 ยก / #160d06 กลาง /
+// #0b0603 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้ #0b0603 คือก้นสุด
 //
-// แผ่นนูนใบนี้วางบนผิวกลาง #1a0708 ซึ่งอยู่ระหว่างผิวยก #2a0d0f ของ
-// ContentBoxSevenThreePremium ที่อยู่เหนือมันบนหน้าเดียวกัน กับผิวจม #0d0304 ที่เป็น
-// ปลายล่างของไล่เฉดใบนั้น สองบล็อกรูปจึงคนละผิวและไม่อ่านเป็นใบเดียวกันสองรอบ
-// ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว จึงกดเงาลงด้วยผิวจม #0d0304 และยกแสงขึ้น
-// ด้วยแดงลึกสุด #53050a ตอน hover ฝั่งสว่างไต่ขึ้นเป็นแดงลึก #8a0206
-// สีแบรนด์จึงถูกเก็บไว้ที่หัวข้อ ไม่ใช่ในเงา: หัวข้อรับ **แดงสว่าง #ff4d55 ทึบสีเดียว**
-// (5.6:1 บนผิวกลาง — §2 ระบุว่าใช้กับหัวข้อตัวโตได้ ไม่ใช่เนื้อความยาว) เป็นตัวเน้น
-// เพียงจุดเดียว คู่กับใบบน (SevenThreePremium) ที่หัวข้อเป็นตัวอักษรไล่เฉดสามสี สอง
-// บล็อกรูปจึงคนละจังหวะสายตาทั้งผิว ความนูน มุมการ์ด และหัวข้อ
-// กรอบการ์ดเป็นเงินโครเมียมหม่น #aeb9c6 แบบโปร่ง เส้นคั่นคอลัมน์เป็นแดงลึกสุด #53050a
-// เนื้อความ #f2e4e5 (= BRAND_TEXT) — 16.0:1 บนผิวกลาง #1a0708
-// §2 ห้าม #fb131b #c40304 #8a0206 #53050a ถือตัวอักษร — ในไฟล์นี้ทั้งสี่ค่าอยู่ที่ขอบ
-// เส้นคั่น และเงาเท่านั้น และ #ff8a8f สงวนไว้ให้ <strong> ในย่อหน้า
+// จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบที่สองของหน้า** และนั่งลึกที่สุด
+// ในบรรดากล่องเนื้อหา — ผิวจม #0b0603 มุม rounded-[22px] **มีกรอบโรสเข้ม #c98a74**
+// กดเงาลงด้วยดำสนิท #000000 แล้วยกแสงขึ้นด้วยผิวยก #241509 ตอน hover ฝั่งสว่าง
+// ไต่ขึ้นเป็นทองลึก #8a5f12
+// เทียบกับแผ่นนูนอีกใบ (ContentBoxTwoNeumorphism §2): ใบนั้นมุม rounded-[30px]
+// **ไม่มีกรอบ** นั่งบนผิวยก #241509 และยกแสงด้วยแดงลึก — ต่างกันทั้งมุม ความลึก
+// ของผิว การมีกรอบ และคู่เงา จึงไม่อ่านเป็นแผ่นเดียวกันสองรอบ
+// เทียบกับ §4 ที่อยู่ติดกันทันที: ใบนั้นเป็นมุมตัดเฉียงบนผิวกลางพร้อมเส้นรูดสี่มุม
+// และหัวข้อโรสโกลด์ทึบสีเดียว ส่วนใบนี้เป็นมุมกลมนูนบนผิวจม หัวข้อเป็นตัวอักษร
+// **ไล่เฉดสามสี** ทองแบรนด์ #f7c92b → โรสโกลด์ #f2bba5 → ทองสว่าง #ffe6a3
+// ("ทองเดินผ่านโรสกลับขึ้นทอง") พร้อม **แถบตั้งนำหน้า** ซึ่งเป็นลำดับและทรีตเมนต์
+// ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
+// ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว สีแบรนด์จึงอยู่ที่หัวข้อกับกรอบ ไม่ใช่
+// ในเงา เส้นคั่นคอลัมน์เป็นทองลึก #8a5f12 เนื้อความ #eadfce (= BRAND_TEXT,
+// 15.3:1 บนผิวจม)
+// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่แถบตั้ง
+// เส้นคั่น และเงาเท่านั้น ส่วน #c98a74 (7.2:1) ถือตัวอักษรรองได้จริงแต่ที่นี่เป็นกรอบ
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** และโค้ดเบสนี้มี
-// แบรนด์แดงมาแล้วสามเจ้า: SUPERSLOTCLUB #e8232a #7d0f12 #4a0605 #180800 · PIGPG
-// #d4200d #120302 #2a0806 #6b0402 · FLASH877 #ff3b14 #8c0f0a #2b0000 — ไม่มีตัวไหน
-// เป็น #fb131b (R=251 G=19 B=27) ของรอบนี้ ชุดม่วงราชา-ทองของ KMD88 ที่เคยค้างอยู่
-// ทั้งไฟล์นี้ (#7505cc #b453ff #c07cff #d9b8ff #3a0565 #2c0349 #7a5a0a #e2b33f
-// #ffdf8c #ece2f8 #1d0832 #140522 #0a0213) ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911
-// (#0360f3 #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26
-// #00081f #04186e) ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0
-// #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดทองมังกรของ TND168
-// (#dfa310 #ffc93d #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02) ชุดชมพูฮอตพิงก์-
-// ทองของ PUNPRO168 (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a1038
-// #2a0012 #1c0014) และชุดชมพู-ม่วงของ BPLAY639 (#f472b6 #fbcfe8 #7e22ce #c4b5fd
-// #ddd6fe #14061f) ออกครบทุกจุดแล้ว
-// ⚠️ เงินโครเมียมรอบนี้คือ #e9eef4 / #aeb9c6 ไม่ใช่ #cfdcec / #9db4d4 ของ TSDET911
-// ⚠️ **รอบนี้ไม่มีทอง ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม**
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** เพราะทองคือฮิวนำ
+// ทองรอบนี้คือ #f7c92b เท่านั้น ไม่ใช่ f0b429 (รับตัง168) e3b23c (สมหวัง168)
+// dfa310 (TND168) e5a81b (UFA324) e2b33f (KMD88) f2c230 (KINGKONG555)
+// fad354 (789BETTING) f5c518 (FLASH877) f7b733 (TIGERWIN369) fbe455 (WEPLAY168)
+// ชุดเต็มของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
+// f5ece0 2b100f 200a09 140505 1a0505) ชุดของ TKB55 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้
+// (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304 c40304 8a0206
+// 53050a 1a0304) ชุดม่วงราชาของ KMD88 (7505cc b453ff c07cff d9b8ff 3a0565 2c0349
+// ece2f8) ชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4
+// dde8f7) ชุดทองอำพันของ TIGERWIN369 (d98324 ffd98a f7e4c0 e3cfae 8a5214) ชุดทอง
+// มังกรของ TND168 (ffc93d ffe4a3 c9b88e f0e9dc 8a5c09) ชุดชมพูฮอตของ PUNPRO168
+// (f41571 ff5ca8 fce343 ffd94a f0c3dc fde7f2) และชุดชมพู-ม่วงของ BPLAY639
+// (f472b6 fbcfe8 7e22ce c4b5fd ddd6fe) ออกครบทุกจุดแล้ว
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีเงิน/โครเมียม ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีน้ำเงิน ไม่มีฟ้า
+// ไม่มีเขียว ไม่มีส้ม**
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] border border-[#aeb9c6]/30 bg-[#1a0708] p-8 shadow-[10px_10px_20px_#0d0304,-10px_-10px_20px_#53050a] transition-all duration-300 hover:shadow-[15px_15px_30px_#0d0304,-15px_-15px_30px_#8a0206]">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5]">
-        {leftHeading && <HeadingTag class="text-xl leading-normal font-black text-[#ff4d55]">{leftHeading}</HeadingTag>}
+    class="w-full rounded-[22px] border border-[#c98a74]/40 bg-[#0b0603] p-8 shadow-[10px_10px_22px_#000000,-10px_-10px_22px_#241509] transition-all duration-300 hover:border-[#f2bba5]/60 hover:shadow-[15px_15px_32px_#000000,-15px_-15px_32px_#8a5f12] md:p-10">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce]">
+        {
+          leftHeading && (
+            <div class="flex items-center gap-3">
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe6a3] via-[#8a5f12] to-[#b3121b]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#f7c92b] via-[#f2bba5] to-[#ffe6a3] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
+                {leftHeading}
+              </HeadingTag>
+            </div>
+          )
+        }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f2e4e5] md:border-l md:border-[#53050a] md:pl-8">
-        {titleright && <HeadingTag class="text-xl leading-normal font-black text-[#ff4d55]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce] md:border-l md:border-[#8a5f12] md:pl-10">
+        {
+          titleright && (
+            <div class="flex items-center gap-3">
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#ffe6a3] via-[#8a5f12] to-[#b3121b]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#f7c92b] via-[#f2bba5] to-[#ffe6a3] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
+                {titleright}
+              </HeadingTag>
+            </div>
+          )
+        }
         <slot name="right" />
       </article>
     </div>

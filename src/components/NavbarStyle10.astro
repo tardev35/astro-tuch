@@ -8,36 +8,66 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// KINGKONG555 (รอบเขียวป่า-ทองมงกุฎบนเขียวเกือบดำ 2026-10-09): navbar ที่ใช้งานจริง
-// รอบนี้ — รอบก่อน (WEPLAY168) ใช้ NavbarStyle6 ไฟล์นี้เคยเป็นของ แตกดี168 โทน
-// ฟ้าสด-เหลืองมะนาวบนกรมท่าเกือบดำ ตอนนี้ย้ายมาเป็นเขียวมะนาว #8ce023 (สีตัวอักษร
-// บนโลโก้) คู่ทองมงกุฎ #f2c230 (มงกุฎของกอริลลา) บนพื้นเขียวป่าเกือบดำ #051400 /
-// #0f2e05 / #1a5c04 ชุดเดิมของ แตกดี168 (#0193fb #fce604 #7bcffb #dbeafe #fff48a
-// #020609 #0b3c66 #07111d #064a86 #c9a703 #031018 rgba(1,147,251,α)
-// rgba(252,230,4,α)) ออกครบทุกจุดแล้ว ไม่เหลือฮิวเก่าในไฟล์ ไม่ว่าในคลาสหรือใน rgba()
-const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง เป็นหน้ากอริลลาขนดำแซมเขียวสวมมงกุฎทองประดับพลอยสีเขียว มีใบไม้เขียวแผ่อยู่ด้านหลังและกำปั้นสองข้างวางอยู่ด้านหน้า ใต้ลงมาเป็นคำว่า KINGKONG ตัวอักษรหนาสามมิติสีเขียวมะนาว ต่อด้วยเลข 555 ตัวหนาสีเงิน`;
-
-// เมนูชุดเดียว ใช้ทั้งแถบบนจอใหญ่และเมนูเต็มจอบนมือถือ — เดิมไฟล์นี้เคยประกาศ
-// อาร์เรย์ซ้ำสองชุด ซึ่งเป็นเหตุให้คนแก้ที่เดียวแล้วอีกที่ค้าง
+// ขวัญใจ168 (รอบทองนำ-โรสโกลด์รอง บนดำสนิท 2026-10-18): navbar ที่ใช้งานจริงรอบนี้ —
+// รอบก่อน (รับตัง168) ใช้ NavbarStyle9 ซึ่งเป็นแถบทึบเต็มความกว้างติดขอบบน ขีดใต้
+// ไล่เฉดสามสีเต็มความกว้างเมนู และม่านมือถือที่เปิดด้วย clip-path วงกลมจากมุมขวาบน
+// ไฟล์นี้เป็นคนละทรง: **แถบข้อมูลบางๆ เต็มความกว้างด้านบนสุด** + **แถบเมนูทรง
+// แคปซูล rounded-[20px] ที่ลอยอยู่ (top-2, max-w-7xl) ไม่ชิดขอบจอ** + มือถือเป็น
+// **เมนูเต็มจอที่เฟดเข้าพร้อมรายการไล่ขึ้นทีละตัว**
+//
+// ไฟล์นี้เคยเป็นของ KINGKONG555 ชุดเขียวมะนาว-ทองมงกุฎบนเขียวป่าเกือบดำ
+// (#8ce023 #f2c230 #ffe066 #e9f7d6 #bde397 #051400 #0f2e05 #1a5c04 #2f8c07
+// #a87a08 #06220a และ rgba(140,224,35,α) rgba(242,194,48,α)) ออกครบทุกจุดแล้ว
+// ไม่เหลือเขียวเลยทั้งในคลาสและใน rgba()
+//
+// ⚠️ **กับดักรอบนี้คือทอง ไม่ใช่เขียว** — ทองของ KINGKONG555 (#f2c230) ต่างจาก
+// ทองรอบนี้ (#f7c92b) แค่ไม่กี่หลัก และไฟล์อื่นในรีโปก็ค้างทองของ TND168 (#dfa310
+// #ffc93d), รับตัง168 (#f0b429), สมหวัง168 (#e3b23c), KMD88 (#e2b33f),
+// 789BETTING (#fad354), FLASH877 (#f5c518) ไว้ด้วย "เจอทอง" ไม่พิสูจน์ว่าเป็น
+// ของรอบนี้ ต้องเทียบเป็นค่าทีละตัวกับ .claude/brand-spec-kwanjai168.md §2
+//
+// แกนสีมาจากงานศิลป์จริง "ทองนำ โรสโกลด์รอง": คำว่า ขวัญใจ บนโลโก้เป็นตัวอักษรไทย
+// สามมิติผิวทองขัดเงาขอบแดงเข้ม เลข 168 เป็นทองเช่นกัน ส่วน vivid อันดับหนึ่งที่
+// palette.json วัดได้จากทั้งโลโก้และแบนเนอร์คือ **โรสโกลด์ #f2bba5** (ผิวนางแบบ
+// ดอกลิลลี่ขาว และผ้าครีมปักทอง) ไม่ใช่แดง — แดงชาด #b3121b จึงเป็นสำเนียงลึกที่
+// ถือได้แค่ขอบ/ออรา/แผ่นป้าย **ไม่เคยนำ และห้ามถือตัวอักษรทุกขนาด** (2.6:1)
+// พื้นเป็นดำสนิท #000000 ตาม bg.json ยกเป็น #0b0603 (จม) / #160d06 (กลาง) /
+// #241509 (ยก) · ทองแบรนด์ #f7c92b ถือสถานะ active ขอบแคปซูล และขีดใต้ ·
+// ทองสว่าง #ffe6a3 เป็นต้นเกรเดียนต์ปุ่มสมัคร · โรสโกลด์ #f2bba5 เป็นปลายเกรเดียนต์
+// และสี hover · เนื้อความเมนู #eadfce (= BRAND_TEXT)
+//
+// ปุ่ม "สมัครสมาชิก" เป็นพื้น **ทองถมไล่ไปโรสโกลด์** (#ffe6a3 -> #f7c92b ->
+// #f2bba5) คู่หมึกเข้ม #140c06 — ตรวจครบทั้งสามสต็อป: 15.6:1 / 7.9:1 / 11.2:1
+// ⚠️ ห้ามลากสต็อปเข้มลงไปถึง #8a5f12 หรือ #b3121b ใต้หมึกนี้ สองค่านั้นเป็น
+// ทอง/แดงลึกสำหรับเส้น ขอบ และออราเท่านั้น หมึก #140c06 บน #8a5f12 เหลือ 3.4:1
+// ส่วนปุ่ม "เข้าสู่ระบบ" เป็นปุ่มรอง พื้นโปร่ง ขอบทอง ตัวอักษร #eadfce จึงไม่ติดปัญหานี้
+// คู่ปุ่มต่างกันที่ "พื้นทองตัน vs กรอบทองโปร่ง" ไม่ใช่ที่ความสว่างของสีเดียวกัน
+//
+// isActive มาจาก isActivePath ใน src/lib/nav — ห้ามเขียนเทียบสตริงเองในไฟล์นี้
+// Astro.url.pathname ถูก percent-encode ไว้ ถ้าเขียนเองหน้า /ทดลองเล่น จะไม่มี
+// รายการไหน active เลย
+//
+// เมนูชุดเดียว ใช้ทั้งแถบบนจอใหญ่และเมนูเต็มจอบนมือถือ — ถ้าแยกเป็นสองชุดเมื่อไหร่
+// รอบถัดไปจะมีคนแก้ที่เดียวแล้วอีกที่ค้าง
 //
 // ลำดับ: หน้าแรก · โปรโมชั่น · สมัครสมาชิก · เข้าสู่ระบบ · แล้วค่อยหน้าอ่านอื่นๆ
 // สองรายการกลางเป็น conversion action ไม่ใช่หน้าให้อ่าน จึงต้องอยู่ตรงที่สายตา
-// กวาดจากซ้ายไปขวาเจอก่อนหน้าข้อมูล — uploader ส่วนที่ 5 จะ append ต่อท้าย
-// อาร์เรย์เสมอ ทุกรอบรีแบรนด์จึงต้องเลื่อนขึ้นมาเอง
+// กวาดจากซ้ายไปขวาเจอก่อนหน้าข้อมูล — uploader ส่วนที่ 5 append ต่อท้ายอาร์เรย์
+// เสมอ ทุกรอบรีแบรนด์จึงต้องเลื่อนขึ้นมาเอง
 //
 // toggle cta ของ uploader รอบนี้ **เปิด**: /login กับ /register เป็นหน้าปุ่มจริงที่
 // index ได้ จึงมีสองรายการนั้นในเมนู และ /ทางเข้า ถูกถอดออกโดยตั้งใจ เพราะหน้านั้น
 // มีไว้เสนอ เข้าสู่ระบบ/สมัครสมาชิก อยู่แล้ว การคงไว้คือลิงก์ที่สามไปที่เดียวกัน
 // (หน้า /ทางเข้า ยังมี route และยัง index อยู่ — ถอดแค่รายการในเมนู ห้ามลบไฟล์)
 //
-// ไม่มี /ตรวจหวย, /แนวทาง: KINGKONG555 เป็นเว็บสล็อตล้วน ไม่ใช่เว็บหวย ทั้งสองไฟล์
+// ไม่มี /ตรวจหวย, /แนวทาง: ขวัญใจ168 เป็นเว็บสล็อตล้วน ไม่ใช่เว็บหวย ทั้งสองไฟล์
 // จอดอยู่ใน src/pages-disabled/ รอบนี้ จึงไม่มี route ให้ลิงก์ไป ถ้ารอบหน้าเป็น
 // แบรนด์หวย ต้องเพิ่มสองบรรทัดนี้คืนพร้อมกับย้ายไฟล์กลับเข้า src/pages/ ไม่งั้น
 // verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มีจริง
 //
-// ไอคอนเลือกให้ตรงหมวดเว็บสล็อต (ตู้สล็อต/ของขวัญ) ไม่ใช่โพย/ลูกบอลของเว็บหวย
-// และทุกตัวอยู่ใน <span aria-hidden="true"> แยกจาก label เสมอ ห้ามต่อเข้าไปใน
-// ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
+// ไอคอนเลือกให้ตรงหมวดเว็บสล็อต ไม่ใช่โพย/ลูกบอลของเว็บหวยหรือกีฬา และทุกตัวอยู่ใน
+// <span aria-hidden="true"> ที่เป็น "พี่น้อง" ของ label เสมอ ห้ามต่อเข้าไปในข้อความ
+// ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
@@ -45,33 +75,36 @@ const links = [
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
   { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏢" },
-  { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
+  { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 
-// แถวเมนูรอบนี้มี 7 รายการ (มากกว่ารอบ แตกดี168 ที่มี 6 เพราะ toggle cta เปิด
-// จึงมีคู่ สมัคร/เข้าสู่ระบบ เพิ่มมา แต่ /ทางเข้า ออกไป) ที่ช่วง lg จึงอยู่ที่
-// text-sm gap-4 แล้วค่อยขยายเป็น gap-6 ที่ xl ซึ่งเป็นช่วงที่ปุ่ม CTA คู่ขวาโผล่มา
-//
-// แถบบนสุดพูดได้เฉพาะสิ่งที่บรีฟพูด: สล็อตคลาสสิก · ฟรีสปิน · โบนัส · ตัวคูณ ·
-// เดิมพันเริ่มต้น 1 บาทในเกมที่กำหนด เท่านั้น ไม่มีบาคาร่า/รูเล็ต/บอล/หวย ซึ่งเป็น
-// หมวดของแบรนด์ก่อนหน้าและไม่ได้อยู่ในบรีฟรอบนี้
+// logoAlt เขียนจากไฟล์ logo.webp ของดรอป 2026-10-18 ที่เปิดอ่านจริง —
+// ตัวอักษรโครเมียมอมฟ้าเงินของ "รับตัง" รอบก่อนไม่มีอยู่ในรูปนี้เลย รอบนี้เป็น
+// ทองล้วนทั้งตัวอักษรและตัวเลข
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส กลางภาพเป็นคำว่า ขวัญใจ ตัวอักษรไทยหนาสามมิติผิวทองขัดเงาตัดขอบสีแดงเข้ม ต่อด้วยตัวเลข 168 หนาสามมิติสีทองเช่นกัน ทั้งหมดวางพาดอยู่บนโบว์ริบบิ้นสีทองที่โค้งรับใต้ตัวอักษร ด้านหลังเป็นหญิงสาวผมยาวสีดำเกล้ามวยสูง ประดับปิ่นทองห้อยระย้าและดอกไม้สีขาวที่ข้างศีรษะ สวมชุดไทยสีแดงปักลายทองพร้อมสร้อยคอและกำไลทอง ขยิบตาและยกมือทั้งสองข้างทำเป็นรูปหัวใจเล็ก รอบตัวมีเหรียญจีนสีทองรูปวงกลมเจาะรูสี่เหลี่ยมตรงกลางร่วงกระจายและกองซ้อนกันอยู่ทั้งสองข้าง พร้อมหัวใจสีแดงสองดวงลอยอยู่ซ้ายและขวา`;
+
+// แถบบนสุดพูดได้เฉพาะสิ่งที่บรีฟพูด (src/assets/content.txt): ศูนย์รวมช่องทางบริการ ·
+// สมัครสมาชิก เข้าเล่น ฝากถอน ติดต่อเจ้าหน้าที่ ในเว็บไซต์เดียว · ลิขสิทธิ์เว็บแท้100% ·
+// ติดต่อทีมงานตลอด 24 ชั่วโมง · คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%
+// ไม่มีบาคาร่า/รูเล็ต/บอล/หวย ไม่มีชื่อค่ายเกม ไม่มีชื่อธนาคาร ไม่มียอดขั้นต่ำ
+// และไม่มีวลีของแบรนด์ก่อน (ฐานหลัก / ช่องทางรับบริการ / เว็บตรง)
 ---
 
-<div class="hidden w-full border-b border-[#8ce023]/35 bg-gradient-to-r from-[#051400] via-[#1a5c04] to-[#051400] px-4 py-1.5 font-sans text-xs font-bold text-[#e9f7d6]/85 lg:block">
+<div class="hidden w-full border-b border-[#f7c92b]/35 bg-gradient-to-r from-[#000000] via-[#241509] to-[#000000] px-4 py-1.5 font-sans text-xs font-bold text-[#eadfce]/85 lg:block">
   <div class="mx-auto flex max-w-7xl justify-between">
     <div class="flex gap-4">
-      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#f2c230]">★</span> {BRAND_NAME} ฐานเว็บสล็อตหลัก รวมเกมสล็อตหลายรูปแบบไว้ในแพลตฟอร์มเดียว เลือกค่าย ตรวจสอบเครดิต และติดตามรายการจากบัญชีเดียว</span>
-      <span class="flex items-center gap-1 text-[#bde397]"><span aria-hidden="true" class="text-[#f2c230]">✔</span> สล็อตคลาสสิก · ฟรีสปิน · โบนัส · ตัวคูณ · เดิมพันเริ่มต้น 1 บาทในเกมที่กำหนด</span>
+      <span class="flex items-center gap-1"><span aria-hidden="true" class="text-[#f7c92b]">★</span> {BRAND_NAME} ศูนย์รวมช่องทางบริการเกมสล็อตออนไลน์ ที่รวมเมนูสมัครสมาชิก เข้าเล่น ฝากถอน และติดต่อเจ้าหน้าที่ไว้ในเว็บไซต์เดียว</span>
+      <span class="flex items-center gap-1 text-[#f2bba5]"><span aria-hidden="true" class="text-[#f7c92b]">✔</span> ลิขสิทธิ์เว็บแท้100% · คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%</span>
     </div>
     <div class="flex gap-4">
-      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#f2c230]">สอบถามแอดมินเรื่องสมัคร โปรโมชั่น และรายการฝากถอนได้ตลอด 24 ชั่วโมง</a>
+      <a href="/line" class="flex items-center gap-1 transition-colors hover:text-[#f7c92b]">ติดต่อทีมงานเรื่องสมัคร เข้าเล่น ฝากถอน และโปรโมชั่น ได้ตลอด 24 ชั่วโมง</a>
     </div>
   </div>
 </div>
 
 <header class="sticky top-2 z-50 mt-2 w-full px-2 font-sans md:px-4">
   <nav
-    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#8ce023]/45 bg-[#051400]/92 px-4 shadow-[0_10px_30px_rgba(140,224,35,0.30)] backdrop-blur-lg xl:px-8">
+    class="relative mx-auto flex h-[75px] w-full max-w-7xl items-center justify-between rounded-[20px] border border-[#f7c92b]/45 bg-[#000000]/92 px-4 shadow-[0_10px_30px_rgba(247,201,43,0.28)] backdrop-blur-lg xl:px-8">
     <a href="/" class="z-50 flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
@@ -82,13 +115,13 @@ const links = [
             fetchpriority="high"
             widths={[120, 240, 360]}
             sizes="120px"
-            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(140,224,35,0.55)] xl:h-[45px]"
+            class="h-[40px] w-auto drop-shadow-[0_0_10px_rgba(247,201,43,0.55)] xl:h-[45px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
             quality={45}
           />
         ) : (
-          <span class="bg-gradient-to-b from-[#ffe066] via-[#f2c230] to-[#8ce023] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(140,224,35,0.45)]">{BRAND_NAME}</span>
+          <span class="bg-gradient-to-b from-[#ffe6a3] via-[#f7c92b] to-[#f2bba5] bg-clip-text text-3xl font-black text-transparent drop-shadow-[0_0_8px_rgba(247,201,43,0.45)]">{BRAND_NAME}</span>
         )
       }
     </a>
@@ -98,14 +131,14 @@ const links = [
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f2c230] drop-shadow-[0_0_8px_rgba(140,224,35,0.5)]" : "text-[#e9f7d6]/85 hover:text-[#f2c230]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f7c92b] drop-shadow-[0_0_8px_rgba(247,201,43,0.5)]" : "text-[#eadfce]/85 hover:text-[#f2bba5]"}`}>
             <span aria-hidden="true" class="text-base transition-transform group-hover:scale-110">
               {item.icon}
             </span>
             <span>{item.name}</span>
             <div
               aria-hidden="true"
-              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#8ce023] to-[#f2c230] shadow-[0_0_8px_rgba(140,224,35,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-[18px] left-0 h-[2px] w-full origin-center bg-gradient-to-r from-[#f2bba5] to-[#f7c92b] shadow-[0_0_8px_rgba(247,201,43,0.7)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -115,35 +148,35 @@ const links = [
     <div class="z-50 flex items-center gap-3">
       <a
         href="/login"
-        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#8ce023]/60 bg-[#0f2e05] px-5 py-2 text-sm font-bold text-[#e9f7d6] shadow-sm transition-all hover:border-[#f2c230]/65 hover:bg-[#2f8c07] xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full border border-[#f7c92b]/60 bg-[#160d06] px-5 py-2 text-sm font-bold text-[#eadfce] shadow-sm transition-all hover:border-[#f2bba5]/70 hover:bg-[#241509] xl:flex">
         <span aria-hidden="true">🔑</span>
         <span>เข้าสู่ระบบ</span>
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#ffe066] via-[#f2c230] to-[#a87a08] px-5 py-2 text-sm font-black text-[#06220a] shadow-[0_0_15px_rgba(242,194,48,0.45)] transition-all hover:scale-105 xl:flex">
+        class="hidden items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#ffe6a3] via-[#f7c92b] to-[#f2bba5] px-5 py-2 text-sm font-black text-[#140c06] shadow-[0_0_15px_rgba(247,201,43,0.45)] transition-all hover:scale-105 xl:flex">
         <span aria-hidden="true">📝</span>
         <span>สมัครสมาชิก</span>
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#8ce023]/45 bg-gradient-to-b from-[#1a5c04] to-[#051400] shadow-sm lg:hidden"
+        class="relative flex h-[42px] w-[42px] flex-col items-center justify-center gap-[5px] rounded-full border border-[#f7c92b]/45 bg-gradient-to-b from-[#241509] to-[#0b0603] shadow-sm lg:hidden"
         aria-label="เปิดเมนู">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f2c230] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f7c92b] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f7c92b] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f7c92b] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
-  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#051400]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
+  <div id="fullscreen-menu" class="pointer-events-none fixed inset-0 z-[40] flex flex-col items-center justify-center bg-[#000000]/98 opacity-0 backdrop-blur-xl transition-opacity duration-500">
     <div class="flex max-h-[88vh] w-full flex-col items-center space-y-3 overflow-y-auto px-6 py-10">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#f2c230] drop-shadow-[0_0_10px_rgba(140,224,35,0.6)]" : "text-[#e9f7d6]/85 hover:text-[#f2c230]"}`}>
+            class={`fs-item flex items-center gap-3 text-xl font-black tracking-wide transition-all duration-300 ${isActive(item.path) ? "text-[#f7c92b] drop-shadow-[0_0_10px_rgba(247,201,43,0.6)]" : "text-[#eadfce]/85 hover:text-[#f2bba5]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {item.icon}
             </span>
@@ -154,13 +187,13 @@ const links = [
       <div class="fs-item mt-4 flex w-full max-w-[280px] flex-col gap-4 pt-6">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffe066] via-[#f2c230] to-[#a87a08] py-3.5 text-lg font-black text-[#06220a] shadow-[0_0_20px_rgba(242,194,48,0.5)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffe6a3] via-[#f7c92b] to-[#f2bba5] py-3.5 text-lg font-black text-[#140c06] shadow-[0_0_20px_rgba(247,201,43,0.5)]">
           <span aria-hidden="true">📝</span>
-          <span>สมัครสมาชิกใหม่</span>
+          <span>สมัครสมาชิก</span>
         </a>
         <a
           href="/login"
-          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#8ce023]/60 bg-[#0f2e05] py-3.5 text-lg font-bold text-[#e9f7d6] transition-colors hover:bg-[#2f8c07]">
+          class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#f7c92b]/60 bg-[#160d06] py-3.5 text-lg font-bold text-[#eadfce] transition-colors hover:bg-[#241509]">
           <span aria-hidden="true">🔑</span>
           <span>เข้าสู่ระบบ</span>
         </a>

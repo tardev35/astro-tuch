@@ -4,77 +4,84 @@ export interface Props {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 const { title, as: HeadingTag = "h1" } = Astro.props;
-const headingSize = HeadingTag === "h1" ? "text-3xl" : "text-2xl";
+const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// Single-slot variant, already flattened: the card carries `isolate` and the
-// decorative aura layers carry `-z-10`, so the slot renders as a direct child
-// with no `relative z-10` wrapper. Do not re-add one.
+// Single-slot variant, already flattened: the card carries `isolate` and every
+// decorative aura carries `-z-10`, so the slot renders as a direct child with no
+// `relative z-10` wrapper. Do not re-add one. No level is hardcoded — `as`
+// decides the tag — and nothing here is `absolute`/`whitespace-nowrap`, so a
+// full docx sentence wraps instead of overflowing.
 //
-// No level is hardcoded below — `as` decides the tag — and the header carries no
-// `whitespace-nowrap`, so a full docx sentence wraps instead of overflowing.
+// This card carries docx H1 §1 of the home page (content.txt line 6): one
+// paragraph, one slot, no sub-headings. This drop has NO current-brand article
+// illustration (banner2/banner3 on disk belong to previous brands and an eager
+// import IS an emit), so there is no picture inside the card, and a slide is
+// never substituted — the playbook pins slide* to ContentBoxSevenThree* only.
 //
-// This card carries docx H1 §1 of the home page (content.txt line 4): one
-// paragraph, one slot, no sub-headings. No FeatureHighlights this round (the
-// brief has no labelled sub-list) and no illustration inside the card, because
-// this drop has no current-brand article image — banner2.png (10-08) and
-// banner3.png (09-27) on disk are previous brands' art and an eager import IS
-// an emit, rendered or not.
+// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
+// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2
+// งานศิลป์: คำว่า "ขวัญใจ" เป็นตัวอักษรไทยหนาสามมิติผิวทองขัดเงาตัดขอบแดงเข้ม
+// ต่อด้วยเลข "168" ทองสามมิติ บนโบว์ริบบิ้นทอง ด้านหลังเป็นหญิงสาวผมดำเกล้ามวย
+// ประดับปิ่นทองห้อยระย้าและดอกไม้ขาว ในชุดไทยแดงปักทอง ล้อมด้วยเหรียญจีนทอง
+// รูสี่เหลี่ยมและหัวใจแดง
+// ⚠️ โรสโกลด์ #f2bba5 คือ vivid อันดับหนึ่งที่ palette.json วัดได้จากทั้งโลโก้และ
+// แบนเนอร์ และเป็น **สิ่งที่แยกรอบนี้ออกจากสองรอบก่อน** (รอบก่อนทองนำ+แดงสดคู่หู
+// รอบก่อนหน้านั้นแดงนำ) จึงต้องเห็นจริงบนการ์ด — ที่นี่มันเป็นปลายของแผ่นป้ายหัวข้อ
+// สีขอบตอน hover และออรามุมขวาล่างตอน hover
+// ⚠️ พื้นเพจรอบนี้ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #241509 ยก /
+// #160d06 กลาง / #0b0603 จม / #000000 พื้น
 //
-// สมหวัง168 (รอบแดงมังกร-ทองไทย 2026-10-17, brand-spec §2):
-// โลโก้คือคำว่า "สมหวัง" ตัวอักษรสามมิติโครเมียมขาวอมเงินขอบแดง ต่อด้วยเลข "168"
-// สีแดงสดตัวหนาสามมิติ มีเปลวไฟแดงกับลายกนกไทยสีแดงพันรอบ แบนเนอร์และสไลด์เป็นฉาก
-// คาสิโนไทย-จีนพื้นดำ ผ้าซาตินแดงพลิ้ว ลายกนก/นาคทองไทยขนาบสองข้าง กองชิปทอง-แดง-ดำ
-// วงล้อรูเล็ต และไพ่เอซ
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำอมแดง #290f0f** (bg.json) ไม่ใช่ดำสนิทแบบรอบก่อน
-// ลำดับความลึก: #2c1413 ยก / #1f0d0c กลาง / #140706 จม / #290f0f พื้น
+// จังหวะรูปทรงของใบนี้ (หน้าแรกมีแปดบล็อก ไม่มีใบไหนอ่านซ้ำกัน):
+// ใบนี้เป็นใบเดียวของหน้าที่ **พลิกขั้วหัวข้อ** — หัวข้อนั่งบน **แผ่นทองทึบ** ที่ไล่
+// ทองสว่าง #ffe6a3 → ทองแบรนด์ #f7c92b → โรสโกลด์ #f2bba5 แล้วถือ **หมึกเข้ม
+// #140c06** (7.9:1 บนทองแบรนด์ · 15.6:1 บนทองสว่าง · 11.2:1 บนโรสโกลด์) ส่วนอีก
+// เจ็ดใบของหน้าเป็นตัวอักษรสว่างบนพื้นมืดทั้งหมด
+// ผิวการ์ด **ไล่จากยก #241509 ลงไปหาจม #0b0603** จึงไม่อ่านเป็นใบเดียวกับ
+// ContentBox (§3) ที่เป็นมุมกลมเหมือนกันแต่ผิวยกทึบและหัวข้อเป็นตัวอักษรไล่เฉด
+// มุมเป็น rounded-[28px] กรอบหนา 2px ทองแบรนด์ (อิ่มเป็นโรสโกลด์ตอน hover)
+// ออรามุมซ้ายบนเป็นแดงชาด #b3121b (หัวใจแดงกับชุดไทยในงานศิลป์) มุมขวาล่างเป็น
+// แดงลึก #5a0a0e ที่ไต่ขึ้นเป็นโรสโกลด์ตอน hover เนื้อความ #eadfce (= BRAND_TEXT,
+// 13.5:1 บนผิวยก)
+// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งสามค่าอยู่ที่
+// ขอบ ออรา และเส้นคั่นเท่านั้น
 //
-// ใบนี้เป็นการ์ดมุมกลม rounded-3xl ที่ **ไล่ผิวจากยก #2c1413 ลงไปหาจม #140706** จึง
-// ไม่อ่านเป็นใบเดียวกับ ContentBox (§4) ที่เป็นมุมกลมเหมือนกันแต่เป็นผิวยกทึบและมี
-// เส้นไรผมทองบนสุด และไม่ซ้ำกับ ContentBox3ThreePremium (§6) ที่เป็นมุมกลมผิวยกทึบ
-// สามคอลัมน์
-// หัวข้อไล่ แดงสว่าง #ff5a5f → ทองสว่าง #ffe5a8 → ทองไทย #e3b23c ("แดงนำขึ้นทอง")
-// ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ และทุกสตอปผ่าน AA บนผิวมืด
-// (#ff5a5f = 5.7:1 · #ffe5a8 = 14.1:1 · #e3b23c = 8.9:1)
-// ออรามุมซ้ายบนเป็นแดงแบรนด์ #fa0513 (เลข 168 กับเปลวไฟบนโลโก้) มุมขวาล่างเป็น
-// แดงมืด #3c0303 (เงาใต้กองชิปในแบนเนอร์) ที่ไต่ขึ้นเป็นทองลึก #8a6210 ตอน hover
-// ขอบการ์ดเป็นทองลึก #8a6210 ที่อิ่มเป็นทองไทยตอน hover เส้นใต้หัวข้อเป็นแดงลึก
-// #b90203 เนื้อความ #f4ecea (= BRAND_TEXT) glow เป็น rgba(250,5,19,α)
-// §2 ห้าม #fa0513 #b90203 #8c0204 #5b0203 #3c0303 #8a6210 ถือตัวอักษรทุกขนาด —
-// ในไฟล์นี้ทั้งหกค่าอยู่ที่ขอบ เส้นคั่น และออราเท่านั้น
-// #ffadaf ถูกสงวนไว้ให้ <strong> ในเนื้อความตาม §2 จึงไม่โผล่ในไฟล์นี้เลย
-//
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** เพราะสองแบรนด์
-// ก่อนหน้าก็เป็นแดงทั้งคู่: GT66B #fb141b (G=20) และ TKB55 #fb131b (G=19) ส่วนแดง
-// รอบนี้คือ #fa0513 (R=250 G=5 B=19) "เจอแดงอยู่แล้ว" จึงไม่พิสูจน์อะไรเลย
-// ชุดเต็มของ GT66B ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (#fb141b #ff5f63 #ffa0a2 #db040b
-// #ec151c #8a0609 #3b0405 #fdfcfd #b4bcc2 #eceaea #1c0c0b #130c0c #0b0303
-// #000000 และ rgba(251,20,27,α)) ออกครบทุกค่าแล้ว เช่นเดียวกับชุดของ TKB55
-// (#fb131b #ff8a8f #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708 #0d0304
-// #c40304 #8a0206 #53050a #1a0304) และชุดน้ำเงินไฟฟ้าของ TSDET911 (#0360f3
-// #0292fb #6ec8ff #4fb4ff #cfdcec #9db4d4 #dde8f7 #102a5e #0a1c42 #040e26
-// #00081f #032dad #04186e #041a43)
-// ⚠️ แดงของแบรนด์อื่นที่ยังค้างในไฟล์ inventory: SUPERSLOTCLUB #e8232a (R=232) ·
-// PIGPG #d4200d (R=212) · FLASH877 #ff3b14 (R=255 G=59) — ไม่มีตัวไหนเป็น #fa0513
-// ⚠️ ทองรอบนี้ #e3b23c ก็คนละค่ากับทองของ TND168 #dfa310 · UFA324 #e5a81b ·
-// KMD88 #e2b33f ที่ค้างในไฟล์ inventory — ต่างกันหลักเดียวกับตัวหลัง
-// ⚠️ **รอบนี้ไม่มีโครเมียมขาว/เงิน ไม่มีม่วง ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว
-// ไม่มีส้ม ไม่มีชมพู** มีแค่แดงกับทองไทย
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" และ **กับดักรอบนี้คือทอง** เพราะทองคือฮิวนำ
+// ทั้งที่เกือบทุกแบรนด์ที่ผ่านไฟล์นี้ก็มีทอง — ทองรอบนี้คือ #f7c92b (R=247 G=201
+// B=43) เท่านั้น ทองของแบรนด์ก่อนๆ ที่เคยอยู่ในไฟล์นี้: f0b429 (รับตัง168) ·
+// e3b23c (สมหวัง168) · e2b33f (KMD88) · dfa310 + ffc93d + ffe4a3 (TND168) ·
+// f2c230 + ffe066 (KINGKONG555) · e5a81b (UFA324) · fad354 (789BETTING) ·
+// f5c518 (FLASH877) · f3bb34 (DUCK1688) · fbe455 (WEPLAY168) — ออกครบแล้ว
+// ชุดเต็มของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
+// f5ece0 2b100f 200a09 140505 1a0505 + rgba 240,180,41 / 211,3,4 / 255,220,140 /
+// 255,107,110) และชุดของสมหวัง168 (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210
+// b90203 8c0204 5b0203 3c0303 f4ecea 2c1413 1f0d0c 140706 290f0f) ไม่เหลือเลย
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ แดงรอบนี้คือ #b3121b และ **มันไม่เคยนำ** — ไม่ใช่ d30304 fa0513 fb131b fb141b
+// d4200d e8232a หรือ ff3b14
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีเขียว ไม่มีส้ม
+// และไม่มีเงิน/โครเมียมอมฟ้า** (cfd9e6 เป็นของรับตัง168 โลโก้รอบนี้ไม่มีโครเมียมเลย)
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-3xl border border-[#8a6210] bg-gradient-to-br from-[#2c1413]/96 to-[#140706]/96 p-8 text-left text-base leading-relaxed text-[#f4ecea] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-[#e3b23c] hover:shadow-[0_15px_40px_rgba(250,5,19,0.38)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -left-20 -z-10 h-40 w-40 rounded-full bg-[#fa0513]/32 blur-[55px] transition-all duration-500 group-hover:bg-[#fa0513]/48">
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-[28px] border-2 border-[#f7c92b]/70 bg-gradient-to-br from-[#241509] via-[#160d06] to-[#0b0603] p-8 text-left text-base leading-relaxed text-[#eadfce] shadow-[0_12px_34px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#f2bba5]/80 hover:shadow-[0_18px_44px_rgba(247,201,43,0.3)] md:p-10">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#b3121b]/45 blur-[62px] transition-all duration-500 group-hover:bg-[#b3121b]/60">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-20 -bottom-20 -z-10 h-40 w-40 rounded-full bg-[#3c0303]/80 blur-[55px] transition-all duration-500 group-hover:bg-[#8a6210]/45">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#5a0a0e]/85 blur-[62px] transition-all duration-500 group-hover:bg-[#f2bba5]/28">
     </div>
 
     {
       title && (
-        <header class="mb-6 border-b border-[#b90203] pb-4">
-          <HeadingTag class={`bg-gradient-to-r from-[#ff5a5f] via-[#ffe5a8] to-[#e3b23c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-7 flex flex-col gap-4">
+          <HeadingTag
+            class={`w-fit rounded-2xl bg-gradient-to-r from-[#ffe6a3] via-[#f7c92b] to-[#f2bba5] px-5 py-3 ${headingSize} leading-normal font-black tracking-widest text-[#140c06] uppercase shadow-[0_8px_24px_rgba(247,201,43,0.35)]`}>
             {title}
           </HeadingTag>
+          <div aria-hidden="true" class="h-[3px] w-full rounded-full bg-gradient-to-r from-[#8a5f12] via-[#b3121b] to-transparent" />
         </header>
       )
     }

@@ -19,12 +19,12 @@ const leftHeading = titleleft ?? title;
 //
 // COLUMN ORDER: TEXT (7fr) then IMAGE (3fr) — `title` is the shorthand for the
 // LEFT column's heading and the picture goes in slot="right". Only one column
-// ever carries a heading on the page: the image column is passed no
-// `titleright`, so this block emits exactly one docx heading. The title rail is
-// in normal flow (never `absolute`) and carries no `whitespace-nowrap`, so there
-// is no floating badge here and no vertical-clearance arithmetic to do — a
-// two-line title at mobile width pushes the slot down instead of covering it,
-// and `min-w-0` lets the heading wrap inside the flex row rather than overflow.
+// ever carries a heading: the image column is passed no `titleright`, so this
+// block emits exactly one docx heading. The title rail is in normal flow (never
+// `absolute`) and carries no `whitespace-nowrap`, so there is no floating badge
+// here and no vertical-clearance arithmetic to do — a two-line title at mobile
+// width pushes the slot down instead of covering it, and `min-w-0` lets the
+// heading wrap inside the flex row rather than overflow.
 //
 // ความกว้างจริงของคอลัมน์รูป (3fr ฝั่งขวา) ที่หน้าแรกคิด `widths`/`sizes` จาก — แก้
 // ค่าใดต่อไปนี้ต้องไปแก้หน้าแรกด้วย (section max-w-7xl/1280 + px-4(32) · card
@@ -34,94 +34,91 @@ const leftHeading = titleleft ?? title;
 //   md..1279  : (100vw − 130) × 0.3 − 33             = calc(30vw − 72px)
 //   698..767  : คอลัมน์เดียวที่ p-8 กว้างเกิน 600 จึงติดเพดาน max-w-[600px] = 600px
 //   <698      : คอลัมน์เดียวที่ p-8                  = calc(100vw − 98px)
-// ⚠️ ชุดตัวเลขนี้เป็นของ **ใบนี้** (max-w-7xl บน section · p-8 / gap-8 / pl-8)
-// ไม่ใช่ของ ContentBoxSevenThree ตัวอื่นที่ใช้ md:p-10 / pl-6 ห้ามลอกข้ามไฟล์
+// ⚠️ ชุดตัวเลขนี้เป็นของ **ใบนี้** (p-8 / gap-8 / md:pl-8) ไม่ใช่ของ
+// ContentBoxSevenThreeNeumorphism ที่เป็น md:p-10 / gap-10 / md:pl-10 แล้วออกมา
+// 297px / calc(30vw − 87px) — ห้ามลอกตัวเลขข้ามไฟล์
 //
-// สมหวัง168 (รอบแดงมังกร-ทองไทย 2026-10-17, brand-spec §2-§4):
-// กล่องนี้ถือ docx H2 §3 ("โปรโมชั่นเดิมพัน <แบรนด์> จากผู้ให้บริการเว็บเกมสล็อต")
-// คู่กับ **slide1** ซึ่งเป็นใบเดียวของดรอปนี้ที่ใช้ได้ และพิมพ์ **ทั้งสอง**
-// โปรโมชั่นไว้ในภาพเดียว (แผงซ้าย คืนยอดเสีย 0.3% · แผงขวา แนะนำเพื่อน โบนัส 0.8%)
-// มันจึงคู่กับหัวข้อ "ภาพรวมโปรโมชั่น" ระดับ H2 ไม่ใช่กับ H3 ใบใดใบหนึ่ง
-// ⚠️ slide2.png มีเวิร์ดมาร์กของแบรนด์ก่อนพิมพ์อยู่บนรูป ส่วน slide3/slide4 และ
-// banner2/banner3 เป็นอาร์ตเวิร์กของแบรนด์ก่อนๆ ทั้งหมด — ห้าม import ที่ไหนเลย
-// และนี่คือ **บล็อก SevenThree เดียวของรอบนี้** ตามเพดาน 2 ใบของ playbook
+// ขวัญใจ168 (รอบทองนำ · โรสโกลด์เป็นฮิวที่สอง · แดงชาดเป็นสำเนียงลึก บนดำสนิท
+// 2026-10-18) — พาเลตต์ตาม .claude/brand-spec-kwanjai168.md §2–§4
+// กล่องนี้ถือ docx H3 §4 ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ
+// **slide2.png** ซึ่งพิมพ์คำว่า คืนยอดเสีย กับเลข 0.3% ไว้บนแผ่นป้ายในตัวภาพเอง
+// ⚠️ **ตัวเลขบนงานอาร์ตเป็นตัวตัดสินการจับคู่** slide2 = คืนยอดเสีย 0.3% และ
+// slide1 = แนะนำเพื่อน 0.8% ส่วน banner2/banner3/slide3/slide4 เป็นอาร์ตเวิร์ก
+// ของแบรนด์ก่อน — ห้าม import ที่ไหนเลย (eager import = emit แม้ไม่ render)
+// นี่คือหนึ่งในสองบล็อก SevenThree ของรอบนี้ ตามเพดาน 2 ใบของ playbook
 //
-// รอบนี้เป็น **สองโทนจริง: แดงมังกรนำ ทองไทยรอง** — แดงแบรนด์ #fa0513 คือเลข 168
-// กับเปลวไฟบนโลโก้ ส่วนทอง #e3b23c / #ffe5a8 คือลายกนกและนาคทองในงานอาร์ต
-// พื้นเพจ **ดำอมแดง #290f0f** (bg.json)
-// ⚠️ **รอบนี้ไม่มีโครเมียมขาว/เงิน ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า
-// ไม่มีเขียว ไม่มีส้ม** (สีเงินอมฟ้าในคำว่า "สมหวัง" เป็นรายละเอียดในรูป ไม่ใช่
-// สีของระบบ — ที่ดึงออกมาเป็นสีรองคือ **ทอง** จากลายกนก)
+// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #241509 ยก / #160d06 กลาง /
+// #0b0603 จม / #000000 พื้น
 //
-// ใบนี้เป็น **การ์ดมุมตัดใบเดียวของหน้า** นั่งอยู่ที่ **ผิวกลาง #1f0d0c** ซึ่งลึกกว่า
-// ผิวยก #2c1413 ของ ContentBox (§4) ที่ตามมาทันที และตื้นกว่าผิวจม #140706 ของ Faq4
-// §3 กับ §4 อยู่ติดกันจึงถูกแยกสามอย่างพร้อมกัน: **รูปทรง** (มุมตัด clip-path 30px
-// vs rounded-3xl) **ความลึกของผิว** (กลาง vs ยก) และ **การจัดหัวข้อ** (ใบนี้เป็น
-// ทองสว่างทึบสีเดียว · ใบนั้นเป็นตัวอักษรไล่เฉดพร้อมแถบขีดใต้)
-// เส้นรูดสี่มุมจับคู่แดง-ทองไขว้กัน และวางอยู่ที่ **สองมุมที่ถูกตัดจริง** คือขวาบน
-// กับซ้ายล่าง — แดงแบรนด์ #fa0513 คู่ทองไทย #e3b23c บนแนวนอน และทองสว่าง #ffe5a8
-// คู่แดงลึก #b90203 บนแนวตั้ง
-// เครื่องหมาย ◆ เป็นทองไทย #e3b23c อ้างถึงข้าวหลามตัดในลายกนกที่ขนาบงานอาร์ต
+// จังหวะรูปทรงของใบนี้: เป็น **การ์ดมุมตัดใบเดียวของหน้า** (clip-path 30px ที่มุม
+// ขวาบนกับซ้ายล่าง) นั่งอยู่ที่ **ผิวกลาง #160d06** ซึ่งลึกกว่าผิวยกของ ContentBox
+// (§3) ที่อยู่เหนือมัน และตื้นกว่าผิวจมของ SevenThreeNeumorphism (§5) ที่ตามมาทันที
+// §4 กับ §5 เป็นบล็อกรูปสองใบที่อยู่ติดกัน จึงถูกแยกสี่อย่างพร้อมกัน: **รูปทรง**
+// (มุมตัดเฉียง vs มุมกลมนูน) **ความลึกของผิว** (กลาง vs จม) **การตกแต่งขอบ**
+// (เส้นรูดสี่มุม vs เงานูนคู่) และ **การจัดหัวข้อ** (โรสโกลด์ทึบสีเดียว vs ตัวอักษร
+// ไล่เฉดสามสีพร้อมแถบตั้ง)
+// หัวข้อเป็น **โรสโกลด์ #f2bba5 ทึบสีเดียว** (10.4:1 บนผิวกลาง) ซึ่งเป็นใบเดียว
+// ของหน้าที่ยกฮิวที่สองขึ้นมาเป็นสีหัวข้อเต็มๆ — §2 ย้ำว่าโรสโกลด์ต้องเห็นจริง
+// ไม่ใช่แค่อยู่ในสเปก
+// เส้นรูดสี่มุมจับคู่ไขว้กัน: ทองแบรนด์ #f7c92b คู่โรสโกลด์ #f2bba5 บนแนวนอน และ
+// ทองสว่าง #ffe6a3 คู่แดงชาด #b3121b บนแนวตั้ง — วางอยู่ที่สองมุมที่ถูกตัดจริง
+// เครื่องหมาย ◆ เป็นทองแบรนด์ อ้างถึงเหรียญจีนรูสี่เหลี่ยมที่ร่วงเต็มงานศิลป์
 // (เป็น span aria-hidden และเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่อักขระในข้อความ)
-// หัวข้อฝั่งซ้ายเป็น **ทองสว่าง #ffe5a8 ทึบสีเดียว ไม่ไล่เฉด** (14.1:1) ซึ่งเป็น
-// หนึ่งในสองใบของหน้าที่หัวข้อเป็นสีทึบ (อีกใบคือ §5 ที่เป็นแดงสว่างและจัดกึ่งกลาง)
-// เส้นคั่นเป็นแดงเกือบดำ #5b0203 เนื้อความ #f4ecea (= BRAND_TEXT)
-// §2 ห้าม #fa0513 #b90203 #8c0204 #5b0203 #3c0303 #8a6210 ถือตัวอักษรทุกขนาด —
-// ในไฟล์นี้ทั้งหกค่าอยู่ที่เส้นรูดมุม เส้นคั่น ขอบ และออราเท่านั้น
-// #ffadaf สงวนไว้ให้ <strong> ในเนื้อความตาม §2 จึงไม่โผล่ในไฟล์นี้
+// เส้นคั่นเป็นทองลึก #8a5f12 ขอบการ์ดเป็นแดงชาดโปร่ง (อิ่มเป็นทองตอน hover)
+// เนื้อความ #eadfce (= BRAND_TEXT, 14.4:1 บนผิวกลาง)
+// §2 ห้าม #b3121b #5a0a0e #8a5f12 ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่เส้นรูดมุม
+// ขอบ เส้นคั่น และออราเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง** สองแบรนด์ก่อนหน้า
-// ก็แดง: GT66B #fb141b (G=20) · TKB55 #fb131b (G=19) ส่วนรอบนี้ #fa0513 (G=5)
-// ชุดเต็มของ GT66B ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (#fb141b #ff5f63 #ffa0a2 #db040b
-// #ec151c #8a0609 #3b0405 #fdfcfd #b4bcc2 #eceaea #1c0c0b #130c0c #0b0303 #000000)
-// ชุดของ TKB55 (#fb131b #ff8a8f #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708
-// #0d0304 #c40304 #8a0206 #53050a #1a0304) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168
-// (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #4a0426 #2a0012 #1c0014)
-// ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0 #e3cfae #8a5214)
-// ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (#e5a81b #b9c2cc #464f5a #f2f5f9) ชุดชมพู
-// ฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #f5c53d) ชุดทองเป็ดของ DUCK1688
-// (#f3bb34 #fde464 #c8901a #f58b2a) ชุดทองอวกาศของ NAZA168 (#fbc134 #ffe87a
-// #cfd6e3 #9aa6bb) ชุดทองสายฟ้าของ FLASH877 (#f5c518 #ffdd73 #ff3b14 #8c0f0a)
-// ชุดเขียวป่าของ KINGKONG555 (#8ce023 #f2c230) ชุดม่วงนีออนของ WEPLAY168 (#a435f0
-// #fbe455 #5b1a75 #1e0a3c) และชุดน้ำเงินไฟฟ้าของ TSDET911 (#0360f3 #0292fb #6ec8ff
-// #4fb4ff #cfdcec #9db4d4 #dde8f7) ออกครบทุกจุดแล้ว
-// ⚠️ แดงของแบรนด์อื่นที่ยังค้างในไฟล์ inventory: SUPERSLOTCLUB #e8232a (R=232) ·
-// PIGPG #d4200d (R=212) · FLASH877 #ff3b14 (R=255 G=59) — ไม่มีตัวไหนเป็น #fa0513
-// และทองรอบนี้ #e3b23c ไม่ใช่ #dfa310 / #e5a81b / #e2b33f ให้เทียบเป็นตัวเลขทีละค่า
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองรอบนี้คือ
+// #f7c92b เท่านั้น ไม่ใช่ f0b429 (รับตัง168) e3b23c (สมหวัง168) dfa310 (TND168)
+// e5a81b (UFA324) e2b33f (KMD88) f2c230 (KINGKONG555) fad354 (789BETTING)
+// f5c518 (FLASH877) f3bb34 (DUCK1688) fbe455 (WEPLAY168) f7b733 (TIGERWIN369)
+// ชุดเต็มของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
+// f5ece0 2b100f 200a09 140505 1a0505) ชุดของสมหวัง168 (fa0513 ffadaf ff5a5f
+// e3b23c ffe5a8 8a6210 b90203 8c0204 5b0203 3c0303 f4ecea 2c1413 1f0d0c 140706)
+// ชุดของ GT66B (fb141b ff5f63 ffa0a2 db040b ec151c 8a0609 3b0405 fdfcfd b4bcc2)
+// ชุดของ TKB55 (fb131b ff8a8f ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304)
+// ชุดชมพูฮอตของ PUNPRO168 (f41571 ff5ca8 fce343 ffd94a f0c3dc fde7f2) ชุดเขียว
+// ป่าของ KINGKONG555 (8ce023) ชุดม่วงนีออนของ WEPLAY168 (a435f0 5b1a75 1e0a3c)
+// และชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4)
+// ออกครบทุกจุดแล้ว
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีเงิน/โครเมียม ไม่มีม่วง ไม่มีชมพูบานเย็น ไม่มีน้ำเงิน ไม่มีฟ้า
+// ไม่มีเขียว ไม่มีส้ม**
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#fa0513]/45 bg-[#1f0d0c]/96 p-8 text-[#f4ecea] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all duration-300 hover:border-[#e3b23c]/80 hover:shadow-[0_15px_40px_rgba(250,5,19,0.28)]"
+    class="relative isolate w-full border border-[#b3121b]/55 bg-[#160d06]/96 p-8 text-[#eadfce] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all duration-300 hover:border-[#f7c92b]/75 hover:shadow-[0_15px_40px_rgba(247,201,43,0.26)]"
     style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));">
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fa0513] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#e3b23c] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ffe5a8] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#b90203] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f7c92b] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f2bba5] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ffe6a3] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#b3121b] to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ecea]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce]">
         {
           leftHeading && (
-            <div class="flex items-baseline gap-2 border-b border-[#5b0203] pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#e3b23c]">
+            <div class="flex items-baseline gap-2 border-b border-[#8a5f12] pb-2">
+              <span aria-hidden="true" class="shrink-0 text-[#f7c92b]">
                 ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#ffe5a8] uppercase">{leftHeading}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f2bba5] uppercase">{leftHeading}</HeadingTag>
             </div>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ecea] md:border-l md:border-[#5b0203] md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eadfce] md:border-l md:border-[#8a5f12] md:pl-8">
         {
           titleright && (
-            <div class="flex items-baseline gap-2 border-b border-[#5b0203] pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#e3b23c]">
+            <div class="flex items-baseline gap-2 border-b border-[#8a5f12] pb-2">
+              <span aria-hidden="true" class="shrink-0 text-[#f7c92b]">
                 ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#ffe5a8] uppercase">{titleright}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#f2bba5] uppercase">{titleright}</HeadingTag>
             </div>
           )
         }

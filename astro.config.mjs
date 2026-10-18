@@ -48,7 +48,7 @@ export default defineConfig({
   // สังเกตว่า TLD รอบนี้เป็น .services ไม่ใช่ .com และไม่มีหาง -play
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://rubtang168.services",
+  site: "https://kwanjai168.services",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
