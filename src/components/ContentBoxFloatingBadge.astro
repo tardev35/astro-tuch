@@ -11,11 +11,12 @@ const { title, as: HeadingTag = "h2" } = Astro.props;
 // It catches up at sm/md, where the badge is wide enough to afford it.
 // THIS round the box carries the docx H1 (§1), so the h1 branch is the one
 // exercised and the clearance below is derived from that exact sentence.
-// ⚠️ The base step moved text-lg -> text-base this round, and the reason is in
-// the arithmetic below, not taste: this round's widest unbreakable chunk is 22
-// cells, and at text-lg the narrowest band only fits 22 cells per line — i.e.
-// zero margin. At text-base the same band fits 24.
-const headingSize = HeadingTag === "h1" ? "text-base sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
+// ⚠️ The base step moves text-base -> text-lg this round, and the reason is the
+// arithmetic below, not taste: last round's widest unbreakable chunk was 22
+// cells, which at text-lg exactly filled the narrowest band (22 cells/line =
+// zero margin) and forced the step down. THIS round's widest chunk is 17 cells
+// and the same band fits 22, i.e. 5 cells of margin, so text-lg is back.
+const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
 
 // Flattened single-slot variant: `isolate` on the card, `-z-10` on both aura
 // layers, the slot renders as a direct child. Do not re-add a wrapper <div>.
@@ -28,112 +29,115 @@ const headingSize = HeadingTag === "h1" ? "text-base sm:text-2xl" : "text-lg sm:
 // past the viewport. The two ornaments stay OUT of the line box — they are
 // `absolute` hairlines, so 100% of the badge's inner width belongs to the title.
 //
-// BADGE CLEARANCE RE-DERIVED FOR สบายเบท168 (2026-10-19). This box carries the
+// BADGE CLEARANCE RE-DERIVED FOR รวยแทร่168 (2026-10-19). This box carries the
 // docx H1 this round:
-//   "<BRAND> เว็บสล็อตทางการ ผู้ให้บริการฐานเกมหลักที่ดีที่สุด"
-// Its three space-delimited chunks advance 10 / 13 / 22 cells of glyph (Thai
-// zero-width marks do not advance: ็ ็ in เว็บสล็อตทางการ are 2, and
-// ู ้ ้ ิ ั ี ่ ี ี ่ ุ in ผู้ให้บริการฐานเกมหลักที่ดีที่สุด are 11 — none of
-// them advance). 45 cells of glyph plus 2 spaces = 47 cells. The worst case
-// assumed below is that the line breaker only breaks at those 2 spaces; Thai
-// dictionary breaking adds break opportunities, so it can only ever pack the
-// same text into FEWER lines, never more.
-// ⚠️ The widest single chunk is 22 cells this round (last round's was 20), and
-// that is the number that decides whether anything can overflow SIDEWAYS. At the
-// previous text-lg base size the narrowest band fit exactly 22 cells — no
-// margin at all, so one font-metric rounding would have split or clipped it.
-// Dropping the base step to text-base takes the same band to 24 cells/line.
+//   "<BRAND> สล็อตรวมเกมกำไรงาม เล่นง่ายทุกค่าย"
+// Its three space-delimited chunks advance 9 / 17 / 11 cells of glyph. Thai
+// zero-width marks do NOT advance and are excluded: ่ in รวยแทร่168 is 1,
+// ็ in สล็อตรวมเกมกำไรงาม is 1 (ำ DOES advance, it is a full character), and
+// ่ ่ ุ ่ in เล่นง่ายทุกค่าย are 4. 37 cells of glyph plus 2 spaces = 39 cells,
+// against 47 last round. The worst case assumed below is that the line breaker
+// only breaks at those 2 spaces; Thai dictionary breaking adds break
+// opportunities, so it can only ever pack the same text into FEWER lines.
+// ⚠️ The widest single chunk is 17 cells, and that is the number that decides
+// whether anything can overflow SIDEWAYS. The narrowest band fits 22 at text-lg,
+// so there are 5 cells of margin even before dictionary breaking.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
 // minus 24px (`-top-6`), measured from the card's top. Text width = badge width
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
-//               text-base 16px -> ~9.3px/cell = 24 cells/line, 24px/line.
-//               Greedy at the 2 spaces: 10 + 1 + 13 = 24 exactly, then 22
-//               -> 2 lines.
+//               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
+//               Greedy at the 2 spaces: 9 (adding 1+17 -> 27 overflows 22),
+//               then 17, then 11 -> 3 lines.
+//               3x27 + 24 = 105, edge 81 vs pt-36/144px        -> 63px clear
 //               Budgeting a PESSIMISTIC 4 lines in case a font metric lands a
-//               cell over and both long chunks split:
-//               4x24 + 24 = 120, edge 96 vs pt-36/144px      -> 48px clear
-//               (the real 2-line case is edge 48             -> 96px clear)
+//               cell over and a chunk splits:
+//               4x27 + 24 = 132, edge 108 vs 144                -> 36px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-2xl 24px -> ~13.9px/cell = 35 cells/line, 36px/line.
-//               Greedy: 10+1+13 = 24 (adding 1+22 -> 47 overflows 35), then 22
-//               -> 2 lines. Budget 3 = 3x36 + 24 = 132, edge 108 vs 144
-//                                                            -> 36px clear
+//               Greedy: 9+1+17 = 27 (adding 1+11 -> 39 overflows 35), then 11
+//               -> 2 lines. 2x36 + 24 = 96, edge 72 vs 144      -> 72px clear
+//               Budget 3 = 3x36 + 24 = 132, edge 108 vs 144     -> 36px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
 //               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               Greedy: 24 (adding 1+22 -> 47 overflows 43), then 22 -> 2 lines.
-//               Budget 3 = 132, edge 108 vs 144               -> 36px clear
+//               Greedy: the whole 39-cell title fits -> 1 line.
+//               1x36 + 24 = 60, edge 36 vs 144                  -> 108px clear
+//               Budget 2 = 2x36 + 24 = 96, edge 72 vs 144       -> 72px clear
 // Every band clears with daylight to spare even on the pessimistic budget, so
 // pt-36 STANDS UNCHANGED and no *FloatingBadge padding moved this round. All
 // FOUR *FloatingBadge files stay at this same flat pt-36 — this one,
 // ContentBoxTwoFloatingBadge, ContentBoxSevenThreeFloatingBadge and
 // ContentBox3ThreeFloatingBadge — so the next brand cannot inherit a padding
-// that was only ever sized for a short title. Do NOT shrink it assuming the next
-// brand's heading is shorter, and do not re-introduce a responsive step down at
-// sm — redo the arithmetic with that brand's real docx sentence instead.
+// that was only ever sized for a short title. Do NOT shrink it because THIS
+// round's title happens to fit on one line at md — redo the arithmetic with
+// that brand's real docx sentence instead, and do not re-introduce a responsive
+// step down at sm.
 //
-// สบายเบท168 (รอบ **ฟ้าบับเบิลนำ · ทองเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือตัวอักษร
-// บนดำสนิท** 2026-10-19, brand-spec §2): โลโก้คือ **แมวการ์ตูนขนขาวลายส้ม** หน้ายิ้ม
-// หลับตา สวมปลอกคอฟ้ามีกระดิ่งทอง นั่งคู่กับ **มือถือจอฟ้ามีลูกศรดาวน์โหลด** และ
-// **ปึกแบงก์สีฟ้า** เหนือคำว่า "สบาย" ตัวอักษรไทยหนาสามมิติ **สีทอง** ต่อด้วย
-// "เบท168" **สีฟ้าบับเบิลผิวมันวาว** ล้อมด้วยหัวใจฟ้าและเหรียญบิตคอยน์ทอง
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) ลำดับความลึกเป็นน้ำเงินหมึก
-// อมฟ้า: #0e2238 ยก / #081726 กลาง / #040d16 จม / #000000 พื้น
+// รวยแทร่168 (รอบ **ฟ้าอะซัวร์นำ · ทองอำพันเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
+// ตัวอักษร · บนดำสนิท** 2026-10-19, brand-spec §2): โลโก้คือคำว่า **"รวย"**
+// ตัวอักษรไทยหนาสามมิติ **สีทองอำพันตัดขอบขาว** ต่อด้วย **"แทร่168"** **สีฟ้า
+// อะซัวร์บับเบิลผิวมันวาว** ข้างๆ เป็น **ถุงเงินสีฟ้าสลักเครื่องหมายดอลลาร์**
+// **ปึกธนบัตร** และ **กองเหรียญทอง** ล้อมด้วย **หัวใจสีฟ้า** กับ **ประกายดาว
+// ฟ้า-ทอง** บนพื้นขาว
+// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) ลำดับความลึกเป็นน้ำเงินหมึก:
+// #0b2d52 ยก / #071e38 กลาง / #030f1d จม / #000000 พื้น
 //
 // จุดต่างของใบนี้คือป้ายลอยเป็น **แผ่นถมสว่าง หมึกเข้ม** ซึ่งเป็นขั้วกลับของทุก
 // หัวข้ออื่นบนหน้านี้ที่เป็นตัวอักษรสว่างบนพื้นมืด และไล่เฉดของแผ่นคือไล่เฉดที่ตา
-// อ่านโลโก้จริง: ฟ้าแบรนด์ #2f9ff5 → ฟ้าอ่อน #a8dcff → ทองอ่อน #ffefbb บนหมึก
-// #04121f (§2 ระบุว่า #04121f คือหมึกตัวเดียวที่วางบนพื้นถมฟ้า/ทองได้ — 6.9:1 บน
-// #2f9ff5 ซึ่งเป็นปลายเข้มสุดของไล่เฉด และสูงขึ้นเรื่อยๆ ไปทางปลายอ่อน ห้ามพลิก
+// อ่านโลโก้จริง: ฟ้าอะซัวร์ #039cfa → ฟ้าน้ำแข็ง #c3ebfc → ทองอำพัน #f9a826
+// บนหมึก #031320 (§2 ระบุว่า #031320 คือหมึกตัวเดียวที่วางบนพื้นถมฟ้า/ทองได้ —
+// 6.2:1 บน #039cfa ซึ่งเป็นปลายเข้มสุดของไล่เฉด และ 9.3:1 บน #f9a826 ห้ามพลิก
 // แผ่นสว่างไปใช้หมึกสว่าง)
-// ขอบป้ายเป็นน้ำเงินลึก #0b3f78 เส้นไรผมบนเป็นฟ้าอ่อน #a8dcff เส้นล่างเป็นทองลึก
-// #5c4a16 ออราสองมุมเป็นคู่ฮิวจริงของแบรนด์ — ฟ้าแบรนด์ #2f9ff5 มุมขวาบน (หัวใจฟ้า
-// กับเส้นแสงบนแบนเนอร์) คู่กับทอง #ffc82e มุมซ้ายล่าง (เหรียญบิตคอยน์) ไม่ใช่สอง
-// เฉดของสีเดียวกัน
-// เนื้อความ #e8f4ff (= BRAND_TEXT) — 15.4:1 บนผิวยก และสูงขึ้นบนครึ่งล่างของไล่เฉด
-// §2 ห้าม #0b3f78 และ #5c4a16 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบ เส้นไรผม และ
-// ออราเท่านั้น · #ffc82e สงวนไว้ให้ <strong> ในย่อหน้า จึงโผล่ในไฟล์นี้แค่ในออรา
+// ขอบป้ายเป็นน้ำเงินลึก #04366b เส้นไรผมบนเป็นฟ้าน้ำแข็ง #c3ebfc เส้นล่างเป็น
+// บรอนซ์ลึก #704504 ออราสองมุมเป็นคู่ฮิวจริงของแบรนด์ — ฟ้าอะซัวร์ #039cfa
+// มุมขวาบน (หัวใจฟ้ากับถุงเงินฟ้า) คู่กับทองอำพัน #f9a826 มุมซ้ายล่าง (กองเหรียญ)
+// ไม่ใช่สองเฉดของสีเดียวกัน
+// เนื้อความ #e3f2fc (= BRAND_TEXT) — 11.9:1 บนผิวยก และสูงขึ้นบนครึ่งล่างของไล่เฉด
+// §2 ห้าม #04366b และ #704504 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบ เส้นไรผม และ
+// ออราเท่านั้น · #f9a826 สงวนไว้ให้ <strong> ในย่อหน้า จึงโผล่ในไฟล์นี้แค่ในออรา
+// กับปลายไล่เฉดของแผ่นป้าย
 //
-// ⚠️ **กับดักรอบนี้มีสองชั้น: ทอง และ ฟ้า** เกือบทุกแบรนด์ที่ผ่าน repo นี้มีทอง
-// "เจอทอง" จึงไม่พิสูจน์อะไรเลย และฟ้าก็ไม่ปลอดภัยเพราะ TSDET911 เคยเป็นปีกเหยี่ยว
-// น้ำเงินทั้งชุด ทองรอบนี้คือ #ffc82e (R=255 G=200 B=46) **เท่านั้น** ไม่ใช่ ffd84d
-// (ถอนชัวร์168 รอบก่อน) fcd434 ffeaa0 (มีโชค168) f7c92b ffe6a3 (ขวัญใจ168) f0b429
-// (รับตัง168) e3b23c (สมหวัง168) dfa310 ffc93d ffe4a3 (TND168) f2c230 ffe066
-// (KINGKONG555) e2b33f (KMD88) e5a81b (UFA324) fad354 (789BETTING) f5c518
-// (FLASH877) fce343 (PUNPRO168) f3bb34 (DUCK1688) หรือ fbe455 (WEPLAY168) —
-// เทียบเป็นตัวเลขทีละหลัก ห้ามกะด้วยตา
-// ⚠️ ฟ้ารอบนี้คือ #2f9ff5 / #a8dcff / #0b3f78 **เท่านั้น** ไม่ใช่ 0360f3 0292fb
-// 6ec8ff 4fb4ff (TSDET911) 0a84e0 04203f e4f1fd (HI59) หรือ cfd9e6 (เงินอมฟ้าของ
-// รับตัง168 ซึ่งหน้าตาใกล้ฟ้าอ่อนมาก)
-// ⚠️ สิ่งที่แยกรอบนี้ออกจากรอบก่อนจริงๆ คือ **ฮิวนำเปลี่ยนตระกูล** ไม่ใช่แค่สลับ
-// ลำดับ: ห้ารอบหลังสุดวนอยู่ใน ชมพู/แดง/ทอง ทั้งหมด (ถอนชัวร์168 ชมพูบับเบิลกัมนำ ·
-// มีโชค168 ทองนำ+ชมพูบานเย็น · ขวัญใจ168 ทองนำ+โรสโกลด์ · รับตัง168 ทองนำ+แดงสด ·
-// สมหวัง168 แดงนำ) รอบนี้ **ฟ้านำ** ซึ่งต้องเห็นจริงบนการ์ดใบนี้ ไม่ใช่แค่ในสเปก
-// ชุดชมพูบับเบิลกัม-ทองเนยของถอนชัวร์168 ที่เคยค้างอยู่ทั้งไฟล์นี้ (fa63b9 ffb3de
-// ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5 กับ rgba 250/99/185
-// และ rgba 255/216/77) ชุดทอง-ชมพูบานเย็นของมีโชค168 (fcd434 ffeaa0 f5469f ff8dc6
-// 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) และชุดทองไทย-โรสโกลด์-แดงชาด
-// ของขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06
-// 241509 160d06 0b0603) ออกครบทุกค่าแล้ว
+// ⚠️ **กับดักรอบนี้หนักที่สุดเท่าที่เคยมี: ฟ้า+ทองเป็นรอบที่สามติดกัน** นินจา168
+// เป็นฟ้าไซยาน+เหลืองมะนาว และสบายเบท168 ก่อนหน้านั้นเป็นฟ้าท้องฟ้า+ทองอำพัน
+// "เจอฟ้า" หรือ "เจอทอง" ในไฟล์นี้จึง **ไม่พิสูจน์อะไรเลย** ต้องเทียบทีละค่า
+// ฟ้ารอบนี้คือ **#039cfa** (R=3 G=156 B=250 — อะซัวร์อิ่มสีจัด แดงเกือบศูนย์)
+// ไม่ใช่ 32bcfb (นินจา168) 2f9ff5 a8dcff d6ecff 0b3f78 (สบายเบท168) 0360f3 0292fb
+// 6ec8ff 4fb4ff (TSDET911) 0193fb 7bcffb (แตกดี168) 0a84e0 04203f e4f1fd (HI59)
+// 2563eb 04225b หรือ cfd9e6 (เงินอมฟ้าของรับตัง168 ที่หน้าตาใกล้ฟ้าอ่อนมาก)
+// ทองรอบนี้คือ **#f9a826** (R=249 G=168 B=38 — อำพันออกส้ม) ไม่ใช่ fef54b
+// (นินจา168 เหลืองมะนาว) ffc82e 5c4a16 (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434
+// ffeaa0 (มีโชค168) f7c92b ffe6a3 (ขวัญใจ168) f0b429 ffdc8c (รับตัง168) e3b23c
+// (สมหวัง168) e2b33f (KMD88) dfa310 (TND168) f2c230 (KINGKONG555) e5a81b (UFA324)
+// fad354 (789BETTING) f5c518 (FLASH877) fce343 (PUNPRO168) f3bb34 (DUCK1688)
+// หรือ fbe455 (WEPLAY168) — เทียบเป็นตัวเลขทีละหลัก ห้ามกะด้วยตา
+// ชุดเต็มของสบายเบท168 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (2f9ff5 a8dcff ffefbb 0b3f78
+// ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f กับ rgba 47/159/245 และ
+// rgba 255/200/46) ชุดของนินจา168 (32bcfb a9e9ff 07335f fef54b 6b5c10 0c2a3d
+// 071a28 030e16 041019 dceefc) ชุดชมพูบับเบิลกัม-ทองเนยของถอนชัวร์168 (fa63b9
+// ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) ชุดทอง-ชมพู
+// บานเย็นของมีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee
+// 24101c 160a12 0b0509) และชุดทองไทย-โรสโกลด์-แดงชาดของขวัญใจ168 (f7c92b ffe6a3
+// f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ออกครบ
+// ทุกค่าแล้ว
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
 // ⚠️ **รอบนี้ไม่มีชมพู ไม่มีแดง ไม่มีม่วง/ไวโอเลต ไม่มีเขียว ไม่มีส้ม
-// ไม่มีเงิน/โครเมียม และไม่มีโรสโกลด์**
+// ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#2f9ff5]/65 bg-gradient-to-b from-[#0e2238] to-[#040d16] p-8 pt-36 text-left text-base leading-relaxed text-[#e8f4ff] shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#2f9ff5]/30 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#ffc82e]/22 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#039cfa]/65 bg-gradient-to-b from-[#0b2d52] to-[#030f1d] p-8 pt-36 text-left text-base leading-relaxed text-[#e3f2fc] shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#039cfa]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#f9a826]/22 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#0b3f78] bg-gradient-to-r from-[#2f9ff5] via-[#a8dcff] to-[#ffefbb] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.6)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#a8dcff] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#5c4a16] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#04121f] uppercase`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#04366b] bg-gradient-to-r from-[#039cfa] via-[#c3ebfc] to-[#f9a826] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.6)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#c3ebfc] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#704504] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#031320] uppercase`}>{title}</HeadingTag>
         </div>
       )
     }

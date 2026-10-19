@@ -17,56 +17,57 @@ const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
 // LoginRtpSection renders it without a title, which is why the page's heading
-// inventory stops at the docx's own sections (brand-spec §4: h1×1 h2×5 h3×2).
+// inventory stops at the docx's own sections (brand-spec §4: h1×1 h2×5 h3×5).
 //
 // Reached ONLY through LoginRtpSection this round (index.astro does not import
-// it directly — the docx's two-column section went to ContentBoxTwoCyberCut,
-// and the rest of the shape mix is in brand-spec §3).
+// it directly — the docx's two-column sections went to ContentBoxTwoPremium and
+// ContentBoxTwoNeumorphism, and the rest of the shape mix is in brand-spec §3).
 // A grep for "components/ContentBoxTwo.astro" in src/pages/ therefore finds
 // nothing, and that does NOT mean it is inventory: match the bare filename
 // instead. It is LIVE and has to carry this brand's colours.
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// นินจา168 (รอบ **ฟ้าไซยานนำ · เหลืองมะนาวเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
+// รวยแทร่168 (รอบ **ฟ้าอะซัวร์นำ · ทองอำพันเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
 // ตัวอักษร บนดำสนิท** 2026-10-19) — พาเลตต์ตาม brand-spec §2
-// โลโก้: นินจาการ์ตูนชุดดำ ผูกผ้าคาดหัวฟ้า-ขาวมีดาวน้ำเงิน ขยิบตา ถือดาวกระจาย
-// (ชูริเคน) สีฟ้า มีผ้าพันคอฟ้าปลิว ล้อมด้วยประกายดาวทองและชูริเคนฟ้า ข้างๆ เป็น
-// ตัวอักษรไทยสามมิติ **สีเหลืองทอง** ต่อด้วยเลข **ฟ้าบับเบิลผิวมันวาว**
-// ⚠️ **ฮิวนำของรอบนี้คือฟ้าไซยาน #32bcfb และเหลืองมะนาว #fef54b เป็นตัวรอง ซึ่งเป็น
-// ตระกูลเดียวกับรอบที่แล้วแต่คนละค่า** (สบายเบท168 ฟ้า 2f9ff5 นำ ทองอำพัน ffc82e
-// รอง) การเห็น "ฟ้า" หรือ "ทอง" ในไฟล์นี้จึงไม่พิสูจน์ว่าเป็นของรอบนี้ ต้องเทียบ
-// เป็นค่า
+// โลโก้: คำว่า "รวย" ตัวอักษรไทยหนาสามมิติ **สีทองอำพันตัดขอบขาว** ต่อด้วย
+// "แทร่168" **สีฟ้าอะซัวร์บับเบิลผิวมันวาว** ข้างๆ เป็นถุงเงินสีฟ้าสลักเครื่องหมาย
+// ดอลลาร์ ปึกธนบัตร และกองเหรียญทอง ล้อมด้วยหัวใจสีฟ้าและประกายดาวฟ้า-ทอง บนพื้นขาว
+// ⚠️ **ฮิวนำของรอบนี้คือฟ้าอะซัวร์ #039cfa และทองอำพัน #f9a826 เป็นตัวรอง ซึ่งเป็น
+// ตระกูลเดียวกับสองรอบที่แล้วแต่คนละค่า** (นินจา168 ฟ้าไซยาน 32bcfb นำ เหลืองมะนาว
+// fef54b รอง · สบายเบท168 ฟ้า 2f9ff5 นำ ทอง ffc82e รอง) การเห็น "ฟ้า" หรือ "ทอง"
+// ในไฟล์นี้จึงไม่พิสูจน์ว่าเป็นของรอบนี้ ต้องเทียบเป็นค่า
 // ⚠️ bg.json = {"mode":"color","color":"#000000"} → พื้นเพจเป็น **ดำสนิท** ลำดับ
-// ความลึก: #0c2a3d ยก / #071a28 กลาง / #030e16 จม / #000000 พื้น
+// ความลึก: #0b2d52 ยก / #071e38 กลาง / #030f1d จม / #000000 พื้น
 // กล่องนี้ไม่มีการ์ดครอบ มันวางสองคอลัมน์ลงบนพื้นเพจดำสนิทตรงๆ จึงเป็นจังหวะ
 // "โปร่ง" ของหน้า คั่นหลังบล็อกเนื้อหาของบรีฟ — กล่องเนื้อหาใบอื่นมีผิวและกรอบของ
 // ตัวเองทั้งหมด
-// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นถมสว่าง vs แผ่นมืดกรอบทองลึก" และเรียงตามลำดับนำของ
-// รอบนี้: **ฝั่งซ้ายเป็นฝั่งฟ้า** ป้ายไอคอนเป็นแผ่นถมไล่ #a9e9ff → #32bcfb บนหมึก
-// #041019 (§2 ระบุว่านี่คือหมึกตัวเดียวที่วางบนพื้นถมฟ้า/เหลืองได้ — 8.9:1 บน
-// #32bcfb และสูงกว่านั้นบน #a9e9ff **ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง**) ป้ายคอลัมน์
-// ซ้ายเป็นฟ้าแบรนด์ #32bcfb (7.1:1 และเป็น text-xl font-black จึงเป็น large text)
-// ส่วน **ฝั่งขวาเป็นฝั่งเหลือง** ป้ายไอคอนเป็นแผ่นมืดไล่ผิวยก #0c2a3d → ผิวจม
-// #030e16 ในกรอบทองลึก #6b5c10 บนไอคอนเหลืองมะนาว #fef54b และป้ายคอลัมน์ขวาเป็น
-// เหลืองมะนาว (12.7:1)
-// §2 ห้าม #07335f (1.4:1) และ #6b5c10 (1.9:1) ถือตัวอักษรที่ไหนเลย — ในไฟล์นี้
+// สองคอลัมน์ถูกแยกด้วยคู่ "แผ่นถมสว่าง vs แผ่นมืดกรอบบรอนซ์ลึก" และเรียงตามลำดับนำ
+// ของรอบนี้: **ฝั่งซ้ายเป็นฝั่งฟ้า** ป้ายไอคอนเป็นแผ่นถมไล่ #c3ebfc → #039cfa บนหมึก
+// #031320 (§2 ระบุว่านี่คือหมึกตัวเดียวที่วางบนพื้นถมฟ้า/ทองได้ — 6.2:1 บน #039cfa
+// และ 12.9:1 บน #c3ebfc **ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง**) ป้ายคอลัมน์ซ้ายเป็น
+// ฟ้าอะซัวร์ #039cfa (4.6:1 และเป็น text-xl font-black จึงเป็น large text)
+// ส่วน **ฝั่งขวาเป็นฝั่งทอง** ป้ายไอคอนเป็นแผ่นมืดไล่ผิวยก #0b2d52 → ผิวจม #030f1d
+// ในกรอบบรอนซ์ลึก #704504 บนไอคอนทองอำพัน #f9a826 และป้ายคอลัมน์ขวาเป็นทองอำพัน
+// (6.9:1)
+// §2 ห้าม #04366b (1.15:1) และ #704504 (1.7:1) ถือตัวอักษรที่ไหนเลย — ในไฟล์นี้
 // ทั้งสองค่าอยู่ที่ขอบ เส้นคั่น และสันหัวข้อเท่านั้น
-// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ ฟ้าแบรนด์ #32bcfb → ฟ้าน้ำแข็ง #a9e9ff →
-// เหลืองมะนาว #fef54b ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร**
-// ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 (7.1 / 11.3 / 12.7) สันหัวข้อไล่ #32bcfb →
-// #a9e9ff → ทองลึก #6b5c10 (ซึ่งเป็น **พื้น** ไม่ใช่ตัวอักษร จึงใช้ได้)
-// เส้นคั่นเป็นฟ้าแบรนด์ฝั่งซ้าย และทองลึก #6b5c10 ฝั่งขวา
-// เนื้อความ #dceefc (= BRAND_TEXT) — 16.8:1 บนดำสนิท
-// glow rgba ใช้ได้ 4 ชุดตาม §2: rgba(50,188,251,α) · rgba(254,245,75,α) ·
-// rgba(169,233,255,α) · rgba(7,51,95,α) — ไฟล์นี้ใช้สองชุดแรก
+// หัวข้อ docx (เมื่อมีการส่ง title มา) ไล่ ฟ้าอะซัวร์ #039cfa → ฟ้าน้ำแข็ง #c3ebfc →
+// ทองอำพัน #f9a826 ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร**
+// ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 (4.6 / 10.8 / 6.9) สันหัวข้อไล่ #039cfa →
+// #c3ebfc → บรอนซ์ลึก #704504 (ซึ่งเป็น **พื้น** ไม่ใช่ตัวอักษร จึงใช้ได้)
+// เส้นคั่นเป็นฟ้าอะซัวร์ฝั่งซ้าย และบรอนซ์ลึก #704504 ฝั่งขวา
+// เนื้อความ #e3f2fc (= BRAND_TEXT) — 18.2:1 บนดำสนิท
+// glow rgba ใช้ได้ 4 ชุดตาม §2: rgba(3,156,250,α) · rgba(249,168,38,α) ·
+// rgba(195,235,252,α) · rgba(4,54,107,α) — ไฟล์นี้ใช้สองชุดแรก
 //
 // ไอคอนเริ่มต้นเป็น 🔐 / 🎰 — บรีฟรอบนี้เป็น **เว็บสล็อตล้วน** ไม่ใช่คาสิโนและไม่ใช่
 // หวย จึงไม่ใช้ไพ่/ลูกเต๋า/ลูกบอลเป็นค่าตั้งต้น (LoginRtpSection ส่งไอคอนมาเองอยู่
 // แล้ว ค่านี้คือกันหลง)
 //
-// ⚠️ ชุดที่เพิ่งอยู่ในไฟล์นี้คือสบายเบท168 (2f9ff5 a8dcff 0b3f78 ffc82e 5c4a16
-// e8f4ff 0e2238 081726 040d16 04121f) ก่อนหน้านั้นคือถอนชัวร์168 (fa63b9 ffb3de
+// ⚠️ ชุดที่เพิ่งอยู่ในไฟล์นี้คือนินจา168 (32bcfb a9e9ff 07335f fef54b 6b5c10 0c2a3d
+// 071a28 030e16 041019 dceefc) ก่อนหน้านั้นคือสบายเบท168 (2f9ff5 a8dcff 0b3f78
+// ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f) ถอนชัวร์168 (fa63b9 ffb3de
 // ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) มีโชค168 (fcd434 ffeaa0
 // f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ขวัญใจ168 (f7c92b
 // ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603)
@@ -74,26 +75,29 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // 200a09 140505 1a0505) สมหวัง168 (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210 b90203
 // 8c0204 5b0203 3c0303 f4ecea 2c1413 1f0d0c 140706 290f0f) และ TKB55 (fb131b ff8a8f
 // ff4d55 e9eef4 aeb9c6 f2e4e5 2a0d0f 1a0708 0d0304) — ถอดออกครบแล้ว
-// ⚠️ ฟ้ารอบนี้คือ **#32bcfb / #a9e9ff / #07335f** ไม่ใช่ 2f9ff5 / a8dcff / 0b3f78
-// ของสบายเบท168 ไม่ใช่ 0360f3 / 0292fb / 6ec8ff / 4fb4ff ของ TSDET911 ไม่ใช่ 0a84e0
+// ⚠️ ฟ้ารอบนี้คือ **#039cfa / #c3ebfc / #04366b** (R=3 G=156 B=250) ไม่ใช่ 32bcfb
+// a9e9ff 07335f ของนินจา168 ซึ่งเป็นฟ้าไซยานคนละค่า ไม่ใช่ 2f9ff5 a8dcff 0b3f78
+// ของสบายเบท168 ไม่ใช่ 0360f3 0292fb 6ec8ff 4fb4ff ของ TSDET911 ไม่ใช่ 0a84e0
 // 04203f e4f1fd ของ HI59 ไม่ใช่ 04225b หรือ 2563eb และ cfd9e6 ของรับตัง168 เป็น
 // เงินอมฟ้าที่หน้าตาใกล้ฟ้าอ่อนมาก
-// ⚠️ เหลืองรอบนี้คือ **#fef54b** (R=254 G=245 B=75) ไม่ใช่ ffc82e (สบายเบท168)
-// ffd84d (ถอนชัวร์168) fcd434 (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168)
-// e3b23c (สมหวัง168) dfa310 ffc93d e5a81b e2b33f fad354 8a6210 หรือ 9a6c0c
-// ⚠️ พื้นเพจรอบนี้คือ **#000000** เหมือนรอบก่อน แต่ผิวทั้งสามชั้นเป็นโทนฟ้าหมึก
-// (#0c2a3d / #071a28 / #030e16) ไม่ใช่ชุดน้ำเงินของรอบก่อน (0e2238 / 081726 /
-// 040d16)
+// ⚠️ ทองรอบนี้คือ **#f9a826** (R=249 G=168 B=38 อำพันออกส้ม) ไม่ใช่ fef54b
+// (นินจา168 — เหลืองมะนาว) ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434
+// (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168) dfa310 ffc93d
+// e5a81b e2b33f fad354 8a6210 หรือ 9a6c0c
+// ⚠️ พื้นเพจรอบนี้คือ **#000000** เหมือนรอบก่อน แต่ผิวทั้งสามชั้นเป็นน้ำเงินหมึก
+// (#0b2d52 / #071e38 / #030f1d) ไม่ใช่ชุดฟ้าหมึกของรอบก่อน (0c2a3d / 071a28 /
+// 030e16)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีชมพู แดง ม่วง/ไวโอเลต เขียว ส้ม โรสโกลด์ และเงิน/โครเมียม**
+// ⚠️ **รอบนี้ไม่มีชมพู แดง ม่วง/ไวโอเลต เขียว ส้ม โรสโกลด์ เงิน/โครเมียม และ
+// เหลืองมะนาว**
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#6b5c10] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#32bcfb] via-[#a9e9ff] to-[#6b5c10] shadow-[0_0_10px_rgba(50,188,251,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#32bcfb] via-[#a9e9ff] to-[#fef54b] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#704504] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#039cfa] via-[#c3ebfc] to-[#704504] shadow-[0_0_10px_rgba(3,156,250,0.6)]" />
+        <HeadingTag class={`bg-gradient-to-r from-[#039cfa] via-[#c3ebfc] to-[#f9a826] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
           {title}
         </HeadingTag>
       </header>
@@ -101,13 +105,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dceefc]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e3f2fc]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#32bcfb]/60 pb-3 text-xl leading-normal font-black tracking-widest text-[#32bcfb] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#039cfa]/60 pb-3 text-xl leading-normal font-black tracking-widest text-[#039cfa] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#07335f] bg-gradient-to-br from-[#a9e9ff] to-[#32bcfb] text-sm text-[#041019] shadow-[0_5px_15px_rgba(50,188,251,0.45)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#04366b] bg-gradient-to-br from-[#c3ebfc] to-[#039cfa] text-sm text-[#031320] shadow-[0_5px_15px_rgba(3,156,250,0.45)]">
               {iconleft}
             </span>
             {titleleft}
@@ -117,13 +121,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dceefc]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#e3f2fc]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#6b5c10] pb-3 text-xl leading-normal font-black tracking-widest text-[#fef54b] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#704504] pb-3 text-xl leading-normal font-black tracking-widest text-[#f9a826] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#6b5c10] bg-gradient-to-br from-[#0c2a3d] to-[#030e16] text-sm text-[#fef54b] shadow-[0_5px_15px_rgba(254,245,75,0.3)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#704504] bg-gradient-to-br from-[#0b2d52] to-[#030f1d] text-sm text-[#f9a826] shadow-[0_5px_15px_rgba(249,168,38,0.3)]">
               {iconright}
             </span>
             {titleright}

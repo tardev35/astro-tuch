@@ -14,30 +14,30 @@ const bankPool = [
 ];
 
 // Only what this drop's brief actually names (src/assets/content.txt, listed in
-// brand-spec §7). This brand is a **เว็บเกมสล็อตล้วน** that presents itself as the
-// operator's ช่องทางรับบริการ — NOT a casino, NOT a sportsbook, NOT a lottery
+// brand-spec §6). This brand is a **เว็บสล็อตล้วน** whose subject is เล่นตามงบ
+// ของตัวเอง plus TWO promotions — NOT a casino, NOT a sportsbook, NOT a lottery
 // site. Every chip below is one of the brief's own phrases. The previous holders
 // of this file were a sports brand and multi-category brands; their chips —
 // เดิมพันฟุตบอล, เดิมพันมวย, เกมคาสิโน, เกมไพ่, เกมโต๊ะ, อัตราต่อรอง,
-// ประเภทการเดิมพัน, ฝากถอนไม่มีขั้นต่ำ, สล็อตจากค่ายต่างๆ — are all on §7's banned
-// list and are gone rather than re-typed. There is no หวย anywhere on this site
-// this round. No game studio, no league and no bank is named as a game provider:
-// the brief names none, and an invented ค่ายเกม on a gambling page is a real
-// claim. The module picks one chip per row through data-winners-markets /
+// ประเภทการเดิมพัน, ฝากถอนไม่มีขั้นต่ำ — are all on §6's banned list and are gone
+// rather than re-typed. There is no หวย anywhere on this site this round. No game
+// studio, no league and no bank is named as a game provider: **this brief names
+// no studio at all**, and an invented ค่ายเกม on a gambling page is a real claim.
+// The module picks one chip per row through data-winners-markets /
 // data-winner-market.
 const marketPool = [
   "เข้าเล่นเกมสล็อตออนไลน์",
+  "สมัครสมาชิก",
+  "เข้าสู่ระบบ",
   "ฝากถอน",
   "รับโปรโมชั่น",
-  "ติดต่อเจ้าหน้าที่",
   "คืนยอดเสีย 0.3%",
   "แนะนำเพื่อน 0.8%",
-  "ตรวจสอบรายละเอียดบริการ",
-  "ขั้นตอนการใช้งาน",
-  "ช่วงเวลาสรุปยอด",
-  "วิธีรับสิทธิ์",
-  "เงื่อนไขการใช้งาน",
-  "บริการ 24 ชั่วโมง",
+  "ตรวจสอบตารางจ่ายรางวัล",
+  "ตรวจสอบเดิมพันขั้นต่ำ",
+  "รอบคำนวณเครดิต",
+  "ติดต่อเจ้าหน้าที่",
+  "บริการ 24ชม.",
 ];
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -52,14 +52,14 @@ const flag = (salt: string) => brandFlag(Astro.site, salt);
 // (data-pending-text / data-done-text and the matching -class pairs), so the
 // server-rendered state has to agree with one of them. `pending` below picks
 // which one this row shipped in. The wording is this brief's own: it tells users
-// to ตรวจสอบข้อมูลบัญชีและรายละเอียดที่เกี่ยวข้องให้ถูกต้อง before making a
-// transaction, so the two states read อยู่ระหว่างตรวจสอบ / ฝากถอนสำเร็จ.
+// to ตรวจสอบสถานะรายการ and เตรียมข้อมูลและหลักฐานที่เกี่ยวข้อง when something
+// stalls, so the two states read อยู่ระหว่างตรวจสอบ / ฝากถอนสำเร็จ.
 const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
 const DONE_TEXT = "ฝากถอนสำเร็จ";
-const PENDING_CLASS = "border-[#9a6c0c]/80 text-[#f0b429]";
+const PENDING_CLASS = "border-[#704504]/80 text-[#f9a826]";
 const DONE_CLASS = "border-[#4ade80]/55 text-[#4ade80]";
-const AMOUNT_CLASS = "text-[#f5ece0]";
-const BIG_AMOUNT_CLASS = "text-[#ffdc8c]";
+const AMOUNT_CLASS = "text-[#e3f2fc]";
+const BIG_AMOUNT_CLASS = "text-[#f9a826]";
 
 const initialRows = Array.from({ length: 8 }, (_, i) => {
   const amount = 15000 + pick(`pill-amount-${i}`, 80001);
@@ -80,51 +80,57 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 // feed is chrome and never emits a heading tag. The 🎰 is a real sibling of that
 // <p>, not a glyph inside its text, so it can carry its own aria-hidden.
 //
-// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2): ฟีด
-// ฝากถอนเป็น "โครม" เหมือนแถบประกาศกับเมนู จึงอยู่ที่ **ผิวจม #140505** ซึ่งลึกกว่า
-// การ์ดเนื้อหาทุกใบ ⚠️ และรอบนี้มันยัง **มืดกว่าพื้นเพจ ดำอมแดง #1a0505** ด้วย
-// ต่างจากสองรอบก่อนที่พื้นเพจดำสนิทจนไม่มีชั้นไหนจมต่ำกว่าพื้นได้ แผงนี้ทำหน้าที่
-// เป็นสะพานระหว่างแถบประกาศด้านบนกับการ์ดเนื้อหาผิวยกด้านล่าง ตัวมันตั้งสีตัวอักษร
-// เองทั้งแผง จึงไม่ inherit BRAND_TEXT ผ่าน <html>
-// เม็ดยาแต่ละเม็ดเป็นพื้นผิวกลาง #200a09 ในกรอบเส้นไรผมทองลึก #9a6c0c ที่สว่างขึ้น
-// เป็นทองแบรนด์ #f0b429 ตอน hover ชิปหมวดบริการเป็นเส้นทองแบรนด์ตัวอักษรรองโครเมียม
-// #cfd9e6 ซึ่ง §2 กำหนดให้เป็น **สีตัวอักษรรองเท่านั้น** (อ่านมาจากผิวเงินอมฟ้าของ
-// คำว่า "รับตัง" บนโลโก้) ห้ามเอาไปเป็นขอบหรือสต็อปเกรเดียนต์
-// ยอดเงินเริ่มที่ขาวนวลอมอุ่น #f5ece0 แล้วกระโดดไปทองสว่าง #ffdc8c เมื่อเกิน
-// data-big-win-above ซึ่งเป็นการสลับน้ำหนักภายในฮิวทองของแบรนด์
-// ชื่อผู้ทำรายการเป็น #f5ece0 หัวแถบไล่ทองสว่าง #ffdc8c → ทองแบรนด์ #f0b429 ตาม
-// **กองเหรียญจีนทองรูสี่เหลี่ยม** ที่กลบงานอาร์ตของดรอปนี้ทั้งใบ ไอคอน 🎰 มาจาก
-// ตัวแบรนด์ที่เป็นเว็บเกมสล็อตล้วน (รอบก่อนของไฟล์นี้ใช้ ⚽ ซึ่งเป็นของแบรนด์กีฬา
-// คนละเจ้า และ §7 รอบนี้แบนคำว่า บอล/กีฬา ทั้งหมด)
+// รวยแทร่168 (รอบ **ฟ้าอะซัวร์นำ · ทองอำพันเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
+// ตัวอักษร · บนดำสนิท** 2026-10-19, brand-spec §2): ฟีดฝากถอนเป็น "โครม" เหมือน
+// แถบประกาศกับเมนู จึงอยู่ที่ **ผิวจม #030f1d** ซึ่งลึกกว่าการ์ดเนื้อหาทุกใบ
+// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้
+// — #030f1d คือก้นสุดที่ใช้ได้ แผงนี้ทำหน้าที่เป็นสะพานระหว่างแถบประกาศด้านบนกับ
+// การ์ดเนื้อหาผิวยกด้านล่าง ตัวมันตั้งสีตัวอักษรเองทั้งแผง จึงไม่ inherit BRAND_TEXT
+// ผ่าน <html>
+// เม็ดยาแต่ละเม็ดเป็นพื้นผิวกลาง #071e38 ในกรอบเส้นไรผมบรอนซ์ลึก #704504 ที่สว่างขึ้น
+// เป็นทองอำพัน #f9a826 ตอน hover ชิปหมวดบริการเป็นเส้นฟ้าอะซัวร์ #039cfa ตัวอักษรรอง
+// ฟ้าน้ำแข็ง #c3ebfc ซึ่ง §2 กำหนดให้เป็นสีตัวอักษรรอง (อ่านมาจากประกายฟ้าอ่อนบน
+// ตัวอักษร "แทร่168" และโบว์ซาตินบนงานอาร์ต)
+// ยอดเงินเริ่มที่สีเนื้อความ #e3f2fc แล้วกระโดดไปทองอำพัน #f9a826 เมื่อเกิน
+// data-big-win-above ซึ่งเป็นการสลับฮิว ไม่ใช่สลับน้ำหนักภายในฮิวเดียว
+// ชื่อผู้ทำรายการเป็น #e3f2fc หัวแถบไล่ ฟ้าน้ำแข็ง #c3ebfc → ฟ้าอะซัวร์ #039cfa ตาม
+// **ตัวอักษร "แทร่168" สีฟ้าอะซัวร์บับเบิลผิวมันวาว** ที่เป็นครึ่งหลังของโลโก้ดรอปนี้
+// ไอคอน 🎰 มาจากตัวแบรนด์ที่เป็นเว็บเกมสล็อตล้วน (รอบเก่ากว่าของไฟล์นี้ใช้ ⚽ ซึ่งเป็น
+// ของแบรนด์กีฬาคนละเจ้า และ §6 รอบนี้แบนคำว่า บอล/กีฬา ทั้งหมด)
 // เขียว #4ade80 ของสถานะ "ฝากถอนสำเร็จ" เป็นสีของสถานะ และสีโลโก้ธนาคารทั้งสี่เป็น
-// สีจริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่ · ทองลึก #9a6c0c แดงแบรนด์ #d30304 และแดง
-// เข้มสุด #4a0202 ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2
+// สีจริงของธนาคาร จึงไม่ถูกรีแมปทั้งคู่ · น้ำเงินลึก #04366b และบรอนซ์ลึก #704504
+// ไม่ถือตัวอักษรที่ไหนในไฟล์นี้ตาม §2
 //
-// ⚠️ เทียบเป็นค่า ไม่ใช่ตระกูลสี — **กับดักรอบนี้คือแดง และสามแบรนด์ก่อนหน้าเป็นแดง
-// ทั้งหมด** ส่วนทองก็มีมาแล้วเจ็ดในสิบแบรนด์หลังสุด ชุดทองแชมเปี้ยน-เงินโครเมียมของ
-// UFA324 ที่เคยค้างอยู่ทั้งไฟล์นี้ (#e5a81b #ffe08a #f0e8d4 #b9c2cc #17130a #43300a
-// #0d0b06 #7d5a07 #464f5a rgba(229,168,27,α)) ชุดของสมหวัง168 (#fa0513 #ffadaf
-// #ff5a5f #e3b23c #ffe5a8 #8a6210 #f4ecea #ccb9b6 #2c1413 #1f0d0c #140706 #290f0f)
-// ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518 #ffdd73 #b8860f #ff3b14 #8c0f0a
-// #fdf0e2) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d
-// #b3006a #4a0b42 #2e002c) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a
-// #8a5f08 #5c3f04 #f58b2a #a3510c #f6ecd9) ชุดทองอวกาศของ NAZA168 (#fbc134 #ffe87a
-// #cf9a18 #cfd6e3 #eef2f8 #9aa6bb #3f4859) และชุดม่วงนีออน-ทอง (#a435f0 #5b1a75
-// #efe6ff #d2a6ff #ffd23d #c98a05 #1e0a3c) ออกครบทุกจุดแล้ว
-// ⚠️ ทองรอบนี้คือ #f0b429 / #ffdc8c ไม่ใช่ #e5a81b / #ffe08a ของ UFA324 ที่เพิ่งอยู่
-// ในไฟล์นี้ ไม่ใช่ #e3b23c / #ffe5a8 ของสมหวัง168 และไม่ใช่ #dfa310 #e2b33f #fad354
+// ⚠️ เทียบเป็นค่า ไม่ใช่ตระกูลสี — **รอบนี้ฟ้า+ทองเป็นรอบที่สามติดกัน** (นินจา168
+// ฟ้าไซยาน 32bcfb + เหลืองมะนาว fef54b · สบายเบท168 ฟ้า 2f9ff5 + ทอง ffc82e) และทอง
+// ก็มีมาแล้วเจ็ดในสิบแบรนด์หลังสุด ชุดทองไทย-แดงมังกรของรับตัง168 ที่เพิ่งค้างอยู่
+// ทั้งไฟล์นี้ (f0b429 ffdc8c 9a6c0c cfd9e6 f5ece0 140505 200a09 d30304 4a0202 1a0505
+// กับ rgba 240/180/41) ชุดทองแชมเปี้ยน-เงินโครเมียมของ UFA324 (e5a81b ffe08a f0e8d4
+// b9c2cc 17130a 43300a 0d0b06 7d5a07 464f5a) ชุดของสมหวัง168 (fa0513 ffadaf ff5a5f
+// e3b23c ffe5a8 8a6210 f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f) ชุดทองสายฟ้า-
+// แดงเลือดนกของ FLASH877 (f5c518 ffdd73 b8860f ff3b14 8c0f0a fdf0e2) ชุดชมพูฮอต-ทอง
+// ของ FAH999 (ff3fa4 ff6cbb ffd1ea fde8f3 f5c53d b3006a 4a0b42 2e002c) ชุดทองเป็ด-
+// ส้มอำพันของ DUCK1688 (f3bb34 fde464 c8901a 8a5f08 5c3f04 f58b2a a3510c f6ecd9)
+// ชุดทองอวกาศของ NAZA168 (fbc134 ffe87a cf9a18 cfd6e3 eef2f8 9aa6bb 3f4859) และชุด
+// ม่วงนีออน-ทอง (a435f0 5b1a75 efe6ff d2a6ff ffd23d c98a05 1e0a3c) ออกครบทุกจุดแล้ว
+// ⚠️ ทองรอบนี้คือ #f9a826 (R=249 G=168 B=38 อำพันออกส้ม) ไม่ใช่ fef54b ของนินจา168
+// ไม่ใช่ ffc82e ของสบายเบท168 ไม่ใช่ f0b429 / ffdc8c ของรับตัง168 ที่เพิ่งอยู่ใน
+// ไฟล์นี้ ไม่ใช่ e5a81b / ffe08a ของ UFA324 และไม่ใช่ e3b23c dfa310 e2b33f fad354
 // — "มีทองอยู่แล้ว" ไม่พิสูจน์อะไรเลย ต้องเทียบเป็นตัวเลข
-// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีส้ม** และเขียวมีได้
-// ตัวเดียวคือ #4ade80 ของสถานะ ไม่ใช่สีแบรนด์
+// ⚠️ ฟ้ารอบนี้คือ #039cfa / #c3ebfc / #04366b ไม่ใช่ 32bcfb a9e9ff 07335f (นินจา168)
+// 2f9ff5 a8dcff 0b3f78 (สบายเบท168) 0ea5e9 (ซึ่งเป็นสีจริงของโลโก้ KTB ด้านบน
+// ห้ามแตะ) หรือ cfd9e6 (เงินอมฟ้าของรับตัง168)
+// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีแดง ไม่มีส้ม ไม่มีเงิน/โครเมียม และไม่มี
+// เหลืองมะนาว** เขียวมีได้ตัวเดียวคือ #4ade80 ของสถานะ ไม่ใช่สีแบรนด์
 ---
 
 <div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
   <section
     aria-label={`รายการฝากถอนล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#f0b429]/45 bg-[#140505]/92 px-4 py-8 shadow-[0_15px_40px_rgba(240,180,41,0.2)] backdrop-blur-md">
+    class="relative overflow-hidden rounded-[30px] border-2 border-[#039cfa]/45 bg-[#030f1d]/92 px-4 py-8 shadow-[0_15px_40px_rgba(3,156,250,0.2)] backdrop-blur-md">
     <div class="mb-6 flex items-center justify-center gap-2">
       <span aria-hidden="true" class="text-xl md:text-2xl">🎰</span>
-      <p class="bg-gradient-to-b from-[#ffdc8c] to-[#f0b429] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการฝากถอนล่าสุดของสมาชิก</p>
+      <p class="bg-gradient-to-b from-[#c3ebfc] to-[#039cfa] bg-clip-text text-xl font-black text-transparent md:text-2xl">{BRAND_NAME} รายการฝากถอนล่าสุดของสมาชิก</p>
     </div>
 
     <div
@@ -141,14 +147,14 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#9a6c0c] bg-[#200a09] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(240,180,41,0.16)] hover:border-[#f0b429]/70">
+            <div class="flex items-center gap-3 rounded-full border border-[#704504] bg-[#071e38] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(3,156,250,0.16)] hover:border-[#f9a826]/70">
               <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
                 <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#f5ece0]">
+              <div data-winner-user class="text-sm font-bold text-[#e3f2fc]">
                 {row.user}
               </div>
-              <span data-winner-market class="rounded-full border border-[#f0b429]/60 px-2 py-0.5 text-[10px] font-bold text-[#cfd9e6]">
+              <span data-winner-market class="rounded-full border border-[#039cfa]/60 px-2 py-0.5 text-[10px] font-bold text-[#c3ebfc]">
                 {row.market}
               </span>
               <span

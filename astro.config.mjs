@@ -37,21 +37,23 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://ninja168.bet — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน** ต่างจากสามรอบก่อนที่เป็น IDN ภาษาไทย
-  // (สบายเบท-168.com -> xn---168-9gora7dtd1dwh.com · ถอนชัวร์168.com ->
-  // xn--168-ell7cs5e5a5c2b0v.com · หวยดีใจ.com -> xn--82cx5btt7d4e.com)
-  // จึง **ไม่ต้องแปลง punycode** และ **ห้ามแปลง** — new URL() คืนค่า ninja168.bet
-  // ตรงตัวอยู่แล้ว การใส่ xn-- นำหน้าจะกลายเป็นโฮสต์ที่ไม่มีอยู่จริง
-  // (ตรวจซ้ำได้ด้วย node -e "console.log(new URL('https://ninja168.bet').hostname)")
-  // ⚠️ TLD รอบนี้คือ **.bet ไม่ใช่ .com** — อย่าเติม .com ด้วยความเคยชิน
-  // ⚠️ ชื่อแบรนด์กับโดเมนรอบนี้ "อ่านตรงกัน" (นินจา -> ninja) แต่ยังคนละค่าอยู่ดี
-  // label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คือ "ninja168"
-  // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด (รอบ TSDET911
-  // แบรนด์สะกด d แต่โดเมนสะกด b)
+  // โดเมนจริงรอบนี้คือ https://ruaythear168.net — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน** เหมือนรอบก่อน ต่างจากสามรอบก่อนหน้านั้นที่
+  // เป็น IDN ภาษาไทย (สบายเบท-168.com -> xn---168-9gora7dtd1dwh.com ·
+  // ถอนชัวร์168.com -> xn--168-ell7cs5e5a5c2b0v.com · หวยดีใจ.com ->
+  // xn--82cx5btt7d4e.com) จึง **ไม่ต้องแปลง punycode** และ **ห้ามแปลง** —
+  // new URL() คืนค่า ruaythear168.net ตรงตัวอยู่แล้ว การใส่ xn-- นำหน้าจะกลายเป็น
+  // โฮสต์ที่ไม่มีอยู่จริง
+  // (ตรวจซ้ำได้ด้วย node -e "console.log(new URL('https://ruaythear168.net').hostname)")
+  // ⚠️ TLD รอบนี้คือ **.net ไม่ใช่ .com และไม่ใช่ .bet ของรอบก่อน** — อย่าเติม
+  // .com ด้วยความเคยชิน
+  // ⚠️ ชื่อแบรนด์กับโดเมนรอบนี้ "อ่านตรงกัน" (รวยแทร่ -> ruaythear) แต่ยังคนละค่า
+  // อยู่ดี label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คือ
+  // "ruaythear168" ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์
+  // เด็ดขาด (รอบ TSDET911 แบรนด์สะกด d แต่โดเมนสะกด b)
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://ninja168.bet",
+  site: "https://ruaythear168.net",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

@@ -3,15 +3,16 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** FAH999's identity is a PAIR — the hot-pink FAH999 lettering and bunny ears
-   *  above the gold coins, crowns and 777 cabinets — so the two accents are the
-   *  two hues rather than two brightnesses of one: "pink" is the brand-pink
-   *  plate (#ff6cbb -> #ff3fa4, dark glyph) and "gold" the coin plate
-   *  (#ffe49a -> #d19a12, dark glyph). Every earlier brand's spelling stays
-   *  accepted so an inventory page that still passes one keeps building —
-   *  "amber"/"sheen"/"steel"/"silver"/"blue" render as the gold plate and
-   *  "red"/"deep"/"crimson"/"green" as the pink one. */
-  accent?: "pink" | "gold" | "amber" | "red" | "deep" | "crimson" | "sheen" | "steel" | "silver" | "green" | "blue";
+  /** รวยแทร่168's identity is a PAIR — the amber-gold "รวย" lettering with the
+   *  gold coin pile, and the azure-blue "แทร่168" bubble lettering with the blue
+   *  money bag, hearts and satin bows — so the two accents are the two hues
+   *  rather than two brightnesses of one: "blue" is the azure plate
+   *  (#c3ebfc -> #039cfa, dark glyph) and "gold" the solid amber plate
+   *  (#f9a826, dark glyph). Every earlier brand's spelling stays accepted so an
+   *  inventory page that still passes one keeps building — "amber"/"sheen"/
+   *  "steel"/"silver" render as the amber plate and "pink"/"red"/"deep"/
+   *  "crimson"/"green" as the azure one. */
+  accent?: "blue" | "gold" | "amber" | "pink" | "red" | "deep" | "crimson" | "sheen" | "steel" | "silver" | "green";
 }
 
 export interface Props {
@@ -25,63 +26,75 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// FAH999 palette (brand-spec §2): every card sits on the mid surface (#3a0534)
-// inside a dark-pink hairline (#4d002b), hovering onto the raised surface
-// (#4a0b42), and the icon plate alternates between the pink and the gold plate
-// above — the logo's own two-colour pair, alternating down the list. Both plates
-// are LIGHT with dark ink #2b0019 (7.3:1 on #ff6cbb, 5.8:1 on #ff3fa4, 7.5:1 on
-// #d19a12); §2 forbids flipping a pink/gold fill to a light glyph, and it
-// forbids #b3006a / #7a0046 / #4d002b / #9c6f08 carrying text at any size, so
-// neither plate gradient runs down into them under a glyph — the pink plate
-// stops at #ff3fa4 and the gold plate at #d19a12.
+// รวยแทร่168 palette (brand-spec §2): every card sits on the raised surface
+// (#0b2d52) inside a deep-blue hairline (#04366b), hovering onto the mid surface
+// (#071e38), and the icon plate alternates between the azure plate and the amber
+// plate above — the logo's own two-colour pair, alternating down the list. Both
+// plates are LIGHT with dark ink #031320 (6.2:1 on #039cfa, higher on #c3ebfc,
+// 9.3:1 on #f9a826); §2 forbids flipping a blue/gold fill to a light glyph, and
+// it forbids #04366b / #704504 carrying text at any size, so neither plate
+// gradient runs down into them under a glyph — the azure plate stops at #039cfa
+// and the amber plate is a flat #f9a826 fill rather than a gradient, because
+// #f9a826 is the ONLY gold this round's palette has and a second stop would have
+// to come from outside it.
 //
-// The title is pale pink #ffd1ea rather than a gradient: on the FAH999 landing
+// The title is ice blue #c3ebfc rather than a gradient: on the รวยแทร่168 landing
 // page the three items this component carries are the brief's own
-// ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 #6, and a flat accent reads as a
-// numbered list where a gradient would read as three separate section headings.
-// The pink/gold accent still separates the cards — on the plate, border and
-// hover.
+// ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 §6 (content.txt lines 15-20), and a
+// flat accent reads as a numbered list where a gradient would read as three
+// separate section headings. The azure/amber accent still separates the cards —
+// on the plate, border and hover.
+// ⚠️ ทองอำพัน #f9a826 ถูก §2 สงวนไว้ให้ <strong> ในเนื้อความ + หัวคอลัมน์/ขอบเน้น
+// จึงอยู่ในไฟล์นี้ได้เฉพาะที่แผ่นไอคอน ขอบ และเงา hover ไม่ใช่ที่ตัวอักษรหัวข้อ
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี": ไฟล์นี้เคยค้างชุดทองเป็ด-ส้มอำพันของ
-// DUCK1688 ไว้ (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #ffc98a #a3510c
-// #1a1203 #f6ecd9 #1f1709 #171106 rgba(243,187,52,α) rgba(245,139,42,α)) และก่อนนั้น
-// เป็นชุดทอง-แดงของ 365LOTTO (#fdf3b4 #e0b03a #e01f26 #a40304 #fadc64 #ffe9a3
-// #9c6a12 #1a0709 #2a0b0e #120406 #f0ddc4) ออกครบแล้ว — รอบนี้ไม่มีส้มและไม่มีแดงเลย
-// ทองของรอบนี้คือ #f5c53d / #ffe49a / #d19a12 เท่านั้น ไม่ใช่ #f3bb34 ของ DUCK1688
-// ไม่ใช่ #fbc134 ของ NAZA168 และไม่ใช่ #f5c518 ของ GOT777 ที่ต่างกันแค่สองตัวอักษร
-// ส่วนชมพู #ff3fa4 / #ff6cbb ก็เป็นคนละค่ากับ #f472b6 ของ BPLAY639 ซึ่งเป็นแบรนด์
-// ชมพูเหมือนกัน
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **รอบนี้ฟ้า+ทองเป็นรอบที่สามติดกัน**
+// (นินจา168 ฟ้าไซยาน 32bcfb + เหลืองมะนาว fef54b · สบายเบท168 ฟ้า 2f9ff5 + ทอง
+// ffc82e) การเจอฟ้าหรือทองในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
+// ไฟล์นี้เพิ่งค้างชุดชมพูฮอต-ทองของ FAH999 ไว้ทั้งใบ (ff3fa4 ff6cbb ffd1ea fde8f3
+// f5c53d ffe49a d19a12 9c6f08 b3006a 7a0046 4d002b 3a0534 4a0b42 2b0019 กับ
+// rgba 255/63/164 และ rgba 245/197/61) ก่อนนั้นเป็นชุดทองเป็ด-ส้มอำพันของ DUCK1688
+// (f3bb34 fde464 c8901a 8a5f08 5c3f04 f58b2a ffc98a a3510c 1a1203 f6ecd9 1f1709
+// 171106) และก่อนนั้นชุดทอง-แดงของ 365LOTTO (fdf3b4 e0b03a e01f26 a40304 fadc64
+// ffe9a3 9c6a12 1a0709 2a0b0e 120406 f0ddc4) — ออกครบทุกค่าแล้ว
+// ทองของรอบนี้คือ **#f9a826** เท่านั้น ไม่ใช่ f5c53d ffe49a d19a12 (FAH999) f3bb34
+// (DUCK1688) fbc134 (NAZA168) f5c518 (GOT777/FLASH877) fef54b (นินจา168) หรือ
+// ffc82e (สบายเบท168) · ฟ้าของรอบนี้คือ **#039cfa / #c3ebfc / #04366b** เท่านั้น
+// ไม่ใช่ 32bcfb a9e9ff 07335f ของนินจา168 และไม่ใช่ 2f9ff5 a8dcff 0b3f78 ของ
+// สบายเบท168
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีแดง ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม ไม่มีเงิน/โครเมียม
+// ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว**
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
 // slot, because a ContentBox* slot takes exactly one element and no wrapper
 // <div> may be re-added inside one.
-const GOLD = new Set(["gold", "amber", "sheen", "steel", "silver", "blue"]);
+const GOLD = new Set(["gold", "amber", "sheen", "steel", "silver"]);
 ---
 
 <div class="relative z-10 mx-auto mb-8 flex w-full max-w-[1400px] flex-col gap-5 px-4 font-sans">
   {
     items.map((item) => {
-      const isGold = GOLD.has(item.accent ?? "pink");
+      const isGold = GOLD.has(item.accent ?? "blue");
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#4d002b] bg-[#3a0534]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#04366b] bg-[#0b2d52]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isGold
-              ? "hover:border-[#f5c53d]/75 hover:bg-[#4a0b42] hover:shadow-[0_10px_20px_rgba(245,197,61,0.28)]"
-              : "hover:border-[#ff3fa4]/75 hover:bg-[#4a0b42] hover:shadow-[0_10px_20px_rgba(255,63,164,0.28)]"
+              ? "hover:border-[#f9a826]/75 hover:bg-[#071e38] hover:shadow-[0_10px_20px_rgba(249,168,38,0.28)]"
+              : "hover:border-[#039cfa]/75 hover:bg-[#071e38] hover:shadow-[0_10px_20px_rgba(3,156,250,0.28)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isGold
-                ? "border border-[#9c6f08] bg-gradient-to-br from-[#ffe49a] to-[#d19a12] text-[#2b0019] shadow-[0_0_15px_rgba(245,197,61,0.45)] group-hover:rotate-3"
-                : "border border-[#b3006a] bg-gradient-to-br from-[#ff6cbb] to-[#ff3fa4] text-[#2b0019] shadow-[0_0_15px_rgba(255,63,164,0.4)]"
+                ? "border border-[#704504] bg-[#f9a826] text-[#031320] shadow-[0_0_15px_rgba(249,168,38,0.45)] group-hover:rotate-3"
+                : "border border-[#04366b] bg-gradient-to-br from-[#c3ebfc] to-[#039cfa] text-[#031320] shadow-[0_0_15px_rgba(3,156,250,0.4)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#ffd1ea] drop-shadow-[0_0_8px_rgba(255,63,164,0.35)]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#fde8f3]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#c3ebfc] drop-shadow-[0_0_8px_rgba(3,156,250,0.35)]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#e3f2fc]">{item.description}</p>}
           </div>
         </div>
       );
