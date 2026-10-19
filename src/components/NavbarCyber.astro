@@ -8,26 +8,37 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// NAZA168 (รอบทองอวกาศ-เงินโครเมียม 2026-10-10): navbar ที่ใช้งานจริงรอบนี้ —
-// รอบก่อน FLASH877 ใช้ NavbarStyle9 (แถบไล่เฉดสามจุด + ม่าน clip-path circle()
-// ที่บานจากมุมขวาบนจนเต็มจอ) ไฟล์นี้เป็นแถบแนวนอนสูง 80px ที่ตัดมุมล่างซ้ายด้วย
-// clip-path polygon แล้วเลื่อนแผงเมนูลงมาจากใต้แถบ — คนละทรงกันชัดเจน
+// นินจา168 (รอบฟ้าไซยานนำ-เหลืองมะนาวรอง บนดำสนิท 2026-10-19): navbar ที่ใช้งาน
+// จริงรอบนี้ — รอบก่อน สบายเบท168 ใช้ NavbarStyle9 (แถบไล่เฉดขอบมน + ม่านมือถือ
+// clip-path circle() ที่บานจากมุมขวาบนจนเต็มจอ) ไฟล์นี้เป็นแถบแนวนอนสูง 80px
+// ที่ **ตัดมุมล่างซ้ายด้วย clip-path polygon** แล้วเลื่อนแผงเมนูลงมาจากใต้แถบ —
+// คนละทรงกันชัดเจน และทรง "ตัดมุมเฉียง" คือสิ่งที่เลือกมาให้เข้ากับธีม **นินจา**
+// ของรอบนี้โดยตรง คมเหมือนรอยใบมีด ไม่ใช่เลือกเพราะโทนไซเบอร์ — อาร์ตเวิร์กรอบนี้
+// เป็นนินจาการ์ตูนกับชูริเคนฟ้า ไม่ใช่งานไซไฟ จึงไม่มีภาษามอนอสเปซ/SYSTEM_ ที่ไหน
 //
-// พาเลตต์ตาม brand-spec §2: แถบน้ำตาลไหม้ลึกสุด #241700 ขอบล่างและเงาเป็นทอง
-// แบรนด์ #fbc134 ลิงก์ปกติ #d9c9a6 โปร่ง ลิงก์ที่ active เป็นทองสว่าง #ffe87a
-// พร้อมขีดใต้ไล่ ทองแบรนด์ #fbc134 → ทองลึก #96690a — มาจากโลโก้ตรงๆ ที่ NAZA
-// เป็นทองสามมิติบนเหรียญขอบทอง ส่วนเงินโครเมียม #cfd6e3 (เลข 168 กับหมวกนักบิน
-// อวกาศ) เป็นฮิวที่สองที่ถือปุ่มเข้าระบบ
-// ชุดเขียวนีออนของ BOOM369 ที่เคยอยู่ในไฟล์นี้ (#42fb5a #8dffa0 #04ab3a #041109
-// #cfe9d7 #03150a #020a06 #0b231b #dadcdc rgba(66,251,90,α)) ไม่เหลือแล้ว
+// พาเลตต์ตาม .claude/brand-spec-ninja168.md §2: แถบพื้นฟ้าหมึกกลาง #071a28
+// ขอบล่างและเงาเป็นฟ้าแบรนด์ #32bcfb ลิงก์ปกติ #dceefc โปร่ง ลิงก์ที่ active เป็น
+// เหลืองมะนาว #fef54b พร้อมขีดใต้ไล่ ฟ้าแบรนด์ #32bcfb → น้ำเงินลึก #07335f
+// — มาจากโลโก้ตรงๆ ที่ "168" เป็นฟ้าบับเบิลผิวมันวาว ส่วน "นินจา" เป็นเหลืองทอง
 //
-// ทิศทางของปุ่มสมัครเหมือนรอบเขียว คือ "พื้นสว่างคู่หมึกเข้ม" เพราะสีหลักรอบนี้ก็
-// สว่างมากเช่นกัน (#fbc134): หมึก #231500 บนทองสว่าง #ffe87a ได้ 14.5:1 และบน
-// ทองกลางเข้ม #cf9a18 ปลายเข้มสุดของเฉดได้ 7.0:1 ผ่าน AA ตลอดแนวไล่เฉด
-// ⚠️ ปลายเข้มต้องเป็น #cf9a18 ไม่ใช่ #96690a — #96690a รองหมึก #231500 ได้แค่
-// ~3.7:1 ซึ่งตก AA
-// ส่วนปุ่มเข้าระบบเป็นเส้นขอบเงินโครเมียมบนพื้นโปร่ง หมึก #cfd6e3 บน #241700
-// ได้ 12.0:1
+// ⚠️ ชุดทองอวกาศ-เงินโครเมียมของ NAZA168 ที่เคยอยู่ในไฟล์นี้ (fbc134 ffe87a
+// cf9a18 96690a d9c9a6 cfd6e3 241700 1a1000 432b03 231500) ไม่เหลือแล้ว และ
+// **กับดักรอบนี้หนักเป็นพิเศษ เพราะรอบที่แล้ว (สบายเบท168) ก็ฟ้านำ+ทองรอง
+// เหมือนกัน** การเจอ "ฟ้า" หรือ "ทอง" ในไฟล์นี้จึงไม่พิสูจน์อะไรเลย ต้องเทียบค่า:
+//   ฟ้ารอบนี้ #32bcfb — ไม่ใช่ 2f9ff5/a8dcff/0b3f78 (สบายเบท168) ไม่ใช่ 0360f3/
+//   0292fb/6ec8ff (TSDET911) ไม่ใช่ 0a84e0/04203f/e4f1fd (HI59) ไม่ใช่ cfd9e6
+//   เหลืองรอบนี้ #fef54b — เป็น **เหลืองมะนาว** เขียวอมเหลืองกว่าทุกทองที่เคย
+//   ผ่านรีโปนี้: ไม่ใช่ ffc82e (สบายเบท168) ffd84d fcd434 f7c92b f0b429 fbc134
+// (เขียนเฮกซ์เก่าแบบไม่มี # เพื่อให้ sweep ที่ไล่หาสีแบรนด์เก่าไม่สะดุดที่คอมเมนต์)
+//
+// ตรวจค่าคอนทราสต์ใหม่ทั้งชุดแล้ว ไม่ได้ยกคลาสข้ามปุ่ม:
+//   #dceefc บนแถบ #071a28 ≈ 14.8:1 · #fef54b บนแถบ ≈ 14.2:1 · #32bcfb ≈ 7.9:1
+//   หมึก #041019 บนพื้นถมฟ้า #32bcfb ≈ 8.9:1 และบนปลายอ่อน #a9e9ff ≈ 13.2:1
+//   ผ่าน AA ตลอดแนวไล่เฉด
+// ⚠️ ปลายเข้มของไล่เฉดปุ่มสมัครหยุดที่ #32bcfb ห้ามลากลงไปถึง #07335f —
+// ค่านั้นรองหมึก #041019 ได้แค่ ~1.4:1 ซึ่งตก AA หนัก และ brand-spec §2 ระบุว่า
+// #07335f เป็นเส้น/ขอบ/ออรา/พื้นถมเท่านั้น ห้ามถือตัวอักษรทุกขนาด
+// ปุ่มสองตัวจึงต่างกันที่ "พื้นฟ้าตัน vs กรอบเหลืองโปร่ง" ไม่ใช่สองระดับของสีเดียว
 //
 // One array for both the desktop bar and the mobile drawer — editing it in two
 // places is how a menu ends up disagreeing with itself.
@@ -37,42 +48,44 @@ const isActive = (path: string) => isActivePath(currentPath, path);
 // /register and /login are real button pages on this brand, so ทางเข้า has no
 // menu entry — it would be a third link to the same two destinations. The page
 // itself stays routed and indexed.
-// /ตรวจหวย and /แนวทาง are absent on purpose: NAZA168 is a slot brand, so both
+// /ตรวจหวย and /แนวทาง are absent on purpose: นินจา168 is a slot brand, so both
 // files stay parked in src/pages-disabled/ and the routes do not exist —
 // linking either would be a dead href the build fails on.
-// ไอคอน 🚀 ของ "เกี่ยวกับเรา" เลือกให้เข้ากับธีมอวกาศ/นักบินอวกาศของแบรนด์นี้
-// (รอบก่อนเป็น 💠) — หนึ่งไอคอนต่อหนึ่งรายการ และอยู่ใน <span aria-hidden> ของ
-// ตัวเองเสมอ ไม่เคยอยู่ในข้อความของป้าย
+// ไอคอน 🥷 ของ "เกี่ยวกับเรา" เลือกให้เข้ากับธีมนินจาของแบรนด์นี้ (รอบก่อนเป็น 🚀
+// ตามธีมอวกาศของ NAZA168) — หนึ่งไอคอนต่อหนึ่งรายการ และอยู่ใน <span aria-hidden>
+// ของตัวเองเสมอ ไม่เคยอยู่ในข้อความของป้าย
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🚀" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🥷" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
+
+const logoAlt = `โลโก้ ${BRAND_NAME} เป็นนินจาการ์ตูนชุดดำยืนอยู่ทางซ้าย ผูกผ้าคาดหัวสีฟ้า-ขาวที่มีรูปดาวสีน้ำเงิน ปิดครึ่งล่างของใบหน้าด้วยผ้าปิดปากสีดำ ขยิบตาหนึ่งข้าง และถือดาวกระจายแบบชูริเคนสีฟ้าไว้ในมือ มีชายผ้าคาดหัวสีฟ้าปลิวไปด้านหลัง ถัดไปทางขวาเป็นคำว่า นินจา ตัวอักษรไทยหนาสามมิติสีเหลืองทองตัดขอบขาว ต่อด้วยเลข 168 ตัวหนาสามมิติผิวมันวาวสีฟ้า โดยมีประกายดาวสีทองและชูริเคนสีฟ้าลอยอยู่รอบตัวอักษร`;
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#fbc134]/40 bg-[#241700]/95 px-4 shadow-[0_5px_25px_rgba(251,193,52,0.25)] backdrop-blur-xl xl:px-8"
+    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#32bcfb]/40 bg-[#071a28]/95 px-4 shadow-[0_5px_25px_rgba(50,188,251,0.25)] backdrop-blur-xl xl:px-8"
     style="clip-path: polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px));">
     <a href="/" class="z-[110] flex-shrink-0 transition-transform hover:scale-105">
       {
         mainLogo ? (
           <Picture
             src={mainLogo}
-            alt="โลโก้ NAZA168 เป็นเหรียญกลมขอบทองหนาบนพื้นดำ กลางเหรียญเป็นหมวกนักบินอวกาศโครเมียมสลับทองที่มีบังตาสีทองสะท้อนแสง มีจรวดทองพาดอยู่สองลำ ด้านล่างเป็นคำว่า NAZA ตัวอักษรหนาสามมิติสีทอง และใต้ลงมาเป็นเลข 168 สีเงินโครเมียมขอบทอง"
+            alt={logoAlt}
             loading="eager"
             widths={[140, 280, 420]}
             sizes="140px"
-            class="h-[55px] w-auto drop-shadow-[0_0_12px_rgba(251,193,52,0.55)] xl:h-[70px]"
+            class="h-[55px] w-auto drop-shadow-[0_0_12px_rgba(50,188,251,0.55)] xl:h-[70px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <span class="bg-gradient-to-r from-[#ffe87a] via-[#fbc134] to-[#cfd6e3] bg-clip-text text-3xl font-black tracking-wider text-transparent">{BRAND_NAME}</span>
+          <span class="bg-gradient-to-r from-[#a9e9ff] via-[#32bcfb] to-[#fef54b] bg-clip-text text-3xl font-black tracking-wider text-transparent">{BRAND_NAME}</span>
         )
       }
     </a>
@@ -82,11 +95,11 @@ const links = [
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-2 px-2 text-sm font-bold tracking-widest uppercase transition-colors xl:text-base ${isActive(item.path) ? "text-[#ffe87a] drop-shadow-[0_0_8px_rgba(251,193,52,0.8)]" : "text-[#d9c9a6]/75 hover:text-[#fbc134]"}`}>
+            class={`group relative flex h-full items-center gap-2 px-2 text-sm font-bold tracking-widest uppercase transition-colors xl:text-base ${isActive(item.path) ? "text-[#fef54b] drop-shadow-[0_0_8px_rgba(50,188,251,0.8)]" : "text-[#dceefc]/75 hover:text-[#32bcfb]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full bg-gradient-to-r from-[#fbc134] to-[#96690a] shadow-[0_-2px_10px_rgba(251,193,52,0.9)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full bg-gradient-to-r from-[#32bcfb] to-[#07335f] shadow-[0_-2px_10px_rgba(50,188,251,0.9)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -96,38 +109,38 @@ const links = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden items-center justify-center border border-[#cfd6e3]/70 bg-transparent px-6 py-2 text-sm font-bold text-[#cfd6e3] transition-all hover:bg-[#432b03]/70 lg:flex"
+        class="hidden items-center justify-center border border-[#fef54b]/70 bg-transparent px-6 py-2 text-sm font-bold text-[#fef54b] transition-all hover:bg-[#07335f]/70 lg:flex"
         style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
         เข้าระบบ
       </a>
       <a
         href="/register"
-        class="hidden items-center justify-center bg-gradient-to-r from-[#ffe87a] to-[#cf9a18] px-6 py-2 text-sm font-black text-[#231500] shadow-[0_0_15px_rgba(251,193,52,0.45)] transition-all hover:scale-105 lg:flex"
+        class="hidden items-center justify-center bg-gradient-to-r from-[#a9e9ff] to-[#32bcfb] px-6 py-2 text-sm font-black text-[#041019] shadow-[0_0_15px_rgba(50,188,251,0.45)] transition-all hover:scale-105 lg:flex"
         style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] border border-[#fbc134]/50 bg-[#1a1000] lg:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] border border-[#32bcfb]/50 bg-[#030e16] lg:hidden"
         style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);"
         aria-label="Menu">
-        <span class="line-1 h-[2px] w-6 origin-center bg-[#ffe87a] shadow-[0_0_5px_rgba(251,193,52,0.9)] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-6 origin-center bg-[#ffe87a] shadow-[0_0_5px_rgba(251,193,52,0.9)] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-6 origin-center bg-[#ffe87a] shadow-[0_0_5px_rgba(251,193,52,0.9)] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-6 origin-center bg-[#a9e9ff] shadow-[0_0_5px_rgba(50,188,251,0.9)] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-6 origin-center bg-[#a9e9ff] shadow-[0_0_5px_rgba(50,188,251,0.9)] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-6 origin-center bg-[#a9e9ff] shadow-[0_0_5px_rgba(50,188,251,0.9)] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b border-[#fbc134]/40 bg-[#241700]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-300 lg:hidden">
+    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b border-[#32bcfb]/40 bg-[#071a28]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-300 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 border-l-4 px-4 py-3 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "border-[#fbc134] bg-[#432b03]/70 text-[#ffe87a]" : "border-transparent text-[#d9c9a6]/75 hover:bg-white/5 hover:text-[#fbc134]"}`}>
+            class={`flex items-center gap-3 border-l-4 px-4 py-3 text-lg font-bold tracking-widest uppercase transition-colors ${isActive(item.path) ? "border-[#32bcfb] bg-[#07335f]/70 text-[#fef54b]" : "border-transparent text-[#dceefc]/75 hover:bg-white/5 hover:text-[#32bcfb]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -137,13 +150,13 @@ const links = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center bg-gradient-to-r from-[#ffe87a] to-[#cf9a18] py-3.5 text-lg font-black text-[#231500] shadow-[0_0_15px_rgba(251,193,52,0.45)]"
+        class="flex w-full justify-center bg-gradient-to-r from-[#a9e9ff] to-[#32bcfb] py-3.5 text-lg font-black text-[#041019] shadow-[0_0_15px_rgba(50,188,251,0.45)]"
         style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
         สมัครสมาชิก
       </a>
       <a
         href="/login"
-        class="flex w-full justify-center border border-[#cfd6e3]/70 bg-transparent py-3.5 text-lg font-bold text-[#cfd6e3]"
+        class="flex w-full justify-center border border-[#fef54b]/70 bg-transparent py-3.5 text-lg font-bold text-[#fef54b]"
         style="clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);">
         เข้าระบบ
       </a>
