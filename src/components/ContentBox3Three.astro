@@ -12,6 +12,13 @@ export interface Props {
   titleleft?: string;
   titlecenter?: string;
   titleright?: string;
+  /** Opt-in escape hatch, mirroring ContentBox3ThreePremium so the two siblings
+   *  take the same props. Defaults to FALSE — the column labels are chrome on
+   *  every brand so far, and the safe default is the one that keeps chrome out
+   *  of the heading inventory. A page whose three labels really ARE docx
+   *  sub-points passes heading={true}, and only then do they become real
+   *  headings at `as`. */
+  heading?: boolean;
   /** Names the <section> for assistive tech when the box is called with no
    *  `title`, since <p> labels leave it with no accessible name. */
   label?: string;
@@ -19,8 +26,20 @@ export interface Props {
   iconcenter?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label, iconleft = "🔎", iconcenter = "📝", iconright = "✅" } = Astro.props;
+const {
+  title,
+  as: HeadingTag = "h2",
+  titleleft,
+  titlecenter,
+  titleright,
+  label,
+  heading = false,
+  iconleft = "🔎",
+  iconcenter = "📝",
+  iconright = "✅",
+} = Astro.props;
 
+const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? titleleft ?? titlecenter ?? titleright ?? "ขั้นตอนการใช้งาน";
 const hasIntro = Astro.slots.has("default");
 
@@ -32,107 +51,124 @@ const hasIntro = Astro.slots.has("default");
 // flattened (each <article> carries the text classes and the slot is a direct
 // child) — do not re-add a wrapper <div> inside a column.
 //
-// On this brand's homepage the box carries docx H2 #6 (สมัครเล่นสล็อต PUNPRO168
-// ง่ายๆ 3 ขั้นตอน): the brief's intro paragraph goes in the default slot and its
-// three "ขั้นตอนที่ N" paragraphs go one per column. The brief writes those steps
-// as running prose rather than as a labelled sub-list, so the step labels are
-// <p> and the block emits exactly one docx heading.
+// On this brand's homepage the box carries docx H2 §6 ("สมัครเข้าเล่นสล็อต
+// <แบรนด์> ได้ทุกค่ายง่ายๆ 3 ขั้นตอน"): the brief's intro paragraph (content.txt
+// line 14) goes in the default slot and its three "ขั้นตอนที่ N" lines (15/17/19)
+// become the column labels with their own sentences (16/18/20) underneath. The
+// brief marks none of the three as a heading, so the page passes heading={false}
+// and the block emits exactly one docx heading.
 //
-// รอบนี้ (2026-10-12, brand-spec §2): พาเลตต์ชมพูฮอตพิงก์-ทอง บนพลัมเข้มอมม่วง
-// โลโก้เป็นเครื่องเกมพกพาสีชมพูหน้ายิ้มขยิบตา เหนือคำว่า PUNPRO ตัวหนาสามมิติชมพู
-// บานเย็นขอบทอง และเลข 168 ทองวาว — **ชมพูบานเย็น #f41571 นำ ทองสว่าง #fce343 รอง**
-// ⚠️ พื้นเพจรอบนี้เป็นพลัมเข้ม #2e0022 ตาม bg.json **ไม่ใช่ดำสนิท** การ์ดจึงวางบน
-// ผิวยก #4a1038 ที่ลอยขึ้นจากพื้น และยังมีชั้นที่จมกว่าพื้นได้จริง (#1c0014) ซึ่งใช้
-// เป็นพื้นของสามคอลัมน์
-// หัวข้อไล่ชมพูสว่าง #ff5ca8 → ทองสว่าง #fce343 → ชมพูบานเย็น #f41571 ซึ่งเป็นลำดับ
-// ที่ไม่ซ้ำกับกล่อง docx ใบใดในหน้าเดียวกัน
-// ป้ายสามคอลัมน์เป็นทองสว่าง #fce343 (12.1:1 บนผิวจม) ตามเลข 168 ทองในโลโก้ และตัว
-// เลขลำดับขั้นตอนอยู่บนแผ่นทองทึบไล่ #fce343 → #ffc554 บนหมึก #2a0012 ซึ่ง §2 ระบุว่า
-// เป็นหมึกตัวเดียวที่วางบนพื้นถมทองได้ (ห้ามไล่เข้มกว่า #ffc554 ใต้ตัวอักษร และห้าม
-// พลิกแผ่นทองไปใช้หมึกสว่าง)
-// กรอบการ์ดเป็นชมพูแบรนด์โปร่ง เส้นคั่นระหว่างคอลัมน์เป็นชมพูลึก #8a0a45 ออรามุมขวาบน
-// เป็นชมพูแบรนด์ #f41571 และมุมซ้ายล่างเป็นทอง #fce343 ตามคู่สีของโลโก้
-// เนื้อความ #fde7f2 (= BRAND_TEXT) — 12.6:1 บนผิวยก และ 17.2:1 บนผิวจมของคอลัมน์
-// §2 ห้าม #8a0a45 / #4a0426 ถือตัวอักษรทุกขนาด และ #ffd94a สงวนไว้ให้ <strong> ใน
-// ย่อหน้าเท่านั้น จึงไม่โผล่ในไฟล์นี้
+// สบายเบท168 (รอบ **ฟ้าบับเบิลนำ · ทองเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือตัวอักษร
+// บนดำสนิท** 2026-10-19, brand-spec §2): โลโก้เป็นแมวการ์ตูนขนขาวลายส้มสวมปลอกคอฟ้า
+// มีกระดิ่งทอง เหนือคำว่า "สบาย" ตัวอักษรไทยหนาสามมิติ **สีทอง** ต่อด้วย "เบท168"
+// **ฟ้าบับเบิลผิวมันวาว** — **ฟ้าแบรนด์ #2f9ff5 นำ ทอง #ffc82e รอง**
+// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** ตาม bg.json การ์ดจึงวางบนผิวกลาง #081726
+// ที่ลอยขึ้นจากพื้น และยังมีชั้นที่จมกว่านั้นได้ (#040d16) ซึ่งใช้เป็นพื้นของสาม
+// คอลัมน์ — แต่ **ไม่มีชั้นไหนจมต่ำกว่าพื้นเพจได้** #040d16 คือก้นสุด
+// หัวข้อไล่ ทองอ่อน #ffefbb → ฟ้าแบรนด์ #2f9ff5 → ทอง #ffc82e ซึ่งเป็นลำดับที่ไม่ซ้ำ
+// กับกล่อง docx ใบใดในหน้าเดียวกัน ⚠️ bg-clip-text = พิกเซลของตัวอักษร ทุกสต็อปจึง
+// ต้องถือตัวอักษรได้ตาม §2 (#ffefbb สูงมาก · #2f9ff5 5.9:1 ที่ text-2xl font-black
+// = large text · #ffc82e 11.3:1)
+// ป้ายสามคอลัมน์เป็นทอง #ffc82e (12.1:1 บนผิวจม) ตามคำว่า "สบาย" สีทองในโลโก้ และ
+// ตัวเลขลำดับขั้นตอนอยู่บนแผ่นถมฟ้าไล่ #a8dcff → #2f9ff5 บนหมึก #04121f ซึ่ง §2
+// ระบุว่าเป็นหมึกตัวเดียวที่วางบนพื้นถมฟ้า/ทองได้ (6.9:1 บนปลายเข้มสุดของไล่เฉด
+// ห้ามลากปลายเข้มลงไปถึง #0b3f78 เพราะจะเหลือ 1.4:1 และห้ามพลิกแผ่นสว่างไปใช้
+// หมึกสว่าง) — แผ่นนี้เป็น **ฟ้า** ส่วนป้ายคอลัมน์เป็น **ทอง** จึงมีทั้งสองฮิวอยู่ใน
+// สายตาเดียวกันตามโลโก้
+// กรอบการ์ดเป็นฟ้าแบรนด์โปร่ง เส้นคั่น/เส้นขอบคอลัมน์เป็นน้ำเงินลึก #0b3f78 ออรา
+// มุมขวาบนเป็นฟ้าแบรนด์ #2f9ff5 และมุมซ้ายล่างเป็นทอง #ffc82e ตามคู่สีของโลโก้
+// เนื้อความ #e8f4ff (= BRAND_TEXT) — 16.5:1 บนผิวกลาง และ 16.8:1 บนผิวจมของคอลัมน์
+// §2 ห้าม #0b3f78 / #5c4a16 ถือตัวอักษรทุกขนาด และ #ffc82e สงวนไว้ให้ <strong> ใน
+// ย่อหน้า — ที่นี่มันถือป้ายคอลัมน์ซึ่งเป็น UI label ไม่ใช่เนื้อความ จึงไม่ชนกฎนั้น
 //
-// ⚠️ ไฟล์นี้เคยเป็น **เขียวมรกต** ทั้งใบ (#22c55e #4ade80 #16a34a #e8f5ee #0a0605)
-// ซึ่งเป็นของแบรนด์เก่ากว่านั้น ออกครบทุกจุดแล้ว — รอบนี้ไม่มีเขียวเลยทั้งเว็บ
-// ยกเว้น #00B900 ของปุ่ม LINE ซึ่งไม่ได้อยู่ในไฟล์นี้
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — แปดในสิบรอบหลังสุดมีทอง และ FAH999 กับ
-// PIGPG เป็นแบรนด์ชมพูมาก่อน: ชุดทองอำพันเสือของ TIGERWIN369 (#d98324 #f7b733
-// #ffd98a #f7e4c0 #e3cfae #8a5214 #4a2a08 #1a0d02 #2d1c0a #1c1206 #0f0903) ชุดชมพู
-// ฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d #7a0046 #4a0b42
-// #3a0534 #2e002c) และชุดแดงแล็กเกอร์-ทองของ PIGPG (#d4200d #f5b61d #ffd87a #fdf9e4
-// #fdeedd) ไม่ใช่ค่าของรอบนี้สักตัว — #ff3fa4 (R=255 G=63) ไม่ใช่ #f41571 (R=244
-// G=21) และ #f5c53d ไม่ใช่ #fce343
-const columnLabel = "flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#fce343] uppercase";
+// ⚠️ ไฟล์นี้เคยเป็น **ชมพูฮอตพิงก์-ทอง ของ PUNPRO168** ทั้งใบ (f41571 ff5ca8 fce343
+// ffc554 f0c3dc fde7f2 8a0a45 4a0426 2a0012 4a1038 1c0014 2e0022) และก่อนหน้านั้น
+// เป็น **เขียวมรกต** (22c55e 4ade80 16a34a e8f5ee 0a0605) — ออกครบทุกค่าแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้น: ทอง และ ฟ้า**
+// ทองรอบนี้คือ #ffc82e (R=255 G=200 B=46) ไม่ใช่ ffd84d (ถอนชัวร์168) fcd434
+// (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168) fce343
+// (PUNPRO168) f5c53d (FAH999) f7b733 (TIGERWIN369) f5b61d (PIGPG) dfa310 (TND168)
+// e2b33f (KMD88) e5a81b (UFA324) หรือ fad354 (789BETTING)
+// ฟ้ารอบนี้คือ #2f9ff5 / #a8dcff / #0b3f78 ไม่ใช่ 0360f3 0292fb 6ec8ff (TSDET911)
+// 0193fb 7bcffb (แตกดี168) 0a84e0 (HI59) หรือ cfd9e6 (เงินอมฟ้าของรับตัง168)
+// ชุดชมพูบับเบิลกัม-ทองเนยของถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a
+// 6d0b3f 6b4708 2a0617 fdeaf5) ชุดของมีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52
+// 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดของขวัญใจ168 (f7c92b ffe6a3 f2bba5
+// c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุดทองอำพันเสือ
+// ของ TIGERWIN369 (d98324 f7b733 ffd98a f7e4c0 e3cfae 8a5214 4a2a08 1a0d02 2d1c0a
+// 1c1206 0f0903) ชุดชมพูฮอต-ทองของ FAH999 (ff3fa4 ff6cbb ffd1ea fde8f3 f5c53d
+// 7a0046 4a0b42 3a0534 2e002c) และชุดแดงแล็กเกอร์-ทองของ PIGPG (d4200d f5b61d
+// ffd87a fdf9e4 fdeedd) ไม่เหลือในไฟล์นี้แล้ว
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีชมพู ไม่มีแดง ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม ไม่มีเงิน/โครเมียม
+// และไม่มีโรสโกลด์**
+const columnLabel = "flex items-center gap-3 text-lg leading-normal font-black tracking-widest text-[#ffc82e] uppercase";
 const stepBadge =
-  "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#8a0a45] bg-gradient-to-br from-[#fce343] to-[#ffc554] text-base text-[#2a0012] shadow-[0_5px_15px_rgba(252,227,67,0.3)]";
-const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#fde7f2] transition-all hover:-translate-y-1";
+  "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#0b3f78] bg-gradient-to-br from-[#a8dcff] to-[#2f9ff5] text-base text-[#04121f] shadow-[0_5px_15px_rgba(47,159,245,0.35)]";
+const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#e8f4ff] transition-all hover:-translate-y-1";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f41571]/35 bg-[#4a1038]/92 p-8 text-[#fde7f2] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#ff5ca8]/60 hover:shadow-[0_15px_40px_rgba(244,21,113,0.22)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#f41571]/35 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-20 -left-20 -z-10 h-44 w-44 rounded-full bg-[#fce343]/16 blur-[60px]"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#2f9ff5]/35 bg-[#081726]/92 p-8 text-[#e8f4ff] shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-500 hover:border-[#a8dcff]/60 hover:shadow-[0_15px_40px_rgba(47,159,245,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#2f9ff5]/35 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-20 -left-20 -z-10 h-44 w-44 rounded-full bg-[#ffc82e]/16 blur-[60px]"></div>
 
     {
       title && (
-        <header class="mb-6 flex flex-col gap-3 border-b border-[#8a0a45]/45 pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#ff5ca8] via-[#fce343] to-[#f41571] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
-          <div aria-hidden="true" class="h-[3px] w-20 rounded-full bg-gradient-to-r from-[#fce343] via-[#f41571] to-[#4a0426] shadow-[0_0_10px_rgba(244,21,113,0.55)]" />
+        <header class="mb-6 flex flex-col gap-3 border-b border-[#0b3f78]/70 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#ffefbb] via-[#2f9ff5] to-[#ffc82e] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+          <div aria-hidden="true" class="h-[3px] w-20 rounded-full bg-gradient-to-r from-[#2f9ff5] via-[#ffc82e] to-[#0b3f78] shadow-[0_0_10px_rgba(47,159,245,0.55)]" />
         </header>
       )
     }
 
     {
       hasIntro && (
-        <div class="mb-8 text-left text-base leading-relaxed text-[#fde7f2]">
+        <div class="mb-8 text-left text-base leading-relaxed text-[#e8f4ff]">
           <slot />
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
+      <article class={`${column} rounded-2xl border border-[#2f9ff5]/30 bg-[#040d16]/90 p-6 hover:border-[#2f9ff5]/70`}>
         {
           titleleft && (
-            <p class={columnLabel}>
+            <LabelTag class={columnLabel}>
               <span aria-hidden="true" class={stepBadge}>
                 {iconleft}
               </span>
               {titleleft}
-            </p>
+            </LabelTag>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
+      <article class={`${column} rounded-2xl border border-[#2f9ff5]/30 bg-[#040d16]/90 p-6 hover:border-[#2f9ff5]/70`}>
         {
           titlecenter && (
-            <p class={columnLabel}>
+            <LabelTag class={columnLabel}>
               <span aria-hidden="true" class={stepBadge}>
                 {iconcenter}
               </span>
               {titlecenter}
-            </p>
+            </LabelTag>
           )
         }
         <slot name="center" />
       </article>
 
-      <article class={`${column} rounded-2xl border border-[#f41571]/30 bg-[#1c0014]/90 p-6 hover:border-[#f41571]/70`}>
+      <article class={`${column} rounded-2xl border border-[#2f9ff5]/30 bg-[#040d16]/90 p-6 hover:border-[#2f9ff5]/70`}>
         {
           titleright && (
-            <p class={columnLabel}>
+            <LabelTag class={columnLabel}>
               <span aria-hidden="true" class={stepBadge}>
                 {iconright}
               </span>
               {titleright}
-            </p>
+            </LabelTag>
           )
         }
         <slot name="right" />
