@@ -36,65 +36,73 @@ const leftHeading = titleleft ?? title;
 // หน้าเดียวกัน ใบนั้นเป็น p-8 / gap-8 / md:pl-8 แล้วออกมา 312px / calc(30vw − 72px)
 // แก้ padding ที่ไหนก็ต้องไปแก้ `sizes` ของหน้าแรกตามด้วย
 //
-// นินจา168 (รอบ **ฟ้าไซยานนำ · เหลืองมะนาวเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
+// มีเฮ168 (รอบ **แดงชาดนำ · ทองเนยเป็นฮิวที่สอง · แดงลึก/บรอนซ์ลึกไม่เคยถือ
 // ตัวอักษร · บนดำสนิท** 2026-10-19) — พาเลตต์ตาม brand-spec §2–§5
-// กล่องนี้ถือ **docx H3 §5** ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด") คู่กับ
-// **slide1.png** ซึ่งพิมพ์คำว่า แนะนำเพื่อน กับเลข 0.8% ไว้บนแผ่นป้ายในตัวภาพเอง
-// ⚠️ **slide1 = แนะนำเพื่อน 0.8% (ใบนี้) · slide2 = คืนยอดเสีย 0.3% (§4)** ใครก๊อป
-// บรรทัด import ข้ามใบจะได้รูปที่ขัดกับหัวข้อเหนือมัน ส่วน banner2/banner3/slide3/
-// slide4 เป็นอาร์ตเวิร์กของแบรนด์ก่อน — ห้าม import ที่ไหนเลย (eager import = emit
-// แม้ไม่ render)
-// นี่คือบล็อก SevenThree ใบที่สองและใบสุดท้ายของรอบนี้ ตามเพดาน 2 ใบของ playbook
+// กล่องนี้ถือ **docx H3 §4** ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน") คู่กับ
+// **slide2.png** ซึ่งพิมพ์คำว่า คืนยอดเสีย กับเลข 0.3% ไว้บนแผ่นป้ายในตัวภาพเอง
+// ⚠️ **slide2 = คืนยอดเสีย 0.3% (ใบนี้) · slide1 = แนะนำเพื่อน 0.8% (§5)** —
+// **สลับข้างกับรอบที่แล้วพอดี** uploader เขียนทับไฟล์ทุกดรอป เลขในชื่อไฟล์จึงไม่มี
+// ความหมายข้ามแบรนด์ ต้องเปิดรูปอ่านป้ายใหม่ทุกครั้ง ใครก๊อปบรรทัด import ข้ามใบ
+// จะได้รูปที่ขัดกับหัวข้อเหนือมัน ส่วน banner2/banner3/slide3/slide4 เป็นอาร์ตเวิร์ก
+// ของแบรนด์ก่อน — ห้าม import ที่ไหนเลย (eager import = emit แม้ไม่ render)
+// นี่คือหนึ่งในสองบล็อก SevenThree ของรอบนี้ ตามเพดาน 2 ใบของ playbook
 //
-// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #0c2a3d ยก / #071a28 กลาง /
-// #030e16 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้ #030e16 คือก้นสุด
+// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #2b0711 ยก / #1a040a กลาง /
+// #0c0205 จม / #000000 พื้น — ไม่มีผิวไหนจมต่ำกว่าพื้นได้ #0c0205 คือก้นสุด
 //
 // จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบเดียวของหน้า** และนั่งลึกที่สุด
-// ในบรรดากล่องเนื้อหา — ผิวจม #030e16 มุม rounded-[22px] **มีกรอบน้ำเงินลึก #07335f**
-// กดเงาลงด้วยดำสนิท #000000 แล้วยกแสงขึ้นด้วยผิวยก #0c2a3d ตอน hover ฝั่งสว่าง
-// ไต่ขึ้นเป็นทองลึก #6b5c10
-// เทียบกับ §4 ที่อยู่เหนือมันทันที (อีกบล็อกรูปหนึ่ง): ใบนั้นเป็นมุมตัดเฉียงบนผิว
-// กลางพร้อมเส้นรูดสี่มุม และหัวข้อเป็นฟ้าไซยาน **ทึบสีเดียว** ส่วนใบนี้เป็นมุมกลม
-// นูนบนผิวจม หัวข้อเป็นตัวอักษร **ไล่เฉดสามสี** เหลืองมะนาว #fef54b → ฟ้าน้ำแข็ง
-// #a9e9ff → ฟ้าแบรนด์ #32bcfb ("เหลืองเดินลงหาฟ้า") พร้อม **แถบตั้งนำหน้า** ซึ่งเป็น
-// ลำดับและทรีตเมนต์ที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
+// ในบรรดากล่องเนื้อหา — ผิวจม #0c0205 มุม rounded-[22px] **มีกรอบแดงลึก #5c0410**
+// กดเงาลงด้วยดำสนิท #000000 แล้วยกแสงขึ้นด้วยผิวยก #2b0711 ตอน hover ฝั่งสว่าง
+// ไต่ขึ้นเป็นบรอนซ์ลึก #6b4a08
+// เทียบกับ §5 ที่ตามมาทันที (อีกบล็อกรูปหนึ่ง): ใบนั้นเป็นมุมตัดเฉียงบนผิวกลางพร้อม
+// เส้นรูดสี่มุม และหัวข้อเป็นแดงแบรนด์ **ทึบสีเดียว** ส่วนใบนี้เป็นมุมกลมนูนบนผิวจม
+// หัวข้อเป็นตัวอักษร **ไล่เฉดสามสี** ทองเนย #fcd45c → ชมพูบลัช #ff8f9c → แดงแบรนด์
+// #fb1b32 ("ทองเดินลงหาแดง") พร้อม **แถบตั้งนำหน้า** ซึ่งเป็นลำดับและทรีตเมนต์ที่
+// ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
 // ⚠️ ไล่เฉดหัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือ
-// ตัวอักษรได้ตาม §2 (12.7 / 11.3 / 7.1) — ห้ามเอา #07335f หรือ #6b5c10 มาเป็นสต็อป
+// ตัวอักษรได้ตาม §2 (12.9 / 8.5 / 4.7 ที่ text-xl font-black = large text) —
+// ห้ามเอา #5c0410 หรือ #6b4a08 มาเป็นสต็อป
 // ความนูนแบบนี้ต้องใช้คู่มืด/สว่างในโทนเดียว สีแบรนด์จึงอยู่ที่หัวข้อกับกรอบ ไม่ใช่
-// ในเงา เส้นคั่นคอลัมน์เป็นทองลึก #6b5c10 เนื้อความ #dceefc (= BRAND_TEXT, 16.8:1
+// ในเงา เส้นคั่นคอลัมน์เป็นบรอนซ์ลึก #6b4a08 เนื้อความ #fdeaec (= BRAND_TEXT, 19:1
 // บนผิวจมที่เกือบดำ)
-// §2 ห้าม #07335f (1.4:1) และ #6b5c10 (1.9:1) ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่
+// §2 ห้าม #5c0410 (1.4:1) และ #6b4a08 (1.8:1) ถือตัวอักษรทุกขนาด — ในไฟล์นี้อยู่ที่
 // แถบตั้ง เส้นคั่น กรอบ และเงาเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้นคือฟ้าและทอง**
-// เพราะรอบที่แล้ว (สบายเบท168) ก็ฟ้านำ+ทองรองบนดำเหมือนกัน ต่างกันที่ค่า
-// ฟ้ารอบนี้ **#32bcfb / #a9e9ff / #07335f** ไม่ใช่ 2f9ff5 / a8dcff / 0b3f78
-// (สบายเบท168) 0360f3 / 0292fb / 6ec8ff / 4fb4ff (TSDET911) 0a84e0 / 04203f / e4f1fd
-// (HI59) 0193fb / 7bcffb (แตกดี168) 04225b หรือ 2563eb
-// เหลืองรอบนี้ **#fef54b** ไม่ใช่ ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434 /
-// ffeaa0 (มีโชค168) f7c92b / ffe6a3 (ขวัญใจ168) f0b429 / ffdc8c (รับตัง168) e3b23c
-// (สมหวัง168) dfa310 e5a81b e2b33f f2c230 fad354 f5c518 หรือ fbe455
-// ชุดของถอนชัวร์168 ที่เพิ่งอยู่ในไฟล์นี้ (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a
-// 6d0b3f 6b4708 2a0617 fdeaf5) ชุดของมีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52
-// 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดทองไทย-โรสโกลด์ของขวัญใจ168 (f7c92b
-// ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุด
-// ของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0) และ
-// ชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7)
-// ออกครบทุกจุดแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้นคือแดงและทอง**
+// เพราะทั้งคู่ผ่านรีโปนี้มาแล้วหลายแบรนด์ ต่างกันที่ค่า
+// แดงรอบนี้ **#fb1b32 / #ff8f9c / #5c0410** ไม่ใช่ fa0513 ffadaf ff5a5f b90203
+// 8c0204 5b0203 (สมหวัง168 — ⚠️ ใกล้ที่สุด) ไม่ใช่ d30304 ff6b6e a00203 4a0202
+// (รับตัง168) ไม่ใช่ b3121b 5a0a0e (ขวัญใจ168) ไม่ใช่ fb131b ff4d55 ff8a8f (TKB55)
+// และไม่ใช่ fb141b ff5f63 ffa0a2 (GT66B)
+// ทองรอบนี้ **#fcd45c / #ffeec0 / #6b4a08** ไม่ใช่ f9a826 704504 (รวยแทร่168)
+// fef54b 6b5c10 (นินจา168) ffc82e 5c4a16 (สบายเบท168) ffd84d 6b4708 (ถอนชัวร์168)
+// fcd434 ffeaa0 7a5508 (มีโชค168) f7c92b ffe6a3 8a5f12 (ขวัญใจ168) f0b429 ffdc8c
+// 9a6c0c (รับตัง168) e3b23c ffe5a8 8a6210 (สมหวัง168) dfa310 e5a81b e2b33f f2c230
+// fad354 f5c518 fce343 f3bb34 หรือ fbe455
+// ชุดฟ้าอะซัวร์ของรวยแทร่168 ที่เพิ่งอยู่ในไฟล์นี้ (039cfa 0494f5 c3ebfc 04366b
+// e3f2fc 0b2d52 071e38 030f1d 031320) ชุดของนินจา168 (32bcfb a9e9ff 07335f 0c2a3d
+// 071a28 030e16 041019 dceefc) ชุดของสบายเบท168 (2f9ff5 a8dcff d6ecff 0b3f78 e8f4ff
+// 0e2238 081726 040d16 04121f) ชุดของถอนชัวร์168 (fa63b9 ffb3de 2b0f20 1a0914 0d040a
+// 6d0b3f 2a0617 fdeaf5) ชุดของมีโชค168 (f5469f ff8dc6 8c0f52 1a0612 f6e4ee 24101c
+// 160a12 0b0509) ชุดโรสโกลด์ของขวัญใจ168 (f2bba5 c98a74 eadfce 140c06 241509 160d06
+// 0b0603) ชุดของรับตัง168 (cfd9e6 f5ece0 2b100f 200a09 140505 1a0505) และชุดน้ำเงิน
+// ไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7) ออกครบทุกจุด
+// แล้ว
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีชมพู ม่วง/ไวโอเลต เขียว ส้ม แดง โรสโกลด์ และเงิน/โครเมียม**
+// ⚠️ **รอบนี้ไม่มีฟ้า/น้ำเงิน ม่วง/ไวโอเลต เขียว ส้ม เงิน/โครเมียม โรสโกลด์
+// เหลืองมะนาว และชมพูฟูเชีย**
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[22px] border border-[#07335f] bg-[#030e16] p-8 shadow-[10px_10px_22px_#000000,-10px_-10px_22px_#0c2a3d] transition-all duration-300 hover:border-[#32bcfb]/70 hover:shadow-[15px_15px_32px_#000000,-15px_-15px_32px_#6b5c10] md:p-10">
+    class="w-full rounded-[22px] border border-[#5c0410] bg-[#0c0205] p-8 shadow-[10px_10px_22px_#000000,-10px_-10px_22px_#2b0711] transition-all duration-300 hover:border-[#fb1b32]/70 hover:shadow-[15px_15px_32px_#000000,-15px_-15px_32px_#6b4a08] md:p-10">
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dceefc]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeaec]">
         {
           leftHeading && (
             <div class="flex items-center gap-3">
-              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fef54b] via-[#6b5c10] to-[#07335f]" />
-              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#fef54b] via-[#a9e9ff] to-[#32bcfb] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fcd45c] via-[#6b4a08] to-[#5c0410]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#fcd45c] via-[#ff8f9c] to-[#fb1b32] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">
                 {leftHeading}
               </HeadingTag>
             </div>
@@ -103,12 +111,12 @@ const leftHeading = titleleft ?? title;
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dceefc] md:border-l md:border-[#6b5c10] md:pl-10">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdeaec] md:border-l md:border-[#6b4a08] md:pl-10">
         {
           titleright && (
             <div class="flex items-center gap-3">
-              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fef54b] via-[#6b5c10] to-[#07335f]" />
-              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#fef54b] via-[#a9e9ff] to-[#32bcfb] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">{titleright}</HeadingTag>
+              <span aria-hidden="true" class="h-9 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fcd45c] via-[#6b4a08] to-[#5c0410]" />
+              <HeadingTag class="min-w-0 bg-gradient-to-r from-[#fcd45c] via-[#ff8f9c] to-[#fb1b32] bg-clip-text text-xl leading-normal font-black text-transparent uppercase">{titleright}</HeadingTag>
             </div>
           )
         }
