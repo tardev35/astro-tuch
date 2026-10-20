@@ -3,7 +3,12 @@
 //
 // ก่อนหน้านี้แต่ละ footer เขียนชิปปลอมเป็นตัวหนังสือเองคนละแบบ (บ้าง 3 อัน บ้าง 6 อัน
 // สีมั่วไปคนละทาง) พอรีแบรนด์ทีก็ต้องไล่แก้ทุกไฟล์ ย้ายมาไว้ที่เดียวแล้วแต่ละ footer
-// เรียกใช้ ปรับได้แค่ขนาดกับจำนวน — สีของโลโก้เป็นของธนาคาร ไม่ควรเปลี่ยนตามแบรนด์อยู่แล้ว
+// เรียกใช้ ปรับได้แค่ขนาดกับจำนวน
+//
+// ⚠️ **ไฟล์นี้ไม่มีสีของแบรนด์อยู่เลย และต้องไม่มีตลอดไป** — สีที่เห็นทั้งหมดเป็นสี
+// ซีแมนติกของแบรนด์ธนาคารแต่ละเจ้าซึ่งอบมาในไฟล์ PNG แล้ว ไม่ใช่สีของเว็บ รีแบรนด์
+// รอบไหนก็ตามที่ไล่เปลี่ยน hex ต้อง **ข้ามไฟล์นี้** สิ่งที่ปรับได้คือกรอบ/พื้น/เงาของ
+// การ์ดที่ครอบแถบนี้ ซึ่งอยู่ในไฟล์ footer ที่เรียกใช้ ไม่ได้อยู่ที่นี่
 //
 // ไฟล์ต้นทางเป็น PNG 512x512 มี alpha และ**กรอบสี่เหลี่ยมมนกับพื้นสีอบมาในไฟล์แล้ว**
 // จึงไม่ต้องใส่พื้นหลังหรือ border ทับ ใส่แล้วจะเห็นเป็นกรอบซ้อนกรอบ
@@ -32,15 +37,55 @@ const PRIORITY = [
   "ICBC", "SCBT", "MIZUHO", "ISBT", "OSK", "TCR", "PEER2PAY",
 ];
 
+// alt ต้องบอกว่า "รูปนี้คือโลโก้ของใคร" — ชื่อไฟล์เป็นรหัสย่อ (OSK, TCR, ISBT) ซึ่ง
+// คนอ่านด้วยสกรีนรีดเดอร์ไม่มีทางรู้ว่าหมายถึงธนาคารไหน และ verify-build.mjs นับ
+// alt ที่เป็นรหัส/ตัวเลขลำดับเป็นของเสีย ชื่อข้างล่างนี้ **เปิดบิตแมปอ่านจากโลโก้จริง**
+// ของตัวที่รหัสกำกวมแล้ว: OSK.png = ธอส. (G H BANK) ไม่ใช่ RHB/OSK Securities ·
+// TCR.png = ไทยเครดิต · ISBT.png = อิสลามแห่งประเทศไทย · LNH.png = แลนด์ แอนด์ เฮ้าส์ ·
+// TISGO.png = ทิสโก้ (ไฟล์สะกด TISGO แต่โลโก้เขียน TISCO) · PEER2PAY.png = Peer2Pay
+// ซึ่งเป็นบริการชำระเงิน ไม่ใช่ธนาคาร
+const BANK_NAMES: Record<string, string> = {
+  KBANK: "ธนาคารกสิกรไทย",
+  SCB: "ธนาคารไทยพาณิชย์",
+  KTB: "ธนาคารกรุงไทย",
+  BBL: "ธนาคารกรุงเทพ",
+  BAY: "ธนาคารกรุงศรีอยุธยา",
+  TTB: "ธนาคารทหารไทยธนชาต",
+  GSB: "ธนาคารออมสิน",
+  BAAC: "ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร",
+  TRUEWALLET: "ทรูมันนี่ วอลเล็ท",
+  KKB: "ธนาคารเกียรตินาคินภัทร",
+  UOB: "ธนาคารยูโอบี",
+  TISGO: "ธนาคารทิสโก้",
+  CIMB: "ธนาคารซีไอเอ็มบี ไทย",
+  LNH: "ธนาคารแลนด์ แอนด์ เฮ้าส์",
+  CITI: "ธนาคารซิตี้แบงก์",
+  ICBC: "ธนาคารไอซีบีซี (ไทย)",
+  SCBT: "ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)",
+  MIZUHO: "ธนาคารมิซูโฮ",
+  ISBT: "ธนาคารอิสลามแห่งประเทศไทย",
+  OSK: "ธนาคารอาคารสงเคราะห์",
+  TCR: "ธนาคารไทยเครดิต",
+  PEER2PAY: "Peer2Pay",
+};
+
 const rank = (n: string) => {
   const i = PRIORITY.indexOf(n);
   return i === -1 ? PRIORITY.length : i;
 };
 
 const logos = Object.entries(files)
-  .map(([path, mod]) => ({ name: path.split("/").pop()!.replace(/\.png$/i, ""), src: mod.default }))
+  .map(([path, mod]) => {
+    const name = path.split("/").pop()!.replace(/\.png$/i, "");
+    return { name, label: BANK_NAMES[name] ?? name, src: mod.default };
+  })
   .sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name))
   .slice(0, limit);
+
+// วาดจริงกว้าง size px เป๊ะ (ไอคอนจัตุรัส ไม่ยืดตามคอลัมน์) จึงให้ sizes ตรงค่านั้น
+// และ widths แค่ 1x/2x — ต้นฉบับ 512px รองรับได้สบาย ส่วน quality เป็นตัวเลขเดียว
+// ให้ทุกฟอร์แมต (tools/avif-quality-service.mjs เป็นตัวลดสเกลให้ AVIF เอง)
+const srcWidths = [size, size * 2];
 ---
 
 <ul class={`flex flex-wrap gap-1.5 ${center ? "justify-center" : ""} ${className}`}>
@@ -49,10 +94,11 @@ const logos = Object.entries(files)
       <li class="leading-none">
         <Image
           src={bank.src}
-          alt={`ช่องทางฝาก-ถอน ${bank.name}`}
+          alt={`โลโก้ ${bank.label}`}
           width={size}
           height={size}
-          densities={[1, 2]}
+          widths={srcWidths}
+          sizes={`${size}px`}
           format="webp"
           quality={70}
           loading="lazy"

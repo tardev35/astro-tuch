@@ -37,29 +37,28 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://รวยเทพ168.com — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️ รอบนี้โดเมนเป็น **IDN ภาษาไทย** ต่างจากสองรอบก่อนที่เป็น ASCII ล้วน
-  // รอบนี้โดเมนกลับมาเป็น **ASCII ล้วน** จึง **ไม่ต้องแปลง punycode** ต่างจากรอบก่อน
-  // (รวยเทพ168.com ซึ่งเป็น IDN ภาษาไทย เก็บเป็น xn--168-vml9awg6a2s.com)
+  // โดเมนจริงรอบนี้คือ https://settee168-tech.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน** จึง **ไม่ต้องแปลง punycode** เหมือนรอบก่อน
   // ตรวจซ้ำได้ด้วย
-  //   node -e "console.log(new URL('https://ufalion168.page').hostname)"
+  //   node -e "console.log(new URL('https://settee168-tech.com').hostname)"
   // เคยมี IDN มาแล้วห้ารอบ (รวยเทพ168.com -> xn--168-vml9awg6a2s.com ·
   // สบายเบท-168.com -> xn---168-9gora7dtd1dwh.com · ถอนชัวร์168.com ->
   // xn--168-ell7cs5e5a5c2b0v.com · มีโชค168.com -> xn--168-pkl3a1luf6d.com ·
   // หวยดีใจ.com -> xn--82cx5btt7d4e.com) — รอบนี้ไม่เข้าข่าย
-  // ⚠️ TLD รอบนี้คือ **.page ไม่ใช่ .com ของรอบก่อน และไม่ใช่ .cc/.net ของรอบก่อนๆ**
-  // — อย่าพิมพ์ .com ด้วยความเคยชิน
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ufalion168.page ซึ่ง **ถูกต้องแล้ว**
+  // ⚠️ TLD รอบนี้กลับมาเป็น **.com** ไม่ใช่ .page ของรอบก่อน
+  // ⚠️ **สะกดว่า settee ไม่ใช่ setthee/setthi** และมี **ขีดกลางคั่นก่อน tech**
+  // ⚠️ **โดเมนรอบนี้อ่านไม่ตรงกับชื่อแบรนด์เลย** — แบรนด์เป็นไทย "ดวงเศรษฐี168"
+  // ส่วนโดเมนเป็น ASCII "settee168-tech" เป็นตัวอย่างชัดๆ ว่าทำไมห้ามเดาโดเมนจาก
+  // ชื่อแบรนด์ (รอบ TSDET911 ก็เคยเจอ: แบรนด์สะกด d แต่โดเมนสะกด b)
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@settee168-tech.com ซึ่ง **ถูกต้องแล้ว**
   // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
-  // ⚠️ label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้ทั้งสองค่า
-  // บังเอิญตรงกันคือ "ufalion168" เพราะชื่อแบรนด์เป็น ASCII ล้วน **แต่นั่นเป็นเรื่อง
-  // บังเอิญของรอบนี้ ไม่ใช่กฎ** รอบก่อนชื่อแบรนด์ให้ "168" ส่วนโดเมนให้
-  // "xn--168-vml9awg6a2s" ซึ่งคนละค่ากันสิ้นเชิง
+  // ⚠️ label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้
+  // คนละค่ากันสิ้นเชิง: ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง)
+  // ส่วนโดเมนให้ label = "settee168-tech"
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
-  // (รอบ TSDET911 แบรนด์สะกด d แต่โดเมนสะกด b)
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://ufalion168.page",
+  site: "https://settee168-tech.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

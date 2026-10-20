@@ -3,20 +3,20 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** ufalion168's identity is a **single colour family** — amber-honey gold
-   *  "ufa"/"168" and a lighter gold "lion" on a golden lion's head in a gold
-   *  crown, over pure black — so the two accents are the lead gold and the
-   *  BRONZE third hue rather than two unrelated colours: "gold" is the solid
-   *  lead-gold plate (#d4922c, dark ink #1a1000 at 7.10:1) and "bronze" the
-   *  solid bronze plate (#a25b24, ivory glyph #fbf6e3 at 4.78:1 — the one
-   *  combination brand-spec §2 sanctions for text on a bronze fill).
-   *  ⚠️ The union was `"gold" | "red"` when this file arrived, for the outgoing
-   *  brand's scarlet. **§2 has NO red at all this round**, so the red branch is
-   *  gone from both the type and the implementation rather than being left
-   *  accepted-but-recoloured — a spelling that still builds is a spelling the
-   *  next page quietly passes. Only index.astro renders this component, so
-   *  narrowing the union breaks nothing. */
-  accent?: "gold" | "bronze";
+  /** ดวงเศรษฐี168's identity is a **two-colour pair** read straight off the
+   *  logo — honey gold "ดวงเศรษฐี" lettering and a vermilion-red "168" beside a
+   *  red-and-gold Chinese cap — so the two accents are the lead gold and the
+   *  second hue: "gold" is the solid honey-gold plate (#f0c878, dark ink
+   *  #2a0608 at 11.7:1) and "red" the solid vermilion plate (#d9212a, ivory
+   *  glyph #fff8d8 at 4.7:1 — the one combination brand-spec §2 sanctions for
+   *  text on a red fill).
+   *  ⚠️ The union was `"gold" | "bronze"` when this file arrived, for the
+   *  outgoing ufalion168's third hue. **§2 has NO bronze at all this round**, so
+   *  the bronze branch is gone from both the type and the implementation rather
+   *  than being left accepted-but-recoloured — a spelling that still builds is a
+   *  spelling the next page quietly passes. Only index.astro renders this
+   *  component, so narrowing the union breaks nothing. */
+  accent?: "gold" | "red";
 }
 
 export interface Props {
@@ -30,58 +30,57 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// ufalion168 palette (brand-spec §2): every card sits on the raised surface
-// (#33200a) inside a burnt-bronze hairline (#5a3310), hovering down onto the mid
-// surface (#1f1304), and the icon plate alternates between the lead-gold plate
-// and the bronze plate — the lead hue against the third hue, alternating down
-// the list.
+// ดวงเศรษฐี168 palette (brand-spec §2): every card sits on the raised surface
+// (#4e2120) inside a maroon hairline (#8e1a16), hovering down onto the mid
+// surface (#300605), and the icon plate alternates between the lead-gold plate
+// and the vermilion plate — the lead hue against the second hue, alternating
+// down the list.
 // ⚠️ The two plates take DIFFERENT ink, and that is the §2 rule that decides it,
-// not taste: ink #1a1000 on gold #d4922c is 7.10:1 ✓, but the same ink on
-// bronze #a25b24 would be far under AA, so the bronze plate takes #fbf6e3
-// (4.78:1 ✓ — the one combination §2 sanctions for text on a bronze fill).
-// ⚠️ Bronze #a25b24 scores 3.0:1 on this card's own surface and 4.06:1 on pure
+// not taste: ink #2a0608 on gold #f0c878 is 11.7:1 ✓, but the same ink on
+// vermilion #d9212a is only 3.7:1, so the red plate takes ivory #fff8d8
+// (4.7:1 ✓ — the one combination §2 sanctions for text on a red fill).
+// ⚠️ Vermilion #d9212a scores 2.7:1 on this card's own surface and 4.2:1 on pure
 // black, so it NEVER carries a glyph directly on the card — only as a FILL
-// behind ivory, as a border, and in the hover glow. Burnt bronze #5a3310 carries
-// no text anywhere in this file either; it is the resting hairline and nothing else.
+// behind ivory, as a border, and in the hover glow. Maroon #8e1a16 carries no
+// text anywhere in this file either; it is the resting hairline and nothing else.
 //
-// The title is cream gold #f6e3b4 (12.3:1 on the raised surface) rather than a
+// The title is honey gold #f0c878 (8.5:1 on the raised surface) rather than a
 // gradient: on this landing page the three items this component carries are the
 // brief's own ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 §6 (content.txt lines
 // 15-20), and a flat accent reads as a numbered list where a gradient would read
-// as three separate section headings. The gold/bronze accent still separates the
+// as three separate section headings. The gold/red accent still separates the
 // cards — on the plate, the border and the hover.
-// ⚠️ ทองนำ #d4922c ถูก §2 สงวนไว้ให้ <strong> ในเนื้อความ จึงอยู่ในไฟล์นี้ได้
-// เฉพาะที่แผ่นไอคอน ขอบ และเงา hover ไม่ใช่ที่ตัวอักษรหัวข้อ
-// ⚠️ ไอคอนที่หน้าแรกส่งมาเป็น **กลุ่มฟุตบอล/กีฬา** (🏟️ 🎽 ⚽) ไม่ใช่ตู้สล็อต —
-// §6 วางแบรนด์นี้บนแกนฟุตบอล ตู้สล็อตเป็นของค้างจากรอบขาออก ไอคอนอยู่ในแผ่น
-// aria-hidden="true" ซึ่งเป็น **พี่น้อง** ของป้ายชื่อ ไม่ใช่อักขระในข้อความ
+// ⚠️ ไอคอนที่หน้าแรกส่งมาเป็น **กลุ่ม "ตรวจสอบ → ลงทะเบียน → ศึกษาบทเรียน"**
+// (🔎 📝 📚) ตรงกับแกนของบรีฟรอบนี้ซึ่งเป็น **เว็บสอนเล่นเกมเดิมพันหลายประเภท**
+// ไม่ใช่ชุดฟุตบอล 🏟️ 🎽 ⚽ ของ ufalion168 รอบก่อน ไอคอนอยู่ในแผ่น aria-hidden="true"
+// ซึ่งเป็น **พี่น้อง** ของป้ายชื่อ ไม่ใช่อักขระในข้อความ
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **รอบนี้ทองเคยนำมาแล้วเกือบทุกแบรนด์
-// ในรีโปนี้** การเจอทองในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
-// ไฟล์นี้เพิ่งค้างชุดทองอิมพีเรียล-แดงชาดของรวยเทพ168 ไว้ทั้งใบ (f0bb4e ffeccb
-// e4021b d9701a 3b1b0e 260d04 5c2a06 fff8ec 2b1400 กับ rgba 240/187/78 และ
-// rgba 228/2/27) ก่อนนั้นเป็นชุดแดงชาด-ทองเนยของมีเฮ168 (fb1b32 ff8f9c 5c0410
-// fcd45c 6b4a08 2b0711 1a040a 1b0308 fdeaec) ชุดฟ้าอะซัวร์-ทองอำพันของรวยแทร่168
-// (039cfa c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 031320) ชุดชมพูฮอต-ทอง
-// ของ FAH999 (ff3fa4 ff6cbb ffd1ea fde8f3 f5c53d ffe49a d19a12 9c6f08 b3006a 7a0046
-// 4d002b 3a0534 4a0b42 2b0019) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (f3bb34 fde464
-// c8901a 8a5f08 5c3f04 f58b2a ffc98a a3510c 1a1203 f6ecd9 1f1709 171106) และชุด
-// ทอง-แดงของ 365LOTTO (fdf3b4 e0b03a e01f26 a40304 fadc64 ffe9a3 9c6a12 1a0709
-// 2a0b0e 120406 f0ddc4) — ออกครบทุกค่าแล้ว
-// ⚠️ ทองนำของรอบนี้คือ **#d4922c (R212 G146 B44)** เท่านั้น ตัวที่อันตรายที่สุดคือ
-// **dfa310 ของ TND168 (R223 G163 B16)** ต่างกันที่ G146 vs G163 และ B44 vs B16 ·
-// และไม่ใช่ f0bb4e (รวยเทพ168 รอบก่อน R240 G187) fcd45c (มีเฮ168) f9a826
-// (รวยแทร่168) fef54b (นินจา168) ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434
-// (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168) e5a81b
-// (UFA324) f5c53d (FAH999) f3bb34 (DUCK1688) fbc134 (NAZA168) หรือ f5c518
-// (FLASH877) · ทองสว่างของรอบนี้คือ **#fdfc71** ⚠️ ใกล้ fef54b ของนินจา168 (B113 vs
-// B75) · บรอนซ์ของรอบนี้คือ **#a25b24** ซึ่ง **ไม่มีแบรนด์ไหนในรีโปนี้เคยใช้** และ
-// ไม่ใช่ทองแดง d9701a ของรอบขาออก (R217 G112 B26)
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองเคยนำมาแล้วเกือบทุกแบรนด์ในรีโปนี้
+// และแดงเคยนำมาแล้วหลายแบรนด์** การเจอทองหรือแดงในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
+// ไฟล์นี้เพิ่งค้างชุดทองอำพัน-บรอนซ์ของ ufalion168 ไว้ทั้งใบ (d4922c fdfc71 a25b24
+// 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000 กับ rgba 212/146/44,
+// rgba 253/252/113 และ rgba 162/91/36) ก่อนนั้นเป็นชุดทองอิมพีเรียล-แดงชาดของ
+// รวยเทพ168 (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 5c2a06 fff8ec 2b1400 กับ
+// rgba 240/187/78 และ rgba 228/2/27) ชุดแดงชาด-ทองเนยของมีเฮ168 (fb1b32 ff8f9c
+// 5c0410 fcd45c 6b4a08 2b0711 1a040a 1b0308 fdeaec) ชุดฟ้าอะซัวร์-ทองอำพันของ
+// รวยแทร่168 (039cfa c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 031320)
+// ชุดชมพูฮอต-ทองของ FAH999 (ff3fa4 ff6cbb ffd1ea fde8f3 f5c53d ffe49a d19a12 9c6f08
+// b3006a 7a0046 4d002b 3a0534 4a0b42 2b0019) ชุดทองเป็ด-ส้มอำพันของ DUCK1688
+// (f3bb34 fde464 c8901a 8a5f08 5c3f04 f58b2a ffc98a a3510c 1a1203 f6ecd9 1f1709
+// 171106) และชุดทอง-แดงของ 365LOTTO (fdf3b4 e0b03a e01f26 a40304 fadc64 ffe9a3
+// 9c6a12 1a0709 2a0b0e 120406 f0ddc4) — ออกครบทุกค่าแล้ว
+// ⚠️ ทองนำของรอบนี้คือ **#f0c878 (R240 G200 B120)** เท่านั้น ตัวที่ใกล้ที่สุดใน
+// รีโปคือ **ffdc8c ของรับตัง168 (ระยะ 32)** และ **f6e3b4 ของ ufalion168** ·
+// และไม่ใช่ d4922c (ufalion168 รอบก่อน) f0bb4e (รวยเทพ168) fcd45c (มีเฮ168)
+// f9a826 (รวยแทร่168) fef54b (นินจา168) ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168)
+// fcd434 (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168)
+// e5a81b (UFA324) f5c53d (FAH999) f3bb34 (DUCK1688) fbc134 (NAZA168) หรือ f5c518
+// (FLASH877) · แดงของรอบนี้คือ **#d9212a / #8e1a16** ⚠️ ใกล้ d30304 ของรับตัง168
+// และ e4021b ของรวยเทพ168 จึงต้องเทียบทีละหลัก (R217 G33 B42)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดงเลย** (รอบขาออกแดง e4021b เป็นฮิวที่สอง) **ไม่มีฟ้า/น้ำเงิน
-// ไม่มีม่วง ไม่มีเขียว ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย และ
-// ไม่มีส้มสด** ส้มที่ใกล้เคียงที่สุดคือบรอนซ์ #a25b24 ซึ่งเป็นเฉดเงาของทอง ไม่ใช่
-// ส้มอิสระ และห้ามถือตัวอักษร
+// ⚠️ **รอบนี้ไม่มีบรอนซ์เลย** (บรอนซ์ a25b24 เป็นฮิวที่สามของรอบขาออก) **ไม่มี
+// ฟ้า/น้ำเงิน ไม่มีม่วง ไม่มีเขียว ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย
+// และไม่มีส้มสด**
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
@@ -95,23 +94,23 @@ const TitleTag = heading ? "h3" : "p";
       const isGold = (item.accent ?? "gold") === "gold";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#5a3310] bg-[#33200a]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#8e1a16] bg-[#4e2120]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
             isGold
-              ? "hover:border-[#d4922c]/75 hover:bg-[#1f1304] hover:shadow-[0_10px_20px_rgba(212,146,44,0.3)]"
-              : "hover:border-[#a25b24] hover:bg-[#1f1304] hover:shadow-[0_10px_20px_rgba(162,91,36,0.42)]"
+              ? "hover:border-[#f0c878]/75 hover:bg-[#300605] hover:shadow-[0_10px_20px_rgba(240,200,120,0.3)]"
+              : "hover:border-[#d9212a] hover:bg-[#300605] hover:shadow-[0_10px_20px_rgba(217,33,42,0.42)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
               isGold
-                ? "border border-[#a25b24] bg-[#d4922c] text-[#1a1000] shadow-[0_0_15px_rgba(212,146,44,0.45)] group-hover:rotate-3"
-                : "border border-[#5a3310] bg-[#a25b24] text-[#fbf6e3] shadow-[0_0_15px_rgba(162,91,36,0.5)]"
+                ? "border border-[#8e1a16] bg-[#f0c878] text-[#2a0608] shadow-[0_0_15px_rgba(240,200,120,0.45)] group-hover:rotate-3"
+                : "border border-[#8e1a16] bg-[#d9212a] text-[#fff8d8] shadow-[0_0_15px_rgba(217,33,42,0.5)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#f6e3b4] drop-shadow-[0_0_8px_rgba(212,146,44,0.35)]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#fbf6e3]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#f0c878] drop-shadow-[0_0_8px_rgba(240,200,120,0.35)]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#fff8d8]">{item.description}</p>}
           </div>
         </div>
       );
