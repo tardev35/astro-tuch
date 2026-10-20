@@ -23,62 +23,70 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 //
 // `faqs` ships with NO default on purpose: a forgotten prop then renders an
 // empty accordion instead of some previous brand's questions. index.astro hands
-// it the same array the FAQPage node is built from (content.txt lines 22-27,
-// the brief's own three Q/A pairs).
+// it the same array the FAQPage node is built from (content.txt lines 24-29,
+// the brief's own three Q/A pairs, with the "1./2./3." markers dropped because
+// the accordion is the list).
 //
-// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2): แผงนี้
-// เป็นกล่องสุดท้ายของสายบทความ จึงวางที่ **ผิวจม #140505** ซึ่ง ⚠️ มืดกว่าพื้นเพจ
-// **ดำอมแดง #1a0505** (bg.json) ต่างจากสองรอบก่อนที่พื้นเพจดำสนิทจนไม่มีชั้นไหน
-// จมต่ำกว่าพื้นได้ ลำดับความลึกรอบนี้: #2b100f ยก / #200a09 กลาง / #140505 จม /
-// #1a0505 พื้น
-// เส้นกรอบเป็นแดงเข้มสุด #4a0202 ที่สว่างขึ้นเป็นทองแบรนด์ #f0b429 ตอน hover พร้อม
-// พื้นไต่ขึ้นมาเป็นผิวกลาง #200a09
-// หัวข้อไล่ แดงสว่าง #ff6b6e → ทองแบรนด์ #f0b429 → ทองสว่าง #ffdc8c ตามลำดับที่ตา
-// อ่านโลโก้จากตัวเลขแดงออกไปหากองเหรียญทองที่ล้อมอยู่ — ลำดับนี้ไม่ซ้ำกับกล่อง
-// เนื้อหาใบอื่นบนหน้าเดียวกันสักตัว ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซล
-// ของตัวอักษร** ไม่ใช่พื้นหลัง ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 — ห้ามเอา
-// #d30304 #a00203 #4a0202 #9a6c0c มาเป็นสต็อป และห้ามเอา #cfd9e6 มาด้วย เพราะ §2
-// สงวนมันไว้เป็นสีตัวอักษรรองอย่างเดียว ไม่ใช่สีระบบ
-// เนื้อความใช้สี BRAND_TEXT #f5ece0 (14.7:1 บนผิวจม) คำถามสว่างขึ้นเป็นทองแบรนด์
-// #f0b429 (8.5:1) ตอนชี้ และเครื่องหมาย + ตอนเปิดเป็นทองแบรนด์เช่นกัน
-// §2 ห้าม #d30304 #a00203 #4a0202 #9a6c0c ถือตัวอักษร — ในไฟล์นี้อยู่ที่กรอบ เส้นใต้
-// หัวข้อ และออราเท่านั้น
+// ufalion168 (รอบ **ทองสองเฉด + บรอนซ์ บนดำสนิท — ไม่มีสีที่สองที่เป็นคนละวงศ์**
+// 2026-10-20, brand-spec §2): แผงนี้เป็นกล่องสุดท้ายของสายบทความ จึงวางที่
+// **ผิวจม #0a0601** ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) จึงไม่มีชั้นไหน
+// จมต่ำกว่าพื้นได้ — #0a0601 คือก้นสุด ลำดับความลึกรอบนี้: #33200a ยก / #1f1304 กลาง /
+// #0a0601 จม / #000000 พื้น
+// เส้นกรอบเป็นบรอนซ์ไหม้ #5a3310 ที่สว่างขึ้นเป็นทองนำ #d4922c ตอน hover พร้อม
+// พื้นไต่ขึ้นมาเป็นผิวกลาง #1f1304
+// หัวข้อไล่ ทองสว่าง #fdfc71 → ทองนำ #d4922c → ครีมทอง #f6e3b4 ตามลำดับที่ตาอ่าน
+// โลโก้จากประกายดาวทองเข้าไปหาตัวอักษรทองเข้มแล้วออกไปหาขนแผงสิงโตที่อ่อนกว่า —
+// ลำดับนี้ไม่ซ้ำกับกล่องเนื้อหาใบอื่นบนหน้าเดียวกันสักตัว ⚠️ ไล่เฉดนี้ถูก
+// bg-clip-text จึง **คือพิกเซลของตัวอักษร** ไม่ใช่พื้นหลัง ทุกสต็อปจึงต้องถือ
+// ตัวอักษรได้ตาม §2 (19.3 / 7.94 / 16.6 บนพื้นดำสนิท) — **ห้ามเอา #a25b24
+// (4.06:1 บนดำ) หรือ #5a3310 มาเป็นสต็อป**
+// เนื้อความใช้สี BRAND_TEXT #fbf6e3 (19:1 บนผิวจม) คำถามสว่างขึ้นเป็นทองนำ
+// #d4922c (7.6:1 บนผิวจม) ตอนชี้ และเครื่องหมาย + ตอนเปิดเป็นทองนำเช่นกัน
+// §2 ห้าม #a25b24 และ #5a3310 ถือตัวอักษร — ในไฟล์นี้อยู่ที่กรอบ เส้นใต้หัวข้อ
+// และออราเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง เพราะสามแบรนด์ก่อน
-// หน้าเป็นแดงทั้งหมด** แดงของสมหวัง168 คือ #fa0513 · TKB55 #fb131b · GT66B #fb141b
-// ส่วนรอบนี้คือ #d30304 ชุดเต็มของ GT66B ที่เคยอยู่ทั้งไฟล์นี้ (#fb141b #ff5f63
-// #ffa0a2 #db040b #ec151c #8a0609 #3b0405 #fdfcfd #b4bcc2 #eceaea #0b0303 #130c0c
-// #190505 #1c0c0b) ไม่เหลือแล้ว เช่นเดียวกับชุดของ TKB55 (#fb131b #ff8a8f #ff4d55
-// #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708 #0d0304 #c40304 #8a0206 #53050a #1a0304)
-// ชุดม่วงราชา-ทองของ KMD88 (#7505cc #b453ff #c07cff #d9b8ff #3a0565 #2c0349 #1d0832
-// #140522 #0a0213 #e2b33f #ffdf8c #ffd45e #ece2f8 #bba8d4 #1a0526 #7a5a0a) ชุดทอง
-// แชมเปี้ยนของ UFA324 (#e5a81b #b9c2cc #231c0e #17130a #0d0b06 #f0e8d4 #ffe08a
-// #7d5a07 #43300a #464f5a) ชุดทองมังกรของ TND168 (#dfa310 #ffc93d #ffe4a3 #c9b88e
-// #f0e9dc #8a5c09 #43240b #140d02) ชุดทองสายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518
-// #ffdd73 #ff3b14 #8c0f0a #6d0804 #5c0000 #430000 #fdf0e2) ชุดชมพูฮอตพิงก์-ทองของ
-// PUNPRO168 (#f41571 #ff5ca8 #fce343 #ffd94a #f0c3dc #fde7f2 #8a0a45 #2a0012
-// #1c0014) ชุดชมพูฮอต-ทองของ FAH999 (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d
-// #b3006a #4a0b42 #2e002c) ชุดทองเป็ด-ส้มอำพันของ DUCK1688 (#f3bb34 #fde464
-// #c8901a #8a5f08 #5c3f04 #f58b2a #a3510c #f6ecd9) ชุดทองอวกาศของ NAZA168 (#fbc134
-// #ffe87a #cf9a18 #cfd6e3 #eef2f8 #4e3406 #382400 #241700) และชุดของสมหวัง168
-// (#fa0513 #ffadaf #ff5a5f #e3b23c #ffe5a8 #8a6210 #b90203 #8c0204 #5b0203 #3c0303
-// #170504 #f4ecea #ccb9b6 #2c1413 #1f0d0c #140706 #290f0f) ออกครบทุกจุดแล้ว
-// ⚠️ แดง false friend ที่ยังอยู่ในไฟล์ inventory อื่น: SUPERSLOTCLUB #e8232a (R=232)
-// PIGPG #d4200d (R=212 — ต่างจากรอบนี้แค่สองหลัก) FLASH877 #ff3b14 (G=59) — ไม่มี
-// ตัวไหนเป็น #d30304 (R=211 G=3 B=4) ของรอบนี้ และทองรอบนี้คือ #f0b429 / #ffdc8c
-// เท่านั้น
-// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** และ
-// ไม่มีโครเมียม/เงินเป็นสีระบบ
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง เพราะทองเคยนำมาแล้ว
+// เกือบทุกแบรนด์ในรีโปนี้** การเจอ "ทอง" ในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
+// ทองของแบรนด์อื่น: f0bb4e + ffeccb (รวยเทพ168 — รอบขาออก) fcd45c (มีเฮ168) f9a826
+// (รวยแทร่168) fef54b (นินจา168) ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434
+// (มีโชค168) f7c92b (ขวัญใจ168) f0b429 + ffdc8c (รับตัง168) e3b23c (สมหวัง168)
+// e5a81b (UFA324) **dfa310 + ffc93d + ffe4a3 (TND168 — ตัวที่ใกล้ที่สุด)** e2b33f
+// (KMD88) f2c230 + ffe066 (KINGKONG555) fad354 (789BETTING) f5c518 (FLASH877)
+// fce343 (PUNPRO168) f3bb34 (DUCK1688) fbc134 (NAZA168) fbe455 (WEPLAY168) f2b705
+// (SUPERSLOTCLUB) — **ทองนำรอบนี้คือ #d4922c (R=212 G=146 B=44) เท่านั้น** และ
+// **ทองสว่างรอบนี้คือ #fdfc71 (B=113) ไม่ใช่ fef54b (B=75)**
+// ชุดทองไทย-แดงมังกรของรับตัง168 ที่เคยอยู่ทั้งไฟล์นี้ (#f0b429 #ffdc8c #d30304
+// #ff6b6e #a00203 #4a0202 #9a6c0c #cfd9e6 #f5ece0 #2b100f #200a09 #140505 #1a0505)
+// ไม่เหลือแล้ว เช่นเดียวกับชุดของ GT66B (#fb141b #ff5f63 #ffa0a2 #db040b #ec151c
+// #8a0609 #3b0405 #fdfcfd #b4bcc2 #eceaea #0b0303 #130c0c #190505 #1c0c0b) ชุดของ
+// TKB55 (#fb131b #ff8a8f #ff4d55 #e9eef4 #aeb9c6 #f2e4e5 #2a0d0f #1a0708 #0d0304
+// #c40304 #8a0206 #53050a #1a0304) ชุดม่วงราชา-ทองของ KMD88 (#7505cc #b453ff
+// #c07cff #d9b8ff #3a0565 #2c0349 #1d0832 #140522 #0a0213 #e2b33f #ffdf8c #ffd45e
+// #ece2f8 #bba8d4 #1a0526 #7a5a0a) ชุดทองแชมเปี้ยนของ UFA324 (#e5a81b #b9c2cc
+// #231c0e #17130a #0d0b06 #f0e8d4 #ffe08a #7d5a07 #43300a #464f5a) ชุดทองมังกรของ
+// TND168 (#dfa310 #ffc93d #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02) ชุดทอง
+// สายฟ้า-แดงเลือดนกของ FLASH877 (#f5c518 #ffdd73 #ff3b14 #8c0f0a #6d0804 #5c0000
+// #430000 #fdf0e2) ชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (#f41571 #ff5ca8 #fce343
+// #ffd94a #f0c3dc #fde7f2 #8a0a45 #2a0012 #1c0014) ชุดชมพูฮอต-ทองของ FAH999
+// (#ff3fa4 #ff6cbb #ffd1ea #fde8f3 #f5c53d #b3006a #4a0b42 #2e002c) ชุดทองเป็ด-
+// ส้มอำพันของ DUCK1688 (#f3bb34 #fde464 #c8901a #8a5f08 #5c3f04 #f58b2a #a3510c
+// #f6ecd9) ชุดทองอวกาศของ NAZA168 (#fbc134 #ffe87a #cf9a18 #cfd6e3 #eef2f8 #4e3406
+// #382400 #241700) และชุดของสมหวัง168 (#fa0513 #ffadaf #ff5a5f #e3b23c #ffe5a8
+// #8a6210 #b90203 #8c0204 #5b0203 #3c0303 #170504 #f4ecea #ccb9b6 #2c1413 #1f0d0c
+// #140706 #290f0f) ออกครบทุกจุดแล้ว
+// ⚠️ **รอบนี้ไม่มีแดงเลย** (รอบขาออกแดง #e4021b เป็นฮิวที่สอง) **ไม่มีม่วง ไม่มีชมพู
+// ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้มสด** และไม่มีโครเมียม/เงินเป็นสีระบบ
+// บรอนซ์ #a25b24 เป็นฮิวที่สามของรอบนี้ และยังไม่มีแบรนด์ไหนในรีโปนี้เคยใช้
 ---
 
 <section aria-label={sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[950px] px-4 font-sans">
   {
     title && (
       <header class="mb-8 text-center">
-        <HeadingTag class="bg-gradient-to-r from-[#ff6b6e] via-[#f0b429] to-[#ffdc8c] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
+        <HeadingTag class="bg-gradient-to-r from-[#fdfc71] via-[#d4922c] to-[#f6e3b4] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm md:text-3xl">
           {title}
         </HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#f0b429] to-transparent" />
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#d4922c] to-transparent" />
       </header>
     )
   }
@@ -88,8 +96,8 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
       faqs.map((faq) => (
         <details
           name="faq-accordion"
-          class="faq-item rounded-3xl border border-[#4a0202] bg-[#140505]/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all hover:border-[#f0b429]/80 hover:bg-[#200a09]/90">
-          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#f5ece0] transition-colors hover:text-[#f0b429]">
+          class="faq-item rounded-3xl border border-[#5a3310] bg-[#0a0601]/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-xl transition-all hover:border-[#d4922c]/80 hover:bg-[#1f1304]/90">
+          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#fbf6e3] transition-colors hover:text-[#d4922c]">
             <p class="text-left text-base leading-relaxed font-bold">{faq.q}</p>
             <span aria-hidden="true" class="faq-icon ml-4 flex h-6 w-6 shrink-0 items-center justify-center text-2xl transition-transform duration-300 ease-in-out">
               +
@@ -97,7 +105,7 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
           </summary>
 
           <div class="faq-answer overflow-hidden">
-            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#f5ece0]">{faq.a}</p>
+            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#fbf6e3]">{faq.a}</p>
           </div>
         </details>
       ))
@@ -114,7 +122,7 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    color: #f0b429;
+    color: #d4922c;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;
