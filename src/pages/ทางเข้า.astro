@@ -2,13 +2,13 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/Announcement4.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 
 // ผังหัวข้อของหน้านี้: h1x1 · h2x0 · h3x0
 // Button page, not an article: the brief gives this route no body at all —
-// รอบนี้บรีฟ (src/assets/content.txt) ไม่มีส่วน SUB-PAGES เลย จบที่บรรทัด 29
+// รอบนี้บรีฟ (src/assets/content.txt) ไม่มีส่วน SUB-PAGES เลย จบที่บรรทัด 23
 // ทุกย่อหน้าที่เคยอยู่บนหน้านี้ในอดีตจึงเป็นของที่รีแบรนด์รอบก่อนๆ คิดขึ้นเอง
 // ทั้งหน้ามีแค่ชื่อเรื่องจาก ContentBox แล้วต่อด้วยปุ่มสองปุ่ม
 // ห้ามเขียนหัวข้อย่อยหรือย่อหน้าอธิบายใต้ชื่อเรื่อง — ไม่มีรายการ "ตรวจ N จุดก่อน
@@ -24,60 +24,60 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // และฟุตเตอร์ยังลิงก์มาที่นี่ — ห้ามลบไฟล์นี้ ห้ามย้ายไป src/pages-disabled/
 // และห้ามเติมลิงก์กลับเข้าเมนู
 //
-// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-duangsetthi168.md §2 — **ทองน้ำผึ้งนำ
-// + แดงชาดจีนรอง บนพื้นดำสนิท** (bg.json = {"mode":"color","color":"#000000"})
-// ตัวที่ถือตัวอักษรได้: ทองน้ำผึ้ง #f0c878 (8.47:1 บนผิวการ์ด · 15.9:1 บนผิวจม) ·
-// งาช้าง #fff8d8 (12.59:1 บนผิวการ์ด = เนื้อความ = BRAND_TEXT ที่การ์ด ContentBox
-// ตั้งให้แล้ว) · หมึก #2a0608 (11.74:1 บนพื้นถมทอง · 17.4:1 บนพื้นถมงาช้าง)
-// ชั้นผิว: ยก #4e2120 (= การ์ด ContentBox) / กลาง #300605 / จม #150303 / พื้น #000000
-// ⚠️⚠️ **แดงชาด #d9212a (2.69:1 บนผิวการ์ด · 4.20:1 บนพื้นเพจ) และแดงเลือดหมู
-// #8e1a16 ห้ามถือตัวอักษรทุกขนาด** ทั้งคู่เป็น **ขอบ / ออรา / พื้นถม** เท่านั้น
-// ในไฟล์นี้แดงทำงานเป็น **ขอบของปุ่มรอง + ขอบของปุ่มหลัก + ออรา** เท่านั้น
-// ถ้าต้องการปุ่มพื้นแดงจริง ต้องถม #d9212a แล้ววาง #fff8d8 ทับ (4.68:1 ผ่าน AA)
+// ───────────────────────────────────────────────────────────────────────────
+// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-meesub168.md §2
+// ⚠️⚠️ **รอบนี้เป็นแบรนด์ "ธีมสว่าง" ตัวแรกของรีโปนี้ — ทิศกลับด้านจากทุกรอบก่อน**
+// bg.json = {"mode":"color","color":"#f0ccf5"} = ชมพูอมม่วง **สว่าง** ไม่ใช่ดำ
+// การ์ด ContentBox จึงเป็นผิว **ขาว** #ffffff บนหมึกพลัม #4a0d35 (= BRAND_TEXT)
+// → คลาส light-on-dark ทุกตัวที่ไฟล์นี้เคยถืออยู่เป็นของแบรนด์ก่อน กวาดออกครบแล้ว
 //
 // ขั้วของปุ่มตามสเปก (พื้นสว่าง = หมึกเข้ม · พื้นเข้ม = หมึกสว่าง) และตรงกับคู่ปุ่ม
-// ของ Navfoot ที่ขึ้นทุกหน้าบนมือถือ:
-// สมัครสมาชิก = แอ็กชันหลัก ถม **งาช้าง→ทองน้ำผึ้ง** #fff8d8 → #f0c878
-// ขอบ #8e1a16 บนหมึกเข้ม #2a0608
-// เข้าสู่ระบบ = แอ็กชันรอง จมลงจากการ์ดด้วยชั้น #4e2120 → #150303 ขอบ **แดงชาด**
-// #d9212a/80 บนตัวอักษร **ทองน้ำผึ้ง** #f0c878 — hover ยกขอบเป็นทองน้ำผึ้งเต็ม
-// ⚠️ ห้ามกลับด้าน: พื้นถมทอง/งาช้างต้องใช้หมึก #2a0608 เสมอ ห้ามขาวหรือครีม ·
-// ⚠️ และปลายล่างของไล่เฉดปุ่มหลัก **ห้ามลากลงไปถึง #d9212a หรือ #8e1a16** —
-// หมึก #2a0608 บนแดงชาดเหลือราว 3.7:1 ซึ่งตก AA ที่ text-base
-// ออราในไฟล์นี้ใช้ rgba(240,200,120,α) และ rgba(217,33,42,α) เท่านั้น นอกจากเงาดำล้วน
-// ⚠️ กับดักรอบนี้คือ **ทองเคยนำมาแล้วเกือบทุกแบรนด์ และแดงเคยนำมาแล้วหลายแบรนด์**
-// การเจอ "ทอง" หรือ "แดง" ในไฟล์นี้จึง **ไม่พิสูจน์ว่าเป็นค่าของรอบนี้** ให้เทียบเป็น
-// "ค่า" ทีละหลักกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสี
-// ของแบรนด์เก่าเจอ false positive
-// รอบนี้ **ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเขียว ไม่มีเงิน/โครเมียม
-// ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย ไม่มีส้มสด และไม่มีบรอนซ์** (บรอนซ์เป็นสีที่สาม
-// ของรอบก่อน) — แดงรอบนี้เป็นแดงชาดจีน ไม่ใช่ส้มและไม่ใช่โรสโกลด์
+// ของ Navfoot ที่ขึ้นทุกหน้าบนมือถือ จึงอ่านเป็นปุ่มเดียวกันทั้งเว็บ:
+// สมัครสมาชิก = PRIMARY ถม **ชมพูบานเย็น→โรสเข้ม** #dd1b74 → #a4186b บนตัวอักษร
+// **ขาว** (4.67:1 ที่ปลายสว่าง · 7.17:1 ที่ปลายเข้ม ผ่าน AA ทั้งคู่)
+// เข้าสู่ระบบ = SECONDARY ถม **พลัมเข้ม→พลัมจม** #4a0d35 → #2d0720 ขอบ #dd1b74/80
+// บนตัวอักษร **ชมพูอ่อน** #f7dcf6 (12.6:1 · 15.9:1) — hover ยกขอบเป็นชมพูเต็ม
+// ⚠️⚠️ **#dd1b74 ห้ามถือตัวอักษร** — 3.2:1 บนพื้นเข้ม #4a0d35 และ 4.67:1 บนผิว
+// การ์ดขาวคือเฉียดฉิว เป็น **พื้นถม / ขอบ / ออรา** เท่านั้น
+// ⚠️ ห้ามกลับด้าน: พื้นเข้มคู่หมึกสว่างเสมอ และปลายสว่างของไล่เฉดปุ่มหลัก
+// **ห้ามสว่างกว่า #dd1b74** (ขาวบนชมพูที่สว่างกว่านี้ตก AA ทันที) ชั้นตกแต่งของ
+// ปุ่มหลักจึงเป็นชั้น **เข้มลง** ที่ขอบล่าง ไม่ใช่ sheen สว่างที่ขอบบน
+// ออราในไฟล์นี้ใช้ rgba(221,27,116,α) · rgba(164,24,107,α) · rgba(74,13,53,α) เท่านั้น
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (brand-spec §3 —
-// รอบก่อนใช้ Announcement3 จึงหมุนออก) default message ของไฟล์นั้นเป็นคอปปี้
+// ⚠️ กับดักรอบนี้คือ **ชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168 fa63b9 ·
+// มีโชค168 f5469f · มีเฮ168 ff8f9c) การเจอชมพูในไฟล์จึง **ไม่พิสูจน์ว่าเป็นค่าของ
+// รอบนี้** ให้เทียบเป็น "ค่า" ทีละหลักกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่
+// เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
+// รอบก่อนหน้าทันที (ดวงเศรษฐี168 ทองน้ำผึ้ง/แดงชาด บนดำ) กวาดออกครบแล้ว:
+//   d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605 150303
+// รอบนี้ **ไม่มีทอง/เหลือง ไม่มีแดงชาด ไม่มีบรอนซ์ ไม่มีฟ้า/น้ำเงิน/ไซยาน
+// ไม่มีเขียว ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้มสด**
+// (เฮกซ์ของแบรนด์เก่าเขียนแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep รอบหน้าสะดุด)
+//
+// Announcement หมุนมาเป็น Announcement4 ทั้งเว็บรอบนี้ (brand-spec §3 —
+// รอบก่อนใช้ Announcement5 จึงหมุนออก) default message ของไฟล์นั้นเป็นคอปปี้
 // ของแบรนด์นี้แล้ว และทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้
 // ไม่งั้นตัววิ่งจะไม่ตรงกับ index.astro
 //
-// ⚠️ แบรนด์นี้เป็น **เว็บสอนเล่นเกมเดิมพันออนไลน์หลายประเภท** (สล็อต บาคาร่า
-// ยิงปลา ไฮโล บอล หวย) **ไม่ใช่เว็บหวย และไม่ใช่เว็บบอล** รอบก่อนเป็นเว็บกีฬา/
-// ฟุตบอลล้วน ศัพท์หมวดของรอบก่อนทุกคำจึงเป็นของค้างที่ต้องไม่เหลือแม้แต่คำเดียว
-// (คำว่า บอล/ฟุตบอล เฉยๆ ใช้ได้ เพราะบรีฟรอบนี้ระบุเอง) สองหน้าหมวดลอตเตอรี
-// park อยู่ใน src/pages-disabled/ จึงไม่มี route และลิงก์ค้างจะเป็น href ตายที่ทำให้
-// บิลด์แดง คำที่ห้ามหลงเหลือทั้งหมดอยู่ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
-// sweep ของรอบถัดไปเจอ false positive ในคอมเมนต์ของไฟล์นี้เอง
-// ⚠️ **บรีฟรอบนี้ไม่ได้ระบุชื่อผู้ให้บริการแม้แต่รายเดียว** จึงห้ามเขียนชื่อใดๆ
-// ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% · 0.8% · 24ชม. · 3 ขั้นตอน ห้ามแต่งชื่อ
-// ธนาคาร เลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ จำนวนสมาชิก หรือปีใดๆ —
-// หน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
+// ⚠️ แกนของบรีฟรอบนี้คือ **ระบบดูแลการเงิน — ช่องทางฝากถอนผ่านธนาคารและวอลเลท
+// พร้อมความปลอดภัยของบัญชีผู้รับเงิน** ซึ่งคนละแกนกับรอบก่อน (หมวดการเรียนการสอน)
+// ศัพท์หมวดนั้นทุกคำจึงเป็นของค้างที่ต้องไม่เหลือแม้แต่คำเดียว รายการคำเต็มอยู่
+// ใน brand-spec §6 ไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ sweep ของรอบถัดไปเจอ false positive
+// ⚠️ บรีฟรอบนี้ระบุเกมไว้ **ห้าประเภท** (สล็อต ไฮโล ยิงปลา หวย บอล) ไม่ใช่หก
+// ห้ามเติมประเภทที่หกของรอบก่อนกลับเข้ามาเอง
+// ⚠️ **บรีฟรอบนี้ไม่ได้ระบุชื่อค่ายเกมหรือชื่อธนาคารแม้แต่รายเดียว** ห้ามเขียนลงหน้า
+// ⚠️ ตัวเลขที่บรีฟให้และอ้างได้มีแค่ 0.3% · 0.8% · 24ชม. ห้ามแต่งเลขใบอนุญาต
+// หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ จำนวนสมาชิก หรือปีใดๆ และห้ามมีวลี
+// "N ขั้นตอน" — รอบนี้บรีฟไม่มี · หน้านี้มีโควตาเป็นปุ่มสองปุ่มเท่านั้น
+// สองหน้าหมวดลอตเตอรียัง park อยู่ใน src/pages-disabled/ จึงไม่มี route ให้ลิงก์ไป
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
 // wc -m — git-bash กล่องนี้ไม่มี UTF-8 locale จึงนับเป็นไบต์ = เกินจริงราว 3 เท่า)
-// หน้านี้ยาว 158 ด้วยชื่อแบรนด์ 12 ตัวอักษรของรอบนี้
+// หน้านี้ยาว 157 ด้วยชื่อแบรนด์ 11 ตัวอักษรของรอบนี้
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ทำให้ตัวนับเห็นเป็น 5 อักขระ
 // ประโยคนี้บรรยาย "สิ่งที่หน้านี้มี" เท่านั้น — หน้านี้มีแค่ปุ่มสองปุ่ม ไม่มีปุ่ม LINE
 // จึงไม่สัญญาช่องทางแชตไว้ใน description
-// ส่วนท้ายมาจากบรีฟบรรทัด 16 และ 22 ตรงตัว: เข้าสู่เว็บไซต์ทางการ / ตรวจสอบ
-// ช่องทางจากเว็บไซต์ทางการก่อนส่งข้อมูล
+// ส่วนท้ายมาจากบรีฟบรรทัด 16 ตรงตัว: ควรตรวจสอบช่องทางจากเว็บไซต์ทางการก่อนส่งข้อมูล
 const pageDescription = `ทางเข้า ${BRAND_NAME} เว็บหลัก รวมเมนูเข้าสู่ระบบและสมัครสมาชิกไว้ในหน้าเดียว เลือกเมนูที่ต้องการได้ทันที ควรตรวจสอบที่อยู่เว็บไซต์ทางการทุกครั้งก่อนกรอกข้อมูล`;
 
 const graph = pageGraph(Astro, {
@@ -101,11 +101,11 @@ const graph = pageGraph(Astro, {
         <a
           href="/login"
           aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#d9212a]/80 bg-gradient-to-b from-[#4e2120] to-[#150303] px-6 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 hover:border-[#f0c878] hover:shadow-[0_15px_40px_rgba(217,33,42,0.45)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#d9212a]/25 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#dd1b74]/80 bg-gradient-to-b from-[#4a0d35] to-[#2d0720] px-6 py-4 shadow-[0_10px_30px_rgba(74,13,53,0.45)] transition-all duration-300 hover:scale-105 hover:border-[#dd1b74] hover:shadow-[0_15px_40px_rgba(221,27,116,0.45)]">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#dd1b74]/25 to-transparent"></div>
 
           <svg
-            class="h-9 w-9 text-[#f0c878] transition-colors group-hover:text-[#fff8d8]"
+            class="h-9 w-9 text-[#f7dcf6] transition-colors group-hover:text-white"
             aria-hidden="true"
             focusable="false"
             fill="none"
@@ -116,7 +116,7 @@ const graph = pageGraph(Astro, {
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
 
-          <span class="text-3xl font-bold tracking-wide text-[#f0c878]">เข้าสู่ระบบ</span>
+          <span class="text-3xl font-bold tracking-wide text-[#f7dcf6]">เข้าสู่ระบบ</span>
         </a>
       </div>
 
@@ -124,14 +124,14 @@ const graph = pageGraph(Astro, {
         <a
           href="/register"
           aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#8e1a16] bg-gradient-to-b from-[#fff8d8] to-[#f0c878] px-6 py-4 shadow-[0_10px_30px_rgba(240,200,120,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#2a0608] hover:shadow-[0_15px_40px_rgba(240,200,120,0.6)]">
-          <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fff8d8]/80 to-transparent"></div>
+          class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#a4186b] bg-gradient-to-b from-[#dd1b74] to-[#a4186b] px-6 py-4 shadow-[0_10px_30px_rgba(221,27,116,0.4)] transition-all duration-300 hover:scale-105 hover:border-[#4a0d35] hover:shadow-[0_15px_40px_rgba(221,27,116,0.55)]">
+          <div aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-[#a4186b]/60 to-transparent"></div>
 
-          <svg class="h-9 w-9 text-[#2a0608]" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="h-9 w-9 text-white" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
           </svg>
 
-          <span class="text-3xl font-black tracking-wide text-[#2a0608]">สมัครสมาชิก</span>
+          <span class="text-3xl font-black tracking-wide text-white">สมัครสมาชิก</span>
         </a>
       </div>
     </div>

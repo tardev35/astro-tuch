@@ -15,48 +15,50 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
 // height minus that 24px offset.
 //
-// BADGE CLEARANCE RE-DERIVED FOR TSDET911 (2026-10-13), against the REAL docx
+// BADGE CLEARANCE RE-DERIVED FOR มีทรัพย์168 (2026-10-21), against the REAL docx
 // sentence this round rather than a short placeholder. This box carries docx
-// H3 §4 "โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน" — 4 space-delimited chunks,
-// 3 spaces, and 28 advancing cells of text once the 7 zero-width marks are
-// discounted (ั ่ in โปรโมชั่น · ื ี in คืนยอดเสีย · ้ ู ุ ั in เข้ายูสทุกวัน),
-// i.e. chunks of 7 / 8 / 4 / 9 cells and 31 cells including the spaces.
+// H3 §5 "โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด" — 5 space-delimited chunks,
+// 4 spaces, and 30 advancing cells of text once the 6 zero-width marks are
+// discounted (ั ่ in โปรโมชั่น · ื ่ in แนะนำเพื่อน · ั in โบนัส · ่ ั in ไม่จำกัด),
+// i.e. chunks of 7 / 9 / 4 / 4 / 6 cells and 34 cells including the spaces.
 // The heading keeps `leading-normal` (1.5); the badge adds py-2.5 (20px) and
 // border-2 (4px), and there are no spark spans, so the full inner width is text.
-// Worst case assumed is a break only at those 3 spaces:
+// Worst case assumed is a break only at those 4 spaces:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy: 7+1+8+1+4 = 21 fits, then 9 -> 2 lines.
-//               Height 2x27 + 24 = 78, edge 78 - 24 = 54 vs pt-36/144px
-//                                                          -> 90px clear
-//               Budget 3 lines = 3x27 + 24 = 105, edge 81  -> 63px clear
+//               Greedy: 7+1+9+1+4 = 22 fits exactly, then "0.8% ไม่จำกัด" = 11
+//               -> 2 lines. Height 2x27 + 24 = 78, edge 78 - 24 = 54 vs
+//               pt-36/144px                                  -> 90px clear
+//               Budget 3 lines = 3x27 + 24 = 105, edge 81    -> 63px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               all 31 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
-//               vs pt-36/144px                             -> 84px clear
+//               all 34 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
+//               vs pt-36/144px                               -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl 24px -> 43 cells/line, 36px/line. 31 cells, 1 line.
+//               text-2xl 24px -> 43 cells/line, 36px/line. 34 cells, 1 line.
 //               Budget 2 = 2x36 + 24 = 96, edge 72 vs pt-36/144px
-//                                                          -> 72px clear
-// Every band clears, so pt-36 is kept as it stands — it is NOT shrunk to fit
-// this one title. The flat pt-36 is deliberate and is held across all four
-// *FloatingBadge files (this one, ContentBoxFloatingBadge,
-// ContentBoxTwoFloatingBadge and ContentBox3ThreeFloatingBadge) so the next
-// brand cannot inherit a padding that was only ever sized for a short title.
-// Do not shrink it without redoing the arithmetic against the real docx
-// sentence the next brand puts in here.
+//                                                            -> 72px clear
+// ⚠️ The title DOES wrap to 2 lines on a phone this round, and pt-36 still
+// clears it by 90px, so NO padding bump was needed. Every band clears, so pt-36
+// is kept as it stands — it is NOT shrunk to fit this one title. The flat pt-36
+// is deliberate and is held across all four *FloatingBadge files (this one,
+// ContentBoxFloatingBadge, ContentBoxTwoFloatingBadge and
+// ContentBox3ThreeFloatingBadge) so the next brand cannot inherit a padding that
+// was only ever sized for a short title. Do not shrink it without redoing the
+// arithmetic against the real docx sentence the next brand puts in here.
 //
 // This block carries the image column on the RIGHT — and the grid stays at
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
 // paragraph gets the wide 7fr one. At [3fr_7fr] the image would take 70% of the
 // card and squeeze the docx paragraph into a 30% gutter. Its partner block this
-// round is ContentBoxSevenThree, which also keeps the picture on the right
-// (brand-spec §5 pins both slides to slot="right"), so the pair is told apart by
-// CARD SHAPE and HEADING TREATMENT rather than by mirroring the columns: that
-// one is a clipped-corner card at mid surface with a SOLID chrome-silver heading
-// inside the text column, this one is a rounded card graded raised -> sunken with
-// a floating CHROME PLATE carrying dark ink. The page passes neither titleleft
-// nor titleright, so the badge is the only heading this block emits.
+// round is ContentBoxSevenThreeNeumorphism, which also keeps the picture on the
+// right (brand-spec §5 pins both slides to slot="right"), so the pair is told
+// apart by CARD SHAPE and HEADING TREATMENT rather than by mirroring the
+// columns: that one is a rounded neumorphic plate on pure white whose heading is
+// a two-stop rose->pink gradient in normal flow, this one is a rounded card
+// graded white -> pink inset with a floating DEEP-PLUM PLATE carrying pale pink
+// ink. The page passes neither titleleft nor titleright, so the badge is the
+// only heading this block emits.
 //
 // Drawn width of the 3fr image column, for the `widths`/`sizes` the page passes.
 // NOTE max-w-7xl sits on the CARD here, not on the <section>, so px-4 does NOT
@@ -70,55 +72,58 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //               that band at 600px
 // Change any of those numbers and the page's `sizes` has to move with it.
 //
-// TSDET911 (รอบน้ำเงินไฟฟ้า-เงินโครเมียม 2026-10-13, brand-spec §2):
-// นี่คือครึ่ง "ป้ายลอย" ของคู่บล็อกรูป+ข้อความ คู่ของมันคือ ContentBoxSevenThree ที่เป็น
-// การ์ดมุมตัดผิวกลาง #0a1c42 ใบนี้จึงเป็นการ์ดมนไล่จากผิวยก #102a5e ลงไปหาผิวจม
-// #040e26 ในกรอบน้ำเงินแบรนด์ #0360f3 หนาสองพิกเซล ให้ต่างกันตั้งแต่มุมและทิศทางของผิว
-// ป้ายหัวข้อเป็น "แผ่นเงินโครเมียมทึบ หมึกเข้ม" — ไล่ เงินโครเมียมสว่าง #cfdcec →
-// ฟ้าสว่าง #6ec8ff → ฟ้าสด #0292fb บนหมึก #021026 (§2 ระบุว่านี่คือหมึกตัวเดียวที่วาง
-// บนพื้นถมสว่าง/พื้นน้ำเงินสดได้ ได้ 6.0:1 บน #0292fb และ 9.8:1 บน #6ec8ff ห้ามพลิกเป็น
-// ตัวอักษรสว่าง และห้ามไล่เฉดลงไปถึง #032dad ใต้ตัวอักษร) ซึ่งเป็นขั้วกลับของหัวข้อทุก
-// ใบอื่นบนหน้านี้ที่เป็นตัวอักษรสว่างบนพื้นมืด กรอบป้ายเป็นน้ำเงินลึก #032dad ไม่ใช่
-// น้ำเงินแบรนด์ เพื่อไม่ให้ขอบป้ายกลืนกับพื้นป้าย
-// ออร่าสองมุมเป็นน้ำเงินแบรนด์ #0360f3 มุมซ้ายบน (เลข 911 ริบบิ้นแสง และแฟลร์เลนส์ใน
-// งานอาร์ก) กับน้ำเงินลึกสุด #041a43 มุมขวาล่าง (เงาใต้กองชิปและขอบวงล้อรูเล็ต)
-// เนื้อความ #dde8f7 (= BRAND_TEXT) — 11.6:1 บนผิวยก #102a5e
-// ⚠️ **รอบนี้ไม่มีทองที่ไหนเลย** พื้นเพจเป็นกรมเกือบดำ #00081f ตาม bg.json จึงไม่มี
-// ผิวไหนจมต่ำกว่าพื้นได้ — #040e26 คือก้นสุดที่ใช้ได้
+// มีทรัพย์168 (2026-10-21) — พาเลตตาม .claude/brand-spec-meesub168.md §2
+// ⚠️⚠️ **ธีมสว่างแบรนด์แรกของรีโปนี้** พื้นเพจ #f0ccf5 (bg.json) การ์ดเนื้อหาเป็น
+// **ผิวสว่าง + หมึกเข้ม** กลับทิศจากทุกรอบก่อน ห้ามแก้กลับไปเป็นพื้นเข้ม
+// ลำดับผิว: #ffffff ยก · #f7dcf6 กลาง · #f0ccf5 พื้นเพจ — การ์ดใบนี้ไล่จากยกลงกลาง
+// ในกรอบชมพูบานเย็น #dd1b74 หนาสองพิกเซล
+// ป้ายหัวข้อเป็น **แผ่นถมพลัมเข้มทึบ #4a0d35 หมึกชมพูอ่อน #f7dcf6** (12.6:1 ตาม §2)
+// ในกรอบชมพูบานเย็น ซึ่งเป็น **ขั้วกลับของ §1 ContentBoxPremium** ที่เป็นแผ่นถม
+// ชมพูสดหมึกขาว — สองใบนี้คือสองขั้วของ "แผ่นถม" บนหน้าเดียวกัน และเป็นสองใบเดียว
+// ของหน้าที่หัวข้อนั่งบนพื้นถม **ห้ามพลิกแผ่นนี้ไปใช้หมึกเข้ม**
+// ออร่าสองมุมเป็นชมพูบานเย็น #dd1b74 มุมซ้ายบน (เหรียญชมพูในงานศิลป์) กับพื้นเพจ
+// #f0ccf5 มุมขวาล่าง เนื้อความ #4a0d35 (= BRAND_TEXT) — 14.9:1 บนผิวขาว
+// ⚠️ §2 ห้าม #dd1b74 ถือตัวอักษรบนพื้นเข้ม (3.2:1) — ในไฟล์นี้มันอยู่ที่กรอบและออรา
+// เท่านั้น และห้าม #f0ccf5/#f7dcf6 ถือตัวอักษรบนผิวขาว
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — ไฟล์นี้ค้างชุดอำพัน/ทองมาสองรอบซ้อน: ชุด
-// ทองมังกรของ TND168 (#dfa310 #ffe4a3 #c9b88e #f0e9dc #8a5c09 #43240b #140d02 #1b1307
-// #070502) และชุดอำพันรุ่นเก่ากว่านั้นที่ brand-spec §2 ระบุไว้ (#dfa310 #ffc93d #ffe4a3
-// #ffd98a #f0e9dc #8a5c09 #1b1307 #070502) ก่อนนั้นเป็นชุดทองสายฟ้า-แดงเลือดนกของ
-// FLASH877 (#f5c518 #ffdd73 #b8860f #ff3b14 #8c0f0a #5a0603) ชุดชมพูฮอตพิงก์-ทองของ
-// PUNPRO168 (#f41571 #ff5ca8 #fce343 #ffd94a) ชุดเขียวป่า-ทองของ KINGKONG555 (#8ce023
-// #f2c230 #ffe066) ชุดม่วงนีออน-ทองของ WEPLAY168 (#a435f0 #5b1a75 #1e0a3c) และชุดทอง
-// อำพันเสือของ TIGERWIN369 (#d98324 #f7b733 #ffd98a #f7e4c0) — ออกครบทุกค่าแล้ว
-// ⚠️ **รอบนี้ไม่มีทอง ไม่มีอำพัน ไม่มีม่วง ไม่มีชมพู ไม่มีเขียว และไม่มีแดงเลย** และ
-// เงินโครเมียม #cfdcec / #9db4d4 ของรอบนี้ไม่ใช่เทาอมฟ้า #b9c2cc / #cfd6e3 ของรอบก่อนๆ
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168
+// fa63b9 · มีโชค168 f5469f · มีเฮ168 ff8f9c) ตัวที่ใกล้ dd1b74 ที่สุดคือ f5469f
+// (ห่าง 65) ไฟล์นี้เพิ่งค้างชุด **น้ำเงินไฟฟ้า-เงินโครเมียม** ของ TSDET911 มาทั้งใบ
+// (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f
+// 032dad 041a43 021026) ก่อนนั้นเป็นชุดทองมังกรของ TND168 (dfa310 ffe4a3 ffc93d
+// c9b88e f0e9dc 8a5c09 43240b 140d02 1b1307 070502) ชุดทองสายฟ้า-แดงเลือดนกของ
+// FLASH877 (f5c518 ffdd73 b8860f ff3b14 8c0f0a 5a0603) ชุดชมพูฮอตพิงก์-ทองของ
+// PUNPRO168 (f41571 ff5ca8 fce343 ffd94a) ชุดเขียวป่า-ทองของ KINGKONG555 (8ce023
+// f2c230 ffe066) ชุดม่วงนีออน-ทองของ WEPLAY168 (a435f0 5b1a75 1e0a3c) และชุดทอง
+// อำพันเสือของ TIGERWIN369 (d98324 f7b733 ffd98a f7e4c0) — ออกครบทุกค่าแล้ว
+// เช่นเดียวกับชุดของ ดวงเศรษฐี168 รอบขาออก (d9212a 8e1a16 f0c878 fff8d8 2a0608
+// 4e2120 300605 150303 000000) และ ufalion168 (d4922c fdfc71 f6e3b4 a25b24 5a3310)
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีทอง/เหลือง/อำพัน ไม่มีแดงชาด ไม่มีบรอนซ์
+// ไม่มีเขียว ไม่มีม่วง ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้ม**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#0360f3]/55 bg-gradient-to-b from-[#102a5e]/95 to-[#040e26]/96 p-8 pt-36 shadow-[0_10px_30px_rgba(0,0,0,0.80)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#0360f3]/32 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#041a43]/70 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#dd1b74]/60 bg-gradient-to-b from-white to-[#f7dcf6] p-8 pt-36 shadow-[0_10px_30px_rgba(74,13,53,0.18)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#dd1b74]/28 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#f0ccf5]/95 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#032dad] bg-gradient-to-r from-[#cfdcec] via-[#6ec8ff] to-[#0292fb] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.85)] sm:px-8">
-          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#021026] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#dd1b74] bg-[#4a0d35] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(74,13,53,0.40)] sm:px-8">
+          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#f7dcf6] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dde8f7]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#6ec8ff]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#a4186b]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#dde8f7] md:border-l md:border-[#0360f3]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#cfdcec]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35] md:border-l md:border-[#dd1b74]/35 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#4a0d35]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

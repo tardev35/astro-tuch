@@ -54,11 +54,12 @@ export default defineConfig({
   // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้
   // คนละค่ากันสิ้นเชิง: ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง)
-  // ส่วนโดเมนให้ label = "settee168-tech"
+  // ส่วนโดเมนให้ label = "meesub168"
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://settee168-tech.com",
+  // ⚠️ meesub168.cc ≠ meehay168.cc (มีเฮ168) ≠ มีโชค168 — สามแบรนด์ขึ้นต้นด้วย "มี"
+  site: "https://meesub168.cc",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

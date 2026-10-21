@@ -22,97 +22,88 @@ const hasActions = Astro.slots.has("actions");
 //
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant fits a docx section whose one
-// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §7**
-// ("ช่องทางติดต่อแอดมิน … ตลอด 24ชม." — content.txt บรรทัด 22): ซีกซ้ายคือช่องทาง
-// ติดต่อเจ้าหน้าที่ที่เว็บไซต์ระบุและการตรวจสอบช่องทางจากเว็บไซต์ทางการก่อนส่งข้อความ
-// ซีกขวาคือสิ่งที่บรีฟสั่งให้ทำเมื่อพบปัญหาการทำรายการ (เตรียมหลักฐาน แจ้งให้ชัดเจน
-// ไม่เปิดเผยรหัสผ่านหรือรหัส OTP และตรวจสอบเวลาการให้บริการล่าสุดอีกครั้ง)
-// หน้าแรกส่งไอคอน 💬 / 🛡️ มาตรงกับค่าตั้งต้น ทั้งคู่อยู่ในกล่อง aria-hidden จึงไม่เคย
-// เป็นส่วนหนึ่งของ accessible name
+// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §6**
+// ("<แบรนด์> รองรับการฝากถอนทุกธนาคารและวอลเลท" — content.txt บรรทัด 14): ซีกซ้าย
+// คือฝั่ง **ฝากเงิน** (ช่องทางผ่านธนาคารชั้นนำและวอลเลท กับการตรวจชื่อบัญชีปลายทาง
+// ให้ตรงกับข้อมูลทางการก่อนโอน) ซีกขวาคือฝั่ง **ถอนเงินและเหตุผิดปกติ** (ยอดขั้นต่ำ
+// ระยะเวลาดำเนินการ และการหยุดทำธุรกรรมแล้วติดต่อธนาคารทันทีเมื่อพบรายการผิดปกติ)
+// หน้าแรกส่งไอคอน 💰 / 🏧 ซึ่งตรงกับแกนแบรนด์ "ระบบดูแลการเงิน" ทั้งคู่อยู่ในกล่อง
+// aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
 //
-// ufalion168 (รอบ **ทองสองเฉด + บรอนซ์ บนดำสนิท — ไม่มีสีที่สองที่เป็นคนละวงศ์**
-// 2026-10-20) — พาเลตต์ตาม brand-spec §2
-// ⚠️ พื้นเพจ **ดำสนิท #000000** (bg.json) ลำดับความลึก: #33200a ยก / #1f1304 กลาง
-// (การ์ดใบนี้) / #0a0601 จม (สองซีก) / #000000 พื้น
+// มีทรัพย์168 (2026-10-21) — พาเลตตาม .claude/brand-spec-meesub168.md §2
+// ⚠️⚠️ **ธีมสว่างแบรนด์แรกของรีโปนี้** พื้นเพจ #f0ccf5 (bg.json) การ์ดเนื้อหาเป็น
+// **ผิวสว่าง + หมึกเข้ม** กลับทิศจากทุกรอบก่อน ห้ามแก้กลับไปเป็นพื้นเข้ม
+// ลำดับผิว: #ffffff ยก (การ์ดใบนี้) · #f7dcf6 กลาง (สองซีก) · #f0ccf5 พื้นเพจ
 //
-// จังหวะรูปทรงของใบนี้: นั่งระหว่าง FeatureHighlights (§6's h3 สามใบ การ์ดเรียงแนวตั้ง
-// บนผิวยก) กับ Faq3 (§8 accordion ผิวจมใต้หัวข้อจัดกลาง) จึงเป็นใบ **"ผิวกลาง กรอบ
-// บรอนซ์ไหม้ สองซีกที่ตกลงไปอยู่ผิวจม"** และเป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด**
-// — ความลึกสามชั้นในบล็อกเดียว
-// ⚠️ หัวข้อของใบนี้เป็นใบเดียวที่ **คร่อมเส้นคู่บน-ล่าง** (border-y) ไม่ใช่ขีดใต้
-// แถบตั้ง แผ่นป้าย หรือสันซ้ายแบบใบอื่น
-// หัวข้อไล่ ครีมทอง #f6e3b4 → ทองนำ #d4922c → ทองสว่าง #fdfc71 ("ครีมไต่ขึ้นเลมอน
-// ผ่านอำพัน") ซึ่งไม่ซ้ำลำดับกับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว ⚠️ ไล่เฉดนี้
+// จังหวะรูปทรงของใบนี้: เป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด** — ผิวขาวครอบ
+// สองซีกที่ตกลงไปอยู่ผิวชมพูอ่อน ⚠️ หัวข้อของใบนี้เป็นใบเดียวที่ **คร่อมเส้นคู่
+// บน-ล่าง** (border-y) ไม่ใช่ขีดใต้ แถบตั้ง แผ่นถม หรือสันซ้ายแบบใบอื่น
+// หัวข้อไล่ พลัมเข้ม #4a0d35 → ชมพูบานเย็น #dd1b74 → โรสเข้ม #a4186b ("พลัมผ่าน
+// ชมพูสดลงโรส") ซึ่งไม่ซ้ำลำดับกับกล่อง docx ใบอื่นบนหน้าเดียวกันสักตัว ⚠️ ไล่เฉดนี้
 // ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้ตาม §2
-// (12.3 / 6.89 / 19.3 บนผิวกลาง ที่ text-2xl font-black = large text) — **ห้ามเอา
-// #a25b24 (3.0:1) หรือ #5a3310 มาเป็นสต็อป**
-// สองป้ายไอคอนเป็น **ขั้วกลับของกันเอง** ตามสองเฉดทองของแบรนด์: ซ้ายเป็น **แผ่นถม
-// สว่าง** ไล่ครีมทอง #f6e3b4 → ทองนำ #d4922c บนหมึก #1a1000 (§2 ระบุว่า #1a1000
-// เป็นหมึกตัวเดียวที่วางบนพื้นถมทอง/เลมอน/ครีมได้ — 7.10:1 บน #d4922c และสูงกว่านั้น
-// บน #f6e3b4 **ห้ามพลิกแผ่นสว่างไปใช้หมึกสว่าง**) ส่วนขวาเป็น **แผ่นมืดทึบ** ไล่
-// บรอนซ์ไหม้ #5a3310 → ผิวจม #0a0601 ในกรอบบรอนซ์ไหม้ บนไอคอนทองสว่าง #fdfc71 —
-// ตรงกับงานศิลป์ที่ตัวอักษร `ufa`/`168` เป็นทองเข้มขณะที่ `lion` เป็นทองอ่อนกว่า
-// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบทองนำ ซีกขวากรอบบรอนซ์
-// เส้นคาดหัวการ์ดเป็นครีมทองโปร่ง เนื้อความ #fbf6e3 (= BRAND_TEXT) — 17.5:1 บนผิว
-// กลาง และสูงกว่านั้นบนผิวจมของสองซีก
-// §2 ห้าม #a25b24 และ #5a3310 ถือตัวอักษรทุกขนาด — ที่นี่อยู่ที่ขอบ ไล่เฉดของแผ่นมืด
-// เส้นคั่น และออราเท่านั้น
+// (บนผิวขาว: 14.9 / 4.67 / 7.2 ที่ text-2xl font-black = large text ปลอดภัยทั้งสาม)
+// **ห้ามเอา #f7dcf6 หรือ #f0ccf5 มาเป็นสต็อป**
+// สองป้ายไอคอนเป็น **ขั้วกลับของกันเอง** ตามคู่สว่าง-เข้มของรอบนี้: ซ้ายเป็น **แผ่น
+// สว่าง** ไล่ขาว → ชมพูอ่อน #f7dcf6 ในกรอบชมพูบานเย็น บนหมึก #4a0d35 ส่วนขวาเป็น
+// **แผ่นเข้มทึบ** ไล่ #4a0d35 → #2d0720 ในกรอบโรสเข้ม บนหมึกชมพูอ่อน #f7dcf6
+// (12.6:1) สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบชมพูบานเย็น ซีกขวากรอบโรสเข้ม
+// เส้นคาดหัวการ์ดเป็นชมพูบานเย็นโปร่ง เนื้อความ #4a0d35 (= BRAND_TEXT) — 14.9:1 บน
+// ผิวขาว และ 12.6:1 บนผิวชมพูอ่อนของสองซีก
+// ⚠️ §2 ห้าม #dd1b74 ถือตัวอักษรบนพื้นเข้ม (3.2:1) และห้าม #f0ccf5/#f7dcf6 ถือ
+// ตัวอักษรบนผิวขาว — ในไฟล์นี้ทั้งสามค่าอยู่ในตำแหน่งที่ §2 อนุญาตเท่านั้น
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง เพราะทองเคยนำมาแล้ว
-// เกือบทุกแบรนด์ในรีโปนี้** ทองนำรอบนี้ #d4922c ไม่ใช่ f0bb4e ffeccb d9701a
-// (รวยเทพ168 รอบขาออก) fcd45c 6b4a08 (มีเฮ168) f9a826 704504 (รวยแทร่168) fef54b
-// 6b5c10 (นินจา168) ffc82e 5c4a16 (สบายเบท168) ffd84d (ถอนชัวร์168) fcd434 ffeaa0
-// (มีโชค168) f7c92b ffe6a3 (ขวัญใจ168) f0b429 ffdc8c (รับตัง168) e3b23c (สมหวัง168)
-// e5a81b (UFA324) **dfa310 (TND168 — ใกล้ที่สุด)** e2b33f f2c230 fad354 หรือ f5c518
-// · **รอบนี้ไม่มีแดงเลย** จึงไม่มี e4021b (รอบขาออก) fb1b32 ff8f9c 5c0410 (มีเฮ168)
-// fa0513 (สมหวัง168) d30304 (รับตัง168) b3121b (ขวัญใจ168)
-// ชุดเต็มของรวยเทพ168 ที่เพิ่งอยู่ในไฟล์นี้ (f0bb4e ffeccb e4021b d9701a 3b1b0e
-// 260d04 0d0501 5c2a06 fff8ec 2b1400) ชุดของมีเฮ168 (fb1b32 ff8f9c 5c0410 fcd45c
-// 6b4a08 2b0711 1a040a 0c0205 fdeaec 1b0308) ชุดฟ้าอะซัวร์ของรวยแทร่168 (039cfa
-// 0494f5 c3ebfc 04366b e3f2fc 0b2d52 071e38 030f1d 031320) ชุดของนินจา168 (32bcfb
-// a9e9ff 07335f 0c2a3d 071a28 030e16 041019 dceefc) ชุดของถอนชัวร์168 (fa63b9 ffb3de
-// 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) ชุดของมีโชค168 (f5469f ff8dc6
-// 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดของขวัญใจ168 (f2bba5 c98a74
-// eadfce 140c06 241509 160d06 0b0603) ชุดม่วงราชาของ KMD88 (7505cc b453ff c07cff
-// d9b8ff 3a0565 2c0349 ece2f8) และชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff
-// 4fb4ff cfdcec 9db4d4 dde8f7) ออกครบทุกจุดแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168
+// fa63b9 · มีโชค168 f5469f · มีเฮ168 ff8f9c) ตัวที่ใกล้ dd1b74 ที่สุดคือ f5469f
+// (ห่าง 65) ชุดของ ดวงเศรษฐี168 รอบขาออก (d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120
+// 300605 150303 000000) และชุดทองสองเฉด-บรอนซ์ของ ufalion168 ที่เคยอยู่ทั้งใบนี้
+// (d4922c fdfc71 f6e3b4 a25b24 5a3310 33200a 1f1304 0a0601 1a1000 fbf6e3) ออกครบแล้ว
+// รวมถึงชุดของรวยเทพ168 (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 0d0501 5c2a06
+// fff8ec 2b1400) มีเฮ168 (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a 0c0205
+// fdeaec 1b0308) รวยแทร่168 (039cfa 0494f5 c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52
+// 071e38 030f1d) นินจา168 (32bcfb a9e9ff fef54b 07335f 6b5c10 0c2a3d 071a28 030e16)
+// สบายเบท168 (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16)
+// ถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5)
+// มีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12)
+// ขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509)
+// KMD88 (7505cc b453ff c07cff d9b8ff 3a0565 2c0349 ece2f8) และ TSDET911 (0360f3
+// 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดงเลย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง/ไวโอเลต ไม่มีเขียว
-// ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย และไม่มีส้มสด**
+// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีแดงชาด ไม่มีบรอนซ์ ไม่มีฟ้า/น้ำเงิน/ไซยาน
+// ไม่มีเขียว ไม่มีม่วง ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้ม**
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#5a3310]/55 bg-[#1f1304]/95 p-6 text-[#fbf6e3] shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-500 hover:border-[#d4922c]/70 md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#dd1b74]/45 bg-white p-6 text-[#4a0d35] shadow-[0_10px_30px_rgba(74,13,53,0.16)] transition-all duration-500 hover:border-[#a4186b]/70 md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#f6e3b4] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#dd1b74] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 border-y border-[#5a3310] py-4">
-          <HeadingTag class="bg-gradient-to-r from-[#f6e3b4] via-[#d4922c] to-[#fdfc71] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-y border-[#dd1b74]/45 py-4">
+          <HeadingTag class="bg-gradient-to-r from-[#4a0d35] via-[#dd1b74] to-[#a4186b] bg-clip-text text-2xl leading-normal font-black tracking-widest text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#d4922c]/40 bg-[#0a0601]/95 p-6 text-left text-base leading-relaxed text-[#fbf6e3] transition-all duration-300 hover:-translate-y-2 hover:border-[#d4922c]/80 hover:bg-[#1f1304] hover:shadow-[0_15px_40px_rgba(212,146,44,0.26)]">
+        class="relative flex gap-4 rounded-2xl border border-[#dd1b74]/45 bg-[#f7dcf6] p-6 text-left text-base leading-relaxed text-[#4a0d35] transition-all duration-300 hover:-translate-y-2 hover:border-[#dd1b74]/85 hover:bg-[#f0ccf5] hover:shadow-[0_15px_40px_rgba(221,27,116,0.26)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#a25b24] bg-gradient-to-br from-[#f6e3b4] to-[#d4922c] text-2xl text-[#1a1000] shadow-[0_5px_15px_rgba(212,146,44,0.35)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#dd1b74] bg-gradient-to-br from-white to-[#f7dcf6] text-2xl text-[#4a0d35] shadow-[0_5px_15px_rgba(221,27,116,0.28)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#a25b24] bg-[#0a0601]/95 p-6 text-left text-base leading-relaxed text-[#fbf6e3] transition-all duration-300 hover:-translate-y-2 hover:border-[#fdfc71]/70 hover:bg-[#1f1304] hover:shadow-[0_15px_40px_rgba(253,252,113,0.2)]">
+        class="relative flex gap-4 rounded-2xl border border-[#a4186b]/45 bg-[#f7dcf6] p-6 text-left text-base leading-relaxed text-[#4a0d35] transition-all duration-300 hover:-translate-y-2 hover:border-[#a4186b]/80 hover:bg-[#f0ccf5] hover:shadow-[0_15px_40px_rgba(164,24,107,0.24)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#5a3310] bg-gradient-to-br from-[#5a3310] to-[#0a0601] text-2xl text-[#fdfc71] shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#a4186b] bg-gradient-to-br from-[#4a0d35] to-[#2d0720] text-2xl text-[#f7dcf6] shadow-[0_5px_15px_rgba(74,13,53,0.45)]">
           {iconright}
         </div>
         <slot name="right" />
@@ -121,7 +112,7 @@ const hasActions = Astro.slots.has("actions");
 
     {
       hasActions && (
-        <div class="mt-8 border-t border-[#5a3310] pt-6">
+        <div class="mt-8 border-t border-[#dd1b74]/40 pt-6">
           <slot name="actions" />
         </div>
       )
