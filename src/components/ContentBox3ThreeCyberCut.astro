@@ -26,88 +26,100 @@ const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label,
 //
 // `heading` defaults to FALSE: a three-column split on this template is almost
 // always one docx paragraph broken into three readable columns, so the safe
-// default keeps chrome out of the heading inventory. /ทดลองเล่น relies on that
-// default. The home page relies on it too this round: it passes heading={false}
-// explicitly and sends the brief's own "ขั้นตอนที่ 1/2/3 …" labels through, so
-// the three steps render as <p> and the printed h3 count stays at exactly 2 —
-// the two promotion sub-sections, which are the only H3s the brief has.
+// default keeps chrome out of the heading inventory. This round the home page
+// passes heading={false} explicitly AND passes no column labels at all — the
+// brief gives §2 one running paragraph with no sub-labels, so the three columns
+// are purely a reading split and the block emits exactly one heading, its own
+// docx H2.
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#ff8dc6] uppercase";
-const columnDot = "block h-2 w-2 shrink-0 bg-[#f5469f] shadow-[0_0_6px_rgba(245,70,159,0.85)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#b44c06] uppercase";
+const columnDot = "block h-2 w-2 shrink-0 bg-[#eb0305] shadow-[0_0_6px_rgba(235,3,5,0.8)]";
 
 // Optional intro slot — the docx paragraph that sits under the section heading
 // and above the three columns. Its wrapper carries a real `mb-8` and sits beside
 // the grid, so it is a layout wrapper rather than a hoistable text wrapper; it
-// renders only when the page actually passes default children.
+// renders only when the page actually passes default children. This round the
+// page passes named slots only, so it stays unrendered.
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
-// มีโชค168 (รอบ **ทองนำ · ชมพูบานเย็นเป็นฮิวที่สอง · พลัมเข้มเป็นเงา บนดำสนิท**
-// 2026-10-18, brand-spec §2): ใบนี้ถือ docx H2 §6 ("สมัครรับบริการเล่นสล็อต
-// <แบรนด์> ง่ายๆ 3 ขั้นตอน") — ย่อหน้านำของบรีฟอยู่ในสล็อต default และสามขั้นตอน
-// ของบรีฟอยู่ในสามคอลัมน์ โดยป้ายคอลัมน์เป็น <p> ไม่ใช่หัวข้อ
+// โปรดี168 (รอบ **แดงเชอร์รี่นำ · ทองแดงไหม้รอง · ธีมสว่าง** 2026-10-22,
+// .claude/brand-spec-prodeee168.md §2): ใบนี้ถือ **docx H2 §2** ("โปรดี168
+// ค่ายตรงมาแรง พร้อมโปรโมชั่น เดิมพันออนไลน์ อัปเดตก่อนสิ้นปี 2026") และย่อหน้า
+// เต็มของบรีฟถูกแบ่งเป็นสามท่อนลงสามคอลัมน์ โดยไม่มีป้ายคอลัมน์
 //
-// สองการ์ดมุมตัดของหน้านี้อยู่ติดกัน (§5 แล้ว §6) จึงถูกแยกด้วยสามอย่างพร้อมกัน:
-// **ทิศของมุมตัด** — ใบนี้ตัด **ขวาบน-ซ้ายล่าง** เป็นภาพกระจกของ ContentBoxSevenThree
-// ที่ตัดซ้ายบน-ขวาล่าง · ขนาดมุม 30px เทียบกับ 36px ของใบนั้น · และความลึกของผิว คือ
-// **ผิวจม #0b0509** เทียบกับผิวยก #24101c ของใบนั้น
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท #000000** (bg.json) ลำดับความลึก: #24101c ยก /
-// #160a12 กลาง / #0b0509 จม / #000000 พื้น
-// กรอบมุมตัดเป็นเส้นทองลึก #7a5508 และสว่างขึ้นเป็นทองแบรนด์ #fcd434 ตอน hover
-// เส้นรูดสี่มุมจับคู่สองฮิวของโลโก้ไขว้กัน — ทองแบรนด์ #fcd434 คู่พลัมเข้ม #8c0f52
-// บนแนวนอน (เหรียญจีนทองกับเงาใต้ทองแท่ง) ชมพูอ่อน #ff8dc6 คู่ชมพูบานเย็น #f5469f
-// บนแนวตั้ง (ดอกซากุระกับริบบิ้นซาติน)
-// หัวข้อไล่ ทองแบรนด์ #fcd434 → ชมพูอ่อน #ff8dc6 → ชมพูบานเย็น #f5469f ซึ่งไม่ซ้ำ
-// ลำดับกับกล่องอื่นบนหน้าเดียวกันสักใบ สันหัวข้อไล่ ทองแบรนด์ #fcd434 → ชมพูบานเย็น
-// #f5469f → พลัมเข้ม #8c0f52
-// ป้ายสามคอลัมน์เป็นตัวอักษรชมพูอ่อน #ff8dc6 (9.9:1 และเป็น text-lg font-black จึง
-// เป็น large text) กับจุดนำชมพูบานเย็น เนื้อความ #f6e4ee (= BRAND_TEXT) — 17.0:1
-// บนผิวจม
-// §2 ห้าม #8c0f52 #7a5508 ถือตัวอักษรทุกขนาด — ในไฟล์นี้ทั้งสองค่าอยู่ที่ขอบ เส้นรูด
-// สันหัวข้อ และเส้นคั่นคอลัมน์เท่านั้น · #ffeaa0 สงวนไว้ให้ <strong> ในย่อหน้า
-// จึงไม่โผล่ในไฟล์นี้
+// ⚠️ **ธีมสว่าง** — bg.json = {"mode":"color","color":"#ffd1d1"} ชมพูพาสเทลสว่าง
+// ลำดับความลึก: #ffffff ผิวยก / **#fff4ea อินเซ็ต (ใบนี้)** / #ffd1d1 พื้นเพจ
+// หมึก **น้ำตาลแดง #401107** (= BRAND_TEXT, 14.9:1 บนผิวอินเซ็ต)
+// **ห้าม "แก้" การ์ดกลับไปเป็นพื้นเข้ม** เพราะพื้นเพจของดรอปนี้สว่าง
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือทอง** ทองรอบนี้คือ
-// #fcd434 ไม่ใช่ f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168) dfa310
-// ffc93d ffe4a3 (TND168) f2c230 ffe066 (KINGKONG555) e2b33f (KMD88) e5a81b (UFA324)
-// fad354 (789BETTING) f5c518 (FLASH877) fce343 (PUNPRO168) f3bb34 (DUCK1688) หรือ
-// fbe455 (WEPLAY168) และ **ชมพูรอบนี้คือ #f5469f ไม่ใช่ f41571 / ff5ca8 ของ
-// PUNPRO168** ซึ่งเป็นชมพูฮอตพิงก์เหมือนกันแต่คนละค่า
-// ชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911 ที่เคยค้างอยู่ทั้งไฟล์นี้ (0360f3 0292fb
-// 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f 032dad 04186e
-// 041a43) ชุดแดงแบรนด์-ทองของ หวย24 (d20a0a 7a0505 ff3b3b f5c33b ffd45e 170707
-// f7e2d6 พร้อม rgba(210,10,10,α) และ rgba(245,195,59,α)) และชุดทอง-เขียวของ PGW44
-// (fde90e 35d413 5df53a a86f02 f5c518 1f5a16 0b1408 e9f0dd) ออกครบทุกค่าแล้ว
+// หน้าแรกรอบนี้มีการ์ดมุมตัดสองใบ (§2 ใบนี้ และ §4 ContentBoxSevenThreeCyberCut)
+// โดยมี §3 คั่นกลาง ทั้งคู่ถูกแยกออกจากกันสี่ทางพร้อมกัน:
+//   **ทิศของมุมตัด** — ใบนี้ตัด **ขวาบน-ซ้ายล่าง** · §4 ตัดซ้ายบน-ขวาล่าง
+//   **ขนาดมุม** — 30px · §4 เป็น 36px
+//   **ความลึกของผิว** — ใบนี้เป็น **ผิวอินเซ็ต #fff4ea** · §4 เป็นผิวยก #ffffff
+//   **การจัดหัวข้อ** — ใบนี้เป็น **ไล่เฉดสามสต็อปบน bg-clip-text พร้อมแถบตั้งนำ**
+//     · §4 เป็นหัวข้อทึบสีเดียวพร้อมเครื่องหมาย ✦
+// กรอบมุมตัดเป็นทองแดงไหม้ #b44c06 และสว่างขึ้นเป็นแดงเชอร์รี่ #eb0305 ตอน hover
+// เส้นรูดสี่มุมจับคู่สองฮิวของอาร์ตเวิร์กไขว้กัน — แดงเชอร์รี่ #eb0305 คู่ทองแดงไหม้
+// #b44c06 บนแนวนอน (ผ้าพันคอแดงของกระต่ายกับป้ายไม้/เหรียญทอง) และแดงสด #ff4446
+// คู่ทองแดงเข้ม #7a2f03 บนแนวตั้ง (โบว์แดงของเด็กหญิงกับรั้วไม้/กังหัน)
+// หัวข้อไล่ แดงเชอร์รี่ #eb0305 → ทองแดงไหม้ #b44c06 → ทองแดงเข้ม #7a2f03 ซึ่งไม่
+// ซ้ำลำดับกับกล่องอื่นบนหน้าเดียวกันสักใบ แถบตั้งนำหน้าไล่ #eb0305 → #ff4446 →
+// #b44c06 และเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่ลูก (bg-clip-text ของหัวข้อจะชนกับ
+// พื้นของแถบถ้าซ้อนกัน) — แถบเป็น **พื้นถม** #ff4446 จึงอยู่ในนั้นได้
+// ⚠️ bg-clip-text = พิกเซลของตัวอักษร ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2:
+// #eb0305 4.3:1 · #b44c06 4.9:1 · #7a2f03 8.7:1 บนผิวอินเซ็ต และหัวข้อเป็น
+// text-xl/2xl font-black จึงนับเป็น large text ทุกแบนด์
+// ป้ายคอลัมน์ (ถ้ารอบถัดไปส่งมา) เป็นทองแดงไหม้ #b44c06 กับจุดนำแดงเชอร์รี่
+// ⚠️ §2 ห้าม **#ff4446** ถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร — ในไฟล์นี้มันอยู่ที่
+// เส้นรูดกับแถบตั้งเท่านั้น · **#9b0a0c สงวนไว้ให้ <strong> ในย่อหน้า** จึงไม่โผล่
+// ที่นี่ · **ทองสาลี่ #f0b46a ไม่มีในไฟล์นี้เลย** เพราะ §2 กันไว้ให้โครมเท่านั้น
+// (1.8:1 บนผิวสว่าง)
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง+ทอง ซึ่งเป็นฮิวที่
+// แน่นที่สุดในรีโปนี้ และรอบก่อน (รวยแท้168) ก็เป็นแดง+ทอง+ธีมสว่างชมพูเหมือนกัน**
+// การเจอแดงในไฟล์จึงไม่พิสูจน์ว่าเป็นของรอบนี้ ต้องเทียบทีละหลัก: แดงรอบนี้คือ
+// **#eb0305 (R235 G3 B5)** วัดจาก logo.webp เอง ไม่ใช่ c30303 ของรอบก่อน (ห่าง 40
+// ที่ R) ตัวที่ใกล้ที่สุดในรีโปคือ dc0203 ของหวย365 (ห่าง 18) รับไว้โดยตั้งใจ
+// ชุดทอง-ชมพูบานเย็นของ **มีโชค168** ที่เพิ่งอยู่ในไฟล์นี้ทั้งใบ (fcd434 ffeaa0
+// f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509 d8b9c9 c89a08
+// e8bc1c กับ rgba 252/212/52 α) rgba 245/70/159 α)) ออกครบทุกค่าแล้ว เช่นเดียวกับ
+// ชุดแดงคริมสัน-ทองโบราณของรอบขาออก **รวยแท้168** (c30303 8f0505 e81313 dcb95f
+// b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f) ชุดเขียวมรกตของ
+// **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7
+// e9fbdd) และชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ **TSDET911** (0360f3 0292fb 6ec8ff
+// 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f 032dad 04186e 041a43)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีน้ำเงิน ไม่มีฟ้า/ไซแอน ไม่มีม่วง/ไวโอเลต ไม่มีเขียว ไม่มีส้ม
-// ไม่มีเงิน/โครเมียมอมฟ้า ไม่มีโรสโกลด์ และไม่มีแดง**
+// ⚠️ **รอบนี้ไม่มีเขียว ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง/ไวโอเลต
+// ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว**
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#7a5508]/80 bg-[#0b0509]/92 p-8 text-[#f6e4ee] shadow-[0_10px_30px_rgba(252,212,52,0.18)] backdrop-blur-md transition-all duration-300 hover:border-[#fcd434]/70 hover:shadow-[0_15px_40px_rgba(245,70,159,0.28)]"
+    class="relative isolate w-full border border-[#b44c06]/70 bg-[#fff4ea] p-8 text-[#401107] shadow-[0_10px_30px_rgba(64,17,7,0.16)] transition-all duration-300 hover:border-[#eb0305]/70 hover:shadow-[0_15px_40px_rgba(235,3,5,0.22)]"
     style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));">
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fcd434] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#8c0f52] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ff8dc6] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#f5469f] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#eb0305] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#b44c06] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ff4446] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#7a2f03] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#7a5508]/80 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#fcd434] via-[#f5469f] to-[#8c0f52] shadow-[0_0_10px_rgba(245,70,159,0.55)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#fcd434] via-[#ff8dc6] to-[#f5469f] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#b44c06]/60 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#eb0305] via-[#ff4446] to-[#b44c06] shadow-[0_0_10px_rgba(235,3,5,0.4)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#eb0305] via-[#b44c06] to-[#7a2f03] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f6e4ee]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#401107]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#7a5508]/80 pb-6 text-left text-base leading-relaxed text-[#f6e4ee] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#b44c06]/45 pb-6 text-left text-base leading-relaxed text-[#401107] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -118,7 +130,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#7a5508]/80 pb-6 text-left text-base leading-relaxed text-[#f6e4ee] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#b44c06]/45 pb-6 text-left text-base leading-relaxed text-[#401107] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -129,7 +141,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f6e4ee] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#401107] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>

@@ -1,340 +1,386 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Announcement from "../components/Announcement5.astro";
-import LatestWinners from "../components/LatestWinnersPremium.astro";
-import ContentBoxPremium from "../components/ContentBoxPremium.astro";
-import ContentBox3ThreePremium from "../components/ContentBox3ThreePremium.astro";
-import ContentBoxCyberCut from "../components/ContentBoxCyberCut.astro";
-import ContentBoxTwoPremium from "../components/ContentBoxTwoPremium.astro";
-import ContentBoxSpecial from "../components/ContentBoxSpecial.astro";
-import ContentBoxSevenThreePremium from "../components/ContentBoxSevenThreePremium.astro";
-import ContentBoxSevenThreeNeumorphism from "../components/ContentBoxSevenThreeNeumorphism.astro";
-import ContentBoxTwoNeumorphism from "../components/ContentBoxTwoNeumorphism.astro";
-import ContentBox3Three from "../components/ContentBox3Three.astro";
-import Faq from "../components/Faq3.astro";
-import ReviewCardSumo from "../components/ReviewCardSumo2.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
+import LatestWinners from "../components/LatestWinnersCyber.astro";
+import ContentBoxFloatingBadge from "../components/ContentBoxFloatingBadge.astro";
+import ContentBox3ThreeCyberCut from "../components/ContentBox3ThreeCyberCut.astro";
+import ContentBoxNeumorphism from "../components/ContentBoxNeumorphism.astro";
+import ContentBoxSevenThreeCyberCut from "../components/ContentBoxSevenThreeCyberCut.astro";
+import ContentBoxSevenThree from "../components/ContentBoxSevenThree.astro";
+import ContentBox from "../components/ContentBox.astro";
+import FeatureHighlights from "../components/FeatureHighlights.astro";
+import ContentBoxTwoFloatingBadge from "../components/ContentBoxTwoFloatingBadge.astro";
+import Faq from "../components/Faq4.astro";
+import ReviewCardSumo from "../components/ReviewCardSumo.astro";
 import Navfoot from "../components/Navfoot.astro";
 
 import { Picture } from "astro:assets";
 import { BRAND_NAME } from "../lib/brandProfile";
 import { pageGraph } from "../lib/schema";
-import promoCashback from "../assets/slide2.png";
-import promoReferral from "../assets/slide1.png";
+import promoCashback from "../assets/slide1.png";
+import promoReferral from "../assets/slide2.png";
 
-// VARIANT ROTATION THIS ROUND, decided in .claude/brand-spec-ruaythear168vip.md §3 and
-// NOT re-picked here: the outgoing brand (สาธุ168) pulled the ENTIRE *Huay family off the
-// shelf at once, so this round rotates all of it away — Announcement5 replaces
-// AnnouncementHuay, LatestWinnersPremium replaces LatestWinnersHuay, Faq3 replaces FaqHuay,
-// ReviewCardSumo2 replaces the base ReviewCardSumo, and the ContentBox shape-mix drops
-// Huay / FloatingBadge / TwoHuay / SevenThreeHuay / SevenThreeCyberCut / 3ThreeHuay /
-// TwoCyberCut for Premium / 3ThreePremium / CyberCut / TwoPremium / Special /
-// SevenThreePremium / SevenThreeNeumorphism / TwoNeumorphism / 3Three (base) — **zero file
-// overlap with the outgoing brand's mix.** NavbarStyle8 + FooterCyber are the layout's pair
-// this round and the brand font moves google-sans -> kanit; all of that is the
-// orchestrator's shared-chrome step, not this page's.
-// ⚠️ ContentBox.astro (the base) is NOT in this round's index mix — it is still always-live
-// shared chrome, because terms, privacy, 404, /promotion, /ทางเข้า and the button pages all
-// render through it, so the orchestrator rethemes it and **this page neither uses nor edits
-// it**. An "is it used?" check has to match the bare filename rather than the components/
-// path, which is how a component reached only from another file got misread as inventory once.
-// Every unused *Style / *Premium / *Cyber / *Huay / *CyberCut / *FloatingBadge sibling, the
-// other Faq* and Announcement* files, the other LatestWinners* and the base ReviewCardSumo
-// all stay on disk as inventory for the next brand — nothing was deleted, and the earlier
-// brands' hues still inside them are expected drift.
+// VARIANT ROTATION THIS ROUND, decided in .claude/brand-spec-prodeee168.md §3 and
+// NOT re-picked here: the outgoing brand (รวยแท้168) is rotated out of every family
+// at once — AnnouncementPremium replaces Announcement5, LatestWinnersCyber replaces
+// LatestWinnersPremium, Faq4 replaces Faq3, the base ReviewCardSumo replaces
+// ReviewCardSumo2, and the ContentBox shape-mix drops Premium / 3ThreePremium /
+// CyberCut / TwoPremium / Special / SevenThreePremium / SevenThreeNeumorphism /
+// TwoNeumorphism / 3Three for FloatingBadge / 3ThreeCyberCut / Neumorphism /
+// SevenThreeCyberCut / SevenThree (base) / ContentBox (base) / TwoFloatingBadge —
+// **zero file overlap with the outgoing brand's mix.** NavbarStyle4 + FooterPremiumSumo
+// are the layout's pair this round and the brand font moves kanit -> google-sans; all
+// of that is the orchestrator's shared-chrome step, not this page's.
+// ⚠️ ContentBox.astro (the base) IS in this round's mix — it carries docx §6 — and it
+// is also always-live shared chrome, because terms, privacy, 404, /promotion, /ทางเข้า
+// and the button pages all render through it. The orchestrator owns and rethemes that
+// file; **this page imports and uses it but never edits it.** An "is it used?" check
+// has to match the bare filename rather than the components/ path, which is how a
+// component reached only from another file got misread as inventory once.
+// Every unused *Style / *Premium / *Cyber / *Huay / *CyberCut / *FloatingBadge sibling,
+// the other Faq* and Announcement* files, the other LatestWinners* and ReviewCardSumo2
+// all stay on disk as inventory for the next brand — nothing was deleted, and the
+// earlier brands' hues still inside them are expected drift.
 //
-// Ten widgets this template usually offers are deliberately absent, and they are named
-// without their file extension on purpose because the playbook's "is this component live?"
-// check is a bare-filename grep: ProviderGrid and ProviderGridPremium are out because this
-// brief names NO game studio and NO operator at all, BankStrip is out as a page-level widget
-// for the same reason on the banking side — **the brief says "ธนาคารและวอลเลท" and never
-// names one bank** (FooterCyber still imports it, which is the orchestrator's file) —
-// GameRankingBoard has no ranking to carry, SmoothCarousel has no brief section asking for a
-// carousel, LoginRtpSection is out because its RTP table would put an RTP figure on the page
-// while §6 allows only the brief's own numbers (2 ตัว 100, 3 ตัว 1,000, 0.3%, 0.8%, 24ชม.),
-// FeaturedGames / PopularGamesStrip / LottoGrid would all have to invent game or market names
-// the brief never writes, and FeatureHighlights is out because **this brief has no sub-list
-// under any heading** — so there is nothing for it to render and every h3 on the page is one
-// the brief wrote itself.
+// Nine widgets this template usually offers are deliberately absent, and they are named
+// without their file extension on purpose because the playbook's "is this component
+// live?" check is a bare-filename grep: ProviderGrid and ProviderGridPremium are out
+// because this brief names NO game studio at all — it says "ค่ายตรงมาแรง" and
+// "ค่ายต่าง ๆ" and never one name — BankStrip is out for the same reason on the banking
+// side, since the brief names no bank and no wallet, GameRankingBoard has no ranking to
+// carry, SmoothCarousel has no brief section asking for a carousel, LoginRtpSection is
+// out because its RTP table would put an RTP figure on the page while §6 allows only
+// the brief's own numbers (0.3%, 0.8%, 24ชม., ปี 2026), and FeaturedGames /
+// PopularGamesStrip / LottoGrid would all have to invent game or market names the brief
+// never writes.
+// ⚠️ FeatureHighlights IS used this round, unlike the last two: the brief gives docx §6
+// a real three-item sub-list (ขั้นตอนที่ 1 / 2 / 3, content.txt lines 15-20), which is
+// exactly the one sanctioned shape for H3s under an H2.
 //
-// <Announcement /> runs bare on purpose: Announcement5's default message is this brand's
-// copy, written from this brief by the orchestrator, and every sub-page calls it bare too —
-// so passing an override here is exactly how the ticker ends up saying two different things
-// on two pages of the same site.
+// <Announcement /> runs bare on purpose: AnnouncementPremium's default message is this
+// brand's copy, written from this brief by the orchestrator, and every sub-page calls it
+// bare too — so passing an override here is exactly how the ticker ends up saying two
+// different things on two pages of the same site.
 //
-// PALETTE — CRIMSON RED LEADING, ANTIQUE GOLD SECOND, DARK MAROON INK ON **LIGHT SURFACES**
-// (brand-spec §2). ⚠️⚠️ **THIS IS THE THIRD LIGHT-THEME BRAND IN THIS REPO** and the second
-// in a row, so the direction is not the novelty — the HUE is. bg.json for this drop is
-// {"mode":"color","color":"#ffdbdb"}, a soft blush-rose page background, and bg.json is the
-// ONLY source of that value: do not inherit a dark page from any earlier round and do not
-// "fix" it back to black. Every ContentBox*, the FAQ and the review ledger therefore run
-// LIGHT surfaces (#ffffff raised / #fff1ef inset) with DARK MAROON ink (#4a0f0f =
-// BRAND_TEXT, 15.4:1). The chrome (NavbarStyle8, FooterCyber, Announcement5,
-// LatestWinnersPremium, Navfoot, CtaRedirect) stays DARK maroon (#461212 / #280b0b) with
-// light #ffeee8 text and antique gold, so a dark head and foot bracket a light body.
-// **Do not "fix" either half back to the other's direction.**
-// Read off the artwork: the logo is a glossy 3-D scarlet-and-gold swoosh, then the Thai word
-// รวยแท้ in bold 3-D crimson with a thick gold outline, then the numerals 168 in polished
-// 3-D gold. The banner is a SUNLIT THAI TEMPLE / GRAND-PALACE RIVERSIDE EXTERIOR — gilded
-// chedis and prang spires, pale blue sky with white cloud, green foliage and water, a young
-// man in a cream-and-brown embroidered Thai outfit on the left and a young woman in a
-// cream-and-gold Thai sabai with a white flower in her hair on the right, both holding
-// government lottery tickets, with lotus leaves and a white lotus bottom-right.
-// ⚠️ The sky's pale blue, the foliage green, the outfits' cream, the lotus white and the
-// lottery balls' black are OBJECTS IN THE PICTURE, not brand colours — none of them is
-// allowed into the UI.
-// ⚠️ The trap this round is RED, and it is a bad one: **red has led more brands through this
-// repo than any other hue**, so finding "a red" in a file proves NOTHING — compare by VALUE.
-// This round's crimson is #c30303 (R195 G3 B3), which sits **16 units** from รับตัง168's
-// d30304 and **10 units** from สมหวัง168's b90203 — closer than this repo normally tolerates,
-// accepted deliberately because #c30303 is logo.webp's own measured vivid. The separation
-// this round comes from the blush-rose page (#ffdbdb, never used before), the antique-gold
-// value and the full variant rotation — not from the red.
-// ⚠️ **The antique gold #dcb95f / #b8862b / #96681f is a CHROME-ONLY colour and is NOT
-// available to this page at all.** On a white card it measures 1.9–3.5:1, so none of the
-// three appears in any ContentBox*, in Faq3 or in ReviewCardSumo2. The one file in this
-// page's own tree that carries gold is LatestWinnersPremium, which brand-spec §2 classifies
-// as chrome and renders on #280b0b / #461212 where gold measures 8.2 / 4.8 / 3.8:1.
-// The one highlight colour a <strong> may take is **#8f0505** (9.6:1 on a white card),
-// headings may also use **#c30303** (6.3:1), and ⚠️ the bright scarlet **#e81313** (4.0:1)
-// may NEVER carry text and may never sit behind text: it is a gradient stop, a border and an
-// aura only. #ffdbdb and #fff1ef never carry text on a white surface.
-// ⚠️ **No green, no pink/fuchsia, no blue/azure/cyan, no violet, no silver/chrome, no
-// rose-gold and no orange gold this round.** Values that must not survive anywhere that
-// renders: 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd plus
-// rgba(11,125,40,α) rgba(10,95,28,α) rgba(12,58,22,α) rgba(174,176,74,α) (สาธุ168 — **the
-// OUTGOING brand, highest priority**) · cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a
-// 120a02 1c140b (หวยคิง) · 32bcfb a9e9ff 07335f fef54b 6b5c10 0c2a3d 071a28 030e16 041019
-// dceefc (นินจา168 — the original owner of FooterCyber) · fcd434 ffeaa0 f5469f ff8dc6 8c0f52
-// 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509 d8b9c9 c89a08 e8bc1c (มีโชค168 — the original
-// owner of NavbarStyle8) · 140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0
-// 1a0303 (หวย365) · d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605 150303 (ดวงเศรษฐี168) ·
-// d4922c fdfc71 a25b24 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000 (ufalion168) ·
-// f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400 (รวยเทพ168) · fb1b32
-// ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a 0c0205 fdeaec ffe3e6 1b0308 (มีเฮ168) · 039cfa
-// 0494f5 c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 030f1d 031320 7fa8cc (รวยแทร่168 —
-// ⚠️ **the near-namesake, a DIFFERENT and unrelated client on ruaythear168.net**) · 2f9ff5
-// a8dcff d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f (สบายเบท168) · fa63b9
-// ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5 (ถอนชัวร์168) · f7c92b
-// ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603 (ขวัญใจ168) ·
-// f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 200a09 140505 1a0505
-// (รับตัง168) · fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210 b90203 8c0204 5b0203 3c0303 170504
-// f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f (สมหวัง168) · dd1b74 a4186b 4a0d35 2d0720 f7dcf6
-// f0ccf5 (มีทรัพย์168) · e5a81b ffe08a bb8410 7d5a07 43300a 17130a 312713 0d0b06 140d01
-// 8792a0 f0e8d4 b9c2cc 464f5a (UFA324)
+// PALETTE — CHERRY RED LEADING, BURNT COPPER SECOND, RED-BROWN INK ON **LIGHT SURFACES**
+// (brand-spec §2). ⚠️⚠️ **THIS IS THE FOURTH LIGHT-THEME BRAND IN THIS REPO** and the
+// third in a row, so the direction is not the novelty — the HUE is. bg.json for this
+// drop is {"mode":"color","color":"#ffd1d1"}, a pastel pink page background, and bg.json
+// is the ONLY source of that value: do not inherit a dark page from any earlier round
+// and do not "fix" it back to black. Every ContentBox*, FeatureHighlights, the FAQ and
+// the review ledger therefore run LIGHT surfaces (#ffffff raised / #fff4ea inset) with
+// RED-BROWN ink (#401107 = BRAND_TEXT, 16.1:1). The chrome (NavbarStyle4,
+// FooterPremiumSumo, AnnouncementPremium, LatestWinnersCyber, Navfoot, CtaRedirect)
+// stays DARK red-brown (#4d1c0a / #2c1004) with light #fff0e4 text and pear gold, so a
+// dark head and foot bracket a light body. **Do not "fix" either half back to the
+// other's direction.**
+// Read off the artwork: the logo is a white cartoon rabbit in a red scarf giving a
+// thumbs up, winking, beside the Thai word โปรดี168 in glossy 3-D cherry red with a
+// white outline. The banner and both slides are a SUNLIT CARTOON FARM — a wooden
+// windmill, a red barn, wooden fencing, blue sky with white cloud, a black-haired boy in
+// a straw hat, red plaid shirt and denim dungarees, a black-haired girl with a big red
+// bow in a white-and-red outfit, a white rabbit, a pink pig, a black-and-white cow,
+// scattered carrots, white daisies and piles of gold coins around a wooden sign.
+// ⚠️ The sky's blue, the field's green, the dungarees' indigo, the pig's pink and the
+// fence's brown are OBJECTS IN THE PICTURE, not brand colours — none is allowed into the
+// UI.
+// ⚠️ The trap this round is RED **and** GOLD together, and it is the worst pairing in
+// this repo: **red has led more brands through here than any other hue, and the brand
+// immediately before this one was ALSO red + gold on a light pink page.** Finding "a
+// red" in a file proves NOTHING — compare by VALUE. This round's cherry is #eb0305
+// (R235 G3 B5), measured off logo.webp itself, which sits **40 units** from the outgoing
+// รวยแท้168's crimson c30303 and only **18 units** from หวย365's dc0203 — closer than
+// this repo normally tolerates, accepted deliberately because it is the logo's own
+// measured value. **Do not "adjust" it to another hue.** The real separation comes from
+// the second hue being **burnt copper #b44c06** (measured off banner1.png) instead of
+// the outgoing round's antique gold, from the page being #ffd1d1 rather than ffdbdb,
+// from the inset running warm cream #fff4ea rather than pink-tinted fff1ef, and from the
+// full variant rotation.
+// ⚠️ **Burnt copper #b44c06 CARRIES TEXT on a light card (5.3:1)** — that is the
+// functional difference from the previous round's antique gold, which could not. ⚠️ But
+// **pear gold #f0b46a is a CHROME-ONLY colour and is NOT available to this page at
+// all.** On a white card it measures 1.8:1, so it appears in no ContentBox*, in
+// FeatureHighlights, in Faq4 or in ReviewCardSumo. The one file in this page's own tree
+// that carries pear gold is LatestWinnersCyber, which brand-spec §2 classifies as chrome
+// and renders on #2c1004 / #4d1c0a where it measures 7.9:1 and better.
+// The one highlight colour a <strong> may take is **#9b0a0c** (8.6:1 on a white card),
+// headings may use **#eb0305** (4.6:1), **#b44c06** (5.3:1) and **#7a2f03** (9.4:1), and
+// ⚠️ the bright red **#ff4446** (3.1:1) may NEVER carry text and may never sit behind
+// text: it is a gradient stop, a border and an aura only. #ffd1d1 and #fff4ea never
+// carry text on a light surface.
+// ⚠️ **No green (LINE green excepted elsewhere), no pink/fuchsia, no blue/azure/cyan, no
+// violet, no silver/chrome, no rose-gold and no antique gold this round.** Values that
+// must not survive anywhere that renders: c30303 8f0505 e81313 dcb95f b8862b 96681f
+// 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f plus rgba(195,3,3,α)
+// rgba(184,134,43,α) rgba(74,15,15,α) (รวยแท้168 — **the OUTGOING brand, highest
+// priority**) · 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd
+// (สาธุ168) · cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b (หวยคิง) ·
+// 32bcfb a9e9ff 07335f fef54b 6b5c10 0c2a3d 071a28 030e16 041019 dceefc (นินจา168 — the
+// original owner of LatestWinnersCyber) · fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508
+// 1a0612 f6e4ee 24101c 160a12 0b0509 (มีโชค168 — the original owner of
+// ContentBox3ThreeCyberCut) · 140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07
+// f6e7e0 1a0303 (หวย365) · d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605 150303
+// (ดวงเศรษฐี168 — the original owner of ContentBoxSevenThree, FeatureHighlights and
+// Faq4) · d4922c fdfc71 a25b24 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000
+// (ufalion168 — the original owner of ContentBoxTwoFloatingBadge) · f0bb4e ffeccb e4021b
+// d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400 (รวยเทพ168) · fb1b32 ff8f9c 5c0410
+// fcd45c 6b4a08 2b0711 1a040a 0c0205 fdeaec ffe3e6 1b0308 (มีเฮ168) · 039cfa 0494f5
+// c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 030f1d 031320 7fa8cc (รวยแทร่168) ·
+// 2f9ff5 a8dcff d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f
+// (สบายเบท168) · fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5
+// (ถอนชัวร์168) · f7c92b ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509
+// 160d06 0b0603 (ขวัญใจ168) · f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6
+// f5ece0 2b100f 200a09 140505 1a0505 (รับตัง168) · fa0513 ffadaf ff5a5f e3b23c ffe5a8
+// 8a6210 b90203 8c0204 5b0203 3c0303 170504 f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f
+// (สมหวัง168) · dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5 (มีทรัพย์168) · e5a81b ffe08a
+// bb8410 7d5a07 43300a 17130a 312713 0d0b06 140d01 8792a0 f0e8d4 b9c2cc 464f5a (UFA324)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// **LINE green #00B900 is LINE's own semantic colour, not ours — it stays exactly as it is.**
+// **LINE green #00B900 is LINE's own semantic colour, not ours — it stays exactly as it
+// is**, as do the real bank logo colours and the emerald success state in the winners
+// feed.
 //
-// IMAGE ROLES FOR THIS DROP (2026-10-21 second drop of the day, brand-spec §5). Exactly TWO
-// files are referenced from this page, both from this drop, and THE TEXT PRINTED ON THE ART
-// is what decides the pairing — both bitmaps were opened and read this round:
-//   slide2.png -> §7, because its own black-and-gold plaque reads คืนยอดเสีย with 0.3%
-//   slide1.png -> §8, because its own black-and-gold plaque reads แนะนำเพื่อน with 0.8%
-// ⚠️ The uploader overwrites both files every drop, so the numbering carries no meaning
-// across brands and the plaque has to be re-read each time — trusting an inherited pairing
-// would have captioned each promotion with the other one's poster.
-// Both alts below were written from THIS drop's bitmaps: a sunlit Thai temple riverside with
-// gilded chedis, the same couple in embroidered Thai dress, white lotus flowers, gold coins,
-// loose lottery tickets and white-and-black lottery balls. Nothing from any earlier drop
-// (emerald สาธุ lettering, a cartoon pig in a burglar mask, Caishen, a gold lion, a 777
-// cabinet, blue money bags, a cartoon ninja, pink sakura, a maneki-neko) is in this artwork.
-// Deliberately NOT imported, and every file still on disk as inventory: banner2.png (10-08)
-// and banner3.png (09-27) are previous brands' article art, and slide3.png / slide4.png
-// (09-29) are another brand's lottery posters. An eager import IS an emit, rendered or not,
-// so importing any of them would ship a competitor's picture into dist/ and turn verify-build
-// red. There is therefore NO current-drop article illustration this round, and a slide is
-// never substituted for one — the playbook pins slide* to ContentBoxSevenThree* blocks only,
-// and these two are the round's full 2-block budget.
+// IMAGE ROLES FOR THIS DROP (2026-10-21/22, brand-spec §2 and §4). Exactly TWO files are
+// referenced from this page, both from this drop, and THE TEXT PRINTED ON THE ART is
+// what decides the pairing — both bitmaps were opened and read this round:
+//   slide1.png -> §4, because its own wooden plaque reads คืนยอดเสีย with 0.3%
+//   slide2.png -> §5, because its own wooden plaque reads แนะนำเพื่อน with 0.8%
+// ⚠️ **This is the REVERSE of the previous round's pairing** (that brand's posters were
+// numbered the other way). The uploader overwrites both files every drop, so the
+// numbering carries no meaning across brands and the plaque has to be re-read each time;
+// trusting the inherited pairing would have captioned each promotion with the other
+// one's poster.
+// Both alts below were written from THIS drop's bitmaps: a sunlit cartoon farm with a
+// wooden windmill, a red barn, wooden fencing, the boy in dungarees, the girl with the
+// red bow, a white rabbit in a red scarf, a pink pig, a black-and-white cow, carrots,
+// white daisies and piles of gold coins around a wooden promo sign. Nothing from any
+// earlier drop (a Thai temple riverside with gilded chedis, lottery tickets and
+// black-and-white lottery balls; emerald สาธุ lettering; a cartoon pig in a burglar
+// mask; Caishen; a gold lion; blue money bags; a ninja; pink sakura; a maneki-neko) is
+// in this artwork.
+// Deliberately NOT imported, and every file still on disk as inventory: banner2.png
+// (mtime 10-08) and banner3.png (09-27) are previous brands' article art, and
+// slide3.png / slide4.png (09-29) are another brand's posters. An eager import IS an
+// emit, rendered or not, so importing any of them would ship a competitor's picture into
+// dist/ and turn verify-build red. There is therefore NO current-drop article
+// illustration this round, and a slide is never substituted for one — the playbook pins
+// slide* to ContentBoxSevenThree* blocks only, and these two are the round's full 2-block
+// budget.
 // banner1 and its mobile crop belong to MainLayout's own pinned globs and are never
-// referenced from a page; og.png is the same, MainLayout owns it, and logo.webp belongs to
-// the navbar/footer globs.
-// ⚠️ Both slides measure **540x600 PORTRAIT** on disk this round, so each picture carries
-// max-w-[540px] (the art is never upscaled past its own bitmap) and ⚠️ **neither alt may call
-// the image landscape or square**.
+// referenced from a page; og.png is the same, MainLayout owns it, and logo.webp belongs
+// to the navbar/footer globs.
+// ⚠️ Both slides measure **540x600 PORTRAIT** on disk this round (verified by reading
+// the PNG headers), so each picture carries max-w-[540px] (the art is never upscaled
+// past its own bitmap) and ⚠️ **neither alt may call the image landscape or square**.
 // The two `sizes` lists are NOT interchangeable and NEITHER is inherited: each is the
-// 3fr-column arithmetic from inside the variant that actually holds that picture, and the two
-// variants differ in max-w, gap and the image column's left padding. Tailwind's global
-// border-box means a max-w-* caps the box INCLUDING padding and border:
-//   §7 ContentBoxSevenThreePremium — max-w-7xl/1280 on the SECTION, px-4 (32), border 1x2
-//      (2), md:p-10 (80), gap-10 (40), image column md:border-l (1) + md:pl-10 (40) = 41:
-//        >= 1280px : (1280 - 32 - 2 - 80 - 40) x 0.3 - 41 = 1126 x 0.3 - 41 = 297px
-//        md..1279  : (100vw - 154) x 0.3 - 41             = calc(30vw - 87px)
+// 3fr-column arithmetic from inside the variant that actually holds that picture, and
+// the two variants differ in their max-w cap, padding and the image column's left
+// padding/border. Tailwind's global border-box means a max-w-* caps the box INCLUDING
+// padding and border:
+//   §4 ContentBoxSevenThreeCyberCut — max-w-7xl/1280 on the SECTION, px-4 (32), border
+//      1x2 (2), p-8 (64, no md step), gap-8 (32), image column md:border-l (1) +
+//      md:pl-8 (32) = 33:
+//        >= 1280px : (1280 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1150 x 0.3 - 33 = 312px
+//        md..1279  : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
 //        638..767  : 540px (one column at p-8 exceeds the bitmap, so it caps)
 //        < 638     : calc(100vw - 98px)
-//   §8 ContentBoxSevenThreeNeumorphism — max-w-[1400px] on the SECTION, px-4 (32), border
-//      1x2 (2), md:p-10 (80), gap-8 (32), image column md:border-l (1) + md:pl-8 (32) = 33:
-//        >= 1400px : (1400 - 32 - 2 - 80 - 32) x 0.3 - 33 = 1254 x 0.3 - 33 = 344px
-//        md..1399  : (100vw - 146) x 0.3 - 33             = calc(30vw - 77px)
+//   §5 ContentBoxSevenThree (base) — max-w-[1400px] on the SECTION, px-4 (32), border
+//      1x2 (2), md:p-10 (80), gap-8 (32), image column md:pl-6 (24) and NO border-l:
+//        >= 1400px : (1400 - 32 - 2 - 80 - 32) x 0.3 - 24 = 1254 x 0.3 - 24 = 352px
+//        md..1399  : (100vw - 146) x 0.3 - 24             = calc(30vw - 68px)
 //        638..767  : 540px
 //        < 638     : calc(100vw - 98px)
-// The two mobile branches agree only because both cards happen to sit at p-8 below md; the
-// numbers above md differ by 47px and must never be copied across.
+// The two mobile branches agree only because both cards happen to sit at p-8 below md;
+// the numbers above md differ by 40px and must never be copied across.
 // Neither picture is the LCP element — MainLayout's hero banner is — so both are
 // loading="lazy" fetchpriority="low" decoding="async" and neither ever takes
-// fetchpriority="high". formats/fallbackFormat stay at the house values, and quality is still
-// ONE number for both formats — tools/avif-quality-service.mjs rescales the AVIF side on its
-// own, so it must never be hand-tuned per format.
+// fetchpriority="high". formats/fallbackFormat stay at the house values, and quality is
+// still ONE number for both formats — tools/avif-quality-service.mjs rescales the AVIF
+// side on its own, so it must never be hand-tuned per format.
 //
-// quality={64}, not the usual 80, because both of this drop's slides are busy artwork with
-// heavy fine grain (gold embroidery, temple mosaic, scattered coins, loose tickets, sparkle
-// bokeh and 3-D gradient lettering), which is the case AVIF handles worst. At 80 that is
-// exactly the shape that comes out LARGER than its own WebP fallback at every emitted width,
-// and verify-build.mjs fails the build on precisely that. **The fix is always a LOWER
-// quality, never a higher one.** Same number on /promotion for the same slides.
+// quality={64}, not the usual 80, because both of this drop's slides are busy artwork
+// with heavy fine grain (a field of yellow blossom, scattered carrots and daisies, fur
+// and hair detail, a whole foreground of overlapping gold coins, and 3-D gradient Thai
+// lettering with specular highlights), which is the case AVIF handles worst. At 80 that
+// is exactly the shape that comes out LARGER than its own WebP fallback at every emitted
+// width, and verify-build.mjs fails the build on precisely that. **The fix is always a
+// LOWER quality, never a higher one.** Same number on /promotion for the same slides.
 //
-// VOCABULARY — brand-spec §6, the brief's own words only. ⚠️ This brand's axis is **an online
-// lottery site that gathers several lottery types in one place**, and the brief names exactly
-// four: หวยรัฐบาลไทย (referenced to สลากกินแบ่งรัฐบาล) · หวยลาวพัฒนา · หวยฮานอย ·
-// หวยหุ้นต่างประเทศ. **It is a lottery site and nothing else.**
-// ⚠️ **สล็อต / ไฮโล / ยิงปลา / บอล / ฟุตบอล / ราคาต่อรอง / บาคาร่า / คาสิโนสด / รูเล็ต /
-// เว็บตรง / ไม่ผ่านเอเย่นต์ / RTP / ค่ายเกม / สูตร / เทคนิค / ยูฟ่า / แทงบอล / ค่าน้ำ appear
-// NOWHERE in this brief and must not be added back, not even once** — and ระบบดูแลการเงิน /
-// ฝากถอนทุกช่องทาง / ปลอดภัยไม่ผ่านม้า / บัญชีม้า are มีทรัพย์168's words, มงกุฎ / หวยคิง
-// belong to หวยคิง (the original owner of the *Huay files the outgoing brand used), and
-// เศรษฐีพนันมือ1 belongs to ดวงเศรษฐี168.
-// Everything the copy says traces to src/assets/content.txt: หวยออนไลน์, ช่องทางเล่นหวย,
-// ระบบจริงจากเว็บแม่, บริษัทแม่, รอบเปิดรับ, รอบปิดรับ, รอบประกาศผล, อัตราจ่าย,
-// แหล่งอ้างอิงผลรางวัล, ตารางอัตราจ่าย, เลข 2 ตัว, เลข 3 ตัว, สองตัวบน, สองตัวล่าง,
-// สามตัวตรง, สามตัวโต๊ด, เลขอั้น, การจำกัดยอดรับ, วงเงินจ่ายสูงสุด, ฐานเงินเดิมพัน, บิลหวย,
-// หมายเลขรายการ, ฝากถอน, ธนาคาร, วอลเลท, ยอดขั้นต่ำ, ระยะเวลาดำเนินการ, ชื่อบัญชีปลายทาง,
-// บัญชีแอบอ้าง, คืนยอดเสีย 0.3%, แนะนำเพื่อน 0.8%, โบนัส, เครดิต, ยอดเสีย, รอบรับเครดิต,
-// ลิงก์แนะนำ, เชื่อมโยงบัญชี, ไม่จำกัดยูส, เจ้าหน้าที่, แอดมิน, 24ชม., เว็บไซต์ทางการ,
-// ประกาศล่าสุด, รหัสผ่าน, รหัส OTP, หลักฐานที่เชื่อถือได้.
+// VOCABULARY — brand-spec §1 and §6, the brief's own words only. ⚠️ This brand's axis is
+// **an online SLOT site that gathers licensed slot games from many studios in one
+// place**, and the brief names NOT ONE studio by name — it says ค่ายตรงมาแรง and
+// ค่ายต่าง ๆ and stops there.
+// ⚠️ **หวย / สลาก / ตรวจหวย / แนวทาง / เลขเด็ด / อัตราจ่าย 2 ตัว 3 ตัว / บาคาร่า /
+// คาสิโนสด / รูเล็ต / ยิงปลา / ไฮโล / บอล / ฟุตบอล / แทงบอล / ราคาต่อรอง / ค่าน้ำ /
+// เว็บตรง / ไม่ผ่านเอเย่นต์ / RTP / สูตร / เทคนิค appear NOWHERE in this brief and must
+// not be added back, not even once** — the outgoing brand was a pure lottery site, so
+// that word group is the highest-risk leftover of the whole round. (**ค่ายตรง** is the
+// brief's own word and is NOT the banned **เว็บตรง**.) Likewise ระบบดูแลการเงิน /
+// ฝากถอนทุกช่องทาง / ปลอดภัยไม่ผ่านม้า / บัญชีม้า are มีทรัพย์168's words, มงกุฎ /
+// หวยคิง belong to หวยคิง, and เศรษฐีพนันมือ1 / ผู้สอน / บทเรียน belong to
+// ดวงเศรษฐี168.
+// Everything the copy says traces to src/assets/content.txt: เกมสล็อตออนไลน์, ค่ายเกม,
+// ค่ายตรงมาแรง, ลิขสิทธิ์, สถานะลิขสิทธิ์, รูปแบบเกม, ฟีเจอร์พิเศษ, ตารางจ่ายรางวัล,
+// กติกาการเล่น, เงื่อนไขการเดิมพัน, ช่วงเดิมพันขั้นต่ำ, โปรโมชั่น, คืนยอดเสีย 0.3%,
+// แนะนำเพื่อน 0.8%, โบนัส, เครดิต, ยอดเสีย, รอบสรุปยอด, รอบคำนวณเครดิต, รอบจ่ายเครดิต,
+// ลิงก์แนะนำ, เชื่อมโยงบัญชี, สมัครสมาชิก, ลงทะเบียน, เข้าสู่ระบบ, คุณสมบัติผู้สมัคร,
+// การเปิดบัญชี, ข้อมูลส่วนบุคคล, รหัสผ่าน, รหัส OTP, รายการฝากถอน, เจ้าหน้าที่, แอดมิน,
+// 24ชม., เว็บไซต์ทางการ, ประกาศล่าสุด, หลักฐานทางการ, ปี 2026.
 // **This brief names NO game studio, NO bank, NO wallet provider, NO operator and NO
-// licence**, so no such name appears anywhere on this page, and nothing claims a licence
-// number, a regulator, a legal-entity name, a founding year, a member count, an RTP figure
-// or a deposit minimum. The only figures on the page are the brief's own: 2 ตัว 100 ·
-// 3 ตัว 1,000 · 0.3% · 0.8% · 24ชม.
+// licence number**, so no such name appears anywhere on this page, and nothing claims a
+// regulator, a legal-entity name, a founding year, a member count, an RTP figure or a
+// deposit minimum. The only figures on the page are the brief's own: 0.3% · 0.8% ·
+// 3 ขั้นตอน · 24ชม. · ปี 2026.
 // ⚠️ This brief ADVERTISES AND HEDGES IN THE SAME BREATH: its own headings say
-// จ่ายสูงไม่อั้น, ไม่มีประวัติโกง and รับได้ไม่จำกัดยูส while its own paragraphs answer that
-// ข้อมูลเกี่ยวกับบริษัทแม่และประวัติการให้บริการควรตรวจสอบจากหลักฐานที่เชื่อถือได้, that
-// ผลรางวัลไม่สามารถคาดการณ์หรือรับประกันได้, and that
-// เครดิตคืนยอดเสียไม่ได้รับประกันผลตอบแทนจากการเดิมพันครั้งต่อไป. Both halves ship exactly as
-// written: the advertising words appear ONLY inside the headings the brief itself wrote them
-// into and are never expanded into new claims of this page's own, and EVERY hedging clause
-// ships in full — they are brief content, not downbeat filler to be trimmed.
+// สล็อตแท้โปรเด็ด, รับได้ไม่จำกัด and ไม่จำกัดยูสต่อวัน while its own paragraphs answer
+// that ควรตรวจสอบสถานะลิขสิทธิ์ของเกมและข้อมูลผู้ให้บริการจากหลักฐานทางการก่อนใช้งาน,
+// that รายชื่อค่ายเกมและรายการที่เปิดให้บริการอาจเปลี่ยนแปลงได้, and that
+// เครดิตคืนยอดเสียไม่ได้รับประกันว่าจะได้รับเงินคืนจากทุกการเดิมพันหรือทำกำไรได้ในครั้ง
+// ต่อไป. Both halves ship exactly as written: the advertising words appear ONLY inside
+// the headings the brief itself wrote them into and are never expanded into new claims
+// of this page's own, and EVERY hedging clause ships in full — they are brief content,
+// not downbeat filler to be trimmed.
 //
-// ⚠️⚠️ NAME COLLISION, read before touching a string: this brand is **รวยแท้168** on
-// ruaythear168-vip.net. A DIFFERENT, unrelated client called **รวยแทร่168** owns
-// ruaythear168.net. The two Thai names differ by one character and the domains differ only by
-// the -vip suffix. Never reuse that brand's copy, palette or artwork language here. The name
-// is never typed on this page either way: it is interpolated from ${BRAND_NAME} so it can
-// never drift from brandProfile, including inside the two alts. No domain is written out
-// anywhere here and no URL is built with `+`.
+// The brand name is never typed on this page: it is interpolated from ${BRAND_NAME} so
+// it can never drift from brandProfile, including inside the two alts. No domain is
+// written out anywhere here and no URL is built with `+`.
 //
 // Title and description are the brief's own Title / Description lines (content.txt lines
-// 1-2) verbatim, with the brand name interpolated — nothing reworded, and the description is
-// NOT padded up to 150 characters, because verify-build deliberately skips its 150-character
-// floor on the home page.
-const pageTitle = `${BRAND_NAME} ช่องทางเล่นหวย รัฐบาลไทย ลาวพัฒนา ฮานอย ระบบจริง ไม่มีโกง`;
+// 1-2) verbatim, with the brand name interpolated — nothing reworded, and the
+// description is NOT padded up to 150 characters, because verify-build deliberately
+// skips its 150-character floor on the home page.
+const pageTitle = `${BRAND_NAME} สล็อตแท้โปรเด็ด รวมเกมสล็อต ค่ายตรงมาแรง อัปเดตก่อนสิ้นปี`;
 
-const pageDescription = `${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ รัฐบาลไทย ลาวพัฒนา ฮานอย หุ้นต่างประเทศ ระบบจริงจากเว็บแม่ ไม่มีประวัติโกง`;
+const pageDescription = `${BRAND_NAME} สล็อตแท้โปรเด็ด มัดรวมเกมสล็อตลิขสิทธิ์แท้ ค่ายตรงมาแรง พร้อมโปรโมชั่น เดิมพันออนไลน์ อัปเดตก่อนสิ้นปี2026`;
 
-// The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to H2-only.
-// Exactly four H3s, and all four are the brief's own H3 lines (content.txt lines 9, 11, 15
-// and 17) — two อัตราจ่าย sub-points under §3's H2, and two โปรโมชั่น sub-points under §6's.
-// ⚠️ There is NO sub-list anywhere in this brief, so FeatureHighlights is not used and no h3
-// is invented. Every component rendered here was grepped for `<h[1-6]` this round and none
-// emits a hardcoded heading — every heading tag on the page comes from a prop, i.e. from the
-// brief — so the printed inventory stays at exactly h1 x1, h2 x6, h3 x4.
+// The brief has a real H2 -> H3 nesting this round, so the page is NOT flattened to
+// H2-only. Exactly five H3s: two are the brief's own H3 lines (content.txt lines 9 and
+// 11 — the two promotion sub-sections under §3's H2) and three are the brief's own
+// ขั้นตอนที่ 1/2/3 sub-list under §6's H2, carried by FeatureHighlights, which is the one
+// sanctioned place a docx-driven page may add H3s. Every component rendered here was
+// grepped for `<h[1-6]` this round and none emits a hardcoded heading — every heading tag
+// on the page comes from a prop, i.e. from the brief — so the printed inventory stays at
+// exactly h1 x1, h2 x5, h3 x5.
 //
 // The checklist, in document order, and what carries each one:
-//    1 H1  ${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ ระบบจริงจากเว็บแม่ ไม่มีประวัติโกง
-//          ContentBoxPremium, brief paragraph on line 4
-//    2 H2  ${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ รัฐบาลไทย ลาวพัฒนา ฮานอย หุ้นต่างประเทศ
-//          ContentBox3ThreePremium, line 6 split across its three columns, no column labels
-//    3 H2  อัตราจ่าย หวย ${BRAND_NAME} จ่ายสูงไม่อั้น
-//          ContentBoxCyberCut, line 8
-//    4 H3  อัตราจ่าย หวย 2 ตัว 100          ContentBoxTwoPremium left column, line 10
-//    5 H3  อัตราจ่าย หวย 3 ตัว 1,000        ContentBoxTwoPremium right column, line 12
-//    6 H2  โปรโมชั่นแทงหวย ${BRAND_NAME} รับได้ไม่จำกัดยูส
-//          ContentBoxSpecial, line 14 run one paragraph half per column
-//    7 H3  โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน
-//          ContentBoxSevenThreePremium + slide2, line 16 left / picture right
-//    8 H3  โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด
-//          ContentBoxSevenThreeNeumorphism + slide1, line 18 left / picture right
-//    9 H2  ${BRAND_NAME} รองรับการฝากถอนวอลเลทและธนาคารชั้นนำ
-//          ContentBoxTwoNeumorphism, line 20 split into two halves
-//   10 H2  ช่องทางติดต่อแอดมิน ${BRAND_NAME} ตลอด 24ชม.
-//          ContentBox3Three (base), line 22 split across its three columns
-//   11 H2  คำถามที่พบบ่อยเกี่ยวกับ ${BRAND_NAME}
-//          Faq3 + explicit faqs prop, lines 24-29
-// Final inventory for this page: h1 x1, h2 x6, h3 x4 — brand-spec §7's target.
-//
-// ⚠️ §4 and §5 are the ONE place this page passes heading={true}. ContentBoxTwoPremium's
-// column labels default to <p> because on most briefs a two-column split is the page's own
-// wording — but here the two labels ARE the brief's own H3 lines, so they opt in and render
-// at as="h3". The box is passed NO `title` for the same reason: their parent H2 is §3's
-// ContentBoxCyberCut above, and a `title` here would add a seventh h2 the brief never wrote.
-// `label` names that <section> for assistive tech instead.
+//    1 H1  ${BRAND_NAME} สล็อตแท้โปรเด็ด มัดรวมเกมสล็อตลิขสิทธิ์แท้
+//          ContentBoxFloatingBadge, brief paragraph on line 4
+//    2 H2  ${BRAND_NAME} ค่ายตรงมาแรง พร้อมโปรโมชั่น เดิมพันออนไลน์ อัปเดตก่อนสิ้นปี 2026
+//          ContentBox3ThreeCyberCut, line 6 split across its three columns, no labels
+//    3 H2  โปรโมชั่น ${BRAND_NAME} รับได้ไม่จำกัด
+//          ContentBoxNeumorphism, line 8
+//    4 H3  โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน
+//          ContentBoxSevenThreeCyberCut + slide1, line 10 left / picture right
+//    5 H3  โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด
+//          ContentBoxSevenThree (base) + slide2, line 12 left / picture right
+//    6 H2  สมัครเล่นสล็อต ${BRAND_NAME} ได้ตลอด ไม่จำกัดยูสต่อวัน
+//          ContentBox (base), line 14, immediately followed by FeatureHighlights
+//   6a H3  ขั้นตอนที่ 1 เข้าสู่หน้าสมัครสมาชิก        FeatureHighlights item, line 16
+//   6b H3  ขั้นตอนที่ 2 กรอกข้อมูลและยืนยันการลงทะเบียน FeatureHighlights item, line 18
+//   6c H3  ขั้นตอนที่ 3 เข้าสู่ระบบและตรวจสอบรายละเอียดเกม FeatureHighlights item, line 20
+//    7 H2  ช่องทางติดต่อแอดมิน ${BRAND_NAME} ตลอด 24ชม.
+//          ContentBoxTwoFloatingBadge, line 22 split into two halves, no column labels
+//    8 H2  คำถามที่พบบ่อยเกี่ยวกับ ${BRAND_NAME}
+//          Faq4 + explicit faqs prop, lines 24-29
+// Final inventory for this page: h1 x1, h2 x5, h3 x5 — brand-spec §4's target.
 //
 // Both ContentBoxSevenThree* variants lay out md:grid-cols-[7fr_3fr] with the TEXT column
-// FIRST, so each picture goes in slot="right": the heading always lands on the prose, never
-// on the picture, and on a phone the single column reads heading, text, picture rather than
-// opening with an image. Neither is passed a `titleright`, so neither image column carries a
-// heading and each block emits exactly one. Both take the same prop name (`title`) for that
-// heading, unlike the Huay/CyberCut pair the previous brand used.
-// No block on this page uses a floating badge, so there is no -top-6 clearance arithmetic to
-// redo this round.
-// ContentBox3ThreePremium, ContentBoxSpecial, ContentBoxTwoNeumorphism and ContentBox3Three
-// are passed no column labels — the brief gives §2, §6, §9 and §10 one running paragraph each
-// with no sub-labels, and inventing a set here would be this page's own wording rather than
-// the docx's. Both 3Three boxes therefore emit no per-column tag at all, which is what stops
-// them adding six headings the brief never wrote, and their default icons stay unrendered.
+// FIRST, so each picture goes in slot="right": the heading always lands on the prose,
+// never on the picture, and on a phone the single column reads heading, text, picture
+// rather than opening with an image. Neither is passed a `titleright`, so neither image
+// column carries a heading and each block emits exactly one.
+// ContentBox3ThreeCyberCut is passed heading={false} AND no column labels at all, and
+// ContentBoxTwoFloatingBadge is passed no titleleft/titleright either — the brief gives
+// §2 and §7 one running paragraph each with no sub-labels, and inventing a set here would
+// be this page's own wording rather than the docx's. That is also what stops those two
+// boxes adding five headings the brief never wrote.
+// The two *FloatingBadge boxes on this page (§1 and §7) both had their -top-6 clearance
+// arithmetic redone inside their own files against THIS round's actual sentences; both
+// stay at pt-36 and neither moved.
 //
-// Every brief paragraph ships in full — nothing merged, nothing summarised. §2 runs one third
-// per column, §6 one half per column, §9 one half per column, §10 one third per column, and
-// NO slot receives more than one element, so the house rule's "one element per slot" holds
-// everywhere without a wrapper <div> being needed.
+// Every brief paragraph ships in full — nothing merged, nothing summarised. §2 runs one
+// third per column, §7 one half per column, and NO slot receives more than one element,
+// so the house rule's "one element per slot" holds everywhere without a wrapper <div>
+// being needed. FeatureHighlights is a SIBLING of §6's ContentBox, not a child of its
+// slot, for the same reason.
 //
-// Everything else on the page is chrome and emits no heading tag at any level: Announcement5,
-// LatestWinnersPremium and ReviewCardSumo2 render their titles as <p>/<span> with an
-// aria-label on the section, and the FAQ's questions live inside <summary>. The non-brief
-// widgets sit before section 1 (the ticker, then the winners feed) and after section 11 (the
-// review ledger, then Navfoot) — never spliced between two content sections.
+// Everything else on the page is chrome and emits no heading tag at any level:
+// AnnouncementPremium, LatestWinnersCyber and ReviewCardSumo render their titles as
+// <p>/<span> with an aria-label on the section, and the FAQ's questions live inside
+// <summary>. The non-brief widgets sit before section 1 (the ticker, then the winners
+// feed) and after section 8 (the review ledger, then Navfoot) — never spliced between two
+// content sections.
 
 // One array, used by both <Faq> and the FAQPage node — never the component's own defaults
-// (Faq3 deliberately ships an empty list, so a forgotten prop renders an empty accordion
-// rather than some previous brand's questions). The three pairs are the brief's own Q/A block
-// (content.txt lines 24-29), verbatim; only the "1." / "2." / "3." list markers are dropped,
-// since the accordion is the list.
+// (Faq4 deliberately ships an empty list, so a forgotten prop renders an empty accordion
+// rather than some previous brand's questions). The three pairs are the brief's own Q/A
+// block (content.txt lines 24-29), verbatim; only the "1." / "2." / "3." list markers are
+// dropped, since the accordion is the list.
 const faqs = [
   {
-    q: `${BRAND_NAME} มีหวยประเภทไหนให้เลือกบ้าง?`,
-    a: `ตามข้อมูลที่ระบุ ${BRAND_NAME} นำเสนอหวยรัฐบาลไทย ลาวพัฒนา ฮานอย และหวยหุ้นต่างประเทศ โดยควรตรวจสอบรายการที่เปิดให้บริการจริงและรอบปิดรับของแต่ละประเภทจากเว็บไซต์ก่อนทำรายการ`,
+    q: `${BRAND_NAME} มีเกมสล็อตจากหลายค่ายให้เลือกหรือไม่?`,
+    a: `ตามข้อมูลที่ระบุ ${BRAND_NAME} นำเสนอเกมสล็อตจากค่ายต่าง ๆ โดยผู้ใช้งานควรตรวจสอบรายชื่อค่ายเกมที่เปิดให้บริการจริง รวมถึงกติกาและเงื่อนไขของแต่ละเกมจากเว็บไซต์ก่อนใช้งาน`,
   },
   {
-    q: `อัตราจ่ายหวย 2 ตัว 100 และ 3 ตัว 1,000 ใช้ได้กับหวยทุกประเภทหรือไม่?`,
-    a: `ยังไม่สามารถยืนยันได้ว่าใช้อัตราเดียวกันกับหวยทุกประเภท ผู้ใช้งานควรตรวจสอบตารางอัตราจ่าย ฐานเงินเดิมพัน และข้อจำกัดของแต่ละรายการจากข้อมูลล่าสุดก่อนยืนยันบิล`,
+    q: `โปรโมชั่นคืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% รับได้พร้อมกันหรือไม่?`,
+    a: `ควรตรวจสอบข้อกำหนดของโปรโมชั่นแต่ละรายการจากประกาศล่าสุด เนื่องจากบางโปรโมชั่นอาจมีข้อจำกัดในการรับสิทธิ์ร่วมกัน รวมถึงรอบคำนวณยอดและเงื่อนไขการใช้เครดิตที่แตกต่างกัน`,
   },
   {
-    q: `หากฝากเงินแล้วไม่เข้าระบบหรือมีปัญหาเกี่ยวกับบิลหวย ควรทำอย่างไร?`,
-    a: `ควรตรวจสอบสถานะรายการและเก็บหลักฐานที่เกี่ยวข้อง จากนั้นติดต่อเจ้าหน้าที่ผ่านช่องทางทางการของ${BRAND_NAME} หากสงสัยว่ามีการโอนเงินไปยังบัญชีแอบอ้าง ควรแจ้งธนาคารหรือผู้ให้บริการชำระเงินโดยเร็ว`,
+    q: `หากต้องการสอบถามโปรโมชั่นก่อนสิ้นปี 2026 ติดต่อได้ที่ไหน?`,
+    a: `สามารถตรวจสอบช่องทางติดต่อเจ้าหน้าที่จากหน้าเว็บไซต์ทางการของ${BRAND_NAME} เพื่อสอบถามรายการโปรโมชั่นที่เปิดให้บริการและเงื่อนไขล่าสุด โดยไม่ควรเปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่น`,
   },
 ];
 
-// Every <strong> below wraps a whole space-delimited chunk of the brief's own sentence. Thai
-// has no inter-word space, so a highlight that starts or ends mid-word lets the formatter
-// break the line inside the tag and render a space that splits the word — the copy must read
-// identically with the tags removed. No two <strong> elements are adjacent either: every pair
-// is separated by at least one run of plain text, so the whitespace between them can never
-// collapse into a missing space.
-// One highlight colour only: #8f0505 (brand-spec §2 reserves the deep red for exactly this
-// job at 9.6:1 on a white card), against the inherited body colour #4a0f0f (= BRAND_TEXT).
-// ⚠️ The lead crimson #c30303 is NOT available for this — §2 confines it to headings, fills,
-// borders and auras — the scarlet #e81313 may never carry text at all, and the antique gold
-// is not available anywhere on this page's light cards. The paragraphs below carry no colour
-// class of their own: every ContentBox* card in this mix already sets
-// `text-left text-base leading-relaxed text-[#4a0f0f]` on the element holding the slot, so
-// the prose inherits it and no page-level override can drift from the card. No paragraph
-// carries mx-auto or max-w-* either — the cards cap their own width, and the only max-w-* on
-// the page are the two capping the slides, which are images and not prose. No slot's copy
-// names a colour.
+// The brief's own three registration steps (content.txt lines 15-20), title = the
+// ขั้นตอน line, description = the paragraph directly under it. The accents alternate
+// lead cherry red / second burnt copper down the list; the icons track what each step
+// actually asks the visitor to do — check the address and open the signup page, fill the
+// form in and confirm, then log in and read the game details.
+const registrationSteps = [
+  {
+    icon: "🔎",
+    title: "ขั้นตอนที่ 1 เข้าสู่หน้าสมัครสมาชิก",
+    description: "ตรวจสอบที่อยู่เว็บไซต์ให้ถูกต้อง จากนั้นเลือกเมนูสมัครสมาชิกและอ่านรายละเอียดเกี่ยวกับเงื่อนไขการเปิดบัญชี รวมถึงข้อกำหนดการใช้บริการก่อนดำเนินการ",
+    accent: "red" as const,
+  },
+  {
+    icon: "📝",
+    title: "ขั้นตอนที่ 2 กรอกข้อมูลและยืนยันการลงทะเบียน",
+    description: "กรอกข้อมูลตามที่ระบบกำหนด ตรวจสอบความถูกต้องก่อนยืนยัน และตั้งรหัสผ่านที่ปลอดภัย ไม่ควรใช้ข้อมูลของบุคคลอื่นหรือเปิดเผยรหัส OTP ให้ใครทราบ",
+    accent: "copper" as const,
+  },
+  {
+    icon: "🎰",
+    title: "ขั้นตอนที่ 3 เข้าสู่ระบบและตรวจสอบรายละเอียดเกม",
+    description:
+      "หลังลงทะเบียนเรียบร้อย สามารถศึกษารายชื่อค่ายเกมสล็อต กติกาการเล่น ช่วงเดิมพันขั้นต่ำ และรายละเอียดโปรโมชั่นที่เปิดให้บริการ หากพบข้อสงสัยควรติดต่อเจ้าหน้าที่ผ่านช่องทางทางการก่อนทำรายการ",
+    accent: "red" as const,
+  },
+];
 
-// No breadcrumb: this is the homepage, so a trail from the root to itself would be a single
-// self-referential crumb. Every URL in the graph is derived by pageGraph from `site:` — no
-// domain is typed out in this file, no URL is built with `+`, and no Review / AggregateRating
-// / sameAs / address / email node is passed. `description` is the exact same string MainLayout
-// gets, and `faqs` is the exact same array <Faq> gets.
+// Every <strong> below wraps a whole space-delimited chunk of the brief's own sentence.
+// Thai has no inter-word space, so a highlight that starts or ends mid-word lets the
+// formatter break the line inside the tag and render a space that splits the word — the
+// copy must read identically with the tags removed. No two <strong> elements are adjacent
+// either: every pair is separated by at least one run of plain text, so the whitespace
+// between them can never collapse into a missing space.
+// One highlight colour only: #9b0a0c (brand-spec §2 reserves the deep red for exactly
+// this job at 8.6:1 on a white card), against the inherited body colour #401107
+// (= BRAND_TEXT).
+// ⚠️ The lead cherry #eb0305 is NOT available for this — §2 confines it to headings,
+// fills, borders and auras — the bright red #ff4446 may never carry text at all, and pear
+// gold is not available anywhere on this page's light cards. The paragraphs below carry no
+// colour class of their own: every ContentBox* card in this mix already sets
+// `text-left text-base leading-relaxed text-[#401107]` on the element holding the slot, so
+// the prose inherits it and no page-level override can drift from the card. No paragraph
+// carries mx-auto or max-w-* either — the cards cap their own width, and the only max-w-*
+// on the page are the two capping the slides, which are images and not prose. No slot's
+// copy names a colour.
+
+// No breadcrumb: this is the homepage, so a trail from the root to itself would be a
+// single self-referential crumb. Every URL in the graph is derived by pageGraph from
+// `site:` — no domain is typed out in this file, no URL is built with `+`, and no Review /
+// AggregateRating / sameAs / address / email node is passed. `description` is the exact
+// same string MainLayout gets, and `faqs` is the exact same array <Faq> gets.
 const graph = pageGraph(Astro, {
   name: pageTitle,
   description: pageDescription,
@@ -349,146 +395,110 @@ const graph = pageGraph(Astro, {
 
   <LatestWinners />
 
-  <ContentBoxPremium as="h1" title={`${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ ระบบจริงจากเว็บแม่ ไม่มีประวัติโกง`}>
+  <ContentBoxFloatingBadge as="h1" title={`${BRAND_NAME} สล็อตแท้โปรเด็ด มัดรวมเกมสล็อตลิขสิทธิ์แท้`}>
     <p>
-      {BRAND_NAME} นำเสนอช่องทางหวยออนไลน์ที่รวบรวมข้อมูลหวยหลายประเภทไว้ในเว็บไซต์เดียว
-      <strong class="text-[#8f0505]">ทั้งหวยรัฐบาลไทย ลาวพัฒนา ฮานอย และหวยหุ้นต่างประเทศ</strong>
-      พร้อมรายละเอียดอัตราจ่าย โปรโมชั่น และระบบฝากถอนสำหรับสมาชิก ผู้ใช้งานสามารถตรวจสอบรอบเปิดรับและเงื่อนไขของแต่ละรายการก่อนทำธุรกรรม
-      <strong class="text-[#8f0505]">ส่วนข้อมูลเกี่ยวกับบริษัทแม่และประวัติการให้บริการควรตรวจสอบจากหลักฐานที่เชื่อถือได้</strong>
+      {BRAND_NAME} นำเสนอเกมสล็อตออนไลน์หลากหลายรูปแบบ
+      <strong class="text-[#9b0a0c]">พร้อมรวบรวมข้อมูลค่ายเกม โปรโมชั่น และบริการสมาชิกไว้ในเว็บไซต์เดียว</strong>
+      ผู้ใช้งานสามารถเลือกศึกษารายละเอียดเกมสล็อตที่สนใจ ตรวจสอบกติกาและเงื่อนไขการเดิมพัน รวมถึงติดตามข้อมูลโปรโมชั่นที่ประกาศก่อนสิ้นปี 2026 ได้สะดวก
+      <strong class="text-[#9b0a0c]">โดยควรตรวจสอบสถานะลิขสิทธิ์ของเกมและข้อมูลผู้ให้บริการจากหลักฐานทางการก่อนใช้งาน</strong>
     </p>
-  </ContentBoxPremium>
+  </ContentBoxFloatingBadge>
 
-  <ContentBox3ThreePremium as="h2" title={`${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ รัฐบาลไทย ลาวพัฒนา ฮานอย หุ้นต่างประเทศ`}>
+  <ContentBox3ThreeCyberCut
+    as="h2"
+    heading={false}
+    title={`${BRAND_NAME} ค่ายตรงมาแรง พร้อมโปรโมชั่น เดิมพันออนไลน์ อัปเดตก่อนสิ้นปี 2026`}>
     <p slot="left">
-      {BRAND_NAME} รวบรวมข้อมูลหวยออนไลน์หลายประเภทเพื่อให้ผู้ใช้งานศึกษารายละเอียดได้จากช่องทางเดียว
+      {BRAND_NAME} นำเสนอข้อมูลเกมสล็อตจากค่ายต่าง ๆ
+      <strong class="text-[#9b0a0c]">สำหรับผู้ที่ต้องการติดตามเกมและโปรโมชั่นในช่วงปลายปี 2026</strong>
     </p>
     <p slot="center">
-      ไม่ว่าจะเป็น
-      <strong class="text-[#8f0505]">หวยรัฐบาลไทยที่อ้างอิงผลสลากกินแบ่งรัฐบาล หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศ</strong>
-      ที่มีรอบประกาศผลแตกต่างกัน
+      โดยผู้ใช้งานสามารถศึกษารูปแบบเกม ฟีเจอร์พิเศษ ตารางจ่ายรางวัล และเงื่อนไขการเดิมพันก่อนเลือกใช้งานได้
+      <strong class="text-[#9b0a0c]">นอกจากนี้ยังมีข้อมูลโปรโมชั่นสำหรับสมาชิกให้ตรวจสอบตามประกาศของเว็บไซต์</strong>
     </p>
     <p slot="right">
-      ผู้สนใจควรตรวจสอบวันเวลาเปิดรับ อัตราจ่าย แหล่งอ้างอิงผลรางวัล และข้อกำหนดของแต่ละประเภทก่อนทำรายการ
-      <strong class="text-[#8f0505]">เพื่อป้องกันความเข้าใจคลาดเคลื่อนเกี่ยวกับรอบหวยและผลการตรวจรางวัล</strong>
+      ทั้งนี้ รายชื่อค่ายเกมและรายการที่เปิดให้บริการอาจเปลี่ยนแปลงได้ จึงควรตรวจสอบข้อมูลล่าสุด
+      <strong class="text-[#9b0a0c]">รวมถึงหลักฐานการได้รับอนุญาตจากเจ้าของเกมก่อนตัดสินใจ</strong>
     </p>
-  </ContentBox3ThreePremium>
+  </ContentBox3ThreeCyberCut>
 
-  <ContentBoxCyberCut as="h2" title={`อัตราจ่าย หวย ${BRAND_NAME} จ่ายสูงไม่อั้น`}>
+  <ContentBoxNeumorphism as="h2" title={`โปรโมชั่น ${BRAND_NAME} รับได้ไม่จำกัด`}>
     <p>
-      {BRAND_NAME} นำเสนอข้อมูลอัตราจ่ายหวยสำหรับผู้ที่ต้องการศึกษารายละเอียดก่อนทำรายการ
-      <strong class="text-[#8f0505]">โดยมีตัวอย่างอัตราจ่ายเลข 2 ตัว 100 และเลข 3 ตัว 1,000</strong>
-      ตามที่ระบุไว้ในข้อมูลโปรโมชั่น อย่างไรก็ตาม อัตราจ่ายจริงอาจขึ้นอยู่กับประเภทหวย รูปแบบการเดิมพัน และเงื่อนไขของแต่ละรอบ
-      <strong class="text-[#8f0505]">ผู้ใช้งานควรตรวจสอบตารางอัตราจ่ายล่าสุด รวมถึงข้อจำกัดยอดรับและวงเงินจ่ายสูงสุดก่อนยืนยันรายการทุกครั้ง</strong>
+      {BRAND_NAME} นำเสนอโปรโมชั่นสำหรับสมาชิกที่สนใจสิทธิพิเศษจากการใช้บริการเกมสล็อตออนไลน์
+      <strong class="text-[#9b0a0c]">โดยมีรายการคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8% เป็นโปรโมชั่นหลักที่ระบุไว้</strong>
+      แต่ละรายการอาจมีเงื่อนไขเกี่ยวกับยอดเดิมพัน รอบคำนวณเครดิต และวิธีรับสิทธิ์แตกต่างกัน ก่อนเข้าร่วมควรตรวจสอบรายละเอียดจากประกาศล่าสุด
+      <strong class="text-[#9b0a0c]">รวมถึงข้อจำกัดในการใช้โบนัสและการรับโปรโมชั่นร่วมกัน เพื่อให้เข้าใจสิทธิ์ที่ได้รับตามเงื่อนไขจริง</strong>
     </p>
-  </ContentBoxCyberCut>
+  </ContentBoxNeumorphism>
 
-  <ContentBoxTwoPremium
-    as="h3"
-    heading={true}
-    label={`อัตราจ่าย หวย ${BRAND_NAME}`}
-    titleleft="อัตราจ่าย หวย 2 ตัว 100"
-    titleright="อัตราจ่าย หวย 3 ตัว 1,000">
-    <p slot="left">
-      อัตราจ่ายหวย 2 ตัว 100 เป็นรูปแบบที่ระบุไว้สำหรับการเดิมพันเลขสองหลัก
-      <strong class="text-[#8f0505]">โดยผู้ใช้งานควรตรวจสอบก่อนว่าอัตราดังกล่าวคิดต่อเงินเดิมพันจำนวนเท่าใด และครอบคลุมรายการสองตัวบนหรือสองตัวล่างหรือไม่</strong>
-      เนื่องจากหวยแต่ละประเภทอาจมีหลักเกณฑ์แตกต่างกัน นอกจากนี้ควรอ่านเงื่อนไขเกี่ยวกับเลขอั้น การจำกัดยอดรับ และการคำนวณเงินรางวัลจากตารางทางการก่อนทำรายการ
-      <strong class="text-[#8f0505]">เพื่อให้เข้าใจอัตราจ่ายตามข้อกำหนดจริง</strong>
-    </p>
-    <p slot="right">
-      อัตราจ่ายหวย 3 ตัว 1,000 เป็นข้อมูลสำหรับผู้ที่ต้องการตรวจสอบรูปแบบการจ่ายรางวัลเลขสามหลัก
-      <strong class="text-[#8f0505]">โดยควรศึกษาว่าอัตราดังกล่าวใช้กับสามตัวตรง สามตัวโต๊ด หรือรายการประเภทใด</strong>
-      รวมถึงตรวจสอบฐานเงินเดิมพันที่ใช้คำนวณและวงเงินจ่ายสูงสุดของแต่ละรอบ เพราะเงื่อนไขอาจแตกต่างกันตามประเภทหวย ก่อนยืนยันรายการควรตรวจสอบหมายเลขที่เลือกและอัตราจ่ายให้ถูกต้อง
-      <strong class="text-[#8f0505]">เนื่องจากผลรางวัลไม่สามารถคาดการณ์หรือรับประกันได้</strong>
-    </p>
-  </ContentBoxTwoPremium>
-
-  <ContentBoxSpecial as="h2" title={`โปรโมชั่นแทงหวย ${BRAND_NAME} รับได้ไม่จำกัดยูส`} iconleft="🎁" iconright="📋">
-    <p slot="left">
-      {BRAND_NAME} นำเสนอข้อมูลโปรโมชั่นสำหรับสมาชิกที่สนใจสิทธิพิเศษจากการใช้บริการหวยออนไลน์
-      <strong class="text-[#8f0505]">โดยมีรายการคืนยอดเสีย 0.3% และโบนัสแนะนำเพื่อน 0.8%</strong>
-      ซึ่งแต่ละโปรโมชั่นอาจมีข้อกำหนดเกี่ยวกับประเภทหวย ยอดที่นำมาคำนวณ รอบรับเครดิต และจำนวนบัญชีที่เข้าร่วมแตกต่างกัน
-    </p>
-    <p slot="right">
-      <strong class="text-[#8f0505]">ผู้ใช้งานควรอ่านเงื่อนไขล่าสุดก่อนรับสิทธิ์ รวมถึงตรวจสอบว่าโปรโมชั่นสามารถใช้ร่วมกันได้หรือไม่</strong>
-      เพื่อให้เข้าใจรายละเอียดอย่างครบถ้วน
-    </p>
-  </ContentBoxSpecial>
-
-  <ContentBoxSevenThreePremium as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน">
+  <ContentBoxSevenThreeCyberCut as="h3" title="โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสทุกวัน">
     <p slot="left">
       โปรโมชั่นคืนยอดเสีย 0.3% เป็นรายการที่ระบุการคืนเครดิตจากยอดเสียตามเงื่อนไขในแต่ละวัน
-      <strong class="text-[#8f0505]">สมาชิกควรตรวจสอบว่าหวยรัฐบาลไทย ลาวพัฒนา ฮานอย หรือหวยหุ้นต่างประเทศประเภทใดเข้าร่วมรายการ</strong>
-      รวมถึงศึกษารอบคำนวณยอดและวิธีรับเครดิตให้ชัดเจน เนื่องจากหวยแต่ละประเภทมีรอบประกาศผลไม่เหมือนกัน ก่อนเข้าร่วมควรอ่านข้อกำหนดการใช้โบนัสและการถอนเงินให้ครบถ้วน
-      <strong class="text-[#8f0505]">ทั้งนี้ เครดิตคืนยอดเสียไม่ได้รับประกันผลตอบแทนจากการเดิมพันครั้งต่อไป</strong>
+      <strong class="text-[#9b0a0c]">สมาชิกควรตรวจสอบว่าเกมสล็อตประเภทใดเข้าร่วมรายการ มีรอบสรุปยอดเวลาใด และเครดิตจะเข้าสู่บัญชีโดยอัตโนมัติหรือต้องกดรับด้วยตนเอง</strong>
+      รวมถึงศึกษาข้อกำหนดเกี่ยวกับการนำเครดิตไปใช้และการถอนเงินก่อนเข้าร่วม หากมีข้อสงสัยสามารถสอบถามเจ้าหน้าที่เพื่อยืนยันรายละเอียดล่าสุดได้
+      <strong class="text-[#9b0a0c]">ทั้งนี้ เครดิตคืนยอดเสียไม่ได้รับประกันว่าจะได้รับเงินคืนจากทุกการเดิมพันหรือทำกำไรได้ในครั้งต่อไป</strong>
     </p>
     <Picture
       slot="right"
       src={promoCashback}
       loading="lazy"
       fetchpriority="low"
-      widths={[297, 480, 540]}
-      sizes="(max-width: 637px) calc(100vw - 98px), (max-width: 767px) 540px, (max-width: 1279px) calc(30vw - 87px), 297px"
+      widths={[312, 480, 540]}
+      sizes="(max-width: 637px) calc(100vw - 98px), (max-width: 767px) 540px, (max-width: 1279px) calc(30vw - 72px), 312px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={64}
-      alt={`โปสเตอร์โปรโมชั่นของ ${BRAND_NAME} เป็นภาพแนวตั้ง ฉากวัดไทยริมน้ำกลางแดด มีเจดีย์และยอดปรางค์ทองหลายองค์กับต้นไม้เขียวเป็นฉากหลัง ฝั่งซ้ายเป็นชายหนุ่มผมสั้นสีดำ สวมชุดไทยลายปักทองพร้อมสร้อยและกำไลทอง มือถือใบสลากคลี่เป็นพัด ฝั่งขวาเป็นหญิงสาวผมยาวสีดำทัดดอกไม้ขาว สวมชุดไทยสไบลายทองพร้อมต่างหูและสร้อยทอง มือถือใบสลากคลี่เป็นพัดเช่นกัน ด้านบนเป็นโลโก้ ${BRAND_NAME} กลางภาพเป็นคำว่า โปรโมชั่น ตัวอักษรไทยสามมิติสีทองตัวโตบนริบบิ้นแดง ใต้ลงมาเป็นแผ่นป้ายพื้นดำขอบทองเขียนว่า คืนยอดเสีย ต่อท้ายด้วยเลข 0.3% ตัวโต ด้านล่างมีเหรียญทอง ดอกบัวขาว ใบสลาก และลูกบอลหวยขาว-ดำเลข 6 กับ 3`}
-      class="mx-auto h-auto w-full max-w-[540px] rounded-2xl border border-[#c30303]/60 shadow-[0_10px_28px_rgba(74,15,15,0.2)]"
+      alt={`โปสเตอร์โปรโมชั่นของ ${BRAND_NAME} เป็นภาพแนวตั้ง ฉากฟาร์มการ์ตูนกลางแจ้งแดดจัด มีกังหันลมไม้อยู่มุมซ้ายบน ยุ้งไม้สีแดงหลังคาเทาอยู่มุมขวาบน รั้วไม้และทุ่งดอกไม้สีเหลืองเป็นฉากหลัง ท้องฟ้าสีฟ้ามีเมฆขาว ด้านบนสุดเป็นโลโก้กระต่ายขนขาวข้างคำว่า ${BRAND_NAME} ตัวอักษรไทยสามมิติสีแดง ฝั่งซ้ายเป็นเด็กชายผมดำสวมหมวกฟาง เสื้อลายสก๊อตแดงกับเอี๊ยมยีนส์ ยกนิ้วโป้งและขยิบตา ฝั่งขวาเป็นเด็กหญิงผมดำผูกโบว์แดงใบใหญ่ ชุดขาว-แดง ยิ้มและยกนิ้วโป้ง ตรงกลางเป็นกระต่ายขนขาวผูกผ้าพันคอแดงยกนิ้วโป้ง ริมซ้ายมีหัววัวขาว-ดำ ริมขวามีหมูสีชมพู กลางภาพเป็นป้ายไม้เขียนคำว่า โปรโมชั่น ด้วยตัวอักษรไทยสามมิติสีทองตัวโต ใต้ลงมาเป็นแถบไม้เขียนว่า คืนยอดเสีย ต่อท้ายด้วยเลข 0.3% ตัวโต ด้านล่างมีเหรียญทองกองอยู่เต็มพื้น พร้อมแครอท ดอกเดซี่ขาว และถังไม้ใส่เหรียญ`}
+      class="mx-auto h-auto w-full max-w-[540px] rounded-2xl border border-[#eb0305]/60 shadow-[0_10px_28px_rgba(64,17,7,0.2)]"
     />
-  </ContentBoxSevenThreePremium>
+  </ContentBoxSevenThreeCyberCut>
 
-  <ContentBoxSevenThreeNeumorphism as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด">
+  <ContentBoxSevenThree as="h3" title="โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด">
     <p slot="left">
       โปรโมชั่นแนะนำเพื่อนโบนัส 0.8% เป็นรายการที่ระบุสิทธิ์สำหรับสมาชิกที่แนะนำผู้ใช้งานรายใหม่
-      <strong class="text-[#8f0505]">โดยควรตรวจสอบวิธีรับลิงก์แนะนำ ขั้นตอนเชื่อมโยงบัญชี และยอดที่ใช้คำนวณโบนัสให้ครบถ้วน</strong>
-      แม้โปรโมชั่นจะระบุว่าไม่จำกัด แต่ควรยืนยันรายละเอียดเกี่ยวกับจำนวนบัญชีที่เข้าร่วม รอบจ่ายเครดิต และเงื่อนไขการใช้โบนัสจากประกาศล่าสุด
-      <strong class="text-[#8f0505]">เพื่อให้ทราบหลักเกณฑ์การรับสิทธิ์อย่างถูกต้องและไม่เกิดความคลาดเคลื่อนเกี่ยวกับยอดโบนัส</strong>
+      <strong class="text-[#9b0a0c]">โดยควรตรวจสอบขั้นตอนการรับลิงก์แนะนำ วิธีเชื่อมโยงบัญชี และยอดที่ใช้คำนวณโบนัสให้ครบถ้วน</strong>
+      แม้โปรโมชั่นจะระบุว่าไม่จำกัด แต่ควรยืนยันข้อกำหนดเกี่ยวกับจำนวนบัญชีที่เข้าร่วม รอบจ่ายเครดิต และเงื่อนไขการใช้โบนัสจากประกาศล่าสุด
+      <strong class="text-[#9b0a0c]">เพื่อให้เข้าใจหลักเกณฑ์การรับสิทธิ์อย่างถูกต้อง และหลีกเลี่ยงความคลาดเคลื่อนเกี่ยวกับยอดเครดิตที่ได้รับ</strong>
     </p>
     <Picture
       slot="right"
       src={promoReferral}
       loading="lazy"
       fetchpriority="low"
-      widths={[344, 480, 540]}
-      sizes="(max-width: 637px) calc(100vw - 98px), (max-width: 767px) 540px, (max-width: 1399px) calc(30vw - 77px), 344px"
+      widths={[352, 480, 540]}
+      sizes="(max-width: 637px) calc(100vw - 98px), (max-width: 767px) 540px, (max-width: 1399px) calc(30vw - 68px), 352px"
       decoding="async"
       formats={["avif", "webp"]}
       fallbackFormat="webp"
       quality={64}
-      alt={`โปสเตอร์โปรโมชั่นของ ${BRAND_NAME} เป็นภาพแนวตั้ง ฉากวัดไทยกลางแดด มีเจดีย์และยอดปรางค์ทองหลายองค์กับต้นไม้เขียวเป็นฉากหลัง ฝั่งซ้ายเป็นชายหนุ่มผมสั้นสีดำ สวมชุดไทยลายปักทองพร้อมสร้อยและกำไลทอง ฝั่งขวาเป็นหญิงสาวผมยาวสีดำทัดดอกไม้ขาว สวมชุดไทยสไบลายทองพร้อมต่างหูและสร้อยทอง ทั้งสองคนชี้มือมาทางผู้ชม ด้านบนเป็นโลโก้ ${BRAND_NAME} กลางภาพเป็นคำว่า โปรโมชั่น ตัวอักษรไทยสามมิติสีทองตัวโตบนริบบิ้นแดง ใต้ลงมาเป็นแผ่นป้ายพื้นดำขอบทองเขียนว่า แนะนำเพื่อน ต่อท้ายด้วยเลข 0.8% ตัวโต ด้านล่างมีดอกบัวขาว เหรียญทอง ใบสลาก และลูกบอลหวยขาว-ดำเลข 6 กับ 8`}
-      class="mx-auto h-auto w-full max-w-[540px] rounded-2xl border border-[#c30303]/60 shadow-[0_10px_28px_rgba(74,15,15,0.2)]"
+      alt={`โปสเตอร์โปรโมชั่นของ ${BRAND_NAME} เป็นภาพแนวตั้ง ฉากฟาร์มการ์ตูนเดียวกันกลางแดด มีกังหันลมไม้อยู่มุมซ้ายบน ยุ้งไม้สีแดงอยู่มุมขวาบน รั้วไม้และต้นไม้เขียวเป็นฉากหลัง ท้องฟ้าสีฟ้ามีเมฆขาว ด้านบนสุดเป็นโลโก้กระต่ายขนขาวข้างคำว่า ${BRAND_NAME} ตัวอักษรไทยสามมิติสีแดง ฝั่งซ้ายเป็นเด็กชายผมดำสวมหมวกฟาง เสื้อลายสก๊อตแดงกับเอี๊ยมยีนส์ ยกนิ้วโป้ง ฝั่งขวาเป็นเด็กหญิงผมดำผูกโบว์แดงใบใหญ่ ชุดขาว-แดง ยกนิ้วโป้งเช่นกัน ตรงกลางเป็นกระต่ายขนขาวผูกผ้าพันคอแดงยกนิ้วโป้ง ริมซ้ายมีวัวขาว-ดำกับลูกเจี๊ยบสีเหลืองและตะกร้าแอปเปิลแดง ริมขวามีหมูสีชมพู กลางภาพเป็นป้ายไม้เขียนคำว่า โปรโมชั่น ด้วยตัวอักษรไทยสามมิติสีทองตัวโต ใต้ลงมาเป็นแถบไม้เขียนว่า แนะนำเพื่อน ต่อท้ายด้วยเลข 0.8% ตัวโต ด้านล่างมีเหรียญทองกองอยู่เต็มพื้น พร้อมแครอท ดอกเดซี่ขาว และถังไม้ใส่เหรียญ`}
+      class="mx-auto h-auto w-full max-w-[540px] rounded-2xl border border-[#eb0305]/60 shadow-[0_10px_28px_rgba(64,17,7,0.2)]"
     />
-  </ContentBoxSevenThreeNeumorphism>
+  </ContentBoxSevenThree>
 
-  <ContentBoxTwoNeumorphism as="h2" title={`${BRAND_NAME} รองรับการฝากถอนวอลเลทและธนาคารชั้นนำ`}>
+  <ContentBox as="h2" title={`สมัครเล่นสล็อต ${BRAND_NAME} ได้ตลอด ไม่จำกัดยูสต่อวัน`}>
+    <p>
+      {BRAND_NAME} มีช่องทางสำหรับผู้ที่ต้องการศึกษาวิธีลงทะเบียนสมาชิกและเข้าสู่ระบบเกมสล็อตออนไลน์
+      <strong class="text-[#9b0a0c]">โดยสามารถตรวจสอบขั้นตอนการสมัครจากเว็บไซต์ทางการ</strong>
+      ก่อนลงทะเบียนควรอ่านข้อกำหนดเกี่ยวกับคุณสมบัติผู้สมัคร การเปิดบัญชี และการจัดเก็บข้อมูลส่วนบุคคลให้ครบถ้วน
+      <strong class="text-[#9b0a0c]">ส่วนจำนวนบัญชีที่เปิดรับต่อวันและข้อจำกัดการสมัครควรตรวจสอบจากประกาศของผู้ให้บริการโดยตรง</strong>
+    </p>
+  </ContentBox>
+
+  <FeatureHighlights items={registrationSteps} />
+
+  <ContentBoxTwoFloatingBadge as="h2" title={`ช่องทางติดต่อแอดมิน ${BRAND_NAME} ตลอด 24ชม.`}>
     <p slot="left">
-      {BRAND_NAME} ระบุช่องทางฝากถอนผ่านธนาคารและวอลเลท เพื่อให้สมาชิกตรวจสอบวิธีทำรายการตามบริการที่เปิดใช้งานจริง
-      <strong class="text-[#8f0505]">ก่อนฝากเงินควรตรวจสอบชื่อบัญชีปลายทางให้ตรงกับข้อมูลผู้ให้บริการที่ยืนยันได้</strong>
-      รวมถึงศึกษายอดขั้นต่ำ ระยะเวลาดำเนินการ และเงื่อนไขการถอนเงินให้ครบถ้วน
+      {BRAND_NAME} ระบุช่องทางติดต่อเจ้าหน้าที่สำหรับผู้ใช้งานที่ต้องการสอบถามเกี่ยวกับการสมัครสมาชิก การเข้าสู่ระบบ รายการฝากถอน และโปรโมชั่นต่าง ๆ
+      <strong class="text-[#9b0a0c]">โดยควรตรวจสอบช่องทางติดต่อจากเว็บไซต์ทางการก่อนส่งข้อความ เพื่อหลีกเลี่ยงบัญชีหรือบุคคลที่แอบอ้างชื่อบริการ</strong>
     </p>
     <p slot="right">
-      หากพบธุรกรรมล่าช้าหรือข้อมูลบัญชีผิดปกติ
-      <strong class="text-[#8f0505]">ควรเก็บหลักฐานการทำรายการและติดต่อผู้ให้บริการชำระเงินโดยเร็ว</strong>
-      ไม่ควรโอนเงินซ้ำโดยไม่ได้ตรวจสอบสถานะรายการเดิม
+      หากพบปัญหาในการทำรายการ ควรเตรียมข้อมูลและหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ พร้อมแจ้งรายละเอียดให้ชัดเจน
+      <strong class="text-[#9b0a0c]">โดยไม่เปิดเผยรหัสผ่านหรือรหัส OTP</strong>
+      ทั้งนี้ ควรตรวจสอบเวลาการให้บริการและระยะเวลาตอบกลับล่าสุดจากประกาศทางการอีกครั้ง
     </p>
-  </ContentBoxTwoNeumorphism>
-
-  <ContentBox3Three as="h2" title={`ช่องทางติดต่อแอดมิน ${BRAND_NAME} ตลอด 24ชม.`}>
-    <p slot="left">
-      {BRAND_NAME} ระบุช่องทางติดต่อเจ้าหน้าที่สำหรับผู้ที่ต้องการสอบถามเกี่ยวกับ
-      <strong class="text-[#8f0505]">รอบหวย อัตราจ่าย การตรวจสอบบิล โปรโมชั่น และรายการฝากถอน</strong>
-    </p>
-    <p slot="center">
-      โดยควรตรวจสอบช่องทางติดต่อจากเว็บไซต์ทางการก่อนส่งข้อความ
-      <strong class="text-[#8f0505]">เพื่อหลีกเลี่ยงบัญชีแอบอ้าง</strong>
-      หากพบปัญหาเกี่ยวกับบิลหวยหรือธุรกรรม ควรเตรียมหมายเลขรายการและหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ
-    </p>
-    <p slot="right">
-      พร้อมอธิบายปัญหาให้ชัดเจน
-      <strong class="text-[#8f0505]">โดยไม่เปิดเผยรหัสผ่านหรือรหัส OTP</strong>
-      ทั้งนี้ ควรตรวจสอบเวลาการให้บริการจริงจากประกาศล่าสุดอีกครั้ง
-    </p>
-  </ContentBox3Three>
+  </ContentBoxTwoFloatingBadge>
 
   <Faq as="h2" title={`คำถามที่พบบ่อยเกี่ยวกับ ${BRAND_NAME}`} faqs={faqs} />
 

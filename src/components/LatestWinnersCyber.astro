@@ -52,52 +52,75 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
   pending: brandFlag(Astro.site, `winner-pending-${i}`),
 }));
 
-// นินจา168 (รอบ **ฟ้าไซยานนำ · เหลืองมะนาวเป็นฮิวที่สอง · น้ำเงินลึกไม่เคยถือ
-// ตัวอักษร · บนดำสนิท** 2026-10-19, brand-spec §2): แผงเทอร์มินัลเป็นผิวจม #030e16
-// ⚠️ พื้นเพจรอบนี้ **ดำสนิท #000000** จึงไม่มีชั้นไหนจมต่ำกว่าพื้นได้ #030e16 คือ
-// ก้นสุด แผงอยู่ในสันฟ้าแบรนด์ #32bcfb สองข้างพร้อมเรืองแสง rgba(50,188,251,…) ตาม
-// ผ้าพันคอฟ้าและชูริเคนในอาร์ตเวิร์ก เส้นบนเป็นเหลืองมะนาว #fef54b ตามตัวอักษรไทย
-// สามมิติของโลโก้ เส้นล่างเป็นฟ้าแบรนด์ตามเลขบนโลโก้ หัวแถบรับฟ้าน้ำแข็ง #a9e9ff
-// (11.3:1) ส่วนยอดเงินรับเหลืองมะนาว #fef54b (12.7:1) พร้อมเรืองแสง
-// rgba(254,245,75,…) แถว hover ตกลงผิวยก #0c2a3d ป้ายกำกับหม่นใช้ #a9e9ff
-// เนื้อความ/ชื่อผู้ใช้เป็น #dceefc (= BRAND_TEXT)
-// ป้าย ONLINE ใช้ฟ้าแบรนด์ #32bcfb (7.1:1) — §2 ห้าม #07335f และ #6b5c10 ถือตัวอักษร
-// ทั้งสองค่าจึงอยู่ที่ขอบ เส้น และออราเท่านั้น
+// โปรดี168 (รอบ **แดงเชอร์รี่นำ · ทองแดงไหม้รอง · ทองสาลี่เป็นสีของโครม ·
+// ธีมสว่าง** 2026-10-22, .claude/brand-spec-prodeee168.md §2): feed ที่ใช้งานจริง
+// รอบนี้ — รอบก่อน (รวยแท้168) ใช้ LatestWinnersPremium จึงหมุนมาที่ไฟล์นี้
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" และ **กับดักรอบนี้มีสองชั้น: ฟ้า และ ทอง**
-// เพราะรอบที่แล้ว (สบายเบท168) ก็ฟ้านำ+ทองรองบนดำเหมือนกัน ฟ้ารอบนี้คือ **#32bcfb**
-// (R=50 G=188 B=251) ไซยานสว่างกว่า 2f9ff5 และฮิวที่สองเป็น **เหลืองมะนาว #fef54b**
-// ไม่ใช่ทองอำพัน ffc82e
-// ชุดม่วงราชา-ทองของ KMD88 ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (7505cc b453ff c07cff d9b8ff
-// bba8d4 ece2f8 e2b33f 0a0213 1d0832 3a0565 2c0349 7a5a0a) ออกครบทุกจุดแล้ว
-// เช่นเดียวกับชุดทองอวกาศ-เงินโครเมียมของ NAZA168 (fbc134 cfd6e3 9aa6bb fdf3df
-// 4e3406 241700) และชุดเขียวนีออน-เงินของ BOOM369 (42fb5a 8dffa0 04ab3a 041109
-// cfe9d7 9fb8aa 0b231b dadcdc)
-// ⚠️ ฟ้า false friend ที่ใกล้ที่สุดคือ 2f9ff5 / a8dcff / 0b3f78 ของสบายเบท168 และ
-// 0360f3 / 0292fb / 6ec8ff ของ TSDET911 · ไม่ใช่ 0a84e0 04203f e4f1fd ของ HI59
-// ไม่ใช่ 04225b และไม่ใช่ 2563eb
+// ⚠️⚠️ **ไฟล์นี้อยู่ในโซน "โครม" ไม่ใช่เนื้อหา** (§2 จัด navbar/footer/ticker/
+// winners feed/Navfoot/CtaRedirect ไว้ด้วยกัน) จึงเป็น **แผงเข้มบนพื้นเพจสว่าง**
+// — bg.json รอบนี้เป็น #ffd1d1 ชมพูพาสเทล และ **ห้าม "แก้" แผงนี้ให้สว่างตามพื้น**
+// เพราะหัว-ท้าย-ticker-feed เข้มคือกรอบที่คร่อมเนื้อหาสว่างเอาไว้ ซึ่งเป็นทิศของ
+// ธีมรอบนี้ทั้งรอบ ไม่ใช่ความไม่สม่ำเสมอ
+// ลำดับความลึกของโครม: **#4d1c0a ยก / #2c1004 จม** ตัวอักษรครีม **#fff0e4**
+// (13.1:1 บน #4d1c0a และสูงกว่านั้นบน #2c1004) และทองสาลี่ **#f0b46a** (7.9:1 บน
+// #4d1c0a) ซึ่ง §2 อนุญาตให้ถือตัวอักษร **บนโครมเท่านั้น** — บนการ์ดขาวมันได้แค่
+// 1.8:1 จึงไม่มีอยู่ในไฟล์เนื้อหาใบไหนเลย
+//
+// แผงเป็นผิวจม #2c1004 ในสันทองสาลี่สองข้าง เส้นบนเป็นทองสาลี่ (ป้ายไม้และเหรียญทอง
+// ในแบนเนอร์) เส้นล่างเป็นแดงเชอร์รี่ #eb0305 (ผ้าพันคอของกระต่ายและโบว์ของเด็กหญิง)
+// หัวแถบรับครีม #fff0e4 ยอดเงินรับทองสาลี่ #f0b46a พร้อมเรืองแสง
+// rgba(240,180,106,…) ป้าย ONLINE เป็นทองสาลี่ แถบนำแถวเป็นแดงเชอร์รี่พร้อมไล่เฉด
+// rgba(235,3,5,0.16) จาง ๆ ซึ่ง §2 ระบุชัดว่าแดงเชอร์รี่ **เป็นพื้นถมที่รองตัวอักษร
+// ขาวได้** แถว hover ยกขึ้นผิว #4d1c0a ป้ายกำกับหม่น (USR_ID) ใช้ทองสาลี่
+// ชื่อผู้ใช้และหน่วย THB เป็นครีม #fff0e4
+// ⚠️ **ทองแดงไหม้ #b44c06 ไม่ถือตัวอักษรบนแผงนี้** (2.8:1 บน #2c1004) — บนการ์ดขาว
+// ถือได้ แต่ไฟล์นี้ไม่ใช่การ์ด จึงไม่มี #b44c06 ที่ไหนในไฟล์นี้เลย · **แดงสด
+// #ff4446 ก็ไม่มี** เพราะ §2 ห้ามมันถือตัวอักษรและห้ามเป็นพื้นของตัวอักษรทุกกรณี
+// และทุกชั้นของแถวมีตัวอักษรวางทับ
+// เงาของแผงเป็นเงาทอดลง rgba(64,17,7,0.35) ไม่ใช่เรืองแสงนีออน เพราะพื้นเพจรอบนี้
+// สว่าง — เงาทอดอ่านเป็น "แผงวางบนกระดาษ" ส่วนออร่านีออนจะหายไปกับพื้นชมพู
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้น: แดง และ ทอง**
+// เพราะทั้งคู่ผ่านรีโปนี้มาแล้วหลายแบรนด์ และ **รอบก่อนหน้าทันทีก็เป็นแดง+ทอง**
+// แดงรอบนี้ **#eb0305 (R235 G3 B5)** วัดจาก logo.webp เอง ตัวที่ใกล้ที่สุดในรีโปคือ
+// dc0203 ของหวย365 (ห่าง 18) · ทองสาลี่ **#f0b46a (R240 G180 B106)** ⚠️ **มี R
+// เท่ากับ f0bb4e ของรวยเทพ168 และ f0b429 ของรับตัง168 เป๊ะทั้งคู่** ต่างกันที่
+// G180 vs G187 vs G180 และ B106 vs B78 vs B41 — อย่าปล่อยของเก่าไว้เพราะ "ก็ทอง
+// เหมือนกัน" ต้อง grep เป็นค่า
+// ชุดฟ้าไซยาน-เหลืองมะนาวของ **นินจา168** ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (32bcfb a9e9ff
+// 07335f fef54b 6b5c10 0c2a3d 071a28 030e16 041019 dceefc กับ rgba 50/188/251 α)
+// rgba 254/245/75 α)) ออกครบทุกจุดแล้ว เช่นเดียวกับชุดม่วงราชา-ทองของ **KMD88**
+// (7505cc b453ff c07cff d9b8ff bba8d4 ece2f8 e2b33f 0a0213 1d0832 3a0565 2c0349
+// 7a5a0a) ชุดทองอวกาศ-เงินโครเมียมของ **NAZA168** (fbc134 cfd6e3 9aa6bb fdf3df
+// 4e3406 241700) ชุดเขียวนีออน-เงินของ **BOOM369** (42fb5a 8dffa0 04ab3a 041109
+// cfe9d7 9fb8aa 0b231b dadcdc) และชุดแดงคริมสัน-ทองโบราณของรอบขาออก **รวยแท้168**
+// (c30303 8f0505 e81313 dcb95f b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef
+// ffdbdb c99a3f)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีฟ้า/ไซยาน/น้ำเงิน ไม่มีม่วง ไม่มีเขียว (ยกเว้นสีสถานะ verified
+// ด้านล่างกับโลโก้ธนาคาร) ไม่มีเหลืองมะนาว ไม่มีเงิน/โครเมียม และไม่มีโรสโกลด์**
 //
 // สี pending/verified ใน <style> ท้ายไฟล์เป็นสีเชิงความหมาย ไม่ใช่สีแบรนด์ จึงคงไว้
 // ตามเดิม เช่นเดียวกับสีประจำธนาคารในรายชื่อด้านบน
 //
 // หัวแถบและป้าย ONLINE เป็น <p>/<span> ไม่ใช่หัวข้อ — brand-spec §4 ระบุว่าเฉพาะ
 // เนื้อหาบทความเท่านั้นที่ออกเป็น heading ได้ ชื่อของ region จึงมาจาก aria-label บน
-// <section> ข้อความ aria-label ไม่ระบุชื่อธนาคารหรือตัวเลขใดๆ เพราะบรีฟรอบนี้ไม่ได้
-// ให้ไว้ — §6 อนุญาตเฉพาะตัวเลขของบรีฟเอง (0.3% · 0.8% · 24ชม.)
+// <section> ข้อความ aria-label ไม่ระบุชื่อธนาคาร ชื่อค่ายเกม หรือตัวเลขใดๆ เพราะ
+// บรีฟรอบนี้ไม่ได้ให้ไว้ — §6 อนุญาตเฉพาะตัวเลขของบรีฟเอง (0.3% · 0.8% · 24ชม. ·
+// ปี 2026)
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4">
   <section
     aria-label={`รายการถอนล่าสุดของสมาชิก ${BRAND_NAME} สมาชิกตรวจสอบเครดิตและรายการฝากถอนของตัวเองได้จากบัญชีสมาชิก`}
-    class="relative border-r-4 border-l-4 border-[#32bcfb]/60 bg-[#030e16]/92 px-4 py-8 shadow-[0_0_30px_rgba(50,188,251,0.35)] md:p-10"
+    class="relative border-r-4 border-l-4 border-[#f0b46a]/60 bg-[#2c1004]/95 px-4 py-8 shadow-[0_10px_30px_rgba(64,17,7,0.35)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#fef54b] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#32bcfb] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#f0b46a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#eb0305] to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#32bcfb]/50 pb-4">
-      <p class="text-xl font-black tracking-[0.2em] text-[#a9e9ff] drop-shadow-[0_0_8px_rgba(50,188,251,0.55)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
-      <span class="shrink-0 animate-pulse border border-[#32bcfb]/60 px-2 py-1 text-xs font-bold tracking-widest text-[#32bcfb]">ONLINE</span>
+    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#f0b46a]/45 pb-4">
+      <p class="text-xl font-black tracking-[0.2em] text-[#fff0e4] drop-shadow-[0_0_8px_rgba(240,180,106,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
+      <span class="shrink-0 animate-pulse border border-[#f0b46a]/60 px-2 py-1 text-xs font-bold tracking-widest text-[#f0b46a]">ONLINE</span>
     </div>
 
     <div
@@ -113,14 +136,14 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-left transform transition-all duration-500 ease-out">
-            <div class="flex items-center justify-between border-l-2 border-[#32bcfb]/75 bg-gradient-to-r from-[#32bcfb]/16 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#0c2a3d]">
+            <div class="flex items-center justify-between border-l-2 border-[#eb0305]/75 bg-gradient-to-r from-[#eb0305]/16 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#4d1c0a]">
               <div class="flex items-center gap-4">
                 <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-white/10 bg-black/50 mix-blend-screen ${row.bank.color}`}>
                   <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
                 </div>
-                <div class="font-mono text-sm text-[#a9e9ff]">
+                <div class="font-mono text-sm text-[#f0b46a]">
                   USR_ID:{" "}
-                  <span data-winner-user class="font-bold text-[#dceefc]">
+                  <span data-winner-user class="font-bold text-[#fff0e4]">
                     {row.user}
                   </span>
                 </div>
@@ -135,8 +158,8 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
                   class={`winner-status font-mono text-[10px] tracking-widest ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? PENDING_TEXT : DONE_TEXT}
                 </div>
-                <div class="font-mono text-xl font-black text-[#fef54b] drop-shadow-[0_0_8px_rgba(254,245,75,0.45)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#a9e9ff]">THB</span>
+                <div class="font-mono text-xl font-black text-[#f0b46a] drop-shadow-[0_0_8px_rgba(240,180,106,0.4)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#fff0e4]">THB</span>
                 </div>
               </div>
             </div>

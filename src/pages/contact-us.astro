@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement5.astro";
+import Announcement from "../components/AnnouncementPremium.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -30,41 +30,41 @@ import lineImage from "../assets/contact-line.webp";
 // ห้าม "แก้ให้สวย" · กล่องจดหมายนี้ตั้งใจไม่ route ไปไหน เป็นการตัดสินใจของเจ้าของ
 // ห้ามยกขึ้นมาถามทุกรอบ ห้ามตั้ง mail routing และห้ามลบบรรทัดนี้ออก
 //
-// Announcement หมุนมาเป็น Announcement5 ทั้งเว็บรอบนี้ (brand-spec §3 — รอบก่อนใช้
-// AnnouncementHuay จึงหมุนออก เหลือไว้เฉพาะสองหน้าหมวดหวย) orchestrator ตั้ง
-// default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันไว้แล้ว ทุกหน้าเรียกแบบ bare
+// Announcement หมุนมาเป็น AnnouncementPremium ทั้งเว็บรอบนี้ (brand-spec §3 —
+// รอบก่อนใช้ ticker คนละตัว จึงหมุนออก) orchestrator ตั้ง default
+// message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันไว้แล้ว ทุกหน้าเรียกแบบ bare
 // จึงห้ามส่ง prop message จากหน้านี้ ไม่งั้นตัววิ่งจะพูดคนละเรื่องกับหน้าอื่น
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-ruaythear168vip.md §2
-// ⚠️⚠️ **รอบนี้เป็นแบรนด์ "ธีมสว่าง" รอบที่สามของรีโปนี้ — การ์ดสว่าง หมึกเข้ม**
-// bg.json = {"mode":"color","color":"#ffdbdb"} = ชมพูกุหลาบ **สว่าง** ไม่ใช่ดำ
-// การ์ด ContentBox จึงเป็นผิว **ขาว** #ffffff บนหมึกแดงเลือดหมู #4a0f0f
-// (= BRAND_TEXT) → คลาสสีของแบรนด์ก่อน (เขียวมรกต/บรอนซ์มะกอก) กวาดออกครบแล้ว
+// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-prodeee168.md §2
+// ⚠️⚠️ **รอบนี้เป็นแบรนด์ "ธีมสว่าง" รอบที่สี่ของรีโปนี้ — การ์ดสว่าง หมึกเข้ม**
+// bg.json = {"mode":"color","color":"#ffd1d1"} = ชมพูพาสเทล **สว่าง** ไม่ใช่ดำ
+// การ์ด ContentBox จึงเป็นผิว **ขาว** #ffffff บนหมึกน้ำตาลแดง #401107
+// (= BRAND_TEXT) → คลาสสีของรอบก่อน (แดงคริมสัน + ทองโบราณ) กวาดออกครบแล้ว
 //
 // บทบาทสีในไฟล์นี้:
-//   ทองโบราณ #dcb95f → #c99a3f → #b8862b = **พื้นถมปุ่มหลักเท่านั้น** บนหมึก #280b0b
-//   แดงสด #c30303 = พื้นถมปุ่มรอง และขอบซ้ายของป้ายที่อยู่
-//   แดงเข้ม #8f0505 = ปลายเข้มของไล่เฉดปุ่มรอง และขอบปุ่มรอง
-//   หมึกเนื้อความ #4a0f0f มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
+//   แดงเชอร์รี่ #eb0305 → #c20305 → #9b0a0c = **พื้นถมปุ่ม PRIMARY** บนตัวอักษรขาว
+//     (4.6 / 6.4 / 8.6:1 ผ่านทุก stop) และเป็นขอบซ้ายของป้ายที่อยู่
+//   ทองแดงไหม้ #b44c06 → #7a2f03 = พื้นถมปุ่ม SECONDARY บนตัวอักษรขาว
+//     (5.3:1 และ 9.4:1 ผ่าน AA) — เป็น "สีที่สอง" ของแบรนด์ ไม่ใช่สีเดียวกับแดง
+//   หมึกเนื้อความ #401107 มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
 // ขั้วของปุ่มตรงกับ /ทางเข้า /login /register ซึ่งวางปุ่มคู่นี้บนการ์ดสว่างเหมือนกัน:
-// สมัครสมาชิก = PRIMARY ถมทอง #dcb95f → #c99a3f → #b8862b บนหมึก **#280b0b**
-// (9.8 / 7.2 / 5.7:1 ผ่านทุก stop) · เข้าสู่ระบบ = SECONDARY ถมแดง #c30303 → #8f0505
-// บนตัวอักษร **ขาว** (6.3:1 และ 9.6:1)
-// ⚠️ **ห้ามกลับด้านปุ่มทองเป็นตัวอักษรขาวบนพื้นทอง** และห้ามลากปลายเข้มเลย #b8862b
-// ⚠️ นอกจากพื้นถมปุ่มหลักแล้ว **ทองโบราณห้ามถือตัวอักษรบนผิวการ์ดขาว** (1.9-3.5:1)
-// ⚠️ ปุ่มของ Navfoot เป็น **โครม** (พื้นมารูนเข้ม/ทอง) คนละโซนกับปุ่มบนการ์ดนี้
-// **ห้ามลอกคลาสของ Navfoot มาวางบนการ์ดสว่าง**
-// ⚠️⚠️ **แดงชาด #e81313 ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร** เป็น stop ของ
+// สมัครสมาชิก = PRIMARY ถมแดง · เข้าสู่ระบบ = SECONDARY ถมทองแดง
+// ⚠️⚠️ **ทองสาลี่ (f0b46a เขียนโดยไม่มี # เพื่อกัน sweep) ห้ามปรากฏในไฟล์นี้** — บนผิวการ์ดขาวได้ 1.8:1
+// เป็นสีของโซน "โครม" (navbar/footer/Navfoot/ticker) เท่านั้น
+// ⚠️ ปุ่มของ Navfoot เป็น **โครม** (พื้นน้ำตาลแดงเข้ม/ทองสาลี่) คนละโซนกับปุ่มบน
+// การ์ดนี้ **ห้ามลอกคลาสของ Navfoot มาวางบนการ์ดสว่าง**
+// ⚠️⚠️ **แดงสด (ff4446) ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร** เป็น stop ของ
 // ไล่เฉด/ออราเท่านั้น
-// ออราในไฟล์นี้ใช้ rgba(195,3,3,α) · rgba(143,5,5,α) · rgba(74,15,15,α) ·
-// rgba(184,134,43,α) เท่านั้น
+// ออราในไฟล์นี้ใช้ rgba(235,3,5,α) · rgba(155,10,12,α) · rgba(64,17,7,α) ·
+// rgba(180,76,6,α) เท่านั้น
 // นอกจากสีเขียวของ LINE — #00B900 เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ คงไว้เดิม
 // **ห้ามเปลี่ยนเป็นแดงของแบรนด์** ต่อให้รอบนี้ทั้งเว็บเป็นแดง
 //
-// ⚠️ กับดักรอบนี้คือ **แดงนำมาแล้วมากกว่าฮิวอื่นใดในรีโปนี้** การเจอแดงในไฟล์จึงไม่
-// พิสูจน์ว่าเป็นค่าของรอบนี้ ต้องเทียบเป็น "ค่า" ทีละหลักกับตารางใน brand-spec §2
-// ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
+// ⚠️ กับดักรอบนี้คือ **แดงนำมาแล้วมากกว่าฮิวอื่นใดในรีโปนี้ และรอบก่อนก็เป็น
+// แดง+ทอง+ธีมสว่างชมพูเหมือนกัน** การเจอแดงในไฟล์จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้
+// ต้องเทียบเป็น "ค่า" ทีละหลักกับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่
+// เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
 // รอบนี้ **ไม่มีเขียว (ยกเว้น LINE green) ไม่มีชมพูบานเย็น ไม่มีฟ้า/น้ำเงิน/ไซยาน
 // ไม่มีม่วง ไม่มีเงิน/โครเมียม และไม่มีโรสโกลด์**
 //
@@ -82,25 +82,24 @@ import lineImage from "../assets/contact-line.webp";
 // and the structured data from drifting apart. 150–160 CODE POINTS, counted
 // with [...s].length exactly like verify-build.mjs — do NOT use `wc -m` on this
 // box: git-bash has no UTF-8 locale here, so it counts BYTES and reads ~3x too
-// long. This one is 158 with this round's 9-character brand name.
+// long. This one is 156 with this round's 8-character brand name.
 //
 // คอปปี้ของหน้านี้อนุมานจากบรีฟบรรทัด 21-22 ซึ่งระบุเรื่องที่ติดต่อได้ไว้แค่:
-// รอบหวย อัตราจ่าย การตรวจสอบบิล โปรโมชั่น และรายการฝากถอน กับเจ้าหน้าที่
-// ตลอด 24ชม. ผ่านช่องทางทางการ เพื่อหลีกเลี่ยงบัญชีแอบอ้าง —
+// การสมัครสมาชิก การเข้าสู่ระบบ รายการฝากถอน และโปรโมชั่น กับเจ้าหน้าที่ตลอด 24ชม.
+// ผ่านช่องทางทางการ เพื่อหลีกเลี่ยงบัญชีหรือบุคคลที่แอบอ้างชื่อบริการ —
 // ห้ามเขียนเกินนี้ และคำศัพท์ต้องอยู่ใน brand-spec §6 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
 // grep หาคำของแบรนด์เก่าเจอ false positive
-// ⚠️ แกนของบรีฟรอบนี้คือ **เว็บหวยออนไลน์ล้วน** (รัฐบาลไทย ลาวพัฒนา ฮานอย
-// หุ้นต่างประเทศ) ศัพท์หมวดสล็อต/คาสิโน/บอลทุกคำจึงเป็นของค้างที่ต้องไม่เหลือ —
-// รายการเต็มอยู่ใน brand-spec §6
+// ⚠️ แกนของบรีฟรอบนี้คือ **เว็บสล็อตออนไลน์ล้วน** (เกมสล็อตลิขสิทธิ์แท้ ค่ายตรง)
+// ศัพท์ของหมวดอื่นที่บรีฟไม่มีทุกคำจึงเป็นของค้างที่ต้องไม่เหลือ —
+// รายการเต็มอยู่ใน brand-spec §1
 // ⚠️ **บรีฟรอบนี้ไม่ได้ระบุชื่อค่ายเกม ชื่อธนาคาร หรือใบอนุญาตแม้แต่รายเดียว**
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 2 ตัว 100 · 3 ตัว 1,000 · 0.3% · 0.8% · 24ชม.
-// ห้ามแต่งเลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ จำนวนสมาชิก หรือปีใดๆ
-// (บรีฟไม่เอ่ยปีไว้เลย) และห้ามมีวลี "N ขั้นตอน" — รอบนี้บรีฟไม่มี
+// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% · 0.8% · 24ชม. · ปี 2026
+// ห้ามแต่งเลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ หรือจำนวนสมาชิก
 // หน้านี้มีโควตาเป็นรูป ที่อยู่ และปุ่ม
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = `ติดต่อแอดมิน ${BRAND_NAME} ผ่าน LINE Official ได้ตลอด 24ชม. สอบถามประเภทหวย รอบปิดรับ อัตราจ่าย ตรวจสอบบิล และรายการฝากถอน จากช่องทางทางการเพื่อเลี่ยงบัญชีแอบอ้าง`;
+const pageDescription = `ติดต่อแอดมิน ${BRAND_NAME} ผ่าน LINE Official ได้ตลอด 24ชม. สอบถามการสมัครสมาชิก การเข้าสู่ระบบ รายการฝากถอน และโปรโมชั่น จากช่องทางทางการเพื่อเลี่ยงบัญชีแอบอ้าง`;
 
 const graph = pageGraph(Astro, {
   type: "ContactPage",
@@ -161,7 +160,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#c30303] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#eb0305] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 font-bold opacity-90">{BRAND_ADDRESS.label}</p>
           {BRAND_ADDRESS.lines.map((line) => (
             <span class="block">{line}</span>
@@ -184,16 +183,16 @@ const graph = pageGraph(Astro, {
       <a
         href="/register"
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#b8862b] bg-gradient-to-b from-[#dcb95f] via-[#c99a3f] to-[#b8862b] px-8 py-3 font-black text-[#280b0b] shadow-[0_0_14px_rgba(184,134,43,0.45)] transition-transform hover:scale-105">
-        <span aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-[#b8862b]/60 to-transparent"></span>
+        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#9b0a0c] bg-gradient-to-b from-[#eb0305] via-[#c20305] to-[#9b0a0c] px-8 py-3 font-black text-[#ffffff] shadow-[0_0_14px_rgba(235,3,5,0.45)] transition-transform hover:scale-105">
+        <span aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-[#9b0a0c]/60 to-transparent"></span>
         สมัครสมาชิก
       </a>
 
       <a
         href="/login"
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border-2 border-[#8f0505] bg-gradient-to-b from-[#c30303] to-[#8f0505] px-8 py-3 font-bold text-[#ffffff] shadow-[0_0_12px_rgba(195,3,3,0.35)] transition-all hover:scale-105 hover:border-[#4a0f0f] hover:shadow-[0_0_18px_rgba(143,5,5,0.5)]">
-        <span aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-[#8f0505]/60 to-transparent"></span>
+        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border-2 border-[#7a2f03] bg-gradient-to-b from-[#b44c06] to-[#7a2f03] px-8 py-3 font-bold text-[#ffffff] shadow-[0_0_12px_rgba(180,76,6,0.35)] transition-all hover:scale-105 hover:border-[#401107] hover:shadow-[0_0_18px_rgba(180,76,6,0.5)]">
+        <span aria-hidden="true" class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-[#7a2f03]/60 to-transparent"></span>
         เข้าสู่ระบบ
       </a>
 

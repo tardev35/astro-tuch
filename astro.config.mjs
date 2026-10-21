@@ -37,28 +37,26 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://ruaythear168-vip.net — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://prodeee168.club — operator ระบุมาตรงๆ ในคำสั่ง
   // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน** จึง **ไม่ต้องแปลง punycode** เหมือนรอบก่อน
   // ตรวจซ้ำได้ด้วย
-  //   node -e "console.log(new URL('https://ruaythear168-vip.net').hostname)"
+  //   node -e "console.log(new URL('https://prodeee168.club').hostname)"
   // เคยมี IDN มาแล้วห้ารอบ (รวยเทพ168.com -> xn--168-vml9awg6a2s.com ·
   // สบายเบท-168.com -> xn---168-9gora7dtd1dwh.com · ถอนชัวร์168.com ->
   // xn--168-ell7cs5e5a5c2b0v.com · มีโชค168.com -> xn--168-pkl3a1luf6d.com ·
   // หวยดีใจ.com -> xn--82cx5btt7d4e.com) — รอบนี้ไม่เข้าข่าย
-  // ⚠️ TLD รอบนี้เป็น **.net** ไม่ใช่ .cc ของรอบก่อน
-  // ⚠️⚠️ **กับดักใหญ่ที่สุดรอบนี้: โดเมนนี้ต่างจาก ruaythear168.net ของ
-  // "รวยแทร่168" แค่ suffix `-vip` เท่านั้น และทั้งสองเป็นคนละลูกค้ากันสิ้นเชิง**
-  // ชื่อไทยก็ต่างกันแค่หนึ่งตัวอักษร (รวยแท้168 vs รวยแทร่168)
-  // ห้ามพิมพ์ ruaythear168.net โดยไม่มี -vip เด็ดขาด
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ruaythear168-vip.net ซึ่ง **ถูกต้องแล้ว**
+  // ⚠️ TLD รอบนี้เป็น **.club** ไม่ใช่ .net ของรอบก่อน
+  // ⚠️ สะกด "prodeee" มี **e สามตัว** ตามที่ operator ระบุ ไม่ใช่ "prodee" หรือ
+  // "prodee168" — ห้าม "แก้" ให้เหลือสองตัวเพราะดูเหมือนพิมพ์เกิน
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@prodeee168.club ซึ่ง **ถูกต้องแล้ว**
   // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้
   // คนละค่ากันสิ้นเชิง: ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง)
-  // ส่วนโดเมนให้ label = "ruaythear168-vip"
+  // ส่วนโดเมนให้ label = "prodeee168"
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://ruaythear168-vip.net",
+  site: "https://prodeee168.club",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

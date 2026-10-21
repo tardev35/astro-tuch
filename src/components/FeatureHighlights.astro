@@ -3,20 +3,21 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** ดวงเศรษฐี168's identity is a **two-colour pair** read straight off the
-   *  logo — honey gold "ดวงเศรษฐี" lettering and a vermilion-red "168" beside a
-   *  red-and-gold Chinese cap — so the two accents are the lead gold and the
-   *  second hue: "gold" is the solid honey-gold plate (#f0c878, dark ink
-   *  #2a0608 at 11.7:1) and "red" the solid vermilion plate (#d9212a, ivory
-   *  glyph #fff8d8 at 4.7:1 — the one combination brand-spec §2 sanctions for
-   *  text on a red fill).
-   *  ⚠️ The union was `"gold" | "bronze"` when this file arrived, for the
-   *  outgoing ufalion168's third hue. **§2 has NO bronze at all this round**, so
-   *  the bronze branch is gone from both the type and the implementation rather
-   *  than being left accepted-but-recoloured — a spelling that still builds is a
-   *  spelling the next page quietly passes. Only index.astro renders this
+  /** โปรดี168's identity is a **two-colour pair** read straight off the
+   *  artwork — cherry-red "โปรดี168" lettering and the rabbit's red scarf on the
+   *  logo, and the burnt-copper wooden sign / coin shadow on banner1 — so the two
+   *  accents are the lead red and the second hue: "red" is the solid cherry plate
+   *  (#eb0305, white glyph at 4.6:1) and "copper" the solid burnt-copper plate
+   *  (#b44c06, white glyph at 5.3:1). Both are combinations brand-spec §2
+   *  sanctions explicitly: a red or copper FILL carrying white text.
+   *  ⚠️ The union was `"gold" | "red"` when this file arrived, for the outgoing
+   *  ดวงเศรษฐี168's honey-gold plate. **§2 has NO card-legal gold at all this
+   *  round** — pear gold #f0b46a scores 1.8:1 on a light surface and is chrome
+   *  only — so the gold branch is gone from both the type and the implementation
+   *  rather than being left accepted-but-recoloured: a spelling that still builds
+   *  is a spelling the next page quietly passes. Only index.astro renders this
    *  component, so narrowing the union breaks nothing. */
-  accent?: "gold" | "red";
+  accent?: "red" | "copper";
 }
 
 export interface Props {
@@ -30,57 +31,56 @@ export interface Props {
 const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
-// ดวงเศรษฐี168 palette (brand-spec §2): every card sits on the raised surface
-// (#4e2120) inside a maroon hairline (#8e1a16), hovering down onto the mid
-// surface (#300605), and the icon plate alternates between the lead-gold plate
-// and the vermilion plate — the lead hue against the second hue, alternating
-// down the list.
-// ⚠️ The two plates take DIFFERENT ink, and that is the §2 rule that decides it,
-// not taste: ink #2a0608 on gold #f0c878 is 11.7:1 ✓, but the same ink on
-// vermilion #d9212a is only 3.7:1, so the red plate takes ivory #fff8d8
-// (4.7:1 ✓ — the one combination §2 sanctions for text on a red fill).
-// ⚠️ Vermilion #d9212a scores 2.7:1 on this card's own surface and 4.2:1 on pure
-// black, so it NEVER carries a glyph directly on the card — only as a FILL
-// behind ivory, as a border, and in the hover glow. Maroon #8e1a16 carries no
-// text anywhere in this file either; it is the resting hairline and nothing else.
+// โปรดี168 palette (.claude/brand-spec-prodeee168.md §2): ⚠️ **ธีมสว่าง** —
+// bg.json = {"mode":"color","color":"#ffd1d1"} ชมพูพาสเทล ลำดับความลึกกลับหัวจาก
+// ทุกรอบก่อนหน้าของไฟล์นี้: **#ffffff ผิวยก / #fff4ea อินเซ็ต / #ffd1d1 พื้นเพจ**
+// การ์ดแต่ละใบจึงเป็น **ผิวขาวในเส้นแดงเชอร์รี่โปร่ง** และจมลงไปที่ผิวอินเซ็ต
+// #fff4ea ตอน hover — **ห้าม "แก้" กลับไปเป็นการ์ดเข้มลอยบนพื้นดำ**
+// แผ่นไอคอนสลับระหว่าง **แผ่นแดงเชอร์รี่** กับ **แผ่นทองแดงไหม้** ไล่ลงไปตามลำดับ
+// รายการ — ฮิวนำสลับกับฮิวที่สอง
+// ⚠️ แผ่นทั้งสองใช้ **หมึกขาว #ffffff เหมือนกัน** และนั่นคือกฎของ §2 ที่ตัดสิน
+// ไม่ใช่รสนิยม: ขาวบนแดงเชอร์รี่ #eb0305 = 4.6:1 ✓ และขาวบนทองแดงไหม้ #b44c06 =
+// 5.3:1 ✓ ผ่าน AA ทั้งคู่ **ห้ามพลิกแผ่นไหนไปใช้หมึกเข้ม**
+// ⚠️ **แดงสด #ff4446 ไม่มีในไฟล์นี้เลย** — §2 ห้ามมันถือตัวอักษรและห้ามเป็นพื้นของ
+// ตัวอักษร ซึ่งแผ่นไอคอนทุกใบมีกลีฟวางทับ · **ทองสาลี่ #f0b46a ก็ไม่มี** เพราะเป็น
+// สีของโครมเท่านั้น (1.8:1 บนการ์ดขาว) · **#9b0a0c โผล่ได้แค่เป็นขอบของแผ่นแดง**
+// เพราะ §2 สงวนมันไว้ให้ <strong> ในย่อหน้า ซึ่งเป็นงานของหน้าเพจ
 //
-// The title is honey gold #f0c878 (8.5:1 on the raised surface) rather than a
-// gradient: on this landing page the three items this component carries are the
-// brief's own ขั้นตอนที่ 1 / 2 / 3 labels under docx H2 §6 (content.txt lines
-// 15-20), and a flat accent reads as a numbered list where a gradient would read
-// as three separate section headings. The gold/red accent still separates the
-// cards — on the plate, the border and the hover.
-// ⚠️ ไอคอนที่หน้าแรกส่งมาเป็น **กลุ่ม "ตรวจสอบ → ลงทะเบียน → ศึกษาบทเรียน"**
-// (🔎 📝 📚) ตรงกับแกนของบรีฟรอบนี้ซึ่งเป็น **เว็บสอนเล่นเกมเดิมพันหลายประเภท**
-// ไม่ใช่ชุดฟุตบอล 🏟️ 🎽 ⚽ ของ ufalion168 รอบก่อน ไอคอนอยู่ในแผ่น aria-hidden="true"
-// ซึ่งเป็น **พี่น้อง** ของป้ายชื่อ ไม่ใช่อักขระในข้อความ
+// หัวข้อรายการเป็น **ทองแดงไหม้ #b44c06 ทึบสีเดียว** (5.3:1 บนผิวยก และเป็น
+// text-xl font-black จึงเป็น large text ด้วย) ไม่ใช่ไล่เฉด: บนหน้าแรกรายการสามใบที่
+// คอมโพเนนต์นี้ถือคือป้าย **ขั้นตอนที่ 1 / 2 / 3** ของบรีฟเอง (content.txt บรรทัด
+// 15-20) ใต้ docx H2 §6 สีทึบจึงอ่านเป็นลำดับขั้นตอน ส่วนไล่เฉดจะอ่านเป็นสามหัวข้อ
+// แยกกัน · หัวข้อ H2 ของ §6 ที่อยู่เหนือมันเป็น **แดงเชอร์รี่** ใน ContentBox ตัวฐาน
+// การสลับมาเป็นทองแดงไหม้ตรงนี้จึงทำให้ลำดับชั้นอ่านออกโดยไม่ต้องลดขนาด
+// ⚠️ ไอคอนที่หน้าแรกส่งมาเป็นกลุ่ม **"ตรวจที่อยู่เว็บ → กรอกและยืนยัน → เข้าสู่ระบบ
+// แล้วดูรายละเอียดเกม"** (🔎 📝 🎰) ตรงกับแกนของบรีฟรอบนี้ซึ่งเป็น **เว็บเกมสล็อต
+// ล้วน** ไม่ใช่ชุด "ตรวจสอบ → ลงทะเบียน → ศึกษาบทเรียน" ของเว็บสอนเล่นเกมรอบก่อน
+// ไอคอนอยู่ในแผ่น aria-hidden="true" ซึ่งเป็น **พี่น้อง** ของป้ายชื่อ ไม่ใช่อักขระ
+// ในข้อความ
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองเคยนำมาแล้วเกือบทุกแบรนด์ในรีโปนี้
-// และแดงเคยนำมาแล้วหลายแบรนด์** การเจอทองหรือแดงในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
-// ไฟล์นี้เพิ่งค้างชุดทองอำพัน-บรอนซ์ของ ufalion168 ไว้ทั้งใบ (d4922c fdfc71 a25b24
-// 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000 กับ rgba 212/146/44,
-// rgba 253/252/113 และ rgba 162/91/36) ก่อนนั้นเป็นชุดทองอิมพีเรียล-แดงชาดของ
-// รวยเทพ168 (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 5c2a06 fff8ec 2b1400 กับ
-// rgba 240/187/78 และ rgba 228/2/27) ชุดแดงชาด-ทองเนยของมีเฮ168 (fb1b32 ff8f9c
-// 5c0410 fcd45c 6b4a08 2b0711 1a040a 1b0308 fdeaec) ชุดฟ้าอะซัวร์-ทองอำพันของ
-// รวยแทร่168 (039cfa c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 031320)
-// ชุดชมพูฮอต-ทองของ FAH999 (ff3fa4 ff6cbb ffd1ea fde8f3 f5c53d ffe49a d19a12 9c6f08
-// b3006a 7a0046 4d002b 3a0534 4a0b42 2b0019) ชุดทองเป็ด-ส้มอำพันของ DUCK1688
-// (f3bb34 fde464 c8901a 8a5f08 5c3f04 f58b2a ffc98a a3510c 1a1203 f6ecd9 1f1709
-// 171106) และชุดทอง-แดงของ 365LOTTO (fdf3b4 e0b03a e01f26 a40304 fadc64 ffe9a3
-// 9c6a12 1a0709 2a0b0e 120406 f0ddc4) — ออกครบทุกค่าแล้ว
-// ⚠️ ทองนำของรอบนี้คือ **#f0c878 (R240 G200 B120)** เท่านั้น ตัวที่ใกล้ที่สุดใน
-// รีโปคือ **ffdc8c ของรับตัง168 (ระยะ 32)** และ **f6e3b4 ของ ufalion168** ·
-// และไม่ใช่ d4922c (ufalion168 รอบก่อน) f0bb4e (รวยเทพ168) fcd45c (มีเฮ168)
-// f9a826 (รวยแทร่168) fef54b (นินจา168) ffc82e (สบายเบท168) ffd84d (ถอนชัวร์168)
-// fcd434 (มีโชค168) f7c92b (ขวัญใจ168) f0b429 (รับตัง168) e3b23c (สมหวัง168)
-// e5a81b (UFA324) f5c53d (FAH999) f3bb34 (DUCK1688) fbc134 (NAZA168) หรือ f5c518
-// (FLASH877) · แดงของรอบนี้คือ **#d9212a / #8e1a16** ⚠️ ใกล้ d30304 ของรับตัง168
-// และ e4021b ของรวยเทพ168 จึงต้องเทียบทีละหลัก (R217 G33 B42)
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **แดงกับทองเป็นฮิวที่แน่นที่สุดในรีโปนี้
+// และรอบก่อนหน้าทันที (รวยแท้168) ก็เป็นแดง+ทอง+ธีมสว่างชมพูเหมือนกัน** การเจอแดง
+// หรือทองในไฟล์นี้จึงไม่พิสูจน์อะไรเลย แดงรอบนี้คือ **#eb0305 (R235 G3 B5)** วัดจาก
+// logo.webp เอง และทองแดงไหม้ **#b44c06 (R180 G76 B6)** วัดจาก banner1.png
+// ไฟล์นี้เพิ่งค้างชุดทองน้ำผึ้ง-แดงชาดของ **ดวงเศรษฐี168** ไว้ทั้งใบ (f0c878 fff8d8
+// d9212a 8e1a16 4e2120 300605 2a0608 กับ rgba 240/200/120 α) rgba 217/33/42 α))
+// ก่อนนั้นเป็นชุดทองอำพัน-บรอนซ์ของ **ufalion168** (d4922c fdfc71 a25b24 8c4312
+// d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000) ชุดทองอิมพีเรียล-แดงชาดของ
+// **รวยเทพ168** (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 5c2a06 fff8ec 2b1400)
+// ชุดแดงชาด-ทองเนยของ **มีเฮ168** (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a
+// 1b0308 fdeaec) ชุดฟ้าอะซัวร์-ทองอำพันของ **รวยแทร่168** (039cfa c3ebfc 04366b
+// f9a826 704504 e3f2fc 0b2d52 071e38 031320) และชุดแดงคริมสัน-ทองโบราณของรอบขาออก
+// **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f 4a0f0f 461212 280b0b
+// ffeee8 fff1ef ffdbdb c99a3f) — ออกครบทุกค่าแล้ว
+// ⚠️ ตัวที่ใกล้แดงรอบนี้ที่สุดในรีโปคือ **dc0203 ของหวย365 (ห่าง 18)** รับไว้โดย
+// ตั้งใจเพราะ #eb0305 วัดจากโลโก้ และไม่ใช่ d9212a (ดวงเศรษฐี168) e4021b (รวยเทพ168)
+// fb1b32 (มีเฮ168) fa0513 (สมหวัง168) d30304 (รับตัง168) b3121b (ขวัญใจ168) หรือ
+// e01f26 (365LOTTO) · ทองแดงไหม้ #b44c06 ไม่มีแบรนด์ไหนในรีโปนี้เคยใช้ และไม่ใช่
+// d9701a (รวยเทพ168) a25b24 / 8c4312 (ufalion168) หรือ f58b2a (DUCK1688)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีบรอนซ์เลย** (บรอนซ์ a25b24 เป็นฮิวที่สามของรอบขาออก) **ไม่มี
-// ฟ้า/น้ำเงิน ไม่มีม่วง ไม่มีเขียว ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย
-// และไม่มีส้มสด**
+// ⚠️ **รอบนี้ไม่มีทองโบราณ/ทองน้ำผึ้งบนการ์ด ไม่มีบรอนซ์ ไม่มีฟ้า/น้ำเงิน ไม่มีม่วง
+// ไม่มีเขียว (ยกเว้น LINE green ที่อื่น) ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์
+// และไม่มีชมพู/ฟูเชีย**
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
@@ -91,26 +91,26 @@ const TitleTag = heading ? "h3" : "p";
 <div class="relative z-10 mx-auto mb-8 flex w-full max-w-[1400px] flex-col gap-5 px-4 font-sans">
   {
     items.map((item) => {
-      const isGold = (item.accent ?? "gold") === "gold";
+      const isRed = (item.accent ?? "red") === "red";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#8e1a16] bg-[#4e2120]/92 p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
-            isGold
-              ? "hover:border-[#f0c878]/75 hover:bg-[#300605] hover:shadow-[0_10px_20px_rgba(240,200,120,0.3)]"
-              : "hover:border-[#d9212a] hover:bg-[#300605] hover:shadow-[0_10px_20px_rgba(217,33,42,0.42)]"
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#eb0305]/35 bg-[#ffffff] p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
+            isRed
+              ? "hover:border-[#eb0305]/75 hover:bg-[#fff4ea] hover:shadow-[0_10px_20px_rgba(235,3,5,0.25)]"
+              : "hover:border-[#b44c06]/80 hover:bg-[#fff4ea] hover:shadow-[0_10px_20px_rgba(180,76,6,0.28)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
-              isGold
-                ? "border border-[#8e1a16] bg-[#f0c878] text-[#2a0608] shadow-[0_0_15px_rgba(240,200,120,0.45)] group-hover:rotate-3"
-                : "border border-[#8e1a16] bg-[#d9212a] text-[#fff8d8] shadow-[0_0_15px_rgba(217,33,42,0.5)]"
+              isRed
+                ? "border border-[#9b0a0c] bg-[#eb0305] text-[#ffffff] shadow-[0_0_15px_rgba(235,3,5,0.35)] group-hover:rotate-3"
+                : "border border-[#7a2f03] bg-[#b44c06] text-[#ffffff] shadow-[0_0_15px_rgba(180,76,6,0.35)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#f0c878] drop-shadow-[0_0_8px_rgba(240,200,120,0.35)]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#fff8d8]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#b44c06]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#401107]">{item.description}</p>}
           </div>
         </div>
       );
