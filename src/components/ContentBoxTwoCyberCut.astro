@@ -13,7 +13,7 @@ const { title, as: TitleTag = "p", titleleft, titleright, label } = Astro.props;
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
 // The two column labels always render as <p>, never a heading tag. The docx a
-// page is filled from is a flat H1 + a handful of H2s (plus a real H3 set this
+// page is filled from is a flat H1 + a handful of H2s (plus a real H3 pair this
 // round), and the rendered heading inventory is diffed against it on every
 // rebrand — a widget quietly adding two more headings is the thing that makes
 // that diff disagree. A <p> heading needs the section to carry its own
@@ -21,65 +21,68 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 //
 // The intro-slot wrapper below carries a real `mb-8` and sits beside the grid,
 // so it is one of the three ContentBox* wrappers that cannot be hoisted away.
+// The home page passes no default slot this round, so it renders nothing.
 //
-// This card carries docx H2 §6 of the home page (content.txt line 14,
-// "สมัครเรียนเดิมพันจากเซียน <แบรนด์> ง่ายๆ 3 ขั้นตอน"). The brief writes that
-// section as ONE running paragraph with no sub-labels, so the page runs its two
-// halves one per column and passes no `titleleft`/`titleright` — inventing a
-// pair would be the page's wording rather than the docx's. The brief's own
-// ขั้นตอนที่ 1-3 lines follow immediately afterwards through FeatureHighlights,
-// which is the one place the playbook lets a docx sub-list become real h3s.
+// This card carries **docx H2 §7** of the home page (content.txt line 16,
+// "ช่องทางติดต่อแอดมิน <แบรนด์> ตลอด 24ชม."). The brief writes that section as ONE
+// running paragraph with no sub-labels, so the page runs its two halves one per
+// column and passes no `titleleft`/`titleright` — inventing a pair would be the
+// page's wording rather than the docx's. **This brief has no sub-list under any
+// heading at all**, so FeatureHighlights is not used anywhere on the page and
+// the h3 count stays at the brief's own two.
 //
-// ดวงเศรษฐี168 (รอบ **ทองน้ำผึ้งนำ · แดงชาดจีนเป็นฮิวที่สอง · บนดำสนิท**
-// 2026-10-20, brand-spec §2): ทองน้ำผึ้ง #f0c878 มาจากตัวอักษร "ดวงเศรษฐี" สามมิติ
-// ผิวทองบนโลโก้ มงกุฎทอง กองเหรียญทอง และเครื่องประดับทองในงานอาร์ต ส่วนแดงชาด
-// #d9212a คือเลข "168" สามมิติสีแดงสดขลิบทอง และหมวกทรงจีนแดงขลิบทองของไฉ่ซิงเอี๊ย
-// พื้นเพจเป็น **ดำสนิท #000000** (bg.json) ลำดับความลึก: #4e2120 ยก / #300605 กลาง
-// / #150303 จม / #000000 พื้น
+// สาธุ168 (รอบ **เขียวมรกตนำ · ทองสัมฤทธิ์รอง · ธีมสว่าง** 2026-10-21,
+// brand-spec §2): เขียวมรกต #0b7d28 มาจากตัวอักษร "สาธุ" สามมิติผิวมันวาวไล่เขียว
+// บนโลโก้ ใบบัวและพุ่มไม้ในงานอาร์ต ส่วนทองสัมฤทธิ์เป็นเลข "168" กับเจดีย์ทอง —
+// แต่ **ทองเป็นสีของโครมเท่านั้น** ไฟล์นี้อยู่ในโซนเนื้อหาจึงไม่มีทองสักค่า
+// ⚠️ **ธีมสว่าง** — bg.json = #d8ffc7 ลำดับความลึก: #ffffff ผิวยก (ใบนี้) /
+// #e9fbdd ชั้นกลาง / #d8ffc7 พื้นเพจ หมึก **เขียวป่า #0c3a16** (= BRAND_TEXT,
+// 12.9:1 บนผิวยก ซึ่งเป็นคอนทราสต์สูงสุดของหน้า)
 //
-// การ์ดมุมตัดใบที่สองของหน้านี้ — ใบนี้อยู่ที่ **ผิวจม #150303** ซึ่งลึกกว่าผิวยกของ
-// ContentBoxSevenThree (§4) และตัดมุม **ซ้ายบน-ขวาล่าง 30px** ส่วน §4 ตัดมุมเดียวกัน
-// ที่ **36px บนผิวยก** จึงไม่ซ้ำกันทั้งความลึกและขนาดมุม มุมถูกไล่ด้วยเส้นคู่ละสอง
-// และทุกเส้นเป็นคนละค่าของพาเลตต์ เพื่อให้กรอบเองพาทั้งไล่ทอง-แดงมาไว้ที่ตัวกรอบ —
-// คู่บนซ้ายเป็นแดงชาด #d9212a (แนวนอน) กับทองน้ำผึ้ง #f0c878 (แนวตั้ง) และคู่ล่างขวา
-// เป็นทองน้ำผึ้ง (แนวนอน) กับแดงเลือดหมู #8e1a16 (แนวตั้ง) สลับขั้วกันสองมุม
-// ป้ายสองคอลัมน์แยกกันด้วย "ทอง vs งาช้าง" ตรงๆ — ทองน้ำผึ้ง #f0c878 ฝั่งซ้าย
-// (14.2:1 บนผิวจม) งาช้าง #fff8d8 ฝั่งขวา (18.4:1) ส่วนจุดนำหน้าเป็นแดงชาดกับทอง
-// หัวข้อ docx ไล่ **งาช้าง #fff8d8 → ทองน้ำผึ้ง #f0c878** สองสต็อป จัดกึ่งกลาง ซึ่ง
-// เป็นลำดับย้อนศรของ §5 (ทอง→งาช้าง) และไม่ซ้ำกับอีกเจ็ดกล่องบนหน้าเดียวกัน
+// การ์ดมุมตัดใบที่สองของหน้านี้ — ใบนี้อยู่ที่ **ผิวยก #ffffff** และตัดมุม
+// **ซ้ายบน-ขวาล่าง 30px** ส่วน ContentBoxSevenThreeCyberCut (§5) ตัดมุม
+// **ขวาบน-ซ้ายล่าง 30px บนผิวอินเซ็ต #e9fbdd** จึงไม่ซ้ำกันทั้งความลึกและทิศของมุม
+// มุมถูกไล่ด้วยเส้นคู่ละสอง และทุกเส้นเป็นคนละค่าของพาเลตต์ เพื่อให้กรอบเองพาเขียว
+// ทั้งสเกลมาไว้ที่ตัวกรอบ — คู่บนซ้ายเป็นเขียวมรกต #0b7d28 (แนวนอน) กับเขียวเข้ม
+// #0a5f1c (แนวตั้ง) และคู่ล่างขวาเป็น **เขียวใบตอง #0f9b35** (แนวนอน) กับหมึก
+// เขียวป่า #0c3a16 (แนวตั้ง) สลับขั้วกันสองมุม ⚠️ #0f9b35 อยู่ได้ตรงนี้เพราะเป็น
+// **เส้น/พื้นถม** ล้วน §2 ห้ามมันถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร
+// ป้ายสองคอลัมน์แยกกันด้วย "เขียวเข้ม vs เขียวมรกต" ตรงๆ — #0a5f1c ฝั่งซ้าย
+// (7.9:1 บนผิวยก) #0b7d28 ฝั่งขวา (5.3:1) ส่วนจุดนำหน้าสลับคู่กัน
+// หัวข้อ docx ไล่ **เขียวมรกต #0b7d28 → หมึกเขียวป่า #0c3a16** สองสต็อป จัดกึ่งกลาง
+// ซึ่งเป็นลำดับที่ไม่ซ้ำกับอีกเจ็ดกล่องบนหน้าเดียวกัน (§6 ไล่สามสต็อปทิศตรงข้าม)
 // ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ไม่ใช่พื้นหลัง ทุกสต็อป
-// จึงต้องเป็นค่าที่ §2 อนุญาตให้ถือตัวอักษรได้ — ห้ามเอา #d9212a หรือ #8e1a16 มาเป็น
-// ปลายไล่เฉด
+// จึงต้องเป็นค่าที่ §2 อนุญาตให้ถือตัวอักษร — **ห้ามเอา #0f9b35 หรือทองสัมฤทธิ์
+// ค่าใดมาเป็นปลายไล่เฉด** (3.7:1 และ 1.7–2.8:1 ตามลำดับ)
 // ⚠️ text-center อยู่บน <TitleTag> เท่านั้น ไม่ได้อยู่บนการ์ดหรือ <section> เพื่อไม่ให้
 // ไหลลงไปจัดกึ่งกลางย่อหน้าในสล็อตด้วย
-// เนื้อความ #fff8d8 (= BRAND_TEXT) — 18.4:1 บนผิวจม ซึ่งเป็นคอนทราสต์สูงสุดของหน้า
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้มีสองชั้น: ทอง และ แดง**
-// เพราะทั้งคู่ผ่านรีโปนี้มาแล้วหลายแบรนด์ ทองรอบนี้ #f0c878 ตัวที่ใกล้ที่สุดในรีโป
-// คือ ffdc8c ของรับตัง168 (ระยะ 32) และ f6e3b4 ของ ufalion168 รอบก่อน · แดงรอบนี้
-// #d9212a **ห่างจาก d30304 ของรับตัง168 และ e4021b ของรวยเทพ168 ไม่มาก** จึงต้อง
-// เทียบทีละหลัก (R217 G33 B42)
-// ชุดบรอนซ์-ทองอำพันของ ufalion168 ที่เพิ่งออก (d4922c fdfc71 a25b24 8c4312 d39c45
-// f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000 กับ rgba 212/146/44, rgba 253/252/113
-// และ rgba 162/91/36) ชุดทองจักรพรรดิ-แดงชาดของรวยเทพ168 (f0bb4e ffeccb e4021b
-// d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400) ชุดแดงชาด-ทองเนยของมีเฮ168
-// (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a 0c0205 fdeaec 1b0308) ชุดเต็ม
-// ของรวยแทร่168 (039cfa 0494f5 c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38
-// 030f1d 031320) ชุดของนินจา168 (32bcfb a9e9ff fef54b 07335f 6b5c10 0c2a3d 071a28
-// 030e16 041019 dceefc) ชุดของสบายเบท168 (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e 5c4a16
-// e8f4ff 0e2238 081726 040d16 04121f) ชุดของถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20
-// 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) ชุดของมีโชค168 (fcd434 ffeaa0 f5469f
-// ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดของขวัญใจ168 (f7c92b
-// ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603)
-// ชุดของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0
-// 2b100f 200a09 140505 1a0505) ชุดของสมหวัง168 (fa0513 ffadaf ff5a5f e3b23c ffe5a8
-// 8a6210 b90203 8c0204 5b0203 3c0303 170504 f4ecea ccb9b6 2c1413 1f0d0c 140706
-// 290f0f) และชุดน้ำเงินไฟฟ้าของ TSDET911 (0360f3 0292fb 6ec8ff cfdcec 9db4d4 dde8f7
-// 102a5e 0a1c42 040e26 00081f 032dad 04186e 021026) ออกครบทุกค่าแล้ว รวมถึง
-// 04225b · 2563eb
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักของรีโปนี้คือทองกับแดง** เพราะทั้ง
+// คู่ผ่านมาแล้วเกือบทุกแบรนด์ รอบนี้ไม่ใช้ทั้งสองอย่างบนการ์ด และเขียวทั้งสี่ค่า
+// **ไม่มีแบรนด์ไหนในรีโปนี้เคยใช้เลย** (ระยะใกล้สุดมากกว่า 100)
+// ชุดทองน้ำผึ้ง-แดงชาดของ **ดวงเศรษฐี168** ที่เพิ่งอยู่ในไฟล์นี้ทั้งไฟล์ (f0c878
+// fff8d8 d9212a 8e1a16 4e2120 300605 150303 rgba(217,33,42,…) rgba(240,200,120,…))
+// และชุดชมพูบานเย็นของรอบขาออก **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6
+// f0ccf5) ออกครบทุกค่าแล้ว รวมถึงชุดบรอนซ์ของ **ufalion168** (d4922c fdfc71 a25b24
+// 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601 5a3310 1a1000) ชุดของ **รวยเทพ168**
+// (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400) ชุดของ
+// **มีเฮ168** (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a 0c0205 fdeaec
+// 1b0308) ชุดของ **รวยแทร่168** (039cfa 0494f5 c3ebfc 04366b f9a826 704504 e3f2fc
+// 0b2d52 071e38 030f1d 031320) ชุดของ **นินจา168** (32bcfb a9e9ff fef54b 07335f
+// 6b5c10 0c2a3d 071a28 030e16 041019 dceefc) ชุดของ **สบายเบท168** (2f9ff5 a8dcff
+// d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f) ชุดของ
+// **ถอนชัวร์168** (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617
+// fdeaf5) ชุดของ **มีโชค168** (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612
+// f6e4ee 24101c 160a12 0b0509) ชุดของ **ขวัญใจ168** (f7c92b ffe6a3 f2bba5 c98a74
+// b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) ชุดของ **รับตัง168**
+// (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 200a09
+// 140505 1a0505) ชุดของ **สมหวัง168** (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210
+// b90203 8c0204 5b0203 3c0303 170504 f4ecea ccb9b6 2c1413 1f0d0c 140706 290f0f)
+// และชุดน้ำเงินไฟฟ้าของ **TSDET911** (0360f3 0292fb 6ec8ff cfdcec 9db4d4 dde8f7
+// 102a5e 0a1c42 040e26 00081f 032dad 04186e 021026 04225b 2563eb) — ไม่เหลือสักค่า
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีฟ้า/น้ำเงิน ม่วง/ไวโอเลต เขียว ส้มสด เงิน/โครเมียม โรสโกลด์
-// เหลืองมะนาว ชมพูฟูเชีย และ **ไม่มีบรอนซ์** (a25b24 คือสีที่สามของ ufalion168)
+// ⚠️ **รอบนี้ไม่มีฟ้า/น้ำเงิน ม่วง/ไวโอเลต แดง ส้มสด เงิน/โครเมียม โรสโกลด์
+// เหลืองมะนาว ชมพูฟูเชีย บรอนซ์ และไม่มีทองบนการ์ด**
 const sectionLabel = label ?? title ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 // A real heading already names the region, so the aria-label is dropped in that
 // case and only stands in when the title rendered as chrome (`as="p"`).
@@ -88,38 +91,34 @@ const named = Boolean(title) && TitleTag !== "p";
 
 <section aria-label={named ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#d9212a]/35 bg-[#150303]/95 p-8 text-[#fff8d8] shadow-[0_10px_30px_rgba(0,0,0,0.75)] backdrop-blur-md transition-all duration-300 hover:border-[#d9212a]/80 hover:shadow-[0_15px_40px_rgba(240,200,120,0.22)]"
+    class="relative isolate w-full border border-[#0b7d28]/35 bg-[#ffffff] p-8 text-[#0c3a16] shadow-[0_10px_30px_rgba(12,58,22,0.16)] transition-all duration-300 hover:border-[#0b7d28]/80 hover:shadow-[0_15px_40px_rgba(11,125,40,0.24)]"
     style="clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#d9212a] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f0c878] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#f0c878] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#8e1a16] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#0b7d28] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#0f9b35] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#0a5f1c] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#0c3a16] to-transparent"></div>
 
-    {
-      title && (
-        <TitleTag class="mb-4 bg-gradient-to-r from-[#fff8d8] to-[#f0c878] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>
-      )
-    }
+    {title && <TitleTag class="mb-4 bg-gradient-to-r from-[#0b7d28] to-[#0c3a16] bg-clip-text text-center text-2xl leading-normal font-black text-transparent uppercase">{title}</TitleTag>}
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#fff8d8]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#0c3a16]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fff8d8]">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#0c3a16]">
         {
           titleleft && (
-            <p class="flex items-center gap-2 border-b border-[#8e1a16] pb-2 text-xl leading-normal font-black text-[#f0c878] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#d9212a] shadow-[0_0_5px_rgba(217,33,42,0.8)]" /> {titleleft}
+            <p class="flex items-center gap-2 border-b border-[#0b7d28]/40 pb-2 text-xl leading-normal font-black text-[#0a5f1c] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#0b7d28] shadow-[0_0_5px_rgba(11,125,40,0.8)]" /> {titleleft}
             </p>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#fff8d8] md:border-l md:border-[#8e1a16] md:pl-8">
+      <article class="relative flex flex-col gap-4 text-left text-base leading-relaxed text-[#0c3a16] md:border-l md:border-[#0b7d28]/40 md:pl-8">
         {
           titleright && (
-            <p class="flex items-center gap-2 border-b border-[#8e1a16] pb-2 text-xl leading-normal font-black text-[#fff8d8] uppercase">
-              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#f0c878] shadow-[0_0_5px_rgba(240,200,120,0.8)]" /> {titleright}
+            <p class="flex items-center gap-2 border-b border-[#0b7d28]/40 pb-2 text-xl leading-normal font-black text-[#0b7d28] uppercase">
+              <span aria-hidden="true" class="inline-block h-2 w-2 shrink-0 bg-[#0a5f1c] shadow-[0_0_5px_rgba(10,95,28,0.8)]" /> {titleright}
             </p>
           )
         }

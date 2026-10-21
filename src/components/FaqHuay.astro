@@ -10,13 +10,10 @@ export interface Props {
   faqs?: FAQ[];
 }
 
-import { BRAND_NAME } from "../lib/brandProfile";
-
-// index.astro ส่ง `faqs` มาแบบระบุชัดเจน แต่ /ตรวจหวย หรือการเรียกแบบเปล่าอาจตกมาที่
-// default ด้านล่าง — default จึงต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ไม่ใช่ filler กลาง ๆ
-// default ที่ค้างของแบรนด์ก่อนคือจุดคลาสสิกที่สุดที่เนื้อหาแบรนด์เก่ารอดข้ามรีแบรนด์
-// สามคู่ด้านล่างคือ Q/A ของบรีฟรอบนี้เอง (src/assets/content.txt บรรทัด 23–28)
-// คำต่อคำ โดยชื่อแบรนด์มาจาก BRAND_NAME ไม่พิมพ์ทับ
+// `faqs` ต้องว่างเป็นค่าเริ่มต้น ห้ามมีรายการ Q/A เป็น default
+// ทุกหน้าที่เรนเดอร์ FAQ ส่ง `faqs` มาจากบรีฟของตัวเองอยู่แล้ว ส่วน default ที่เคยมี
+// Q/A ติดอยู่คือช่องทางคลาสสิกที่สุดที่คำถามของแบรนด์ก่อนหลุดขึ้น production:
+// หน้าที่ลืมส่ง prop จะเงียบ ๆ ขึ้นเนื้อหาของลูกค้าอีกเจ้าแทนที่จะว่างให้เห็นว่าลืม
 //
 // คำถามเป็น <p> ใน <summary> ไม่ใช่ heading: รายการ h2/h3 ถูก diff กับ checklist ของ
 // บรีฟทุกรอบ และไม่มีหัวข้อไหนในบรีฟที่เป็นประโยคคำถาม accordion ยังทำงานได้
@@ -28,36 +25,23 @@ import { BRAND_NAME } from "../lib/brandProfile";
 // เดียวกันจึงถูกปิดและรีเซ็ตไอคอนไปด้วย — `name` บน <details> ให้พฤติกรรม
 // เปิดได้ทีละอันจากเบราว์เซอร์เอง และ scope อยู่แค่กลุ่มนี้
 //
-// พาเลตต์รอบนี้ (brand-spec §2 ทองบนดำอมน้ำตาล): แถวคำถามเป็นพื้น #1c140b ในกรอบ
-// ทองแบรนด์ #cd9a2c คำตอบตกลงไปที่พื้นลึกสุด #0c0b0a เส้นคั่นจาง #5c3f12 ปุ่ม +
-// เป็นทองสว่าง #fdeb7c บนพื้น #0c0b0a แล้วกลับสีเป็นพื้นทอง #fdeb7c กับหมึกดำ
-// อมน้ำตาล #120a02 ตอนเปิด (หมึกเข้มบนพื้นทองได้ 16:1 ห้ามสลับทาง) หัวข้อไล่
-// ทองสว่าง #fdeb7c → ทองแบรนด์ #cd9a2c → ครีมอมพีช #fcd4c3 เนื้อความ #f5e7c8
-// glow เป็น rgba(205,154,44,*) ชุดแดง-ทองของรอบก่อน (#240406 #180303 #c08a07
-// #ffeab0 #ffc93c #1a0303 #f5282a #f6e7e0 rgba(255,201,60,*)) ออกครบทุกจุดแล้ว
-const {
-  title = "คำถามที่พบบ่อย",
-  as: HeadingTag = "h2",
-  faqs = [
-    {
-      q: `${BRAND_NAME} รับแทงเลขเด็ดและเลขดังทุกตัวหรือไม่?`,
-      a: "สามารถเลือกเลขตามรายการที่ระบบเปิดรับ แต่เลขบางชุดอาจมีวงเงินแตกต่างกัน โดยเฉพาะเลขที่มียอดเดิมพันสูง ควรกรอกเลขและตรวจสอบยอดสูงสุดที่ระบบรับได้ก่อนส่งโพยทุกครั้ง",
-    },
-    {
-      q: `${BRAND_NAME} 2 ตัวจ่าย 100 และ 3 ตัวจ่าย 1,000 จริงหรือไม่?`,
-      a: "หากรายการนั้นเข้าเงื่อนไข ระบบสามารถกำหนดอัตรา 2 ตัว 100 บาท และ 3 ตัว 1,000 บาท ได้ แต่อัตราจริงอาจขึ้นอยู่กับประเภทหวยและรูปแบบการเดิมพัน จึงควรตรวจสอบราคาบนหน้าส่งโพยก่อนยืนยัน",
-    },
-    {
-      q: `${BRAND_NAME} ฝากเงินเข้าบัญชีบริษัทโดยตรงหรือไม่?`,
-      a: "หากเว็บไซต์ระบุว่าใช้บัญชีบริษัทโดยตรง ควรมีชื่อบัญชีและข้อมูลนิติบุคคลให้ตรวจสอบ สมาชิกควรเปรียบเทียบชื่อผู้รับกับข้อมูลที่เว็บไซต์ประกาศก่อนโอน และไม่ควรใช้ข้อความประชาสัมพันธ์เพียงอย่างเดียวเป็นหลักฐานว่าบัญชีนั้นเป็นบัญชีบริษัท",
-    },
-  ],
-} = Astro.props;
+// พาเลตต์รอบนี้ (brand-spec §2 เขียวมรกตบนธีมสว่าง): ไฟล์นี้เป็นโซน "เนื้อหา" จึงเป็น
+// การ์ดสว่างหมึกเข้ม — แถวคำถามพื้นขาว #ffffff ในกรอบเขียวมรกต #0b7d28 คำตอบตกลงไป
+// ที่ชั้นอินเซ็ต #e9fbdd หมึกคำตอบ #0c3a16 (12.9:1) คำถาม #0a5f1c (7.9:1) ปุ่ม +
+// เป็น #0a5f1c บนพื้น #e9fbdd แล้วกลับเป็นพื้นถมเขียว #0b7d28 กับตัวอักษรขาว (5.3:1)
+// ตอนเปิด หัวข้อไล่เฉดหมึกเขียวป่า #0c3a16 → เขียวเข้ม #0a5f1c → เขียวมรกต #0b7d28
+// (ทั้งสามค่าอ่านได้บนพื้นเพจ #d8ffc7) glow เป็น rgba(11,125,40,*)
+// ⚠️ ไม่มีสีทองสัมฤทธิ์ทั้งสามค่าในไฟล์นี้ — บนการ์ดขาวได้แค่ 1.7–2.8:1 ตกเกณฑ์
+// ทองเป็นสีของโครมเท่านั้น และไม่มีเขียวใบตอง (stop สว่างสุดของพาเลต) เพราะมัน
+// ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร ซึ่งในการ์ดนี้ทุกชั้นมีตัวอักษรอยู่
+// ค่าของแบรนด์ก่อน ๆ (ชุดทอง-ดำของเจ้าของเดิมของไฟล์ชุด *Huay ชุดแดง-ทองก่อนหน้านั้น
+// และชุดชมพูของรอบที่แล้ว) ออกครบทุกจุดแล้ว — เทียบทีละค่ากับตารางใน brand-spec §2
+const { title = "คำถามที่พบบ่อย", as: HeadingTag = "h2", faqs = [] } = Astro.props;
 ---
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
   <HeadingTag
-    class="mb-6 bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#fcd4c3] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase drop-shadow-sm"
+    class="mb-6 bg-gradient-to-r from-[#0c3a16] via-[#0a5f1c] to-[#0b7d28] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase"
     >{title}</HeadingTag
   >
 
@@ -66,16 +50,16 @@ const {
       faqs.map((faq) => (
         <details
           name="faq-huay"
-          class="faq-item group overflow-hidden rounded-xl border border-[#cd9a2c]/55 bg-[#1c140b]/90 backdrop-blur-md transition-all duration-300 hover:border-[#fdeb7c]/65 hover:shadow-[0_10px_25px_rgba(205,154,44,0.22)]">
+          class="faq-item group overflow-hidden rounded-xl border border-[#0b7d28]/35 bg-[#ffffff] shadow-[0_4px_14px_rgba(12,58,22,0.08)] transition-all duration-300 hover:border-[#0b7d28]/75 hover:shadow-[0_10px_25px_rgba(11,125,40,0.18)]">
           <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left">
-            <p class="text-base leading-normal font-bold text-[#f5e7c8] transition-colors group-hover:text-[#fdeb7c]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#0a5f1c] transition-colors group-hover:text-[#0b7d28]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#cd9a2c]/70 bg-[#0c0b0a] text-sm font-bold text-[#fdeb7c] transition-all duration-300 group-hover:bg-[#fdeb7c] group-hover:text-[#120a02]">
+              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#0b7d28]/55 bg-[#e9fbdd] text-sm font-bold text-[#0a5f1c] transition-all duration-300 group-hover:bg-[#0b7d28] group-hover:text-[#ffffff]">
               +
             </span>
           </summary>
-          <p class="faq-answer border-t border-[#5c3f12] bg-[#0c0b0a]/90 p-5 text-left text-base leading-relaxed text-[#f5e7c8]">{faq.a}</p>
+          <p class="faq-answer border-t border-[#0b7d28]/25 bg-[#e9fbdd] p-5 text-left text-base leading-relaxed text-[#0c3a16]">{faq.a}</p>
         </details>
       ))
     }
@@ -90,12 +74,12 @@ const {
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(253, 235, 124, 0.65);
+    border-color: rgba(11, 125, 40, 0.75);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    background-color: #fdeb7c;
-    color: #120a02;
+    background-color: #0b7d28;
+    color: #ffffff;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

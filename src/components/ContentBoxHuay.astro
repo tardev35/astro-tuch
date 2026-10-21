@@ -10,21 +10,39 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // decorative absolute layer, and the slot renders as a direct child of the card.
 // Do not re-add a `relative z-10` wrapper <div>.
 //
-// หวยคิง (รอบทองโลหะ + ครีมอมพีช บนดำอมน้ำตาล 2026-10-04): รอบนี้ไฟล์นี้ถูกเลือก
-// เป็นกล่องคอลัมน์เดียวของทั้ง H1 หน้าแรก และสองหน้าหวย (/ตรวจหวย, /แนวทาง)
-// จึงมีสามหน้าที่ render ตัวนี้ และต้องถือสีของแบรนด์ปัจจุบันเต็มชุด
+// สาธุ168 (รอบ **เขียวมรกตนำ · ทองสัมฤทธิ์รอง · ธีมสว่าง** 2026-10-21,
+// brand-spec §2–§4): ไฟล์นี้ถือ **docx H1 ของหน้าแรก** (§1) และเป็นกล่องคอลัมน์เดียว
+// ใบเดียวของหน้า หน้าอื่นไม่ได้ import ตัวนี้ในรอบนี้ (ตรวจแล้วด้วย grep ทั้ง
+// src/pages — /ตรวจหวย กับ /แนวทาง เดินผ่าน ContentBox กับ *Neumorphism)
 //
-// รูปทรงคือ "ใบสลาก": กรอบทองหนา + วงในเส้นประ + รอยปรุครึ่งวงกลมสองข้างกลางการ์ด
-// + แถบหัวตั๋วไล่ทอง + เส้นประใต้หัวข้อ — ตั้งใจให้ต่างจาก ContentBox.astro
-// (การ์ดโค้งเรียบ + ขีดใต้หัวข้อ) เพราะทั้งสองตัวอยู่หน้าเดียวกันในหน้าแรก
+// รูปทรงคือ "ใบสลาก": กรอบหนา + วงในเส้นประ + รอยปรุครึ่งวงกลมสองข้างกลางการ์ด
+// + แถบหัวตั๋วไล่เฉด + เส้นประใต้หัวข้อ — ตรงกับแกนของแบรนด์รอบนี้ที่เป็น
+// **เว็บหวย** และอาร์ตเวิร์กที่คู่ชาย-หญิงชุดไทยถือสลากกินแบ่งรัฐบาลคลี่เป็นพัด
+// ไอคอนหัวข้อจึงเป็น 🎟️ (อยู่ใน span aria-hidden และเป็นพี่น้องของหัวข้อ)
 //
-// สีตาม brand-spec §2: ทองแบรนด์ #cd9a2c ถือกรอบ ทองสว่าง #fdeb7c เป็นไฮไลต์
-// ทองลึก #ab7314 เป็นปลายไล่เฉด สีรองครีมอมพีช #fcd4c3 ถือออร่ามุมขวาล่าง
-// ผิวการ์ด #1c140b พื้นลึกสุด #0c0b0a ใช้เป็นเนื้อรอยปรุกับชิปไอคอน
-// เนื้อความ #f5e7c8 (= BRAND_TEXT) glow เป็น rgba(205,154,44,…)
+// ⚠️ **ธีมสว่าง** — bg.json ของดรอปนี้คือ {"mode":"color","color":"#d8ffc7"}
+// เขียวมิ้นต์สว่าง ไม่ใช่ดำอย่างที่ไฟล์นี้เคยถือ โซนเนื้อหาจึงเป็น
+// **ผิวการ์ดขาว #ffffff + หมึกเขียวป่า #0c3a16** (12.9:1) ส่วนโครม (navbar/footer/
+// ticker/feed) ยังเข้ม — ห้าม "แก้" ครึ่งใดครึ่งหนึ่งให้กลับไปทางเดียวกัน
+// รอยปรุกับชิปไอคอนใช้ผิวอินเซ็ต #e9fbdd (ชั้นกลางของธีมสว่าง = ที่ที่ชั้นลึก
+// เคยอยู่ตอนธีมมืด) หัวข้อไล่ **เขียวเข้ม #0a5f1c → เขียวมรกต #0b7d28 → #0a5f1c**
+// ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องเป็นค่าที่
+// §2 อนุญาตให้ถือตัวอักษรบนพื้นสว่าง — ห้ามเอา **เขียวใบตอง #0f9b35** (3.7:1) มา
+// เป็นสต็อป มันใช้ได้เฉพาะพื้นถม/ออรา ซึ่งในไฟล์นี้คือแถบหัวตั๋วกับออรามุมขวาล่าง
+// ⚠️ **ทองสัมฤทธิ์ #c9cb63 #aeb04a #9ba03c ไม่อยู่ในไฟล์นี้เลยสักค่า** — บนการ์ดขาว
+// ทองได้แค่ 1.7–2.8:1 §2 จึงกันทองไว้ให้โครมเท่านั้น
 //
-// ชุดแดง-ทองเดิม (#240406 #c08a07 #ffc93c #ffeab0 #f5282a #dc0203 #f6e7e0
-// rgba(255,201,60) rgba(8,1,1)) ออกครบทุกจุดแล้ว
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — แต่รอบนี้เป็นรอบที่เทียบง่ายที่สุด
+// เพราะ **ไม่มีแบรนด์ไหนในรีโปนี้เคยใช้เขียวเป็นสีนำเลยสักเฉด** (ระยะใกล้สุด
+// มากกว่า 100) ชุดทองโลหะ + ครีมอมพีชของ **หวยคิง** ซึ่งเป็นเจ้าของเดิมของไฟล์
+// ชุด *Huay (cd9a2c fdeb7c ab7314 fcd4c3 fce2d4 1c140b 0c0b0a f5e7c8
+// rgba(205,154,44,…)) ออกครบทุกค่าแล้ว และชุดชมพูบานเย็นของรอบก่อนทันที
+// **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) ไม่เคยเข้ามาในไฟล์นี้
+// และต้องไม่เข้ามา · ชุดแดง-ทองของ **หวย365** (140203 dc0203 f5282a ffc93c ffeab0
+// 8c0402 c08a07 f6e7e0) ที่เคยค้างก่อนหน้านั้น ก็ไม่เหลือเช่นกัน
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีชมพู/ฟูเชีย ไม่มีแดงชาด ไม่มีบรอนซ์ส้ม ไม่มีฟ้า/น้ำเงิน/ไซยาน
+// ไม่มีม่วง ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีทองส้ม**
 //
 // การ์ดถือ `text-left` ไว้เอง อย่าเผลอใส่ `text-center` บนกล่องหรือ wrapper ใด
 // ที่ครอบ <slot /> เพราะมันจะรั่วไปจัดกึ่งกลางย่อหน้าของทั้งหน้า ถ้าต้องการหัวข้อ
@@ -33,25 +51,25 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-[2rem] border-2 border-[#cd9a2c]/55 bg-[#1c140b]/95 px-7 py-9 text-left text-base leading-relaxed text-[#f5e7c8] shadow-[0_12px_34px_rgba(0,0,0,0.8)] transition-all duration-500 hover:border-[#fdeb7c]/80 hover:shadow-[0_16px_44px_rgba(205,154,44,0.28)] md:px-12 md:py-11">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1.5 bg-gradient-to-r from-[#ab7314] via-[#fdeb7c] to-[#ab7314]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-2.5 -z-10 rounded-[1.5rem] border border-dashed border-[#cd9a2c]/30"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -left-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#0c0b0a] shadow-[inset_0_0_0_1px_rgba(205,154,44,0.45)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -right-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#0c0b0a] shadow-[inset_0_0_0_1px_rgba(205,154,44,0.45)]"></div>
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-[2rem] border-2 border-[#0b7d28]/55 bg-[#ffffff] px-7 py-9 text-left text-base leading-relaxed text-[#0c3a16] shadow-[0_12px_34px_rgba(12,58,22,0.18)] transition-all duration-500 hover:border-[#0a5f1c]/80 hover:shadow-[0_16px_44px_rgba(11,125,40,0.26)] md:px-12 md:py-11">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1.5 bg-gradient-to-r from-[#0a5f1c] via-[#0f9b35] to-[#0a5f1c]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-2.5 -z-10 rounded-[1.5rem] border border-dashed border-[#0b7d28]/30"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -left-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#e9fbdd] shadow-[inset_0_0_0_1px_rgba(11,125,40,0.45)]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -right-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#e9fbdd] shadow-[inset_0_0_0_1px_rgba(11,125,40,0.45)]"></div>
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-44 w-72 -translate-x-1/2 rounded-full bg-[#cd9a2c]/25 blur-[70px] transition-all duration-500 group-hover:bg-[#fdeb7c]/35">
+      class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-44 w-72 -translate-x-1/2 rounded-full bg-[#0b7d28]/18 blur-[70px] transition-all duration-500 group-hover:bg-[#0b7d28]/28">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute right-8 -bottom-20 -z-10 h-36 w-36 rounded-full bg-[#fcd4c3]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#fce2d4]/28">
+    <div aria-hidden="true" class="pointer-events-none absolute right-8 -bottom-20 -z-10 h-36 w-36 rounded-full bg-[#0f9b35]/16 blur-[60px] transition-all duration-500 group-hover:bg-[#0f9b35]/26">
     </div>
 
     {
       title && (
-        <header class="mb-6 flex items-center gap-4 border-b border-dashed border-[#cd9a2c]/45 pb-5">
-          <span aria-hidden="true" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#cd9a2c]/60 bg-[#0c0b0a] text-xl shadow-[0_0_14px_rgba(205,154,44,0.4)]">
+        <header class="mb-6 flex items-center gap-4 border-b border-dashed border-[#0b7d28]/45 pb-5">
+          <span aria-hidden="true" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#0b7d28]/60 bg-[#e9fbdd] text-xl shadow-[0_0_14px_rgba(11,125,40,0.25)]">
             🎟️
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#fdeb7c] via-[#cd9a2c] to-[#fcd4c3] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#0a5f1c] via-[#0b7d28] to-[#0a5f1c] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>

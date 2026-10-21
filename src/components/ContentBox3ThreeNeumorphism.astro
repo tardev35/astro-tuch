@@ -20,9 +20,10 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // headings on the page that the brief never asked for. They follow `as` now, and
 // `heading={false}` demotes them to <p> while keeping the classes — the docx
 // diff in Phase 5 is only meaningful while chrome stays out of the heading list.
-// THIS round the page passes heading={false}: the brief writes its three signup
-// steps as running prose, not as labelled sub-headings, so the labels are <p> and
-// the printed h3 count stays at the docx's own two.
+// THIS round both calling pages pass heading={false}: the three column labels are
+// captions the page invented to split one topic into three readable columns, not
+// sub-headings the brief wrote, so they render as <p> and the printed heading
+// inventory stays at h1×1 + the page's own h2 list.
 //
 // The default slot is the section's INTRO, and it is the one wrapper in this file
 // that cannot be hoisted away: it carries a real `mb-8` and sits beside the grid,
@@ -32,56 +33,60 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? title ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#f0b429]";
-const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d30304] shadow-[0_0_8px_rgba(211,3,4,0.95)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#0a5f1c]";
+const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#0b7d28] shadow-[0_0_8px_rgba(11,125,40,0.85)]";
 
-// รับตัง168 (รอบทองไทยนำ แดงมังกรรอง บนดำอมแดง 2026-10-18, brand-spec §2):
-// แผ่นนูนเป็นผิวการ์ด **ผิวกลาง #200a09** ที่กดเงาลงไปหาผิวจม #140505 และยกแสงขึ้น
-// ด้วยผิวยก #2b100f — ความนูนแบบ neumorphic ต้องเป็นคู่มืด/สว่างในโทนเดียว จึงไม่มี
-// สีที่สองมาอยู่ในเงา สีเน้นจึงปรากฏเฉพาะที่หัวข้อ เส้นคั่นคอลัมน์ และจุดนำหน้าป้าย
-// คือทองแบรนด์ #f0b429 กับแดงแบรนด์ #d30304
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำอมแดง #1a0505** (bg.json) ซึ่ง **สว่างกว่าผิวจม #140505**
-// เงาที่กดลงไปจึงยังมืดกว่าพื้นเพจจริง
-// ⚠️ รอบนี้ **ทองนำ แดงรอง** ซึ่งกลับลำดับจากรอบก่อน (สมหวัง168 แดงนำ ทองรอง) —
-// กองเหรียญจีนทองรูสี่เหลี่ยมเป็นบริเวณอิ่มสีที่กว้างที่สุดในงานอาร์ตของดรอปนี้
-// หัวข้อไล่ ทองแบรนด์ #f0b429 → ทองสว่าง #ffdc8c → แดงสว่าง #ff6b6e ซึ่งเป็นลำดับ
-// คนละชุดกับอีกเจ็ดกล่องบนหน้าเดียวกัน ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซล
-// ของตัวอักษร** ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2 — ห้ามเอา #d30304 #a00203
-// #4a0202 #9a6c0c มาเป็นสต็อป และ **ห้ามเอา #cfd9e6 มาเป็นสต็อปเช่นกัน** เพราะ §2
-// สงวนมันไว้เป็น "สีตัวอักษรรอง" อย่างเดียว ไม่ใช่สีระบบ
-// เนื้อความ #f5ece0 (= BRAND_TEXT) — 13.9:1 บนผิวกลาง
+// ไฟล์นี้ถูก render จากสองหน้าหวยเท่านั้น (src/pages/ตรวจหวย.astro ·
+// src/pages/แนวทาง.astro) ซึ่งรอบนี้ (สาธุ168 2026-10-21) **เปิดอยู่** เพราะบรีฟ
+// ทั้งฉบับเป็นเว็บหวยล้วน และ NavbarHuay/FooterHuay มีลิงก์ทั้งสองอยู่แล้ว
+// ⚠️ ข้อยกเว้น "หน้าหวยคงธีม Huay แดง-ทอง" **ไม่ใช้รอบนี้** — ทั้งเว็บเป็นเว็บหวย
+// และใช้ชุด *Huay อยู่แล้ว สองหน้านั้นจึงใช้พาเลตเขียว-ทองสัมฤทธิ์เหมือนทุกหน้า
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง และสามแบรนด์ก่อนหน้า
-// เป็นแดงทั้งหมด** ชุดแดงแบรนด์-เงินโครเมียมของ หวยดีใจ ที่เคยค้างอยู่ทั้งไฟล์นี้
-// (#dc0409 #f5363d #eef0f4 #c3c7d1 #edeaf0 #17080c #0d0407 #211016) ออกครบทุกจุดแล้ว
-// และชุดแดง-ทองของ หวย24 ที่ค้างก่อนหน้านั้น (#170707 #0a0303 #230d0d #d20a0a
-// #f5c33b #ffd45e #ff5c5c #f7e2d6) ก็ไม่เหลือ
-// ⚠️ แดงรอบนี้คือ #d30304 (R=211 G=3 B=4) — ไม่ใช่ #dc0409 (หวยดีใจ) #d20a0a (หวย24)
-// #d4200d (PIGPG) #fa0513 (สมหวัง168) #fb131b (TKB55) #fb141b (GT66B) #e8232a
-// (SUPERSLOTCLUB) หรือ #ff3b14 (FLASH877) และทองรอบนี้คือ #f0b429 ไม่ใช่ #e3b23c
-// #dfa310 #e5a81b #e2b33f #f5c33b หรือ #fad354
-// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน ไม่มีฟ้า ไม่มีเขียว ไม่มีส้ม** และ
-// ไม่มีโครเมียม/เงินเป็นสีระบบ
+// สาธุ168 (brand-spec §2 — เขียวมรกตนำ **ธีมสว่าง**): ไฟล์นี้อยู่ในโซน "เนื้อหา"
+// จึงเป็นการ์ดสว่างหมึกเข้ม ไม่ใช่โครม
+//   ผิวการ์ด (ชั้นยก) #ffffff · เส้นคั่นคอลัมน์/ขอบ #0b7d28 แบบโปร่ง
+//   เนื้อความหมึกเขียวป่า #0c3a16 = 12.9:1 บนผิวการ์ด
+//   ป้ายคอลัมน์เขียวเข้ม #0a5f1c = 7.9:1 · จุดนำหน้าป้ายเป็นเขียวมรกต #0b7d28
+//     (จุดเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร)
+// ความนูนแบบ neumorphic ของธีมสว่างกลับทางกับธีมมืด: เงาจมเป็น rgba(12,58,22,α)
+// และเงายกเป็น #ffffff ซึ่งอ่านเป็นแสงได้เพราะพื้นเพจ #d8ffc7 เข้มกว่าผิวการ์ดขาว
+// ⚠️ หัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษร
+// ได้ตาม §2 — สต็อปคือ #0c3a16 (12.9:1) → #0a5f1c (7.9:1) → #0b7d28 (5.3:1)
+// **ห้ามเอาทองสัมฤทธิ์ #c9cb63 #aeb04a #9ba03c มาเป็นสต็อป** (1.7–2.8:1 บนขาว
+// ตกทุกเกณฑ์ — ทองเป็นสีของโครมเท่านั้น) และ **ห้ามเอาเขียวใบตอง #0f9b35 มาเป็น
+// สต็อปเช่นกัน** (3.7:1 บนขาว §2 สงวนไว้เป็นสต็อปของไล่เฉด/ออราที่ไม่มีตัวอักษร)
+// ⚠️ #e9fbdd / #d8ffc7 เป็นสีพื้น/เส้นเท่านั้น ห้ามถือตัวอักษรบนผิวการ์ดขาว
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักของไฟล์นี้คือทองกับแดง เพราะ
+// เจ้าของเดิมทุกรายใช้คู่นั้น** ชุดทองไทย-แดงมังกรของรับตัง168 (f0b429 ffdc8c
+// d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 200a09 140505 1a0505)
+// ออกครบทุกจุดแล้ว · ชุดแดงแบรนด์-เงินโครเมียมของ หวยดีใจ (dc0409 f5363d eef0f4
+// c3c7d1 edeaf0 17080c 0d0407 211016) และชุดแดง-ทองของ หวย24 (170707 0a0303
+// 230d0d d20a0a f5c33b ffd45e ff5c5c f7e2d6) ก็ไม่เหลือ · รวมถึงชุดชมพูบานเย็นของ
+// รอบก่อนทันที มีทรัพย์168 (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5)
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ **รอบนี้ไม่มีม่วง ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า ไม่มีส้ม ไม่มีแดง และไม่มี
+// เงิน/โครเมียมเป็นสีระบบ** — เขียวทั้งสี่ค่าคือความต่างของรอบนี้
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#200a09] p-8 shadow-[10px_10px_20px_#140505,-10px_-10px_20px_#2b100f] transition-all duration-300 hover:shadow-[15px_15px_30px_#140505,-15px_-15px_30px_#2b100f]">
+    class="w-full rounded-[25px] bg-white p-8 shadow-[12px_12px_26px_rgba(12,58,22,0.16),-12px_-12px_26px_#ffffff] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(12,58,22,0.2),-16px_-16px_32px_#ffffff]">
     {
       title && (
         <header class="mb-8 text-center">
-          <HeadingTag class={`bg-gradient-to-r from-[#f0b429] via-[#ffdc8c] to-[#ff6b6e] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#0c3a16] via-[#0a5f1c] to-[#0b7d28] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#f0b429] to-transparent shadow-[0_0_10px_rgba(240,180,41,0.7)]" />
+          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#0b7d28] to-transparent shadow-[0_0_10px_rgba(11,125,40,0.55)]" />
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f5ece0]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#0c3a16]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#2b100f] pb-6 text-left text-base leading-relaxed text-[#f5ece0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#0b7d28]/25 pb-6 text-left text-base leading-relaxed text-[#0c3a16] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -92,7 +97,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d30304] shadow-[
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#2b100f] pb-6 text-left text-base leading-relaxed text-[#f5ece0] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#0b7d28]/25 pb-6 text-left text-base leading-relaxed text-[#0c3a16] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -103,7 +108,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#d30304] shadow-[
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f5ece0] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0c3a16] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>
