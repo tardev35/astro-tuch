@@ -1,55 +1,61 @@
 ---
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// รอบ สาธุ168 (2026-10-21) — ไฟล์นี้เป็น ticker ของ **ทั้งเว็บ** ไม่ใช่เฉพาะสองหน้าหวย
-// แบรนด์รอบนี้เป็นเว็บหวยล้วน (รัฐบาลไทย ฮานอย ลาว หุ้นต่างประเทศ) ธีม Huay จึงเป็น
-// ธีมของแบรนด์เอง ไม่ใช่ข้อยกเว้นเฉพาะหมวด ทุกหน้าใน src/pages/ import ตัวนี้ตัวเดียวกัน
-// ticker จึงพูดเหมือนกันหมดทั้งไซต์ (SKILL.md Phase 4.5 ข้อ 3)
+// รอบนี้ (รวยแท้168 2026-10-21) ticker หลักของทั้งเว็บคือ Announcement5 ส่วนไฟล์นี้
+// ถูก render จากสองหน้าหวยเท่านั้น: src/pages/ตรวจหวย.astro และ src/pages/แนวทาง.astro
+// ซึ่งเก็บชุด *Huay / *Neumorphism ไว้เป็นซับธีมตามข้อยกเว้น Phase 4.5 ของ playbook
+// ⚠️ ข้อยกเว้นนั้นคุ้มครอง **ชุดคอมโพเนนต์** ไม่ได้คุ้มครองพาเลตหรือชื่อแบรนด์ —
+// ไฟล์นี้จึงใช้พาเลตรอบปัจจุบันเต็มรูปแบบเหมือนทุกไฟล์ที่ render
 //
-// ทุกหน้า **รวม index.astro** เรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่วิ่งจริง
-// จึงเป็น default ตัวนี้ — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ชื่อแบรนด์มาจาก BRAND_NAME
-// ไม่พิมพ์ทับ และ **ห้ามมี emoji ในสตริงนี้** เพราะ emoji ที่ฝังอยู่ใน text prop
-// ใส่ aria-hidden ให้ไม่ได้ และ marquee ตัวนี้พิมพ์ข้อความซ้ำสองรอบ screen reader
-// จะอ่าน emoji ซ้ำตามจำนวนรอบ glyph ตกแต่งอยู่ในมาร์กอัปรอบนอกที่มี aria-hidden
+// สองหน้านั้นเรียก <Announcement /> แบบไม่ส่ง prop ข้อความที่วิ่งจริงจึงเป็น default
+// ตัวนี้ — ต้องเป็นคำของแบรนด์ปัจจุบันเสมอ ชื่อแบรนด์มาจาก BRAND_NAME ไม่พิมพ์ทับ
+// และ **ห้ามมี emoji ในสตริงนี้** เพราะ emoji ที่ฝังอยู่ใน text prop ใส่ aria-hidden
+// ให้ไม่ได้ และ marquee ตัวนี้พิมพ์ข้อความซ้ำสองรอบ screen reader จะอ่าน emoji ซ้ำ
+// ตามจำนวนรอบ glyph ตกแต่งอยู่ในมาร์กอัปรอบนอกที่มี aria-hidden
 //
 // ticker เป็น chrome จึงไม่มี heading tag ทุกระดับ
 //
-// คำทุกคำมาจาก src/assets/content.txt เท่านั้น (brand-spec §6 คลังคำของรอบนี้)
-// ห้ามมีชื่อธนาคาร ห้ามมีชื่อค่าย ห้ามมีเวลาเปิด-ปิดรับเป็นตัวเลข ห้ามมียอดขั้นต่ำ —
-// บรีฟไม่ได้ให้ไว้ ตัวเลขที่ใช้ได้มีแค่ 0.3% / 0.8% / 24ชม. / 100%
+// คำทุกคำมาจาก src/assets/content.txt เท่านั้น (brand-spec §6 คลังคำของรอบนี้ —
+// หวยรัฐบาลไทย · หวยลาวพัฒนา · หวยฮานอย · หวยหุ้นต่างประเทศ) ห้ามมีชื่อธนาคาร
+// ห้ามมีชื่อค่ายเกม ห้ามมีเวลาเปิด-ปิดรับเป็นตัวเลข ห้ามมียอดขั้นต่ำ — บรีฟไม่ได้
+// ให้ไว้ ตัวเลขที่ใช้ได้มีแค่ 2 ตัว 100 · 3 ตัว 1,000 · 0.3% · 0.8% · 24ชม.
 // คำเฮดจ์ของบรีฟเอง (ตรวจสอบรอบปิดรับและอัตราจ่ายจากเว็บไซต์ทางการก่อนทำรายการ)
 // ติดมาด้วยโดยตั้งใจ เพราะบรีฟรอบนี้โฆษณาและกำกับความเสี่ยงในย่อหน้าเดียวกัน
 //
-// พาเลตรอบนี้ (brand-spec §2 — โซน "โครม" = พื้นเขียวป่าเข้ม ตัวอักษรสว่าง):
-//   แคปซูลพื้น #0c3a16 (ชั้นยกของโครม) ขอบทองสัมฤทธิ์ #aeb04a
-//   ป้าย "ประกาศ" ไล่เฉดทองสัมฤทธิ์ #c9cb63 -> #aeb04a -> #9ba03c บนหมึก #0c3a16
-//     (7.5 / 6.2 / 4.6 ตามลำดับ — ปลายเฉดล่างสุดยังผ่าน AA กับตัวหนา)
-//   เนื้อความ ticker #e9fbdd (11.8:1 บน #0c3a16) จุดนำหน้าเป็นทองอ่อน #c9cb63
-//     กับมิ้นต์สว่าง #e9fbdd (จุดเป็นวงกลมตกแต่ง ไม่ใช่ตัวอักษร)
-//   glow/เงาใช้ rgba(174,176,74,*) กับ rgba(12,58,22,*) เท่านั้น
-// ⚠️ **ทองของรอบนี้เป็นทองสัมฤทธิ์อมเขียว ไม่ใช่ทองส้ม** ชุดทองบนดำอมน้ำตาลของ
-// หวยคิง ซึ่งเป็นเจ้าของเดิมของไฟล์นี้ (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4
-// 0c0b0a 120a02 1c140b rgba 205/154/44 a) และชุดชมพูบานเย็นของ มีทรัพย์168
-// (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) ออกครบแล้วทุกค่า
+// พาเลตรอบนี้ (brand-spec §2 — โซน "โครม" = พื้นแดงเลือดหมูเข้ม ตัวอักษรสว่าง):
+//   แคปซูลพื้น #461212 (ชั้นยกของโครม) ขอบทองโบราณ #b8862b
+//   ป้าย "ประกาศ" ไล่เฉดทองโบราณ #dcb95f -> #c99a3f -> #b8862b บนหมึก #280b0b
+//     (9.8 / 7.2 / 5.7 ตามลำดับ — ผ่านทุกสต็อป คือ CTA ทองมาตรฐานของ §2)
+//   เนื้อความ ticker #ffeee8 (13.8:1 บน #461212) จุดนำหน้าเป็นทองอ่อน #dcb95f
+//     กับครีมอมชมพู #ffeee8 (จุดเป็นวงกลมตกแต่ง ไม่ใช่ตัวอักษร)
+//   glow/เงาใช้ rgba(184,134,43,*) กับ rgba(74,15,15,*) เท่านั้น
+// ⚠️ ทองวางบนพื้นถมแดง #c30303 ได้แค่ 3.4:1 — ไฟล์นี้จึงไม่มีแดงเป็นพื้นของทองเลย
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองของรอบนี้เป็นทองโบราณอมน้ำตาล**
+// ชุดเขียวมรกต-ทองสัมฤทธิ์อมเขียวของรอบก่อนทันที สาธุ168 (0b7d28 0a5f1c 0f9b35
+// 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd rgba 174/176/74 a ·
+// rgba 12/58/22 a) ออกครบทุกค่าแล้ว · ชุดทองส้มบนดำอมน้ำตาลของ หวยคิง ซึ่งเป็น
+// เจ้าของเดิมของไฟล์นี้ (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02
+// 1c140b rgba 205/154/44 a) และชุดชมพูบานเย็นของ มีทรัพย์168 (dd1b74 a4186b 4a0d35
+// 2d0720 f7dcf6 f0ccf5) ก็ไม่เหลือค่าไหน
 // (เฮกซ์ของแบรนด์เก่าเขียนแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep สะดุดที่คอมเมนต์นี้)
 const {
-  message = `${BRAND_NAME} เว็บหวยจ่ายจริงไม่โกง เปิดรับแทงหวยรัฐบาลไทย หวยฮานอย หวยลาว และหวยหุ้นต่างประเทศ ตรวจสอบรอบปิดรับและอัตราจ่ายจากเว็บไซต์ทางการก่อนทำรายการทุกครั้ง ติดต่อแอดมิน 24ชม.`,
+  message = `${BRAND_NAME} ช่องทางเล่นหวยออนไลน์ ระบบจริงจากเว็บแม่ ไม่มีประวัติโกง เปิดรับหวยรัฐบาลไทย หวยลาวพัฒนา หวยฮานอย และหวยหุ้นต่างประเทศ ตรวจสอบรอบปิดรับและอัตราจ่ายจากเว็บไซต์ทางการก่อนทำรายการทุกครั้ง ติดต่อแอดมิน 24ชม.`,
 } = Astro.props;
 ---
 
 <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-3">
-  <div class="relative flex overflow-hidden rounded-full border border-[#aeb04a]/60 bg-[#0c3a16]/95 shadow-[0_5px_15px_rgba(12,58,22,0.75)] backdrop-blur-md">
+  <div class="relative flex overflow-hidden rounded-full border border-[#b8862b]/60 bg-[#461212]/95 shadow-[0_5px_15px_rgba(74,15,15,0.75)] backdrop-blur-md">
     <div
-      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#c9cb63] via-[#aeb04a] to-[#9ba03c] px-6 py-2.5 font-black text-[#0c3a16] shadow-[4px_0_15px_rgba(12,58,22,0.75)]">
+      class="relative z-10 flex shrink-0 items-center justify-center bg-gradient-to-r from-[#dcb95f] via-[#c99a3f] to-[#b8862b] px-6 py-2.5 font-black text-[#280b0b] shadow-[4px_0_15px_rgba(74,15,15,0.75)]">
       <span aria-hidden="true" class="mr-2 animate-pulse text-lg">📢</span> ประกาศ
     </div>
 
     <div class="marquee-container relative flex-1 overflow-hidden py-2.5 pr-6">
-      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#0c3a16] to-transparent"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-[#461212] to-transparent"></div>
 
-      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#e9fbdd]">
-        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#c9cb63] shadow-[0_0_8px_rgba(174,176,74,0.85)]"></span>{message}</span>
-        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e9fbdd] shadow-[0_0_8px_rgba(174,176,74,0.85)]"></span>{message}</span>
+      <div class="marquee-content inline-block pl-4 text-sm font-bold tracking-widest whitespace-nowrap text-[#ffeee8]">
+        <span class="mr-8 inline-flex items-center gap-2"><span aria-hidden="true" class="h-2 w-2 rounded-full bg-[#dcb95f] shadow-[0_0_8px_rgba(184,134,43,0.85)]"></span>{message}</span>
+        <span aria-hidden="true" class="mr-8 inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#ffeee8] shadow-[0_0_8px_rgba(184,134,43,0.85)]"></span>{message}</span>
       </div>
     </div>
   </div>

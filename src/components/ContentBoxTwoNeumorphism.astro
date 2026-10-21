@@ -19,81 +19,85 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // renders as a direct child. `leading-normal` on the column labels neutralises
 // the hoisted `leading-relaxed`. Do not re-add a wrapper <div>.
 //
-// รอบนี้ใบนี้ถือ **docx H2 §3** ของหน้าแรก (content.txt บรรทัด 8 — โปรโมชั่น
-// <แบรนด์> รับได้ไม่จำกัดยูส) โดยแบ่งย่อหน้าเดียวของบรีฟเป็นสองซีก ซีกซ้ายคือรายการ
-// โปรโมชั่นกับเงื่อนไขที่ต่างกัน ซีกขวาคือสิ่งที่บรีฟสั่งให้ตรวจสอบก่อนเข้าร่วม
+// รอบนี้ใบนี้ถือ **docx H2 §9** ของหน้าแรก ("<แบรนด์> รองรับการฝากถอนวอลเลทและ
+// ธนาคารชั้นนำ" — content.txt บรรทัด 20) โดยแบ่งย่อหน้าเดียวของบรีฟเป็นสองซีก
+// ซีกซ้ายคือ **ช่องทางฝากและสิ่งที่ต้องตรวจก่อนโอน** (ชื่อบัญชีปลายทาง ยอดขั้นต่ำ
+// ระยะเวลาดำเนินการ เงื่อนไขการถอน) ซีกขวาคือ **สิ่งที่ต้องทำเมื่อรายการผิดปกติ**
 // บรีฟไม่ได้ตั้งชื่อให้สองซีก หน้าเพจจึงไม่ส่ง titleleft/titleright มา และกล่องนี้
 // ปล่อยหัวข้อออกมาใบเดียวคือหัวข้อของ section เอง
 //
-// มีทรัพย์168 (2026-10-21) — พาเลตตาม .claude/brand-spec-meesub168.md §2
-// ⚠️⚠️ **ธีมสว่างแบรนด์แรกของรีโปนี้** พื้นเพจ #f0ccf5 (bg.json) การ์ดเนื้อหาเป็น
-// **ผิวสว่าง + หมึกเข้ม** กลับทิศจากทุกรอบก่อน ห้ามแก้กลับไปเป็นพื้นเข้ม
-// ลำดับผิว: #ffffff ยก · #f7dcf6 กลาง · #f0ccf5 พื้นเพจ
+// รวยแท้168 (2026-10-21 ดรอปที่สองของวัน) — พาเลตตาม
+// .claude/brand-spec-ruaythear168vip.md §2
+// ⚠️⚠️ **ธีมสว่างรอบที่สามของรีโปนี้** พื้นเพจ #ffdbdb (bg.json) การ์ดเนื้อหาเป็น
+// **ผิวสว่าง + หมึกเข้ม** ห้ามแก้กลับไปเป็นพื้นเข้ม
+// ลำดับผิว: #ffffff ยก · #fff1ef กลาง · #ffdbdb พื้นเพจ
 //
 // จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบที่หนึ่งของสองใบในหน้า** วางบน
-// **ผิวกลาง #f7dcf6** มุม rounded-[30px] และ **ไม่มีกรอบเลย** ⚠️ ความนูนบนธีมสว่าง
-// กลับทิศกับทุกรอบก่อน: เงาฝั่งมืดเป็น rgba(74,13,53,α) ส่วนฝั่งสว่างเป็น **ขาวบริสุทธิ์
-// #ffffff** (รอบก่อนๆ ฝั่งสว่างเป็นสีน้ำตาล/บรอนซ์เพราะพื้นเป็นดำ) แผ่นนูนอีกใบคือ
-// §4 ContentBoxSevenThreeNeumorphism ซึ่งเป็นมุม rounded-[22px] **มีกรอบชมพู** นั่งบน
-// ผิวขาวที่ยกกว่า และฝั่งสว่างของเงาเป็น #f7dcf6 — สองใบจึงต่างกันทั้งมุม ระดับผิว
-// การมีกรอบ และค่าของเงาฝั่งสว่าง
-// หัวข้อไล่ ชมพูบานเย็น #dd1b74 → โรสเข้ม #a4186b → พลัมเข้ม #4a0d35 ("ชมพูเดินลง
-// หาพลัม") ซึ่งเป็นลำดับที่ไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ ⚠️ ไล่เฉดนี้ถูก
-// bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้: บนผิวกลาง
-// #f7dcf6 ได้ #dd1b74 3.7:1 · #a4186b 5.6:1 · #4a0d35 12.6:1 และหัวข้อเป็น
-// text-2xl font-black = large text (เกณฑ์ AA 3:1) จึงผ่านทั้งสามสต็อป —
-// **ห้ามย่อขนาดหัวข้อลงต่ำกว่า text-2xl โดยไม่ถอด #dd1b74 ออกจากไล่เฉด**
-// ป้ายสองคอลัมน์: ซ้ายโรสเข้ม #a4186b ขวาพลัมเข้ม #4a0d35 (รอบนี้หน้าเพจไม่ได้ส่ง
-// ป้ายมา — โค้ดคงไว้ให้แบรนด์ถัดไป) เส้นคั่นเป็นชมพูบานเย็นโปร่ง
-// เนื้อความ #4a0d35 (= BRAND_TEXT) — 12.6:1 บนผิวกลางใบนี้
+// **ผิวกลาง #fff1ef** มุม rounded-[30px] และ **ไม่มีกรอบเลย** ⚠️ ความนูนบนธีมสว่าง
+// กลับทิศกับรอบที่พื้นเป็นดำ: เงาฝั่งมืดเป็น rgba(74,15,15,α) ส่วนฝั่งสว่างเป็น
+// **ขาวบริสุทธิ์ #ffffff** แผ่นนูนอีกใบคือ §8 ContentBoxSevenThreeNeumorphism ซึ่ง
+// เป็นมุม rounded-[22px] **มีกรอบแดง** นั่งบนผิวขาวที่ยกกว่า และฝั่งสว่างของเงาเป็น
+// #fff1ef — สองใบจึงต่างกันทั้งมุม ระดับผิว การมีกรอบ และค่าของเงาฝั่งสว่าง
+// หัวข้อไล่ แดงคริมสัน #c30303 → หมึกเลือดหมู #4a0f0f → แดงคริมสัน #c30303
+// ("คริมสันจมลงเลือดหมูแล้วโผล่กลับ") ซึ่งไม่ซ้ำลำดับกับกล่องอื่นบนหน้าเดียวกัน
+// ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษร
+// ได้: บนผิวกลาง #fff1ef ได้ #c30303 6.0:1 และ #4a0f0f 14.6:1 — **ห้ามเอา #e81313
+// #ffdbdb หรือ #fff1ef มาเป็นสต็อป**
+// ป้ายสองคอลัมน์: ซ้ายแดงคริมสัน #c30303 ขวาหมึกเลือดหมู #4a0f0f (รอบนี้หน้าเพจไม่ได้
+// ส่งป้ายมา — โค้ดคงไว้ให้แบรนด์ถัดไป) เส้นคั่นเป็นแดงคริมสันโปร่ง
+// เนื้อความ #4a0f0f (= BRAND_TEXT) — 14.6:1 บนผิวกลางใบนี้
 //
-// ⚠️ §2 ห้าม #f0ccf5/#f7dcf6 ถือตัวอักษร และ **สีไฮไลต์ <strong> ในเนื้อความมีตัวเดียว
-// คือ #a4186b** (#dd1b74 ผ่าน AA เฉียดฉิวที่ 4.67:1 บนขาว จึงสงวนไว้ให้หัวข้อ เส้น
-// กรอบ และพื้นถมเท่านั้น)
-// ⚠️ **ชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168 fa63b9 · มีโชค168 f5469f · มีเฮ168
-// ff8f9c) ต้อง grep เป็นค่าทีละตัว ตัวที่ใกล้ dd1b74 ที่สุดคือ f5469f (ห่าง 65)
-// ชุดของ ดวงเศรษฐี168 รอบขาออก (d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605
-// 150303 000000) และชุดทองอิมพีเรียล-แดงชาด-ทองแดงของรวยเทพ168 ที่เคยอยู่ทั้งใบนี้
-// (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400) ออกครบแล้ว
-// เช่นเดียวกับชุดของ ufalion168 (d4922c fdfc71 f6e3b4 a25b24 5a3310 33200a 1f1304
-// 0a0601 1a1000 fbf6e3) มีเฮ168 (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1a040a
-// 0c0205 fdeaec 1b0308) รวยแทร่168 (039cfa 0494f5 c3ebfc 04366b f9a826 704504 e3f2fc
-// 0b2d52 071e38 030f1d 031320) นินจา168 (32bcfb a9e9ff fef54b 07335f 6b5c10 0c2a3d
-// 071a28 030e16 041019 dceefc) สบายเบท168 (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e 5c4a16
-// e8f4ff 0e2238 081726 040d16 04121f) ถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20 1a0914
-// 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) มีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52
-// 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74
-// b3121b 5a0a0e 8a5f12 eadfce 140c06 241509 160d06 0b0603) รับตัง168 (f0b429 ffdc8c
-// d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 200a09 140505) สมหวัง168
-// (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210 b90203 8c0204 5b0203 3c0303 f4ecea 2c1413)
-// และ UFA324 (e5a81b ffe08a bb8410 7d5a07 43300a 8792a0 f0e8d4 b9c2cc 464f5a)
+// ⚠️ §2 ห้าม #ffdbdb/#fff1ef ถือตัวอักษร · ห้าม #e81313 ถือตัวอักษรหรือเป็นพื้นของ
+// ตัวอักษร · **สีไฮไลต์ <strong> ในเนื้อความมีตัวเดียวคือ #8f0505** ซึ่งเป็นงานของ
+// หน้าเพจ ไม่ใช่ของไฟล์นี้ · และ **ทองโบราณ #dcb95f / #b8862b / #96681f เป็นสีของ
+// โครมล้วน ห้ามโผล่ในไฟล์นี้** (1.9–3.5:1 บนการ์ดสว่าง)
+// ⚠️ **แดงนำมาแล้วมากกว่าฮิวใดในรีโปนี้** ต้อง grep เป็นค่าทีละตัว แดงรอบนี้คือ
+// #c30303 เท่านั้น ห่าง d30304 (รับตัง168) 16 หน่วย และห่าง b90203 (สมหวัง168) 10
+// ชุดเขียวมรกต-ทองสัมฤทธิ์ของ **สาธุ168 (แบรนด์ขาออก)** (0b7d28 0a5f1c 0f9b35 0c3a16
+// 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd กับ rgba 11/125/40, 10/95/28, 12/58/22,
+// 174/176/74) และชุดชมพูบานเย็นของ มีทรัพย์168 ที่เคยอยู่ทั้งใบนี้ (dd1b74 a4186b
+// 4a0d35 2d0720 f7dcf6 f0ccf5) ออกครบแล้ว เช่นเดียวกับชุดของ ดวงเศรษฐี168 (d9212a
+// 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605 150303) ufalion168 (d4922c fdfc71 f6e3b4
+// a25b24 5a3310 33200a 1f1304 0a0601 1a1000 fbf6e3) รวยเทพ168 (f0bb4e ffeccb e4021b
+// d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400) มีเฮ168 (fb1b32 ff8f9c 5c0410
+// fcd45c 6b4a08 2b0711 1a040a 0c0205 fdeaec) รวยแทร่168 (039cfa 0494f5 c3ebfc 04366b
+// f9a826 704504 e3f2fc 0b2d52 071e38 030f1d) นินจา168 (32bcfb a9e9ff fef54b 07335f
+// 6b5c10 0c2a3d 071a28 030e16 041019 dceefc) สบายเบท168 (2f9ff5 a8dcff d6ecff 0b3f78
+// ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16) ถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20
+// 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5) มีโชค168 (fcd434 ffeaa0 f5469f ff8dc6
+// 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12) ขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74
+// b3121b 5a0a0e 8a5f12 eadfce 140c06 241509) รับตัง168 (f0b429 ffdc8c d30304 ff6b6e
+// a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f) สมหวัง168 (fa0513 ffadaf ff5a5f e3b23c
+// ffe5a8 8a6210 b90203 8c0204 5b0203 3c0303) หวยคิง (cd9a2c fdeb7c ab7314 f5e7c8
+// fcd4c3 fce2d4 0c0b0a 120a02 1c140b) และ UFA324 (e5a81b ffe08a bb8410 7d5a07 43300a
+// 8792a0 f0e8d4 b9c2cc 464f5a)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีแดงชาด ไม่มีบรอนซ์/ทองแดง ไม่มีฟ้า/น้ำเงิน/ไซยาน
-// ไม่มีเขียว ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้ม**
+// ⚠️ **รอบนี้ไม่มีเขียว ไม่มีชมพู ไม่มีทอง/เหลือง ไม่มีบรอนซ์/ทองแดง
+// ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้ม**
 const columnLabel = "text-2xl leading-normal font-black tracking-wide";
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[30px] bg-[#f7dcf6] p-8 shadow-[10px_10px_22px_rgba(74,13,53,0.18),-10px_-10px_22px_#ffffff] transition-all duration-300 hover:shadow-[15px_15px_32px_rgba(74,13,53,0.24),-15px_-15px_32px_#ffffff]">
+    class="w-full rounded-[30px] bg-[#fff1ef] p-8 shadow-[10px_10px_22px_rgba(74,15,15,0.18),-10px_-10px_22px_#ffffff] transition-all duration-300 hover:shadow-[15px_15px_32px_rgba(74,15,15,0.24),-15px_-15px_32px_#ffffff]">
     {
       title && (
-        <header class="mb-8 border-b border-[#dd1b74]/40 pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#dd1b74] via-[#a4186b] to-[#4a0d35] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
+        <header class="mb-8 border-b border-[#c30303]/40 pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#c30303] via-[#4a0f0f] to-[#c30303] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent uppercase">{title}</HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#4a0d35]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#4a0f0f]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35]">
-        {titleleft && <p class={`${columnLabel} text-[#a4186b]`}>{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0f0f]">
+        {titleleft && <p class={`${columnLabel} text-[#c30303]`}>{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35] md:border-l md:border-[#dd1b74]/40 md:pl-8">
-        {titleright && <p class={`${columnLabel} text-[#4a0d35]`}>{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0f0f] md:border-l md:border-[#c30303]/40 md:pl-8">
+        {titleright && <p class={`${columnLabel} text-[#4a0f0f]`}>{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

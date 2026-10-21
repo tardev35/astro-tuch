@@ -17,18 +17,18 @@ const bankPool = [
 // rather than a name/type pair it has to know how to join.
 //
 // ป้ายในชุดนี้ใช้ได้แค่คำที่บรีฟรอบนี้ให้มา (brand-spec §6) — บรีฟรอบนี้ระบุประเภท
-// หวยไว้เองครบทั้งสี่ (หวยรัฐบาลไทย · หวยฮานอย · หวยลาว · หวยหุ้นต่างประเทศ) จึงใช้
-// เป็นชื่อรายการได้ ต่างจากรอบก่อนที่บรีฟไม่ได้ให้ชื่อตลาดไว้
+// หวยไว้เองครบทั้งสี่ (หวยรัฐบาลไทย · หวยลาวพัฒนา · หวยฮานอย · หวยหุ้นต่างประเทศ)
+// จึงใช้เป็นชื่อรายการได้
 // ⚠️ ห้ามใส่ตัวเลขอัตราจ่ายลงใน pool นี้ — อัตราจ่ายเป็นค่าที่สมาชิกต้องอ่านจากหน้า
 // รายการจริง ไม่ใช่ตัวเลขที่จะสุ่มเปลี่ยนทุกไม่กี่วินาที และห้ามใช้ศัพท์เกมคาสิโน
 // หรือชื่อตลาด/ชื่อรายการที่บรีฟรอบนี้ไม่ได้ให้ไว้ (ชุดของรอบก่อนออกครบแล้ว)
 const marketPool = [
   "หวยรัฐบาลไทย · บิลหวย",
   "หวยฮานอย · บิลหวย",
-  "หวยลาว · บิลหวย",
+  "หวยลาวพัฒนา · บิลหวย",
   "หวยหุ้นต่างประเทศ · บิลหวย",
   "หวยรัฐบาลไทย · เครดิตคืนยอดเสีย",
-  "หวยลาว · เครดิตแนะนำเพื่อน",
+  "หวยลาวพัฒนา · เครดิตแนะนำเพื่อน",
 ];
 
 // Ported off `<script define:vars={{ bankPool, marketPool }}>` — see
@@ -42,16 +42,28 @@ const marketPool = [
 // ตัวเองจะทำให้เช็กนั้นพังทุกหน้าที่มันโผล่ ห้ามโปรโมตกลับเป็น heading เพื่อ "แก้"
 // ชื่อที่หายไป ส่วนชื่อแบรนด์ไม่พิมพ์ทับ — มาจาก BRAND_NAME จึงรอตเป็นแบรนด์ก่อนไม่ได้
 //
-// พาเลตต์รอบนี้ (brand-spec §2 เขียวมรกต/ทองสัมฤทธิ์): ไฟล์นี้เป็นโซน "โครม" จึงเป็น
-// พื้นเข้มตัวอักษรสว่าง — แผงพื้นหมึกเขียวป่า #0c3a16 ในกรอบทองสัมฤทธิ์ #aeb04a
-// แถวรายการตกลงไปที่เขียวจม #061f0c ในเส้นขอบเขียวมรกต #0b7d28 แล้วสว่างขึ้นเป็นทอง
-// อ่อน #c9cb63 ตอน hover ยอดเงินเป็นทองอ่อน #c9cb63 (7.5:1) และสลับเป็นขาว #ffffff
-// พร้อม glow แรงขึ้นเมื่อยอดเกิน data-big-win-above ป้ายอัปเดตสดเป็นทองอ่อนบนพื้น
-// เขียวจม (ทองบนพื้นถม #0b7d28 ได้แค่ 3.1:1 จึงห้ามวางทองบนเขียวมรกต) เนื้อความ
-// #e9fbdd (11.8:1) คำบรรยายย่อยเป็น #e9fbdd ที่ 70% glow เป็น rgba(174,176,74,*)
-// กับ rgba(12,58,22,*) ค่าของแบรนด์ก่อน ๆ (ชุดทอง-ดำของเจ้าของเดิมของไฟล์ชุด *Huay
-// ชุดแดง-ทองก่อนหน้านั้น และชุดชมพูของรอบที่แล้ว) ออกครบทุกจุดแล้ว — เทียบทีละค่า
-// กับตารางใน brand-spec §2
+// รอบนี้ (รวยแท้168) ฟีดหลักของเว็บคือ LatestWinnersPremium ส่วนไฟล์นี้ถูก render
+// จาก src/pages/ตรวจหวย.astro หน้าเดียว ตามข้อยกเว้น Phase 4.5 ที่ให้สองหน้าหวย
+// เก็บชุด *Huay ไว้เป็นซับธีม — ข้อยกเว้นคุ้มครอง **ชุดคอมโพเนนต์** ไม่ได้คุ้มครอง
+// พาเลตหรือชื่อแบรนด์ ไฟล์นี้จึงใช้พาเลตรอบปัจจุบันเต็มรูปแบบ
+//
+// พาเลตรอบนี้ (brand-spec §2 — แดงเลือดหมู/ทองโบราณ): ไฟล์นี้เป็นโซน "โครม" จึงเป็น
+// พื้นเข้มตัวอักษรสว่าง — แผงพื้นแดงเลือดหมู #461212 ในกรอบทองโบราณ #b8862b
+// แถวรายการตกลงไปที่แดงจม #280b0b ในเส้นขอบแดงสด #c30303 แล้วสว่างขึ้นเป็นทองอ่อน
+// #dcb95f ตอน hover ยอดเงินเป็นทองอ่อน #dcb95f (8.2:1 บน #461212 · 9.8:1 บน #280b0b)
+// และสลับเป็นขาว #ffffff พร้อม glow แรงขึ้นเมื่อยอดเกิน data-big-win-above
+// ป้ายอัปเดตสดเป็นทองอ่อนบนพื้นแดงจม #280b0b (ทองบนพื้นถม #c30303 ได้แค่ 3.4:1
+// จึงห้ามวางทองบนแดงสด) เนื้อความ #ffeee8 (13.8:1) คำบรรยายย่อยเป็น #ffeee8 ที่ 70%
+// glow เป็น rgba(184,134,43,*) กับ rgba(74,15,15,*)
+// ⚠️ ไม่มี #e81313 ในไฟล์นี้ — §2 ห้ามมันถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" ชุดเขียวมรกต-ทองสัมฤทธิ์ของรอบก่อนทันที
+// สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd
+// rgba 174/176/74 a · rgba 12/58/22 a) ออกครบทุกค่า · ชุดทองส้ม-ดำของ หวยคิง
+// เจ้าของเดิมของไฟล์ชุด *Huay (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a
+// 120a02 1c140b) · ชุดแดง-ทองของ หวย365 (140203 dc0203 f5282a ffc93c ffeab0 8c0402
+// 3a0a0c c08a07 f6e7e0 1a0303) · ชุดชมพูบานเย็นของ มีทรัพย์168 (dd1b74 a4186b
+// 4a0d35 2d0720 f7dcf6 f0ccf5) ก็ไม่เหลือค่าไหน
+// (เฮกซ์ของแบรนด์เก่าเขียนแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep สะดุดที่คอมเมนต์นี้)
 //
 // salt ทุกตัวเป็นชื่อกลาง ("huay-winner-*") ไม่ผูกกับชื่อแบรนด์ใด — รอบก่อน ๆ ตั้ง
 // salt เป็นชื่อแบรนด์ ทำให้ชื่อแบรนด์ที่ตายแล้วค้างอยู่ในซอร์สข้ามรีแบรนด์เสมอ
@@ -76,22 +88,22 @@ const initialRows = Array.from({ length: 5 }, (_, i) => {
 
 const PENDING_TEXT = "กำลังตรวจสอบรายการ";
 const DONE_TEXT = "โอนเข้าบัญชีแล้ว";
-const PENDING_CLASS = "text-[#c9cb63] animate-pulse";
-const DONE_CLASS = "text-[#e9fbdd]";
-const AMOUNT_CLASS = "text-[#c9cb63] drop-shadow-[0_2px_5px_rgba(174,176,74,0.45)]";
-const AMOUNT_BIG_CLASS = "text-[#ffffff] drop-shadow-[0_2px_10px_rgba(174,176,74,0.75)]";
+const PENDING_CLASS = "text-[#dcb95f] animate-pulse";
+const DONE_CLASS = "text-[#ffeee8]";
+const AMOUNT_CLASS = "text-[#dcb95f] drop-shadow-[0_2px_5px_rgba(184,134,43,0.45)]";
+const AMOUNT_BIG_CLASS = "text-[#ffffff] drop-shadow-[0_2px_10px_rgba(184,134,43,0.75)]";
 ---
 
 <div class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <section
     aria-label={`รายการถอนล่าสุดจากบิลหวยของสมาชิก ${BRAND_NAME}`}
-    class="relative rounded-3xl border border-[#aeb04a]/50 bg-[#0c3a16]/95 px-4 py-8 shadow-[0_10px_30px_rgba(12,58,22,0.75)] backdrop-blur-xl md:p-8">
-    <div class="relative z-10 mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-[#0b7d28] pb-4">
+    class="relative rounded-3xl border border-[#b8862b]/50 bg-[#461212]/95 px-4 py-8 shadow-[0_10px_30px_rgba(74,15,15,0.75)] backdrop-blur-xl md:p-8">
+    <div class="relative z-10 mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-[#c30303] pb-4">
       <div class="flex items-center gap-3">
-        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(174,176,74,0.85)]">🎫</span>
-        <p class="text-xl leading-normal font-black tracking-widest text-[#c9cb63]">รายการถอนล่าสุด · บิลหวย</p>
+        <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(184,134,43,0.85)]">🎫</span>
+        <p class="text-xl leading-normal font-black tracking-widest text-[#dcb95f]">รายการถอนล่าสุด · บิลหวย</p>
       </div>
-      <span class="animate-pulse rounded-full border border-[#aeb04a]/70 bg-[#061f0c]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#c9cb63] shadow-[0_0_10px_rgba(174,176,74,0.4)]">
+      <span class="animate-pulse rounded-full border border-[#b8862b]/70 bg-[#280b0b]/85 px-3 py-1 text-[10px] font-bold tracking-widest text-[#dcb95f] shadow-[0_0_10px_rgba(184,134,43,0.4)]">
         อัปเดตสด
       </span>
     </div>
@@ -111,9 +123,9 @@ const AMOUNT_BIG_CLASS = "text-[#ffffff] drop-shadow-[0_2px_10px_rgba(174,176,74
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-bottom transition-all duration-500 ease-out">
-            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#0b7d28]/60 bg-[#061f0c]/80 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#c9cb63]/55 hover:bg-[#0c3a16]/85 sm:flex-row sm:items-center">
+            <div class="flex flex-col justify-between gap-4 rounded-xl border border-[#c30303]/60 bg-[#280b0b]/80 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-[#dcb95f]/55 hover:bg-[#461212]/85 sm:flex-row sm:items-center">
               <div class="flex items-center gap-4">
-                <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#aeb04a]/35 shadow-inner ${row.bank.color}`}>
+                <div data-winner-bank class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#b8862b]/35 shadow-inner ${row.bank.color}`}>
                   <img
                     data-winner-icon
                     src={row.bank.icon}
@@ -126,16 +138,16 @@ const AMOUNT_BIG_CLASS = "text-[#ffffff] drop-shadow-[0_2px_10px_rgba(174,176,74
                   />
                 </div>
                 <div class="flex flex-col gap-0.5">
-                  <span class="text-[10px] font-medium tracking-widest text-[#e9fbdd]/70">เบอร์สมาชิก</span>
-                  <span data-winner-user class="font-mono text-sm font-bold text-[#e9fbdd]">
+                  <span class="text-[10px] font-medium tracking-widest text-[#ffeee8]/70">เบอร์สมาชิก</span>
+                  <span data-winner-user class="font-mono text-sm font-bold text-[#ffeee8]">
                     {row.user}
                   </span>
-                  <span data-winner-market class="text-[10px] tracking-wide text-[#e9fbdd]/70">
+                  <span data-winner-market class="text-[10px] tracking-wide text-[#ffeee8]/70">
                     {row.market}
                   </span>
                 </div>
               </div>
-              <div class="flex items-center justify-between gap-6 border-t border-[#0b7d28]/60 pt-3 sm:justify-end sm:border-none sm:pt-0">
+              <div class="flex items-center justify-between gap-6 border-t border-[#c30303]/60 pt-3 sm:justify-end sm:border-none sm:pt-0">
                 <div
                   data-winner-status
                   data-pending-text={PENDING_TEXT}
@@ -150,7 +162,7 @@ const AMOUNT_BIG_CLASS = "text-[#ffffff] drop-shadow-[0_2px_10px_rgba(174,176,74
                   data-normal-class={AMOUNT_CLASS}
                   data-big-class={AMOUNT_BIG_CLASS}
                   class={`text-xl font-black ${row.big ? AMOUNT_BIG_CLASS : AMOUNT_CLASS}`}>
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#e9fbdd]/70">บาท</span>
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs font-bold text-[#ffeee8]/70">บาท</span>
                 </div>
               </div>
             </div>
