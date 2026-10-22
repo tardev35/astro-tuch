@@ -3,22 +3,24 @@ export interface FeatureItem {
   icon: string;
   title: string;
   description?: string;
-  /** เงินทอง168's identity is a **two-material pair** read straight off the
-   *  artwork — the Thai word "เงินทอง" is 3-D GOLD lettering and the scales-of-
-   *  justice emblem beside it is gold too, while the whole foreground of both
-   *  slides is the model's IVORY/CHAMPAGNE SATIN suit. So the two accents are
-   *  the lead gold plate (#fcee52 → #f5ba14) and the second material, the warm
-   *  cream plate (#ecd5c4 → #d2b9a4); both take the dark ink #201906, which
-   *  brand-spec §2 names as the only ink allowed on a gold fill (14.5:1 on
-   *  #fcee52, 9.9:1 on #f5ba14, and 9.2:1 on #d2b9a4).
-   *  ⚠️ The union was `"gold" | "chrome"` when this file arrived, for the
-   *  outgoing พักยก168's gold/chrome-silver plates. **§2 has NO grey-silver ramp
-   *  this round** — so the chrome branch is gone from both the type and the
-   *  implementation rather than being left accepted-but-recoloured: a spelling
-   *  that still builds is a spelling the next page quietly passes.
+  /** ร่ำรวย168's identity is a **two-material pair** read straight off this
+   *  drop's artwork — the Thai word "ร่ำรวย" in the logo is glossy 3-D CYAN
+   *  lettering, and the whole foreground of both slides is the model's
+   *  IVORY/CREAM satin suit against a cream-ivory room. So the two accents are
+   *  the lead cyan plate (#a9d7f2 → #18a5e2, ink #111a3f at 6.0:1 — brand-spec
+   *  §2's "ปุ่มเน้น (สว่าง)" formula, and **white ink on #18a5e2 is banned at
+   *  2.6:1**) and the second material, the cream plate (#f4e4d3 → #e4cbb3, ink
+   *  #16294a at 11.9:1).
+   *  ⚠️ The union was `"gold" | "cream"` when this file arrived, for the
+   *  outgoing เงินทอง168's gold plates. **§2 has NO gold/yellow as a UI colour
+   *  this round** — the gold in the artwork (coin basket, watch, belt buckle) is
+   *  an object in the picture, not a brand colour — so the gold branch is gone
+   *  from both the type and the implementation rather than being left
+   *  accepted-but-recoloured: a spelling that still builds is a spelling the
+   *  next page quietly passes.
    *  Only index.astro renders this component, so narrowing the union breaks
    *  nothing. */
-  accent?: "gold" | "cream";
+  accent?: "cyan" | "cream";
 }
 
 export interface Props {
@@ -33,80 +35,67 @@ const { items, heading = true } = Astro.props;
 const TitleTag = heading ? "h3" : "p";
 
 // ───────────────────────────────────────────────────────────────────────────
-// เงินทอง168 palette (.claude/brand-spec-ngernthong168.md §2) — **ทองนำ ·
-// ครีมอุ่นเป็นวัสดุที่สอง · บนน้ำตาลโอลีฟเข้ม**
-// ⚠️⚠️ **รอบนี้ยังเป็นธีมมืดเหมือนรอบก่อน แต่คนละค่าทุกตัว** bg.json =
-// {"mode":"color","color":"#29210f"} = น้ำตาลโอลีฟเข้ม (รอบก่อนเป็น 291d0f ต่างกัน
-// ที่เขียว 4 หน่วย — **ค่านี้ต้องมาจาก bg.json ห้ามเดาว่าไม่เปลี่ยน**)
-// ลำดับความลึก: **#3d3016 ผิวยก / #332810 ชั้นกลาง (การ์ดแต่ละใบที่นี่) /
-// #201906 อินเซ็ต / #29210f พื้นเพจ** การ์ดแต่ละใบเป็น **ผิวกลางในเส้นทองลึก**
-// และยกขึ้นไปที่ผิวยก #3d3016 ตอน hover — **ห้าม "แก้" กลับไปเป็นการ์ดสว่าง**
-// แผ่นไอคอนสลับระหว่าง **แผ่นทอง** กับ **แผ่นครีม** ไล่ลงไปตามลำดับรายการ —
-// วัสดุนำสลับกับวัสดุที่สอง ตรงกับอาร์ตเวิร์กที่ทองของตราชั่ง/ทองคำแท่ง อยู่คู่กับ
-// ชุดซาตินสีงาช้างซึ่งกินพื้นที่มากที่สุดของภาพ
-// ⚠️⚠️ **วัสดุที่สองรอบนี้คือครีม ไม่ใช่เทาโครเมียม** — เลข "168" ในโลโก้เป็นโครเมียม
-// ก็จริง แต่แรมป์เทาเงิน **e0e0df c0c0bf a1a09e เป็นของ พักยก168 ซึ่งเป็นแบรนด์
-// ขาออกรอบนี้พอดี** และ e8ecf1 a8b2bf 78828f 5a6472 เป็นของยูฟ้า168 **ห้ามเอาเทาเงิน
-// เข้ามาในไฟล์นี้** นี่คือหนึ่งในสองตัวที่แยกรอบนี้ออกจากรอบก่อน
-// ⚠️ แผ่นทั้งสองใช้ **หมึกเข้มค่าเดียวกันคือ #201906** และนั่นคือกฎของ §2 ที่ตัดสิน
-// ไม่ใช่รสนิยม: 14.5:1 บน #fcee52 · 9.9:1 บน #f5ba14 · 9.2:1 บน #d2b9a4
-// **ห้ามพลิกแผ่นไหนไปใช้หมึกขาว** (§2 ห้ามขาวบนทองไว้ชัด)
-// ⚠️ **ทองลึก #b37c0b (2.0:1 บนการ์ด) โผล่ได้แค่เป็นขอบและพื้นถม** §2 ห้ามมันถือ
-// ตัวอักษร · **#fcee52 ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้
+// ร่ำรวย168 palette (.claude/brand-spec-ruaythear168club.md §2) — **ฟ้าไซยานนำ ·
+// ครีมอุ่นเป็นวัสดุที่สอง · บนผิวสว่าง**
+// ⚠️⚠️ **รอบนี้กลับทิศจากรอบก่อน 180 องศา: ธีมสว่าง** bg.json =
+// {"mode":"color","color":"#dbe6ff"} = ฟ้าเพอริวิงเคิลอ่อน (รอบก่อน เงินทอง168
+// เป็น 29210f น้ำตาลโอลีฟเข้ม — **ค่านี้ต้องมาจาก bg.json ห้ามสืบทอดข้ามรอบ**)
+// ลำดับผิว: **#ffffff ยก / #eef4ff ชั้นกลาง (การ์ดแต่ละใบที่นี่) / #dce9fb อินเซ็ต
+// / #f4e4d3 ครีม / #dbe6ff พื้นเพจ** การ์ดแต่ละใบเป็น **ผิวกลางในเส้นฟ้าอ่อน**
+// และยกขึ้นไปที่ผิวขาวตอน hover — **ห้าม "แก้" กลับไปเป็นการ์ดเข้ม**
+// แผ่นไอคอนสลับระหว่าง **แผ่นฟ้า** กับ **แผ่นครีม** ไล่ลงไปตามลำดับรายการ —
+// วัสดุนำสลับกับวัสดุที่สอง ตรงกับอาร์ตเวิร์กที่ตัวอักษร "ร่ำรวย" ฟ้าไซยานอยู่คู่กับ
+// ชุดซาตินสีงาช้างและห้องโทนครีมซึ่งกินพื้นที่มากที่สุดของภาพ
+// ⚠️⚠️ **แผ่นสองชนิดใช้หมึกคนละค่ากัน และนั่นคือกฎของ §2 ที่ตัดสิน ไม่ใช่รสนิยม**:
+//   แผ่นฟ้า #a9d7f2 → #18a5e2 ใช้หมึก **#111a3f** (6.0:1 บน #18a5e2 · 12.7:1 บน
+//     #a9d7f2) ⚠️⚠️ **ห้ามขาวบน #18a5e2 เด็ดขาด — 2.6:1**
+//   แผ่นครีม #f4e4d3 → #e4cbb3 ใช้หมึก **#16294a** (11.9:1 บน #f4e4d3)
+// ⚠️ **#18a5e2 และ #a9d7f2 โผล่ได้แค่เป็นขอบ/พื้นถม/ออรา** §2 ห้ามทั้งสองถือ
+// ตัวอักษรบนพื้นสว่าง · **#0d6b9b ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ**
+// ไม่ใช่ของไฟล์นี้
 //
-// หัวข้อรายการเป็น **ทองแกน #f5ba14 ทึบสีเดียว** (8.1:1 บนผิวกลาง และเป็น text-xl
-// font-black จึงนับเป็น large text ซึ่งเกณฑ์คือ 3:1) ไม่ใช่ไล่เฉด: บนหน้าแรก
-// รายการสามใบที่คอมโพเนนต์นี้ถือคือป้าย **ขั้นตอนที่ 1 / 2 / 3** ของบรีฟเอง
+// หัวข้อรายการเป็น **ฟ้าเข้ม #0d6b9b ทึบสีเดียว** (5.2:1 บนผิวกลาง #eef4ff และเป็น
+// text-xl font-black จึงนับเป็น large text ซึ่งเกณฑ์คือ 3:1) ไม่ใช่ไล่เฉด:
+// บนหน้าแรกรายการสามใบที่คอมโพเนนต์นี้ถือคือป้าย **ขั้นตอนที่ 1 / 2 / 3** ของบรีฟเอง
 // (content.txt บรรทัด 15-20) ใต้ docx H2 §6 สีทึบจึงอ่านเป็นลำดับขั้นตอน ส่วน
-// ไล่เฉดจะอ่านเป็นสามหัวข้อแยกกัน · หัวข้อ H2 ของ §6 ที่อยู่เหนือมันเป็น
-// **ทองสว่าง #fcee52** ใน ContentBox ตัวฐาน การลดลงมาเป็นทองแกนตรงนี้จึงทำให้
-// ลำดับชั้นอ่านออกโดยไม่ต้องลดขนาด
+// ไล่เฉดจะอ่านเป็นสามหัวข้อแยกกัน · หัวข้อ H2 ของ §6 ที่อยู่เหนือมันเป็น #0d6b9b
+// เหมือนกันแต่ **นั่งบนสันซ้ายสี่พิกเซลในการ์ดมุมตัด 40px** ลำดับชั้นจึงอ่านออกจาก
+// รูปทรงและขนาด ไม่ใช่จากการเพิ่มค่าสีใหม่นอกตาราง §2
 // ⚠️ ไอคอนที่หน้าแรกส่งมาเป็นกลุ่ม **"ตรวจที่อยู่เว็บ → กรอกและยืนยันบัญชี →
 // เข้าสู่ระบบแล้วดูรายละเอียดเกม"** (🔎 📝 🔑) ซึ่งเป็นไอคอนของ *ขั้นตอน* ล้วน
-// ⚠️ **ห้ามใช้ 🐉 🎰 🃏 👑 🦁 🐰 🐱 ⚽ 🥬 🌽 🚜 หรือสัญลักษณ์หวย** — brand-spec §1
-// ระบุว่าทั้งหมดเป็นของแบรนด์ก่อน (หัวมังกรเป็นเอมเบลมของพักยก168 ส่วนรอบนี้เป็น
-// **ตราชั่งทอง** และเสือดำ/โคมระย้าในภาพเป็นวัตถุประกอบฉาก ไม่ใช่ไอคอนหลัก)
+// ⚠️ **ห้ามใช้ ⚖️ 🏦 💰 🐉 🎰 🃏 👑 🦁 🐰 🐱 ⚽ 🥬 🌽 🚜 หรือสัญลักษณ์หวย** —
+// brand-spec §1 ระบุว่าทั้งหมดเป็นของแบรนด์ก่อน (ตราชั่งสองจานเป็นเอมเบลมของ
+// เงินทอง168 ส่วนรอบนี้เป็น **ตะกร้าเหรียญทอง** ตัวเดียว และตะกร้า/นาฬิกา/เข็มขัด
+// ในภาพเป็นวัตถุประกอบฉาก ไม่ใช่ไอคอนหลัก)
 // ไอคอนอยู่ในแผ่น aria-hidden="true" ซึ่งเป็น **พี่น้อง** ของป้ายชื่อ ไม่ใช่อักขระ
 // ในข้อความ
 //
-// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ทองเป็นฮิวที่แน่นที่สุดในรีโปนี้
-// และรอบนี้เป็นทองนำสองรอบติดกัน** การเจอทองในไฟล์นี้จึงไม่พิสูจน์อะไรเลย ทองรอบนี้
-// คือ **#f5ba14 (R245 G186 B20)** กับ **#fcee52 (R252 G238 B82)** วัดจาก logo.webp
-// ของดรอปนี้เอง และครีมคือ **#ecd5c4 / #d2b9a4** ซึ่งเป็นค่าที่มี **share มากที่สุด
-// ใน slide1.png** (ชุดซาตินสีงาช้าง)
-// ⚠️⚠️ **พักยก168 เป็นแบรนด์ขาออกและเดินทอง+เงินเหมือนรอบนี้ — ต้องเทียบค่าหนักสุด**
-// eeae12 ห่าง #f5ba14 แค่ R7/G12/B2 และ fded41 ห่าง #fcee52 แค่ R1/G17/B17:
-//   eeae12 fded41 9f600d e29f0f fdf051 e0e0df c0c0bf a1a09e f4ead6 d6c6a8
-//   291d0f 3a2713 32200f 1f1308 2f1e0f 1f0f04 4e2f11
-// ⚠️ **ขวัญใจ168** f7c92b ห่าง #f5ba14 แค่ R2/G15/B23 (f7c92b ffe6a3 f2bba5 c98a74
-// b3121b 5a0a0e eadfce) · **UFA324** e5a81b ห่างแค่ R16/G28/B7 (e5a81b ffe08a
-// bb8410 7d5a07 8792a0 f0e8d4 b9c2cc 464f5a) · **ยูฟ้า168** (fee45d e6a416 b8780d
-// 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908 eae3d4 140e02 0b0d10
-// 000000) · **นินจา168** fef54b ห่าง #fcee52 แค่ R2/G7/B7 (32bcfb a9e9ff fef54b
-// 6b5c10 07335f 0c2a3d 071a28)
-// ไฟล์นี้เพิ่งค้างชุด **ทองแกน-โครเมียมเงินบนน้ำตาลกาแฟ** ของแบรนด์ขาออกไว้ทั้งใบ
-// ก่อนนั้นเป็นชุด **ฟ้าสกาย-ทองคานารีธีมสว่าง** ของ **สบาย168** (2cc3fc 6bdcfb
-// 9ae0fa 0a7fbd 063a57 0f3a4a fdcb0c fefb6b 8a6504 ffffff f2fbff dff4fd ccf7ff
-// cdf2ff eafaff a9e3f9 04293d 0a4f74 06293c 2a1f02 กับ rgba 44/195/252 α)
-// rgba 253/203/12 α)) ชุดแดงเชอร์รี่-ทองแดงไหม้ของ **โปรดี168** (eb0305 e40303
-// c20305 9b0a0c ff4446 401107 b44c06 7a2f03 f0b46a d9803a 4d1c0a 2c1004 fff0e4
-// fff4ea ffd1d1 1a0802) ชุดแดงคริมสัน-ทองโบราณของ **รวยแท้168** (c30303 8f0505
-// e81313 dcb95f b8862b 96681f ffeee8 fff1ef ffdbdb c99a3f) ชุดทองน้ำผึ้ง-แดงชาดของ
-// **ดวงเศรษฐี168** (f0c878 fff8d8 d9212a 8e1a16 4e2120 300605 2a0608) ชุดทอง
-// อิมพีเรียลของ **รวยเทพ168** (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 5c2a06
-// fff8ec) ชุดแดงชาด-ทองเนยของ **มีเฮ168** (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08
-// 2b0711 1a040a) ชุดเขียวมรกตของ **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c
-// c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) ชุดชมพูของ **มีทรัพย์168** (dd1b74 a4186b
-// 4a0d35 2d0720 f7dcf6 f0ccf5) และ **CEO66** (020617 7e22ce d946ef f5d0fe a855f7)
-// — ออกครบทุกค่าแล้ว
-// ⚠️ ทองรอบนี้ไม่ใช่ fee45d fdfc71 fef54b fcd434 f7c92b f0b429 e3b23c f0bb4e f0c878
-// ffc82e f9a826 ffd84d fcd45c dcb95f cd9a2c fdeb7c ffc93c e5a81b fdcb0c fefb6b
-// eeae12 fded41 หรือ f0b46a และรอบนี้ไม่มีฟ้าเลยสักเฉด (2cc3fc 2f9ff5 32bcfb 039cfa
-// 0494f5 0360f3 0292fb 6ec8ff)
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ฟ้า/ไซยานนำมาแล้วห้าแบรนด์ในรีโปนี้
+// และครีมเป็นวัสดุที่สองของแบรนด์ขาออกพอดี** การเจอฟ้าหรือครีมในไฟล์นี้จึงไม่พิสูจน์
+// อะไรเลย ฟ้ารอบนี้คือ **#18a5e2 (R24 G165 B226)** กับ **#0d6b9b (R13 G107 B155)**
+// และครีมคือ **#f4e4d3 / #e4cbb3** ซึ่งวัดจาก **slide1.png ของดรอปนี้เอง**
+// ⚠️⚠️ ค่า vivid ดิบของ logo.webp รอบนี้คือ 6bddfb ซึ่งห่าง **6bdcfb ของ สบาย168
+// แค่ 1 หน่วย** — รอบนี้จึงไม่ใช้ค่าดิบ ชุดที่ต้องไม่เหลือ: 2cc3fc 6bdcfb 0a7fbd
+// 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd eafaff a9e3f9 0f3a4a
+// 06293c fdcb0c fefb6b 8a6504 (สบาย168) · 039cfa 0494f5 c3ebfc 04366b e3f2fc
+// 0b2d52 f9a826 704504 (รวยแทร่168) · 32bcfb a9e9ff fef54b 6b5c10 07335f 0c2a3d
+// 071a28 (นินจา168) · 2f9ff5 a8dcff d6ecff 0b3f78 e8f4ff ffc82e 5c4a16 (สบายเบท168)
+// · 0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 (TSDET911)
+// ⚠️ ครีมรอบนี้ไม่ใช่ ecd5c4 d2b9a4 (เงินทอง168 — **แบรนด์ขาออก**) ไม่ใช่ eadfce
+// (ขวัญใจ168) ไม่ใช่ f5e7c8 fce2d4 fcd4c3 (หวยคิง) และไม่ใช่ f4ead6 d6c6a8 f6e3b4
+// (พักยก168 / ufalion168)
+// ไฟล์นี้เพิ่งค้างชุด **ทองนำ-ครีมอุ่นบนน้ำตาลโอลีฟ ของแบรนด์ขาออก เงินทอง168**
+// ไว้ทั้งใบ (f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f 3d3016 332810 201906 กับ
+// rgba 252/238/82, rgba 245/186/20 และ rgba 236/213/196) ก่อนนั้นเป็นชุดของ
+// พักยก168 (eeae12 fded41 9f600d e0e0df c0c0bf a1a09e f4ead6 291d0f 3a2713 32200f
+// 1f1308) และ สบาย168 — ออกครบทุกค่าแล้ว รวมถึง รวยแท้168 (c30303 8f0505 e81313
+// dcb95f b8862b 96681f ffeee8 fff1ef ffdbdb) มีทรัพย์168 (dd1b74 a4186b 4a0d35
+// 2d0720 f7dcf6 f0ccf5) สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a)
+// และ CEO66 (020617 7e22ce d946ef f5d0fe a855f7)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดงทุกเฉด ไม่มีทองแดงไหม้ ไม่มีบรอนซ์ ไม่มีม่วง ไม่มีเขียว
-// (ยกเว้น LINE green ที่อื่น) ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย ไม่มีส้ม
-// ไม่มีฟ้า/น้ำเงิน และไม่มีแรมป์เทาเงิน**
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองทุกเฉด ไม่มีแดง ไม่มีทองแดงไหม้ ไม่มีบรอนซ์ ไม่มีม่วง
+// ไม่มีเขียว (ยกเว้น LINE green กับเขียว success ที่อื่น) ไม่มีโรสโกลด์
+// ไม่มีชมพู/ฟูเชีย ไม่มีส้ม และไม่มีแรมป์เทาเงิน**
 //
 // The block is its own top-level container (max width + gutter): under a docx H2
 // it renders as a sibling of the ContentBox holding that heading, not inside its
@@ -117,24 +106,24 @@ const TitleTag = heading ? "h3" : "p";
 <div class="relative z-10 mx-auto mb-8 flex w-full max-w-[1400px] flex-col gap-5 px-4 font-sans">
   {
     items.map((item) => {
-      const isGold = (item.accent ?? "gold") === "gold";
+      const isCyan = (item.accent ?? "cyan") === "cyan";
       return (
         <div
-          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#b37c0b] bg-[#332810] p-6 transition-all duration-300 hover:-translate-y-1 sm:flex-row ${
-            isGold ? "hover:border-[#fcee52] hover:bg-[#3d3016] hover:shadow-[0_10px_20px_rgba(252,238,82,0.26)]" : "hover:border-[#ecd5c4] hover:bg-[#3d3016] hover:shadow-[0_10px_20px_rgba(236,213,196,0.26)]"
+          class={`group flex flex-col items-start gap-4 rounded-2xl border border-[#a9d7f2] bg-[#eef4ff] p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-white sm:flex-row ${
+            isCyan ? "hover:border-[#18a5e2] hover:shadow-[0_10px_20px_rgba(24,165,226,0.26)]" : "hover:border-[#e4cbb3] hover:shadow-[0_10px_20px_rgba(244,228,211,0.9)]"
           }`}>
           <div
             aria-hidden="true"
             class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl transition-transform duration-300 group-hover:scale-110 ${
-              isGold
-                ? "border border-[#b37c0b] bg-gradient-to-br from-[#fcee52] to-[#f5ba14] text-[#201906] shadow-[0_0_15px_rgba(245,186,20,0.35)] group-hover:rotate-3"
-                : "border border-[#d2b9a4] bg-gradient-to-br from-[#ecd5c4] to-[#d2b9a4] text-[#201906] shadow-[0_0_15px_rgba(236,213,196,0.35)]"
+              isCyan
+                ? "border border-[#18a5e2] bg-gradient-to-br from-[#a9d7f2] to-[#18a5e2] text-[#111a3f] shadow-[0_0_15px_rgba(24,165,226,0.35)] group-hover:rotate-3"
+                : "border border-[#e4cbb3] bg-gradient-to-br from-[#f4e4d3] to-[#e4cbb3] text-[#16294a] shadow-[0_0_15px_rgba(244,228,211,0.9)]"
             }`}>
             {item.icon}
           </div>
           <div class="flex flex-col gap-2 text-left">
-            <TitleTag class="text-xl font-black tracking-wide text-[#f5ba14]">{item.title}</TitleTag>
-            {item.description && <p class="text-left text-base leading-relaxed text-[#ecd5c4]">{item.description}</p>}
+            <TitleTag class="text-xl font-black tracking-wide text-[#0d6b9b]">{item.title}</TitleTag>
+            {item.description && <p class="text-left text-base leading-relaxed text-[#16294a]">{item.description}</p>}
           </div>
         </div>
       );

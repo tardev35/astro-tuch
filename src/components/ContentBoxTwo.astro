@@ -10,120 +10,105 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "🔐", iconright = "⚽" } = Astro.props;
+const { title, as: HeadingTag = "h2", titleleft, titleright, label, iconleft = "💬", iconright = "🧾" } = Astro.props;
 
 // Without a `title` this box carries chrome (a login widget, a channel panel),
 // never docx article content, so both column labels render as <p> and the
 // section gets its accessible name from aria-label instead of a heading. With a
 // `title` the heading itself names the region, so the aria-label is dropped.
 //
-// รอบนี้ index.astro **import ไฟล์นี้ตรงๆ** และส่ง **docx H2 §3** มาให้ (content.txt
-// บรรทัด 8 แบ่งครึ่งต่อคอลัมน์) ตาม brand-spec §3 — ต่างจากรอบก่อนที่ไฟล์นี้ถูก
-// เรียกผ่าน LoginRtpSection เท่านั้น รอบนี้ LoginRtpSection ไม่ถูก render ที่ไหนเลย
-// (ตาราง RTP ของมันจะพาเลข RTP ขึ้นหน้า ซึ่ง §6 ห้าม) ไฟล์นี้จึงเป็น **กล่องเนื้อหา
-// ของหน้าแรกโดยตรง** ไม่ใช่ chrome
+// รอบนี้ index.astro **import ไฟล์นี้ตรงๆ** และส่ง **docx H2 §7** มาให้ (content.txt
+// บรรทัด 22 แบ่งครึ่งต่อคอลัมน์) ตาม brand-spec §3 — รอบก่อนตระกูลนี้ใช้
+// ContentBoxTwoCyberCut ส่วน LoginRtpSection ไม่ถูก render ที่ไหนเลยรอบนี้ (ตาราง
+// RTP ของมันจะพาเลข RTP ขึ้นหน้า ซึ่ง §5 ห้าม) ไฟล์นี้จึงเป็น **กล่องเนื้อหาของ
+// หน้าแรกโดยตรง** ไม่ใช่ chrome
 // ⚠️ เช็ก "ไฟล์นี้ถูกใช้ไหม" ต้อง match **ชื่อไฟล์เปล่า** ไม่ใช่ path "components/…"
 // เพราะ component ที่ถูกเรียกจาก component อื่นจะหลุดจาก grep แบบ path
 //
-// รอบนี้หน้าแรก **ไม่ส่ง titleleft/titleright** มาด้วย — บรีฟให้ §3 เป็นย่อหน้า
+// รอบนี้หน้าแรก **ไม่ส่ง titleleft/titleright** มาด้วย — บรีฟให้ §7 เป็นย่อหน้า
 // เดียวที่ไม่มีหัวข้อย่อย การตั้งป้ายคอลัมน์เองจะเป็นคำของเพจ ไม่ใช่ของบรีฟ
+// (ไอคอนสองตัวจึงไม่ถูก render รอบนี้ — มันอยู่ในป้ายคอลัมน์)
 const sectionLabel = label ?? titleleft ?? titleright ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
 
-// ufalion168 (รอบ **ทองสองเฉด + บรอนซ์ บนดำสนิท — ไม่มีสีที่สองที่เป็นคนละวงศ์**
-// 2026-10-20) — พาเลตต์ตาม .claude/brand-spec-ufalion168.md §2
-// โลโก้อ่านตรงๆ ได้ว่า: **หัวสิงโตทองคำขนแผงฟูสวมมงกุฎทองแหลม** ล้อมด้วย
-// **ริ้วทองเหลวโค้งสาดกระเซ็น** และ **ประกายดาวทอง** ด้านล่างเป็นคำว่า
-// **ufalion168** ตัวอักษรหนาสามมิติผิวทองมันวาว โดย **`ufa` และ `168` เป็นทองเข้ม**
-// **`lion` เป็นทองอ่อนกว่า** และ **ตัว `o` ในคำว่า `lion` มีมงกุฎทองเล็กวางอยู่ข้างใน**
-// ส่วนแบนเนอร์กับสไลด์เป็นฉาก **พื้นดำสนามบอลกลางคืน** ที่มีชายหนุ่มกับหญิงสาว
-// ผมสั้นสีบลอนด์เงินในชุดบอลดำ-ทอง ถ้วยแชมเปี้ยนส์ลีกสีเงิน ลูกฟุตบอลดำ-ทอง
-// ธงดำลายดาวฟุตบอลสีทอง และไอคอนกราฟแท่งทองพร้อมลูกศรขึ้น
+// ───────────────────────────────────────────────────────────────────────────
+// ร่ำรวย168 (2026-10-23) — พาเลตตาม .claude/brand-spec-ruaythear168club.md §2
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ทองสองเฉด + บรอนซ์ บนพื้นดำสนิท ของ ufalion168**
+// ทั้งใบ จึงรีเธมทั้งไฟล์และ **กลับทิศ**: รอบนี้เป็น **ธีมสว่าง** พื้นเพจ
+// **#dbe6ff** (bg.json) = ฟ้าเพอริวิงเคิลอ่อน **ไม่ใช่ดำสนิท**
+// ⚠️ <section> ใบนี้ **ไม่มีการ์ดครอบ** (เป็นใบเดียวของหน้าที่เป็นแบบนั้น) ตัวอักษร
+// ทุกตัวจึงนั่งบนพื้นเพจ #dbe6ff โดยตรง — ค่าคอนทราสต์ที่ใช้จึงต้องวัดกับพื้นเพจ
+// ไม่ใช่กับผิวการ์ด: หัวข้อ #0d6b9b = **4.5:1** (ผ่าน AA ที่ขนาด text-xl/2xl
+// font-black ซึ่งนับเป็น large text เกณฑ์ 3:1 และผ่านเกณฑ์ปกติพอดีด้วย) ·
+// เนื้อความ #16294a = **11.2:1**
 //
-// ⚠️ รอบนี้ **ไม่มีสีที่สองที่เป็นคนละวงศ์** — ทั้งสามฮิวอยู่ในวงศ์ทอง/บรอนซ์
-// เดียวกัน: ทองนำ #d4922c · ทองสว่าง #fdfc71 · บรอนซ์ #a25b24 (ฮิวที่สาม) **รอบนี้
-// หลุดออกจากแดงที่เป็นฮิวที่สองของรอบขาออก และไม่มีแดงเลยแม้แต่ค่าเดียว**
-// สิ่งที่แยกรอบนี้ออกจากรอบทองก่อนๆ จึงอยู่ที่ **ค่าสี** กับ **การหมุน variant**
-// ไม่ใช่ที่วงศ์สี:
-//   ทองนำรอบนี้ #d4922c เป็นอำพันน้ำผึ้ง ไม่ใช่ f0bb4e ของรวยเทพ168 (R240 G187)
-//   ทองสว่างรอบนี้ #fdfc71 เป็นเลมอนครีมซีด ไม่ใช่ fef54b เลมอนจัดของนินจา168
-//   ฮิวที่สามรอบนี้ #a25b24 เป็น **บรอนซ์** ไม่ใช่ทองแดง d9701a ของรอบก่อน
-//   ชุดความลึกรอบนี้ #33200a / #1f1304 / #0a0601 ไม่ใช่ 3b1b0e / 260d04 / 0d0501
-// ⚠️ พื้นเพจรอบนี้เป็น **ดำสนิท** (bg.json = {"mode":"color","color":"#000000"})
-// และ <section> ใบนี้ไม่มีการ์ดครอบ ตัวอักษรทุกตัวจึงนั่งบนดำสนิทโดยตรง
+// จังหวะรูปทรงของใบนี้: **แท่งตั้งสี่เหลี่ยมมนข้างหัวข้อ + เส้นคาดใต้ header
+// โดยไม่มีการ์ดครอบ** ซึ่งไม่ซ้ำกับใบไหนบนหน้าเดียวกัน (§1 แผ่นถมในสายปกติ ·
+// §2 ขีดใต้ + แท่งสั้น · §3 เส้นคู่คร่อมบน-ล่าง · §4 ป้ายลอยผิวโครมเข้ม ·
+// §5 ชิปถมฟ้าคู่กลีฟบนการ์ดมุมตัด 36px · §6 สันซ้ายสี่พิกเซลบนการ์ดมุมตัด 40px ·
+// §8 หัวข้อจัดกลางพร้อมขีดใต้จางสองข้าง)
+// แท่งตั้งไล่ **ฟ้าไซยาน #18a5e2 → ฟ้าเข้ม #0d6b9b → ฟ้าอ่อน #a9d7f2** (พื้นถมล้วน
+// ไม่มีตัวอักษรวางทับ) หัวข้อเป็น **ฟ้าเข้ม #0d6b9b ทึบสีเดียว ไม่ไล่เฉด** —
+// ⚠️ ไม่ใช้ bg-clip-text ที่นี่โดยตั้งใจ เพราะพื้นเพจสว่างและ §2 ห้าม #18a5e2
+// (2.6:1 บนขาว · 2.1:1 บนพื้นเพจ) เป็นพิกเซลของตัวอักษร
+// ป้ายคอลัมน์ (ถ้าแบรนด์ถัดไปส่งมา) เป็นขั้วกลับของกัน: ซ้าย #0d6b9b พร้อม
+// **ชิปถมฟ้า** ไล่ #a9d7f2 → #18a5e2 หมึก **#111a3f** (สูตรปุ่มเน้นของ §2 —
+// **ห้ามขาวบน #18a5e2**) ขวา #16294a พร้อม **ชิปครีม** ไล่ #f4e4d3 → #e4cbb3
+// หมึก **#16294a** (11.9:1) ซึ่งเป็นวัสดุที่สองของรอบนี้
+// เนื้อความ #16294a (= BRAND_TEXT)
 //
-// ทองนำ #d4922c ถือต้นของหัวข้อ สันซ้ายของแถบตั้ง และป้ายกำกับคอลัมน์ซ้าย ·
-// ครีมทอง #f6e3b4 เป็นกลางของหัวข้อและสีป้ายกำกับคอลัมน์ขวา (§2 ให้เป็นตัวอักษรรอง)
-// · ทองสว่าง #fdfc71 เป็นปลายหัวข้อและไอคอนบนแผ่นมืด · บรอนซ์ #a25b24 กับ
-// บรอนซ์ไหม้ #5a3310 เป็นขอบ/ออรา/ปลายเข้มของไล่เฉด **ไม่เคยถือตัวอักษร** ·
-// หมึก #1a1000 วางได้บนพื้นถมทอง (7.10:1) เลมอน (17.3:1) และครีมเท่านั้น
-// เนื้อความเป็นงาช้าง #fbf6e3 (= BRAND_TEXT) — 19.4:1 บนพื้นดำสนิท
-//
-// ⚠️ ไฟล์นี้เป็นของแบรนด์ก่อนหน้าทุกรอบ ห้ามเหมาว่าสีที่เจอเป็นของรอบนี้ ต้องเทียบ
-// เป็น "ค่า" ไม่ใช่ "ตระกูลสี" และรอบนี้ **กับดักคือทอง เพราะทองเคยนำมาแล้วเกือบ
-// ทุกแบรนด์**
-//   ทอง/เหลือง — รวยเทพ168 f0bb4e (+ffeccb d9701a) · มีเฮ168 fcd45c (+6b4a08) ·
-//         รวยแทร่168 f9a826 (+704504) · นินจา168 fef54b (+6b5c10) · สบายเบท168
-//         ffc82e (+5c4a16) · ถอนชัวร์168 ffd84d · มีโชค168 fcd434 (+ffeaa0) ·
-//         ขวัญใจ168 f7c92b (+ffe6a3) · รับตัง168 f0b429 (+ffdc8c) · สมหวัง168
-//         e3b23c (+ffe5a8) · UFA324 e5a81b (+ffe08a bb8410) · TND168 dfa310
-//         (+ffc93d ffe4a3) · KMD88 e2b33f · KINGKONG555 f2c230 (+ffe066) ·
-//         789BETTING fad354 · FLASH877 f5c518 · PUNPRO168 fce343 · DUCK1688 f3bb34 ·
-//         WEPLAY168 fbe455 · SUPERSLOTCLUB f2b705 (+ffd666)
-//         ⚠️ **dfa310 ของ TND168 อยู่ใกล้ที่สุด** ต้อง grep เป็นค่า ไม่ใช่ตามองสี
-//   แดง — **ไม่มีในรอบนี้เลย** รวยเทพ168 e4021b · มีเฮ168 fb1b32 (+ff8f9c 5c0410) ·
-//         สมหวัง168 fa0513 (+ff5a5f ffadaf b90203) · รับตัง168 d30304 (+ff6b6e) ·
-//         ขวัญใจ168 b3121b (+5a0a0e) · TKB55 fb131b · GT66B fb141b
-//   ฟ้า/น้ำเงิน — **ไม่มีในรอบนี้เลย** รวยแทร่168 039cfa (+c3ebfc 04366b) ·
-//         นินจา168 32bcfb (+a9e9ff 07335f) · สบายเบท168 2f9ff5 (+a8dcff d6ecff
-//         0b3f78) · รับตัง168 cfd9e6 (เงินอมฟ้า) · UFA324 8792a0 b9c2cc · 2563eb
-// ส่วน **ทองรอบนี้คือ #d4922c (+#fdfc71 +#f6e3b4)** และ **บรอนซ์รอบนี้คือ #a25b24
-// (+#5a3310)** หมึกบนพื้นถมคือ **#1a1000** ชุดความลึกคือ #33200a / #1f1304 /
-// #0a0601 บนพื้นเพจ #000000
-// ชุดเต็มของรวยเทพ168 ที่เพิ่งอยู่ในไฟล์นี้ (f0bb4e ffeccb e4021b d9701a 3b1b0e
-// 260d04 0d0501 5c2a06 fff8ec 2b1400 และ rgba 240/187/78 α) rgba 228/2/27 α))
-// ออกครบทุกจุดแล้ว เช่นเดียวกับชุดของมีเฮ168 (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08
-// 2b0711 1a040a 0c0205 fdeaec 1b0308) ของรวยแทร่168 (039cfa 0494f5 c3ebfc 04366b
-// f9a826 704504 e3f2fc 0b2d52 071e38 030f1d 031320) ของนินจา168 (32bcfb a9e9ff
-// 07335f fef54b 6b5c10 0c2a3d 071a28 030e16 041019 dceefc) ของสบายเบท168 (2f9ff5
-// a8dcff d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f) ของ
-// ถอนชัวร์168 (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a 6d0b3f 6b4708 2a0617 fdeaf5)
-// ของมีโชค168 (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12
-// 0b0509) ของขวัญใจ168 (f7c92b ffe6a3 f2bba5 c98a74 b3121b 5a0a0e 8a5f12 eadfce
-// 140c06 241509 160d06 0b0603) ของรับตัง168 (f0b429 ffdc8c d30304 ff6b6e a00203
-// 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 200a09 140505 1a0505) ของสมหวัง168 (fa0513
-// ffadaf ff5a5f e3b23c ffe5a8 8a6210 b90203 8c0204 5b0203 3c0303 170504 f4ecea
-// ccb9b6 2c1413 1f0d0c 140706 290f0f) และของ UFA324 (e5a81b ffe08a bb8410 7d5a07
-// 43300a 17130a 312713 0d0b06 140d01 8792a0 f0e8d4 b9c2cc 464f5a)
-// (เฮกซ์ของแบรนด์เก่าในคอมเมนต์ด้านบนเขียนแบบ **ไม่มี #** โดยตั้งใจ เพื่อไม่ให้
-// การ sweep ไล่หาสีของแบรนด์เก่าใน src/ สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
-// ⚠️ **รอบนี้ไม่มีแดงเลย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเขียว ไม่มีเงิน/
-// โครเมียม ไม่มีโรสโกลด์ ไม่มีชมพู/ฟูเชีย และไม่มีส้มสด** ส้มที่ใกล้เคียงที่สุดคือ
-// บรอนซ์ #a25b24 ซึ่งเป็นเฉดเงาของทอง ไม่ใช่ส้มอิสระ และห้ามถือตัวอักษร
-// ⚠️ ไอคอนเริ่มต้นของสองคอลัมน์เปลี่ยนจาก 🎰 (ตู้สล็อต) เป็น ⚽ รอบนี้ — §6 วางแบรนด์นี้
-// บนแกน **ฟุตบอล ไม่ใช่สล็อต** ค่าเริ่มต้นที่เป็นตู้สล็อตคือของค้างจากรอบขาออก
+// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — ฟ้า/ไซยานนำมาแล้วห้าแบรนด์ในรีโปนี้
+// (สบาย168 · รวยแทร่168 · นินจา168 · สบายเบท168 · TSDET911) การเจอฟ้าในไฟล์นี้
+// จึงไม่พิสูจน์อะไรเลย ฟ้ารอบนี้คือ **#18a5e2** กับ **#0d6b9b** และครีมคือ
+// **#f4e4d3 / #e4cbb3** (วัดจาก slide1.png ของดรอปนี้)
+// ค่าที่ต้องไม่เหลือในไฟล์นี้:
+//   ทอง/บรอนซ์ของ **ufalion168** ที่เพิ่งอยู่ทั้งใบ — d4922c fdfc71 f6e3b4 a25b24
+//     5a3310 33200a 1f1304 0a0601 1a1000 fbf6e3 000000 กับ rgba 212/146/44 และ
+//     rgba 253/252/113
+//   แบรนด์ขาออก **เงินทอง168** — f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f 3d3016
+//     332810 201906 2e2512 1b1407 4d3c15
+//   **สบาย168** — 2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff
+//     f2fbff dff4fd eafaff a9e3f9 0f3a4a 06293c (⚠️ 2cc3fc ห่าง #18a5e2 แค่
+//     R20/G30/B26 และ 6bdcfb ห่างค่า vivid ดิบของโลโก้รอบนี้ 1 หน่วย)
+//   **รวยแทร่168** — 039cfa 0494f5 c3ebfc 04366b e3f2fc 0b2d52 f9a826 704504
+//   **นินจา168** — 32bcfb a9e9ff fef54b 6b5c10 07335f 0c2a3d 071a28
+//   **สบายเบท168** — 2f9ff5 a8dcff d6ecff 0b3f78 e8f4ff ffc82e 5c4a16
+//   **TSDET911** — 0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7
+//   **พักยก168** — eeae12 fded41 9f600d e0e0df c0c0bf a1a09e f4ead6 291d0f
+//   **รวยเทพ168 / มีเฮ168 / รับตัง168 / สมหวัง168 / UFA324 / ขวัญใจ168 /
+//     ถอนชัวร์168 / มีโชค168** — f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 ·
+//     fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 · f0b429 ffdc8c d30304 ff6b6e
+//     a00203 cfd9e6 · fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210 b90203 ·
+//     e5a81b ffe08a bb8410 7d5a07 8792a0 f0e8d4 b9c2cc 464f5a · f7c92b ffe6a3
+//     f2bba5 c98a74 b3121b 5a0a0e eadfce · fa63b9 ffb3de ffd84d 6d0b3f ·
+//     fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508
+// (เฮกซ์ของแบรนด์เก่าด้านบนเขียนแบบ **ไม่มี #** โดยตั้งใจ เพื่อไม่ให้ sweep ที่ไล่หา
+// สีของแบรนด์เก่าใน src/ สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองเป็นสี UI เลยสักเฉด ไม่มีแดง ไม่มีชมพู/ฟูเชีย
+// ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม ไม่มีบรอนซ์ ไม่มีโรสโกลด์ และไม่มีแรมป์เทาเงิน**
+// ⚠️ ไอคอนเริ่มต้นของสองคอลัมน์เปลี่ยนจาก ⚽ (ฟุตบอล — ของ ufalion168) เป็น
+// 💬 / 🧾 รอบนี้ — §7 ของบรีฟคือ **ช่องทางติดต่อแอดมินกับหลักฐานรายการธุรกรรม**
+// ไม่ใช่กีฬา และ brand-spec §1 ระบุว่าลูกฟุตบอลไม่มีอยู่ในอาร์ตเวิร์กรอบนี้
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex items-center gap-4 border-b border-[#5a3310] pb-4">
-        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#d4922c] via-[#f6e3b4] to-[#5a3310] shadow-[0_0_10px_rgba(212,146,44,0.6)]" />
-        <HeadingTag class={`bg-gradient-to-r from-[#d4922c] via-[#f6e3b4] to-[#fdfc71] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
-          {title}
-        </HeadingTag>
+      <header class="mb-6 flex items-center gap-4 border-b border-[#a9d7f2] pb-4">
+        <div aria-hidden="true" class="h-8 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#18a5e2] via-[#0d6b9b] to-[#a9d7f2] shadow-[0_0_10px_rgba(24,165,226,0.6)]" />
+        <HeadingTag class={`${headingSize} leading-normal font-black tracking-wide text-[#0d6b9b]`}>{title}</HeadingTag>
       </header>
     )
   }
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbf6e3]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#16294a]">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#d4922c]/60 pb-3 text-xl leading-normal font-black tracking-widest text-[#d4922c] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#18a5e2]/60 pb-3 text-xl leading-normal font-black tracking-wide text-[#0d6b9b]">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#a25b24] bg-gradient-to-br from-[#f6e3b4] to-[#d4922c] text-sm text-[#1a1000] shadow-[0_5px_15px_rgba(212,146,44,0.45)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#18a5e2] bg-gradient-to-br from-[#a9d7f2] to-[#18a5e2] text-sm text-[#111a3f] shadow-[0_5px_15px_rgba(24,165,226,0.45)]">
               {iconleft}
             </span>
             {titleleft}
@@ -133,13 +118,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fbf6e3]">
+    <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#16294a]">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#5a3310] pb-3 text-xl leading-normal font-black tracking-widest text-[#f6e3b4] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#e4cbb3] pb-3 text-xl leading-normal font-black tracking-wide text-[#16294a]">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#5a3310] bg-gradient-to-br from-[#33200a] to-[#0a0601] text-sm text-[#fdfc71] shadow-[0_5px_15px_rgba(253,252,113,0.3)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e4cbb3] bg-gradient-to-br from-[#f4e4d3] to-[#e4cbb3] text-sm text-[#16294a] shadow-[0_5px_15px_rgba(244,228,211,0.9)]">
               {iconright}
             </span>
             {titleright}

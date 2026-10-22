@@ -27,118 +27,121 @@ const leftHeading = titleleft ?? title;
 // heading wrap inside the flex row rather than overflow.
 //
 // ความกว้างจริงของคอลัมน์รูป (3fr ฝั่งขวา) ที่หน้าแรกคิด `widths`/`sizes` จาก —
-// **คำนวณใหม่ทั้งชุดสำหรับดรอป 2026-10-22** ถ้าแก้ค่าใดต่อไปนี้ต้องไปแก้หน้าแรก
+// **คำนวณใหม่ทั้งชุดสำหรับดรอป 2026-10-23** ถ้าแก้ค่าใดต่อไปนี้ต้องไปแก้หน้าแรก
 // ด้วย (section max-w-7xl/1280 + px-4 = 32 · card border 1x2 = 2 · p-8 = 64 ·
 //  grid gap-8 = 32 · คอลัมน์รูปมี md:border-l (1) + md:pl-8 (32) = 33 อยู่ใน
 //  กล่องของมันเอง · border-box ทั้งโปรเจกต์):
-//   ≥1280px   : (1280 − 32 − 2 − 64 − 32) × 0.3 − 33 = 1150 × 0.3 − 33 = 312px
-//   768–1279  : (100vw − 130) × 0.3 − 33             = calc(30vw − 72px)
-//   638–767   : ยุบเหลือคอลัมน์เดียวที่ p-8 → 100vw − 98 ซึ่งเกิน 540 จึงติดเพดาน
-//               max-w-[540px] ของบิตแมป                        = 540px
-//   <638      : คอลัมน์เดียวที่ p-8                             = calc(100vw − 98px)
-// ⚠️ ชุดตัวเลขนี้เป็นของ **ใบนี้** (p-8 / gap-8 / md:pl-8 + md:border-l) ไม่ใช่ของ
-// **ContentBoxSevenThreePremium** ที่ถือ §4 บนหน้าเดียวกัน ซึ่งเป็น md:p-10 /
-// gap-10 / md:pl-10 + md:border-l แล้วออกมา 297px / calc(30vw − 87px) —
-// **ห้ามลอกตัวเลขข้ามไฟล์** สองใบนี้คือคู่บล็อกรูปของรอบนี้ (brand-spec §3–§4) และ
-// อยู่ติดกันบนหน้าแรก ค่า 1x ต่างกัน 15px
-// ⚠️ สไลด์ดรอปนี้วัดจากบิตแมปจริงได้ **540x600 แนวตั้ง** เพดานกว้างสุดคือ **540**
-// และ 1x ของใบนี้คือ 312px ซึ่ง 2x = 624 เกินบิตแมป จึงตกลงมาที่ 540 — ห้ามมี
-// candidate สูงกว่านั้น
+//   >=1280px  : (1280 - 32 - 2 - 64 - 32) x 0.3 - 33 = 1150 x 0.3 - 33 = 312px
+//   768-1279  : (100vw - 130) x 0.3 - 33             = calc(30vw - 72px)
+//   698-767   : ยุบเหลือคอลัมน์เดียวที่ p-8 -> 100vw - 98 ซึ่งเกิน 600 จึงติดเพดาน
+//               max-w-[600px] ของบิตแมป                        = 600px
+//   <698      : คอลัมน์เดียวที่ p-8                             = calc(100vw - 98px)
+// ⚠️ ชุดตัวเลขนี้เป็นของ **ใบนี้** (border 1 / p-8 / gap-8 / md:pl-8 + md:border-l
+// และ max-w อยู่บน <section>) ไม่ใช่ของ **ContentBoxSevenThreeFloatingBadge**
+// ที่ถือ §4 บนหน้าเดียวกัน ซึ่งเป็น border-2 / p-8 / gap-10 / md:pl-10 โดย max-w
+// อยู่บน **การ์ด** แล้วออกมา 311px / calc(30vw - 83px) / เบรกพอยต์ 1311 —
+// **ห้ามลอกตัวเลขข้ามไฟล์** สองใบนี้คือคู่บล็อกรูปของรอบนี้ (brand-spec §3-§4)
+// และอยู่ติดกันบนหน้าแรก
+// ⚠️ สไลด์ดรอปนี้วัดจากบิตแมปจริงได้ **600x480** เพดานกว้างสุดคือ **600** และ 1x
+// ของใบนี้คือ 312px ซึ่ง 2x = 624 เกินบิตแมป จึงตกลงมาที่ 600 — ห้ามมี candidate
+// สูงกว่านั้น และ **alt ห้ามเรียกภาพนี้ว่าแนวตั้ง**
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พักยก168 (2026-10-22, brand-spec §1–§5): กล่องนี้ถือ **docx H3 §5**
+// ร่ำรวย168 (2026-10-23, brand-spec §1-§5): กล่องนี้ถือ **docx H3 §5**
 // ("โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด" — content.txt บรรทัด 12) คู่กับ
-// **slide1.png** ซึ่งพิมพ์คำว่า **แนะนำเพื่อน** กับเลข **0.8%** ไว้บนป้ายดำขอบทอง
-// ในตัวภาพเอง
+// **slide1.png** ซึ่งพิมพ์คำว่า **แนะนำเพื่อน** กับเลข **0.8%** ไว้บนแคปซูลใน
+// ตัวภาพเอง
 // ⚠️ **ตัวหนังสือบนงานอาร์ตเป็นตัวตัดสินการจับคู่ และอ่านใหม่จากบิตแมปรอบนี้แล้ว**:
 // slide1 = แนะนำเพื่อน 0.8% (ใบนี้) · slide2 = คืนยอดเสีย 0.3% (§4) ส่วน
 // banner2/banner3/slide3/slide4 เป็นอาร์ตเวิร์กของแบรนด์ก่อน (mtime ก่อนดรอป
-// 2026-10-22) **ห้าม import ที่ไหนเลย** เพราะ eager import = emit แม้ไม่ render
+// 2026-10-23) **ห้าม import ที่ไหนเลย** เพราะ eager import = emit แม้ไม่ render
 // ⚠️ ผู้อัปโหลดเขียนทับสองไฟล์นี้ทุกดรอป การจับคู่จึงไม่มีความหมายข้ามแบรนด์
 // นี่คือบล็อก SevenThree ใบที่สองของสองใบที่รอบนี้ใช้ ตามเพดาน 2 ใบของ playbook
 //
-// ⚠️⚠️ **ธีมมืด** — bg.json = {"mode":"color","color":"#291d0f"} น้ำตาลกาแฟเข้ม
-// ⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **แดงเชอร์รี่-ทองแดงไหม้บนผิวขาว ของ โปรดี168**
-// ทั้งใบ จึงกลับทิศทั้งไฟล์ ห้ามแก้กลับไปเป็นการ์ดสว่าง
-// ลำดับความลึก: #3a2713 ยก / **#32200f กลาง (ใบนี้)** / #1f1308 จม / #291d0f พื้นเพจ
-// หมึก **ไอวอรีอุ่น #f4ead6** (= BRAND_TEXT, 13.0:1 บนผิวกลาง)
+// ⚠️⚠️ **รอบนี้เป็นธีมสว่าง** — bg.json = {"mode":"color","color":"#dbe6ff"}
+// ฟ้าเพอริวิงเคิลอ่อน ⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ทองคานารี-โครเมียมเงิน
+// บนน้ำตาลกาแฟ ของ พักยก168** ทั้งใบ จึงกลับทิศทั้งไฟล์ **ห้ามแก้กลับไปเป็น
+// การ์ดเข้ม**
+// ลำดับผิว: #ffffff ยก / **#eef4ff กลาง (ใบนี้)** / #dce9fb อินเซ็ต /
+// #f4e4d3 ครีม / #dbe6ff พื้นเพจ · หมึก **#16294a** (= BRAND_TEXT, 12.9:1 บนผิวกลาง)
 //
 // จังหวะรูปทรงของใบนี้: เป็น **การ์ดมุมตัด 36px ที่มุมซ้ายบน-ขวาล่าง** นั่งอยู่ที่
-// **ผิวกลาง #32200f ทึบ** · §4 กับ §5 เป็นบล็อกรูปสองใบที่อยู่ติดกัน จึงถูกแยกสี่
-// อย่างพร้อมกัน: **รูปทรง** (มุมตัดเฉียง vs มุมกลม rounded-3xl) **ความลึกของผิว**
-// (กลางทึบ vs ยกไล่ลงกลาง) **การตกแต่งขอบ** (เส้นรูดสี่มุม vs ออราเบลอสองมุม) และ
-// **การจัดหัวข้อ** (โครเมียมทึบคู่กลีฟ ✦ vs ไล่ทองสว่าง→ทองแกนแบบ clip-text)
-// ⚠️ และใบนี้แยกจาก **§3 ContentBoxCyberCut** ที่เป็นมุมตัด **40px** บนผิวไล่
-// ยก→จม พร้อมเส้นรูดไขว้ ทอง vs โครเมียม — ที่นี่เส้นรูดสี่มุมเป็น **ทองล้วน**
-// ไล่สามเฉด #fded41 / #eeae12 / #9f600d
-// หัวข้อเป็น **โครเมียมสว่าง #e0e0df ทึบสีเดียว** (12.0:1 บนผิวกลาง) ซึ่ง §2 ระบุว่า
-// เป็นสี "หัวข้อสลับ" ของรอบนี้ — เป็นจุดเดียวบนหน้าที่หัวข้อของบทความเป็นวัสดุ
-// โครเมียม (เลข "168" ในโลโก้) แทนที่จะเป็นทอง
-// กลีฟ ✦ เป็น **ทองแกน #eeae12** (7.9:1 บนผิวกลาง) เพราะกลีฟนับเป็น **ตัวอักษร**
-// ไม่ใช่เส้น จึงต้องเป็นค่าที่ §2 อนุญาตให้ถือตัวอักษร — อ้างถึงประกายทองรอบป้าย
-// และหัวมังกรทองในงานศิลป์ (เป็น span aria-hidden และเป็น **พี่น้อง** ของหัวข้อ
-// ไม่ใช่อักขระในข้อความ)
-// เส้นคั่นและขอบการ์ดเป็นทองแกนโปร่ง อิ่มเป็นทองสว่างตอน hover
-// ⚠️ **ทองลึก #9f600d (2.8:1) ห้ามถือตัวอักษร** — ในไฟล์นี้อยู่ที่ปลายเส้นรูดซึ่ง
-// เป็นพื้นถมล้วน · **#fded41 สงวนไว้ให้ <strong> ในย่อหน้า** ซึ่งเป็นงานของหน้าเพจ
+// **ผิวกลาง #eef4ff ทึบ** · §4 กับ §5 เป็นบล็อกรูปสองใบที่อยู่ติดกัน จึงถูกแยกสี่
+// อย่างพร้อมกัน: **รูปทรง** (มุมตัดเฉียง vs มุมกลม rounded-2xl) **ความลึกของผิว**
+// (กลางทึบ vs ยกไล่ลงอินเซ็ต) **การตกแต่งขอบ** (เส้นรูดสี่มุม vs ออราเบลอสองมุม)
+// และ **การจัดหัวข้อ** (ชิปถมฟ้าคู่กลีฟในสายปกติ vs ป้ายลอยผิวโครมเข้ม)
+// ⚠️ และใบนี้แยกจาก **§6 ContentBoxCyberCut** ที่เป็นมุมตัด **40px** บนผิวไล่
+// ยก→อินเซ็ต พร้อมเส้นรูดไขว้ ฟ้าไซยาน vs ฟ้าเข้ม — ที่นี่เส้นรูดสี่มุมเป็น
+// **ฟ้าล้วนสามเฉด** #18a5e2 / #0d6b9b / #a9d7f2
+// หัวข้อเป็น **ฟ้าเข้ม #0d6b9b ทึบสีเดียว** (5.2:1 บนผิวกลาง) ไม่ใช่ bg-clip-text
+// — §2 ห้าม #18a5e2 (2.6:1 บนขาว) เป็นพิกเซลของตัวอักษรบนพื้นสว่าง
+// ⚠️ กลีฟ ◆ จึง **ไม่ได้ถูกทาเป็นสีฟ้าไซยานลอยๆ** แต่ถูกวางบน **ชิปถม #18a5e2
+// พร้อมหมึก #111a3f** (6.0:1) ซึ่งเป็นสูตร "ปุ่มเน้น (สว่าง)" ของ §2 ตรงๆ —
+// กลีฟนับเป็น **ตัวอักษร** ไม่ใช่เส้น จึงต้องมีพื้นถมรองรับเสมอ (เป็น span
+// aria-hidden และเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่อักขระในข้อความ) กลีฟสี่เหลี่ยม
+// ข้าวหลามตัดอ้างถึงประกายสี่แฉกสีฟ้าข้างคำว่า "โปรโมชั่น" ในอาร์ตเวิร์กของดรอปนี้
+// เส้นคั่นและขอบการ์ดเป็นฟ้าอ่อน #a9d7f2 อิ่มเป็นฟ้าไซยาน #18a5e2 ตอน hover
+// ⚠️ **#a9d7f2 / #dce9fb / #eef4ff / #dbe6ff / #f4e4d3 / #e4cbb3 ห้ามถือตัวอักษร**
+// — ในไฟล์นี้อยู่ที่ขอบ เส้นรูด และพื้นล้วน · **#0d6b9b สงวนไว้ให้ <strong> ใน
+// ย่อหน้าด้วย** ซึ่งเป็นงานของหน้าเพจ
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองเป็นฮิวที่แน่นที่สุดในรีโปนี้**
-// การเจอทองในไฟล์จึงไม่พิสูจน์อะไร ต้องเทียบทีละหลัก: #eeae12 (R238 G174 B18) และ
-// #fded41 (R253 G237 B65) วัดจาก logo.webp / banner1.png · ตัวที่ใกล้ที่สุดในรีโปคือ
-// e6a416 กับ fee45d ของ **ยูฟ้า168** (ห่าง R8/G10/B4 และ R1/G9/B28) ซึ่งเป็นเจ้า
-// เดียวที่เดินทอง+เงินเหมือนรอบนี้ · e5a81b (UFA324) · fef54b (นินจา168)
-// ⚠️ โครเมียมรอบนี้ #e0e0df #c0c0bf #a1a09e เป็น **เทากลาง-อุ่น (R ≥ G ≥ B)**
-// ต่างจากเงินอมฟ้าเย็น e8ecf1 a8b2bf 78828f ของยูฟ้า168
-// ชุดแดงเชอร์รี่-ทองแดงไหม้ของ **โปรดี168** ที่เพิ่งอยู่ในไฟล์นี้ทั้งใบ (eb0305
-// e40303 c20305 9b0a0c ff4446 401107 b44c06 7a2f03 f0b46a d9803a 4d1c0a 2c1004
-// fff0e4 fff4ea ffd1d1 1a0802 กับ rgba 235/3/5 α) rgba 64/17/7 α)) ออกครบทุกค่าแล้ว
-// เช่นเดียวกับชุดฟ้าสกาย-ทองคานารีของแบรนด์ขาออก **สบาย168** (2cc3fc 6bdcfb 0a7fbd
-// 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd eafaff a9e3f9 fdcb0c
-// fefb6b 8a6504 0f3a4a 06293c 2a1f02) ชุดทองคานารี-เงินโครเมียมของ **ยูฟ้า168**
-// (fee45d e6a416 b8780d 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908
-// eae3d4 140e02 000000) ชุดเขียวมรกต-ทองสัมฤทธิ์ของ **สาธุ168** (0b7d28 0a5f1c
-// 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) ชุดบรอนซ์-ทองอำพันของ
-// **ufalion168** (d4922c fdfc71 a25b24 8c4312 d39c45 f6e3b4 33200a 1f1304 0a0601
-// 5a3310 1a1000 fbf6e3) ชุดชมพูบานเย็นของ **มีทรัพย์168** (dd1b74 a4186b 4a0d35
-// 2d0720 f7dcf6 f0ccf5) และชุดแดงคริมสัน-ทองโบราณของ **รวยแท้168** (c30303 8f0505
-// e81313 dcb95f b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f)
+// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — ฟ้า/ไซยานเป็นฮิวที่ผ่านรีโปนี้มาแล้ว
+// ห้าแบรนด์ การเจอฟ้าในไฟล์จึงไม่พิสูจน์อะไร ต้องเทียบทีละหลัก: ฟ้ารอบนี้คือ
+// **#18a5e2 (R24 G165 B226)** กับ **#0d6b9b (R13 G107 B155)** ⚠️ ค่า vivid ดิบของ
+// logo.webp รอบนี้คือ 6bddfb ซึ่งห่าง 6bdcfb ของ **สบาย168 แค่ 1 หน่วย** — รอบนี้
+// จึง **ไม่ใช้ค่าดิบ** แต่เลื่อนมาที่ #18a5e2 ค่าที่ต้องไม่เหลือ: 2cc3fc 6bdcfb
+// 0a7fbd 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd eafaff a9e3f9
+// 0f3a4a 06293c (สบาย168) · 039cfa 0494f5 c3ebfc 04366b e3f2fc 0b2d52 (รวยแทร่168)
+// · 32bcfb a9e9ff 07335f 0c2a3d 071a28 030e16 (นินจา168) · 2f9ff5 a8dcff d6ecff
+// 0b3f78 e8f4ff (สบายเบท168) · 0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7
+// (TSDET911)
+// ชุดที่ถอดออกจากไฟล์นี้รอบนี้คือ **ทองคานารี-โครเมียมเงินบนน้ำตาลกาแฟของ
+// พักยก168** (eeae12 fded41 9f600d e0e0df c0c0bf a1a09e f4ead6 d6c6a8 291d0f
+// 3a2713 32200f 1f1308 1f0f04 กับ rgba 238/174/18 และ rgba 253/237/65) ออกครบ
+// ทุกค่าแล้ว เช่นเดียวกับชุดของแบรนด์ขาออก **เงินทอง168** (f5ba14 fcee52 b37c0b
+// ecd5c4 d2b9a4 29210f 3d3016 332810 201906 2e2512 1b1407 4d3c15) **โปรดี168**
+// (eb0305 e40303 c20305 9b0a0c ff4446 401107 b44c06 7a2f03 f0b46a d9803a 4d1c0a
+// 2c1004 fff0e4 1a0802) **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f
+// 4a0f0f ffeee8 fff1ef ffdbdb) และ **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c
+// c9cb63 aeb04a)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดง ไม่มีเขียว ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน
-// ไม่มีม่วง/ไวโอเลต ไม่มีโรสโกลด์ ไม่มีส้ม และไม่มีทองแดงไหม้**
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองเป็นสี UI ไม่มีแดง ไม่มีเขียว ไม่มีชมพู/ฟูเชีย
+// ไม่มีม่วง/ไวโอเลต ไม่มีโรสโกลด์ ไม่มีส้ม ไม่มีทองแดงไหม้
+// และไม่มีแรมป์เทาเงิน**
 ---
 
 <section class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#eeae12]/45 bg-[#32200f] p-8 text-[#f4ead6] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-[#fded41]/75 hover:shadow-[0_15px_40px_rgba(238,174,18,0.22)]"
+    class="relative isolate w-full border border-[#a9d7f2] bg-[#eef4ff] p-8 text-[#16294a] shadow-[0_10px_30px_rgba(22,41,74,0.14)] transition-all duration-300 hover:border-[#18a5e2] hover:shadow-[0_15px_40px_rgba(24,165,226,0.22)]"
     style="clip-path: polygon(36px 0, 100% 0, 100% calc(100% - 36px), calc(100% - 36px) 100%, 0 100%, 0 36px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#eeae12] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#9f600d] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#fded41] to-transparent"></div>
-    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#9f600d] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#18a5e2] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#a9d7f2] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#0d6b9b] to-transparent"></div>
+    <div aria-hidden="true" class="absolute right-0 bottom-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#a9d7f2] to-transparent"></div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead6]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#16294a]">
         {
           leftHeading && (
-            <div class="flex items-baseline gap-2 border-b border-[#eeae12]/40 pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#eeae12]">
-                ✦
+            <div class="flex items-baseline gap-2 border-b border-[#a9d7f2] pb-2">
+              <span aria-hidden="true" class="flex h-6 w-6 shrink-0 translate-y-1 items-center justify-center rounded-md bg-[#18a5e2] text-xs leading-none text-[#111a3f]">
+                ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#e0e0df] uppercase">{leftHeading}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#0d6b9b]">{leftHeading}</HeadingTag>
             </div>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead6] md:border-l md:border-[#eeae12]/40 md:pl-8">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#16294a] md:border-l md:border-[#a9d7f2] md:pl-8">
         {
           titleright && (
-            <div class="flex items-baseline gap-2 border-b border-[#eeae12]/40 pb-2">
-              <span aria-hidden="true" class="shrink-0 text-[#eeae12]">
-                ✦
+            <div class="flex items-baseline gap-2 border-b border-[#a9d7f2] pb-2">
+              <span aria-hidden="true" class="flex h-6 w-6 shrink-0 translate-y-1 items-center justify-center rounded-md bg-[#18a5e2] text-xs leading-none text-[#111a3f]">
+                ◆
               </span>
-              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#e0e0df] uppercase">{titleright}</HeadingTag>
+              <HeadingTag class="min-w-0 text-xl leading-normal font-black text-[#0d6b9b]">{titleright}</HeadingTag>
             </div>
           )
         }
