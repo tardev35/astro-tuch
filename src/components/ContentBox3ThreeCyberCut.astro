@@ -21,8 +21,8 @@ const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label,
 // three as real heading tags, which meant one docx section came out as three
 // headings and the h2/h3 inventory could never match the brief. It now takes the
 // section's own `title` (the docx heading) plus an opt-in `heading` flag for the
-// captions, exactly like the Premium sibling — same prop shape, so a page can be
-// moved between the two without touching its markup.
+// captions — same prop shape as its siblings, so a page can be moved between
+// them without touching its markup.
 //
 // `heading` defaults to FALSE: a three-column split on this template is almost
 // always one docx paragraph broken into three readable columns, so the safe
@@ -34,8 +34,8 @@ const { title, as: HeadingTag = "h2", titleleft, titlecenter, titleright, label,
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#b44c06] uppercase";
-const columnDot = "block h-2 w-2 shrink-0 bg-[#eb0305] shadow-[0_0_6px_rgba(235,3,5,0.8)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#f5ba14] uppercase";
+const columnDot = "block h-2 w-2 shrink-0 bg-[#fcee52] shadow-[0_0_6px_rgba(252,238,82,0.8)]";
 
 // Optional intro slot — the docx paragraph that sits under the section heading
 // and above the three columns. Its wrapper carries a real `mb-8` and sits beside
@@ -44,82 +44,96 @@ const columnDot = "block h-2 w-2 shrink-0 bg-[#eb0305] shadow-[0_0_6px_rgba(235,
 // page passes named slots only, so it stays unrendered.
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
-// โปรดี168 (รอบ **แดงเชอร์รี่นำ · ทองแดงไหม้รอง · ธีมสว่าง** 2026-10-22,
-// .claude/brand-spec-prodeee168.md §2): ใบนี้ถือ **docx H2 §2** ("โปรดี168
-// ค่ายตรงมาแรง พร้อมโปรโมชั่น เดิมพันออนไลน์ อัปเดตก่อนสิ้นปี 2026") และย่อหน้า
-// เต็มของบรีฟถูกแบ่งเป็นสามท่อนลงสามคอลัมน์ โดยไม่มีป้ายคอลัมน์
+// ───────────────────────────────────────────────────────────────────────────
+// เงินทอง168 (ดรอป 2026-10-22, .claude/brand-spec-ngernthong168.md §2) —
+// **ทองนำ · ครีมอุ่นเป็นวัสดุที่สอง · บนน้ำตาลโอลีฟเข้ม**
+// ใบนี้ถือ **docx H2 §2** ("<แบรนด์> รวมเกมกว่า 1,000 เกม จากค่ายมาตรฐานสากล")
+// และย่อหน้าเต็มของบรีฟ (content.txt บรรทัด 6) ถูกแบ่งเป็นสามท่อนลงสามคอลัมน์
+// โดยไม่มีป้ายคอลัมน์
 //
-// ⚠️ **ธีมสว่าง** — bg.json = {"mode":"color","color":"#ffd1d1"} ชมพูพาสเทลสว่าง
-// ลำดับความลึก: #ffffff ผิวยก / **#fff4ea อินเซ็ต (ใบนี้)** / #ffd1d1 พื้นเพจ
-// หมึก **น้ำตาลแดง #401107** (= BRAND_TEXT, 14.9:1 บนผิวอินเซ็ต)
-// **ห้าม "แก้" การ์ดกลับไปเป็นพื้นเข้ม** เพราะพื้นเพจของดรอปนี้สว่าง
+// ⚠️⚠️ **ธีมมืด** — bg.json = {"mode":"color","color":"#29210f"} น้ำตาลโอลีฟเข้ม
+// ลำดับความลึก: #3d3016 ยก / #332810 กลาง / **#201906 อินเซ็ต (ใบนี้)** /
+// #29210f พื้นเพจ · หมึก **ครีมอุ่น #ecd5c4** (= BRAND_TEXT, 12.5:1 บนผิวอินเซ็ต)
+// **ห้าม "แก้" การ์ดไปเป็นพื้นสว่าง**
 //
-// หน้าแรกรอบนี้มีการ์ดมุมตัดสองใบ (§2 ใบนี้ และ §4 ContentBoxSevenThreeCyberCut)
-// โดยมี §3 คั่นกลาง ทั้งคู่ถูกแยกออกจากกันสี่ทางพร้อมกัน:
-//   **ทิศของมุมตัด** — ใบนี้ตัด **ขวาบน-ซ้ายล่าง** · §4 ตัดซ้ายบน-ขวาล่าง
-//   **ขนาดมุม** — 30px · §4 เป็น 36px
-//   **ความลึกของผิว** — ใบนี้เป็น **ผิวอินเซ็ต #fff4ea** · §4 เป็นผิวยก #ffffff
-//   **การจัดหัวข้อ** — ใบนี้เป็น **ไล่เฉดสามสต็อปบน bg-clip-text พร้อมแถบตั้งนำ**
-//     · §4 เป็นหัวข้อทึบสีเดียวพร้อมเครื่องหมาย ✦
-// กรอบมุมตัดเป็นทองแดงไหม้ #b44c06 และสว่างขึ้นเป็นแดงเชอร์รี่ #eb0305 ตอน hover
-// เส้นรูดสี่มุมจับคู่สองฮิวของอาร์ตเวิร์กไขว้กัน — แดงเชอร์รี่ #eb0305 คู่ทองแดงไหม้
-// #b44c06 บนแนวนอน (ผ้าพันคอแดงของกระต่ายกับป้ายไม้/เหรียญทอง) และแดงสด #ff4446
-// คู่ทองแดงเข้ม #7a2f03 บนแนวตั้ง (โบว์แดงของเด็กหญิงกับรั้วไม้/กังหัน)
-// หัวข้อไล่ แดงเชอร์รี่ #eb0305 → ทองแดงไหม้ #b44c06 → ทองแดงเข้ม #7a2f03 ซึ่งไม่
-// ซ้ำลำดับกับกล่องอื่นบนหน้าเดียวกันสักใบ แถบตั้งนำหน้าไล่ #eb0305 → #ff4446 →
-// #b44c06 และเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่ลูก (bg-clip-text ของหัวข้อจะชนกับ
-// พื้นของแถบถ้าซ้อนกัน) — แถบเป็น **พื้นถม** #ff4446 จึงอยู่ในนั้นได้
-// ⚠️ bg-clip-text = พิกเซลของตัวอักษร ทุกสต็อปจึงต้องถือตัวอักษรได้ตาม §2:
-// #eb0305 4.3:1 · #b44c06 4.9:1 · #7a2f03 8.7:1 บนผิวอินเซ็ต และหัวข้อเป็น
-// text-xl/2xl font-black จึงนับเป็น large text ทุกแบนด์
-// ป้ายคอลัมน์ (ถ้ารอบถัดไปส่งมา) เป็นทองแดงไหม้ #b44c06 กับจุดนำแดงเชอร์รี่
-// ⚠️ §2 ห้าม **#ff4446** ถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร — ในไฟล์นี้มันอยู่ที่
-// เส้นรูดกับแถบตั้งเท่านั้น · **#9b0a0c สงวนไว้ให้ <strong> ในย่อหน้า** จึงไม่โผล่
-// ที่นี่ · **ทองสาลี่ #f0b46a ไม่มีในไฟล์นี้เลย** เพราะ §2 กันไว้ให้โครมเท่านั้น
-// (1.8:1 บนผิวสว่าง)
+// หน้าแรกรอบนี้มีการ์ดมุมตัดสองใบ (§2 ใบนี้ และ §7 ContentBoxTwoCyberCut) โดยมี
+// §3/§4/§5/§6 คั่นกลาง ทั้งคู่ถูกแยกออกจากกันสี่ทางพร้อมกัน:
+//   **ทิศของมุมตัด** — ใบนี้ตัด **ขวาบน-ซ้ายล่าง** · §7 ตัดซ้ายบน-ขวาล่าง
+//   **ความลึกของผิว** — ใบนี้เป็น **ผิวอินเซ็ต #201906** · §7 เป็นผิวยก #3d3016
+//   **การจัดหัวข้อ** — ใบนี้เป็น **ไล่เฉดสามสต็อปชิดซ้าย พร้อมแถบตั้งนำ** ·
+//     §7 เป็นไล่เฉดสามสต็อป **จัดกึ่งกลาง ไม่มีแถบตั้ง**
+//   **ลำดับสต็อป** — ใบนี้ ทองสว่าง → ทองแกน → ครีม · §7 ครีม → ทองสว่าง → ทองแกน
+// กรอบมุมตัดเป็นทองลึก #b37c0b และสว่างขึ้นเป็นทองแกน #f5ba14 ตอน hover
+// เส้นรูดสี่มุมจับคู่สองวัสดุของอาร์ตเวิร์กไขว้กัน — ทองสว่าง #fcee52 คู่ทองแกน
+// #f5ba14 บนแนวนอน (ตัวอักษร "เงินทอง" กับทองคำแท่ง) และครีม #ecd5c4 คู่ทองลึก
+// #b37c0b บนแนวตั้ง (ชุดซาตินสีงาช้างกับเงาของห้องนิรภัย)
+// ⚠️ ไล่เฉดหัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือ
+// ตัวอักษรได้ตาม §2: #fcee52 14.6:1 · #f5ba14 9.8:1 · #ecd5c4 12.5:1 บนผิวอินเซ็ต
+// **ห้ามเอา #b37c0b (2.0:1) หรือค่าผิวใดมาเป็นสต็อป** — ที่นี่ #b37c0b อยู่ที่กรอบ
+// เส้นรูด และ **แถบตั้งนำหน้า** ซึ่งเป็นพื้นถมล้วน ไม่ใช่ตัวอักษร
+// แถบตั้งเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่ลูก (bg-clip-text ของหัวข้อจะชนกับพื้นของ
+// แถบถ้าซ้อนกัน) ป้ายคอลัมน์ (ถ้ารอบถัดไปส่งมา) เป็นทองแกนกับจุดนำทองสว่าง
+// ⚠️ **#fcee52 ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้
+// rgba() ที่อนุญาตรอบนี้: rgba(245,186,20,α) · rgba(252,238,82,α) ·
+// rgba(236,213,196,α) · rgba(32,25,6,α) · rgba(0,0,0,α)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง+ทอง ซึ่งเป็นฮิวที่
-// แน่นที่สุดในรีโปนี้ และรอบก่อน (รวยแท้168) ก็เป็นแดง+ทอง+ธีมสว่างชมพูเหมือนกัน**
-// การเจอแดงในไฟล์จึงไม่พิสูจน์ว่าเป็นของรอบนี้ ต้องเทียบทีละหลัก: แดงรอบนี้คือ
-// **#eb0305 (R235 G3 B5)** วัดจาก logo.webp เอง ไม่ใช่ c30303 ของรอบก่อน (ห่าง 40
-// ที่ R) ตัวที่ใกล้ที่สุดในรีโปคือ dc0203 ของหวย365 (ห่าง 18) รับไว้โดยตั้งใจ
-// ชุดทอง-ชมพูบานเย็นของ **มีโชค168** ที่เพิ่งอยู่ในไฟล์นี้ทั้งใบ (fcd434 ffeaa0
-// f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509 d8b9c9 c89a08
-// e8bc1c กับ rgba 252/212/52 α) rgba 245/70/159 α)) ออกครบทุกค่าแล้ว เช่นเดียวกับ
-// ชุดแดงคริมสัน-ทองโบราณของรอบขาออก **รวยแท้168** (c30303 8f0505 e81313 dcb95f
-// b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f) ชุดเขียวมรกตของ
-// **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7
-// e9fbdd) และชุดน้ำเงินไฟฟ้า-เงินโครเมียมของ **TSDET911** (0360f3 0292fb 6ec8ff
-// 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f 032dad 04186e 041a43)
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ทองนำสองรอบติดกันแล้ว** การเจอทอง
+// ในไฟล์นี้จึงไม่พิสูจน์อะไร ทองรอบนี้คือ **#f5ba14 (R245 G186 B20)** กับ
+// **#fcee52 (R252 G238 B82)** วัดจาก logo.webp เอง
+// ⚠️⚠️ **พักยก168 เป็นแบรนด์ขาออกและเป็นทอง+โครเมียมเงินเหมือนกัน** eeae12 ห่างจาก
+// #f5ba14 แค่ R7/G12/B2 และ fded41 ห่างจาก #fcee52 แค่ R1/G17/B17 — ต้องไม่เหลือ
+// สักค่า: eeae12 fded41 9f600d e29f0f fdf051 e0e0df c0c0bf a1a09e f4ead6 d6c6a8
+// 291d0f 3a2713 32200f 1f1308 2f1e0f 1f0f04 4e2f11
+// ⚠️⚠️ **วัสดุที่สองรอบนี้คือครีมอุ่น #ecd5c4 / #d2b9a4 ไม่ใช่เทาเงิน** แรมป์
+// e0e0df c0c0bf a1a09e (พักยก168) และ e8ecf1 a8b2bf 78828f 5a6472 (ยูฟ้า168)
+// **ห้ามกลับเข้ามา**
+// ชุดที่เคยอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: **โปรดี168** แดงเชอร์รี่-ทองแดงไหม้
+// ธีมสว่าง (eb0305 e40303 c20305 9b0a0c ff4446 401107 b44c06 7a2f03 f0b46a d9803a
+// 4d1c0a 2c1004 fff0e4 fff4ea ffd1d1 1a0802 กับ rgba 235/3/5 α) rgba 180/76/6 α)
+// rgba 64/17/7 α)) · **มีโชค168** (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612
+// f6e4ee d8b9c9 c89a08 e8bc1c) · **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b
+// 96681f ffeee8 fff1ef ffdbdb c99a3f) · **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16
+// 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) · **TSDET911** (0360f3 0292fb 6ec8ff
+// 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f) · **ยูฟ้า168** (fee45d
+// e6a416 b8780d 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908 eae3d4
+// 140e02 0b0d10 000000) · **สบาย168** (2cc3fc 6bdcfb 9ae0fa 0a7fbd 063a57 0f3a4a
+// fdcb0c fefb6b 8a6504 ffffff f2fbff dff4fd ccf7ff 2a1f02)
+// ⚠️ ทองของแบรนด์อื่นที่ต้องเทียบทีละค่า: f7c92b ffe6a3 (ขวัญใจ168 — ห่าง #f5ba14
+// แค่ R2/G15/B23) · d4922c fdfc71 d39c45 f6e3b4 (ufalion168) · e5a81b ffe08a bb8410
+// 7d5a07 (UFA324) · fef54b 6b5c10 (นินจา168) · f9a826 704504 (รวยแทร่168) · ffc82e
+// 5c4a16 (สบายเบท168) · ffd84d 6b4708 (ถอนชัวร์168) · e3b23c ffe5a8 8a6210
+// (สมหวัง168) · f0bb4e ffeccb (รวยเทพ168) · fcd45c 6b4a08 (มีเฮ168) · ffdc8c f0b429
+// (รับตัง168) · f0c878 fff8d8 (ดวงเศรษฐี168) · cd9a2c fdeb7c ab7314 (หวยคิง) ·
+// ffc93c ffeab0 c08a07 (หวย365)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีเขียว ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง/ไวโอเลต
-// ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว**
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง/ไวโอเลต
+// ไม่มีเขียว ไม่มีส้ม/ทองแดงไหม้ ไม่มีโรสโกลด์ และไม่มีแรมป์เทาเงิน**
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#b44c06]/70 bg-[#fff4ea] p-8 text-[#401107] shadow-[0_10px_30px_rgba(64,17,7,0.16)] transition-all duration-300 hover:border-[#eb0305]/70 hover:shadow-[0_15px_40px_rgba(235,3,5,0.22)]"
+    class="relative isolate w-full border border-[#b37c0b]/70 bg-[#201906] p-8 text-[#ecd5c4] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-[#f5ba14]/70 hover:shadow-[0_15px_40px_rgba(245,186,20,0.22)]"
     style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));">
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#eb0305] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#b44c06] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ff4446] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#7a2f03] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fcee52] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#f5ba14] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#ecd5c4] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#b37c0b] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#b44c06]/60 pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#eb0305] via-[#ff4446] to-[#b44c06] shadow-[0_0_10px_rgba(235,3,5,0.4)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#eb0305] via-[#b44c06] to-[#7a2f03] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#b37c0b]/60 pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#fcee52] via-[#f5ba14] to-[#b37c0b] shadow-[0_0_10px_rgba(245,186,20,0.4)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#fcee52] via-[#f5ba14] to-[#ecd5c4] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#401107]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#ecd5c4]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#b44c06]/45 pb-6 text-left text-base leading-relaxed text-[#401107] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#b37c0b]/45 pb-6 text-left text-base leading-relaxed text-[#ecd5c4] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -130,7 +144,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#b44c06]/45 pb-6 text-left text-base leading-relaxed text-[#401107] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#b37c0b]/45 pb-6 text-left text-base leading-relaxed text-[#ecd5c4] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -141,7 +155,7 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#401107] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#ecd5c4] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>
