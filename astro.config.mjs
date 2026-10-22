@@ -37,26 +37,28 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://prodeee168.club — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://ufabet168-slot.com — operator ระบุมาตรงๆ ในคำสั่ง
   // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน** จึง **ไม่ต้องแปลง punycode** เหมือนรอบก่อน
   // ตรวจซ้ำได้ด้วย
-  //   node -e "console.log(new URL('https://prodeee168.club').hostname)"
+  //   node -e "console.log(new URL('https://ufabet168-slot.com').hostname)"
   // เคยมี IDN มาแล้วห้ารอบ (รวยเทพ168.com -> xn--168-vml9awg6a2s.com ·
   // สบายเบท-168.com -> xn---168-9gora7dtd1dwh.com · ถอนชัวร์168.com ->
   // xn--168-ell7cs5e5a5c2b0v.com · มีโชค168.com -> xn--168-pkl3a1luf6d.com ·
   // หวยดีใจ.com -> xn--82cx5btt7d4e.com) — รอบนี้ไม่เข้าข่าย
-  // ⚠️ TLD รอบนี้เป็น **.club** ไม่ใช่ .net ของรอบก่อน
-  // ⚠️ สะกด "prodeee" มี **e สามตัว** ตามที่ operator ระบุ ไม่ใช่ "prodee" หรือ
-  // "prodee168" — ห้าม "แก้" ให้เหลือสองตัวเพราะดูเหมือนพิมพ์เกิน
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@prodeee168.club ซึ่ง **ถูกต้องแล้ว**
+  // ⚠️ TLD รอบนี้เป็น **.com** ไม่ใช่ .club ของรอบก่อน
+  // ⚠️ host มี **ยัติภังค์** อยู่กลาง — "ufabet168-slot" ไม่ใช่ "ufabet168slot"
+  // และไม่ใช่ "ufa168-slot" ห้าม "แก้" ให้ติดกันเพราะดูเหมือนพิมพ์เกิน
+  // ⚠️ อย่าสับสนกับ `ufalion168` (คนละลูกค้า แบรนด์บอลเหมือนกัน) และ
+  // `ufa-324` (UFA324) ซึ่งเป็นสองแบรนด์ที่ชื่อใกล้ที่สุดในรีโปนี้
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ufabet168-slot.com ซึ่ง **ถูกต้องแล้ว**
   // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ label ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้
   // คนละค่ากันสิ้นเชิง: ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง)
-  // ส่วนโดเมนให้ label = "prodeee168"
+  // ส่วนโดเมนให้ label = "ufabet168-slot"
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://prodeee168.club",
+  site: "https://ufabet168-slot.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
