@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement6.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -25,49 +25,50 @@ import lineImage from "../assets/contact-line.webp";
 // และอีเมลมาจาก site: — ห้ามพิมพ์บรรทัดที่อยู่หรืออีเมลเอง ห้ามเพิ่มบรรทัดถนนหรือ
 // ลิงก์แผนที่ และห้ามส่งที่อยู่/อีเมลเข้า structured data (address/PostalAddress/
 // email ใน JSON-LD ทำให้เกทของ verify-build แดง)
-// ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน** ไม่ต้องแปลง punycode อีเมลจึง render ออกมาเป็น
-// <mailbox>@<host ของ site:> ตรงๆ verify-build เทียบโฮสต์ของอีเมลกับ site:
-// ห้าม "แก้ให้สวย" · กล่องจดหมายนี้ตั้งใจไม่ route ไปไหน เป็นการตัดสินใจของเจ้าของ
+// ⚠️ โดเมนรอบนี้เป็นชื่อไทย จึงถูกเก็บเป็น **punycode** ใน site: และอีเมลจะ render
+// ออกมาเป็น <mailbox>@<host ของ site:> ตรงๆ ตามนั้น verify-build เทียบโฮสต์ของ
+// อีเมลกับ site: — **ห้าม "แก้ให้สวย" ให้เป็นชื่อไทย** เพราะจะไม่ตรงกับ site:
+// · กล่องจดหมายนี้ตั้งใจไม่ route ไปไหน เป็นการตัดสินใจของเจ้าของ
 // ห้ามยกขึ้นมาถามทุกรอบ ห้ามตั้ง mail routing และห้ามลบบรรทัดนี้ออก
 //
-// Announcement หมุนมาเป็น Announcement3 ทั้งเว็บรอบนี้ (brand-spec §3 — รอบก่อน
-// ใช้ AnnouncementPremium จึงหมุนออก) orchestrator ตั้ง default message ของไฟล์
+// Announcement หมุนมาเป็น Announcement6 ทั้งเว็บรอบนี้ (brand-spec §3 — รอบก่อน
+// ใช้ Announcement3 จึงหมุนออก) orchestrator ตั้ง default message ของไฟล์
 // นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันไว้แล้ว ทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop
 // message จากหน้านี้ ไม่งั้นตัววิ่งจะพูดคนละเรื่องกับหน้าอื่น
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-ufabet168.md §2
-// ⚠️⚠️ **รอบนี้กลับมาเป็น "ธีมมืด" หลังสามรอบติดที่เป็นธีมสว่าง — การ์ดผิวมืด
-// หมึกครีม** bg.json = {"mode":"color","color":"#000000"} = **ดำสนิท** ไม่ใช่
-// ชมพูพาสเทล การ์ด ContentBox จึงเป็นผิว #15130f บนหมึกครีม #eae3d4 (= BRAND_TEXT)
-// **ห้าม "แก้" การ์ดกลับไปสว่างเพราะรอบก่อนๆ เป็นแบบนั้น**
+// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-sabai168.md §2
+// ⚠️⚠️ **รอบนี้กลับมาเป็น "ธีมสว่าง" หลังรอบก่อนเป็นดำสนิท — การ์ดผิวขาว
+// หมึกน้ำเงินเข้ม** bg.json = {"mode":"color","color":"#ccf7ff"} = **ฟ้าพาสเทล**
+// การ์ด ContentBox จึงเป็นผิว #ffffff บนหมึกน้ำเงิน #0f3a4a (= BRAND_TEXT)
+// **ห้าม "แก้" การ์ดกลับไปมืดเพราะรอบก่อนเป็นแบบนั้น**
 //
 // บทบาทสีในไฟล์นี้:
-//   ทองคานารี #fee45d → ทองกลาง #e6a416 → ทองลึก #b8780d = **พื้นถมปุ่ม PRIMARY**
-//     บนหมึกเข้ม #140e02 (15.1 / 8.7 / 5.3:1 ผ่าน AA ทุก stop)
-//   โครเมียม #e8ecf1 → #a8b2bf → #78828f = พื้นถมปุ่ม SECONDARY บนหมึก #0b0d10
-//     (15.5 / 8.6 / 5.4:1 ผ่าน AA ทุก stop) — เงินโครเมียมคือ "สีที่สอง" ของรอบนี้
-//     มาจากเลข "168" ผิวโครเมียมในโลโก้จริง ไม่ใช่เฉดอ่อนของทอง
-//   หมึกเนื้อความ #eae3d4 มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
+//   ฟ้าน้ำแข็ง #6bdcfb → ฟ้าสกาย #2cc3fc → ฟ้าลึก #0a7fbd = **พื้นถมปุ่ม PRIMARY**
+//     บนหมึกเข้ม #06293c (9.9 / 7.5 / 4.5:1 ผ่าน AA ทุก stop)
+//   ทองซีด #fefb6b → ทองคานารี #fdcb0c = พื้นถมปุ่ม SECONDARY บนหมึก #2a1f02
+//     (14.8 / 10.6:1) — ทองคือ "สีที่สอง" ของรอบนี้ มาจากคำว่า "สบาย" สามมิติ
+//     สีทองในโลโก้จริง คู่กับเลข "168" ผิวฟ้าสกาย
+//   หมึกเนื้อความ #0f3a4a มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
 //     สีแบรนด์มีเฉพาะบนเส้นขอบซ้ายซึ่งเป็นเส้นตกแต่ง ไม่ใช่ body copy
-// ขั้วของปุ่มตรงกับ /ทางเข้า /login /register ซึ่งวางปุ่มคู่นี้บนการ์ดมืดเหมือนกัน:
-// สมัครสมาชิก = PRIMARY ถมทอง · เข้าสู่ระบบ = SECONDARY ถมโครเมียม
-// ⚠️⚠️ **ห้ามสลับเป็นพื้นทองแล้วใส่ตัวอักษรขาว** ขั้วของปุ่มทองคือพื้นสว่าง-หมึกเข้ม
-// ⚠️⚠️ **#7a4e05 และ #5a6472 ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร**
-// (2.4:1 และ 3.3:1) เป็นสีขอบ/ออรา/stop ของไล่เฉดเท่านั้น
-// ⚠️ ชั้นตกแต่งของปุ่มเป็นชั้น **สว่างขึ้น** ที่ขอบบน (ใต้หมึกเข้มยิ่งเพิ่ม contrast)
-// ไม่ใช่ชั้นเข้มลงแบบรอบก่อนซึ่งคู่กับตัวอักษรขาว
-// ออราในไฟล์นี้ใช้ rgba(254,228,93,α) · rgba(230,164,22,α) · rgba(168,178,191,α) ·
-// rgba(0,0,0,α) เท่านั้น
+// ขั้วของปุ่มตรงกับ /ทางเข้า /login /register ซึ่งวางปุ่มคู่นี้บนการ์ดสว่างเหมือนกัน:
+// สมัครสมาชิก = PRIMARY ถมฟ้า · เข้าสู่ระบบ = SECONDARY ถมทอง
+// ⚠️⚠️ **ห้ามสลับเป็นพื้นฟ้า/พื้นทองแล้วใส่ตัวอักษรขาว** ขั้วคือพื้นสว่าง-หมึกเข้ม
+// ⚠️⚠️ **#2cc3fc #6bdcfb #9ae0fa #fdcb0c #fefb6b ห้ามถือตัวอักษรบนพื้นสว่าง**
+// (1.5–2.4:1) เป็นพื้นถม/ขอบ/ออราเท่านั้น
+// ออราในไฟล์นี้ใช้ rgba(44,195,252,α) · rgba(253,203,12,α) · rgba(107,220,251,α) ·
+// rgba(6,58,87,α) · rgba(0,0,0,α) เท่านั้น
 // นอกจากสีเขียวของ LINE — #00B900 เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ คงไว้เดิม
-// **ห้ามเปลี่ยนเป็นทองของแบรนด์** ต่อให้รอบนี้ทั้งเว็บเป็นทอง
+// **ห้ามเปลี่ยนเป็นฟ้า/ทองของแบรนด์**
 //
-// ⚠️ กับดักรอบนี้คือ **ทองถูกใช้มาแล้วเกือบทุกแบรนด์ในรีโปนี้** การเจอทองในไฟล์จึง
-// ไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ต้องเทียบเป็น "ค่า" ทีละหลักกับตารางใน brand-spec §2
-// ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
-// (⚠️ แบรนด์บอลรอบก่อนในรีโปนี้ก็เป็นทองเหมือนกัน แต่คนละค่า — ดูตาราง §2)
-// รอบนี้ **ไม่มีแดง ไม่มีเขียว (ยกเว้น LINE green) ไม่มีชมพู/บานเย็น ไม่มีฟ้า/
-// น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีโรสโกลด์ และไม่มีทองแดงไหม้**
+// ⚠️ กับดักรอบนี้คือ **ฟ้าและทองถูกใช้มาแล้วหลายเจ้าในรีโปนี้ และชื่อก็เกือบซ้ำ
+// (สบายเบท168 เป็นคนละลูกค้าและเคยเดินฟ้า+ทองเหมือนกัน)** การเจอฟ้าหรือทองในไฟล์
+// จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ต้องเทียบเป็น "ค่า" ทีละหลักกับตารางใน
+// brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ
+// false positive
+// รอบนี้ **ไม่มีแดง ไม่มีเขียว (ยกเว้น LINE green) ไม่มีชมพู/บานเย็น ไม่มีม่วง
+// ไม่มีส้ม ไม่มีโรสโกลด์ ไม่มีทองแดงไหม้ และไม่มีเงิน/โครเมียม** (เงิน/โครเมียม
+// เป็นสีที่สองของรอบก่อน จึงเป็นของค้างที่เสี่ยงที่สุด)
 //
 // contact-line.webp (mtime 2026-08-04) เป็นอาร์ตสต็อกกลางของเทมเพลต ไม่ใช่
 // อาร์ตเวิร์กของแบรนด์นี้ และไม่มีชื่อแบรนด์ใดพิมพ์อยู่บนรูป — alt จึงบรรยายรูปจริง
@@ -80,18 +81,18 @@ import lineImage from "../assets/contact-line.webp";
 // and the structured data from drifting apart. 150–160 CODE POINTS, counted
 // with [...s].length exactly like verify-build.mjs — do NOT use `wc -m` on this
 // box: git-bash has no UTF-8 locale here, so it counts BYTES and reads ~3x too
-// long. This one is 156 with this round's 8-character brand name.
+// long. This one is 155 with this round's 7-character brand name.
 //
 // คอปปี้ของหน้านี้อนุมานจากบรีฟบรรทัด 21-22 ซึ่งระบุเรื่องที่ติดต่อได้ไว้แค่:
 // การสมัครสมาชิก การเข้าสู่ระบบ รายการฝากถอน และรายละเอียดโปรโมชั่น กับเจ้าหน้าที่
-// ตลอด 24ชม. ผ่านช่องทางทางการ เพื่อหลีกเลี่ยงบัญชีหรือบุคคลที่แอบอ้างชื่อบริการ —
-// ห้ามเขียนเกินนี้ และคำศัพท์ต้องอยู่ใน brand-spec §6 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
+// ตลอด 24ชม. ผ่านช่องทางทางการ เพื่อหลีกเลี่ยงบัญชีแอบอ้าง —
+// ห้ามเขียนเกินนี้ และคำศัพท์ต้องอยู่ใน brand-spec §5 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้
 // grep หาคำของแบรนด์เก่าเจอ false positive
-// ⚠️ แกนของบรีฟรอบนี้คือ **เว็บพนันออนไลน์ครบวงจร แทงบอล + สล็อต + บาคาร่า**
-// ศัพท์ของหมวดอื่นที่บรีฟไม่มีทุกคำจึงเป็นของค้างที่ต้องไม่เหลือ —
-// รายการเต็มอยู่ใน brand-spec §6
+// ⚠️ แกนของบรีฟรอบนี้คือ **เว็บเกมสล็อตออนไลน์เบทต่ำ** ไม่ใช่เว็บพนันครบวงจร
+// แบบรอบก่อน และไม่ใช่เว็บลอตเตอรี ศัพท์ของหมวดอื่นที่บรีฟไม่มีทุกคำจึงเป็นของค้าง
+// ที่ต้องไม่เหลือ — รายการเต็มอยู่ใน brand-spec §5
 // ⚠️ **บรีฟรอบนี้ไม่ได้ระบุชื่อค่ายเกม ชื่อธนาคาร หรือใบอนุญาตแม้แต่รายเดียว**
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% · 0.8% · 100% · 24ชม. · 3 ขั้นตอน
+// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 0.3% · 0.8% · 24ชม. · 3 ขั้นตอน
 // ห้ามแต่งเลขใบอนุญาต หน่วยงานกำกับ ค่า RTP ยอดฝากขั้นต่ำ หรือจำนวนสมาชิก
 // หน้านี้มีโควตาเป็นรูป ที่อยู่ และปุ่ม
 //
@@ -158,7 +159,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#e6a416] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#2cc3fc] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 font-bold opacity-90">{BRAND_ADDRESS.label}</p>
           {BRAND_ADDRESS.lines.map((line) => (
             <span class="block">{line}</span>
@@ -181,16 +182,16 @@ const graph = pageGraph(Astro, {
       <a
         href="/register"
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#b8780d] bg-gradient-to-b from-[#fee45d] via-[#e6a416] to-[#b8780d] px-8 py-3 font-black text-[#140e02] shadow-[0_0_14px_rgba(254,228,93,0.4)] transition-transform hover:scale-105">
-        <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fee45d]/50 to-transparent"></span>
+        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#0a7fbd] bg-gradient-to-b from-[#6bdcfb] via-[#2cc3fc] to-[#0a7fbd] px-8 py-3 font-black text-[#06293c] shadow-[0_0_14px_rgba(44,195,252,0.4)] transition-transform hover:scale-105">
+        <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#6bdcfb]/70 to-transparent"></span>
         สมัครสมาชิก
       </a>
 
       <a
         href="/login"
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border-2 border-[#78828f] bg-gradient-to-b from-[#e8ecf1] via-[#a8b2bf] to-[#78828f] px-8 py-3 font-bold text-[#0b0d10] shadow-[0_0_12px_rgba(168,178,191,0.35)] transition-all hover:scale-105 hover:border-[#e6a416] hover:shadow-[0_0_18px_rgba(168,178,191,0.5)]">
-        <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#e8ecf1]/50 to-transparent"></span>
+        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border-2 border-[#fdcb0c] bg-gradient-to-b from-[#fefb6b] to-[#fdcb0c] px-8 py-3 font-bold text-[#2a1f02] shadow-[0_0_12px_rgba(253,203,12,0.35)] transition-all hover:scale-105 hover:border-[#2cc3fc] hover:shadow-[0_0_18px_rgba(253,203,12,0.5)]">
+        <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-[#fefb6b]/70 to-transparent"></span>
         เข้าสู่ระบบ
       </a>
 

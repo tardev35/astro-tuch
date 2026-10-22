@@ -13,23 +13,29 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // The badge is width-capped (w-[92%] max-w-2xl) and centred, never
 // whitespace-nowrap — re-grepped for this brand, the string does not appear in
 // this file. It sits at -top-6, so the card's top padding has to clear the badge
-// height minus that 24px offset.
+// height minus that 24px offset. Headings come from props only — ห้าม hardcode
+// ข้อความไทยเป็น heading ในไฟล์นี้
 //
-// BADGE CLEARANCE RE-DERIVED FOR มีทรัพย์168 (2026-10-21), against the REAL docx
+// BADGE CLEARANCE RE-DERIVED FOR สบาย168 (2026-10-22), against the REAL docx
 // sentence this round rather than a short placeholder. This box carries docx
 // H3 §5 "โปรโมชั่น แนะนำเพื่อน โบนัส 0.8% ไม่จำกัด" — 5 space-delimited chunks,
 // 4 spaces, and 30 advancing cells of text once the 6 zero-width marks are
 // discounted (ั ่ in โปรโมชั่น · ื ่ in แนะนำเพื่อน · ั in โบนัส · ่ ั in ไม่จำกัด),
 // i.e. chunks of 7 / 9 / 4 / 4 / 6 cells and 34 cells including the spaces.
+// ⚠️ The widest single chunk is 9 cells, so nothing in this title can overflow
+// SIDEWAYS: the narrowest band fits 22 cells at text-lg.
 // The heading keeps `leading-normal` (1.5); the badge adds py-2.5 (20px) and
-// border-2 (4px), and there are no spark spans, so the full inner width is text.
-// Worst case assumed is a break only at those 4 spaces:
+// border-2 (4px), and there are no ornament spans, so the full inner width is
+// text. Worst case assumed is a break only at those 4 spaces; Thai dictionary
+// breaking only ever adds break opportunities, which can never increase the
+// line count a greedy breaker produces:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
 //               Greedy: 7+1+9+1+4 = 22 fits exactly, then "0.8% ไม่จำกัด" = 11
 //               -> 2 lines. Height 2x27 + 24 = 78, edge 78 - 24 = 54 vs
 //               pt-36/144px                                  -> 90px clear
 //               Budget 3 lines = 3x27 + 24 = 105, edge 81    -> 63px clear
+//               Budget 4 lines = 4x27 + 24 = 132, edge 108   -> 36px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
 //               all 34 cells fit on 1 line. Budget 2 = 2x30 + 24 = 84, edge 60
@@ -51,12 +57,12 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // md:grid-cols-[7fr_3fr] so the image lands in the NARROW 3fr column and the
 // paragraph gets the wide 7fr one. At [3fr_7fr] the image would take 70% of the
 // card and squeeze the docx paragraph into a 30% gutter. Its partner block this
-// round is ContentBoxSevenThreeNeumorphism, which also keeps the picture on the
-// right (brand-spec §5 pins both slides to slot="right"), so the pair is told
+// round is ContentBoxSevenThree (the base), which also keeps the picture on the
+// right (brand-spec §4 pins both slides to slot="right"), so the pair is told
 // apart by CARD SHAPE and HEADING TREATMENT rather than by mirroring the
-// columns: that one is a rounded neumorphic plate on pure white whose heading is
-// a two-stop rose->pink gradient in normal flow, this one is a rounded card
-// graded white -> pink inset with a floating DEEP-PLUM PLATE carrying pale pink
+// columns: that one is a flat mid-surface #f2fbff plate whose heading is solid
+// ink in normal flow next to a three-stop vertical bar, this one is a card
+// graded white -> ice inset with a floating DEEP-OCEAN PLATE carrying pale sky
 // ink. The page passes neither titleleft nor titleright, so the badge is the
 // only heading this block emits.
 //
@@ -67,63 +73,86 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 //   grid gap-10 (40); image column adds md:pl-10 (40) + md:border-l (1) = 41
 //   >= 1312px : (1280 - 4 - 64 - 40) x 0.3 - 41 = 1172 x 0.3 - 41 = 311px
 //   md..1311  : (100vw - 140) x 0.3 - 41        = calc(30vw - 83px)
-//   < md      : one column at p-8, no md: padding = calc(100vw - 100px), which
-//               passes the 600px bitmap above a 700px viewport, so the page caps
-//               that band at 600px
-// Change any of those numbers and the page's `sizes` has to move with it.
+//   640..767  : one column at p-8, no md: padding -> 100vw - 100, which exceeds
+//               the bitmap's own 540px width above a 640px viewport, so it caps
+//                                                = 540px
+//   < 640     : one column at p-8                = calc(100vw - 100px)
+// ⚠️ These are DIFFERENT numbers from ContentBoxSevenThree, the other image
+// block on the same page (352px / calc(30vw - 68px), and its mobile branch is
+// 100vw - 98px because it has a 1px border, p-8 and a max-w on the SECTION).
+// **The two `sizes` lists are never interchangeable and neither was inherited
+// from the previous round** — the variants changed, so both were recomputed from
+// the classes inside the variant that actually holds that picture.
+// ⚠️ สไลด์ของดรอปนี้วัดจากบิตแมปจริงได้ **540x600 แนวตั้ง** เพดานจึงเป็น
+// **max-w-[540px]** และ **alt ห้ามเรียกภาพนี้ว่าแนวนอนหรือจัตุรัส**
 //
-// มีทรัพย์168 (2026-10-21) — พาเลตตาม .claude/brand-spec-meesub168.md §2
-// ⚠️⚠️ **ธีมสว่างแบรนด์แรกของรีโปนี้** พื้นเพจ #f0ccf5 (bg.json) การ์ดเนื้อหาเป็น
-// **ผิวสว่าง + หมึกเข้ม** กลับทิศจากทุกรอบก่อน ห้ามแก้กลับไปเป็นพื้นเข้ม
-// ลำดับผิว: #ffffff ยก · #f7dcf6 กลาง · #f0ccf5 พื้นเพจ — การ์ดใบนี้ไล่จากยกลงกลาง
-// ในกรอบชมพูบานเย็น #dd1b74 หนาสองพิกเซล
-// ป้ายหัวข้อเป็น **แผ่นถมพลัมเข้มทึบ #4a0d35 หมึกชมพูอ่อน #f7dcf6** (12.6:1 ตาม §2)
-// ในกรอบชมพูบานเย็น ซึ่งเป็น **ขั้วกลับของ §1 ContentBoxPremium** ที่เป็นแผ่นถม
-// ชมพูสดหมึกขาว — สองใบนี้คือสองขั้วของ "แผ่นถม" บนหน้าเดียวกัน และเป็นสองใบเดียว
-// ของหน้าที่หัวข้อนั่งบนพื้นถม **ห้ามพลิกแผ่นนี้ไปใช้หมึกเข้ม**
-// ออร่าสองมุมเป็นชมพูบานเย็น #dd1b74 มุมซ้ายบน (เหรียญชมพูในงานศิลป์) กับพื้นเพจ
-// #f0ccf5 มุมขวาล่าง เนื้อความ #4a0d35 (= BRAND_TEXT) — 14.9:1 บนผิวขาว
-// ⚠️ §2 ห้าม #dd1b74 ถือตัวอักษรบนพื้นเข้ม (3.2:1) — ในไฟล์นี้มันอยู่ที่กรอบและออรา
-// เท่านั้น และห้าม #f0ccf5/#f7dcf6 ถือตัวอักษรบนผิวขาว
+// สบาย168 (2026-10-22) — พาเลตตาม .claude/brand-spec-sabai168.md §2
+// ⚠️⚠️ **รอบนี้กลับมาเป็นธีมสว่าง หลังรอบก่อน (ยูฟ้า168) เป็นดำสนิท** พื้นเพจ
+// #ccf7ff (bg.json) การ์ดเนื้อหาเป็น **ผิวสว่าง + หมึกน้ำเงินเข้ม**
+// **ห้ามแก้กลับไปเป็นพื้นเข้ม** — โครมต่างหากที่เป็นน้ำเงินมหาสมุทรลึกรอบนี้
+// ลำดับผิว: #ffffff ยก · #f2fbff กลาง · #dff4fd อินเซ็ต · #ccf7ff พื้นเพจ —
+// การ์ดใบนี้ไล่จากยกลงอินเซ็ต ในกรอบฟ้าสกาย #2cc3fc หนาสองพิกเซล
+// ป้ายหัวข้อเป็น **แผ่นถมน้ำเงินมหาสมุทรลึกทึบ #063a57 หมึกฟ้าขาว #eafaff**
+// (11.4:1 ตาม §2) ในกรอบทองคานารี #fdcb0c ซึ่งเป็น **ขั้วกลับของ §3
+// ContentBoxFloatingBadge** ที่เป็นแผ่นถมทองคานารีหมึกเข้ม — สองใบนี้คือสองขั้วของ
+// "แผ่นถม" บนหน้าเดียวกัน และเป็นสองใบเดียวของหน้าที่หัวข้อนั่งบนพื้นถม
+// **ห้ามพลิกแผ่นนี้ไปใช้หมึกเข้ม**
+// ออร่าสองมุมเป็นฟ้าสกาย #2cc3fc มุมซ้ายบน กับทองคานารี #fdcb0c มุมขวาล่าง —
+// ทั้งคู่เป็นชั้นเบลอใต้ -z-10 ไม่มีตัวอักษรวางทับ ซึ่งเป็นงานเดียวที่ §2 ยอมให้
+// สองค่านี้ทำบนพื้นสว่าง เนื้อความ #0f3a4a (= BRAND_TEXT) — 12.2:1 บนผิวขาว
+// ⚠️ §2 ห้าม #2cc3fc/#6bdcfb/#9ae0fa/#fdcb0c/#fefb6b ถือตัวอักษรบนพื้นสว่าง
+// (1.5–2.4:1) และห้าม #f2fbff/#dff4fd/#ccf7ff ถือตัวอักษรเลย ·
+// **#8a6504 สงวนไว้ให้ <strong> ในย่อหน้า** ซึ่งเป็นงานของหน้าเพจ
+// rgba() ที่อนุญาตรอบนี้: rgba(44,195,252,α) · rgba(253,203,12,α) ·
+// rgba(107,220,251,α) · rgba(6,58,87,α) · rgba(0,0,0,α)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168
-// fa63b9 · มีโชค168 f5469f · มีเฮ168 ff8f9c) ตัวที่ใกล้ dd1b74 ที่สุดคือ f5469f
-// (ห่าง 65) ไฟล์นี้เพิ่งค้างชุด **น้ำเงินไฟฟ้า-เงินโครเมียม** ของ TSDET911 มาทั้งใบ
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ฟ้าเคยนำมาแล้วสามแบรนด์ และทองเกือบ
+// ทุกแบรนด์** ฟ้ารอบนี้คือ **#2cc3fc** ทองคือ **#fdcb0c**
+// ⚠️⚠️ **สบายเบท168 ชื่อใกล้ที่สุดในรีโปและเป็นฟ้า+ทองเหมือนกัน — คนละลูกค้า**
+// (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e 5c4a16 e8f4ff 0e2238 081726 040d16 04121f)
+// **นินจา168** (32bcfb a9e9ff fef54b 6b5c10 07335f 0c2a3d 071a28 030e16 041019
+// dceefc) ⚠️ 32bcfb ห่าง #2cc3fc แค่ R6/G7/B1 · **รวยแทร่168** (039cfa 0494f5
+// c3ebfc 04366b f9a826 704504 e3f2fc 0b2d52 071e38 030f1d 031320 7fa8cc 9dc4e4)
+// ไฟล์นี้เพิ่งค้างชุด **ชมพูบานเย็นของ มีทรัพย์168** มาทั้งใบ (dd1b74 a4186b 4a0d35
+// 2d0720 f7dcf6 f0ccf5) ก่อนนั้นเป็น **น้ำเงินไฟฟ้า-เงินโครเมียมของ TSDET911**
 // (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 102a5e 0a1c42 040e26 00081f
-// 032dad 041a43 021026) ก่อนนั้นเป็นชุดทองมังกรของ TND168 (dfa310 ffe4a3 ffc93d
-// c9b88e f0e9dc 8a5c09 43240b 140d02 1b1307 070502) ชุดทองสายฟ้า-แดงเลือดนกของ
-// FLASH877 (f5c518 ffdd73 b8860f ff3b14 8c0f0a 5a0603) ชุดชมพูฮอตพิงก์-ทองของ
-// PUNPRO168 (f41571 ff5ca8 fce343 ffd94a) ชุดเขียวป่า-ทองของ KINGKONG555 (8ce023
-// f2c230 ffe066) ชุดม่วงนีออน-ทองของ WEPLAY168 (a435f0 5b1a75 1e0a3c) และชุดทอง
-// อำพันเสือของ TIGERWIN369 (d98324 f7b733 ffd98a f7e4c0) — ออกครบทุกค่าแล้ว
-// เช่นเดียวกับชุดของ ดวงเศรษฐี168 รอบขาออก (d9212a 8e1a16 f0c878 fff8d8 2a0608
-// 4e2120 300605 150303 000000) และ ufalion168 (d4922c fdfc71 f6e3b4 a25b24 5a3310)
+// 032dad 041a43 021026) ชุดทองมังกรของ **TND168** (dfa310 ffe4a3 ffc93d c9b88e
+// f0e9dc 8a5c09 43240b 140d02 1b1307 070502) ชุดทองสายฟ้า-แดงเลือดนกของ
+// **FLASH877** (f5c518 ffdd73 b8860f ff3b14 8c0f0a 5a0603) ชุดชมพูฮอตพิงก์ของ
+// **PUNPRO168** (f41571 ff5ca8 fce343 ffd94a) ชุดเขียวป่าของ **KINGKONG555**
+// (8ce023 f2c230 ffe066) ชุดม่วงนีออนของ **WEPLAY168** (a435f0 5b1a75 1e0a3c)
+// และชุดทองอำพันเสือของ **TIGERWIN369** (d98324 f7b733 ffd98a f7e4c0) —
+// ออกครบทุกค่าแล้ว เช่นเดียวกับแบรนด์ขาออก **ยูฟ้า168** (fee45d e6a416 b8780d
+// 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908 eae3d4 140e02 0b0d10
+// 000000) **โปรดี168** (eb0305 9b0a0c ff4446 b44c06 7a2f03 f0b46a 401107 fff4ea
+// ffd1d1) **ดวงเศรษฐี168** (d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605
+// 150303) และ **ufalion168** (d4922c fdfc71 f6e3b4 a25b24 5a3310)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีทอง/เหลือง/อำพัน ไม่มีแดงชาด ไม่มีบรอนซ์
-// ไม่มีเขียว ไม่มีม่วง ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีส้ม**
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีชมพู/มาเจนตา ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม
+// ไม่มีทองแดงไหม้ ไม่มีบรอนซ์ ไม่มีโรสโกลด์ และไม่มีเงิน/โครเมียม**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#dd1b74]/60 bg-gradient-to-b from-white to-[#f7dcf6] p-8 pt-36 shadow-[0_10px_30px_rgba(74,13,53,0.18)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#dd1b74]/28 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#f0ccf5]/95 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#2cc3fc]/60 bg-gradient-to-b from-white to-[#dff4fd] p-8 pt-36 shadow-[0_10px_30px_rgba(6,58,87,0.18)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#2cc3fc]/30 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-10 -bottom-16 -z-10 h-40 w-40 rounded-full bg-[#fdcb0c]/25 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#dd1b74] bg-[#4a0d35] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(74,13,53,0.40)] sm:px-8">
-          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#f7dcf6] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 w-[92%] max-w-2xl -translate-x-1/2 rounded-lg border-2 border-[#fdcb0c] bg-[#063a57] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(6,58,87,0.4)] sm:px-8">
+          <HeadingTag class="text-lg leading-normal font-black tracking-tight text-[#eafaff] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35]">
-        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#a4186b]">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0f3a4a]">
+        {titleleft && <HeadingTag class="text-2xl leading-normal font-bold text-[#063a57]">{titleleft}</HeadingTag>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#4a0d35] md:border-l md:border-[#dd1b74]/35 md:pl-10">
-        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#4a0d35]">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#0f3a4a] md:border-l md:border-[#2cc3fc]/40 md:pl-10">
+        {titleright && <HeadingTag class="text-2xl leading-normal font-bold text-[#063a57]">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>
