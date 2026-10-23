@@ -9,34 +9,40 @@ const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = `โลโก้ ${BRAND_NAME} เป็นตัวอักษรไทยคำว่า สาธุ แบบสามมิติผิวมันวาวไล่เฉดสีเขียวมรกตเข้มไปเขียวใบตองสว่างตัดขอบสีขาว ต่อท้ายด้วยเลข 168 แบบสามมิติผิวมันวาวสีทอง`;
+const logoAlt = `โลโก้ ${BRAND_NAME} เป็นตัวอักษรไทยคำว่า รวย แบบสามมิติผิวมันวาวสีโครเมียมเงินตัดขอบทอง มีมงกุฎทองขนาดเล็กวางอยู่บนตัวอักษรตัวแรก ต่อท้ายด้วยเลข 168 แบบสามมิติผิวมันวาวสีทอง บนพื้นโปร่งใส`;
 
-// พาเลตรอบนี้ (ดรอป 2026-10-21): ธีมหน้าเว็บเป็น "สว่าง" แต่ navbar อยู่ในโซนโครม
-// จึงยังเป็นแถบเข้มที่คร่อมเนื้อหาสว่างไว้ — พื้นแถบเขียวป่า #0c3a16 (= BRAND_TEXT
-// ซึ่งรอบนี้ทำหน้าที่ทั้งหมึกบนพื้นสว่างและพื้นของโครม) ชั้นจมของปุ่มรอง/ปุ่ม
-// แฮมเบอร์เกอร์เป็นเขียวจม #061f0c ส่วน accent เป็นทองสัมฤทธิ์อมเขียว (olive brass)
-// สามสเต็ป: #c9cb63 สว่าง → #aeb04a แบรนด์ → #9ba03c ลึก ซึ่งอ่านมาจากเลข "168"
-// ทองบนโลโก้และแผ่นป้ายทองขอบมนบนแบนเนอร์ ตัวอักษรเมนูปกติเป็นเขียวใบตองซีด #e9fbdd
-// และสถานะ hover ยกขึ้นเป็นขาวบริสุทธิ์
+// พาเลตรอบนี้ (รวย168 ดรอป 2026-10-23): ธีมมืดทั้งเว็บ พื้นเพจเป็นดำสนิท #000000
+// (จาก bg.json) navbar จึงเป็นแถบผิวการ์ด #121110 ที่ยกขึ้นมาจากพื้นดำเล็กน้อย
+// พร้อมขอบทองเพื่อให้เห็นขอบเขตของแถบ ชั้นจมของปุ่มรอง/ปุ่มแฮมเบอร์เกอร์เป็น #070707
+// ส่วน accent เป็นทองสามสเต็ป #ffd94a สว่าง → #e3a712 แบรนด์ → #b07d08 ลึก
+// ซึ่งอ่านมาจากเลข "168" ทองบนโลโก้ มงกุฎทองเหนือเวิร์ดมาร์ก และเลข "บาทละ 1,000"
+// ทองบนแถบมนของแบนเนอร์ ตัวอักษรเมนูปกติเป็นหมึกงาช้าง #f3ece0 และ hover ยกเป็นขาว
+//
+// ⚠️⚠️ ธีมเดิมของไฟล์นี้คือ **สาธุ168 เขียวมรกต/ทองสัมฤทธิ์** (0c3a16 061f0c
+// c9cb63 aeb04a 9ba03c e9fbdd) — ถอดออกครบแล้ว ห้ามเขียนกลับเข้ามา
+// และ **ห้ามใส่แดงกลับเข้ามาทุกเฉด** แม้ตระกูล *Huay จะ ship มาเป็นแดง/ทอง
+// เพราะแดงคริมสันคือฮิวนำของ **มาดาม168 รอบก่อนทันที** (ff2e52 e01238 c9102f)
 //
 // คู่พื้น-หมึกของปุ่ม คำนวณครบทุก stop แล้ว ห้ามสลับข้าง:
-// - ปุ่มสมัครสมาชิก = ไล่เฉดทอง #c9cb63 → #aeb04a → #9ba03c ถือหมึกเขียวป่า #0c3a16
-//   ได้ 7.5:1 / 6.2:1 / 4.6:1 ตามลำดับ ปลายล่างของไล่เฉดจึงจบที่ #9ba03c พอดี
-//   **ห้ามกลับด้านเป็นพื้นทองแล้วใส่ตัวอักษรขาว** — ขาวบนทองสัมฤทธิ์ชุดนี้ตกเกณฑ์
-//   ทุกค่า (ทองของรอบนี้สว่างเกินกว่าจะรับหมึกสว่าง)
-// - ปุ่มเข้าสู่ระบบ = ขอบทอง #aeb04a/35 บนพื้นเขียวจม #061f0c/70 ถือตัวอักษรขาว
-// - เมนูปกติ #e9fbdd บน #0c3a16 = 11.8:1 · สถานะ active #c9cb63 บน #0c3a16 = 7.5:1
-//
-// เขียวใบตองสว่าง (ค่าที่สเปกกันไว้เป็น stop ของไล่เฉด/ออราบนพื้นสว่างเท่านั้น)
-// ไม่มีในไฟล์นี้เลยและห้ามเพิ่มเข้ามา — บนแถบเข้มมันตกคอนทราสต์ทุกบทบาท
+// - ปุ่มสมัครสมาชิก = ไล่เฉดทอง #ffd94a → #e3a712 → #b07d08 ถือหมึกดำ #0a0a0a
+//   ได้ 14.6:1 / 9.2:1 / 5.4:1 ตามลำดับ ปลายล่างของไล่เฉดจึงจบที่ #b07d08 พอดี
+//   ⚠️⚠️ **ห้ามกลับด้านเป็นพื้นทองแล้วใส่ตัวอักษรขาว** — ขาวบน #ffd94a ได้แค่
+//   ~1.2:1 และบน #e3a712 ได้ ~2.2:1 ตกเกณฑ์ทุกค่า แผ่นป้ายทองในอาร์ตเวิร์กเองก็
+//   เป็นตัวอักษรเข้มบนทองเหมือนกัน
+//   ⚠️ และ **ห้ามใช้ #9d6f06 เป็น stop ล่างของปุ่ม** — มันได้แค่ 4.5:1 กับหมึกดำ
+//   ค่านั้นสงวนไว้สำหรับขอบ/ออรา/พื้นถมที่ไม่มีตัวอักษรเท่านั้น
+// - ปุ่มเข้าสู่ระบบ = ขอบทอง #e3a712/35 บนพื้นจม #070707/70 ถือตัวอักษรขาว
+// - เมนูปกติ #f3ece0 บน #121110 = 16.0:1 · สถานะ active #ffd94a บน #121110 = 13.8:1
 //
 // icon เป็น sibling ของ label เสมอ และอยู่ใน span aria-hidden — ห้ามต่อเข้าไปใน
 // ข้อความ ไม่งั้น screen reader จะอ่านชื่อไอคอนนำหน้าชื่อเมนู (verify-build เช็กให้)
 //
-// ไอคอนเลือกตามแนวหวยล้วน ไม่ใช่แนวสล็อต/คาสิโน: 🎫 โปรโมชั่น (ใบสลากกินแบ่งที่
-// คู่ชาย-หญิงถืออยู่ในอาร์ตเวิร์ก) · 🔢 ตรวจหวย (ตัวเลขผลรางวัล) · 📊 แนวทาง
-// (สถิติ ล้อไอคอนกราฟแท่งบนแบนเนอร์) · 🎱 ทดลองเล่น (ลูกบอลหวยมุมล่างของแบนเนอร์) ·
-// 🏛️ เกี่ยวกับเรา (เจดีย์/วัดไทยซึ่งเป็นฉากหลังของทั้งแบนเนอร์และสไลด์)
+// ไอคอนเลือกตามแนวหวยล้วน ไม่ใช่แนวสล็อต/คาสิโน และอ่านจากอาร์ตเวิร์กของดรอปนี้เอง:
+// 🎁 โปรโมชั่น (โปสเตอร์ คืนยอดเสีย 0.3% / แนะนำเพื่อน 0.8% ของสไลด์ทั้งสองใบ) ·
+// 🔢 ตรวจหวย (ตัวเลขผลรางวัล) · 📊 แนวทาง (ตารางอัตราจ่ายบน banner2/banner3) ·
+// 🎱 ทดลองเล่น (ลูกบอลหวยเลข 9/6/8 ที่ลอยอยู่สองฝั่งของแบนเนอร์) ·
+// 👑 เกี่ยวกับเรา (มงกุฎทองที่วางอยู่บนตัวอักษรตัวแรกของโลโก้)
+// ⚠️ ห้ามใช้ 🎰 🃏 🎲 หรือไอคอนแนวสล็อต/คาสิโน — รอบนี้เป็นเว็บหวยล้วน
 //
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -46,10 +52,10 @@ const logoAlt = `โลโก้ ${BRAND_NAME} เป็นตัวอักษ
 // และมีลิงก์จาก footer)
 //
 // /ตรวจหวย และ /แนวทาง อยู่ในเมนูรอบนี้ เพราะแบรนด์นี้เป็นเว็บหวยเต็มตัว (บรีฟพูดถึง
-// หวยรัฐบาลไทย/ฮานอย/ลาว/หุ้น และแบนเนอร์เขียนว่า "เว็บหวยจ่ายจริงไม่โกง") และทั้งสอง
-// ไฟล์ถูกย้ายเข้า src/pages/ แล้ว — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ถ้าแบรนด์ถัดไปไม่ใช่
-// เว็บหวย ต้องถอดทั้งไฟล์และลิงก์ออกพร้อมกัน ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป
-// route ที่ไม่มีจริง
+// หวยรัฐบาลไทย/ลาว/ฮานอย/ออมสิน และแบนเนอร์เขียนว่า "แทงหวยเว็บรวย") และทั้งสอง
+// ไฟล์ถูกย้ายกลับเข้า src/pages/ แล้วรอบนี้ — ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ถ้าแบรนด์
+// ถัดไปไม่ใช่เว็บหวย ต้องถอดทั้งไฟล์และลิงก์ออกพร้อมกัน ไม่งั้น verify-build จะฟ้อง
+// href ที่ชี้ไป route ที่ไม่มีจริง
 //
 // แถวเมนูเดสก์ท็อปรอบนี้มี 9 รายการ เพราะ /ตรวจหวย กับ /แนวทาง อยู่ในเมนู —
 // ที่ช่วง lg จึงลดเป็น text-xs tracking-normal gap-2 แล้วค่อยคืนเป็น text-sm
@@ -62,20 +68,20 @@ const logoAlt = `โลโก้ ${BRAND_NAME} เป็นตัวอักษ
 // ตัวเดียวกัน — ห้ามแยกเป็นสองอาร์เรย์ ไม่งั้นรอบหน้าจะมีคนแก้แค่ฝั่งเดียว
 const menu = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
-  { name: "โปรโมชั่น", path: "/promotion", icon: "🎫" },
+  { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ตรวจหวย", path: "/ตรวจหวย", icon: "🔢" },
   { name: "แนวทาง", path: "/แนวทาง", icon: "📊" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎱" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🏛️" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "👑" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "📞" },
 ];
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
-  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#aeb04a]/55 bg-[#0c3a16]/95 px-4 shadow-[0_5px_20px_rgba(12,58,22,0.8)] backdrop-blur-xl xl:px-8">
-    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#aeb04a]/25 bg-[#aeb04a]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
+  <nav class="relative mx-auto flex h-[85px] w-full items-center justify-between border-b border-[#e3a712]/55 bg-[#121110]/95 px-4 shadow-[0_5px_20px_rgba(0,0,0,0.85)] backdrop-blur-xl xl:px-8">
+    <a href="/" class="z-[110] flex-shrink-0 rounded-xl border border-[#e3a712]/25 bg-[#e3a712]/10 px-4 py-2 backdrop-blur-sm transition-transform duration-300 hover:scale-105">
       {
         mainLogo ? (
           <Picture
@@ -89,7 +95,7 @@ const menu = [
             fallbackFormat="webp"
           />
         ) : (
-          <p class="rounded-md bg-[#aeb04a] px-3 py-1 text-2xl font-black tracking-widest text-[#0c3a16] drop-shadow-md">{BRAND_NAME}</p>
+          <p class="rounded-md bg-[#e3a712] px-3 py-1 text-2xl font-black tracking-widest text-[#0a0a0a] drop-shadow-md">{BRAND_NAME}</p>
         )
       }
     </a>
@@ -99,11 +105,11 @@ const menu = [
         menu.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1 px-1 text-center text-xs font-bold tracking-normal uppercase transition-colors xl:gap-1.5 xl:text-sm xl:tracking-wide ${isActive(item.path) ? "text-[#c9cb63]" : "text-[#e9fbdd]/80 hover:text-[#ffffff]"}`}>
+            class={`group relative flex h-full items-center gap-1 px-1 text-center text-xs font-bold tracking-normal uppercase transition-colors xl:gap-1.5 xl:text-sm xl:tracking-wide ${isActive(item.path) ? "text-[#ffd94a]" : "text-[#f3ece0]/80 hover:text-[#ffffff]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#c9cb63] via-[#aeb04a] to-[#9ba03c] shadow-[0_-2px_10px_rgba(174,176,74,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-full bg-gradient-to-r from-[#ffd94a] via-[#e3a712] to-[#b07d08] shadow-[0_-2px_10px_rgba(227,167,18,0.8)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -113,35 +119,35 @@ const menu = [
     <div class="z-[110] flex items-center gap-4">
       <a
         href="/login"
-        class="hidden rounded-full border-2 border-[#aeb04a]/35 bg-[#061f0c]/70 px-6 py-2.5 text-sm font-bold text-[#ffffff] backdrop-blur-md transition-all hover:border-[#aeb04a]/70 hover:bg-[#aeb04a]/10 hover:text-[#ffffff] xl:flex">
+        class="hidden rounded-full border-2 border-[#e3a712]/35 bg-[#070707]/70 px-6 py-2.5 text-sm font-bold text-[#ffffff] backdrop-blur-md transition-all hover:border-[#e3a712]/70 hover:bg-[#e3a712]/10 hover:text-[#ffffff] xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full bg-gradient-to-r from-[#c9cb63] via-[#aeb04a] to-[#9ba03c] px-6 py-2.5 text-sm font-black text-[#0c3a16] shadow-[0_4px_15px_rgba(174,176,74,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(174,176,74,0.65)] xl:flex">
+        class="hidden rounded-full bg-gradient-to-r from-[#ffd94a] via-[#e3a712] to-[#b07d08] px-6 py-2.5 text-sm font-black text-[#0a0a0a] shadow-[0_4px_15px_rgba(227,167,18,0.45)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(227,167,18,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#aeb04a]/35 bg-[#061f0c]/80 lg:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#e3a712]/35 bg-[#070707]/80 lg:hidden"
         aria-label="เปิดเมนูหลัก">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#c9cb63] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#c9cb63] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#c9cb63] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#ffd94a] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#ffd94a] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#ffd94a] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#aeb04a]/60 bg-[#0c3a16]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
+    class="pointer-events-none absolute top-[85px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col rounded-b-3xl border-b border-[#e3a712]/60 bg-[#121110]/98 px-6 pt-4 pb-8 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-300 lg:hidden">
     <div class="flex flex-col gap-2">
       {
         menu.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#c9cb63] bg-[#c9cb63]/10 text-[#c9cb63]" : "text-[#e9fbdd]/80 hover:bg-[#aeb04a]/10 hover:text-[#ffffff]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold tracking-wider uppercase transition-colors ${isActive(item.path) ? "border-l-4 border-[#ffd94a] bg-[#ffd94a]/10 text-[#ffd94a]" : "text-[#f3ece0]/80 hover:bg-[#e3a712]/10 hover:text-[#ffffff]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -151,10 +157,10 @@ const menu = [
     <div class="mt-6 flex flex-col gap-4">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#c9cb63] via-[#aeb04a] to-[#9ba03c] py-3.5 text-lg font-black text-[#0c3a16] shadow-[0_5px_15px_rgba(174,176,74,0.45)]">
+        class="flex w-full justify-center rounded-full bg-gradient-to-r from-[#ffd94a] via-[#e3a712] to-[#b07d08] py-3.5 text-lg font-black text-[#0a0a0a] shadow-[0_5px_15px_rgba(227,167,18,0.45)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#aeb04a]/35 bg-[#061f0c]/70 py-3.5 text-lg font-bold text-[#ffffff]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border-2 border-[#e3a712]/35 bg-[#070707]/70 py-3.5 text-lg font-bold text-[#ffffff]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

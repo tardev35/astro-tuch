@@ -37,22 +37,25 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://madum168.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://ruay168.games — operator ระบุมาตรงๆ ในคำสั่ง
   // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน จึงเก็บตรงตัว ไม่ต้องแปลง punycode**
-  // (รอบก่อน นาซ่า168 เป็น IDN ภาษาไทยที่ต้องแปลงเป็น xn--168-ill4dyhb9o.com
-  // — รอบนี้กลับทิศ)
-  // ⚠️ TLD รอบนี้ยังเป็น **.com** เหมือนรอบก่อน
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@madum168.com ซึ่ง
+  // (เหมือนรอบก่อน madum168.com — ส่วน นาซ่า168 ก่อนหน้านั้นเป็น IDN ภาษาไทย
+  // ที่ต้องแปลงเป็น xn--168-ill4dyhb9o.com)
+  // ⚠️⚠️ **TLD รอบนี้คือ `.games` ไม่ใช่ `.com`** — ต่างจากสองรอบก่อนหน้า
+  // อย่าเผลอพิมพ์ .com ตามความเคยชิน ทุกค่าที่ derive จากบรรทัดนี้จะผิดตามทันที
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ruay168.games ซึ่ง
   // **ถูกต้องแล้ว** verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ
   // — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คนละค่ากัน:
   // ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง) ส่วนโดเมนให้
-  // name = "madum168" (verify-build เทียบกับ SITE.hostname.split(".")[0])
-  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์ของ wrangler.toml** (ตรวจแล้ว)
+  // name = "ruay168" (verify-build เทียบกับ SITE.hostname.split(".")[0] ซึ่งตัด
+  // TLD ทิ้ง — ".games" จึงไม่เข้ามาในชื่อ worker)
+  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์ของ wrangler.toml** (ตรวจแล้ว
+  // — ในลิสต์มี ruaythear168 กับ ruaythear168-vip ซึ่งเป็นคนละค่ากับ ruay168)
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://madum168.com",
+  site: "https://ruay168.games",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

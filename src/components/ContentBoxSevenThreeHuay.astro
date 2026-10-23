@@ -13,12 +13,12 @@ const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 // is a direct child, so the headings need `leading-normal` to stop the hoisted
 // `leading-relaxed` leaking into them. Do not re-add a wrapper <div>.
 //
-// Column order here is TEXT (7fr) then IMAGE (3fr). Its pair on the home page
-// this round is ContentBoxSevenThreeCyberCut, which runs the same way round but
-// is separated from this one by shape, surface depth and corner treatment — see
-// that file's frontmatter. `titleleft` is therefore the wide text column's
-// heading and the narrow column is the one that takes the picture; no
-// `titleright` is ever passed, so this block emits exactly one docx heading.
+// Column order here is TEXT (7fr) then IMAGE (3fr). `titleleft` is therefore the
+// wide text column's heading and the narrow column is the one that takes the
+// picture; no `titleright` is ever passed, so this block emits exactly one docx
+// heading, and it lands on the prose rather than on the image. On mobile the
+// single column reads หัวข้อ -> ข้อความ -> ภาพ, not image-first.
+// Headings come from props only — ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้
 //
 // ความกว้างจริงของคอลัมน์รูป (3fr ฝั่งขวา) ที่หน้าแรกคิด `widths`/`sizes` จาก —
 // **คำนวณใหม่ทั้งชุดสำหรับดรอปนี้ ห้ามลอกของรอบก่อนหรือของไฟล์พี่น้อง** ถ้าแก้ค่า
@@ -26,77 +26,107 @@ const { titleleft, titleright, as: HeadingTag = "h2" } = Astro.props;
 // (section max-w-[1400px] + px-4 = 32 · card border 1x2 = 2 · md:p-10 = 80 ·
 //  grid gap-8 = 32 · คอลัมน์รูปมี md:pl-6 = 24 อยู่ในกล่องของมันเอง · Tailwind
 //  เป็น border-box ทั่วทั้งโปรเจกต์ max-w/padding จึงนับรวมกัน):
-//   ≥1400px   : (1400 − 32 − 2 − 80 − 32) × 0.3 − 24 = 1254 × 0.3 − 24 = 352px
+//   >= 1400px : (1400 − 32 − 2 − 80 − 32) × 0.3 − 24 = 1254 × 0.3 − 24 = 352px
 //   768–1399  : (100vw − 146) × 0.3 − 24             = calc(30vw − 68px)
-//   638–767   : ยุบเหลือคอลัมน์เดียวที่ card p-8 → 100vw − 98 ซึ่งเกิน 540 จึงติด
-//               เพดาน max-w-[540px] ของบิตแมป                = 540px
-//   <638      : คอลัมน์เดียวที่ p-8                           = calc(100vw − 98px)
+//   473–767   : ยุบเหลือคอลัมน์เดียวที่ card p-8 → 100vw − 98 ซึ่ง ≥ 375 จึงติด
+//               เพดานความกว้างจริงของบิตแมป            = 375px
+//   < 473     : คอลัมน์เดียวที่ p-8                    = calc(100vw − 98px)
 // md:border-r 1px อยู่ในกล่องของคอลัมน์ซ้าย (border-box) จึงไม่กินความกว้างคอลัมน์ขวา
 // ⚠️ ชุดตัวเลขนี้เป็นของ **ใบนี้** (md:p-10 / gap-8 / md:pl-6) ไม่ใช่ของ
-// ContentBoxSevenThreeCyberCut ที่เป็น p-8 / gap-8 / md:pl-8 + md:border-l แล้ว
-// ออกมา 312px / calc(30vw − 72px) — **ห้ามลอกตัวเลขข้ามไฟล์** และสองใบนั้นคือคู่
+// ContentBoxSevenThreeNeumorphism ซึ่งจ่าย md:border-l + md:pl-8 แล้วออกมา
+// **343px / calc(30vw − 77px)** — **ห้ามลอกตัวเลขข้ามไฟล์** และสองใบนั้นคือคู่
 // บล็อกรูปของรอบนี้ (brand-spec §3) จึงอยู่บนหน้าเดียวกันติดกันเลย
-// ⚠️ สไลด์ดรอปนี้เป็น **แนวตั้ง 540x600** (รอบก่อนเป็นแนวนอน 600x334) เพดานความ
-// กว้างจึงเป็น 540 ไม่ใช่ 600 และ 1x ของใบนี้คือ 352px ซึ่ง 2x = 704 เกินบิตแมป
-// จึงตกลงมาที่ 540 — ไม่มี candidate ไหนสูงกว่า 540 ได้ และห้าม upscale
+// ⚠️⚠️ **สไลด์ดรอปนี้วัดจากบิตแมปจริงได้ 375x600 แนวตั้ง** (brand-spec §1 เขียนไว้
+// 375×600 ตรงกัน) **ไฟล์บนดิสก์ชนะทุกรอบ** เพดานจึงเป็น max-w-[375px] — candidate
+// ที่เกินกว่านี้ไม่ใช่พิกเซลจริงและเป็นการอัปสเกล 1x ของใบนี้คือ 352px ซึ่ง 2x =
+// 704 เกินบิตแมป จึงตกลงมาที่ 375 · md:items-center ทำให้สองคอลัมน์อ่านเสมอกัน
 //
-// สาธุ168 (รอบ **เขียวมรกตนำ · ทองสัมฤทธิ์รอง · ธีมสว่าง** 2026-10-21,
-// brand-spec §2–§5): กล่องนี้ถือ **docx H3 §4** ("โปรโมชั่น คืนยอดเสีย 0.3%
-// เข้ายูสทุกวัน") คู่กับ **slide2.png**
+// รวย168 (ดรอป 2026-10-23, .claude/brand-spec-ruay168.md §1–§5): กล่องนี้ถือ
+// **docx H3 §6** ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสได้ทุกวัน" — content.txt
+// บรรทัด 13, ย่อหน้าเต็มบรรทัด 14) คู่กับ **slide2.png**
 // ⚠️ **ตัวหนังสือบนงานอาร์ตเป็นตัวตัดสินการจับคู่ และอ่านใหม่จากบิตแมปรอบนี้แล้ว**:
-// slide2 มีแผ่นป้ายพื้นดำขอบทองเขียนว่า **คืนยอดเสีย** ต่อด้วย **0.3%** (ใบนี้)
-// ส่วน slide1 เขียนว่า **แนะนำเพื่อน 0.8%** (§5) — uploader เขียนทับทั้งสองไฟล์
-// ทุกดรอป เลขไฟล์จึงไม่มีความหมายข้ามแบรนด์ และ banner2/banner3/slide3/slide4
-// เป็นอาร์ตเวิร์กของแบรนด์ก่อน **ห้าม import ที่ไหนเลย** (eager import = emit
-// แม้ไม่ render) นี่คือบล็อก SevenThree ใบแรกของสองใบตามเพดานของ playbook
+// slide2 พิมพ์คำว่า **โปรโมชั่น** ตัวโตแล้วตามด้วยแคปซูลดำขอบทองที่เขียน
+// **คืนยอดเสีย** ต่อด้วย **0.3%** ตัวทอง (ใบนี้) ส่วน slide1 เขียน **แนะนำเพื่อน
+// 0.8%** (§7) — uploader เขียนทับทั้งสองไฟล์ทุกดรอป เลขไฟล์จึงไม่มีความหมาย
+// ข้ามแบรนด์ ต้องเปิดรูปอ่านแคปซูลใหม่ทุกครั้ง
+// ⛔ **slide3.png / slide4.png เป็นอาร์ตเวิร์ก 2026-09-29 ของแบรนด์อื่น ห้าม
+// import ที่ไหนทั้งสิ้น** (eager import = emit ขึ้น dist ทุก build แม้ไม่มีหน้าไหน
+// render) · นี่คือบล็อก SevenThree **ใบแรกของสองใบ** ตามเพดานของ playbook
 //
-// ⚠️ **ธีมสว่าง** — bg.json = #d8ffc7 ลำดับความลึก: #ffffff ผิวยก / #e9fbdd
-// ชั้นกลาง / #d8ffc7 พื้นเพจ หมึก **เขียวป่า #0c3a16** (= BRAND_TEXT, 12.9:1)
+// ⚠️ **ธีมมืดสนิท** — bg.json = {"mode":"color","color":"#000000"} ลำดับผิว:
+// #1c1a16 ยก · #121110 การ์ด (ใบนี้) · #070707 จม · #000000 พื้นเพจ
+// หมึก **#f3ece0** (= BRAND_TEXT, 16.0:1 บนผิวการ์ดนี้) **ห้ามแก้กลับเป็นพื้นสว่าง**
 //
-// จังหวะรูปทรงของใบนี้: เป็น **การ์ดมุมกลม rounded-3xl บนผิวยก #ffffff** ทึบ
-// มีออราสองมุมเฉียง ส่วนใบคู่ของมัน (§5) เป็น **การ์ดมุมตัด clip-path บนผิว
-// อินเซ็ต #e9fbdd** ที่ตกแต่งด้วยเส้นรูดสี่มุม — สองบล็อกรูปที่อยู่ติดกันจึงถูก
-// แยกสามอย่างพร้อมกัน: **รูปทรง** (มุมกลม vs มุมตัดเฉียง) **ความลึกของผิว**
-// (ยก vs อินเซ็ต) และ **การจัดหัวข้อ** (เขียวเข้มทึบคู่เส้นคั่นเต็ม vs เขียวมรกต
-// ทึบคู่เครื่องหมาย ✦)
-// หัวข้อเป็น **เขียวเข้ม #0a5f1c ทึบสีเดียว** (7.9:1 บนผิวยก) — ไม่ใช่ไล่เฉดอย่าง
-// §1/§3 เพื่อไม่ให้สี่กล่องแรกของหน้าอ่านเป็นแบบเดียวกันหมด
-// กรอบเป็นเขียวมรกต #0b7d28 ที่เข้มขึ้นเป็นเขียวเข้ม #0a5f1c ตอน hover ออรามุม
-// ขวาบนเป็นเขียวมรกตตามใบบัวและเครื่องประดับในงานอาร์ต มุมซ้ายล่างเป็น
-// **เขียวใบตอง #0f9b35** ซึ่ง §2 อนุญาตให้เป็นออรา/พื้นถมเท่านั้น (3.7:1 ห้าม
-// ถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร) เส้นคั่นสองคอลัมน์เป็นเขียวมรกตโปร่ง
-// ⚠️ **ทองสัมฤทธิ์ #c9cb63 #aeb04a #9ba03c ไม่มีในไฟล์นี้เลย** แม้ป้ายบนรูปจะเป็น
-// ขอบทอง — ทองในภาพเป็น **พิกเซลของบิตแมป** ไม่ใช่คลาสของ UI และบนการ์ดขาวทอง
-// ได้แค่ 1.7–2.8:1
+// จังหวะรูปทรงของใบนี้: **การ์ดมุมกลม rounded-3xl บนผิวการ์ด #121110 ทึบ กรอบทอง
+// ลึกเส้นเดียว มีออราสองมุมเฉียง (ทองบนขวา · โครเมียมล่างซ้าย)** ส่วนใบคู่ของมัน
+// (§7 ContentBoxSevenThreeNeumorphism) เป็น **แผ่นนูน neumorphic ไม่มีกรอบ มุม
+// rounded-[22px] เงาคู่ 10px/-10px** — สองบล็อกรูปที่อยู่ติดกันจึงถูกแยกสามอย่าง
+// พร้อมกัน: **รูปทรง** (กรอบ vs แผ่นนูน) **เครื่องหมายหัวข้อ** (✦ vs แถบตั้งไล่เฉด)
+// และ **สีหัวข้อ** (ทอง #ffd94a vs แพลทินัม #dde1e7)
+// หัวข้อเป็น **ทอง #ffd94a ทึบสีเดียว** (13.8:1 บนผิวการ์ด) — ไม่ใช่ไล่เฉดอย่าง
+// §1/§5 เพื่อไม่ให้กล่องของหน้าอ่านเป็นแบบเดียวกันหมด
+// ⚠️ ออรามุมล่างซ้ายเป็น **#9d6f06** ซึ่ง §2 อนุญาตให้เป็นขอบ/ออรา/พื้นถมเท่านั้น
+// (4.7:1 **ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร**) เส้นคั่นสองคอลัมน์เป็น
+// #3d3425 ซึ่งก็ **ห้ามถือตัวอักษร** เช่นกัน
+// ⚠️⚠️ **ทองบนงานอาร์ตของ slide2 เป็นพิกเซลของบิตแมป ไม่ใช่คลาสของ UI** — ค่าทอง
+// ของ UI รอบนี้คือ #ffd94a / #e3a712 / #9d6f06 เท่านั้น
+// ⚠️ **ไฮไลต์ <strong> ในเนื้อความมีสีเดียวคือ #ffd94a** และเป็นงานของหน้าเพจ
+// rgba() ที่อนุญาตรอบนี้: rgba(255,217,74,α) · rgba(227,167,18,α) ·
+// rgba(176,125,8,α) · rgba(157,111,6,α) · rgba(232,234,238,α) · rgba(0,0,0,α)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — รอบนี้เทียบง่ายเพราะ **ไม่มีแบรนด์ไหน
-// ในรีโปนี้เคยใช้เขียวเป็นสีนำเลยสักเฉด** ชุดแดงแบรนด์-เงินโครเมียมของ **หวยดีใจ**
-// ที่เพิ่งอยู่ในไฟล์นี้ทั้งไฟล์ (dc0409 f5363d 17080c c3c7d1 eef0f4 edeaf0 f3c54e
-// 4b0205 rgba(220,4,9,…) rgba(13,4,7,…)) ชุดทองโลหะ-ครีมอมพีชของ **หวยคิง** ซึ่ง
-// เป็นเจ้าของเดิมของตระกูล *Huay (cd9a2c fdeb7c ab7314 fcd4c3 fce2d4 1c140b
-// 5c3f12 f5e7c8 rgba(205,154,44,…)) และชุดชมพูบานเย็นของรอบขาออก **มีทรัพย์168**
-// (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) ออกครบทุกค่าแล้ว
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ทอง/เหลืองเคยนำมาแล้วเกือบทุก
+// แบรนด์ในรีโปนี้** การเจอ "ทอง" ในไฟล์จึงไม่พิสูจน์อะไรเลย
+// ⚠️⚠️ **มาดาม168 เป็นแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด**: ff2e52 e01238 c9102f
+// 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70 f4eef1 b3bdd6 d9dfe9
+// ชุดที่เพิ่งอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: **สาธุ168** เขียวมรกตธีมสว่าง
+// (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) ·
+// **หวยดีใจ** (dc0409 f5363d 17080c c3c7d1 eef0f4 edeaf0 f3c54e 4b0205) ·
+// **หวยคิง** เจ้าของเดิมของตระกูล *Huay (cd9a2c fdeb7c ab7314 fcd4c3 fce2d4
+// 1c140b 5c3f12 f5e7c8) · **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6
+// f0ccf5)
+// ⚠️ ทองของแบรนด์อื่นที่ต้อง grep ทีละค่า: fbc134 ffe87a cf9a18 96690a (NAZA168
+// ตัวละติน) · f5ba14 fcee52 b37c0b (เงินทอง168) · eeae12 fded41 9f600d (พักยก168) ·
+// f7c92b ffe6a3 (ขวัญใจ168) · d4922c fdfc71 (ufalion168) · e5a81b ffe08a bb8410
+// (UFA324) · fee45d e6a416 b8780d (ยูฟ้า168) · fef54b (นินจา168) · fdcb0c fefb6b
+// (สบาย168) · f9a826 (รวยแทร่168) · ffc82e (สบายเบท168) · e3b23c (สมหวัง168) ·
+// dcb95f b8862b (รวยแท้168) · fcd434 (มีโชค168) · f0bb4e (รวยเทพ168) · fcd45c
+// (มีเฮ168) · f0b429 ffdc8c (รับตัง168) · f0c878 (ดวงเศรษฐี168) · ffc93c ffeab0
+// (หวย365) · f5b61d (PIGPG)
+// ⚠️⚠️ **ffd84d ของ ถอนชัวร์168 ห่างจาก #ffd94a แค่ G1** — เจอที่ไหนคือพิมพ์ผิด
+// ⚠️ แรมป์เทาเงินของแบรนด์อื่น: e0e0df c0c0bf a1a09e (พักยก168) · e8ecf1 a8b2bf
+// 78828f 5a6472 (ยูฟ้า168) · 8792a0 b9c2cc 464f5a (UFA324) · fdfcfd b4bcc2 eceaea
+// (GT66B) · d9c9a6 cfd6e3 (NAZA168 ตัวละติน) · cfdcec 9db4d4 dde8f7 (TSDET911) ·
+// c3c7d1 8d93a1 (หวยดีใจ)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดง ไม่มีชมพู ไม่มีเงิน/โครเมียม ไม่มีฟ้า/น้ำเงิน ไม่มีม่วง
-// ไม่มีบรอนซ์ส้ม และไม่มีทองบนการ์ด**
+// ⚠️⚠️ **รอบนี้ไม่มีแดงเลยสักเฉด ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีม่วง
+// ไม่มีส้ม ไม่มีเขียว ไม่มีครีม ไม่มีพีช ไม่มีน้ำตาล**
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#0b7d28]/55 bg-[#ffffff] p-8 text-[#0c3a16] shadow-[0_10px_30px_rgba(12,58,22,0.16)] transition-all duration-500 hover:border-[#0a5f1c]/75 hover:shadow-[0_15px_40px_rgba(11,125,40,0.26)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#0b7d28]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#0b7d28]/30">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#9d6f06]/70 bg-[#121110] p-8 text-[#f3ece0] shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-500 hover:border-[#ffd94a]/80 hover:shadow-[0_15px_40px_rgba(227,167,18,0.26)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 -z-10 h-48 w-48 rounded-full bg-[#ffd94a]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#ffd94a]/28">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#0f9b35]/16 blur-[60px] transition-all duration-500 group-hover:bg-[#0f9b35]/26">
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#9d6f06]/40 blur-[60px] transition-all duration-500 group-hover:bg-[#9d6f06]/55">
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-3 border-b border-[#0b7d28]/35 pb-6 text-left text-base leading-relaxed text-[#0c3a16] md:border-r md:border-b-0 md:pr-6 md:pb-0">
-        {titleleft && <HeadingTag class="mb-1 text-2xl leading-normal font-black tracking-widest text-[#0a5f1c] uppercase">{titleleft}</HeadingTag>}
+      <article class="flex flex-col gap-3 border-b border-[#3d3425] pb-6 text-left text-base leading-relaxed text-[#f3ece0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+        {
+          titleleft && (
+            <div class="mb-1 flex items-start gap-3">
+              <span aria-hidden="true" class="mt-1 shrink-0 text-lg text-[#e8eaee]">
+                ✦
+              </span>
+              <HeadingTag class="min-w-0 text-2xl leading-normal font-black tracking-widest text-[#ffd94a] uppercase">{titleleft}</HeadingTag>
+            </div>
+          )
+        }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#0c3a16] md:pl-6">
-        {titleright && <HeadingTag class="text-center text-xl leading-normal font-black tracking-wide text-[#0a5f1c] uppercase md:text-left">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-2 text-left text-base leading-relaxed text-[#f3ece0] md:pl-6">
+        {titleright && <HeadingTag class="text-center text-xl leading-normal font-black tracking-wide text-[#ffd94a] uppercase md:text-left">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

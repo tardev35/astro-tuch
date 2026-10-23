@@ -22,9 +22,6 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // page the brief never asked for. `heading={false}` demotes the labels to <p>
 // while keeping the classes — the Phase 5 docx diff is only meaningful while
 // chrome stays out of the heading list.
-// THIS round the home page passes as="h2" heading={false} and no column labels
-// at all: the brief gives §2 one running paragraph with no sub-labels, and
-// inventing three here would be the page's own wording rather than the docx's.
 //
 // The default slot is the section's INTRO, and it is the one wrapper in this file
 // that cannot be hoisted away: it carries a real `mb-8` and sits beside the grid,
@@ -34,79 +31,91 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? title ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#eeae12]";
-const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#eeae12] shadow-[0_0_8px_rgba(238,174,18,0.85)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#ffd94a]";
+const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffd94a] shadow-[0_0_8px_rgba(227,167,18,0.85)]";
 
 // ───────────────────────────────────────────────────────────────────────────
-// พักยก168 (2026-10-22) — พาเลตตาม .claude/brand-spec-pakyok168.md §2
-// บนหน้าแรกใบนี้ถือ **docx H2 §2** ("<แบรนด์> ทางเข้าเล่นเดิมพันสล็อตค่ายแท้
-// มีเกมให้ทดลองเล่นฟรี" — content.txt บรรทัด 6) โดยแบ่งย่อหน้าเดียวของบรีฟเป็น
-// สามคอลัมน์ ไม่มีป้ายคอลัมน์ กล่องนี้จึงปล่อยหัวข้อออกมาใบเดียว
-// ⚠️ ไฟล์นี้ยังถูกอ้างจาก src/pages-disabled/ตรวจหวย.astro และ แนวทาง.astro ซึ่ง
-// **รอบนี้ถูก park ไว้** (ไม่ใช่เว็บหวย) — สองหน้านั้นไม่ build และไม่มีลิงก์ไปหา
+// รวย168 (2026-10-23) — พาเลตตาม .claude/brand-spec-ruay168.md §2
+// รอบนี้ไฟล์นี้เป็น **shared chrome** เพราะถูก render จากสองหน้าหวย:
+// src/pages/ตรวจหวย.astro และ src/pages/แนวทาง.astro
+// ⚠️ ต่างจากรอบก่อนที่สองหน้านั้นถูก park ไว้ (แบรนด์ก่อนไม่ใช่เว็บหวย) —
+// **รอบนี้ทั้งคู่ถูกย้ายกลับเข้า src/pages/ แล้ว เพราะ รวย168 เป็นเว็บหวยเต็มตัว**
 //
-// ⚠️⚠️ **รอบนี้เป็นธีมมืด** พื้นเพจ #291d0f (bg.json = น้ำตาลกาแฟเข้ม) ส่วนรอบก่อน
-// (สบาย168) เป็นฟ้าพาสเทลสว่าง **ห้ามแก้การ์ดกลับไปเป็นผิวขาว**
-// ลำดับผิว: #3a2713 ยก (ใบนี้) · #32200f กลาง · #1f1308 จม · #291d0f พื้นเพจ
+// ⚠️⚠️ **รอบนี้ยังเป็นธีมมืดเหมือนรอบก่อน แต่คนละฮิวสิ้นเชิง**
+// พื้นเพจ #000000 (bg.json = ดำสนิท) ส่วนรอบก่อน (มาดาม168) เป็น 00091f =
+// น้ำเงินเที่ยงคืน **ห้ามแก้การ์ดกลับไปเป็นผิวขาว**
+// ลำดับผิว: #1c1a16 ยก · **#121110 กลาง (การ์ดใบนี้)** · #070707 จม ·
+// #000000 พื้นเพจ
 //
 // ⚠️ ความนูนแบบ neumorphic บนธีมมืดกลับทางกับธีมสว่าง: **เงาฝั่งมืดเป็น
-// rgba(0,0,0,α)** และ **เงาฝั่งสว่างเป็นน้ำตาลยก #4e2f11** ซึ่งอ่านเป็นแสงได้จริง
-// เพราะมันสว่างกว่าทั้งผิวการ์ด #3a2713 และพื้นเพจ #291d0f — **ห้ามใช้ขาวเป็นเงา
-// ฝั่งสว่างบนธีมนี้** (จะกลายเป็นขอบเรืองแสงสีขาวที่ไม่มีในพาเลต)
+// rgba(0,0,0,α)** และ **เงาฝั่งสว่างเป็นผิวยก #1c1a16** ซึ่งอ่านเป็นแสงได้จริง
+// เพราะมันสว่างกว่าทั้งผิวการ์ด #121110 และพื้นเพจ #000000 — **ห้ามใช้ขาวหรือ
+// ทองสว่างเป็นเงาฝั่งสว่างบนธีมนี้** (จะกลายเป็นขอบเรืองแสงที่ไม่มีในพาเลต)
 // หัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้
-// ตาม §2 — สต็อปคือ ทองสว่าง #fded41 (11.7:1) → โครเมียมสว่าง #e0e0df (10.7:1) →
-// ทองสว่าง #fded41 ซึ่งเป็นลำดับ "ทอง → โครเมียม → ทอง" ที่ตรงกับสองวัสดุของโลโก้
-// และ **กลับทางกับ §7 ContentBoxTwoNeumorphism** ที่ไล่ โครเมียม → ทอง → โครเมียม
-// ⚠️ **ห้ามเอาทองลึก #9f600d มาเป็นสต็อป** (2.8:1 ตกทุกเกณฑ์ — เป็นพื้นถม/ขอบเท่านั้น)
-// เส้นใต้หัวข้อเป็นทองแกน #eeae12 ซึ่งเป็นแถบไม่มีตัวอักษร
-// ป้ายคอลัมน์/เส้นคั่นคอลัมน์เป็นทองแกน #eeae12 (7.2:1 บนผิวการ์ด ถือตัวอักษรได้)
+// ตาม §2 — สต็อปคือ ทอง #ffd94a (13.8:1) → โครเมียมเงิน #e8eaee (16.0:1) →
+// ทอง #ffd94a ซึ่งเป็นลำดับ "ทอง → โครเมียม → ทอง" ที่ตรงกับสองวัสดุของโลโก้
+// ("รวย" โครเมียมเงิน + "168" ทอง + มงกุฎทอง)
+// ⚠️ **ห้ามเอาทองลึก #9d6f06 มาเป็นสต็อป** (ตกทุกเกณฑ์บนผิวนี้ — เป็นพื้นถม/ขอบ
+// เท่านั้น) เช่นเดียวกับ #6b7079 และ #b4b9c2
+// เส้นใต้หัวข้อเป็นทองแกน #e3a712 ซึ่งเป็นแถบไม่มีตัวอักษร
+// ป้ายคอลัมน์/เส้นคั่นคอลัมน์เป็นทอง #ffd94a (13.8:1 บนผิวการ์ด ถือตัวอักษรได้)
 // จุดนำหน้าป้ายเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร
-// เนื้อความ #f4ead6 (= BRAND_TEXT) 11.9:1 บนผิวการ์ด
-// ⚠️ **#3a2713 #32200f #1f1308 #291d0f #4e2f11 เป็นสีพื้นล้วน ห้ามถือตัวอักษร**
+// เนื้อความ #f3ece0 (= BRAND_TEXT) 16.0:1 บนผิวการ์ด
+// ⚠️ **#1c1a16 #121110 #070707 #000000 #3d3425 เป็นสีพื้นล้วน ห้ามถือตัวอักษร**
 //
 // ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองผ่านรีโปนี้มาแล้วเกือบทุกเจ้า**
-// ทองรอบนี้คือ #eeae12 / #fded41 ซึ่งวัดจากอาร์ตเวิร์กดรอปนี้เอง และเพื่อนบ้านที่
-// ใกล้ที่สุดคือ e6a416 กับ fee45d (ยูฟ้า168) e5a81b (UFA324) fef54b (นินจา168)
-// ชุดแดงคริมสัน-ทองโบราณบนผิวขาวของ **รวยแท้168** ที่เคยอยู่ทั้งใบนี้ (c30303 8f0505
-// e81313 dcb95f b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f
-// กับ rgba 195/3/3 α) rgba 74/15/15 α)) ออกครบทุกค่าแล้ว เช่นเดียวกับชุดฟ้าสกาย-
-// ทองคานารีของแบรนด์ขาออก **สบาย168** (2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74
-// 9ae0fa cdf2ff ccf7ff f2fbff dff4fd eafaff a9e3f9 fdcb0c fefb6b 8a6504 0f3a4a
-// 06293c 2a1f02) ชุดทองคานารี-เงินโครเมียมของ **ยูฟ้า168** (fee45d e6a416 b8780d
-// 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908 eae3d4 140e02 000000)
-// ชุดเขียวมรกต-ทองสัมฤทธิ์ของ **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c
-// c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) ชุดทอง-ดำของ **หวยคิง** (cd9a2c fdeb7c ab7314
-// f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b) ชุดทองไทย-แดงมังกรของ **รับตัง168**
-// (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f) ชุดแดง-ทอง
-// ของ **หวย365** (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07) ชุดชมพู
-// บานเย็นของ **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) ชุดแดง
+// ทองรอบนี้คือ #ffd94a / #e3a712 ซึ่งเลื่อนมาจาก fdeb7a ที่วัดได้จาก logo.webp
+// ของดรอปนี้เอง และ ⚠️⚠️ **เพื่อนบ้านที่ใกล้ที่สุดคือ ffd84d ของถอนชัวร์168
+// ห่างแค่ R0/G1/B3 — เจอค่านั้นแปลว่าพิมพ์ผิด** รองลงมาคือ fcd45c (มีเฮ168)
+// fcd434 (มีโชค168) ffc93c (หวย365) fded41 e29f0f (พักยก168) fee45d e6a416
+// (ยูฟ้า168) e5a81b (UFA324) fef54b (นินจา168)
+// ⚠️⚠️ ชุดแดงคริมสัน-น้ำเงินอะซัวร์ของแบรนด์ขาออก **มาดาม168** (ff2e52 e01238
+// c9102f 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70 f4eef1 b3bdd6
+// d9dfe9) ต้องไม่เหลือค่าไหน — **เสี่ยงหลงเหลือสูงสุด**
+// ชุดที่เคยอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: ชุดทองมังกร-โครเมียมของ
+// **พักยก168** (eeae12 fded41 9f600d e29f0f fdf051 e0e0df c0c0bf a1a09e f4ead6
+// d6c6a8 3a2713 32200f 1f1308 291d0f 4e2f11) · ชุดแดงคริมสัน-ทองโบราณบนผิวขาว
+// ของ **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f 4a0f0f 461212
+// 280b0b ffeee8 fff1ef ffdbdb c99a3f) · ชุดฟ้าสกาย-ทองคานารีของ **สบาย168**
+// (2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd
+// eafaff a9e3f9 fdcb0c fefb6b 8a6504 0f3a4a 06293c 2a1f02) · ชุดทองคานารี-เงิน
+// โครเมียมของ **ยูฟ้า168** (fee45d e6a416 b8780d 7a4e05 e8ecf1 a8b2bf 78828f
+// 5a6472 15130f 1e1a13 0a0908 eae3d4 140e02) · ชุดเขียวมรกต-ทองสัมฤทธิ์ของ
+// **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7
+// e9fbdd) · ชุดทอง-ดำของ **หวยคิง** (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4
+// 0c0b0a 120a02 1c140b) · ชุดทองไทย-แดงมังกรของ **รับตัง168** (f0b429 ffdc8c
+// d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f) · ชุดแดง-ทองของ
+// **หวย365** (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07) · ชุดชมพู
+// บานเย็นของ **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) · ชุดแดง
 // เชอร์รี่-ทองแดงไหม้ของ **โปรดี168** (eb0305 e40303 c20305 9b0a0c ff4446 401107
 // b44c06 7a2f03 f0b46a d9803a 4d1c0a 2c1004 fff0e4 fff4ea ffd1d1 1a0802) และ
-// ufalion168 (d4922c fdfc71 d39c45 f6e3b4 a25b24 5a3310) ก็ไม่เหลือค่าไหนในไฟล์นี้
+// **ufalion168** (d4922c fdfc71 d39c45 f6e3b4 a25b24 5a3310) ก็ไม่เหลือค่าไหน
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
 // ⚠️ **รอบนี้ไม่มีแดง ไม่มีเขียว ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า ไม่มีม่วง ไม่มีส้ม
-// และไม่มีโรสโกลด์** — ความต่างของรอบนี้คือพื้นเพจน้ำตาลกาแฟ #291d0f กับหมึก
-// ไอวอรี #f4ead6 ไม่ใช่ค่าทองเดี่ยว ๆ
+// ไม่มีครีม ไม่มีน้ำตาล และไม่มีโรสโกลด์** — ความต่างของรอบนี้คือพื้นเพจดำสนิท
+// #000000 กับคู่วัสดุ **ทอง #ffd94a × โครเมียมเงิน #e8eaee** ไม่ใช่ค่าทองเดี่ยว ๆ
+// ⚠️ โครเมียมเงินรอบนี้มาจาก **เวิร์ดมาร์ก "รวย" และแผ่นป้าย "3 ตัว"/"2 ตัว"
+// บนแบนเนอร์** ไม่ใช่จากผมสีขาวเงินของนักแสดง (นั่นเป็นวัตถุในภาพ)
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#3a2713] p-8 shadow-[12px_12px_26px_rgba(0,0,0,0.55),-12px_-12px_26px_#4e2f11] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(0,0,0,0.65),-16px_-16px_32px_#4e2f11]">
+    class="w-full rounded-[25px] bg-[#121110] p-8 shadow-[12px_12px_26px_rgba(0,0,0,0.55),-12px_-12px_26px_#1c1a16] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(0,0,0,0.65),-16px_-16px_32px_#1c1a16]">
     {
       title && (
         <header class="mb-8 text-center">
-          <HeadingTag class={`bg-gradient-to-r from-[#fded41] via-[#e0e0df] to-[#fded41] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#ffd94a] via-[#e8eaee] to-[#ffd94a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
-          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#eeae12] to-transparent shadow-[0_0_10px_rgba(238,174,18,0.55)]" />
+          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#e3a712] to-transparent shadow-[0_0_10px_rgba(227,167,18,0.55)]" />
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f4ead6]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f3ece0]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#eeae12]/30 pb-6 text-left text-base leading-relaxed text-[#f4ead6] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#e3a712]/30 pb-6 text-left text-base leading-relaxed text-[#f3ece0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -117,7 +126,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#eeae12] shadow-[
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#eeae12]/30 pb-6 text-left text-base leading-relaxed text-[#f4ead6] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#e3a712]/30 pb-6 text-left text-base leading-relaxed text-[#f3ece0] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -128,7 +137,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#eeae12] shadow-[
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f4ead6] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3ece0] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>

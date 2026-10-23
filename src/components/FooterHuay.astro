@@ -8,61 +8,62 @@ const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".png")) || imagePaths.find((path) => path.endsWith(".webp")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
 
-// alt บรรยายอาร์ตเวิร์กจริงของดรอป 2026-10-21: ตัวอักษรไทยสามมิติผิวมันวาวไล่เฉด
-// เขียวมรกตเข้ม -> เขียวใบตองสว่าง ตัดขอบขาว ต่อด้วยตัวเลขสามมิติผิวมันวาวสีทอง
+// alt บรรยายอาร์ตเวิร์กจริงของดรอป 2026-10-23: ตัวอักษรไทยสามมิติผิวมันวาวสีโครเมียม
+// เงินตัดขอบทอง มีมงกุฎทองเล็กวางบนตัวอักษรตัวแรก ต่อด้วยตัวเลขสามมิติผิวมันวาวสีทอง
 // (เขียนเป็นคำบรรยายรูปแบบ ไม่พิมพ์ชื่อแบรนด์/เลขซ้ำ — ชื่อมาจาก BRAND_NAME)
-const logoAlt = `โลโก้ ${BRAND_NAME} ตัวอักษรไทยสามมิติผิวมันวาวไล่เฉดจากเขียวมรกตเข้มไปเขียวใบตองสว่างตัดขอบขาว ต่อด้วยตัวเลขสามมิติผิวมันวาวสีทอง`;
+const logoAlt = `โลโก้ ${BRAND_NAME} ตัวอักษรไทยสามมิติผิวมันวาวสีโครเมียมเงินตัดขอบทอง มีมงกุฎทองขนาดเล็กวางอยู่บนตัวอักษรตัวแรก ต่อด้วยตัวเลขสามมิติผิวมันวาวสีทอง`;
 
 // ───────────────────────────────────────────────────────────────────────────
-// รอบ 2026-10-21 — พาเลตตาม .claude/brand-spec-satu168.md §2
-// **ธีมสว่างของเพจ (#d8ffc7 จาก bg.json) แต่ footer เป็น "โครม" = พื้นเข้ม
-// ตัวอักษรสว่าง** เพราะหัว-ท้ายเข้มคร่อมเนื้อหาสว่างคือกรอบที่อ่านง่าย และบล็อก
-// <address> ด้านล่างต้อง paste verbatim ซึ่งออกแบบมาสำหรับ footer เข้มเท่านั้น
+// รอบ 2026-10-23 — พาเลตตาม .claude/brand-spec-ruay168.md §2
+// **ธีมมืดทั้งเว็บ (พื้นเพจ #000000 จาก bg.json) และ footer เป็น "โครม" =
+// พื้นเข้มตัวอักษรสว่าง** บล็อก <address> ด้านล่าง paste verbatim ตาม playbook
+// ซึ่งออกแบบมาสำหรับ footer เข้มพอดี
 //
 // ค่าที่ใช้ในไฟล์นี้ (ห้ามใช้ค่าอื่น):
-//   พื้นชั้นจม #061f0c (พื้นของ footer) · พื้นชั้นยก #0c3a16 (การ์ด/ชิป/กรอบแถบธนาคาร)
-//   ตัวอักษรหลัก #e9fbdd (11.8:1 บน #0c3a16 และสูงกว่านั้นบน #061f0c) · ขาว #ffffff
-//   ทองสัมฤทธิ์อมเขียว #c9cb63 (7.5:1 หัวคอลัมน์/ลิงก์ hover) · #aeb04a (5.6:1 เส้น/ขอบ)
-//   #9ba03c (stop ล่างของไล่เฉดทอง) · เขียวมรกต #0b7d28 (ออรา/ขอบ)
-//   rgba ที่อนุญาต: rgba(11,125,40,α) rgba(10,95,28,α) rgba(12,58,22,α) rgba(174,176,74,α)
+//   พื้นชั้นจม #070707 (พื้นของ footer) · พื้นชั้นยก #1c1a16 (การ์ด/ชิป/กรอบแถบธนาคาร)
+//   ตัวอักษรหลัก #f3ece0 (17.6:1 บน #070707 · 14.8:1 บน #1c1a16) · ขาว #ffffff
+//   ทอง #ffd94a (15.1:1 หัวคอลัมน์/ลิงก์ hover) · #e3a712 (เส้น/ขอบ/ออรา)
+//   #b07d08 (stop ล่างของไล่เฉดทอง — คู่หมึกดำได้ 5.4:1)
+//   rgba ที่อนุญาต: rgba(227,167,18,α) rgba(255,217,74,α) rgba(0,0,0,α)
 //
-// ⚠️ เขียวใบตอง 0f9b35 (เขียนไม่มี # โดยตั้งใจ) ห้ามใช้ในไฟล์นี้ — เป็น stop ของ
-// ไล่เฉด/ออราบนพื้นสว่างเท่านั้น ได้แค่ 3.7:1 บนขาว จึงถือตัวอักษรไม่ได้เลย
-// ⚠️ ทองห้ามถือตัวอักษรบนพื้นสว่าง และ **ตัวอักษรขาวห้ามอยู่บนพื้นทอง** — โลโก้
-// ฉบับ fallback จึงเป็น "พื้นไล่เฉดทอง + หมึกเขียวป่า #0c3a16" (7.5 -> 4.6:1)
-//
-// ของแบรนด์เก่าที่กวาดออกครบแล้วจากไฟล์นี้ (เขียนไม่มี # โดยตั้งใจ เพื่อไม่ให้การ
-// sweep ไล่หาสีเก่าสะดุดที่คอมเมนต์นี้เอง):
-//   เจ้าของเดิมของชุด *Huay (ทองบนดำอมน้ำตาล) cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4
-//     0c0b0a 120a02 1c140b 5c3f12 และ rgba 205/154/44 α) rgba 5/4/3 α)
-//   หวย365 140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0 1a0303
-//   มีทรัพย์168 (รอบก่อนทันที) dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5
+// ⚠️⚠️ ธีมเดิมของไฟล์นี้คือ **สาธุ168 เขียวมรกต/ทองสัมฤทธิ์** (061f0c 0c3a16
+// c9cb63 aeb04a 9ba03c e9fbdd 0b7d28) — ถอดออกครบแล้ว ห้ามเขียนกลับเข้ามา
+// และก่อนหน้านั้นเป็นเจ้าของชุด *Huay เดิม (ทองบนดำอมน้ำตาล cd9a2c fdeb7c ab7314
+// f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b 5c3f12) · หวย365 (140203 dc0203
+// f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0 1a0303) · มีทรัพย์168
+// (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) — ไม่มีค่าใดเหลืออยู่แล้ว
+// (เขียนเฮกซ์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีแบรนด์เก่าสะดุดที่คอมเมนต์นี้)
+// ⚠️⚠️ **ห้ามใส่แดงกลับเข้ามาทุกเฉด** แม้ตระกูล *Huay จะ ship มาเป็นแดง/ทอง
+// เพราะแดงคริมสันคือฮิวนำของ **มาดาม168 รอบก่อนทันที** (ff2e52 e01238 c9102f)
 // ⚠️ ทอง/เหลืองเคยนำมาแล้วเกือบทุกแบรนด์ — ตรวจทีละค่ากับตารางใน brand-spec §2
-// ห้ามเทียบด้วย "วงศ์สี" ทองของรอบนี้เป็นทองสัมฤทธิ์อมเขียว ไม่ใช่ทองส้ม/ทองน้ำผึ้ง
+// ห้ามเทียบด้วย "วงศ์สี" ทองของรอบนี้เป็นทองน้ำผึ้งอิ่มสี ไม่ใช่ทองสัมฤทธิ์อมเขียว
+// ⚠️ **ตัวอักษรขาวห้ามอยู่บนพื้นทอง** (ได้แค่ ~1.2–2.2:1) โลโก้ฉบับ fallback
+// จึงเป็น "พื้นไล่เฉดทอง + หมึกดำ #0a0a0a" (14.6 -> 5.4:1)
 //
-// ⚠️ เขียว #00B900 -> #009900 บนปุ่ม LINE เป็น **สีของแบรนด์ LINE** ไม่ใช่เขียวของ
-// แบรนด์ ถึงรอบนี้สีแบรนด์จะเป็นเขียวก็ห้ามกลืนเข้าหากัน และ BankStrip.astro
-// ไม่มีสีแบรนด์อยู่เลย (สีธนาคารอบมาใน PNG) — ที่ปรับได้คือกรอบ/พื้นของการ์ดที่ครอบ
-// ซึ่งอยู่ในไฟล์นี้
+// ⚠️ เขียว #00B900 -> #009900 บนปุ่ม LINE เป็น **สีของแบรนด์ LINE** ไม่ใช่สีของ
+// แบรนด์นี้ ห้ามเปลี่ยนเป็นทอง และ BankStrip.astro ไม่มีสีแบรนด์อยู่เลย
+// (สีธนาคารอบมาใน PNG) — ที่ปรับได้คือกรอบ/พื้นของการ์ดที่ครอบ ซึ่งอยู่ในไฟล์นี้
 //
 // เนื้อความเขียนใหม่จากคลังคำของบรีฟรอบนี้ (src/assets/content.txt) เท่านั้น:
-// หวยออนไลน์ · หวยรัฐบาลไทย · สลากกินแบ่งรัฐบาล · หวยฮานอย · หวยลาว ·
-// หวยหุ้นต่างประเทศ · รอบปิดรับ · รอบประกาศผล · อัตราจ่าย · แหล่งอ้างอิงผลรางวัล ·
-// ตรวจสอบรายการ · ประเภทหวย · ฝากถอน · ธนาคาร · วอลเลท · ยอดขั้นต่ำ ·
-// ระยะเวลาดำเนินการ · ชื่อบัญชีปลายทาง · บัญชีแอบอ้าง · รายการผิดปกติ ·
-// หมายเลขรายการ · เจ้าหน้าที่ · แอดมิน · 24ชม. · คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%
-// ถอดออกหมดแล้ว: คลังคำของเจ้าของไฟล์เดิม (เครื่องประดับศีรษะ · ลูกบอลหวยทองเลข 9 ·
-// ตัวเลขอัตราจ่ายต่อหน่วยเดิมพัน · คำชวนเรื่องเลขยอดนิยม · การส่งและย้อนดูรายการ
-// เดิมพัน · เพดานรับแทง · ชิปตัวเลขสองอันที่เคยอยู่ในคอลัมน์ซ้าย — แทนด้วยชิป
-// 0.3% / 0.8% ของบรีฟรอบนี้) และคลังคำของรอบก่อนทันที (ชื่อหมวดเกมคาสิโนทุกหมวด ·
-// ถ้อยคำเรื่องความปลอดภัยของบัญชีรับโอน) — รายการเต็มอยู่ใน brand-spec §6
-// ⚠️ ตัวเลขที่ขึ้นเว็บได้มีแค่ของบรีฟเอง: 0.3% · 0.8% · 24ชม. · 100%
-// ห้ามแต่งอัตราจ่าย/ชื่อตลาดหวย/ชื่อธนาคาร/ชื่อค่าย/ปีก่อตั้ง/จำนวนสมาชิกขึ้นเอง
+// แทงหวย · หวยออนไลน์ · รับแทงเลขออนไลน์ · หวยรัฐบาลไทย · สลากกินแบ่งรัฐบาล ·
+// หวยลาว · หวยฮานอย · หวยออมสิน · บาทละ 1,000 · อัตราจ่าย 2 ตัว 100 ·
+// 3 ตัว 1,000 · วันประกาศผล · รอบประกาศผล · ฐานเงินเดิมพัน · วงเงินจ่ายสูงสุด ·
+// ยืนยันบิล · ตรวจบิล · เลขเด็ด · เลขดัง · ฝากถอน · ธนาคาร · ทรูมันนี่ ·
+// ยอดขั้นต่ำ · ชื่อบัญชีปลายทาง · บัญชีแอบอ้าง · หมายเลขรายการ · เจ้าหน้าที่ ·
+// แอดมิน · 24ชม. · คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8%
+// ⚠️⚠️ **หวยหุ้นต่างประเทศ / หวยหุ้น ไม่มีในบรีฟรอบนี้** (เจ้าของไฟล์เดิมมี) —
+// บรีฟรอบนี้ระบุสี่ประเภทเท่านั้น: **รัฐบาลไทย · ลาว · ฮานอย · ออมสิน**
+// ⚠️ และคำของ **มาดาม168 รอบก่อน** ถอดออกหมดแล้ว: เกมสล็อตเปย์แรง · เปย์แรง ·
+// จ่ายไม่มีอั้น · ไม่อั้น · แจกโบนัสสมาชิกทุกวัน · เว็บสล็อต · สล็อตออนไลน์
+// ⚠️ ตัวเลขที่ขึ้นเว็บได้มีแค่ของบรีฟเอง: บาทละ 1,000 · 2 ตัว 100 · 3 ตัว 1,000 ·
+// 0.3% · 0.8% · 24ชม. ห้ามแต่งอัตราจ่าย/ชื่อตลาดหวย/ชื่อธนาคาร/ปีก่อตั้ง/
+// จำนวนสมาชิกขึ้นเอง และ **ห้ามเขียน 100%** (ไม่มีในบรีฟรอบนี้)
 //
 // รายการทางลัดตรงกับเมนูของ NavbarHuay แล้วเติม /ทางเข้า /terms /privacy
 // ทุก href ชี้ไปไฟล์ที่มีจริงใน src/pages/ (เช็กแล้วทั้งรายการ) — /ตรวจหวย กับ
-// /แนวทาง อยู่ในรายการเพราะรอบนี้เป็นเว็บหวยและสองไฟล์นั้นอยู่ใน src/pages/ จริง
-// ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ไม่งั้น verify-build จะฟ้อง href ที่ชี้ไป route ที่ไม่มี
+// /แนวทาง อยู่ในรายการเพราะรอบนี้เป็นเว็บหวยและสองไฟล์นั้นถูกย้ายกลับเข้า
+// src/pages/ แล้ว ลิงก์กับไฟล์ต้องมาคู่กันเสมอ ไม่งั้น verify-build จะฟ้อง href
+// ที่ชี้ไป route ที่ไม่มี
 //
 // /ทางเข้า ไม่อยู่ในเมนู navbar รอบนี้ (toggle cta เปิด /login กับ /register เป็น
 // หน้าปุ่มจริงแล้ว) แต่หน้ายัง route และ index อยู่ — ลิงก์ใน footer จึงเป็นทางเดียว
@@ -81,39 +82,40 @@ const shortcuts = [
 ];
 ---
 
-<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#aeb04a]/55 bg-[#061f0c] pt-16 pb-8 font-sans text-[#e9fbdd] shadow-[0_-10px_30px_rgba(12,58,22,0.8)]">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#0b7d28]/25 blur-[80px]"></div>
+<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#e3a712]/55 bg-[#070707] pt-16 pb-8 font-sans text-[#f3ece0] shadow-[0_-10px_30px_rgba(0,0,0,0.85)]">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#e3a712]/20 blur-[80px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-4 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-[#aeb04a]/30 bg-[#0c3a16] p-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-[#e3a712]/30 bg-[#1c1a16] p-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
               <Picture src={mainLogo} alt={logoAlt} widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <p class="rounded-md bg-gradient-to-r from-[#c9cb63] via-[#aeb04a] to-[#9ba03c] px-3 py-1 text-2xl font-black tracking-widest text-[#0c3a16]">{BRAND_NAME}</p>
+              <p class="rounded-md bg-gradient-to-r from-[#ffd94a] via-[#e3a712] to-[#b07d08] px-3 py-1 text-2xl font-black tracking-widest text-[#0a0a0a]">{BRAND_NAME}</p>
             )
           }
         </a>
-        <p class="mt-2 border-l-2 border-[#aeb04a]/60 pl-4 text-sm leading-relaxed text-[#e9fbdd]">
-          {BRAND_NAME} นำเสนอช่องทางบริการหวยออนไลน์ที่รวบรวมข้อมูลหวยหลายประเภทไว้ในเว็บไซต์เดียว ทั้งหวยรัฐบาลไทยที่อ้างอิงผลสลากกินแบ่งรัฐบาล หวยฮานอยและหวยลาวที่มีรอบประกาศผลตามประเภท และหวยหุ้นต่างประเทศที่อ้างอิงตัวเลขจากตลาดที่กำหนด
-          พร้อมเมนูตรวจสอบรายการและเลือกประเภทหวย ก่อนทำรายการควรตรวจสอบรอบปิดรับ อัตราจ่าย และแหล่งอ้างอิงผลรางวัลของแต่ละประเภทให้ชัดเจน ส่วนการฝากถอนผ่านธนาคารและวอลเลทควรศึกษายอดขั้นต่ำ ระยะเวลาดำเนินการ และชื่อบัญชีปลายทางให้ตรงกับข้อมูลที่ยืนยันได้
-          หากพบรายการผิดปกติหรือสงสัยว่าเป็นบัญชีแอบอ้าง ควรเก็บหมายเลขรายการไว้เป็นหลักฐานและติดต่อเจ้าหน้าที่ทันที
+        <p class="mt-2 border-l-2 border-[#e3a712]/60 pl-4 text-sm leading-relaxed text-[#f3ece0]">
+          {BRAND_NAME} นำเสนอข้อมูลหวยออนไลน์หลายประเภทไว้ในช่องทางเดียว ทั้งหวยรัฐบาลไทยที่อ้างอิงผลสลากกินแบ่งรัฐบาล หวยลาว หวยฮานอย และรายการที่เกี่ยวข้องกับผลรางวัลออมสิน โดยแต่ละประเภทมีวันประกาศผลและรูปแบบการออกรางวัลแตกต่างกัน
+          สำหรับอัตราจ่ายที่ระบุว่าบาทละ 1,000 ควรตรวจสอบว่าใช้กับการเดิมพันประเภทใด รวมถึงฐานเงินเดิมพันและวงเงินจ่ายสูงสุด ส่วนการฝากถอนผ่านธนาคารและทรูมันนี่ควรศึกษายอดขั้นต่ำ ระยะเวลาดำเนินการ และชื่อบัญชีปลายทางให้ตรงกับข้อมูลที่ยืนยันได้
+          หากพบรายการผิดปกติหรือสงสัยว่าเป็นบัญชีแอบอ้าง ควรเก็บหมายเลขรายการไว้เป็นหลักฐานและติดต่อเจ้าหน้าที่ทันที เพราะเลขเด็ดหรือสถิติย้อนหลังไม่สามารถรับประกันผลรางวัลในงวดถัดไปได้
         </p>
         <div class="mt-2 flex flex-wrap gap-3">
-          <span class="rounded-full border border-[#aeb04a]/40 bg-[#0c3a16] px-4 py-1 text-xs font-bold text-[#e9fbdd] shadow-sm">คืนยอดเสีย 0.3%</span>
-          <span class="rounded-full border border-[#aeb04a]/40 bg-[#aeb04a]/15 px-4 py-1 text-xs font-bold text-[#c9cb63] shadow-sm">แนะนำเพื่อน 0.8%</span>
+          <span class="rounded-full border border-[#e3a712]/40 bg-[#1c1a16] px-4 py-1 text-xs font-bold text-[#f3ece0] shadow-sm">คืนยอดเสีย 0.3%</span>
+          <span class="rounded-full border border-[#e3a712]/40 bg-[#e3a712]/15 px-4 py-1 text-xs font-bold text-[#ffd94a] shadow-sm">แนะนำเพื่อน 0.8%</span>
+          <span class="rounded-full border border-[#e3a712]/40 bg-[#1c1a16] px-4 py-1 text-xs font-bold text-[#f3ece0] shadow-sm">บาทละ 1,000</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12" aria-label="ทางลัดหน้าเว็บ">
-        <p class="border-b border-[#aeb04a]/35 pb-2 text-lg font-black tracking-widest text-[#c9cb63] uppercase">ทางลัดหน้าเว็บ</p>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-[#e9fbdd]">
+        <p class="border-b border-[#e3a712]/35 pb-2 text-lg font-black tracking-widest text-[#ffd94a] uppercase">ทางลัดหน้าเว็บ</p>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-[#f3ece0]">
           {
             shortcuts.map((item) => (
               <li>
-                <a href={item.path} class="transition-colors hover:text-[#c9cb63]">
+                <a href={item.path} class="transition-colors hover:text-[#ffd94a]">
                   {item.name}
                 </a>
               </li>
@@ -123,7 +125,7 @@ const shortcuts = [
       </nav>
 
       <div class="flex flex-col gap-4 md:col-span-4">
-        <p class="border-b border-[#aeb04a]/35 pb-2 text-lg font-black tracking-widest text-[#c9cb63] uppercase">บริการลูกค้า</p>
+        <p class="border-b border-[#e3a712]/35 pb-2 text-lg font-black tracking-widest text-[#ffd94a] uppercase">บริการลูกค้า</p>
 
         <a
           href="/line"
@@ -151,19 +153,19 @@ const shortcuts = [
           )
         }
 
-        <div class="mt-2 text-xs font-medium text-[#e9fbdd]">ธนาคารและวอลเลทที่ระบบรองรับ:</div>
-        <div class="rounded-xl border border-[#aeb04a]/25 bg-[#0c3a16] p-3">
+        <div class="mt-2 text-xs font-medium text-[#f3ece0]">ธนาคารและทรูมันนี่ที่ระบบรองรับ:</div>
+        <div class="rounded-xl border border-[#e3a712]/25 bg-[#1c1a16] p-3">
           <BankStrip size={30} />
         </div>
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#aeb04a]/35 pt-8 text-xs font-medium text-[#e9fbdd] md:flex-row">
+    <div class="flex flex-col items-center justify-between border-t border-[#e3a712]/35 pt-8 text-xs font-medium text-[#f3ece0] md:flex-row">
       <p>COPYRIGHT &copy; {new Date().getFullYear()} {BRAND_NAME} ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/terms/" class="transition-colors hover:text-[#c9cb63]">เงื่อนไขและข้อตกลง</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#c9cb63]">นโยบายความเป็นส่วนตัว</a>
-        <a href="#top" class="transition-colors hover:text-[#c9cb63]">กลับขึ้นบน</a>
+        <a href="/terms/" class="transition-colors hover:text-[#ffd94a]">เงื่อนไขและข้อตกลง</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#ffd94a]">นโยบายความเป็นส่วนตัว</a>
+        <a href="#top" class="transition-colors hover:text-[#ffd94a]">กลับขึ้นบน</a>
       </div>
     </div>
   </div>

@@ -25,34 +25,48 @@ export interface Props {
 // เดียวกันจึงถูกปิดและรีเซ็ตไอคอนไปด้วย — `name` บน <details> ให้พฤติกรรม
 // เปิดได้ทีละอันจากเบราว์เซอร์เอง และ scope อยู่แค่กลุ่มนี้
 //
-// รอบนี้ไฟล์นี้ถูก render จากสองหน้าหวยเท่านั้น (src/pages/ตรวจหวย.astro ·
-// src/pages/แนวทาง.astro) ส่วนที่เหลือของเว็บใช้ Faq3 — ข้อยกเว้น Phase 4.5
-// คุ้มครอง **ชุดคอมโพเนนต์** ของสองหน้านั้น ไม่ได้คุ้มครองสีหรือชื่อแบรนด์
+// รอบนี้ (รวย168) ไฟล์นี้เป็น **FAQ หลักของทั้งเว็บ** ตามการหมุน variant
+// (Faq2 -> FaqHuay): หน้าแรก · /ตรวจหวย · /แนวทาง เรียกไฟล์นี้ทั้งหมด
+// ⚠️ ต่างจากรอบก่อนที่ไฟล์นี้ถูก render จากสองหน้าหวยเท่านั้น — รอบนี้แบรนด์เอง
+// เป็นเว็บหวย ชุด *Huay จึงขึ้นมาเป็นธีมหลัก ไม่ใช่ซับธีมอีกต่อไป
 //
-// พาเลตรอบนี้ (brand-spec §2 — แดงเลือดหมูนำ **ธีมสว่าง**): ไฟล์นี้เป็นโซน "เนื้อหา"
-// จึงเป็นการ์ดสว่างหมึกเข้ม — แถวคำถามพื้นขาว #ffffff ในกรอบแดงสด #c30303 คำตอบ
-// ตกลงไปที่ชั้นอินเซ็ต #fff1ef หมึกคำตอบ #4a0f0f (15.4:1) คำถาม #c30303 (6.3:1)
-// ปุ่ม + เป็น #c30303 บนพื้น #fff1ef แล้วกลับเป็นพื้นถมแดง #c30303 กับตัวอักษรขาว
-// (6.3:1) ตอนเปิด หัวข้อไล่เฉด #4a0f0f → #c30303 → #4a0f0f (ทุกสต็อปอ่านได้บน
-// พื้นเพจ #ffdbdb) glow เป็น rgba(195,3,3,*) กับ rgba(74,15,15,*)
-// ⚠️ ไม่มีทองโบราณทั้งสามค่า (#dcb95f #b8862b #96681f) ในไฟล์นี้ — บนการ์ดขาวได้แค่
-// 1.9–3.5:1 ตกเกณฑ์ ทองเป็นสีของโครมเท่านั้น และไม่มีแดงสแกเลต #e81313 เพราะ §2
-// ห้ามมันถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร ซึ่งในการ์ดนี้ทุกชั้นมีตัวอักษรอยู่
-// ส่วน #8f0505 สงวนไว้ให้ไฮไลต์บน <strong> ในย่อหน้าของหน้าเพจเท่านั้น
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — แดงนำแบรนด์ผ่านรีโปนี้มามากกว่าฮิวอื่น
-// ชุดของรอบก่อนทันที เขียวมรกต-ทองสัมฤทธิ์ของ สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16
-// 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd rgba 11/125/40 a · rgba 12/58/22 a)
-// ออกครบทุกจุด · ชุดทอง-ดำของ หวยคิง เจ้าของเดิมของไฟล์ชุด Huay (cd9a2c fdeb7c
-// ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b) · ชุดแดง-ทองของ หวย365 (140203
-// dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0 1a0303) · ชุดแดงเข้มของ
-// รับตัง168 (d30304 a00203 4a0202 2b100f 200a09 140505) ก็ไม่เหลือค่าไหน
+// 🚨🚨 **ไฟล์นี้เคยเป็น "การ์ดสว่างหมึกเข้ม" ของแบรนด์ธีมสว่างรอบก่อนๆ —
+// รอบนี้เป็นธีมมืด จึงพลิกเป็น "การ์ดมืดหมึกสว่าง" ทั้งไฟล์**
+// พื้นเพจรอบนี้คือ **ดำสนิท #000000** (จาก bg.json) การ์ดสว่างบนพื้นดำจะเป็น
+// แผ่นขาวโพลนกลางหน้า ไม่เข้ากับทั้งเว็บ **ห้าม "แก้" กลับไปเป็นพื้นขาว**
+//
+// พาเลตรอบนี้ (brand-spec §2 — ทองนำ โครเมียมเงินเป็นวัสดุที่สอง **ธีมมืด**):
+//   แถวคำถามพื้นผิวการ์ด #121110 ในกรอบทอง #e3a712/35 คำตอบตกลงไปที่ชั้นยก
+//   #1c1a16 หมึกคำตอบ #f3ece0 (14.8:1 บน #1c1a16) คำถามทอง #ffd94a (13.8:1)
+//   ปุ่ม + เป็น #ffd94a บนพื้น #1c1a16 แล้วกลับเป็นพื้นถมทอง #e3a712 กับ
+//   **หมึกดำ #0a0a0a** (9.2:1) ตอนเปิด
+//   หัวข้อไล่เฉด #e8eaee → #ffd94a → #e8eaee (ทุกสต็อปอ่านได้บนพื้นเพจ #000000:
+//   16.6 / 15.4 / 16.6) ซึ่งอ่านเป็นเวิร์ดมาร์กจริง — "รวย" โครเมียมเงิน
+//   ต่อด้วย "168" ทอง
+//   glow เป็น rgba(227,167,18,*) กับ rgba(0,0,0,*)
+// ⚠️⚠️ **ขาวบนพื้นทองได้แค่ ~1.2–2.2:1 — ปุ่ม + ตอนเปิดจึงเป็นหมึกดำบนทองเสมอ
+// ห้ามกลับด้านเป็นหมึกขาว** และ **ห้ามใช้ #9d6f06 / #6b7079 / #b4b9c2 / #3d3425
+// ถือตัวอักษร** ในไฟล์นี้ — เป็นพื้น/ขอบเท่านั้น
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทอง/เหลืองผ่านรีโปนี้มามากกว่าฮิวอื่น**
+// ชุดแดงสด-ขาวของ รวยแท้168 ซึ่งเป็นเจ้าของไฟล์นี้รอบล่าสุด (c30303 8f0505 e81313
+// 4a0f0f ffdbdb fff1ef ffeee8 rgba 195/3/3 a · rgba 74/15/15 a) ออกครบทุกจุด ·
+// ชุดเขียวมรกต-ทองสัมฤทธิ์ของ สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63
+// aeb04a 9ba03c d8ffc7 e9fbdd) · ชุดทอง-ดำของ หวยคิง เจ้าของเดิมของไฟล์ชุด Huay
+// (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b) · ชุดแดง-ทอง
+// ของ หวย365 (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0
+// 1a0303) · ชุดแดงเข้มของ รับตัง168 (d30304 a00203 4a0202 2b100f 200a09 140505
+// ffdc8c f0b429) · และชุดแดงคริมสัน-น้ำเงินอะซัวร์ของ **มาดาม168 รอบก่อนทันที**
+// (ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70
+// f4eef1 b3bdd6 d9dfe9) ก็ไม่เหลือค่าไหน
+// ⚠️⚠️ ffd84d ของ ถอนชัวร์168 ห่างจาก #ffd94a ของรอบนี้แค่ G1 — เจอที่ไหนแปลว่า
+// พิมพ์ผิด ไม่ใช่ค่าของรอบนี้
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
 const { title = "คำถามที่พบบ่อย", as: HeadingTag = "h2", faqs = [] } = Astro.props;
 ---
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
   <HeadingTag
-    class="mb-6 bg-gradient-to-r from-[#4a0f0f] via-[#c30303] to-[#4a0f0f] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase"
+    class="mb-6 bg-gradient-to-r from-[#e8eaee] via-[#ffd94a] to-[#e8eaee] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase"
     >{title}</HeadingTag
   >
 
@@ -61,16 +75,16 @@ const { title = "คำถามที่พบบ่อย", as: HeadingTag = "
       faqs.map((faq) => (
         <details
           name="faq-huay"
-          class="faq-item group overflow-hidden rounded-xl border border-[#c30303]/35 bg-[#ffffff] shadow-[0_4px_14px_rgba(74,15,15,0.08)] transition-all duration-300 hover:border-[#c30303]/75 hover:shadow-[0_10px_25px_rgba(195,3,3,0.18)]">
+          class="faq-item group overflow-hidden rounded-xl border border-[#e3a712]/35 bg-[#121110] shadow-[0_4px_14px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-[#ffd94a]/75 hover:shadow-[0_10px_25px_rgba(227,167,18,0.2)]">
           <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left">
-            <p class="text-base leading-normal font-bold text-[#c30303] transition-colors group-hover:text-[#4a0f0f]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#ffd94a] transition-colors group-hover:text-[#e8eaee]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#c30303]/55 bg-[#fff1ef] text-sm font-bold text-[#c30303] transition-all duration-300 group-hover:bg-[#c30303] group-hover:text-[#ffffff]">
+              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#e3a712]/55 bg-[#1c1a16] text-sm font-bold text-[#ffd94a] transition-all duration-300 group-hover:bg-[#e3a712] group-hover:text-[#0a0a0a]">
               +
             </span>
           </summary>
-          <p class="faq-answer border-t border-[#c30303]/25 bg-[#fff1ef] p-5 text-left text-base leading-relaxed text-[#4a0f0f]">{faq.a}</p>
+          <p class="faq-answer border-t border-[#e3a712]/25 bg-[#1c1a16] p-5 text-left text-base leading-relaxed text-[#f3ece0]">{faq.a}</p>
         </details>
       ))
     }
@@ -85,12 +99,12 @@ const { title = "คำถามที่พบบ่อย", as: HeadingTag = "
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(195, 3, 3, 0.75);
+    border-color: rgba(255, 217, 74, 0.75);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    background-color: #c30303;
-    color: #ffffff;
+    background-color: #e3a712;
+    color: #0a0a0a;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;
