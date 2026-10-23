@@ -16,6 +16,8 @@ const mainLogo = targetPath ? images[targetPath].default : null;
 // overflow-hidden แล้วให้รูปกว้างเท่ากล่อง (สูงเท่ากัน เพราะจัตุรัส) ล้นบน-ล่าง
 // ออกไปแล้วโดนตัด — ส่วนที่ถูกตัดคือขอบโปร่งใสล้วน เวิร์ดมาร์กจึงถูกวาดที่
 // ~131px กว้าง (มือถือ) / ~162px กว้าง (xl) แทนที่จะเป็น 50px
+// ✅ โลโก้ของดรอป สล็อต168 (2026-10-23) ยังเป็นจัตุรัส 500x500 ขอบโปร่งหนาเหมือนเดิม
+// (เปิดอ่านด้วย Read แล้ว) กลไกครอปด้านล่างจึงยังถูกต้อง ห้ามเปลี่ยนกลับ
 // ⚠️ ถ้ารอบหน้าโลโก้กลับมาเป็นแนวนอน (เช่น 1024x300) ให้ย้อนกลับไปเป็น
 // `h-[40px] w-auto` ธรรมดา และลบ overflow-hidden ทิ้ง ไม่งั้นจะโดนตัดของจริง
 //
@@ -31,61 +33,66 @@ const mainLogo = targetPath ? images[targetPath].default : null;
 //
 // ไม่มี /ทางเข้า ในเมนู: cta toggle เปิดอยู่ เข้าสู่ระบบ/สมัครสมาชิก จึงเป็น
 // รายการเมนูในตัวเองแล้ว หน้านั้นยังมี route และยังถูกลิงก์จากฟุตเตอร์
-// ไม่มี /ตรวจหวย และ /แนวทาง: รอบนี้ทั้งสองหน้าอยู่ใน src/pages-disabled/
-// (แบรนด์นี้เป็นเว็บ "สอนเล่นเกมเดิมพันหลายประเภท" ไม่ใช่เว็บหวย) ลิงก์ไปหา
+// ไม่มี /ตรวจหวย และ /แนวทาง: **รอบนี้กลับทิศจากรอบก่อน** — สล็อต168 เป็น
+// เว็บสล็อตล้วน ทั้งสองหน้าจึงถูกย้ายกลับไป src/pages-disabled/ แล้ว ลิงก์ไปหา
 // route ที่ไม่มีอยู่จริงทำให้ verify-build แดง และ navbar อยู่บนทุกหน้า
 //
-// รอบทองน้ำผึ้ง-แดงชาดจีน (2026-10-20, brand-spec §2): navbar ที่ใช้งานจริง
-// รอบนี้ — รอบก่อนใช้ NavbarStyle6 ซึ่งเป็นแถบเมนูกลางเส้นใต้บางๆ และมือถือเป็น
-// sidebar สไลด์ — ไฟล์นี้คนละทรง: แถบ 80px + ขีดใต้ไล่เฉดบานออกจากซ้าย
-// ปุ่ม CTA ทรง **แคปซูลกลม** และมือถือเป็น **แผงดรอปดาวน์กางลงมาจากใต้แถบ
-// เต็มความกว้าง** พร้อมปุ่มแฮมเบอร์เกอร์ทรงกลม
+// รอบแดงเจล-มุกขาวบนดำอมแดง (สล็อต168 2026-10-23, brand-spec §2): navbar ที่
+// ใช้งานจริงรอบนี้ — รอบก่อนใช้ NavbarHuay ซึ่งเป็นแถบธีมหวยแดง/ทองพร้อมแผง
+// slide-in — ไฟล์นี้คนละทรง: แถบ 80px + ขีดใต้ไล่เฉดบานออกจากซ้าย ปุ่ม CTA ทรง
+// **แคปซูลกลม** และมือถือเป็น **แผงดรอปดาวน์กางลงมาจากใต้แถบเต็มความกว้าง**
+// พร้อมปุ่มแฮมเบอร์เกอร์ทรงกลม
 //
-// ของเดิมที่ค้างในไฟล์เป็นชุดม่วง-ทองของแบรนด์ที่เคยใช้ไฟล์นี้ครั้งล่าสุด
-// (ม่วงเข้ม/ม่วงสว่าง/ม่วงอ่อน + ทองอำพัน + พื้นม่วงดำสามชั้น ทั้งในคลาสและใน
-// rgba()) กวาดออกทั้งไฟล์แล้ว ไม่เหลือค่าเดิมเลยสักค่า — ตรวจด้วยการ grep hex
-// ทีละตัวกับตารางใน brand-spec §2 ไม่ใช่ด้วยตา
+// ของเดิมที่ค้างในไฟล์เป็นชุด "ทองน้ำผึ้ง-แดงชาดจีน" ของแบรนด์ที่เคยใช้ไฟล์นี้
+// ครั้งล่าสุด (f0c878 / fff8d8 / d9212a / 8e1a16 / 150303 / 300605 / 4e2120 /
+// 2a0608 ทั้งในคลาสและใน rgba()) กวาดออกทั้งไฟล์แล้ว ไม่เหลือค่าเดิมเลยสักค่า
+// — ตรวจด้วยการ grep hex ทีละตัวกับตารางใน brand-spec §2 ไม่ใช่ด้วยตา
+// ⚠️⚠️ **ทองคือฮิวนำของรวย168 รอบก่อนทันที** (ffd94a / e3a712 / 9d6f06) และ
+// ทองน้ำผึ้ง f0c878 ที่ค้างในไฟล์นี้อยู่ตระกูลเดียวกัน — **รอบนี้ไม่มีทองเลย
+// สักเฉด** มงกุฎทองเล็กบนโลโก้เป็นรายละเอียด ~2% ของอาร์ตเวิร์ก ไม่ใช่สีแบรนด์
+// ⚠️ และ d9212a (แดงของดวงเศรษฐี168) ก็ไม่ใช่แดงของรอบนี้ — แดงรอบนี้คือ
+// **#fb2e33 / #cb0b0d / #8a0608** ที่วัดมาจาก logo.webp ตรงๆ ตรวจทีละค่า
 //
-// แกนสีมาจากโลโก้จริง = "ทองนำ แดงชาดรอง บนดำสนิท": หัวไฉ่ซิงเอี๊ยหมวกแดงขลิบทอง
-// ชื่อแบรนด์เป็นตัวอักษรทองสามมิติ เลข 168 เป็นแดงสดขลิบทอง
-// พื้นแถบ #150303 (ชั้นจม) ยกเป็น #300605 / #4e2120 · พื้นเพจ #000000
-// ทองน้ำผึ้ง #f0c878 = สีตัวอักษร active / ไอคอน / เส้นขอบ / พื้นถมปุ่มหลัก
-// งาช้าง #fff8d8 = เนื้อความเมนู (= BRAND_TEXT)
+// แกนสีมาจากโลโก้จริง = "แดงเจลมันวาวนำ มุกขาวรอง บนดำอมแดง": ตัวอักษร
+// "สล็อต168" เป็นเจลแดงสามมิติไฮไลต์ขาวสเปกคูลาร์ มีมงกุฎเล็กบนตัวอักษรตัวแรก
+// พื้นแถบ #0b0000 (ชั้นจม) ยกเป็น #1c0607 / #2a0c0d · พื้นเพจ #140000 (bg.json)
+// แดงสด #fb2e33 = สีตัวอักษร active / ไอคอน / เส้นขอบ
+// มุกอุ่น #f0e6e4 = เนื้อความเมนู (= BRAND_TEXT)
 //
-// ⚠️ #d9212a (2.69:1 บนผิวการ์ด / 4.20:1 บนพื้นเพจ) และ #8e1a16 (ต่ำทุกพื้น)
-// **ห้ามถือตัวอักษรทุกขนาด** — อยู่ได้เฉพาะพื้นถม ขอบ ไล่เฉด และออรา
-// ปุ่ม สมัครสมาชิก จึงเป็น **พื้นทองถม #f0c878 คู่กับหมึกเข้ม #2a0608** (11.74:1)
-// ไม่ใช่พื้นแดงคู่หมึกเข้ม (#2a0608 บน #d9212a ได้แค่ 3.72:1 ซึ่งตก)
-// ถ้ารอบไหนอยากได้ปุ่มแดง ให้ถม #d9212a แล้ววางหมึก **สว่าง** #fff8d8 (4.68:1)
-// ปุ่ม เข้าสู่ระบบ เป็นปุ่มรอง พื้น #300605 ขอบทอง ตัวอักษร #fff8d8 (12.6:1 ขึ้นไป)
+// ⚠️ #cb0b0d (3.52:1 บนพื้นเพจ) และ #8a0608 **ห้ามถือตัวอักษรทุกขนาด**
+// — อยู่ได้เฉพาะพื้นถม ขอบ ไล่เฉด และออรา
+// ⚠️⚠️ และ **#fb2e33 ห้ามเป็นพื้นของหมึกขาว** — ขาวบนเฉดนั้นได้แค่ 3.8:1
+// ปุ่ม สมัครสมาชิก จึงเป็น **พื้นไล่เฉด #d81115 -> #b00d11 คู่หมึกขาว**
+// (5.24:1 / 7.21:1) ตามที่ brand-spec §2 ล็อกไว้ ไม่ใช่ #fb2e33
+// ปุ่ม เข้าสู่ระบบ เป็นปุ่มรอง พื้น #1c0607 ขอบแดง ตัวอักษร #f0e6e4 (16.0:1)
 //
 // isActive มาจาก isActivePath ใน src/lib/nav — ห้ามเขียนเองในไฟล์นี้
 // Astro.url.pathname ถูก percent-encode ไว้ ถ้าเทียบสตริงตรงๆ หน้า /ทดลองเล่น
 // จะไม่มีรายการไหน active เลย
 //
-// ไอคอนเป็นชุด "เกมเดิมพันหลายประเภท + โชคลาภจีน" ของรอบนี้ (อั่งเปา · ลูกเต๋า ·
-// หมวกบัณฑิตสื่อถึงเว็บสอนเล่น) ไม่ใช่ชุดสนาม/เสื้อแข่ง/ลูกฟุตบอลของรอบก่อน
+// ไอคอนเป็นชุด "สล็อตออนไลน์" ของรอบนี้ (วงล้อสล็อต · เชอร์รี่ · กุญแจ) ไม่ใช่
+// ชุดอั่งเปา/ลูกเต๋า/หมวกบัณฑิตของรอบก่อน และไม่ใช่ชุดลูกบอลหวย/สลากของรวย168
 // แถบเดสก์ท็อปสวิตช์ที่ xl ไม่ใช่ lg: เจ็ดรายการพร้อมไอคอนบวกปุ่ม CTA สองใบ
 // ไม่พอดีแถว 1024px โดยไม่บีบ label
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
-  { name: "โปรโมชั่น", path: "/promotion", icon: "🧧" },
+  { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
-  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎲" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🎓" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "📖" },
+  { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 
 const currentPath = Astro.url.pathname;
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส ด้านซ้ายเป็นหัวเทพเจ้าโชคลาภจีนไฉ่ซิงเอี๊ยกำลังยิ้มหัวเราะ สวมหมวกทรงจีนสีแดงขลิบทองและมีลูกปัดทองห้อยสองข้าง ถัดมาเป็นชื่อแบรนด์ตัวอักษรไทยสามมิติผิวทองมันวาว ต่อด้วยเลข 168 สามมิติสีแดงสดขลิบทอง`;
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส เป็นตัวอักษรไทยผสมเลขสามมิติทรงอ้วนมน ผิวเจลสีแดงสดมันวาวมีไฮไลต์สีขาวพาดบนตัวอักษรทุกตัว ตัวอักษรตัวแรกมีมงกุฎทองขนาดเล็กประดับหัวใจสีแดงวางอยู่ด้านบน และมีขีดเฉียงสีแดงสั้น ๆ อยู่ท้ายคำ`;
 ---
 
 <header class="sticky top-0 z-[100] w-full font-sans">
   <nav
-    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#d9212a]/55 bg-[#150303]/95 px-4 shadow-[0_5px_20px_rgba(142,26,22,0.6)] backdrop-blur-lg xl:px-6">
+    class="relative mx-auto flex h-[80px] w-full items-center justify-between border-b border-[#fb2e33]/55 bg-[#0b0000]/95 px-4 shadow-[0_5px_20px_rgba(138,6,8,0.6)] backdrop-blur-lg xl:px-6">
     <a
       href="/"
       class="z-[110] flex h-[46px] w-[136px] flex-shrink-0 items-center overflow-hidden transition-transform duration-300 hover:scale-105 xl:h-[56px] xl:w-[168px]">
@@ -98,12 +105,12 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
             widths={[136, 168, 272, 336]}
             sizes="(min-width: 1280px) 168px, 136px"
             quality={45}
-            class="h-auto w-[136px] max-w-none object-contain drop-shadow-[0_0_12px_rgba(240,200,120,0.5)] xl:w-[168px]"
+            class="h-auto w-[136px] max-w-none object-contain drop-shadow-[0_0_12px_rgba(251,46,51,0.5)] xl:w-[168px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
         ) : (
-          <p class="text-3xl font-black tracking-widest text-[#f0c878]">{BRAND_NAME}</p>
+          <p class="text-3xl font-black tracking-widest text-[#fb2e33]">{BRAND_NAME}</p>
         )
       }
     </a>
@@ -113,11 +120,11 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
         links.map((item) => (
           <a
             href={item.path}
-            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#f0c878]" : "text-[#fff8d8]/85 hover:text-[#f0c878]"}`}>
+            class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold tracking-wide transition-colors ${isActive(item.path) ? "text-[#fb2e33]" : "text-[#f0e6e4]/85 hover:text-[#fb2e33]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
             <div
-              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#8e1a16] via-[#d9212a] to-[#f0c878] shadow-[0_-2px_10px_rgba(217,33,42,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+              class={`absolute bottom-0 left-0 h-[4px] w-full rounded-t-md bg-gradient-to-r from-[#8a0608] via-[#cb0b0d] to-[#fb2e33] shadow-[0_-2px_10px_rgba(203,11,13,0.75)] transition-transform duration-300 ${isActive(item.path) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
             />
           </a>
         ))
@@ -127,38 +134,38 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
     <div class="z-[110] flex items-center gap-3">
       <a
         href="/login"
-        class="hidden rounded-full border border-[#f0c878]/60 bg-[#300605]/85 px-6 py-2.5 text-sm font-bold text-[#fff8d8] shadow-inner transition-all hover:border-[#f0c878] hover:bg-[#4e2120]/90 xl:flex">
+        class="hidden rounded-full border border-[#fb2e33]/60 bg-[#1c0607]/85 px-6 py-2.5 text-sm font-bold text-[#f0e6e4] shadow-inner transition-all hover:border-[#fb2e33] hover:bg-[#2a0c0d]/90 xl:flex">
         เข้าสู่ระบบ
       </a>
       <a
         href="/register"
-        class="hidden rounded-full border border-[#8e1a16]/70 bg-[#f0c878] px-6 py-2.5 text-sm font-black text-[#2a0608] shadow-[0_4px_15px_rgba(240,200,120,0.35)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(240,200,120,0.55)] xl:flex">
+        class="hidden rounded-full border border-[#8a0608]/70 bg-gradient-to-b from-[#d81115] to-[#b00d11] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_15px_rgba(203,11,13,0.45)] transition-all hover:scale-105 hover:shadow-[0_6px_20px_rgba(203,11,13,0.65)] xl:flex">
         สมัครสมาชิก
       </a>
 
       <button
         id="hamburger-btn"
         type="button"
-        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#f0c878]/55 bg-[#300605] xl:hidden"
+        class="relative flex h-[45px] w-[45px] flex-col items-center justify-center gap-[6px] rounded-full border border-[#fb2e33]/55 bg-[#1c0607] xl:hidden"
         aria-label="เปิดเมนู"
         aria-expanded="false"
         aria-controls="mobile-menu">
-        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#f0c878] transition-all duration-300"></span>
-        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#f0c878] transition-all duration-300"></span>
-        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#f0c878] transition-all duration-300"></span>
+        <span class="line-1 h-[2px] w-5 origin-center rounded-full bg-[#fb2e33] transition-all duration-300"></span>
+        <span class="line-2 h-[2px] w-5 origin-center rounded-full bg-[#fb2e33] transition-all duration-300"></span>
+        <span class="line-3 h-[2px] w-5 origin-center rounded-full bg-[#fb2e33] transition-all duration-300"></span>
       </button>
     </div>
   </nav>
 
   <div
     id="mobile-menu"
-    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#d9212a] bg-[#150303]/98 px-6 pt-4 pb-8 opacity-0 shadow-[0_20px_45px_rgba(142,26,22,0.55)] backdrop-blur-2xl transition-all duration-300 xl:hidden">
+    class="pointer-events-none absolute top-[80px] left-0 w-full origin-top -translate-y-4 scale-y-95 flex-col border-b-2 border-[#fb2e33] bg-[#0b0000]/98 px-6 pt-4 pb-8 opacity-0 shadow-[0_20px_45px_rgba(138,6,8,0.55)] backdrop-blur-2xl transition-all duration-300 xl:hidden">
     <div class="flex flex-col gap-2">
       {
         links.map((item) => (
           <a
             href={item.path}
-            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#f0c878] bg-[#300605] text-[#f0c878]" : "text-[#fff8d8]/85 hover:bg-[#4e2120]/70 hover:text-[#f0c878]"}`}>
+            class={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-bold transition-colors ${isActive(item.path) ? "border-l-4 border-[#fb2e33] bg-[#1c0607] text-[#fb2e33]" : "text-[#f0e6e4]/85 hover:bg-[#2a0c0d]/70 hover:text-[#fb2e33]"}`}>
             <span aria-hidden="true">{item.icon}</span>
             <span>{item.name}</span>
           </a>
@@ -168,10 +175,10 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
     <div class="mt-6 flex flex-col gap-3">
       <a
         href="/register"
-        class="flex w-full justify-center rounded-full border border-[#8e1a16]/70 bg-[#f0c878] py-3.5 text-lg font-black text-[#2a0608] shadow-[0_4px_15px_rgba(240,200,120,0.3)]">
+        class="flex w-full justify-center rounded-full border border-[#8a0608]/70 bg-gradient-to-b from-[#d81115] to-[#b00d11] py-3.5 text-lg font-black text-white shadow-[0_4px_15px_rgba(203,11,13,0.4)]">
         สมัครสมาชิก
       </a>
-      <a href="/login" class="flex w-full justify-center rounded-full border border-[#f0c878]/60 bg-[#300605]/85 py-3.5 text-lg font-bold text-[#fff8d8]">เข้าสู่ระบบ</a>
+      <a href="/login" class="flex w-full justify-center rounded-full border border-[#fb2e33]/60 bg-[#1c0607]/85 py-3.5 text-lg font-bold text-[#f0e6e4]">เข้าสู่ระบบ</a>
     </div>
   </div>
 </header>

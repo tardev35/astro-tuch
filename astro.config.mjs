@@ -55,7 +55,7 @@ export default defineConfig({
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://ruay168.games",
+  site: "https://slot-168.online",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
