@@ -37,23 +37,26 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://ruaythear168.club — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน จึงไม่ต้องแปลง punycode**
-  // (ตรวจแล้วด้วย `node -e "console.log(new URL('https://ruaythear168.club').hostname)"`
-  // ได้ ruaythear168.club ตรงตัว)
-  // ⚠️ **รอบก่อน (เงินทอง168) เป็น IDN ภาษาไทยที่ต้องแปลงเป็น xn--168-1kla9gn5n9bwg.com
-  // — รอบนี้กลับทิศ ห้ามเผลอไปหา punycode ให้โดเมนที่เป็น ASCII อยู่แล้ว**
-  // ⚠️ TLD รอบนี้เป็น **.club** (รอบก่อนเป็น .com)
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ruaythear168.club ซึ่ง **ถูกต้องแล้ว**
-  // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
+  // โดเมนจริงรอบนี้คือ https://นาซ่า168.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️⚠️ โดเมนรอบนี้เป็น **IDN ภาษาไทย จึงต้องเก็บเป็น punycode ที่นี่**
+  // (แปลงแล้วด้วย `node -e "console.log(new URL('https://นาซ่า168.com').hostname)"`
+  // ได้ xn--168-ill4dyhb9o.com)
+  // ⚠️ **รอบก่อน (ร่ำรวย168) เป็น ASCII ล้วน (ruaythear168.club) ที่ไม่ต้องแปลง
+  // — รอบนี้กลับทิศ ห้ามเผลอเขียนอักษรไทยลงในค่านี้ตรงๆ**
+  // ⚠️ TLD รอบนี้กลับมาเป็น **.com** (รอบก่อนเป็น .club)
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@xn--168-ill4dyhb9o.com ซึ่ง
+  // **ถูกต้องแล้ว** verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ
+  // — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คนละค่ากัน:
   // ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง) ส่วนโดเมนให้
-  // name = "ruaythear168" (verify-build เทียบกับ SITE.hostname.split(".")[0] ตรงๆ)
-  // 🚨 ชื่อ worker นั้น **ชนกับแบรนด์เก่า** — อ่านหัวไฟล์ wrangler.toml ก่อน deploy
+  // name = "xn--168-ill4dyhb9o" (verify-build เทียบกับ SITE.hostname.split(".")[0])
+  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์** — ต่างจากรอบก่อนที่ชนกับ
+  // รวยแทร่168 ⚠️ แต่ยังมี `naza168-slot` (NAZA168 ตัวละติน) อยู่ในลิสต์ ซึ่งเป็น
+  // **ลูกค้าคนละเจ้า** ที่ชื่อออกเสียงเหมือนรอบนี้ — ห้ามสับสน ดู wrangler.toml
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://ruaythear168.club",
+  site: "https://xn--168-ill4dyhb9o.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
