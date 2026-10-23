@@ -5,7 +5,7 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
 }
-const { title, as: HeadingTag = "h2", iconleft = "💬", iconright = "🛡️" } = Astro.props;
+const { title, as: HeadingTag = "h2", iconleft = "💬", iconright = "🧾" } = Astro.props;
 const hasActions = Astro.slots.has("actions");
 
 // House rule: exactly ONE element per slot. Each <article> is a gap-4 flex row
@@ -22,94 +22,116 @@ const hasActions = Astro.slots.has("actions");
 //
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant fits a docx section whose one
-// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §3**
-// ("โปรโมชั่นสมาชิก <แบรนด์> กดรับได้ไม่จำกัด" — content.txt บรรทัด 8): ซีกซ้ายคือ
-// **ตัวรายการโปรโมชั่น** (คืนยอดเสีย 0.3% และแนะนำเพื่อน 0.8% กับข้อกำหนดที่ต่างกัน
-// ไปตามประเภทเกมที่เข้าร่วม ยอดที่นำมาคำนวณ และรอบเวลารับเครดิต) ซีกขวาคือ
-// **สิ่งที่บรีฟสั่งให้ตรวจก่อนรับสิทธิ์** (จำนวนครั้งที่รับสิทธิ์ได้จริง เงื่อนไข
-// การใช้โบนัสและการถอนเงินจากประกาศล่าสุด) หน้าแรกส่งไอคอน 🎁 / 📋 ทั้งคู่อยู่ใน
-// กล่อง aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
+// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §7**
+// ("ช่องทางติดต่อแอดมินเว็บสล็อต <แบรนด์> ตลอด 24ชม." — content.txt บรรทัด 15)
+// พร้อมย่อหน้าของมัน (บรรทัด 16) แบ่งครึ่ง: ซีกซ้ายคือ **ช่องทางติดต่อเจ้าหน้าที่
+// และการตรวจช่องทางจากเว็บไซต์ทางการก่อนส่งข้อความเพื่อหลีกเลี่ยงบัญชีแอบอ้าง**
+// ซีกขวาคือ **สิ่งที่ต้องทำเมื่อพบปัญหาเกี่ยวกับธุรกรรม** (เก็บหมายเลขรายการและ
+// หลักฐาน แจ้งรายละเอียดให้ชัดเจน ไม่เปิดเผยรหัสผ่านหรือรหัส OTP และตรวจเวลา
+// ให้บริการจริงจากประกาศล่าสุดอีกครั้ง) หน้าแรกส่งไอคอน 💬 / 🧾 ทั้งคู่อยู่ในกล่อง
+// aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
 //
 // ───────────────────────────────────────────────────────────────────────────
-// ร่ำรวย168 (2026-10-23) — พาเลตตาม .claude/brand-spec-ruaythear168club.md §2
-// ⚠️⚠️ **รอบนี้เป็นธีมสว่าง** พื้นเพจ #dbe6ff (bg.json) การ์ดเนื้อหาเป็น
-// **ผิวสว่าง + หมึกเข้ม** ห้ามแก้กลับไปเป็นพื้นเข้ม
-// ลำดับผิว: **#ffffff ยก (การ์ดครอบ)** · **#f4e4d3 ครีม (สองซีก — วัสดุที่สอง
-// ของรอบนี้ วัดจาก slide1.png)** · #eef4ff กลาง · #dce9fb อินเซ็ต · #dbe6ff พื้นเพจ
+// มาดาม168 (ดรอป 2026-10-23) — พาเลตตาม .claude/brand-spec-madum168.md §2
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ฟ้าไซยาน-ครีมบนธีมสว่างของ ร่ำรวย168** ทั้งใบ
+// **รอบนี้เป็นธีมมืด** พื้นเพจ #00091f (bg.json) = น้ำเงินเที่ยงคืนเกือบดำ
+// การ์ดเนื้อหาเป็น **ผิวมืด + หมึกสว่าง ห้ามแก้กลับไปเป็นพื้นสว่าง**
+// ลำดับผิว: #16234a ยก (แผ่นไอคอนซ้าย) · **#050e26 จม (การ์ดครอบ)** ·
+// **#0b1733 กลาง (สองซีก)** · #00091f พื้นเพจ
+// ⚠️⚠️ **สองซีกตั้งใจอยู่ที่ผิวกลาง #0b1733 ไม่ใช่ผิวยก #16234a** เพราะ <strong>
+// ของหน้าเพจเป็น **#ff2e52** ซึ่งได้ **4.9:1 บน #0b1733 (ผ่าน AA)** แต่ตกลงเหลือ
+// **4.2:1 บน #16234a** (ไฮไลต์เป็น text-base ตัวหนา = normal text เกณฑ์ 4.5:1
+// ไม่ใช่ large text) — **ห้ามสลับสองผิวนี้กัน**
 //
-// จังหวะรูปทรงของใบนี้: เป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด** — ผิวขาวครอบ
-// สองซีกที่ตกลงไปอยู่ **ผิวครีม** ซึ่งเป็นที่เดียวบนหน้าที่วัสดุที่สองถือเนื้อความ
+// จังหวะรูปทรงของใบนี้: เป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด** — ผิวจมครอบ
+// สองซีกที่ลอยขึ้นมาอยู่ผิวกลาง (กลับทิศจากใบอื่นที่ซีกในจมกว่าการ์ดนอก)
 // ⚠️ หัวข้อของใบนี้เป็นใบเดียวที่ **คร่อมเส้นคู่บน-ล่าง** (border-y) ไม่ใช่ขีดใต้
-// แท่งตั้ง แผ่นถม ป้ายลอย หรือสันซ้ายแบบใบอื่น และเป็น **ฟ้าเข้ม #0d6b9b ทึบ
-// สีเดียว ไม่ไล่เฉด** (5.6:1 บนผิวขาว) เพราะ §2 ห้าม #18a5e2 (2.6:1) เข้าไปเป็น
-// พิกเซลของตัวอักษรบนพื้นสว่าง
-// สองป้ายไอคอนเป็น **ขั้วกลับของกันเอง**: ซ้ายเป็น **แผ่นสว่าง** ไล่ขาว → ครีม
-// #f4e4d3 ในกรอบครีมเข้ม #e4cbb3 บนหมึก #16294a (11.9:1) ส่วนขวาเป็น
-// **แผ่นถมฟ้าทึบ** ไล่ #0d6b9b → #0a5176 ในกรอบ #0d6b9b บนหมึก **ขาว** ซึ่งเป็น
-// สูตร "ปุ่ม CTA หลัก" ของ §2 ตรงๆ (5.6:1 ที่สต็อปอ่อนสุด · 8.0:1 ที่สต็อปเข้ม)
-// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบครีมเข้ม #e4cbb3 ซีกขวากรอบฟ้าเข้ม #0d6b9b
-// เส้นคาดหัวการ์ดเป็นฟ้าไซยาน #18a5e2 โปร่ง (**พื้นถม ไม่ใช่ตัวอักษร**)
-// เนื้อความ #16294a (= BRAND_TEXT) — 13.9:1 บนผิวขาว และ 11.9:1 บนผิวครีม
-// ⚠️ §2 ห้าม #18a5e2/#a9d7f2/#f4e4d3/#e4cbb3/#dce9fb/#eef4ff/#dbe6ff ถือตัวอักษร
-// บนพื้นสว่าง · **#0d6b9b สงวนไว้ให้ <strong> ในเนื้อความด้วย** ซึ่งเป็นงานของ
-// หน้าเพจ ไม่ใช่ของไฟล์นี้
+// แท่งตั้ง แผ่นถม สันซ้าย หรือชิปกลีฟแบบใบอื่น และเป็น **แดงคริมสัน #ff2e52 ทึบ
+// สีเดียว ไม่ไล่เฉด** (5.3:1 บนผิวจม)
+// สองแผ่นไอคอนเป็น **ขั้วกลับของกันเอง**: ซ้ายเป็น **แผ่นผิวยก** ไล่ #16234a →
+// #0b1733 ในกรอบ #2a3c70 บนหมึก **#f4eef1** (เงียบ เป็นผิว ไม่ใช่สีนำ) ส่วนขวาเป็น
+// **แผ่นถมอะซัวร์ทึบ** ไล่ #0e68cc → #0a4ea8 ในกรอบ #0a4ea8 บนหมึก **ขาว** ซึ่งเป็น
+// สูตร "ปุ่มรอง (เข้าสู่ระบบ)" ของ §2 ตรงๆ (5.5:1 ที่สต็อปอ่อนสุด · 7.8:1 ที่สต็อป
+// เข้ม) ⚠️ **ห้ามใช้ #1177e8 เป็นพื้นของแผ่นที่รับหมึกขาว** — §2 ให้ขึ้นไปที่
+// #0e68cc เป็นอย่างต่ำ
+// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบ #2a3c70 ซีกขวากรอบแดงลึก #c9102f
+// เส้นคาดหัวการ์ดเป็นแดงคริมสัน #ff2e52 โปร่ง (**พื้นถม ไม่ใช่ตัวอักษร**)
+// เนื้อความ #f4eef1 (= BRAND_TEXT) — 17.0:1 บนผิวจม และ 15.7:1 บนผิวกลาง
+// ⚠️ §2 ห้าม **#1177e8 #0e68cc #0a4ea8 #c9102f #2a3c70 #16234a #0b1733 #050e26
+// #00091f** ถือตัวอักษร · **#ff2e52 สงวนไว้ให้ <strong> ในเนื้อความด้วย** ซึ่งเป็น
+// งานของหน้าเพจ ไม่ใช่ของไฟล์นี้ · ⚠️ **ห้ามวางหมึกขาวบน #ff2e52 ตรงๆ (3.6:1)**
+// rgba() ที่อนุญาตรอบนี้: rgba(255,46,82,α) · rgba(224,18,56,α) · rgba(201,16,47,α) ·
+// rgba(17,119,232,α) · rgba(14,104,204,α) · rgba(10,78,168,α) · rgba(217,223,233,α) ·
+// rgba(0,9,31,α) · rgba(0,0,0,α)
 //
-// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — ฟ้า/ไซยานนำมาแล้วห้าแบรนด์ (สบาย168 ·
-// รวยแทร่168 · นินจา168 · สบายเบท168 · TSDET911) และ **ครีมก็เป็นวัสดุที่สองของ
-// แบรนด์ขาออกเงินทอง168 ด้วย** การเจอครีมหรือฟ้าในไฟล์จึงไม่พิสูจน์อะไรเลย
-// ครีมรอบนี้คือ **#f4e4d3 / #e4cbb3 เท่านั้น** (วัดจาก slide1.png ของดรอปนี้)
-// ไม่ใช่ ecd5c4 d2b9a4 (เงินทอง168) ไม่ใช่ eadfce (ขวัญใจ168) ไม่ใช่ f5e7c8 fce2d4
-// fcd4c3 (หวยคิง) และไม่ใช่ f4ead6 d6c6a8 (พักยก168)
-// ไฟล์นี้เพิ่งค้างชุด **แดงคริมสัน-หมึกเลือดหมูบนธีมสว่างของ รวยแท้168** ไว้ทั้งใบ
-// (c30303 8f0505 e81313 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb dcb95f b8862b
-// 96681f c99a3f กับ rgba 195/3/3 และ rgba 74/15/15) ออกครบทุกค่าแล้ว เช่นเดียวกับ
-// ชุดของ **เงินทอง168 (แบรนด์ขาออก)** (f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f
-// 3d3016 332810 201906 2e2512 1b1407 4d3c15) **สบาย168** (2cc3fc 6bdcfb 0a7fbd
-// 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd eafaff a9e3f9 0f3a4a
-// 06293c fdcb0c fefb6b 8a6504) **รวยแทร่168** (039cfa 0494f5 c3ebfc 04366b e3f2fc
-// 0b2d52 f9a826 704504) **นินจา168** (32bcfb a9e9ff fef54b 6b5c10 07335f 0c2a3d
-// 071a28) **สบายเบท168** (2f9ff5 a8dcff d6ecff 0b3f78 e8f4ff ffc82e 5c4a16)
-// **TSDET911** (0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7) **สาธุ168**
-// (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a) **มีทรัพย์168** (dd1b74 a4186b
-// 4a0d35 2d0720 f7dcf6 f0ccf5) **ดวงเศรษฐี168** (d9212a 8e1a16 f0c878 fff8d8 2a0608
-// 4e2120) และ **KMD88** (7505cc b453ff c07cff d9b8ff 3a0565 2c0349 ece2f8)
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีทอง/เหลืองเป็นสี UI ไม่มีแดง ไม่มีชมพู ไม่มีม่วง ไม่มีเขียว
-// ไม่มีส้ม ไม่มีโรสโกลด์ และไม่มีแรมป์เทาเงิน**
+// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — 🚨 ฟ้า/ไซยานนำมาแล้วเจ็ดแบรนด์
+// (นาซ่า168 · ร่ำรวย168 · สบาย168 · รวยแทร่168 · นินจา168 · สบายเบท168 · TSDET911)
+// และรอบนี้ **แดงเป็นฮิวนำ ฟ้าถูกลดชั้นเป็นวัสดุที่สองที่ไม่ถือตัวอักษร**
+// ค่าที่ต้องไม่เหลือในไฟล์นี้:
+//   **นาซ่า168 (แบรนด์ขาออก — เสี่ยงที่สุด)** — 1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0
+//     e6edf8 9fb2cb 273449 1b2434 121722 33455f 0d1017
+//   **ร่ำรวย168 (ชุดที่เพิ่งอยู่ทั้งใบนี้)** — 18a5e2 0d6b9b 0a5176 a9d7f2 16294a
+//     dbe6ff eef4ff dce9fb 111a3f f4e4d3 e4cbb3 กับ rgba 24/165/226, rgba 13/107/155,
+//     rgba 244/228/211, rgba 22/41/74
+//   **รวยแท้168** — c30303 8f0505 e81313 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb
+//     dcb95f b8862b 96681f c99a3f กับ rgba 195/3/3 และ rgba 74/15/15
+//   **เงินทอง168** — f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f 3d3016 332810 201906
+//     2e2512 1b1407 4d3c15
+//   **สบาย168** — 2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff
+//     f2fbff dff4fd eafaff a9e3f9 fdcb0c fefb6b 8a6504
+//   **รวยแทร่168** — 039cfa 0494f5 c3ebfc 04366b e3f2fc 0b2d52 f9a826 704504
+//   **นินจา168** — 32bcfb a9e9ff fef54b 6b5c10 07335f 0c2a3d 071a28
+//   **สบายเบท168** — 2f9ff5 a8dcff d6ecff 0b3f78 e8f4ff ffc82e 5c4a16
+//   **TSDET911** — 0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 dde8f7 00081f 102a5e
+//     0a1c42 032dad 04186e
+//   **สาธุ168** — 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a
+//   **มีทรัพย์168** — dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5
+//   **ดวงเศรษฐี168** — d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120
+//   **KMD88** — 7505cc b453ff c07cff d9b8ff 3a0565 2c0349 ece2f8
+// ⚠️⚠️ **แดงนำรอบนี้ จึงเทียบแดงหนักที่สุด** — #ff2e52 / #e01238 / #c9102f เท่านั้น
+// ไม่ใช่ b3121b f2bba5 c98a74 (ขวัญใจ168) fb141b ff5f63 ffa0a2 db040b 8a0609 (GT66B)
+// eb0305 e40303 c20305 9b0a0c ff4446 (โปรดี168) fa0513 ff5a5f ffadaf (สมหวัง168)
+// fb1b32 ff8f9c 5c0410 (มีเฮ168) e4021b (รวยเทพ168) d30304 a00203 ff6b6e (รับตัง168)
+// dc0203 f5282a (หวย365) fa63b9 ffb3de (ถอนชัวร์168) f5469f ff8dc6 8c0f52 (มีโชค168)
+// ff3b14 6d0804 2b0000 (FLASH877)
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep ที่ไล่หาสีเก่า
+// สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองเป็นสี UI ไม่มีเขียว ไม่มีชมพู ไม่มีม่วง ไม่มีส้ม
+// ไม่มีโรสโกลด์ ไม่มีน้ำตาล ไม่มีครีม/เบจ และไม่มีแรมป์เทาเงิน**
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#a9d7f2] bg-white p-6 text-[#16294a] shadow-[0_10px_30px_rgba(22,41,74,0.14)] transition-all duration-500 hover:border-[#18a5e2] md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#2a3c70] bg-[#050e26] p-6 text-[#f4eef1] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-[#ff2e52] md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#18a5e2] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#ff2e52] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 border-y border-[#a9d7f2] py-4">
-          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#0d6b9b]">{title}</HeadingTag>
+        <header class="mb-8 border-y border-[#2a3c70] py-4">
+          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#ff2e52]">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#e4cbb3] bg-[#f4e4d3] p-6 text-left text-base leading-relaxed text-[#16294a] transition-all duration-300 hover:-translate-y-2 hover:border-[#0d6b9b] hover:shadow-[0_15px_40px_rgba(244,228,211,0.9)]">
+        class="relative flex gap-4 rounded-2xl border border-[#2a3c70] bg-[#0b1733] p-6 text-left text-base leading-relaxed text-[#f4eef1] transition-all duration-300 hover:-translate-y-2 hover:border-[#1177e8] hover:shadow-[0_15px_40px_rgba(17,119,232,0.3)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#e4cbb3] bg-gradient-to-br from-white to-[#f4e4d3] text-2xl text-[#16294a] shadow-[0_5px_15px_rgba(22,41,74,0.18)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#2a3c70] bg-gradient-to-br from-[#16234a] to-[#0b1733] text-2xl text-[#f4eef1] shadow-[0_5px_15px_rgba(0,0,0,0.45)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#0d6b9b] bg-[#f4e4d3] p-6 text-left text-base leading-relaxed text-[#16294a] transition-all duration-300 hover:-translate-y-2 hover:border-[#18a5e2] hover:shadow-[0_15px_40px_rgba(13,107,155,0.24)]">
+        class="relative flex gap-4 rounded-2xl border border-[#c9102f] bg-[#0b1733] p-6 text-left text-base leading-relaxed text-[#f4eef1] transition-all duration-300 hover:-translate-y-2 hover:border-[#ff2e52] hover:shadow-[0_15px_40px_rgba(255,46,82,0.28)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#0d6b9b] bg-gradient-to-br from-[#0d6b9b] to-[#0a5176] text-2xl text-white shadow-[0_5px_15px_rgba(13,107,155,0.42)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#0a4ea8] bg-gradient-to-br from-[#0e68cc] to-[#0a4ea8] text-2xl text-white shadow-[0_5px_15px_rgba(10,78,168,0.5)]">
           {iconright}
         </div>
         <slot name="right" />
@@ -118,7 +140,7 @@ const hasActions = Astro.slots.has("actions");
 
     {
       hasActions && (
-        <div class="mt-8 border-t border-[#a9d7f2] pt-6">
+        <div class="mt-8 border-t border-[#2a3c70] pt-6">
           <slot name="actions" />
         </div>
       )

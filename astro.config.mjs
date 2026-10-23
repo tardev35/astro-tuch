@@ -37,26 +37,22 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://นาซ่า168.com — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️⚠️ โดเมนรอบนี้เป็น **IDN ภาษาไทย จึงต้องเก็บเป็น punycode ที่นี่**
-  // (แปลงแล้วด้วย `node -e "console.log(new URL('https://นาซ่า168.com').hostname)"`
-  // ได้ xn--168-ill4dyhb9o.com)
-  // ⚠️ **รอบก่อน (ร่ำรวย168) เป็น ASCII ล้วน (ruaythear168.club) ที่ไม่ต้องแปลง
-  // — รอบนี้กลับทิศ ห้ามเผลอเขียนอักษรไทยลงในค่านี้ตรงๆ**
-  // ⚠️ TLD รอบนี้กลับมาเป็น **.com** (รอบก่อนเป็น .club)
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@xn--168-ill4dyhb9o.com ซึ่ง
+  // โดเมนจริงรอบนี้คือ https://madum168.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน จึงเก็บตรงตัว ไม่ต้องแปลง punycode**
+  // (รอบก่อน นาซ่า168 เป็น IDN ภาษาไทยที่ต้องแปลงเป็น xn--168-ill4dyhb9o.com
+  // — รอบนี้กลับทิศ)
+  // ⚠️ TLD รอบนี้ยังเป็น **.com** เหมือนรอบก่อน
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@madum168.com ซึ่ง
   // **ถูกต้องแล้ว** verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ
   // — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คนละค่ากัน:
   // ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง) ส่วนโดเมนให้
-  // name = "xn--168-ill4dyhb9o" (verify-build เทียบกับ SITE.hostname.split(".")[0])
-  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์** — ต่างจากรอบก่อนที่ชนกับ
-  // รวยแทร่168 ⚠️ แต่ยังมี `naza168-slot` (NAZA168 ตัวละติน) อยู่ในลิสต์ ซึ่งเป็น
-  // **ลูกค้าคนละเจ้า** ที่ชื่อออกเสียงเหมือนรอบนี้ — ห้ามสับสน ดู wrangler.toml
+  // name = "madum168" (verify-build เทียบกับ SITE.hostname.split(".")[0])
+  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์ของ wrangler.toml** (ตรวจแล้ว)
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://xn--168-ill4dyhb9o.com",
+  site: "https://madum168.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
