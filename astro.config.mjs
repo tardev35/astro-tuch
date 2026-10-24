@@ -34,7 +34,7 @@ export default defineConfig({
   },
 
   redirects: {
-    "/line": "https://tinyurl.com/tog191",
+    "/line": "https://tinyurl.com/linetddy",
   },
 
   // โดเมนจริงรอบนี้คือ https://โบ๊ะบ๊ะ-168.com — operator ระบุมาตรงๆ ในคำสั่ง
@@ -47,20 +47,20 @@ export default defineConfig({
   // ห้ามพิมพ์เอาเองจากความจำ
   // ⚠️⚠️ **TLD รอบนี้คือ `.com`** (รอบก่อนเป็น .online) ทุกค่าที่ derive จาก
   // บรรทัดนี้จะผิดตามทันทีถ้าพิมพ์ TLD ผิด
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@xn---168-phoa7mb2n5cc.com ซึ่ง
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@okkub88.net ซึ่ง
   // **ถูกต้องแล้ว** verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ
   // — ห้ามเขียนอีเมลด้วยมือ
-  // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คนละค่ากัน:
-  // ชื่อแบรนด์ให้ iconSlug = "" (อักษรไทยโดน [^a-z0-9] กินทิ้งทั้งสตริง แล้วตกไป
-  // ใช้ fallback เป็นแฮชของชื่อ) ส่วนโดเมนให้ name = "xn---168-phoa7mb2n5cc"
-  // (verify-build เทียบกับ SITE.hostname.split(".")[0] ซึ่งตัด TLD ทิ้ง)
-  // 🚨🚨 ในลิสต์ของ wrangler.toml มี **xn---168-pho7byc9c** (สบาย168) ซึ่ง
-  // **ขึ้นต้น 12 ตัวแรกเหมือนกันเป๊ะ** (xn---168-pho) ของรอบนี้ลงท้ายด้วย
-  // **a7mb2n5cc** ไม่ใช่ **7byc9c** — ตรวจทีละตัวอักษร
+  // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้บังเอิญ
+  // ตรงกันทั้งสองค่า ("okkub88") เพราะชื่อแบรนด์เป็นละติน+เลขล้วน iconSlug จึงไม่
+  // โดน [^a-z0-9] กินอะไรเลย **แต่ที่มาของสองค่ายังคนละทางกันเสมอ** —
+  // name มาจาก SITE.hostname.split(".")[0] ส่วน iconSlug มาจาก BRAND_NAME
+  // (รอบก่อน โบ๊ะบ๊ะ168 สองค่านี้ต่างกันสิ้นเชิง: "168" vs "xn---168-phoa7mb2n5cc")
+  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** กลับทิศจากรอบก่อนที่
+  // เป็น IDN ภาษาไทย — และ **TLD เป็น .net** ไม่ใช่ .com ของรอบก่อน
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://xn---168-phoa7mb2n5cc.com",
+  site: "https://okkub88.net",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
