@@ -19,90 +19,111 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // renders as a direct child. `leading-normal` on the column labels neutralises
 // the hoisted `leading-relaxed`. Do not re-add a wrapper <div>.
 //
-// รอบนี้ใบนี้ถือ **docx H2 §2** ของหน้าแรก ("สมัครสมาชิก <แบรนด์> รับโปรไม่อั้น
-// โบนัสแจกทั้งวันไม่จำกัด" — content.txt บรรทัด 5) โดยซีกซ้ายคือย่อหน้าเต็มของบรีฟ
-// (บรรทัด 6) และซีกขวาคือ **ลิสต์ไฮไลต์สั้นที่ไม่ใช่หัวข้อ** (เป็น <ul> ใบเดียว
-// ตามกฎ 1 slot = 1 element) บรีฟไม่ได้ตั้งชื่อให้สองซีก หน้าเพจจึงไม่ส่ง
-// titleleft/titleright มา กล่องนี้จึงปล่อยหัวข้อออกมาใบเดียวคือของ section เอง
+// รอบนี้ใบนี้ถือ **docx H2 §2** ของหน้าแรก ("<แบรนด์> แหล่งรวมเกมสล็อตแบรนด์ดัง
+// ยูสใหม่เล่นง่ายไม่มีขั้นต่ำ 1 บาทก็เล่นได้" — content.txt บรรทัด 5) โดยแบ่ง
+// ย่อหน้าเดียวของบรีฟ (บรรทัด 6) เป็นสองซีกโดยไม่ตกประโยคไหน: ซีกซ้ายคือ
+// **ประเภทเกมที่ระบุไว้กับยอดเริ่มต้น 1 บาท** ซีกขวาคือ **สิ่งที่สมาชิกใหม่ควร
+// ตรวจก่อนใช้งาน และการศึกษาค่า RTP กับความผันผวน**
+// บรีฟไม่ได้ตั้งชื่อให้สองซีก หน้าเพจจึงไม่ส่ง titleleft/titleright มา กล่องนี้
+// จึงปล่อยหัวข้อออกมาใบเดียวคือของ section เอง
 // หัวข้อมาจาก prop เท่านั้น — ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้
 //
+// ⚠️ เขียนชื่อคลาสสีในคอมเมนต์แบบไม่เต็มรูปโดยตั้งใจ — Tailwind สแกนคอมเมนต์ด้วย
+//
 // ───────────────────────────────────────────────────────────────────────────
-// okkub88 (ดรอป 2026-10-24, .claude/brand-spec-okkub88.md §2) —
-// **ชมพูบับเบิลกัมนำ · เบอร์รีเข้มเป็นหมึก · บนธีมสว่าง**
-// bg.json = {"mode":"color","color":"#ffd6fa"} ชมพูบับเบิลกัมพาสเทล
-// **ห้ามแก้การ์ดกลับไปเป็นพื้นมืด** — หมึก #6a0f3c บนการ์ดมืดคือตัวอักษรหายไปเลย
-// ลำดับผิว: #ffffff การ์ด/ฝั่งสว่างของเงานูน · **#fff4fb ผิวยก (ใบนี้)** ·
-// #ffe3f5 wash · #ffd6fa พื้นเพจ · หมึก **#6a0f3c** (= BRAND_TEXT, 11.6:1 บนใบนี้)
+// ZANE96 (ดรอป 2026-10-25, .claude/brand-spec-zane96.md §2) —
+// **ไวโอเลตนีออนนำ · ฟ้าอิเล็กทริก/แมเจนต้าคู่รอง · เนื้อหาบนธีมสว่าง**
+// bg.json = {"mode":"color","color":"#f8e6f9"} ไลแลคอมชมพูจาง
+// **ห้ามแก้การ์ดกลับไปเป็นพื้นมืด** — หมึก #241046 บนการ์ดมืดคือตัวอักษรหายไปเลย
+// ลำดับผิว: #ffffff การ์ด/ฝั่งสว่างของเงานูน · **#f6edfe ผิวยก (ใบนี้)** ·
+// #ece0fb wash · #f8e6f9 พื้นเพจ · หมึก **#241046** (= BRAND_TEXT, ~16:1 บนใบนี้)
 //
 // จังหวะรูปทรงของใบนี้: เป็น **แผ่นนูน neumorphic ใบที่สามของสามใบในหน้า** วางบน
-// ผิวยก #fff4fb มุม rounded-[30px] และ **ไม่มีกรอบเลย** อีกสองใบคือ §1/§4
-// ContentBoxNeumorphism ซึ่งเป็นมุม rounded-[25px] เงา 12px/-12px มีกรอบ #f9b2d9
-// และหัวข้อชมพูลึกทึบจัดกึ่งกลาง · กับ §5 ContentBoxSevenThreeNeumorphism ซึ่งเป็น
-// มุม rounded-[22px] เงา 10px/-10px มีกรอบ และหัวข้อเบอร์รีเข้มทึบชิดซ้ายพร้อม
+// ผิวยก #f6edfe มุม rounded-[30px] และ **ไม่มีกรอบเลย** อีกสองใบคือ §1
+// ContentBoxNeumorphism ซึ่งเป็นมุม rounded-[25px] เงา 12px/-12px มีกรอบ #dcc6f4
+// และหัวข้อไวโอเลตลึกทึบจัดกึ่งกลาง · กับ §4 ContentBoxSevenThreeNeumorphism
+// ซึ่งเป็นมุม rounded-[22px] เงา 10px/-10px มีกรอบ และหัวข้อทึบชิดซ้ายพร้อม
 // แถบตั้ง — สามใบจึงต่างกันทั้งมุม ระยะเงา การมี/ไม่มีกรอบ และการจัดหัวข้อ
-// ⚠️ ความนูนบนธีมสว่าง: **เงาฝั่งมืดเป็น rgba(156,15,85,α)** ส่วนฝั่งสว่างเป็น
-// **ผิวขาว #ffffff** ไม่ใช่ชมพูสดและไม่ใช่ดำ (สองอย่างนั้นจะกลายเป็นเส้นขอบ)
-// หัวข้อไล่ **ชมพูลึก #9c0f55 → เบอร์รีเข้มสุด #85094a** สองสต็อป ซึ่งไม่ซ้ำกับ
-// กล่องอื่นบนหน้าเดียวกันสักใบ
+// ⚠️ ความนูนบนธีมสว่าง: **เงาฝั่งมืดเป็น rgba(84,17,196,α)** ส่วนฝั่งสว่างเป็น
+// **ผิวขาว #ffffff** ไม่ใช่ม่วงสดและไม่ใช่ดำ (สองอย่างนั้นจะกลายเป็นเส้นขอบ)
+// หัวข้อไล่ **ฟ้าอิเล็กทริก #2b3fd9 → ไวโอเลตลึก #5411c4** สองสต็อป ซึ่งอ่านมาจาก
+// ครึ่งแรกของเวิร์ดมาร์กที่ไล่ฟ้า→ม่วง และไม่ซ้ำกับกล่องอื่นบนหน้าเดียวกันสักใบ
 // ⚠️ ไล่เฉดนี้ถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือ
-// ตัวอักษรได้บนผิวใบนี้: #9c0f55 7.7:1 และ #85094a 9.4:1 ✅ — **ห้ามเอา #fb439b
-// (3.3:1) #fc74b5 #ffc2e2 #f9b2d9 #f479b9 หรือผิวใด ๆ (#ffffff #fff4fb #ffe3f5
-// #ffd6fa) มาเป็นสต็อป**
-// ป้ายสองคอลัมน์: ซ้ายชมพูลึก #9c0f55 ขวาเบอร์รีเข้มสุด #85094a (รอบนี้หน้าเพจ
-// ไม่ได้ส่งป้ายมา — โค้ดคงไว้ให้แบรนด์ถัดไป) เส้นคั่นเป็น #f9b2d9
-// 🚨🚨 **#fb439b บนผิวสว่างได้แค่ 3.3:1 ห้ามถือตัวอักษร** และ **ห้ามถมพื้น #fb439b
-// แล้ววางหมึกขาว** (3.3:1) พื้นที่รับหมึกขาวได้ต้องเป็น #d91a73 (4.8:1) ลงไป
-// ในไฟล์นี้ #fb439b อยู่ที่ **เส้นไรผมบนขอบการ์ด** ซึ่งเป็นพื้นถมล้วน
-// ⚠️ **#f9b2d9 #f479b9 #fc74b5 #ffc2e2 ห้ามถือตัวอักษร** — เส้น/พื้นเท่านั้น
-// ⚠️ **สีไฮไลต์ <strong> ในเนื้อความมีตัวเดียวคือ #9c0f55** ซึ่งเป็นงานของหน้าเพจ
-// rgba() ที่อนุญาตรอบนี้: rgba(251,67,155,α) · rgba(255,194,226,α) ·
-// rgba(156,15,85,α) · rgba(106,15,60,α) · rgba(249,178,217,α)
+// ตัวอักษรได้บนผิวใบนี้: #2b3fd9 7.5:1 และ #5411c4 9.3:1 ✅ — **ห้ามเอา #f23bb4
+// (3.5:1) #bb6dff (3.1:1) #7aa7ff #dcc6f4 #9a6fd0 หรือผิวใด ๆ (#ffffff #f6edfe
+// #ece0fb #f8e6f9) มาเป็นสต็อป**
+// ป้ายสองคอลัมน์: ซ้ายไวโอเลตลึก #5411c4 ขวาฟ้าอิเล็กทริก #2b3fd9 (รอบนี้หน้าเพจ
+// ไม่ได้ส่งป้ายมา — โค้ดคงไว้ให้แบรนด์ถัดไป) เส้นคั่นเป็น #dcc6f4
+// 🚨🚨 **#f23bb4 บนผิวสว่างได้แค่ 3.5:1 ห้ามถือตัวอักษร** และ **ห้ามถมพื้น #f23bb4
+// แล้ววางหมึกขาว** (2.6:1) พื้นที่รับหมึกขาวได้ต้องเป็น #c2178b (5.6:1) ลงไปหาเข้ม
+// ในไฟล์นี้ #f23bb4 อยู่ที่ **เส้นไรผมบนขอบการ์ด** ซึ่งเป็นพื้นถมล้วน
+// ⚠️ **#dcc6f4 #9a6fd0 #bb6dff #7aa7ff ห้ามถือตัวอักษร** — เส้น/พื้นเท่านั้น
+// ⚠️ **สีไฮไลต์ <strong> ในเนื้อความมีตัวเดียวคือ #5411c4** ซึ่งเป็นงานของหน้าเพจ
+// rgba() ที่อนุญาตรอบนี้: rgba(122,27,214,α) · rgba(84,17,196,α) ·
+// rgba(194,23,139,α) · rgba(242,59,180,α) · rgba(43,63,217,α) ·
+// rgba(187,109,255,α) · rgba(36,16,70,α) · rgba(220,198,244,α)
 //
-// ⚠️⚠️ **ชมพูคือตระกูลของรอบนี้ จึงต้องเทียบทีละค่าแน่นที่สุด** "เจอชมพูอยู่แล้ว"
-// ไม่เคยพิสูจน์ว่าเป็นของรอบปัจจุบัน ชมพูรอบนี้คือ **#fb439b (R251 G67 B155)**
-// ⚠️⚠️ **หมูบิน168 (สองรอบก่อน) ก็เป็นชมพู = กับดักหลัก**: fa539c c2185b 8e0f41
-// fb8cc0 fdc6c3 ffd1cd f7bcd9 ef8dbd ffe5ff fff0f8 ffeef7 3b0b26 54123a 7a2350
-// ffe9f5 7a4463 (**fb8cc0 ↔ #fb439b R ตรงกันเป๊ะ · f7bcd9 ↔ #f9b2d9 B ตรงกันเป๊ะ ·
-// ffe9f5 ↔ #ffe9f7 ต่างแค่ไบต์สุดท้าย**) — ชุดนี้เคยอยู่ทั้งใบนี้ ออกครบแล้ว
-// ⚠️⚠️ **โบ๊ะบ๊ะ168 แบรนด์ขาออก (ฟ้าสกาย)**: 00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea
-// 06283f 0b4a73 2a87c4 eaf7ff f0faff e4f6fb 355f7d 0f5684 1a6ea8
-// ⚠️ ชมพู/แดงของแบรนด์อื่นที่ห้ามใช้: f41571 ff5ca8 (PUNPRO168 — ใกล้ #fb439b
-// ที่สุด) · f5469f ff8dc6 8c0f52 (มีโชค168) · fa63b9 ffb3de (ถอนชัวร์168) ·
-// dd1b74 a4186b 4a0d35 2d0720 (มีทรัพย์168) · fb2e33 cb0b0d d81115 b00d11 8a0608
-// (สล็อต168 — **b00d11 ↔ #b01160 b01 ตรงกัน**) · ff2e52 e01238 c9102f (มาดาม168) ·
-// fb1b32 ff8f9c 5c0410 (มีเฮ168) · fa0513 ff5a5f ffadaf (สมหวัง168) · b3121b
-// f2bba5 (ขวัญใจ168) · fce2d4 fcd4c3 (หวยคิง) · ff3fa4 ffd1ea (FAH999)
-// ⚠️ ทองของแบรนด์อื่น — **รอบนี้ไม่มีทองเลยสักเฉด**: ffd94a eeae12 fded41 dcb95f
-// fcd434 f5ba14 fdcb0c fee45d e5a81b e3b23c f9a826 cd9a2c ffc82e ffd84d f5b61d
-// ⚠️ **รอบนี้ไม่มีฟ้า/น้ำเงิน/ไซแอน ไม่มีม่วง ไม่มีส้ม ไม่มีเขียว (ยกเว้น LINE
-// green และเขียว success ที่ไฟล์อื่น) ไม่มีครีม/เบจ/น้ำตาล และไม่มีแรมป์เทาเงิน**
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️⚠️ **ม่วงคือฮิวนำของรอบนี้ และม่วงเคยนำมาแล้วในรีโปนี้ จึงต้องเทียบทีละค่า**
+// "เจอม่วงอยู่แล้ว" ไม่เคยพิสูจน์ว่าเป็นของรอบปัจจุบัน ม่วงรอบนี้คือ
+// **#7a1bd6 (R122 G27 B214)** · **#5411c4** · **#bb6dff** · หมึกลึก **#241046**
+// ค่าที่กวาดออกจากไฟล์นี้แล้วและห้ามกลับเข้ามา (เขียนแบบไม่มี # โดยตั้งใจ):
+//   **okkub88 (ชุดที่เพิ่งอยู่ทั้งใบนี้)** — ffd6fa fff4fb ffe3f5 ffe9f7 f9b2d9
+//     f479b9 f4a7cf 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2 d91a73 b01160 85094a
+//     fd6cb2 fc7cba fc4da1 + rgba 251/67/155, rgba 255/194/226, rgba 156/15/85,
+//     rgba 106/15/60, rgba 249/178/217
+//     ⚠️⚠️ **9c0f55 / 85094a เคยเป็นสองสต็อปของหัวข้อใบนี้ตรง ๆ — ต้องไม่เหลือ**
+//   **MEXICANOSLOT (แบรนด์ขาออก)** — de2b1e f2a033 a81410 c81e12 9d140c 6f0e08
+//     3f130d 80453a 2b100a 431a10 1d0a06 8c3a22 fdeee2 e8c6ae fed7b5 fec28d f6c4a4
+//     e2855c fde4d3 fff3ea fef6fb 117a41 2bb061 f2543f
+//   **ม่วงของแบรนด์อื่น** — 7e22ce d946ef a855f7 (CEO66) · 7505cc b453ff c07cff
+//     d9b8ff 3a0565 (KMD88) ⚠️⚠️ **b453ff ↔ #bb6dff ต่างไบต์เดียว · 7505cc ↔
+//     #7a1bd6 ใกล้ที่สุดในลิสต์ทั้งหมด เจอที่ไหนให้ถือว่าพิมพ์ผิดก่อนเสมอ**
+//   **ฟ้า/ไซแอน/น้ำเงินของแบรนด์อื่น — รอบนี้ฟ้าเป็นคู่รองจริง จึงต้องเทียบทีละค่า**
+//     — 00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0b4a73 2a87c4 eaf7ff f0faff
+//     e4f6fb 355f7d 0f5684 1a6ea8 · 1177e8 0e68cc 0a4ea8 · 1fd8f0 0bb6d4 1d4fd8
+//     143aa0 · 18a5e2 0d6b9b 0a5176 a9d7f2 · 2cc3fc 6bdcfb 0a7fbd 063a57 · 039cfa
+//     0494f5 c3ebfc · 32bcfb a9e9ff 07335f · 2f9ff5 a8dcff d6ecff 0b3f78 · 0360f3
+//     0292fb 6ec8ff · 00f3ff e0ffff 60a5fa 4b5563 030712 1f2937
+//     ⚠️⚠️ **60a5fa ↔ #7aa7ff · 1d4fd8 ↔ #2b3fd9 — ตรวจด้วยค่าเท่านั้น**
+//   **ชมพู/แดงของแบรนด์อื่น** — fa539c c2185b 8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9
+//     ef8dbd ffe5ff fff0f8 ffeef7 3b0b26 54123a 7a2350 ffe9f5 7a4463 · f41571
+//     ff5ca8 · f5469f ff8dc6 8c0f52 · fa63b9 ffb3de · dd1b74 a4186b 4a0d35 2d0720 ·
+//     fb2e33 cb0b0d d81115 b00d11 8a0608 · ff2e52 e01238 c9102f · fb1b32 ff8f9c
+//     5c0410 · fa0513 ff5a5f ffadaf · b3121b f2bba5 · ff3fa4 ffd1ea
+//   **ทอง/เหลือง/ครีม/เทาเงินของแบรนด์อื่น — รอบนี้ไม่มีเลยสักเฉด** — ffd94a eeae12
+//     fded41 dcb95f fcd434 f5ba14 fdcb0c fee45d e5a81b e3b23c f9a826 cd9a2c ffc82e
+//     ffd84d fbc134 ffe87a cf9a18 · f4ead6 d6c6a8 f4e4d3 e4cbb3 ecd5c4 d2b9a4
+//     eadfce f3ece0 bfb8aa e8eaee b4b9c2 6b7079 dde1e7 f0e6e4 c9b9b7 cfd6e3
+// ⚠️⚠️ **ผิวสว่างของรอบนี้เป็นไลแลคอมชมพู (B≥R>G)** ซึ่งกลับทิศจากขาวอมชมพู
+// (R≥B>G) ของรอบก่อน — ดูทิศช่องสีไม่พอ **ต้องเทียบค่าเต็มทั้งหกหลัก**
+// ⚠️ **ตู้สล็อต 777 ชิปคาสิโนแมเจนต้า เชอร์รี่ชมพู ฉากสตูดิโอขาว-ไลแลค และ
+// สีผิวนักแสดงในอาร์ตเวิร์กเป็นวัตถุในภาพ ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json
 const columnLabel = "text-2xl leading-normal font-black tracking-wide";
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full overflow-hidden rounded-[30px] bg-[#fff4fb] p-8 shadow-[10px_10px_22px_rgba(156,15,85,0.16),-10px_-10px_22px_#ffffff] transition-all duration-300 hover:shadow-[15px_15px_32px_rgba(156,15,85,0.22),-15px_-15px_32px_#ffffff]">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#fb439b] to-transparent"></div>
+    class="relative isolate w-full overflow-hidden rounded-[30px] bg-[#f6edfe] p-8 shadow-[10px_10px_22px_rgba(84,17,196,0.16),-10px_-10px_22px_#ffffff] transition-all duration-300 hover:shadow-[15px_15px_32px_rgba(84,17,196,0.22),-15px_-15px_32px_#ffffff]">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#f23bb4] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 border-b border-[#f9b2d9] pb-4">
-          <HeadingTag class="bg-gradient-to-r from-[#9c0f55] to-[#85094a] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent">{title}</HeadingTag>
+        <header class="mb-8 border-b border-[#dcc6f4] pb-4">
+          <HeadingTag class="bg-gradient-to-r from-[#2b3fd9] to-[#5411c4] bg-clip-text text-2xl leading-normal font-black tracking-wide text-transparent">{title}</HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#6a0f3c]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#241046]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#6a0f3c]">
-        {titleleft && <p class={`${columnLabel} text-[#9c0f55]`}>{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#241046]">
+        {titleleft && <p class={`${columnLabel} text-[#5411c4]`}>{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#6a0f3c] md:border-l md:border-[#f9b2d9] md:pl-8">
-        {titleright && <p class={`${columnLabel} text-[#85094a]`}>{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#241046] md:border-l md:border-[#dcc6f4] md:pl-8">
+        {titleright && <p class={`${columnLabel} text-[#2b3fd9]`}>{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

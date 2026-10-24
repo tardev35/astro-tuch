@@ -1,18 +1,30 @@
 ---
-import kbankLogo from "../assets/banks/kbank.png";
-import scbLogo from "../assets/banks/scb.png";
-import krungsriLogo from "../assets/banks/krungsri.png";
-import ktbLogo from "../assets/banks/ktb.png";
-import ttbLogo from "../assets/banks/ttb.png";
 import { BRAND_NAME, brandFlag, brandPick } from "../lib/brandProfile";
 
-// Real bank brand colours — never rethemed with the palette.
-const bankPool = [
-  { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
-  { name: "SCB", color: "bg-[#4e1c80]", icon: scbLogo.src },
-  { name: "Krungsri", color: "bg-[#fcd34d]", icon: krungsriLogo.src },
-  { name: "KTB", color: "bg-[#16a34a]", icon: ktbLogo.src },
-  { name: "TTB", color: "bg-[#1279be]", icon: ttbLogo.src },
+// 🚨🚨 **ไม่มีโลโก้ธนาคารในฟีดนี้แล้ว และห้ามใส่กลับเข้ามา** (ตัดออก 2026-10-25)
+// เดิมแถวแต่ละแถวติดโลโก้ธนาคารจริงห้าเจ้า (KBank / SCB / Krungsri / KTB / TTB)
+// พร้อมสีประจำแบรนด์ของแต่ละเจ้า ซึ่งเป็น **การอ้างว่ารองรับเจ้าเหล่านั้นจริง** —
+// เหตุผลเดียวกับที่ brand-spec §3 ห้าม render `BankStrip` รอบนี้ และบรีฟ
+// (src/assets/content.txt) **ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว**
+// จึงไม่มีอะไรในบรีฟรองรับคำกล่าวอ้างนั้น
+// ผลพลอยได้: ไฟล์ PNG ของธนาคารห้าไฟล์ไม่ถูก emit ขึ้น dist/ อีกต่อไป (eager import
+// = emit เสมอ ไม่ว่าจะ render หรือไม่) — `src/assets/banks/*` ยังอยู่บนดิสก์ในฐานะ
+// inventory ให้ `BankStrip.astro` และ `LatestWinners*` ตัวอื่น ไม่ได้ถูกลบ
+//
+// ป้ายหน้าแถวจึงกลายเป็น **เครื่องหมายของแบรนด์เอง** (ประกายดาวสี่แฉก ซึ่งอยู่บน
+// เวิร์ดมาร์กจริงในอาร์ตเวิร์ก) บนพื้นสีที่สลับไปตามชุดของ §2 — ไม่อ้างถึงนิติบุคคล
+// ภายนอกเจ้าใดเลย
+//
+// ⚠️ สัญญากับ `src/lib/winnersFeed.ts` ยังเหมือนเดิม: มันอ่าน `bank.color` ไปสลับ
+// คลาสที่ขึ้นต้นด้วย `bg-[` บน `[data-winner-bank]` และจะแตะ `[data-winner-icon]`
+// **ก็ต่อเมื่อ element นั้นมีอยู่จริง** — รอบนี้ไม่มี `<img>` แล้ว มันจึงข้ามไปเอง
+// **ห้ามเปลี่ยนชื่อ data-attribute และห้ามย้าย logic กลับเข้ามาใน component**
+const accentPool = [
+  { name: "accent-violet-deep", color: "bg-[#5411c4]", icon: "" },
+  { name: "accent-violet", color: "bg-[#7a1bd6]", icon: "" },
+  { name: "accent-magenta", color: "bg-[#c2178b]", icon: "" },
+  { name: "accent-blue", color: "bg-[#2b3fd9]", icon: "" },
+  { name: "accent-purple", color: "bg-[#8e14b8]", icon: "" },
 ];
 
 // The two status labels live here and on the row's data-* attributes, so the
@@ -46,87 +58,104 @@ const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const pickFrom = (chars: string, salt: string) => chars.charAt(brandPick(Astro.site, salt, chars.length));
 
 const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
-  bank: bankPool[brandPick(Astro.site, `winner-bank-${i}`, bankPool.length)],
+  bank: accentPool[brandPick(Astro.site, `winner-bank-${i}`, accentPool.length)],
   user: `${pickFrom(LETTERS, `winner-a-${i}`)}${pickFrom(LETTERS, `winner-b-${i}`)}***${[0, 1, 2, 3].map((d) => brandPick(Astro.site, `winner-d${i}-${d}`, 10)).join("")}`,
   amount: (AMOUNT_MIN + brandPick(Astro.site, `winner-amount-${i}`, AMOUNT_MAX - AMOUNT_MIN + 1)).toLocaleString("en-US"),
   pending: brandFlag(Astro.site, `winner-pending-${i}`),
 }));
 
-// นาซ่า168 (ดรอป 2026-10-23, .claude/brand-spec-naza168.md §2) — **ฟ้าไซยานนำ ·
-// น้ำเงินอุลตรามารีนเป็นวัสดุที่สอง · บนถ่านเกือบดำอมน้ำเงิน**
-// feed ที่ใช้งานจริงรอบนี้ — รอบก่อน (ร่ำรวย168) ใช้ LatestWinners4 จึงหมุนมาที่
-// ไฟล์นี้ และไฟล์นี้ยังถือพาเลตต์ **แดงเชอร์รี่-ทองสาลี่ธีมสว่างของ โปรดี168**
-// อยู่ทั้งใบ ต้องรีเธมทั้งไฟล์ก่อนใช้
+// ZANE96 (ดรอป 2026-10-25, .claude/brand-spec-zane96.md §2) — **ไวโอเลตนีออนนำ ·
+// แมเจนต้า/ชมพูนีออนเป็นวัสดุที่สอง · ฟ้าอิเล็กทริกเป็นคู่รอง บนอินดิโกม่วงจม**
+// feed ที่ใช้งานจริงรอบนี้ — รอบก่อน (MEXICANOSLOT) ใช้ LatestWinners4 จึงหมุนมาที่
+// ไฟล์นี้ และไฟล์นี้ยังถือพาเลตต์ **ฟ้าไซยาน-อุลตรามารีนธีมมืดของ นาซ่า168** อยู่
+// ทั้งใบ ต้องรีเธมทั้งไฟล์ก่อนใช้
 //
-// ⚠️⚠️ **รอบนี้โครมกับเนื้อหาอยู่ทิศเดียวกัน (มืดทั้งคู่)** ซึ่งต่างจากรอบก่อน ๆ
-// ที่แผงนี้เป็นแผงเข้มบนพื้นเพจสว่าง — bg.json รอบนี้ = #0d1017 ถ่านเกือบดำ
-// อมน้ำเงิน แผงจึงเป็น **ผิวจม #121722 บนพื้นเพจที่มืดอยู่แล้ว** และแยกตัวออกมา
-// ด้วย **สันไซยานสองข้าง** ไม่ใช่ด้วยความต่างของความสว่าง
-// ลำดับความลึกรอบนี้: #273449 ยก / #1b2434 กลาง / **#121722 จม (แผงนี้)** /
-// #0d1017 พื้นเพจ · ตัวอักษร **#e6edf8** (= BRAND_TEXT, 15.2:1 บนผิวจม) และ
-// ไซยาน **#1fd8f0** (10.4:1 บนผิวจม) ซึ่ง §2 อนุญาตให้ถือตัวอักษรบนผิวมืดทุกชั้น
+// ⚠️⚠️ **รอบนี้โครมกับเนื้อหาอยู่คนละทิศ** (ต่างจากรอบก่อนที่มืดทั้งคู่) — bg.json
+// รอบนี้ = #f8e6f9 ไลแลคอมชมพู **สว่าง** ส่วนแผงนี้เป็น **โครมเข้ม** ตาม §2
+// จึงเป็นแผ่นอินดิโกม่วงจมที่ "ลอย" อยู่บนพื้นเพจสว่าง และแยกตัวด้วย **ความต่างของ
+// ความสว่าง + เงาหมึก rgba(36,16,70,0.25)** ไม่ใช่ด้วยสันนีออนอย่างเดียว
+// ลำดับความลึกของโครมรอบนี้: #271257 ยก (แถว hover) / **#190b3d ฐาน (แผงนี้)** /
+// #100626 ลึก (พื้นแถว) · เส้น #5b2f9e · ตัวอักษร **#f3e8ff** (15.4:1) และหมึกรอง
+// **#c0a6e8** (8.6:1) ซึ่ง §2 อนุญาตให้ถือตัวอักษรบนผิวโครมเข้มทั้งคู่
+// ⚠️ **ห้ามแก้แผงนี้ให้เป็นผิวสว่าง** — หมึก #f3e8ff / #c0a6e8 บนการ์ดขาวคือ
+// ตัวอักษรที่หายไปเลย และ §2 ห้ามสามค่าไฮไลต์ (#f23bb4 #bb6dff #7aa7ff) หลุดไป
+// เป็นตัวอักษรบนผิวสว่างเด็ดขาด
 //
-// แผงเป็นผิวจม #121722 ในสันไซยานสองข้าง เส้นบนเป็นไซยาน (ไฟขอบหมวกนักบินใน
-// แบนเนอร์) เส้นล่างเป็น **อุลตรามารีน #1d4fd8** (ฉากอวกาศน้ำเงินเข้ม)
-// หัวแถบรับ #e6edf8 ยอดเงินรับไซยาน #1fd8f0 พร้อมเรืองแสง rgba(31,216,240,…)
-// ป้าย ONLINE เป็นไซยาน แถบนำแถวเป็น **อุลตรามารีน #1d4fd8** พร้อมไล่เฉด
-// rgba(29,79,216,0.18) จาง ๆ ซึ่ง §2 ระบุชัดว่าอุลตรามารีน **เป็นพื้นถม/ขอบ/ออรา
-// เท่านั้น** — ที่นี่มันเป็นแถบขอบซ้ายกับพื้นไล่เฉดบาง ๆ **ไม่มีตัวอักษรไหนวางบน
-// #1d4fd8 ทึบ ๆ เลย** (1.8:1 บนผิวจม) แถว hover ยกขึ้นผิว #273449
-// ป้ายกำกับหม่น (USR_ID) ใช้ **น้ำแข็ง #8fd9ec** (11.4:1) ชื่อผู้ใช้และหน่วย THB
-// เป็น #e6edf8
-// ⚠️ **#33455f (1.8:1 บนผิวจม) และ #143aa0 (1.8:1) ไม่ถือตัวอักษรบนแผงนี้** —
-// ทั้งคู่อยู่ได้แค่ที่ขอบ ซึ่งไฟล์นี้ใช้ #33455f ที่เส้นใต้หัวแถบเท่านั้น
-// เงาของแผงเป็นเงาทอดลง rgba(0,0,0,0.5) พร้อมสันไซยานเป็นตัวแยก เพราะพื้นเพจ
-// รอบนี้มืด — ออร่านีออนล้วนบนพื้นมืดจะกลืนไปกับการ์ดเนื้อหาที่อยู่เหนือมัน
+// แผงเป็นผิวฐาน #190b3d ในสันไวโอเลตอ่อนสองข้าง (#bb6dff) เส้นบนเป็น **แมเจนต้า
+// นีออน #f23bb4** (เลข "96" บนเวิร์ดมาร์ก) เส้นล่างเป็น **ฟ้าอ่อน #7aa7ff**
+// (ตัว "ZANE" ไล่ฟ้าอิเล็กทริก) — ไล่เฉดฟ้า→ม่วง→แมเจนต้าของอาร์ตเวิร์กจึงอ่านได้
+// จากขอบแผงเองโดยไม่ต้องเอาค่าพวกนั้นมาเป็นตัวอักษร
+// หัวแถบรับ #f3e8ff ยอดเงินรับ **แมเจนต้านีออน #f23bb4** (5.2:1 บนโครมเข้ม ตาม §2)
+// พร้อมเรืองแสง rgba(242,59,180,…) ป้าย ONLINE เป็น **ไวโอเลตอ่อน #bb6dff**
+// (5.8:1) แถบนำแถวเป็นแมเจนต้า #f23bb4 พร้อมพื้นไล่เฉด rgba(242,59,180,0.18)
+// จาง ๆ บนพื้นแถว #100626 — **ไม่มีตัวอักษรไหนวางบน #f23bb4 / #bb6dff / #7aa7ff
+// ทึบ ๆ เลย** ทั้งสามอยู่ได้แค่ที่พื้นถม/ขอบ/ออรา หรือเป็นตัวอักษรบนโครมเข้ม
+// เท่านั้น แถว hover ยกขึ้นผิว #271257 · ป้ายกำกับหม่น (USR_ID) และหน่วย THB ใช้
+// หมึกรอง #c0a6e8 · ชื่อผู้ใช้เป็น #f3e8ff · เส้นใต้หัวแถบเป็น #5b2f9e
+// ⚠️ **#9a6fd0 เป็นเส้น/ขอบเท่านั้นตาม §2 จึงไม่อยู่ในไฟล์นี้เลย** (ไฟล์นี้เป็นโครม
+// ไม่ใช่เนื้อหา เส้นของโครมคือ #5b2f9e)
+// rgba() ที่อนุญาตรอบนี้ (§2): rgba(242,59,180,α) · rgba(187,109,255,α) ·
+// rgba(122,27,214,α) · rgba(84,17,196,α) · rgba(43,63,217,α) · rgba(194,23,139,α) ·
+// rgba(36,16,70,α) · rgba(25,11,61,α) · rgba(91,47,158,α) · rgba(220,198,244,α)
 //
-// ⚠️⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือฟ้า: ฟ้า/ไซยานเคยนำ
-// มาแล้วหกแบรนด์ในรีโปนี้ (สบาย168 · รวยแทร่168 · นินจา168 · สบายเบท168 ·
-// TSDET911 · ร่ำรวย168) และรอบก่อนหน้าทันทีก็ฟ้านำเหมือนกัน** ไซยานรอบนี้
-// **#1fd8f0 (R31 G216 B240)** วัดจาก logo.webp เอง ตัวที่ใกล้ที่สุดในรีโปคือ
-// 32bcfb ของ นินจา168 (ห่าง R19/G24/B11) และ 2cc3fc ของ สบาย168 (ห่าง R13/G21/B12)
-// ⚠️⚠️ **NAZA168 ตัวละตินเป็นลูกค้าคนละเจ้าที่ชื่อซ้ำกับรอบนี้ และเคยอยู่ในไฟล์นี้
-// มาก่อนด้วย** ชุดทองอวกาศ-เงินโครเมียมของเจ้านั้น **ห้ามกลับเข้ามาเด็ดขาด**:
-// fbc134 ffe87a cf9a18 96690a d9c9a6 cfd6e3 9aa6bb fdf3df 4e3406 241700 1a1000
-// 432b03 231500
-// ชุด **แดงเชอร์รี่-ทองสาลี่ธีมสว่างของ โปรดี168** ที่เพิ่งค้างอยู่ทั้งไฟล์นี้
-// (eb0305 e40303 c20305 9b0a0c ff4446 b44c06 7a2f03 f0b46a d9803a 4d1c0a 2c1004
-// 401107 fff0e4 fff4ea ffd1d1 1a0802 · rgba(235,3,5,α) rgba(240,180,106,α)
-// rgba(64,17,7,α)) ออกครบทุกจุดแล้ว เช่นเดียวกับชุดฟ้าไซยาน-เหลืองมะนาวของ
-// **นินจา168** (32bcfb a9e9ff 07335f fef54b 6b5c10 0c2a3d 071a28 030e16 041019
-// dceefc · rgba(50,188,251,α) rgba(254,245,75,α)) ชุดม่วงราชา-ทองของ **KMD88**
-// (7505cc b453ff c07cff d9b8ff bba8d4 ece2f8 e2b33f 0a0213 1d0832 3a0565 2c0349
-// 7a5a0a) ชุดเขียวนีออน-เงินของ **BOOM369** (42fb5a 8dffa0 04ab3a 041109 cfe9d7
-// 9fb8aa 0b231b dadcdc) ชุดแดงคริมสัน-ทองโบราณของ **รวยแท้168** (c30303 8f0505
-// e81313 dcb95f b8862b 96681f 4a0f0f 461212 280b0b ffeee8 fff1ef ffdbdb c99a3f)
-// และชุดฟ้า-ครีมธีมสว่างของรอบขาออก **ร่ำรวย168** (18a5e2 0d6b9b 0a5176 a9d7f2
-// 16294a dbe6ff eef4ff dce9fb f4e4d3 e4cbb3 111a3f 202a66 31408a e9f1ff adc0e4)
+// ⚠️⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คืออาร์ตเวิร์กคร่อม
+// ฟ้า→ม่วง→แมเจนต้าพร้อมกัน ซึ่งเป็นฮิวนำของสามแบรนด์ก่อนหน้าพอดี** (ฟ้า =
+// โบ๊ะบ๊ะ168 · ชมพู/แมเจนต้า = okkub88 · ม่วง = KMD88) → **"เจอฟ้า/ชมพู/ม่วง ≠
+// เป็นของรอบนี้"** ม่วงรอบนี้คือ **#7a1bd6 (R122 G27 B214)** และ **#bb6dff**
+// แมเจนต้าคือ **#c2178b / #f23bb4** ฟ้าคือ **#2b3fd9 / #7aa7ff** วัดจาก logo.webp /
+// banner1.png / bg.json เอง
+// ค่าที่ต้องไม่เหลือในไฟล์นี้:
+//   **ค่า default ของ variant cyber-neon/dark ที่ไฟล์ตระกูลนี้ค้างง่ายที่สุด** —
+//     00f3ff e0ffff 60a5fa 4b5563 030712 1f2937
+//     ⚠️⚠️ **60a5fa ↔ #7aa7ff ใกล้กันมาก ตรวจด้วยค่าหกหลักเท่านั้น**
+//   **นาซ่า168 (ชุดที่เพิ่งอยู่ทั้งใบนี้)** — 1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0
+//     e6edf8 9fb2cb 273449 1b2434 121722 33455f 0d1017
+//     ⚠️ **1d4fd8 ↔ #2b3fd9** และ **273449 ↔ #271257 (ตัวเลขนำเหมือนกันทั้งคู่)**
+//   **MEXICANOSLOT (แบรนด์ขาออก — เสี่ยงหลงเหลือสูงสุด)** — de2b1e f2a033 a81410
+//     c81e12 9d140c 6f0e08 3f130d 80453a 2b100a 431a10 1d0a06 8c3a22 fdeee2 e8c6ae
+//     fed7b5 fec28d f6c4a4 e2855c fde4d3 fff3ea fef6fb f2543f
+//   **okkub88** — ffd6fa fff4fb ffe3f5 f9b2d9 f479b9 6a0f3c 95486b 9c0f55 fb439b
+//     fc74b5 ffc2e2 d91a73 b01160 85094a fd6cb2 fc7cba fc4da1
+//     ⚠️⚠️ **fb439b / fc4da1 ↔ #f23bb4** และ **d91a73 ↔ #c2178b**
+//   **KMD88** — 7505cc b453ff c07cff d9b8ff 3a0565
+//     ⚠️⚠️ **b453ff ↔ #bb6dff** และ **7505cc ↔ #7a1bd6** — คู่ที่ใกล้ที่สุดในรีโป
+//   **CEO66** — 7e22ce d946ef a855f7 · **โบ๊ะบ๊ะ168** — 00bfff 12b4ef b6e3f0
+//     7fcbe8 4fb8ea 06283f 0f5684 1a6ea8 f0faff e4f6fb
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️⚠️ **รอบนี้ไม่มีทอง/เหลือง/ส้มเลยสักเฉด** (ยกเว้นโลโก้ธนาคารจริงด้านบน) ·
-// **ไม่มีม่วง ไม่มีแดง ไม่มีเขียว (ยกเว้นสีสถานะ verified ด้านล่างกับโลโก้ธนาคาร)
-// ไม่มีชมพู ไม่มีเงิน/โครเมียม และไม่มีโรสโกลด์**
+// ⚠️⚠️ **รอบนี้ไม่มีไซยาน ไม่มีแดง ไม่มีทอง/เหลือง/ส้ม ไม่มีเขียว ไม่มีครีม/เบจ
+// และไม่มีแรมป์เทาเงิน** (ยกเว้นโลโก้ธนาคารจริงด้านบน และสี verified ด้านล่าง)
 //
-// สี pending/verified ใน <style> ท้ายไฟล์เป็น **สีเชิงความหมาย ไม่ใช่สีแบรนด์**
-// จึงคงไว้ตามเดิมทุกตัวอักษร เช่นเดียวกับสีประจำธนาคารในรายชื่อด้านบน
+// สี verified ใน <style> ท้ายไฟล์เป็น **สีเชิงความหมาย ไม่ใช่สีแบรนด์** §2 สั่งไว้
+// ตรงตัวว่า "เขียว success ของฟีดถอนเงิน คงไว้ ห้ามเปลี่ยน" จึงคงไว้ทุกตัวอักษร
+// เช่นเดียวกับสีประจำธนาคารจริงในรายชื่อด้านบน
+// ⚠️ **แต่สี pending เดิม (9ca3af / 4b5563) ต้องออก** — 4b5563 อยู่ในลิสต์ค่า
+// default ของ variant cyber-neon/dark ที่ §2 แบนไว้ตรงตัว และ 9ca3af เป็นเทาที่
+// ไม่มีใน §2 เลย รอบนี้สถานะ "รอตรวจ" จึงเป็น **หมึกรอง #c0a6e8 บนขอบ #5b2f9e**
+// (หม่นกว่าเขียว success ชัดเจน จึงยังอ่านต่างกันได้โดยไม่พึ่งสีเดียว เพราะข้อความ
+// ในป้ายบอกสถานะอยู่แล้ว)
 //
 // หัวแถบและป้าย ONLINE เป็น <p>/<span> ไม่ใช่หัวข้อ — brand-spec §4 ระบุว่าเฉพาะ
-// เนื้อหาบทความเท่านั้นที่ออกเป็น heading ได้ ชื่อของ region จึงมาจาก aria-label บน
-// <section> ข้อความ aria-label ไม่ระบุชื่อธนาคาร ชื่อค่ายเกม หรือตัวเลขใดๆ เพราะ
-// บรีฟรอบนี้ไม่ได้ให้ไว้ — §5 อนุญาตเฉพาะตัวเลขของบรีฟเอง (0.3% · 0.8% · 24ชม.)
+// เนื้อหาบทความเท่านั้นที่ออกเป็น heading ได้ และลิสต์ไฟล์นี้ไว้ใน "โครมล้วน ห้ามมี
+// h1–h6 สักตัว" ชื่อของ region จึงมาจาก aria-label บน <section>
+// ⚠️ aria-label รอบนี้ **ไม่มีคำว่า "ฝากถอน"** อีกต่อไป — §5 ระบุว่าหมวด ธนาคาร /
+// วอลเลท / ฝาก-ถอน / ออโต้ **ไม่มีในบรีฟรอบนี้เลยแม้แต่คำเดียว** จึงเหลือเฉพาะคำที่
+// บรีฟเขียนเอง ("ควรตรวจสอบ … จากประกาศล่าสุดอีกครั้ง" = content.txt บรรทัด 22)
+// และไม่ระบุชื่อธนาคาร ชื่อค่ายเกม หรือตัวเลขใด ๆ เพราะ §5 อนุญาตเฉพาะตัวเลขของ
+// บรีฟเอง (1 บาท · 0.3% · 0.8% · 3 ขั้นตอน · 24ชม.)
 // ชื่อแบรนด์มาจาก BRAND_NAME เสมอ ไม่พิมพ์ตรง ๆ และไม่มีโดเมนในไฟล์นี้
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4">
   <section
-    aria-label={`รายการถอนล่าสุดของสมาชิก ${BRAND_NAME} สมาชิกตรวจสอบรายการฝากถอนและยอดเครดิตของตัวเองได้จากบัญชีสมาชิก`}
-    class="relative border-r-4 border-l-4 border-[#1fd8f0]/60 bg-[#121722]/95 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.5)] md:p-10"
+    aria-label={`รายการถอนล่าสุดของสมาชิก ${BRAND_NAME} เป็นข้อมูลตัวอย่างที่แสดงรูปแบบรายการ ควรตรวจสอบรายละเอียดจากบัญชีสมาชิกและประกาศล่าสุดอีกครั้ง`}
+    class="relative border-r-4 border-l-4 border-[#bb6dff]/60 bg-[#190b3d]/95 px-4 py-8 shadow-[0_10px_30px_rgba(36,16,70,0.25)] md:p-10"
     style="clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);">
-    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#1fd8f0] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#1d4fd8] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#f23bb4] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#7aa7ff] to-transparent"></div>
 
-    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#33455f] pb-4">
-      <p class="text-xl font-black tracking-[0.2em] text-[#e6edf8] drop-shadow-[0_0_8px_rgba(31,216,240,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
-      <span class="shrink-0 animate-pulse border border-[#1fd8f0]/60 px-2 py-1 text-xs font-bold tracking-widest text-[#1fd8f0]">ONLINE</span>
+    <div class="relative z-10 mb-8 flex items-center justify-between gap-3 border-b border-[#5b2f9e] pb-4">
+      <p class="text-xl font-black tracking-[0.2em] text-[#f3e8ff] drop-shadow-[0_0_8px_rgba(242,59,180,0.45)]">/// {BRAND_NAME} · รายการถอนล่าสุด</p>
+      <span class="shrink-0 animate-pulse border border-[#bb6dff]/60 px-2 py-1 text-xs font-bold tracking-widest text-[#bb6dff]">ONLINE</span>
     </div>
 
     <div
@@ -142,14 +171,16 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row origin-left transform transition-all duration-500 ease-out">
-            <div class="flex items-center justify-between border-l-2 border-[#1d4fd8] bg-gradient-to-r from-[#1d4fd8]/18 to-transparent p-3 backdrop-blur-sm transition-colors hover:bg-[#273449]">
+            <div class="flex items-center justify-between border-l-2 border-[#f23bb4] bg-[#100626] bg-gradient-to-r from-[#f23bb4]/18 to-transparent p-3 transition-colors hover:bg-[#271257]">
               <div class="flex items-center gap-4">
-                <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-white/10 bg-black/50 mix-blend-screen ${row.bank.color}`}>
-                  <img data-winner-icon src={row.bank.icon} alt="" width="20" height="20" loading="lazy" decoding="async" class="h-5 w-5 object-contain grayscale" />
+                <div data-winner-bank class={`flex h-8 w-8 items-center justify-center border border-[#5b2f9e] ${row.bank.color}`}>
+                  <span aria-hidden="true" class="text-sm leading-none text-[#f3e8ff]">
+                    ✦
+                  </span>
                 </div>
-                <div class="font-mono text-sm text-[#8fd9ec]">
+                <div class="font-mono text-sm text-[#c0a6e8]">
                   USR_ID:{" "}
-                  <span data-winner-user class="font-bold text-[#e6edf8]">
+                  <span data-winner-user class="font-bold text-[#f3e8ff]">
                     {row.user}
                   </span>
                 </div>
@@ -164,8 +195,8 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
                   class={`winner-status font-mono text-[10px] tracking-widest ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                   {row.pending ? PENDING_TEXT : DONE_TEXT}
                 </div>
-                <div class="font-mono text-xl font-black text-[#1fd8f0] drop-shadow-[0_0_8px_rgba(31,216,240,0.4)]">
-                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#e6edf8]">THB</span>
+                <div class="font-mono text-xl font-black text-[#f23bb4] drop-shadow-[0_0_8px_rgba(242,59,180,0.4)]">
+                  <span data-winner-amount>{row.amount}</span> <span class="text-xs text-[#c0a6e8]">THB</span>
                 </div>
               </div>
             </div>
@@ -174,7 +205,7 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
       }
     </div>
 
-    <script type="application/json" data-winners-banks set:html={JSON.stringify(bankPool)} />
+    <script type="application/json" data-winners-banks set:html={JSON.stringify(accentPool)} />
   </section>
 </div>
 
@@ -194,12 +225,16 @@ const initialRows = Array.from({ length: FEED_MAX_ROWS }, (_, i) => ({
   }
 
   /* The two status colours are classes rather than inline strings so the JS
-     never has to know what this brand's palette is. These are semantic
-     status colours (pending/verified), not brand identity — left as-is
-     across every rebrand. */
+     never has to know what this brand's palette is.
+     `is-verified` is a SEMANTIC success colour, not brand identity —
+     brand-spec §2 pins it as "keep, do not change" and it is left verbatim
+     across every rebrand.
+     `is-pending` is only "muted vs. success", so it tracks the palette: the
+     previous grey pair (9ca3af / 4b5563) had to go because 4b5563 is on §2's
+     banned cyber-neon/dark default list and no grey exists in this palette. */
   .winner-status.is-pending {
-    color: #9ca3af;
-    border-color: #4b5563;
+    color: #c0a6e8;
+    border-color: #5b2f9e;
   }
   .winner-status.is-verified {
     color: oklch(79.2% 0.209 151.711);

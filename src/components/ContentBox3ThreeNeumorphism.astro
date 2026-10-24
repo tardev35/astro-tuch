@@ -23,97 +23,117 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 // while keeping the classes — the Phase 5 docx diff is only meaningful while
 // chrome stays out of the heading list.
 //
+// 🚨 รอบนี้บรรทัด 15/17/19 ของบรีฟ ("ขั้นตอนที่ 1/2/3 …") **ไม่มี prefix H** จึง
+// ห้ามเป็น heading ทุกระดับ — หน้าแรกรอบนี้จึง **ไม่ส่ง titleleft/titlecenter/
+// titleright มาเลย** และเขียนป้ายขั้นตอนเป็น <p class="font-bold …"> ไว้ในสล็อต
+// ของตัวเองแทน (หนึ่งสล็อต = หนึ่ง element หน้าเพจจึงห่อสองย่อหน้าไว้ใน <div>
+// ใบเดียวเอง) **ห้ามส่งป้ายกลับเข้ามาโดยไม่ตั้ง heading={false} พร้อมกัน**
+//
 // The default slot is the section's INTRO, and it is the one wrapper in this file
 // that cannot be hoisted away: it carries a real `mb-8` and sits beside the grid,
-// exactly like ContentBoxTwoCyberCut's. The section heading sits in its own
+// exactly like ContentBoxTwoNeumorphism's. The section heading sits in its own
 // <header>, which is the only element allowed to carry `text-center` — putting it
 // on the card would inherit straight into the slots and centre the body copy too.
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? title ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#9c0f55]";
-const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#fb439b] shadow-[0_0_8px_rgba(251,67,155,0.85)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#5411c4]";
+const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#f23bb4] shadow-[0_0_8px_rgba(242,59,180,0.85)]";
 
+// ⚠️ เขียนชื่อคลาสสีในคอมเมนต์แบบไม่เต็มรูปโดยตั้งใจ — Tailwind สแกนคอมเมนต์ด้วย
+//
 // ───────────────────────────────────────────────────────────────────────────
-// okkub88 (ดรอป 2026-10-24) — พาเลตตาม .claude/brand-spec-okkub88.md §2
-// รอบนี้ไฟล์นี้ถือ **docx H2 §7** ของหน้าแรก ("ฝากถอน <แบรนด์> ทุกธนาคารและ
-// ทรูวอลเลท" — content.txt บรรทัด 21) โดยแบ่งย่อหน้าเดียวของบรีฟ (บรรทัด 22)
-// เป็นสามส่วนโดยไม่ตกข้อความสักประโยค: **ช่องทางที่ระบุไว้ → สิ่งที่ต้องตรวจก่อน
-// ฝากและข้อกำหนดการถอน → วงเงินต่อรายการกับสิ่งที่ต้องทำเมื่อพบบัญชีผิดปกติ**
-// บรีฟไม่ได้ตั้งชื่อให้สามคอลัมน์ หน้าเพจจึงไม่ส่ง titleleft/titlecenter/titleright
-// มาเลย กล่องนี้จึงปล่อยหัวข้อออกมาใบเดียวคือหัวข้อของ section เอง
-// 🚨 **ทรูวอลเลท ไม่ใช่ ทรูมันนี่** — คำหลังเป็นของโบ๊ะบ๊ะ168 รอบก่อน และเป็นคำที่
-// พลาดง่ายที่สุดของรอบนี้ (brand-spec §5)
+// ZANE96 (ดรอป 2026-10-25) — พาเลตตาม .claude/brand-spec-zane96.md §2
+// รอบนี้ไฟล์นี้ถือ **docx H2 §6** ของหน้าแรก ("วิธีการสมัคร <แบรนด์> ด้วยมือถือ
+// 3 ขั้นตอน" — content.txt บรรทัด 13) โดย **ย่อหน้าอินโทร (บรรทัด 14) ลง default
+// slot** และ **สามขั้นตอนของบรีฟ (บรรทัด 15–20) ลง left/center/right** ตามลำดับ
+// เอกสาร โดยไม่ตกข้อความสักประโยค
+// 🚨 **บรีฟรอบนี้เขียนว่า "ด้วยมือถือ" ไม่ใช่ "ด้วยตัวเอง"** — คำหลังเป็นของ
+// MEXICANOSLOT รอบก่อน และเป็นคำที่พลาดง่ายที่สุดของรอบนี้ (brand-spec §5)
+// 🚨 **บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว** —
+// ห้ามเขียนหัวข้อ/ขั้นตอนเรื่องฝากเงินขึ้นมาเอง
 // (src/pages-disabled/ อ้างไฟล์นี้อยู่ด้วย แต่ Astro ไม่ route โฟลเดอร์นั้น)
 //
-// 🚨 ธีมสว่าง: พื้นเพจ #ffd6fa (bg.json = ชมพูบับเบิลกัมพาสเทล)
-// **ห้ามแก้การ์ดกลับไปเป็นผิวมืด** — หมึก #6a0f3c บนการ์ดมืดคือตัวอักษรหายไปเลย
-// ลำดับผิว: #ffffff การ์ด/ฝั่งสว่างของเงานูน · **#fff4fb ผิวยก (ใบนี้)** ·
-// #ffe3f5 wash · #ffd6fa พื้นเพจ
+// 🚨 ธีมสว่าง: พื้นเพจ #f8e6f9 (bg.json = ไลแลคอมชมพูจาง)
+// **ห้ามแก้การ์ดกลับไปเป็นผิวมืดตามโครม** — หมึก #241046 บนการ์ดมืดคือตัวอักษร
+// หายไปเลย (navbar/footer/ticker รอบนี้เป็น #190b3d แต่ไฟล์นี้อยู่ในโซนเนื้อหา)
+// ลำดับผิว: #ffffff การ์ด/ฝั่งสว่างของเงานูน · **#f6edfe ผิวยก (ใบนี้)** ·
+// #ece0fb wash · #f8e6f9 พื้นเพจ
 //
-// ⚠️ ความนูน neumorphic บนธีมสว่าง: **เงาฝั่งมืดเป็น rgba(156,15,85,α)** และ
+// ⚠️ ความนูน neumorphic บนธีมสว่าง: **เงาฝั่งมืดเป็น rgba(84,17,196,α)** และ
 // **เงาฝั่งสว่างเป็นผิวขาว #ffffff** ซึ่งอ่านเป็นแสงได้จริงเพราะสว่างกว่าทั้ง
-// ผิวการ์ด #fff4fb และพื้นเพจ #ffd6fa — **ห้ามใช้ดำหรือชมพูสดเป็นเงาฝั่งสว่าง**
+// ผิวการ์ด #f6edfe และพื้นเพจ #f8e6f9 — **ห้ามใช้ดำหรือม่วงสดเป็นเงาฝั่งสว่าง**
 // หัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้
-// ตาม §2 — สต็อปคือ เบอร์รีเข้มสุด #85094a (9.4:1 บนผิวใบนี้) → ชมพูลึก #9c0f55
-// (7.7:1) → #85094a ซึ่งเป็นลำดับ "เข้ม → ชมพู → เข้ม" ที่ตรงกับตัวอักษรเจลลี่
-// ในโลโก้ที่ไล่ชมพูบับเบิลกัมแล้วตัดขอบขาวหนา
-// 🚨 **ห้ามเอา #fb439b (3.3:1) #fc74b5 #ffc2e2 #f9b2d9 #f479b9 มาเป็นสต็อป** —
-// §2 ให้ทั้งหมดเป็นพื้นถม/ขอบ/ออราเท่านั้น
-// เส้นใต้หัวข้อเป็นชมพูบับเบิลกัม #fb439b ซึ่งเป็นแถบไม่มีตัวอักษร
-// ป้ายคอลัมน์เป็นชมพูลึก #9c0f55 (7.7:1 บนผิวใบนี้ ถือตัวอักษรได้) เส้นคั่น
-// คอลัมน์เป็น #f9b2d9 · จุดนำหน้าป้ายเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร
-// เนื้อความ #6a0f3c (= BRAND_TEXT) 11.6:1 บนผิวใบนี้
-// ⚠️ **#ffffff #fff4fb #ffe3f5 #ffd6fa #f9b2d9 #f479b9 #fc74b5 #ffc2e2 เป็นสีพื้น/
-// เส้นล้วน ห้ามถือตัวอักษร**
+// ตาม §2 — สต็อปคือ ไวโอเลตลึก #5411c4 (9.3:1 บนขาว) → ไวโอเลตนีออน #7a1bd6
+// (7.1:1) → #5411c4 ซึ่งเป็นลำดับ "ลึก → นีออน → ลึก" ที่ตรงกับเวิร์ดมาร์กสามมิติ
+// ผิวโครเมียมที่ไล่ฟ้า→ม่วงแล้วตัดขอบขาวหนา
+// 🚨 **ห้ามเอา #f23bb4 (3.5:1) #bb6dff (3.1:1) #7aa7ff #dcc6f4 #9a6fd0 มาเป็น
+// สต็อป** — §2 ให้ทั้งหมดเป็นพื้นถม/ขอบ/ออราเท่านั้น
+// เส้นใต้หัวข้อเป็นแมเจนต้านีออน #f23bb4 ซึ่งเป็นแถบไม่มีตัวอักษร
+// ป้ายคอลัมน์เป็นไวโอเลตลึก #5411c4 (~9:1 บนผิวใบนี้ ถือตัวอักษรได้) เส้นคั่น
+// คอลัมน์เป็น #dcc6f4 · จุดนำหน้าป้ายเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร
+// เนื้อความ #241046 (= BRAND_TEXT) ~16:1 บนผิวใบนี้
+// ⚠️ **#ffffff #f6edfe #ece0fb #f8e6f9 #dcc6f4 #9a6fd0 #f23bb4 #bb6dff #7aa7ff
+// เป็นสีพื้น/เส้นล้วน ห้ามถือตัวอักษร**
+// rgba() ที่อนุญาตรอบนี้: rgba(122,27,214,α) · rgba(84,17,196,α) ·
+// rgba(194,23,139,α) · rgba(242,59,180,α) · rgba(43,63,217,α) ·
+// rgba(187,109,255,α) · rgba(36,16,70,α) · rgba(220,198,244,α)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ชมพูผ่านรีโปนี้มาแล้วหลายเจ้า**
-// ชมพูรอบนี้คือ #fb439b / #fc74b5 / #ffc2e2 ซึ่งวัดจาก logo.webp ของดรอปนี้เอง
-// ⚠️⚠️ **หมูบิน168 (สองรอบก่อน) ก็เป็นชมพู**: fa539c c2185b 8e0f41 fb8cc0 fdc6c3
-// ffd1cd f7bcd9 ef8dbd ffe5ff fff0f8 ffeef7 3b0b26 54123a 7a2350 ffe9f5 7a4463
-// (**fb8cc0 ↔ #fb439b R ตรงกันเป๊ะ · f7bcd9 ↔ #f9b2d9 B ตรงกันเป๊ะ**) — ชุดนี้เคย
-// อยู่ทั้งใบนี้ ออกครบแล้ว
-// ⚠️⚠️ **โบ๊ะบ๊ะ168 แบรนด์ขาออก (ฟ้าสกาย) = เสี่ยงหลงเหลือรองลงมา**: 00bfff 12b4ef
-// b6e3f0 7fcbe8 4fb8ea 06283f 0b4a73 2a87c4 eaf7ff f0faff e4f6fb 355f7d 0f5684 1a6ea8
-// ⚠️ ค่าของแบรนด์อื่น: f41571 ff5ca8 (PUNPRO168) · f5469f ff8dc6 8c0f52 (มีโชค168) ·
-// fa63b9 ffb3de (ถอนชัวร์168) · dd1b74 a4186b 4a0d35 2d0720 (มีทรัพย์168) ·
-// fb2e33 cb0b0d d81115 b00d11 8a0608 (สล็อต168 — **b00d11 ↔ #b01160 b01 ตรงกัน**) ·
-// ff2e52 e01238 c9102f (มาดาม168) · fb1b32 ff8f9c (มีเฮ168) · fa0513 ff5a5f ffadaf
-// (สมหวัง168) · b3121b f2bba5 (ขวัญใจ168) · fce2d4 fcd4c3 (หวยคิง) · ff3fa4 ffd1ea
-// (FAH999) · 1fd8f0 0bb6d4 1d4fd8 143aa0 (นาซ่า168) · 18a5e2 0d6b9b a9d7f2
-// (ร่ำรวย168) · 2cc3fc 6bdcfb 0a7fbd 063a57 (สบาย168) · 039cfa 0494f5 c3ebfc
-// (รวยแทร่168) · 32bcfb a9e9ff 07335f (นินจา168) · 2f9ff5 a8dcff 0b3f78 (สบายเบท168) ·
-// 0360f3 0292fb 6ec8ff (TSDET911)
-// ⚠️ ทอง/ครีมของแบรนด์อื่น — **รอบนี้ไม่มีเลยสักเฉด**: ffd94a e3a712 9d6f06 eeae12
-// fded41 dcb95f f5ba14 fdcb0c fee45d e5a81b cd9a2c f0b429 f9a826 · f4ead6 d6c6a8
-// f4e4d3 e4cbb3 ecd5c4 d2b9a4 f3ece0 e8eaee b4b9c2 6b7079 dde1e7 f0e6e4 c9b9b7
-// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีเขียว (ยกเว้น LINE green และเขียว success ที่
-// ไฟล์อื่น) ไม่มีน้ำเงิน/ฟ้า/ไซแอน ไม่มีม่วง ไม่มีส้ม ไม่มีครีม/เบจ/น้ำตาล และ
-// ไม่มีแรมป์เทาเงิน** — ความต่างของรอบนี้คือพื้นเพจชมพูบับเบิลกัม #ffd6fa กับคู่
-// วัสดุ **ชมพูสด #fb439b × เบอร์รีเข้ม #6a0f3c** ไม่ใช่ค่าชมพูเดี่ยว ๆ
-// ⚠️ ชมพูรอบนี้มาจาก **ตัวอักษรเจลลี่กับหัวใจในโลโก้ และเลข 0.3% / 0.8% บนสไลด์**
-// ไม่ใช่จากคาร์ดิแกนของนักแสดงหรือหมูการ์ตูน (นั่นเป็นวัตถุในภาพ)
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — อาร์ตเวิร์กรอบนี้คร่อม **ฟ้า ม่วง และ
+// แมเจนต้า** ซึ่งเป็นฮิวนำของแบรนด์ก่อนๆ สามเจ้าพร้อมกัน "เจอสามสีนี้" จึงไม่
+// พิสูจน์ว่าเป็นของรอบนี้ ค่าที่กวาดออกแล้ว (เขียนแบบไม่มี # โดยตั้งใจ):
+//   **okkub88 (ชุดที่เพิ่งอยู่ทั้งใบนี้ — เสี่ยงหลงเหลือสูงสุด)** — ffd6fa fff4fb
+//     ffe3f5 ffe9f7 f9b2d9 f479b9 f4a7cf 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2
+//     d91a73 b01160 85094a fd6cb2 fc7cba fc4da1 + rgba 156/15/85, rgba 251/67/155
+//     ⚠️⚠️ **85094a / 9c0f55 เคยเป็นสามสต็อปของหัวข้อใบนี้ตรง ๆ และ fb439b เป็น
+//     เส้นใต้กับจุดนำป้าย — ทั้งชุดต้องไม่เหลือ**
+//   **MEXICANOSLOT (แบรนด์ขาออก)** — de2b1e f2a033 a81410 c81e12 9d140c 6f0e08
+//     3f130d 80453a 2b100a 431a10 1d0a06 8c3a22 fdeee2 e8c6ae fed7b5 fec28d f6c4a4
+//     e2855c fde4d3 fff3ea fef6fb 117a41 2bb061 f2543f
+//   **ม่วงของแบรนด์อื่น — รอบนี้ม่วงเป็นฮิวนำ จึงต้องเทียบแน่นที่สุด** — 7e22ce
+//     d946ef a855f7 (CEO66) · 7505cc b453ff c07cff d9b8ff 3a0565 (KMD88)
+//     ⚠️⚠️ **b453ff ↔ #bb6dff ต่างไบต์เดียว · 7505cc ↔ #7a1bd6**
+//   **ฟ้า/ไซแอน/น้ำเงินของแบรนด์อื่น** — 00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f
+//     0b4a73 2a87c4 eaf7ff f0faff e4f6fb 355f7d 0f5684 1a6ea8 · 1177e8 0e68cc
+//     0a4ea8 · 1fd8f0 0bb6d4 1d4fd8 143aa0 · 18a5e2 0d6b9b 0a5176 a9d7f2 · 2cc3fc
+//     6bdcfb 0a7fbd 063a57 · 039cfa 0494f5 c3ebfc · 32bcfb a9e9ff 07335f · 2f9ff5
+//     a8dcff d6ecff 0b3f78 · 0360f3 0292fb 6ec8ff · 00f3ff e0ffff 60a5fa 4b5563
+//     030712 1f2937 ⚠️⚠️ **60a5fa ↔ #7aa7ff · 1d4fd8 ↔ #2b3fd9**
+//   **ชมพู/แดงของแบรนด์อื่น** — fa539c c2185b 8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9
+//     ef8dbd ffe5ff fff0f8 ffeef7 3b0b26 54123a 7a2350 ffe9f5 7a4463 · f41571
+//     ff5ca8 · f5469f ff8dc6 8c0f52 · fa63b9 ffb3de · dd1b74 a4186b 4a0d35 2d0720 ·
+//     fb2e33 cb0b0d d81115 b00d11 8a0608 · ff2e52 e01238 c9102f · fb1b32 ff8f9c ·
+//     fa0513 ff5a5f ffadaf · b3121b f2bba5 · fce2d4 fcd4c3 · ff3fa4 ffd1ea
+//   **ทอง/ครีม/เทาเงินของแบรนด์อื่น — รอบนี้ไม่มีเลยสักเฉด** — ffd94a e3a712 9d6f06
+//     eeae12 fded41 dcb95f f5ba14 fdcb0c fee45d e5a81b cd9a2c f0b429 f9a826 ·
+//     f4ead6 d6c6a8 f4e4d3 e4cbb3 ecd5c4 d2b9a4 f3ece0 e8eaee b4b9c2 6b7079 dde1e7
+//     f0e6e4 c9b9b7 d9c9a6 cfd6e3
+// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีแดง ไม่มีส้ม ไม่มีเขียวแบรนด์ ไม่มีครีม/เบจ/
+// น้ำตาล และไม่มีแรมป์เทาเงิน** (เขียว #00B900 ของปุ่ม LINE และเขียว success ของ
+// ฟีดถอนเงินอยู่ไฟล์อื่น คงไว้) — ความต่างของรอบนี้คือพื้นเพจไลแลค #f8e6f9 กับคู่
+// วัสดุ **ไวโอเลตนีออน #7a1bd6 × หมึกอินดิโกม่วงจม #241046** ไม่ใช่ค่าม่วงเดี่ยว ๆ
+// ⚠️ ม่วงรอบนี้มาจาก **เวิร์ดมาร์ก ตู้สล็อต 777 ผิวแก้ว เพชร และลำแสงนีออน** ไม่ใช่
+// จากชุดเมทัลลิกโฮโลแกรมของนักแสดง (นั่นเป็นวัตถุในภาพ)
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#fff4fb] p-8 shadow-[12px_12px_26px_rgba(156,15,85,0.14),-12px_-12px_26px_#ffffff] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(156,15,85,0.2),-16px_-16px_32px_#ffffff]">
+    class="w-full rounded-[25px] bg-[#f6edfe] p-8 shadow-[12px_12px_26px_rgba(84,17,196,0.14),-12px_-12px_26px_#ffffff] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(84,17,196,0.2),-16px_-16px_32px_#ffffff]">
     {
       title && (
         <header class="mb-8 text-center">
-          <HeadingTag class={`bg-gradient-to-r from-[#85094a] via-[#9c0f55] to-[#85094a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#5411c4] via-[#7a1bd6] to-[#5411c4] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent`}>
             {title}
           </HeadingTag>
-          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fb439b] to-transparent shadow-[0_0_10px_rgba(251,67,155,0.55)]" />
+          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#f23bb4] to-transparent shadow-[0_0_10px_rgba(242,59,180,0.55)]" />
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#6a0f3c]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#241046]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#f9b2d9] pb-6 text-left text-base leading-relaxed text-[#6a0f3c] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#dcc6f4] pb-6 text-left text-base leading-relaxed text-[#241046] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -124,7 +144,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#fb439b] shadow-[
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#f9b2d9] pb-6 text-left text-base leading-relaxed text-[#6a0f3c] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#dcc6f4] pb-6 text-left text-base leading-relaxed text-[#241046] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -135,7 +155,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#fb439b] shadow-[
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#6a0f3c] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#241046] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>

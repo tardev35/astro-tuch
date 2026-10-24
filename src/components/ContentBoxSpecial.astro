@@ -22,70 +22,84 @@ const hasActions = Astro.slots.has("actions");
 //
 // The `title` header is the ONLY heading this box emits — the two halves carry
 // no label of their own, which is why this variant fits a docx section whose one
-// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §8**
-// ("ติดต่อแอดมินเว็บ <แบรนด์> ตลอด 24ชม." — content.txt บรรทัด 23) พร้อมย่อหน้า
-// ของมัน (บรรทัด 24) แบ่งครึ่ง: ซีกซ้ายคือ **เรื่องที่สอบถามแอดมินได้** (การสมัคร
-// สมาชิก การเข้าสู่ระบบ โปรโมชั่นสมาชิกใหม่ รายการฝากถอน และการตรวจช่องทางจาก
-// เว็บไซต์ทางการเพื่อเลี่ยงบัญชีแอบอ้าง) ซีกขวาคือ **สิ่งที่ต้องทำเมื่อพบปัญหา
-// ธุรกรรม** (เก็บหมายเลขรายการและหลักฐาน อธิบายปัญหาให้ชัดเจน ไม่เปิดเผยรหัสผ่าน
-// หรือรหัส OTP และตรวจเวลาให้บริการจริงจากประกาศล่าสุด) หน้าแรกส่งไอคอน 💌 / 🔎
-// ทั้งคู่อยู่ในกล่อง aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
-// ⚠️ **ไม่มี BankStrip / ProviderGrid บนหน้าแรกรอบนี้** — บรีฟพูดถึง "ธนาคารและ
-// ทรูวอลเลท" แบบนามธรรม ไม่ได้ระบุชื่อธนาคาร ค่ายเกม หรือผู้ให้บริการรายไหนเลย
-// แถบโลโก้จึงเป็นข้อมูลที่หน้าเพจแต่งเอง ไม่ใช่ของบรีฟ (BankStrip รอบนี้อยู่ใน
-// FooterStyle3 ซึ่งเป็นโครมของ P1 ไม่ใช่ของไฟล์นี้)
+// long paragraph splits cleanly in two. รอบนี้หน้าแรกให้มันถือ **docx H2 §7**
+// ("<แบรนด์> มีแอดมินออนไลน์ตลอด 24ชม." — content.txt บรรทัด 21) พร้อมย่อหน้า
+// ของมัน (บรรทัด 22) แบ่งครึ่งโดยไม่ตกประโยคไหน: ซีกซ้ายคือ **เรื่องที่สอบถาม
+// เจ้าหน้าที่ได้ และการตรวจช่องทางจากเว็บไซต์ทางการเพื่อเลี่ยงบัญชีแอบอ้าง**
+// ซีกขวาคือ **สิ่งที่ต้องทำเมื่อพบปัญหาบัญชีสมาชิกหรือธุรกรรม** (เก็บหมายเลข
+// รายการและหลักฐาน แจ้งรายละเอียดให้ชัดเจน ไม่เปิดเผยรหัสผ่านหรือรหัส OTP และ
+// ตรวจเวลาให้บริการจริงจากประกาศล่าสุด) หน้าแรกส่งไอคอน 💬 / 🛡️ ซึ่งทั้งคู่อยู่ใน
+// กล่อง aria-hidden จึงไม่เคยเป็นส่วนหนึ่งของ accessible name
+// 🚨 **ไม่มี BankStrip / ProviderGrid บนหน้าแรกรอบนี้ และ BankStrip ห้าม render
+// ที่ไหนทั้งสิ้น** — บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว
+// แถบโลโก้ธนาคารคือการอ้างว่ารองรับเจ้าเหล่านั้นจริง ซึ่งไม่มีอยู่ในบรีฟ
+//
+// ⚠️ เขียนชื่อคลาสสีในคอมเมนต์แบบไม่เต็มรูปโดยตั้งใจ — Tailwind สแกนคอมเมนต์ด้วย
 //
 // ───────────────────────────────────────────────────────────────────────────
-// okkub88 (ดรอป 2026-10-24) — พาเลตตาม .claude/brand-spec-okkub88.md §2
-// **ชมพูบับเบิลกัมนำ · ชมพูพาสเทล/ขาวเป็นวัสดุที่สอง · บนธีมสว่าง**
-// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ฟ้าสกายบับเบิลของ โบ๊ะบ๊ะ168** ทั้งใบ จึงรีเธม
-// ทั้งไฟล์ พื้นเพจ #ffd6fa (bg.json) = ชมพูบับเบิลกัมพาสเทล **ห้ามแก้กลับไปเป็น
-// พื้นมืด และห้ามเหลือฟ้า/ไซแอน/น้ำเงินไว้เลยสักค่า**
-// ลำดับผิว: #fff4fb ยก (แผ่นไอคอนซ้าย) · **#ffe3f5 wash (การ์ดครอบ)** ·
-// **#ffffff การ์ด (สองซีก)** · #ffd6fa พื้นเพจ
-// ⚠️⚠️ **สองซีกตั้งใจอยู่ที่ผิวการ์ดขาว #ffffff ไม่ใช่ผิวยก #fff4fb** เพราะ <strong>
-// ของหน้าเพจเป็น **#9c0f55** ซึ่งได้ **8.1:1 บนขาว** เทียบกับ **7.7:1 บน #fff4fb**
-// — ทั้งคู่ผ่าน AA แต่ขาวคือค่าที่สูงกว่า และซีกขาวบนการ์ด wash ยังให้ "การ์ดซ้อน
-// การ์ด" ที่อ่านออกโดยไม่ต้องพึ่งเงา **ห้ามสลับสองผิวนี้กัน**
+// ZANE96 (ดรอป 2026-10-25) — พาเลตตาม .claude/brand-spec-zane96.md §2
+// **ไวโอเลตนีออนนำ · ฟ้าอิเล็กทริก/แมเจนต้าคู่รอง · เนื้อหาบนธีมสว่าง**
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ชมพูบับเบิลกัมของ okkub88** ทั้งใบ จึงรีเธม
+// ทั้งไฟล์ พื้นเพจ #f8e6f9 (bg.json) = ไลแลคอมชมพูจาง **ห้ามแก้กลับไปเป็นพื้นมืด
+// และห้ามเหลือชมพูบับเบิลกัมไว้เลยสักค่า**
+// ลำดับผิว: #f6edfe ยก (แผ่นไอคอนซ้าย) · **#ece0fb wash (การ์ดครอบ)** ·
+// **#ffffff การ์ด (สองซีก)** · #f8e6f9 พื้นเพจ
+// ⚠️⚠️ **สองซีกตั้งใจอยู่ที่ผิวการ์ดขาว #ffffff ไม่ใช่ผิวยก #f6edfe** เพราะ <strong>
+// ของหน้าเพจเป็น **#5411c4** ซึ่งได้ **9.3:1 บนขาว** ซึ่งเป็นค่าที่สูงที่สุดที่มี
+// — และซีกขาวบนการ์ด wash ยังให้ "การ์ดซ้อนการ์ด" ที่อ่านออกโดยไม่ต้องพึ่งเงา
+// **ห้ามสลับสองผิวนี้กัน**
 //
 // จังหวะรูปทรงของใบนี้: เป็นใบเดียวของหน้าที่มี **การ์ดซ้อนการ์ด** — ผิว wash ครอบ
 // สองซีกที่ลอยขึ้นมาอยู่ผิวการ์ดขาว
 // ⚠️ หัวข้อของใบนี้เป็นใบเดียวที่ **คร่อมเส้นคู่บน-ล่าง** (border-y) ไม่ใช่ขีดใต้
-// แท่งตั้ง แผ่นถม หรือเส้นคาดเต็มความกว้างแบบใบอื่น และเป็น **ชมพูลึก #9c0f55 ทึบ
-// สีเดียว ไม่ไล่เฉด** (6.7:1 บนผิว wash)
-// สองแผ่นไอคอนเป็น **ขั้วกลับของกันเอง**: ซ้ายเป็น **แผ่นผิวยก** ไล่ #fff4fb →
-// #ffffff ในกรอบ #f9b2d9 บนหมึก **#6a0f3c** (เงียบ เป็นผิว ไม่ใช่สีนำ) ส่วนขวาเป็น
-// **แผ่นถมชมพูเข้มทึบ** ไล่ #d91a73 → #b01160 ในกรอบ #85094a บนหมึก **ขาว** ซึ่งเป็น
-// สูตร "CTA หลัก" ของ §2 ตรง ๆ (4.8:1 ที่สต็อปอ่อนสุด · 6.8:1 ที่สต็อปเข้ม)
-// ⚠️⚠️ **ห้ามลากไล่เฉดขึ้นไปถึง #fb439b หรือ #ffd6fa แล้ววางหมึกขาว (3.3 / 1.2:1)**
-// — §2 ระบุไว้ตรง ๆ
-// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบ #f9b2d9 ซีกขวากรอบชมพูเส้นเข้ม #f479b9
-// เส้นคาดหัวการ์ดเป็นชมพูบับเบิลกัม #fb439b โปร่ง (**พื้นถม ไม่ใช่ตัวอักษร**)
-// เนื้อความ #6a0f3c (= BRAND_TEXT) — 10.6:1 บนผิว wash และ 12.1:1 บนผิวการ์ดขาว
-// ⚠️ §2 ห้าม **#fb439b #ffd6fa #fc74b5 #ffc2e2 #f9b2d9 #f479b9 #fff4fb #ffe3f5
-// #ffffff** ถือตัวอักษรบนผิวสว่าง · **#9c0f55 ใช้ทั้งหัวข้อที่นี่และ <strong> ใน
+// แท่งตั้ง แผ่นถม หรือเส้นคาดเต็มความกว้างแบบใบอื่น และเป็น **ไวโอเลตลึก #5411c4
+// ทึบสีเดียว ไม่ไล่เฉด** (~7.9:1 บนผิว wash #ece0fb)
+// สองแผ่นไอคอนเป็น **ขั้วกลับของกันเอง**: ซ้ายเป็น **แผ่นผิวยก** ไล่ #f6edfe →
+// #ffffff ในกรอบ #dcc6f4 บนหมึก **#241046** (เงียบ เป็นผิว ไม่ใช่สีนำ) ส่วนขวาเป็น
+// **แผ่นถมทึบ** ไล่ #c2178b → #5411c4 ในกรอบ #241046 บนหมึก **ขาว** ซึ่งเป็นสูตร
+// "CTA หลัก" ของ §2 ตรง ๆ (5.6:1 ที่สต็อปอ่อนสุด · 9.3:1 ที่สต็อปเข้ม)
+// ⚠️⚠️ **ห้ามลากไล่เฉดขึ้นไปถึง #f23bb4 #bb6dff #7aa7ff หรือ #f8e6f9 แล้ววาง
+// หมึกขาว (2.6 / 2.0 / — / 1.2:1)** — §2 ระบุไว้ตรง ๆ
+// สองซีกยังต่างกันตั้งแต่ขอบ: ซีกซ้ายกรอบ #dcc6f4 ซีกขวากรอบเส้นเข้ม #9a6fd0
+// เส้นคาดหัวการ์ดเป็นแมเจนต้านีออน #f23bb4 โปร่ง (**พื้นถม ไม่ใช่ตัวอักษร**)
+// เนื้อความ #241046 (= BRAND_TEXT) — ~15:1 บนผิว wash และ 16.8:1 บนผิวการ์ดขาว
+// ⚠️ §2 ห้าม **#f23bb4 #bb6dff #7aa7ff #f8e6f9 #ece0fb #f6edfe #dcc6f4 #9a6fd0
+// #ffffff** ถือตัวอักษรบนผิวสว่าง · **#5411c4 ใช้ทั้งหัวข้อที่นี่และ <strong> ใน
 // เนื้อความ** ซึ่งเป็นงานของหน้าเพจ ไม่ใช่ของไฟล์นี้
-// rgba() ที่อนุญาตรอบนี้: rgba(251,67,155,α) · rgba(255,194,226,α) ·
-// rgba(156,15,85,α) · rgba(106,15,60,α) · rgba(249,178,217,α)
+// rgba() ที่อนุญาตรอบนี้: rgba(122,27,214,α) · rgba(84,17,196,α) ·
+// rgba(194,23,139,α) · rgba(242,59,180,α) · rgba(43,63,217,α) ·
+// rgba(187,109,255,α) · rgba(36,16,70,α) · rgba(220,198,244,α)
 //
-// ⚠️⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — รอบนี้เป็นแบรนด์ชมพู และรีโปนี้มี
-// ชมพูของแบรนด์อื่นอยู่หลายชุด "มีชมพูอยู่แล้ว" จึงไม่พิสูจน์อะไรเลย
-// ชมพูรอบนี้คือ **#fb439b / #fc74b5 / #ffc2e2 / #ffd6fa / #f9b2d9 / #f479b9 /
-// #9c0f55 / #d91a73 / #b01160 / #85094a / #6a0f3c / #95486b** เท่านั้น
-// ค่าที่ต้องไม่เหลือในไฟล์นี้:
-//   **โบ๊ะบ๊ะ168 (ชุดที่เพิ่งอยู่ทั้งใบนี้ — เสี่ยงหลงเหลือสูงสุด)** — 00bfff 12b4ef
-//     b6e3f0 7fcbe8 4fb8ea 06283f 0b4a73 2a87c4 eaf7ff f0faff e4f6fb 355f7d 0f5684
-//     1a6ea8 + rgba 18/180/239, rgba 182/227/240, rgba 15/86/132, rgba 6/40/63,
-//     rgba 127/203/232
-//   **หมูบิน168 (สองรอบก่อน — ชมพูเหมือนรอบนี้ จึงต้องเทียบด้วยค่า)** — fa539c
-//     c2185b 8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9 ef8dbd ffe5ff fff0f8 ffeef7 3b0b26
-//     54123a 7a2350 ffe9f5 7a4463 ⚠️ **fb8cc0 ↔ #fb439b R ตรงกันเป๊ะ · f7bcd9 ↔
-//     #f9b2d9 B ตรงกันเป๊ะ · ffe9f5 ↔ #ffe9f7 ต่างแค่ไบต์สุดท้าย**
+// ⚠️⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — อาร์ตเวิร์กรอบนี้ไล่ **ฟ้า → ม่วง →
+// แมเจนต้า** ซึ่งคร่อมฮิวนำของแบรนด์ก่อนๆ **สามเจ้าพร้อมกัน** (ฟ้า = โบ๊ะบ๊ะ168 ·
+// ชมพู/แมเจนต้า = okkub88 · ม่วง = KMD88) → **"เจอฟ้า/ชมพู/ม่วง ≠ เป็นของรอบนี้"**
+// สีของรอบนี้คือ **#7a1bd6 / #5411c4 / #2b3fd9 / #c2178b / #f23bb4 / #bb6dff /
+// #7aa7ff / #241046 / #6b4a86 / #dcc6f4 / #9a6fd0 / #f6edfe / #ece0fb / #f8e6f9**
+// เท่านั้น ค่าที่ต้องไม่เหลือในไฟล์นี้ (เขียนแบบไม่มี # โดยตั้งใจ):
+//   **okkub88 (ชุดที่เพิ่งอยู่ทั้งใบนี้ — เสี่ยงหลงเหลือสูงสุด)** — ffd6fa fff4fb
+//     ffe3f5 ffe9f7 f9b2d9 f479b9 f4a7cf 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2
+//     d91a73 b01160 85094a fd6cb2 fc7cba fc4da1 + rgba 251/67/155, rgba 255/194/226,
+//     rgba 156/15/85, rgba 106/15/60, rgba 249/178/217
+//     ⚠️⚠️ **d91a73 → b01160 เคยเป็นแผ่นถมของไอคอนขวาตรง ๆ และ 9c0f55 เป็นสีหัวข้อ
+//     — ทั้งชุดต้องไม่เหลือ** · **d91a73 ↔ #c2178b · fb439b ↔ #f23bb4**
+//   **MEXICANOSLOT (แบรนด์ขาออก)** — de2b1e f2a033 a81410 c81e12 9d140c 6f0e08
+//     3f130d 80453a 2b100a 431a10 1d0a06 8c3a22 fdeee2 e8c6ae fed7b5 fec28d f6c4a4
+//     e2855c fde4d3 fff3ea fef6fb 117a41 2bb061 f2543f
+//   **KMD88 / CEO66 (ม่วง — ตระกูลเดียวกับฮิวนำของรอบนี้ ต้องเทียบแน่นที่สุด)** —
+//     7505cc b453ff c07cff d9b8ff 3a0565 · 7e22ce d946ef a855f7
+//     ⚠️⚠️ **b453ff ↔ #bb6dff ต่างไบต์เดียว · 7505cc ↔ #7a1bd6 ใกล้ที่สุดในลิสต์
+//     ทั้งหมด เจอที่ไหนให้ถือว่าพิมพ์ผิดก่อนเสมอ**
+//   **โบ๊ะบ๊ะ168** — 00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0b4a73 2a87c4 eaf7ff
+//     f0faff e4f6fb 355f7d 0f5684 1a6ea8 + rgba 18/180/239, rgba 182/227/240,
+//     rgba 15/86/132, rgba 6/40/63, rgba 127/203/232
+//   **หมูบิน168** — fa539c c2185b 8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9 ef8dbd ffe5ff
+//     fff0f8 ffeef7 3b0b26 54123a 7a2350 ffe9f5 7a4463
 //   **สล็อต168** — fb2e33 cb0b0d d81115 b00d11 8a0608 f0e6e4 c9b9b7 e3d6d4 7d6f6e
-//     140000 0b0000 1c0607 2a0c0d 551c1e ⚠️ **b00d11 ↔ #b01160 สี่ตัวแรก b01 ตรงกัน**
+//     140000 0b0000 1c0607 2a0c0d 551c1e
 //   **มาดาม168** — ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 2a3c70 16234a 0b1733
 //     050e26 00091f f4eef1 d9dfe9 b3bdd6
 //   **นาซ่า168** — 1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0 e6edf8 273449 1b2434 121722
+//     ⚠️ **1d4fd8 ↔ #2b3fd9**
 //   **ร่ำรวย168** — 18a5e2 0d6b9b 0a5176 a9d7f2 16294a dbe6ff f4e4d3 e4cbb3
 //   **สบาย168** — 2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74 9ae0fa fdcb0c
 //   **นินจา168** — 32bcfb a9e9ff fef54b 6b5c10 07335f · **รวยแทร่168** — 039cfa
@@ -93,53 +107,50 @@ const hasActions = Astro.slots.has("actions");
 //   **TSDET911** — 0360f3 0292fb 6ec8ff 4fb4ff cfdcec 9db4d4 · **รวย168** — ffd94a
 //     e3a712 9d6f06 e8eaee b4b9c2 6b7079 dde1e7 f3ece0 bfb8aa
 //   **เงินทอง168** — f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 · **สาธุ168** — 0b7d28
-//     0a5f1c 0f9b35 c9cb63 · **KMD88** — 7505cc b453ff c07cff
-//   อื่น ๆ — f41571 ff5ca8 (PUNPRO168 — **f41571 ใกล้ #fb439b ที่สุดในลิสต์**) ·
-//     f5469f ff8dc6 8c0f52 (มีโชค168) · fa63b9 ffb3de (ถอนชัวร์168) · dd1b74 a4186b
-//     (มีทรัพย์168) · ff3fa4 ffd1ea (FAH999) · b3121b f2bba5 (ขวัญใจ168) · eb0305
-//     e40303 c20305 (โปรดี168) · fa0513 ff5a5f (สมหวัง168) · fb1b32 ff8f9c (มีเฮ168) ·
-//     e4021b (รวยเทพ168) · d30304 a00203 (รับตัง168) · dc0203 f5282a (หวย365) ·
-//     ff3b14 6d0804 (FLASH877) · fb141b ff5f63 8a0609 (GT66B)
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep ที่ไล่หาสีเก่า
-// สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
-// ⚠️ **รอบนี้ไม่มีฟ้า/ไซแอน/น้ำเงิน ไม่มีเขียวมิ้นต์ ไม่มีทอง/เหลือง ไม่มีม่วง
-// ไม่มีส้ม ไม่มีครีม/เบจ/พีช ไม่มีน้ำตาล และไม่มีแรมป์เทาเงิน** — วัสดุที่สอง
-// รอบนี้คือ **ชมพูพาสเทล/ขาวอมชมพู (R≥B>G)** และเหรียญทองกับหมูชมพูในอาร์ตเวิร์ก
-// เป็น **วัตถุในภาพ ไม่ใช่สี UI**
+//     0a5f1c 0f9b35 c9cb63
+//   **ค่า default ของ variant cyber-neon/dark** — 00f3ff e0ffff 60a5fa 4b5563
+//     030712 1f2937 ⚠️ **60a5fa ↔ #7aa7ff**
+//   อื่น ๆ — f41571 ff5ca8 · f5469f ff8dc6 8c0f52 · fa63b9 ffb3de · dd1b74 a4186b ·
+//     ff3fa4 ffd1ea · b3121b f2bba5 · eb0305 e40303 c20305 · fa0513 ff5a5f ·
+//     fb1b32 ff8f9c · e4021b · d30304 a00203 · dc0203 f5282a · ff3b14 6d0804 ·
+//     fb141b ff5f63 8a0609
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีทอง/เหลือง ไม่มีส้ม ไม่มีเขียวแบรนด์ ไม่มีครีม/เบจ/พีช
+// ไม่มีน้ำตาล และไม่มีแรมป์เทาเงิน** — วัสดุที่สองรอบนี้คือ **ไลแลค/ม่วงอ่อน
+// (B≥R>G)** และเหรียญทองกับกล่องของขวัญในอาร์ตเวิร์กเป็น **วัตถุในภาพ ไม่ใช่สี UI**
 ---
 
 <section class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f9b2d9] bg-[#ffe3f5] p-6 text-[#6a0f3c] shadow-[0_10px_30px_rgba(156,15,85,0.13)] transition-all duration-500 hover:border-[#fb439b] md:p-10">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#dcc6f4] bg-[#ece0fb] p-6 text-[#241046] shadow-[0_10px_30px_rgba(84,17,196,0.13)] transition-all duration-500 hover:border-[#7a1bd6] md:p-10">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#fb439b] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
+      class="pointer-events-none absolute top-0 left-1/2 -z-10 h-[2px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#f23bb4] to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100">
     </div>
 
     {
       title && (
-        <header class="mb-8 border-y border-[#f9b2d9] py-4">
-          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#9c0f55]">{title}</HeadingTag>
+        <header class="mb-8 border-y border-[#dcc6f4] py-4">
+          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#5411c4]">{title}</HeadingTag>
         </header>
       )
     }
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#f9b2d9] bg-white p-6 text-left text-base leading-relaxed text-[#6a0f3c] transition-all duration-300 hover:-translate-y-2 hover:border-[#fb439b] hover:shadow-[0_15px_40px_rgba(251,67,155,0.24)]">
+        class="relative flex gap-4 rounded-2xl border border-[#dcc6f4] bg-white p-6 text-left text-base leading-relaxed text-[#241046] transition-all duration-300 hover:-translate-y-2 hover:border-[#7a1bd6] hover:shadow-[0_15px_40px_rgba(122,27,214,0.24)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#f9b2d9] bg-gradient-to-br from-[#fff4fb] to-white text-2xl text-[#6a0f3c] shadow-[0_5px_15px_rgba(249,178,217,0.5)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#dcc6f4] bg-gradient-to-br from-[#f6edfe] to-white text-2xl text-[#241046] shadow-[0_5px_15px_rgba(220,198,244,0.5)]">
           {iconleft}
         </div>
         <slot name="left" />
       </article>
 
       <article
-        class="relative flex gap-4 rounded-2xl border border-[#f479b9] bg-white p-6 text-left text-base leading-relaxed text-[#6a0f3c] transition-all duration-300 hover:-translate-y-2 hover:border-[#fb439b] hover:shadow-[0_15px_40px_rgba(156,15,85,0.26)]">
+        class="relative flex gap-4 rounded-2xl border border-[#9a6fd0] bg-white p-6 text-left text-base leading-relaxed text-[#241046] transition-all duration-300 hover:-translate-y-2 hover:border-[#7a1bd6] hover:shadow-[0_15px_40px_rgba(84,17,196,0.26)]">
         <div
           aria-hidden="true"
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#85094a] bg-gradient-to-br from-[#d91a73] to-[#b01160] text-2xl text-white shadow-[0_5px_15px_rgba(156,15,85,0.45)]">
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#241046] bg-gradient-to-br from-[#c2178b] to-[#5411c4] text-2xl text-white shadow-[0_5px_15px_rgba(84,17,196,0.45)]">
           {iconright}
         </div>
         <slot name="right" />
@@ -148,7 +159,7 @@ const hasActions = Astro.slots.has("actions");
 
     {
       hasActions && (
-        <div class="mt-8 border-t border-[#f9b2d9] pt-6">
+        <div class="mt-8 border-t border-[#dcc6f4] pt-6">
           <slot name="actions" />
         </div>
       )
