@@ -76,7 +76,7 @@ export type BrandFont = "kanit" | "google-sans";
 // ⚠️ **นี่คือการแก้ค่าเดียวที่เกี่ยวกับฟอนต์ทั้งรีแบรนด์** ไม่มี component ไหน
 // hardcode ชื่อฟอนต์แล้ว ทุกตัวอ่าน var(--font-sans) ซึ่ง MainLayout ใส่ให้บน
 // <html> — ห้ามแก้ font-family ที่อื่น และห้ามเติม <link> ของ Google Fonts เอง
-export const BRAND_FONT: BrandFont = "kanit";
+export const BRAND_FONT: BrandFont = "google-sans";
 
 // ── ชื่อแบรนด์ ─────────────────────────────────────────────────────────────
 // สลับบรรทัดเดียวนี้ตอนรีแบรนด์ เหมือน BRAND_FONT ด้านบน (ดู SKILL.md)
@@ -129,7 +129,7 @@ export const BRAND_FONT: BrandFont = "kanit";
 // รอบนี้บรีฟ (src/assets/content.txt) เขียน "สล็อต168" ตรงกับอาร์ตเวิร์กและคำสั่ง
 // ของ operator ทุกจุด หน้าเว็บไม่พิมพ์ชื่อแบรนด์ตรงๆ เลยสักที่ แต่ interpolate ค่านี้
 // ค่านี้ไปโผล่ใน og:site_name, JSON-LD, terms/privacy และ <address>
-export const BRAND_NAME = "สล็อต168";
+export const BRAND_NAME = "หมูบิน168";
 
 // ── สีตัวอักษรเริ่มต้นของทั้งเว็บ ──────────────────────────────────────────
 // สลับบรรทัดเดียวนี้ตอนรีแบรนด์ เหมือนสองตัวข้างบน ใส่สีเนื้อความหลักของแบรนด์
@@ -207,7 +207,7 @@ export const BRAND_NAME = "สล็อต168";
 // **ปุ่มรองคือพื้นไล่เฉดมุก #f0e6e4 -> #c9b9b7 + หมึกดำ #0a0a0a** (16.2 / 10.5:1)
 // **ปุ่ม outline คือขอบ #fb2e33 ตัวอักษร #fb2e33 บนผิว #0b0000** (5.5:1)
 // (navbar/footer/ticker ประกาศสีตัวอักษรของตัวเองไว้ครบ ค่านี้จึงไปไม่ถึงมัน)
-export const BRAND_TEXT = "#f0e6e4";
+export const BRAND_TEXT = "#3b0b26";
 
 // ── ที่อยู่ + อีเมลติดต่อ (หน้า /contact-us และ footer) ────────────────────
 // ปกติไม่ต้องแก้อะไรตรงนี้ — ทั้งที่อยู่และอีเมลมาจาก BRAND_NAME กับ site:

@@ -21,8 +21,8 @@ const bankPool = [
 // Values come from the brand's own domain hash, never Math.random(): frontmatter
 // runs at BUILD time, so a random call there makes two builds of the same domain
 // differ and tools/verify-build.mjs fails on it. เกลือของ brandPick/brandFlag ถูก
-// เปลี่ยนเป็นของแบรนด์รอบนี้ (`tonchua-*`) เพื่อให้ชุดแถวตั้งต้นไม่ใช่ชุดเดิมกับ
-// แบรนด์ก่อน ทั้งที่ยังนิ่งต่อโดเมนเดียวกันทุกบิลด์
+// เปลี่ยนเป็นของรอบนี้ (`flyingpig-*`) เพื่อให้ชุดแถวตั้งต้นไม่ใช่ชุดเดิมกับแบรนด์ก่อน
+// ทั้งที่ยังนิ่งต่อโดเมนเดียวกันทุกบิลด์
 //
 // Every live value the module updates keeps its data-winner-* hook, and the
 // numbers it needs sit on the feed element as data-* (interval, row cap, amount
@@ -30,68 +30,85 @@ const bankPool = [
 // palette, so this file is free to restyle the row markup as much as it likes.
 // The brand name is interpolated from BRAND_NAME and never typed.
 //
-// ถอนชัวร์168 (รอบ **ชมพูบับเบิลกัมนำ · ทองเนยเป็นฮิวที่สอง · พลัมเข้มไม่เคยถือ
-// ตัวอักษร · บนดำสนิท** 2026-10-18) — พาเลตต์ตาม brand-spec §2
-// รอบนี้หมุนจาก LatestWinners3 ของมีโชค168 มาที่ **ตัวฐาน** ตาม brand-spec §3 ทรงของ
-// ไฟล์นี้คือ "สมุดรายการสันสี": แต่ละแถวมีสันแนวตั้งอยู่ซ้ายสุด แล้วไล่เป็นไอคอน
-// ธนาคาร → ยูสเซอร์/REF → ยอดเงิน/สถานะ อ่านเป็นบรรทัดรายการ ไม่ใช่การ์ดซ้อน
-// แผงเป็นผิวกลาง #1a0914 ในกรอบพลัมเข้ม #6d0b3f แถวรายการตกลงไปที่ผิวจม #0d040a
-// แล้ว hover ขึ้นผิวยก #2b0f20 — ทั้งสามชั้นสว่างกว่าพื้นเพจดำสนิท #000000 จึงลอยหมด
-// ฟีดนี้ตรงกับแกนของแบรนด์พอดี: บรีฟรอบนี้ขายเรื่อง **ความง่ายในการถอนเงิน** และ
-// งานศิลป์มีมือถือจอชมพูขึ้นคำว่า ถอนสำเร็จ อยู่กลางภาพ
-// บรรทัดหัวเรื่อง (เป็น <p> ไม่ใช่หัวข้อ) ไล่ชมพูอ่อน #ffb3de → ชมพูบับเบิลกัม
-// #fa63b9 → ทองเนย #ffd84d · ยอดเงินเป็น **ทองเนย** ตาม §2 ที่ให้ทองถือตัวเลข
-// (12.7:1) · ชื่อผู้ใช้เป็นชมพูบับเบิลกัม (7.7:1 บนผิวจม) · หน่วย THB เป็นชมพูอ่อน ·
-// REF/เวลาเป็นชมพูอ่อน #ffb3de (10.7:1) · สันซ้ายไล่ #ffb3de → #fa63b9 → #ffd84d
-// ซึ่งคือคู่สีของโลโก้ตรงๆ (ตัวอักษรชมพูตัดขอบทอง)
-// ป้ายสถานะยังใช้เขียว/เทากลางของระบบ (semantic ไม่ใช่สีแบรนด์) และสีประจำธนาคารใน
-// ไอคอนห้ามรีแมป
-// §2 ห้าม #6d0b3f (1.5:1) กับ #6b4708 (2.1:1) ถือตัวอักษร — ที่นี่อยู่ที่กรอบและ
-// ขอบวงไอคอนเท่านั้น
+// ───────────────────────────────────────────────────────────────────────────
+// หมูบิน168 (ดรอป 2026-10-24, .claude/brand-spec-moobin168.md §2) —
+// **ชมพูแคนดี้นำ · พลัมเข้มเป็นหมึก · บนพื้นชมพูพาสเทลสว่าง**
+// 🚨🚨 **รอบนี้กลับทิศจากรอบก่อนทั้งเว็บ: จากธีมมืด เป็นธีมสว่าง**
+// bg.json = {"mode":"color","color":"#ffe5ff"} = ชมพูพาสเทลสว่างมาก
+// (รอบก่อน สล็อต168 เป็น 140000 ดำอมแดง) → **ห้ามทำแผงหรือแถวเป็นผิวมืด**
+// ผิวมืดใต้หมึก #3b0b26 = ตัวอักษรหายไปเลย ซึ่งเป็นความผิดพลาดกลับด้านของรอบก่อนเป๊ะ ๆ
 //
-// ⚠️ **กับดักรอบนี้มีสองชั้น: ชมพู และ ทอง** เพราะรอบที่แล้ว (มีโชค168) ก็ทอง+ชมพู
-// บนดำ ชมพูรอบนี้ **#fa63b9 / #ffb3de** ไม่ใช่ f5469f / ff8dc6 · ทองรอบนี้
-// **#ffd84d** ไม่ใช่ fcd434 (มีโชค168) f3bb34 / fde464 / c8901a / f58b2a (DUCK1688
-// ซึ่งเพิ่งอยู่ทั้งไฟล์นี้) fbc134 / ffe87a / cf9a18 / 96690a / 6b4a05 (NAZA168)
-// หรือ ffc93c / ffeab0 / c08a07 (หวย365)
-// ชุดเต็มของ DUCK1688 ที่ต้องออกให้หมด (f3bb34 fde464 ffc98a c8901a f58b2a d8c69b
-// f6ecd9 171106 0d0903 1f1709 8a5f08 5c3f04 + rgba 243,187,52) ชุดของมีโชค168
-// (fcd434 ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509)
-// และชุดเงินโครเมียมของ NAZA168 (cfd6e3 fdf3df d9c9a6 4e3406 432b03 382400 241700)
-// ออกครบทุกจุดแล้ว
+// ทรงของรอบนี้: **แผงชมพูนวล #fff0f8 + แถวการ์ดขาว #ffffff ลอยขึ้นมา** ด้วยเงานูน
+// คู่ (เงามืด rgba(194,24,91,α) / เงาสว่าง #ffffff) กลับทางกับธีมมืดซึ่งแถวต้อง "จม"
+// สันซ้ายของแต่ละแถวไล่ #fdc6c3 → #fa539c → #c2185b = คู่สีลูกหมูชมพูกับปีกในโลโก้
+//   หัวแถบ (เป็น <p> ไม่ใช่ heading) ชมพูเข้ม **#c2185b** 5.7:1 บนแผง #fff0f8
+//   ยูสเซอร์ **#c2185b** · ยอดเงิน **#8e0f41** (9.0:1 บนแถวขาว) · ป้าย/REF/เวลา
+//   **#7a4463** (7.4:1) — ยอดเงินรอบนี้เป็น **โรสเข้ม ไม่ใช่ทอง** รอบนี้ไม่มีทองเลย
+// 🚨 **#fa539c บนผิวสว่างได้แค่ 3.2:1 และขาวบน #fa539c ก็ 3.2:1** — ในไฟล์นี้มันจึง
+// อยู่แค่ **สันซ้าย เส้นคาดบน และขีดใต้หัวแถบ** ซึ่งเป็นพื้นถมล้วน ไม่ถือตัวอักษร
+// ⚠️ **#f7bcd9 #ef8dbd #fdc6c3 #fff0f8 #ffeef7 ห้ามถือตัวอักษร** (เส้น/พื้นเท่านั้น)
+// rgba() ที่อนุญาตรอบนี้: rgba(194,24,91,α) · rgba(250,83,156,α) · rgba(59,11,38,α)
+//
+// ป้ายสถานะยังเป็น **สีเชิงความหมาย ไม่ใช่สีแบรนด์**: "ถอนสำเร็จแล้ว" เป็นเขียว
+// success — แต่คู่ของธีมมืดเดิม (10b981 พื้นโปร่ง + 34d399 ตัวอักษร) อ่านไม่ออกบน
+// ผิวสว่าง จึงย้ายมาเป็น **พื้นเขียวเข้ม #047857 + หมึกขาว (5.6:1)** ซึ่งยังเป็น
+// เขียว success ตัวเดิมเชิงความหมาย **ห้ามเปลี่ยนให้เป็นสีแบรนด์** ส่วน "กำลังทำ
+// รายการ" เป็นผิวกลางของแบรนด์ (#fff0f8 + หมึก #7a4463 7.2:1) ไม่ใช่เขียว
+// **สีประจำธนาคารใน bankPool ห้ามรีแมป** — bg-[#fcd34d] ของกรุงศรีคือสีแบรนด์ธนาคาร
+// ไม่ใช่ "ทอง" ของรอบนี้ (รอบนี้ไม่มีทอง) เช่นเดียวกับน้ำเงิน/ม่วง/ฟ้าของอีกสามแห่ง
+//
+// ⚠️⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — ชมพูผ่านรีโปนี้มาแล้วหลายเจ้า
+// ชมพูรอบนี้คือ **#fa539c (R250 G83 B156)** วัดตรงจาก logo.webp ของดรอปนี้
+// ⚠️⚠️ **ไฟล์นี้เพิ่งถือชุดชมพูบับเบิลกัม-ทองเนยบนดำของ ถอนชัวร์168 มาทั้งใบ**
+// (fa63b9 ffb3de ffd84d fdeaf5 1a0914 0d040a 2b0f20 6d0b3f 6b4708 10b981 34d399
+// + rgba 250,99,185 / 255,216,77 / 0,0,0) — ออกครบทุกค่าแล้ว **fa63b9 มี R=fa ตรงกับ
+// รอบนี้เป๊ะ** เจอที่ไหนแปลว่าพิมพ์ผิด ไม่ใช่ค่าของรอบนี้
+// ⚠️ ชมพู/แดงของแบรนด์อื่นที่ห้ามใช้: dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5
+// (มีทรัพย์168 — **ก็เป็นหมูการ์ตูนชมพูเหมือนกัน แต่เป็นหมูสวมหน้ากากโจรบนธีม
+// แมเจนต้าพื้นมืด** ส่วนรอบนี้คือหมูมีปีกนางฟ้าขาวกับหัวใจบนธีมแคนดี้พื้นสว่าง) ·
+// f5469f ff8dc6 8c0f52 (มีโชค168) · ff2e52 e01238 c9102f (มาดาม168) · fb1b32 ff8f9c
+// (มีเฮ168) · fa0513 ff5a5f ffadaf (สมหวัง168) · b3121b f2bba5 fce2d4 fcd4c3
+// (ขวัญใจ168 / หวยคิง — ใกล้ #fdc6c3) · f41571 ff5ca8 (PUNPRO168)
+// ⚠️⚠️ **สล็อต168 คือแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด** (แดงเจล + มุกอุ่น บนดำ
+// อมแดง): fb2e33 cb0b0d d81115 b00d11 8a0608 c9060a fa292c f92124 f0e6e4 c9b9b7
+// e3d6d4 7d6f6e 140000 0b0000 1c0607 2a0c0d 551c1e — ไม่มีเหลือในไฟล์นี้
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองสักเฉด ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีส้ม
+// ไม่มีครีม/เบจ/น้ำตาล ไม่มีแรมป์เทาเงินเย็น** — ยกเว้นสีแบรนด์ธนาคารในไอคอนและ
+// เขียว success ของป้ายสถานะ ซึ่งทั้งคู่ไม่ใช่สีแบรนด์
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีน้ำเงิน ฟ้า ม่วง/ไวโอเลต เขียว ส้ม เงิน/โครเมียม โรสโกลด์ และ
-// แดงชาด** — ยกเว้นสีแบรนด์ธนาคารในไอคอนกับป้ายสถานะ semantic ซึ่งไม่ใช่สีแบรนด์
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const pad = (n: number) => String(n).padStart(2, "0");
 const pick = (salt: string, n: number) => brandPick(Astro.site, salt, n);
 const digits = (salt: string, n: number) => Array.from({ length: n }, (_, d) => pick(`${salt}-${d}`, 10)).join("");
 
 const initialRows = Array.from({ length: 4 }, (_, i) => ({
-  bank: bankPool[pick(`tonchua-bank-${i}`, bankPool.length)],
-  user: `${LETTERS.charAt(pick(`tonchua-a-${i}`, 26))}${LETTERS.charAt(pick(`tonchua-b-${i}`, 26))}***${digits(`tonchua-u${i}`, 4)}`,
-  amount: (15000 + pick(`tonchua-amount-${i}`, 80001)).toLocaleString("en-US"),
-  ref: digits(`tonchua-ref${i}`, 8),
-  time: `${pad(pick(`tonchua-h-${i}`, 24))}:${pad(pick(`tonchua-m-${i}`, 60))}:${pad(pick(`tonchua-s-${i}`, 60))}`,
-  pending: brandFlag(Astro.site, `tonchua-pending-${i}`),
+  bank: bankPool[pick(`flyingpig-bank-${i}`, bankPool.length)],
+  user: `${LETTERS.charAt(pick(`flyingpig-a-${i}`, 26))}${LETTERS.charAt(pick(`flyingpig-b-${i}`, 26))}***${digits(`flyingpig-u${i}`, 4)}`,
+  amount: (15000 + pick(`flyingpig-amount-${i}`, 80001)).toLocaleString("en-US"),
+  ref: digits(`flyingpig-ref${i}`, 8),
+  time: `${pad(pick(`flyingpig-h-${i}`, 24))}:${pad(pick(`flyingpig-m-${i}`, 60))}:${pad(pick(`flyingpig-s-${i}`, 60))}`,
+  pending: brandFlag(Astro.site, `flyingpig-pending-${i}`),
 }));
 
-const PENDING_CLASS = "bg-gray-700/50 text-gray-300 animate-pulse border border-gray-500/50";
-const DONE_CLASS = "bg-[#10b981]/20 text-[#34d399] border border-[#10b981]/50";
+const PENDING_CLASS = "animate-pulse border border-[#f7bcd9] bg-[#fff0f8] text-[#7a4463]";
+const DONE_CLASS = "border border-[#047857] bg-[#047857] text-white";
 ---
 
 <div class="mx-auto w-full max-w-[1300px] p-4 font-sans">
   <section
     aria-label={`รายการถอนเงินล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[20px] border border-[#6d0b3f] bg-[#1a0914]/92 px-4 py-8 shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-md md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#fa63b9]/80 to-transparent"></div>
+    class="relative isolate overflow-hidden rounded-[28px] border border-[#f7bcd9] bg-[#fff0f8] px-4 py-8 shadow-[0_12px_30px_rgba(194,24,91,0.12)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1 bg-gradient-to-r from-transparent via-[#fa539c] to-transparent"></div>
 
-    <div class="relative z-10 mb-6 flex items-center justify-center gap-3">
-      <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(250,99,185,0.6)]">💸</span>
-      <p class="bg-gradient-to-r from-[#ffb3de] via-[#fa63b9] to-[#ffd84d] bg-clip-text text-center text-xl font-black tracking-wide text-transparent drop-shadow-sm md:text-3xl">
-        รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}
-      </p>
-      <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_8px_rgba(250,99,185,0.6)]">💸</span>
+    <div class="mb-6 flex flex-col items-center gap-2">
+      <div class="flex items-center justify-center gap-3">
+        <span aria-hidden="true" class="text-2xl">🐷</span>
+        <p class="text-center text-xl font-black tracking-wide text-[#c2185b] md:text-3xl">
+          รายการถอนเงินล่าสุดของสมาชิก {BRAND_NAME}
+        </p>
+        <span aria-hidden="true" class="text-2xl">💗</span>
+      </div>
+      <div aria-hidden="true" class="h-[4px] w-28 rounded-full bg-gradient-to-r from-[#fdc6c3] via-[#fa539c] to-[#fdc6c3]"></div>
     </div>
 
     <div
@@ -103,33 +120,33 @@ const DONE_CLASS = "bg-[#10b981]/20 text-[#34d399] border border-[#10b981]/50";
       data-pending-chance="0.4"
       data-user-style="letters"
       data-user-digits="4"
-      class="relative z-10 flex flex-col">
+      class="flex flex-col">
       {
         initialRows.map((row) => (
           <div data-winner-row class="winner-row grid grid-rows-[1fr] transition-all duration-700 ease-in-out">
             <div class="overflow-hidden">
-              <div class="mb-3 flex items-stretch gap-3 rounded-xl border border-[#6d0b3f] bg-[#0d040a]/85 p-3 transition-all hover:border-[#fa63b9]/60 hover:bg-[#2b0f20] md:gap-4 md:p-4">
-                <span aria-hidden="true" class="w-1 shrink-0 rounded-full bg-gradient-to-b from-[#ffb3de] via-[#fa63b9] to-[#ffd84d]" />
+              <div class="mb-3 flex items-stretch gap-3 rounded-2xl border border-[#f7bcd9] bg-white p-3 shadow-[6px_6px_14px_rgba(194,24,91,0.10),-6px_-6px_14px_#ffffff] transition-all hover:border-[#ef8dbd] hover:bg-[#ffeef7] md:gap-4 md:p-4">
+                <span aria-hidden="true" class="w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#fdc6c3] via-[#fa539c] to-[#c2185b]" />
 
                 <div class="flex min-w-0 flex-1 items-center gap-3 md:gap-4">
-                  <div class="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#6b4708] bg-[#1a0914]">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#ef8dbd] bg-[#fff0f8]">
                     <div data-winner-bank class={`flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ${row.bank.color}`}>
                       <img data-winner-icon src={row.bank.icon} alt="" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-6 object-contain" />
                     </div>
                   </div>
                   <div class="flex min-w-0 flex-col justify-center">
-                    <div class="truncate text-sm font-bold text-[#fdeaf5] md:text-base">
-                      User: <span data-winner-user class="tracking-wider text-[#fa63b9]">{row.user}</span>
+                    <div class="truncate text-sm font-bold text-[#7a4463] md:text-base">
+                      User: <span data-winner-user class="font-black tracking-wider text-[#c2185b]">{row.user}</span>
                     </div>
-                    <div class="mt-0.5 truncate text-[10px] text-[#ffb3de] md:text-xs">
+                    <div class="mt-0.5 truncate text-[10px] text-[#7a4463] md:text-xs">
                       REF#<span data-winner-ref data-ref-length="8">{row.ref}</span> · <span data-winner-time>{row.time}</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="flex shrink-0 flex-col items-end justify-center gap-1.5">
-                  <div class="text-lg font-black tracking-tight text-[#ffd84d] drop-shadow-[0_0_5px_rgba(255,216,77,0.35)] md:text-2xl">
-                    <span data-winner-amount>{row.amount}</span> <span class="text-[10px] font-medium text-[#ffb3de] md:text-xs">THB</span>
+                  <div class="text-lg font-black tracking-tight text-[#8e0f41] md:text-2xl">
+                    <span data-winner-amount>{row.amount}</span> <span class="text-[10px] font-medium text-[#7a4463] md:text-xs">THB</span>
                   </div>
                   <div
                     data-winner-status
@@ -137,7 +154,7 @@ const DONE_CLASS = "bg-[#10b981]/20 text-[#34d399] border border-[#10b981]/50";
                     data-done-text="ถอนสำเร็จแล้ว"
                     data-pending-class={PENDING_CLASS}
                     data-done-class={DONE_CLASS}
-                    class={`rounded-full px-3 py-1 text-[9px] font-medium md:text-[10px] ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
+                    class={`rounded-full px-3 py-1 text-[9px] font-bold md:text-[10px] ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
                     {row.pending ? "กำลังทำรายการ..." : "ถอนสำเร็จแล้ว"}
                   </div>
                 </div>
@@ -170,6 +187,13 @@ const DONE_CLASS = "bg-[#10b981]/20 text-[#34d399] border border-[#10b981]/50";
   @media (prefers-reduced-motion: reduce) {
     .winner-row {
       transition: none;
+    }
+    /* The pending pill arrives with Tailwind's animate-pulse from a data-* class
+       the module swaps in, so the opt-out has to live here rather than on the
+       element. Qualified by the hook attribute so it outranks the utility
+       whichever scoping strategy Astro compiles this block with. */
+    [data-winner-status].animate-pulse {
+      animation: none;
     }
   }
 </style>

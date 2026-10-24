@@ -21,55 +21,61 @@ const { title, as: HeadingTag = "h2", faqs = [] } = Astro.props;
 // `faqs` defaults to an empty list on purpose: the page always passes the docx's
 // own Q/A pairs, so there is no default copy here that could silently ship a
 // previous brand's wording. รอบนี้หน้าแรกส่งสามคู่ Q/A ของบรีฟมา (content.txt
-// บรรทัด 18-23) และส่ง array เดียวกันนั้นเข้า pageGraph ด้วย
+// บรรทัด 24-29) และส่ง array เดียวกันนั้นเข้า pageGraph ด้วย
 //
 // State comes from the [open] attribute, not from an `active` class a script
 // toggles — that is why this variant has no <script> at all. Do not reintroduce
 // one; a button + max-height accordion leaves the collapsed panel in the tab
 // order while invisible.
 //
-// มีทรัพย์168 (2026-10-21) — พาเลตตาม .claude/brand-spec-meesub168.md §2
-// ⚠️⚠️ **ธีมสว่างแบรนด์แรกของรีโปนี้** พื้นเพจ #f0ccf5 (bg.json) บล็อกเนื้อหาจึงเป็น
-// **ผิวสว่าง + หมึกเข้ม** กลับทิศจากทุกรอบก่อน ห้ามแก้กลับไปเป็นพื้นเข้ม
-// ใบนี้ปิดท้ายหน้าและเป็นบล็อกเดียวที่ **ไม่มีการ์ดครอบ** — แถวคำถามวางลงบนพื้นเพจ
-// ชมพูอมม่วง #f0ccf5 ตรงๆ จึงเป็นจังหวะโปร่งสุดท้ายของหน้า
-// แถวที่ปิดอยู่ไล่จากผิวขาว #ffffff ลงไปหาผิวชมพูอ่อน #f7dcf6 ในกรอบชมพูบานเย็น
-// #dd1b74 แบบโปร่ง แล้วเข้มขึ้นเป็นโรสเข้ม #a4186b ตอน hover และตอนแถวถูกเปิด
-// ⚠️ สถานะ "เปิด" ของรอบนี้ **สลับฮิว** ไม่ใช่เลื่อนค่าของสีเดียว: เครื่องหมายบวก
-// เป็นชมพูบานเย็น #dd1b74 ตอนปิด แล้วสลับเป็นโรสเข้ม #a4186b ตอนเปิด
-// ⚠️ หัวข้อของใบนี้เป็นใบเดียวในหน้าที่ **ไล่เฉดโดยไม่มี #dd1b74 อยู่ในสต็อปเลย** —
-// พลัมเข้ม #4a0d35 → โรสเข้ม #a4186b → พลัมเข้ม #4a0d35 เพราะบล็อกนี้ไม่มีการ์ด
-// ขาวรอง ตัวอักษรจึงนั่งบนพื้นเพจ #f0ccf5 โดยตรง ซึ่ง #dd1b74 ได้เพียง 3.3:1 ขณะที่
-// #a4186b ได้ 5.0:1 และ #4a0d35 ได้ 10.4:1 ตาม §2 — **ห้ามใส่ #dd1b74 กลับเข้าไปใน
-// ไล่เฉดนี้** ถ้าไม่ได้เพิ่มการ์ดขาวรองใต้หัวข้อก่อน
-// คำถามเป็นโรสเข้ม #a4186b (7.2:1 บนผิวขาว · 5.6:1 บนผิวชมพูอ่อน) คำตอบเป็น #4a0d35
-// (= BRAND_TEXT, 14.9:1 / 12.6:1)
+// ───────────────────────────────────────────────────────────────────────────
+// หมูบิน168 (ดรอป 2026-10-24, .claude/brand-spec-moobin168.md §2) —
+// **ชมพูแคนดี้นำ · พลัมเข้มเป็นหมึก · บนพื้นชมพูพาสเทลสว่าง**
+// 🚨🚨 **ธีมสว่าง** bg.json = {"mode":"color","color":"#ffe5ff"} (รอบก่อน สล็อต168
+// เป็น 140000 ดำอมแดง) → **ห้ามแก้แถวกลับไปเป็นผิวมืด** ผิวมืดใต้หมึก #3b0b26
+// = ตัวอักษรหายไปเลย ซึ่งเป็นความผิดพลาดกลับด้านของรอบก่อนเป๊ะ ๆ
 //
-// ⚠️ **กับดักรอบนี้คือชมพู เพราะชมพูเคยนำมาแล้วสามแบรนด์** (ถอนชัวร์168 · มีโชค168 ·
-// มีเฮ168 blush) การเจอชมพูในไฟล์นี้ไม่พิสูจน์อะไร ต้องเทียบเป็น "ค่า" ทีละตัว:
-// ชมพูรอบนี้ **#dd1b74 / #a4186b** ไม่ใช่ fa63b9 / ffb3de (ถอนชัวร์168 — ชุดที่เพิ่ง
-// ค้างอยู่ทั้งไฟล์นี้ รวมถึงใน <style> ด้านล่าง ซึ่งเป็นจุดที่ชุดเก่ารอดการสวีปมาก่อน)
-// f5469f / ff8dc6 / 8c0f52 (มีโชค168) ff8f9c (มีเฮ168) หรือ f41571 / ff5ca8
-// (PUNPRO168) ตัวที่ใกล้ dd1b74 ที่สุดคือ f5469f ซึ่งห่าง 65 หน่วย
-// ชุดเต็มของถอนชัวร์168 ที่ต้องออกให้หมด (fa63b9 ffb3de ffd84d 2b0f20 1a0914 0d040a
-// 6d0b3f 6b4708 2a0617 fdeaf5 + rgba 250,99,185) ชุดของ ดวงเศรษฐี168 รอบขาออก
-// (d9212a 8e1a16 f0c878 fff8d8 2a0608 4e2120 300605 150303 000000) ชุดของ ufalion168
-// (d4922c fdfc71 f6e3b4 a25b24 5a3310 33200a 1f1304 0a0601) ชุดของมีโชค168 (fcd434
-// ffeaa0 f5469f ff8dc6 8c0f52 7a5508 1a0612 f6e4ee 24101c 160a12 0b0509) ชุดทองมังกร
-// ของ TND168 (dfa310 ffe4a3 c9b88e f0e9dc 8a5c09 43240b 120c04 070502) ชุดทองอวกาศ-
-// เงินโครเมียมของ NAZA168 (fbc134 ffe87a cf9a18 96690a 6b4a05 eef2f8 cfd6e3 9aa6bb
-// fdf3df) และชุดแดงสด-ทองของ หวย365 (dc0203 f5282a 9c0201 ffc93c ffeab0 c08a07 240406
-// f6e7e0) ออกครบทุกจุดแล้ว
+// ใบนี้ปิดท้ายหน้าและเป็นบล็อกเดียวที่ **ไม่มีการ์ดครอบ** — แถวคำถามวางลงบนพื้นเพจ
+// ชมพูพาสเทล #ffe5ff ตรง ๆ จึงเป็นจังหวะโปร่งสุดท้ายของหน้า
+// แถวที่ปิดอยู่ไล่จากผิวขาว #ffffff ลงไปหา wash #ffeef7 ในกรอบ #f7bcd9 แล้วเข้มขึ้น
+// เป็น #ef8dbd ตอน hover และตอนแถวถูกเปิด
+// ⚠️ สถานะ "เปิด" ของรอบนี้ **สลับฮิว** ไม่ใช่เลื่อนค่าของสีเดียว: เครื่องหมายบวก
+// เป็นชมพูเข้ม #c2185b ตอนปิด แล้วสลับเป็นโรสเข้มสุด #8e0f41 ตอนเปิด
+// ⚠️ หัวข้อของใบนี้นั่งบน **พื้นเพจ ไม่ใช่การ์ด** จึงไล่เฉดด้วยค่าที่ §2 ให้ถือ
+// ตัวอักษรได้เท่านั้น: #8e0f41 (7.8:1 บน #ffe5ff) → #c2185b (5.0:1) → #8e0f41
+// **ห้ามเอา #fa539c เข้าไปเป็นสต็อปในไล่เฉดนี้** — มันได้แค่ 2.8:1 บนพื้นเพจ
+// คำถามเป็น #8e0f41 (9.2:1 บนขาว) คำตอบเป็น #3b0b26 (= BRAND_TEXT, 16.8:1)
+// ⚠️ **#f7bcd9 #ef8dbd #fa539c ห้ามถือตัวอักษร** — ในไฟล์นี้อยู่ที่เส้นและพื้นเท่านั้น
+// rgba() ที่ใช้รอบนี้: rgba(194,24,91,α) (เงานูนฝั่งมืด) · rgba(250,83,156,α) (ออราตอนเปิด)
+//
+// ⚠️⚠️ **กับดักรอบนี้คือชมพู เพราะชมพูเคยนำมาแล้วหลายแบรนด์** การเจอชมพูในไฟล์นี้
+// ไม่พิสูจน์อะไร ต้องเทียบเป็น "ค่า" ทีละตัว ชมพูรอบนี้คือ **#fa539c (R250 G83 B156)**
+// วัดตรงจาก logo.webp ของดรอปนี้
+// ⚠️⚠️ **ไฟล์นี้เพิ่งถือชุดแมเจนต้าของ มีทรัพย์168 มาทั้งใบ** (dd1b74 a4186b 4a0d35
+// f7dcf6 f0ccf5 + rgba 221,27,116 / 164,24,107 รวมถึงใน <style> ด้านล่าง ซึ่งเป็นจุด
+// ที่ชุดเก่ารอดการสวีปมาก่อน) — ออกครบทุกค่าแล้ว **a4186b มี 18 อยู่กลางค่าเหมือน
+// #c2185b และ 4a0d35/2d0720 ใกล้ #3b0b26** เจอค่าไหนก็แปลว่าพิมพ์ผิด
+// ⚠️⚠️ **มีทรัพย์168 ก็เป็นหมูการ์ตูนสีชมพูเหมือนกัน แต่เป็นหมูสวมหน้ากากโจรบนธีม
+// แมเจนต้าพื้นมืด** ส่วนรอบนี้คือหมูมีปีกนางฟ้าสีขาวกับหัวใจบนธีมแคนดี้พื้นสว่าง
+// ⚠️ ชมพู/แดงของแบรนด์อื่นที่ห้ามใช้เพิ่มเติม: fa63b9 ffb3de (ถอนชัวร์168) ·
+// f5469f ff8dc6 8c0f52 (มีโชค168 — 8c0f52 ห่างจาก #8e0f41 แค่ R2/B17) · ff2e52
+// e01238 c9102f (มาดาม168) · fb1b32 ff8f9c 5c0410 (มีเฮ168) · fa0513 ff5a5f ffadaf
+// (สมหวัง168) · b3121b f2bba5 fce2d4 fcd4c3 (ขวัญใจ168 / หวยคิง) · f41571 ff5ca8
+// (PUNPRO168) · ff3fa4 ffd1ea (FAH999)
+// ⚠️⚠️ **สล็อต168 คือแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด**: fb2e33 cb0b0d d81115
+// b00d11 8a0608 c9060a fa292c f92124 f0e6e4 c9b9b7 e3d6d4 7d6f6e 140000 0b0000
+// 1c0607 2a0c0d 551c1e — ไม่มีเหลือในไฟล์นี้
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองสักเฉด ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีส้ม
+// ไม่มีเขียว (LINE green กับเขียว success ของฟีดถอนเงินอยู่ไฟล์อื่น) ไม่มีครีม/เบจ/
+// น้ำตาล และไม่มีแรมป์เทาเงินเย็น**
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีน้ำเงิน ฟ้า ม่วง/ไวโอเลต เขียว ส้ม ทอง/เหลือง เงิน/เทา/โครเมียม
-// โรสโกลด์ และแดงชาด**
 const sectionLabel = title ?? "คำถามที่พบบ่อย";
 ---
 
 <section aria-label={sectionLabel} class="mx-auto max-w-[1000px] px-4 py-10 font-sans">
   {
     title && (
-      <HeadingTag class="mb-8 bg-gradient-to-r from-[#4a0d35] via-[#a4186b] to-[#4a0d35] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent uppercase md:text-4xl">
+      <HeadingTag class="mb-8 bg-gradient-to-r from-[#8e0f41] via-[#c2185b] to-[#8e0f41] bg-clip-text text-center text-2xl font-black tracking-tight text-transparent md:text-4xl">
         {title}
       </HeadingTag>
     )
@@ -78,16 +84,18 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   <div class="space-y-4">
     {
       faqs.map((faq) => (
-        <details name="faq-plain" class="faq-item group overflow-hidden rounded-xl border border-[#dd1b74]/50 bg-gradient-to-br from-white to-[#f7dcf6] transition-all hover:border-[#a4186b]/70">
-          <summary class="flex w-full cursor-pointer items-center justify-between p-5 text-left transition-all">
-            <p class="text-base leading-normal font-bold text-[#a4186b]">{faq.q}</p>
+        <details
+          name="faq-plain"
+          class="faq-item group overflow-hidden rounded-2xl border border-[#f7bcd9] bg-gradient-to-br from-white to-[#ffeef7] shadow-[6px_6px_16px_rgba(194,24,91,0.10),-6px_-6px_16px_#ffffff] transition-all hover:border-[#ef8dbd]">
+          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left transition-all">
+            <p class="text-base leading-normal font-bold text-[#8e0f41]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#dd1b74]/60 text-lg leading-none font-black text-[#dd1b74] transition-transform duration-300">
+              class="faq-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#ef8dbd] bg-[#fff0f8] text-lg leading-none font-black text-[#c2185b] transition-transform duration-300">
               +
             </span>
           </summary>
-          <div class="faq-answer border-t border-[#dd1b74]/40 p-5 pt-0 text-left text-base leading-relaxed text-[#4a0d35]">{faq.a}</div>
+          <div class="faq-answer border-t border-[#f7bcd9] p-5 pt-0 text-left text-base leading-relaxed text-[#3b0b26]">{faq.a}</div>
         </details>
       ))
     }
@@ -102,13 +110,13 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(164, 24, 107, 0.7);
-    box-shadow: 0 0 20px rgba(221, 27, 116, 0.28);
+    border-color: #ef8dbd;
+    box-shadow: 0 0 22px rgba(250, 83, 156, 0.25);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #a4186b;
-    color: #a4186b;
+    border-color: #c2185b;
+    color: #8e0f41;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

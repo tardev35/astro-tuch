@@ -31,91 +31,99 @@ const intro = Astro.slots.has("default") ? (await Astro.slots.render("default"))
 const LabelTag = heading ? HeadingTag : "p";
 const sectionLabel = label ?? title ?? titleleft ?? "ข้อมูลประกอบ";
 const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#ffd94a]";
-const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffd94a] shadow-[0_0_8px_rgba(227,167,18,0.85)]";
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-bold text-[#c2185b]";
+const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#fa539c] shadow-[0_0_8px_rgba(250,83,156,0.85)]";
 
 // ───────────────────────────────────────────────────────────────────────────
-// รวย168 (2026-10-23) — พาเลตตาม .claude/brand-spec-ruay168.md §2
-// รอบนี้ไฟล์นี้เป็น **shared chrome** เพราะถูก render จากสองหน้าหวย:
-// src/pages/ตรวจหวย.astro และ src/pages/แนวทาง.astro
-// ⚠️ ต่างจากรอบก่อนที่สองหน้านั้นถูก park ไว้ (แบรนด์ก่อนไม่ใช่เว็บหวย) —
-// **รอบนี้ทั้งคู่ถูกย้ายกลับเข้า src/pages/ แล้ว เพราะ รวย168 เป็นเว็บหวยเต็มตัว**
+// หมูบิน168 (ดรอป 2026-10-24) — พาเลตตาม .claude/brand-spec-moobin168.md §2
+// รอบนี้ไฟล์นี้ถือ **docx H2 §6** ของหน้าแรก ("ระบบฝากถอน <แบรนด์> ได้ทุกธนาคาร
+// และทรูมันนี่" — content.txt บรรทัด 19) โดยแบ่งย่อหน้าเดียวของบรีฟ (บรรทัด 20)
+// เป็นสามส่วน: **ช่องทางที่ระบุไว้ → ข้อกำหนดจริงที่ต้องศึกษา → การตรวจบัญชี
+// ปลายทางและสิ่งที่ต้องทำเมื่อพบความผิดปกติ** บรีฟไม่ได้ตั้งชื่อให้สามคอลัมน์
+// หน้าเพจจึงไม่ส่ง titleleft/titlecenter/titleright มาเลย กล่องนี้จึงปล่อยหัวข้อ
+// ออกมาใบเดียวคือหัวข้อของ section เอง · มีแค่ index.astro ที่ render ไฟล์นี้รอบนี้
 //
-// ⚠️⚠️ **รอบนี้ยังเป็นธีมมืดเหมือนรอบก่อน แต่คนละฮิวสิ้นเชิง**
-// พื้นเพจ #000000 (bg.json = ดำสนิท) ส่วนรอบก่อน (มาดาม168) เป็น 00091f =
-// น้ำเงินเที่ยงคืน **ห้ามแก้การ์ดกลับไปเป็นผิวขาว**
-// ลำดับผิว: #1c1a16 ยก · **#121110 กลาง (การ์ดใบนี้)** · #070707 จม ·
-// #000000 พื้นเพจ
+// 🚨🚨 **รอบนี้กลับทิศจากรอบก่อนทั้งเว็บ: จากธีมมืด เป็นธีมสว่าง**
+// พื้นเพจ #ffe5ff (bg.json = ชมพูพาสเทลสว่างมาก) ส่วนรอบก่อน (สล็อต168) เป็น
+// 140000 = ดำอมแดง **ห้ามแก้การ์ดกลับไปเป็นผิวมืด** — หมึก #3b0b26 บนการ์ดมืด
+// คือตัวอักษรหายไปเลย
+// ลำดับผิว: #ffffff ยก · **#fff0f8 ผิวการ์ด (ใบนี้)** · #ffeef7 wash ·
+// #ffe5ff พื้นเพจ
 //
-// ⚠️ ความนูนแบบ neumorphic บนธีมมืดกลับทางกับธีมสว่าง: **เงาฝั่งมืดเป็น
-// rgba(0,0,0,α)** และ **เงาฝั่งสว่างเป็นผิวยก #1c1a16** ซึ่งอ่านเป็นแสงได้จริง
-// เพราะมันสว่างกว่าทั้งผิวการ์ด #121110 และพื้นเพจ #000000 — **ห้ามใช้ขาวหรือ
-// ทองสว่างเป็นเงาฝั่งสว่างบนธีมนี้** (จะกลายเป็นขอบเรืองแสงที่ไม่มีในพาเลต)
+// ⚠️ ความนูนแบบ neumorphic บนธีมสว่างกลับทางกับธีมมืด: **เงาฝั่งมืดเป็น
+// rgba(194,24,91,α)** และ **เงาฝั่งสว่างเป็นผิวขาว #ffffff** ซึ่งอ่านเป็นแสงได้
+// จริงเพราะสว่างกว่าทั้งผิวการ์ด #fff0f8 และพื้นเพจ #ffe5ff — **ห้ามใช้ดำหรือ
+// ชมพูสดเป็นเงาฝั่งสว่างบนธีมนี้** (จะกลายเป็นเส้นขอบที่ไม่มีในพาเลต)
 // หัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้
-// ตาม §2 — สต็อปคือ ทอง #ffd94a (13.8:1) → โครเมียมเงิน #e8eaee (16.0:1) →
-// ทอง #ffd94a ซึ่งเป็นลำดับ "ทอง → โครเมียม → ทอง" ที่ตรงกับสองวัสดุของโลโก้
-// ("รวย" โครเมียมเงิน + "168" ทอง + มงกุฎทอง)
-// ⚠️ **ห้ามเอาทองลึก #9d6f06 มาเป็นสต็อป** (ตกทุกเกณฑ์บนผิวนี้ — เป็นพื้นถม/ขอบ
-// เท่านั้น) เช่นเดียวกับ #6b7079 และ #b4b9c2
-// เส้นใต้หัวข้อเป็นทองแกน #e3a712 ซึ่งเป็นแถบไม่มีตัวอักษร
-// ป้ายคอลัมน์/เส้นคั่นคอลัมน์เป็นทอง #ffd94a (13.8:1 บนผิวการ์ด ถือตัวอักษรได้)
-// จุดนำหน้าป้ายเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร
-// เนื้อความ #f3ece0 (= BRAND_TEXT) 16.0:1 บนผิวการ์ด
-// ⚠️ **#1c1a16 #121110 #070707 #000000 #3d3425 เป็นสีพื้นล้วน ห้ามถือตัวอักษร**
+// ตาม §2 — สต็อปคือ พลัมเข้มสุด #8e0f41 (8.9:1 บนผิวการ์ด) → ชมพูเข้ม #c2185b
+// (5.7:1) → #8e0f41 ซึ่งเป็นลำดับ "เข้ม → ชมพู → เข้ม" ที่ตรงกับตัวอักษรบับเบิล
+// ในโลโก้ที่ไล่ชมพูบานเย็นสลับขาวมุกแล้วตัดขอบเข้ม
+// 🚨 **ห้ามเอา #fa539c (3.1:1) #fb8cc0 #f7bcd9 #ef8dbd #fdc6c3 #ffd1cd มาเป็น
+// สต็อป** — §2 ให้ทั้งหมดเป็นพื้นถม/ขอบ/ออราเท่านั้น
+// เส้นใต้หัวข้อเป็นชมพูสด #fa539c ซึ่งเป็นแถบไม่มีตัวอักษร
+// ป้ายคอลัมน์เป็นชมพูเข้ม #c2185b (5.7:1 บนผิวการ์ด ถือตัวอักษรได้) เส้นคั่น
+// คอลัมน์เป็น #f7bcd9 · จุดนำหน้าป้ายเป็นวงกลมตกแต่ง aria-hidden ไม่ใช่ตัวอักษร
+// เนื้อความ #3b0b26 (= BRAND_TEXT) 16.2:1 บนผิวการ์ด
+// ⚠️ **#ffffff #fff0f8 #ffeef7 #ffe5ff #f7bcd9 #ef8dbd เป็นสีพื้น/เส้นล้วน
+// ห้ามถือตัวอักษร**
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทองผ่านรีโปนี้มาแล้วเกือบทุกเจ้า**
-// ทองรอบนี้คือ #ffd94a / #e3a712 ซึ่งเลื่อนมาจาก fdeb7a ที่วัดได้จาก logo.webp
-// ของดรอปนี้เอง และ ⚠️⚠️ **เพื่อนบ้านที่ใกล้ที่สุดคือ ffd84d ของถอนชัวร์168
-// ห่างแค่ R0/G1/B3 — เจอค่านั้นแปลว่าพิมพ์ผิด** รองลงมาคือ fcd45c (มีเฮ168)
-// fcd434 (มีโชค168) ffc93c (หวย365) fded41 e29f0f (พักยก168) fee45d e6a416
-// (ยูฟ้า168) e5a81b (UFA324) fef54b (นินจา168)
-// ⚠️⚠️ ชุดแดงคริมสัน-น้ำเงินอะซัวร์ของแบรนด์ขาออก **มาดาม168** (ff2e52 e01238
-// c9102f 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70 f4eef1 b3bdd6
-// d9dfe9) ต้องไม่เหลือค่าไหน — **เสี่ยงหลงเหลือสูงสุด**
-// ชุดที่เคยอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: ชุดทองมังกร-โครเมียมของ
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ชมพูผ่านรีโปนี้มาแล้วหลายเจ้า**
+// ชมพูรอบนี้คือ #fa539c / #fb8cc0 ซึ่งวัดจาก logo.webp ของดรอปนี้เอง และ
+// ⚠️⚠️ **เพื่อนบ้านที่ใกล้ที่สุดคือ f5469f ของ มีโชค168 ห่างแค่ R5/G13/B3 และ
+// fa63b9 ของ ถอนชัวร์168 ซึ่งมี R=fa ตรงกัน — เจอค่านั้นแปลว่าพิมพ์ผิด**
+// รองลงมาคือ dd1b74 a4186b (มีทรัพย์168 — **a4186b มี 18 กลางค่าเหมือน #c2185b**
+// และ **8c0f52 ของ มีโชค168 ห่างจาก #8e0f41 แค่ R2/B17**) ff8dc6 ffb3de ff3fa4
+// f41571 ff5ca8 ff8f9c ffadaf f2bba5 fce2d4 fcd4c3
+// ⚠️⚠️ ชุดแดงเจล-มุกอุ่นบนดำอมแดงของแบรนด์ขาออก **สล็อต168** (fb2e33 cb0b0d
+// d81115 b00d11 8a0608 c9060a fa292c f92124 f0e6e4 c9b9b7 e3d6d4 7d6f6e 140000
+// 0b0000 1c0607 2a0c0d 551c1e) ต้องไม่เหลือค่าไหน — **เสี่ยงหลงเหลือสูงสุด**
+// ชุดที่เคยอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: ชุดทองนำ-โครเมียมเงินบนดำสนิท
+// ของ **รวย168** (ffd94a e3a712 9d6f06 e8eaee b4b9c2 6b7079 f3ece0 121110 1c1a16
+// 070707 000000 3d3425 + rgba 227,167,18) · ก่อนนั้นเป็นชุดทองมังกร-โครเมียมของ
 // **พักยก168** (eeae12 fded41 9f600d e29f0f fdf051 e0e0df c0c0bf a1a09e f4ead6
 // d6c6a8 3a2713 32200f 1f1308 291d0f 4e2f11) · ชุดแดงคริมสัน-ทองโบราณบนผิวขาว
 // ของ **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f 4a0f0f 461212
 // 280b0b ffeee8 fff1ef ffdbdb c99a3f) · ชุดฟ้าสกาย-ทองคานารีของ **สบาย168**
 // (2cc3fc 6bdcfb 0a7fbd 063a57 04293d 0a4f74 9ae0fa cdf2ff ccf7ff f2fbff dff4fd
-// eafaff a9e3f9 fdcb0c fefb6b 8a6504 0f3a4a 06293c 2a1f02) · ชุดทองคานารี-เงิน
-// โครเมียมของ **ยูฟ้า168** (fee45d e6a416 b8780d 7a4e05 e8ecf1 a8b2bf 78828f
-// 5a6472 15130f 1e1a13 0a0908 eae3d4 140e02) · ชุดเขียวมรกต-ทองสัมฤทธิ์ของ
-// **สาธุ168** (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7
-// e9fbdd) · ชุดทอง-ดำของ **หวยคิง** (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4
-// 0c0b0a 120a02 1c140b) · ชุดทองไทย-แดงมังกรของ **รับตัง168** (f0b429 ffdc8c
-// d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f) · ชุดแดง-ทองของ
-// **หวย365** (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07) · ชุดชมพู
-// บานเย็นของ **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5) · ชุดแดง
-// เชอร์รี่-ทองแดงไหม้ของ **โปรดี168** (eb0305 e40303 c20305 9b0a0c ff4446 401107
-// b44c06 7a2f03 f0b46a d9803a 4d1c0a 2c1004 fff0e4 fff4ea ffd1d1 1a0802) และ
-// **ufalion168** (d4922c fdfc71 d39c45 f6e3b4 a25b24 5a3310) ก็ไม่เหลือค่าไหน
+// eafaff a9e3f9 fdcb0c fefb6b 8a6504) · ชุดทองคานารี-เงินโครเมียมของ **ยูฟ้า168**
+// (fee45d e6a416 b8780d 7a4e05 e8ecf1 a8b2bf 78828f 5a6472 15130f 1e1a13 0a0908
+// eae3d4 140e02) · ชุดเขียวมรกต-ทองสัมฤทธิ์ของ **สาธุ168** (0b7d28 0a5f1c 0f9b35
+// 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) · ชุดทอง-ดำของ **หวยคิง**
+// (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b) · ชุดทองไทย-
+// แดงมังกรของ **รับตัง168** (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c
+// cfd9e6 f5ece0 2b100f) · ชุดแดง-ทองของ **หวย365** (140203 dc0203 f5282a ffc93c
+// ffeab0 8c0402 3a0a0c c08a07) · ชุดชมพูบานเย็นของ **มีทรัพย์168** (dd1b74 a4186b
+// 4a0d35 2d0720 f7dcf6 f0ccf5) · ชุดแดงเชอร์รี่-ทองแดงไหม้ของ **โปรดี168**
+// (eb0305 e40303 c20305 9b0a0c ff4446 401107 b44c06 7a2f03 f0b46a d9803a 4d1c0a
+// 2c1004 fff0e4 fff4ea ffd1d1 1a0802) และ **ufalion168** (d4922c fdfc71 d39c45
+// f6e3b4 a25b24 5a3310) ก็ไม่เหลือค่าไหน
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีแดง ไม่มีเขียว ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า ไม่มีม่วง ไม่มีส้ม
-// ไม่มีครีม ไม่มีน้ำตาล และไม่มีโรสโกลด์** — ความต่างของรอบนี้คือพื้นเพจดำสนิท
-// #000000 กับคู่วัสดุ **ทอง #ffd94a × โครเมียมเงิน #e8eaee** ไม่ใช่ค่าทองเดี่ยว ๆ
-// ⚠️ โครเมียมเงินรอบนี้มาจาก **เวิร์ดมาร์ก "รวย" และแผ่นป้าย "3 ตัว"/"2 ตัว"
-// บนแบนเนอร์** ไม่ใช่จากผมสีขาวเงินของนักแสดง (นั่นเป็นวัตถุในภาพ)
+// ⚠️ **รอบนี้ไม่มีทอง/เหลืองสักเฉด ไม่มีเขียว (ยกเว้น LINE green และเขียว success
+// ที่ไฟล์อื่น) ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีม่วง ไม่มีส้ม ไม่มีครีม/เบจ/น้ำตาล
+// และไม่มีแรมป์เทาเงิน** — ความต่างของรอบนี้คือพื้นเพจชมพูพาสเทล #ffe5ff กับคู่
+// วัสดุ **ชมพูสด #fa539c × พลัมเข้ม #3b0b26** ไม่ใช่ค่าชมพูเดี่ยว ๆ
+// ⚠️ ชมพูรอบนี้มาจาก **ตัวอักษรบับเบิล "หมูบิน168" กับหัวใจในโลโก้ และแคปซูล
+// 0.3% / 0.8% บนสไลด์** ไม่ใช่จากคาร์ดิแกนของนักแสดง (นั่นเป็นวัตถุในภาพ)
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="w-full rounded-[25px] bg-[#121110] p-8 shadow-[12px_12px_26px_rgba(0,0,0,0.55),-12px_-12px_26px_#1c1a16] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(0,0,0,0.65),-16px_-16px_32px_#1c1a16]">
+    class="w-full rounded-[25px] bg-[#fff0f8] p-8 shadow-[12px_12px_26px_rgba(194,24,91,0.14),-12px_-12px_26px_#ffffff] transition-all duration-300 hover:shadow-[16px_16px_32px_rgba(194,24,91,0.2),-16px_-16px_32px_#ffffff]">
     {
       title && (
         <header class="mb-8 text-center">
-          <HeadingTag class={`bg-gradient-to-r from-[#ffd94a] via-[#e8eaee] to-[#ffd94a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#8e0f41] via-[#c2185b] to-[#8e0f41] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent`}>
             {title}
           </HeadingTag>
-          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#e3a712] to-transparent shadow-[0_0_10px_rgba(227,167,18,0.55)]" />
+          <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fa539c] to-transparent shadow-[0_0_10px_rgba(250,83,156,0.55)]" />
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f3ece0]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#3b0b26]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#e3a712]/30 pb-6 text-left text-base leading-relaxed text-[#f3ece0] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#f7bcd9] pb-6 text-left text-base leading-relaxed text-[#3b0b26] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -126,7 +134,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffd94a] shadow-[
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#e3a712]/30 pb-6 text-left text-base leading-relaxed text-[#f3ece0] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#f7bcd9] pb-6 text-left text-base leading-relaxed text-[#3b0b26] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -137,7 +145,7 @@ const columnDot = "block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffd94a] shadow-[
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f3ece0] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#3b0b26] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>
