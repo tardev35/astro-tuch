@@ -1,16 +1,49 @@
 ---
-// 1. กำหนด Props ให้รับค่า message และ variant
+// ติ๊กเกอร์ประกาศ — รอบนี้ (โบ๊ะบ๊ะ168 2026-10-24) เป็นตัวที่ถูกหมุนมาใช้แทน
+// Announcement4 ของ หมูบิน168 ตาม .claude/brand-spec-bohba168.md §3
+// ไฟล์นี้ **ไม่ปรากฏในสิบสี่คอมมิตรีแบรนด์ล่าสุดเลย**
+//
+// 🚨🚨 ไฟล์นี้ค้างของเก่าไว้สองชั้นและต้องถูกล้างทั้งสองชั้น:
+// (1) **ค่า default ของ message เคยเป็นสโลแกนของ LAPDEE88** ซึ่งเป็นแบรนด์คนละเจ้า
+//     ไปแล้วหลายสิบรอบ — หน้าย่อยทุกหน้าเรียก <Announcement /> **เปล่า** จึงตกไปใช้
+//     ค่านี้ ติ๊กเกอร์ของแบรนด์ก่อนจึงขึ้นทั้งเว็บโดยไม่มีอะไรจับได้
+//     → ค่า default ด้านล่างเป็นคอปปี้ของแบรนด์ **รอบนี้** เขียนจาก content.txt ตรงๆ
+// (2) **บล็อก CSS variant เดิมเป็นพาเลตของเจ็ดแบรนด์ที่ไม่เกี่ยวข้องกันเลย**
+//     (640613/700000 แดง · 0b0906/241a09/e0bd72/f6e4b4 ทอง · be185d/f43f5e/fecdd3
+//     ชมพู · 030712/1f2937/4b5563/60a5fa ดาร์ก · 05050a/00f3ff/e0ffff ไซเบอร์นีออน ·
+//     eab308 สปอร์ต) ซึ่ง **ship ขึ้น production ทุกบล็อกเพราะไฟล์นี้ reachable**
+//     → เขียนใหม่ทั้งชุดให้อยู่ในพาเลตฟ้าสกายของรอบนี้ โครงสร้าง/ชื่อ prop คงเดิม
+//     แต่ชื่อ variant เปลี่ยนเป็นชื่อที่สื่อความเข้ม ไม่ใช่ชื่อสีของแบรนด์เก่า
+//
+// ⚠️ emoji ของป้ายอยู่ใน <span aria-hidden="true"> ซึ่งเป็น **พี่น้อง** ของข้อความ
+// และ **ห้ามใส่ emoji ลงใน prop `message`** เด็ดขาด — marquee render ข้อความสองรอบ
+// สกรีนรีดเดอร์จะอ่าน emoji ซ้ำ (เคยเกิดกับ Announcement6)
+// สำเนาที่สองของ track มี aria-hidden="true" อยู่แล้วเพื่อไม่ให้อ่านซ้ำ
+//
+// พาเลตตาม brand-spec §2: พื้นโครมน้ำเงินมหาสมุทร #06283f / #0b4a73 ·
+// ขอบฟ้าสกาย #12b4ef · หมึก #eaf7ff (12.4:1 บน #06283f)
+// ⚠️ **ห้ามใส่หมึกขาวบนพื้น #12b4ef หรือ #00bfff** (2.4 / 2.1:1) ติ๊กเกอร์รอบนี้
+// จึงเป็น "พื้นเข้ม หมึกสว่าง" ไม่ใช่ "พื้นฟ้าสด หมึกขาว"
+// ⚠️ ชมพู be185d f43f5e fecdd3 ที่เคยอยู่ในไฟล์นี้ **ใกล้ตระกูลของ หมูบิน168
+// รอบก่อนทันที** (fa539c c2185b fb8cc0) — ทั้งสองชุดต้องไม่มีหลงเหลือเท่ากัน
+import { BRAND_NAME } from "../lib/brandProfile";
+
 export interface Props {
   message?: string;
-  variant?: "red" | "gold" | "pink" | "dark";
+  variant?: "sky" | "ocean" | "glass" | "soft";
 }
 
-// 2. ตั้งค่าเริ่มต้น (ถ้าไม่ใส่ variant มา จะดึงสี red มาใช้เป็นค่าตั้งต้น)
-const { message = "⚡ LAPDEE88 สมัครด้วยเบอร์โทร ฝากขั้นต่ำ 1 บาท ระบบออโต้ รองรับธนาคารและ TrueMoney Wallet", variant = "gold" } = Astro.props;
+// ค่า default เขียนจาก content.txt ของดรอปนี้ (บรรทัด 2, 5, 7, 13, 15) — หน้าย่อย
+// ทุกหน้าเรียกไฟล์นี้เปล่า จึงต้องอ่านได้ด้วยตัวเองโดยไม่ต้องพึ่ง prop
+// ⚠️ ชื่อแบรนด์ interpolate จาก BRAND_NAME **ห้ามพิมพ์ตรงๆ ในไฟล์นี้** — นี่คือ
+// จุดที่ชื่อแบรนด์ก่อนหน้าเคยค้างอยู่หลายสิบรอบ
+// ⚠️ ห้ามเขียนตัวเลขที่บรีฟไม่มี และห้ามใช้คำของ หมูบิน168 ("เกมสล็อตแท้" /
+// "เว็บตรงถูกลิขสิทธิ์" / "ฝากถอนไม่มีขั้นต่ำ" / "ไม่จำกัดยอด")
+const { message = `${BRAND_NAME} เกมสล็อตสนุกสุดมันส์ รวมค่ายดัง เบทต่ำ 1 บาท ฝากรับโบนัสได้ทั้งวัน ไม่ต้องทำเทิร์น คืนยอดเสีย 0.3% แนะนำเพื่อน 0.8% ฝากถอนทุกธนาคารและทรูมันนี่ แอดมิน 24ชม.`, variant = "sky" } = Astro.props;
 ---
 
 <div class="gxt1-container mx-auto max-w-[900px]" data-variant={variant} role="region" aria-label="ประกาศ">
-  <div class="gxt1-label"><span aria-hidden="true">🔥</span> ประกาศ :</div>
+  <div class="gxt1-label"><span aria-hidden="true">📣</span> ประกาศ :</div>
 
   <div class="gxt1-marquee">
     <div class="gxt1-track">
@@ -21,91 +54,51 @@ const { message = "⚡ LAPDEE88 สมัครด้วยเบอร์โท
 </div>
 
 <style>
-  /* 🌟 สไตล์ที่ 1: สีแดง (Red) - ค่าตั้งต้น */
+  /* ค่าตั้งต้น: ฟ้าสกายบนน้ำเงินมหาสมุทร (variant "sky") */
   .gxt1-container {
     --speed: 20s;
     --radius: 18px;
-    --bg1: #640613;
-    --bg2: #700000;
-    --border: #eeeeee;
-    --label-bg: rgba(0, 20, 3, 0.16);
-    --label-shadow: rgba(0, 24, 6, 0.4);
+    --bg1: #06283f;
+    --bg2: #0b4a73;
+    --border: #12b4ef;
+    --label-bg: rgba(18, 180, 239, 0.18);
+    --label-shadow: rgba(18, 180, 239, 0.45);
+    --text-color: #eaf7ff;
+  }
+
+  /* เข้มขึ้นอีกขั้น ไม่มีขอบเรืองแสง — ใช้เมื่อวางบนพื้นที่สว่างจัด */
+  .gxt1-container[data-variant="ocean"] {
+    --bg1: #042032;
+    --bg2: #06283f;
+    --border: #2a87c4;
+    --label-bg: rgba(42, 135, 196, 0.22);
+    --label-shadow: rgba(6, 40, 63, 0.5);
+    --text-color: #b6e3f0;
+  }
+
+  /* กระจกฝ้า: โปร่งแสงให้เห็นพื้นเพจฟ้าด้านหลัง */
+  .gxt1-container[data-variant="glass"] {
+    --bg1: rgba(6, 40, 63, 0.35);
+    --bg2: rgba(11, 74, 115, 0.5);
+    --border: rgba(234, 247, 255, 0.35);
+    --label-bg: linear-gradient(135deg, rgba(234, 247, 255, 0.25), rgba(234, 247, 255, 0.04));
+    --label-shadow: rgba(6, 40, 63, 0.35);
     --text-color: #ffffff;
-  }
-
-  /* 🌟 สไตล์ที่ 2: สีทอง VIP (Gold) */
-  .gxt1-container[data-variant="gold"] {
-    --bg1: #0b0906;
-    --bg2: #241a09;
-    --border: #e0bd72;
-    --label-bg: rgba(212, 175, 90, 0.18);
-    --label-shadow: rgba(212, 175, 90, 0.45);
-    --text-color: #f6e4b4;
-  }
-
-  /* 🌟 สไตล์ที่ 3: สีชมพู ABM96 (Pink) */
-  .gxt1-container[data-variant="pink"] {
-    --bg1: #be185d;
-    --bg2: #f43f5e;
-    --border: #fecdd3;
-    --label-bg: rgba(0, 0, 0, 0.2);
-    --label-shadow: rgba(0, 0, 0, 0.2);
-    --text-color: #ffffff;
-  }
-
-  /* 🌟 สไตล์ที่ 4: ดาร์กโหมด (Dark) */
-  .gxt1-container[data-variant="dark"] {
-    --bg1: #030712;
-    --bg2: #1f2937;
-    --border: #4b5563;
-    --label-bg: rgba(255, 255, 255, 0.1);
-    --label-shadow: rgba(0, 0, 0, 0.8);
-    --text-color: #60a5fa; /* ตัวหนังสือสีฟ้าสปอร์ต */
-  }
-  /* 🌟 สไตล์ที่ 5: ไซเบอร์นีออน (Cyber Neon) */
-  .gxt1-container[data-variant="cyber-neon"] {
-    --bg1: #05050a;
-    --bg2: #0f111a;
-    --border: #00f3ff;
-    --label-bg: rgba(0, 243, 255, 0.15);
-    --label-shadow: rgba(0, 243, 255, 0.5);
-    --text-color: #e0ffff;
-    /* เพิ่มแสงเรืองรองที่ขอบกล่อง */
-    box-shadow:
-      0 0 15px rgba(0, 243, 255, 0.3),
-      0 0 0 1px var(--border) inset;
-  }
-
-  /* 🌟 สไตล์ที่ 6: สปอร์ตสไตรค์ (Sport Strike) */
-  .gxt1-container[data-variant="sport-strike"] {
-    --bg1: #000000;
-    --bg2: #111111;
-    --border: #eab308;
-    --label-bg: #eab308;
-    --label-shadow: rgba(234, 179, 8, 0.5);
-    --text-color: #ffffff;
-  }
-  /* สปอร์ตต้องดุดัน: ป้ายสีเหลือง ตัวอักษรดำ และเอียง */
-  .gxt1-container[data-variant="sport-strike"] .gxt1-label {
-    color: #000000;
-    font-style: italic;
-    text-transform: uppercase;
-  }
-
-  /* 🌟 สไตล์ที่ 7: กระจกคาสิโน (Casino Glass) */
-  .gxt1-container[data-variant="casino-glass"] {
-    --bg1: rgba(255, 255, 255, 0.02);
-    --bg2: rgba(255, 255, 255, 0.08);
-    --border: rgba(255, 255, 255, 0.15);
-    --label-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
-    --label-shadow: rgba(0, 0, 0, 0.3);
-    --text-color: #ffffff;
-    /* เอฟเฟกต์เบลอพื้นหลังให้เป็นกระจกฝ้า */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 8px 32px rgba(6, 40, 63, 0.3),
       0 0 0 1px var(--border) inset;
+  }
+
+  /* ผิวสว่าง หมึกเข้ม — สำหรับวางคร่อมการ์ดขาว ไม่ใช่บนพื้นเพจ */
+  .gxt1-container[data-variant="soft"] {
+    --bg1: #e4f6fb;
+    --bg2: #f0faff;
+    --border: #4fb8ea;
+    --label-bg: rgba(18, 180, 239, 0.16);
+    --label-shadow: rgba(15, 86, 132, 0.25);
+    --text-color: #06283f;
   }
 
   /* ========================================= */
@@ -117,10 +110,9 @@ const { message = "⚡ LAPDEE88 สมัครด้วยเบอร์โท
     gap: 8px;
     padding: 6px 10px;
     border-radius: var(--radius);
-    /* ดึงตัวแปรสีมาใช้ */
     background: linear-gradient(180deg, var(--bg2), var(--bg1));
     box-shadow:
-      0 6px 12px rgba(0, 0, 0, 0.2),
+      0 6px 12px rgba(6, 40, 63, 0.2),
       0 0 0 1px var(--border) inset;
     overflow: hidden;
     position: relative;

@@ -37,25 +37,30 @@ export default defineConfig({
     "/line": "https://tinyurl.com/tog191",
   },
 
-  // โดเมนจริงรอบนี้คือ https://ruay168.games — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️ โดเมนรอบนี้เป็น **ASCII ล้วน จึงเก็บตรงตัว ไม่ต้องแปลง punycode**
-  // (เหมือนรอบก่อน madum168.com — ส่วน นาซ่า168 ก่อนหน้านั้นเป็น IDN ภาษาไทย
-  // ที่ต้องแปลงเป็น xn--168-ill4dyhb9o.com)
-  // ⚠️⚠️ **TLD รอบนี้คือ `.games` ไม่ใช่ `.com`** — ต่างจากสองรอบก่อนหน้า
-  // อย่าเผลอพิมพ์ .com ตามความเคยชิน ทุกค่าที่ derive จากบรรทัดนี้จะผิดตามทันที
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@ruay168.games ซึ่ง
+  // โดเมนจริงรอบนี้คือ https://โบ๊ะบ๊ะ-168.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ⚠️⚠️ **โดเมนรอบนี้เป็น IDN ภาษาไทย จึงต้องแปลงเป็น punycode ก่อนเขียนลงที่นี่**
+  // (กลับทิศจากสามรอบก่อนหน้าที่เป็น ASCII ล้วน: moobin-168.online /
+  // slot-168.online / ruay168.games — ส่วน นาซ่า168 กับ สบาย168 ก่อนหน้านั้น
+  // เป็น IDN เหมือนรอบนี้)
+  //   โบ๊ะบ๊ะ-168.com -> xn---168-phoa7mb2n5cc.com
+  // ตรวจด้วย `node -e "console.log(new URL('https://โบ๊ะบ๊ะ-168.com').hostname)"`
+  // ห้ามพิมพ์เอาเองจากความจำ
+  // ⚠️⚠️ **TLD รอบนี้คือ `.com`** (รอบก่อนเป็น .online) ทุกค่าที่ derive จาก
+  // บรรทัดนี้จะผิดตามทันทีถ้าพิมพ์ TLD ผิด
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@xn---168-phoa7mb2n5cc.com ซึ่ง
   // **ถูกต้องแล้ว** verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ
   // — ห้ามเขียนอีเมลด้วยมือ
   // ⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้คนละค่ากัน:
-  // ชื่อแบรนด์ให้ iconSlug = "168" (อักษรไทยโดน [^a-z0-9] กินทิ้ง) ส่วนโดเมนให้
-  // name = "ruay168" (verify-build เทียบกับ SITE.hostname.split(".")[0] ซึ่งตัด
-  // TLD ทิ้ง — ".games" จึงไม่เข้ามาในชื่อ worker)
-  // ✅ ชื่อ worker รอบนี้ **ไม่ชนกับแบรนด์ไหนในลิสต์ของ wrangler.toml** (ตรวจแล้ว
-  // — ในลิสต์มี ruaythear168 กับ ruaythear168-vip ซึ่งเป็นคนละค่ากับ ruay168)
+  // ชื่อแบรนด์ให้ iconSlug = "" (อักษรไทยโดน [^a-z0-9] กินทิ้งทั้งสตริง แล้วตกไป
+  // ใช้ fallback เป็นแฮชของชื่อ) ส่วนโดเมนให้ name = "xn---168-phoa7mb2n5cc"
+  // (verify-build เทียบกับ SITE.hostname.split(".")[0] ซึ่งตัด TLD ทิ้ง)
+  // 🚨🚨 ในลิสต์ของ wrangler.toml มี **xn---168-pho7byc9c** (สบาย168) ซึ่ง
+  // **ขึ้นต้น 12 ตัวแรกเหมือนกันเป๊ะ** (xn---168-pho) ของรอบนี้ลงท้ายด้วย
+  // **a7mb2n5cc** ไม่ใช่ **7byc9c** — ตรวจทีละตัวอักษร
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://moobin-168.online",
+  site: "https://xn---168-phoa7mb2n5cc.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
