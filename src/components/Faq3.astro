@@ -7,7 +7,7 @@ export interface FaqItem {
 export interface Props {
   title?: string;
   /** The title comes from the docx heading, so it renders as a real heading.
-   *  The questions below it stay <p> — promoting a <summary> to a heading is
+   *  The questions below it stay <span> — promoting a <summary> to a heading is
    *  what makes the rendered h2/h3 inventory stop matching the brief. */
   as?: "h2" | "h3" | "h4";
   faqs?: FaqItem[];
@@ -23,72 +23,84 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
 //
 // `faqs` ships with NO default on purpose: a forgotten prop then renders an
 // empty accordion instead of some previous brand's questions. index.astro hands
-// it the same array the FAQPage node is built from (content.txt บรรทัด 18-23,
+// it the same array the FAQPage node is built from (content.txt บรรทัด 24-29,
 // คำถาม/คำตอบสามคู่ของบรีฟเอง ตัดเฉพาะหมายเลข "1." "2." "3." ออกเพราะ accordion
 // เป็นตัวลิสต์อยู่แล้ว)
 //
+// ⚠️ คำถามอยู่ใน <span> ภายใน <summary> ไม่ใช่ <p> และไม่ใช่ heading — <summary>
+// รับได้แค่ phrasing content (หรือ heading หนึ่งใบ) และการเลื่อนขึ้นเป็น heading
+// จะทำให้ inventory h2/h3 ของหน้าไม่ตรงกับบรีฟทันที
+//
 // ───────────────────────────────────────────────────────────────────────────
-// สล็อต168 (ดรอป 2026-10-23) — พาเลตตาม .claude/brand-spec-slot168.md §2
-// **แดงเจลมันวาวนำ · ขาว/มุกอุ่น (R>G>B) เป็นวัสดุที่สอง · บนดำอมแดงเข้ม**
-// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ฟ้าไซยาน-น้ำเงินบนธีมสว่าง (การ์ดขาว) ของ
-// ร่ำรวย168** ทั้งใบ จึงเป็นการ **กลับทิศ 180 องศา**: รอบนี้ bg.json =
-// {"mode":"color","color":"#140000"} = **ดำอมแดงเข้มมาก** แผงนี้จึงเป็น
-// **การ์ดมืด + หมึกสว่าง** ⚠️ **ห้าม "แก้" กลับไปเป็นการ์ดขาว** — การ์ดขาวกับหมึก
-// #f0e6e4 จะทำให้ตัวอักษรหายไปทั้งแผง **และห้ามเหลือฟ้า/ไซยาน/น้ำเงินไว้เลยสักค่า**
-// ลำดับผิว: #2a0c0d ยก (แถว hover) · **#1c0607 การ์ด (แถวปิด)** · #0b0000 จม
-// (แป้นเครื่องหมาย +) · #140000 พื้นเพจ
+// MEXICANOSLOT (ดรอป 2026-10-24) — พาเลตตาม .claude/brand-spec-mexicanoslot.md §2
+// **แดงเม็กซิกันนำ · ทอง/พีชฟางเป็นวัสดุที่สอง · เนื้อหาเป็นธีมสว่าง**
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **แดงเจลบนดำอมแดงของ สล็อต168** ทั้งใบ — ซึ่งเป็น
+// กับดักที่แหลมที่สุดของรอบนี้ เพราะ "มันก็แดงอยู่แล้ว" **แต่เป็นแดงคนละค่าทั้งชุด
+// และเป็นธีมมืดซึ่งรอบนี้กลับทิศ**: bg.json ของดรอปนี้คือ
+// {"mode":"color","color":"#fef6fb"} = **ขาวอมชมพูจาง** แผงนี้จึงเป็น
+// **การ์ดสว่าง + หมึกเข้ม** ⚠️ **ห้าม "แก้" กลับไปเป็นการ์ดมืด** — การ์ดมืดกับหมึก
+// #3f130d จะทำให้ตัวอักษรหายไปทั้งแผง ไม่ใช่แค่จางลง
+// ลำดับผิว: #ffffff การ์ด (แถวปิด) · **#fff3ea ยก (แถว hover + แป้นเครื่องหมาย +)** ·
+// #fde4d3 wash · #fef6fb พื้นเพจ
 //
 // จังหวะรูปทรง: แผงนี้เป็นกล่องสุดท้ายของสายบทความ (docx H2 §8 "คำถามที่พบบ่อย
-// เกี่ยวกับ <แบรนด์>" — content.txt บรรทัด 17) และเป็นใบเดียวของหน้าที่ **หัวข้อ
-// จัดกึ่งกลางพร้อมขีดใต้จางสองข้าง** ⚠️ `text-center` อยู่บน **ตัว HeadingTag เอง**
-// เท่านั้น ไม่ได้อยู่บน <header> <section> หรือการ์ดใบไหน จึงไม่ไหลลงไปจัดกึ่งกลาง
-// คำตอบในแต่ละแถว
+// เกี่ยวกับ <แบรนด์>" — content.txt บรรทัด 23) และเป็นใบเดียวของหน้าที่ **หัวข้อ
+// จัดกึ่งกลางพร้อมขีดใต้จางสองข้าง และไม่มีการ์ดครอบหัวข้อ** ⚠️ §2 ก็จัดกึ่งกลาง
+// เหมือนกัน แต่แถบของ §2 อยู่ **เหนือ** หัวข้อและอยู่ในการ์ดมุมตัด
+// ⚠️ `text-center` อยู่บน **ตัว HeadingTag เอง** เท่านั้น ไม่ได้อยู่บน <header>
+// <section> หรือการ์ดใบไหน จึงไม่ไหลลงไปจัดกึ่งกลางคำตอบในแต่ละแถว
+//
+// 🚨 **หัวข้อนี้นั่งบนพื้นเพจ #fef6fb ตรง ๆ ไม่มีการ์ดรอง** §2 จึงอนุญาตเฉพาะ
+// #3f130d (14.4:1) หรือ **#a81410 (7.3:1)** เท่านั้นตรงนั้น — **ห้าม #de2b1e
+// (3.9:1) เด็ดขาด**
 //
 // สีที่ใช้และเหตุผล (ทุกค่ามาจากตาราง §2 ไม่มีเฉดคิดเพิ่ม):
-//   หัวข้อ — แดงเจล #fb2e33 เป็น **ตัวอักษรทึบค่าเดียว ไม่ใช่ bg-clip-text ไล่เฉด**
-//   เพราะหัวข้อนี้นั่งบน **พื้นเพจ #140000** (5.4:1 ผ่าน AA ทั้งเกณฑ์ปกติและ
-//   large text) และการไล่เฉดจะลากค่าที่อ่านไม่ออก (#cb0b0d = 3.5:1) เข้ามาเป็น
+//   หัวข้อ — แดงลึก #a81410 เป็น **ตัวอักษรทึบค่าเดียว ไม่ใช่ bg-clip-text ไล่เฉด**
+//   เพราะการไล่เฉดบนผิวสว่างจะลากค่าที่อ่านไม่ออก (#de2b1e / #f2a033) เข้ามาเป็น
 //   พิกเซลของตัวอักษรได้ง่ายเกินไป
-//   เส้นคาดใต้หัวข้อ — แดงเจล #fb2e33 ซึ่งตรงนี้เป็น **พื้นถม ไม่ใช่ตัวอักษร**
-//   คำถาม — #fb2e33 (5.1:1 บนผิวการ์ด) · คำตอบ — #f0e6e4 = BRAND_TEXT (16.0:1)
-//   ⚠️ **ไม่มีสีตัวอักษรตอน hover** เพราะค่าที่เหลือที่ "เข้มขึ้น" ในพาเลตนี้คือ
-//   #cb0b0d (3.3:1 บนผิวยก) ซึ่งตกเกณฑ์ — hover จึงสื่อด้วย **ขอบ + พื้น** แทน
-//   เครื่องหมาย + — แป้นอินเซ็ต #0b0000 ขอบ #551c1e หมึก #fb2e33 ตอนปิด และพลิกเป็น
-//   **พื้นถมแดงเจล #fb2e33 + หมึกดำ #0a0a0a (5.2:1)** ตอนเปิด ซึ่งเป็นคู่ที่ §2
-//   ระบุไว้ตรง ๆ สำหรับพื้นแดงสว่าง **ห้ามพลิกไปใช้หมึกขาว (3.8:1)**
-// ⚠️ **มุกอุ่น #e3d6d4 / #c9b9b7 / #7d6f6e เป็นวัสดุที่สองของ §3 กับ §7 บนหน้า
-// เดียวกัน** จึงไม่โผล่ในไฟล์นี้เลยสักค่า เพื่อให้แผงสุดท้ายอ่านเป็นแดงล้วน ·
-// **#fb2e33 ในเนื้อความย่อหน้าเป็นงานของ <strong> บนหน้าเพจ**
+//   เส้นคาดใต้หัวข้อ — ไล่โปร่ง→#de2b1e→โปร่ง ซึ่งตรงนี้เป็น **พื้นถม ไม่ใช่ตัวอักษร**
+//   คำถาม — #a81410 (7.6:1 บนการ์ดขาว · 7.2:1 บนผิวยก) · คำตอบ — #3f130d =
+//   BRAND_TEXT (14.9:1 บนการ์ดขาว)
+//   เครื่องหมาย + — แป้นอินเซ็ต #fff3ea ขอบ #f6c4a4 หมึก #a81410 ตอนปิด และพลิกเป็น
+//   **พื้นถม #c81e12 + หมึกขาว (5.7:1)** ตอนเปิด ซึ่งเป็นคู่ที่ §2 ระบุไว้ตรง ๆ
+//   สำหรับพื้นแดงที่รับหมึกขาว **ห้ามพลิกไปใช้ #de2b1e (ขาวบนมันได้แค่ 4.7:1)**
+// ⚠️ **ทอง #f2a033 และเขียว #117a41 เป็นวัสดุของ §2/§4/§5/§7 บนหน้าเดียวกัน**
+// จึงไม่โผล่ในไฟล์นี้เลยสักค่า เพื่อให้แผงสุดท้ายอ่านเป็นแดงล้วน ·
+// **#a81410 ในย่อหน้าเนื้อความเป็นงานของ <strong> บนหน้าเพจ**
+// ⚠️ **#f2543f / #2bb061 / #fdeee2 / #2b100a เป็นสีของโครมเข้ม (navbar/footer/
+// ticker) เท่านั้น ห้ามหลุดเข้ามาในไฟล์นี้**
 //
 // ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง เพราะรีโปนี้มีแดง
-// ของแบรนด์อื่นอยู่สิบกว่าชุด** การเจอ "แดง" ในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
-// แดงรอบนี้คือ **#fb2e33 (R251 G46 B51) / #cb0b0d / #8a0608 / #d81115 / #b00d11**
-// และไม่ใช่ 18a5e2 0d6b9b a9d7f2 16294a 111a3f dbe6ff eef4ff dce9fb f4e4d3 e4cbb3
-// (**ร่ำรวย168 — ชุดที่เพิ่งอยู่ในไฟล์นี้ทั้งใบ**) ไม่ใช่ ffd94a e3a712 9d6f06
-// e8eaee b4b9c2 6b7079 dde1e7 070707 121110 1c1a16 3d3425 f3ece0 bfb8aa (**รวย168 —
-// แบรนด์ขาออก เสี่ยงหลงเหลือสูงสุด** ⚠️ 1c1a16 ห่างจากผิวการ์ดรอบนี้ 1c0607 แค่ G/B)
-// ไม่ใช่ ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 2a3c70 f4eef1 (มาดาม168)
-// ไม่ใช่ 2cc3fc 9ae0fa 0a7fbd 063a57 0f3a4a dff4fd f2fbff ccf7ff eafaff fdcb0c
-// fefb6b 8a6504 06293c (สบาย168) ไม่ใช่ fb141b ff5f63 ffa0a2 db040b 8a0609 (GT66B —
-// ⚠️ ห่างจากค่าของรอบนี้หนึ่งก้าว **เจอแล้วแปลว่าพิมพ์ผิด**) ไม่ใช่ c30303 4a0f0f
-// 8f0505 e81313 dcb95f b8862b 96681f fff1ef ffdbdb (รวยแท้168) ไม่ใช่ d4922c fdfc71
-// f6e3b4 a25b24 5a3310 33200a 1f1304 0a0601 1a1000 fbf6e3 (ufalion168) ไม่ใช่
-// f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f 3d3016 332810 201906 (เงินทอง168)
-// ไม่ใช่ b3121b f2bba5 c98a74 (ขวัญใจ168) eb0305 c20305 9b0a0c ff4446 (โปรดี168)
-// fa0513 ff5a5f ffadaf (สมหวัง168) d9212a 8e1a16 (ดวงเศรษฐี168) fb1b32 ff8f9c 5c0410
-// (มีเฮ168) e4021b (รวยเทพ168) d30304 a00203 ff6b6e (รับตัง168) dc0203 f5282a
-// (หวย365) ff3b14 6d0804 2b0000 (FLASH877)
+// ของแบรนด์อื่นอยู่หกชุดขึ้นไป** การเจอ "แดง" ในไฟล์นี้จึงไม่พิสูจน์อะไรเลย
+// แดงรอบนี้คือ **#de2b1e (R222 G43 B30) / #a81410 / #c81e12 / #9d140c / #6f0e08**
+// และไม่ใช่ fb2e33 cb0b0d d81115 b00d11 8a0608 1c0607 2a0c0d 551c1e 140000 0b0000
+// f0e6e4 c9b9b7 e3d6d4 7d6f6e (**สล็อต168 — ชุดที่เพิ่งอยู่ในไฟล์นี้ทั้งใบ**
+// ⚠️⚠️ **fb2e33 ↔ #de2b1e ตระกูลเดียวกันและความอิ่มใกล้กัน · cb0b0d / b00d11 ↔
+// #c81e12 / #a81410 · 1c0607 ↔ #2b100a ฐานโครมรอบนี้ · f0e6e4 ↔ #fdeee2 หมึกโครม
+// รอบนี้ — ทั้งสี่คู่ต้องสงสัยว่าพิมพ์ผิดก่อนเสมอ**)
+// ไม่ใช่ ffd6fa fff4fb ffe3f5 f9b2d9 f479b9 6a0f3c 95486b 9c0f55 fb439b fc74b5
+// ffc2e2 d91a73 b01160 85094a (**okkub88 — แบรนด์ขาออก เสี่ยงหลงเหลือสูงสุด**)
+// ไม่ใช่ 00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0f5684 1a6ea8 (โบ๊ะบ๊ะ168)
+// ไม่ใช่ ff2e52 e01238 c9102f (มาดาม168) ไม่ใช่ c30303 8f0505 e81313 dcb95f 280b0b
+// (รวยแท้168) ไม่ใช่ d9212a 8e1a16 f0c878 fff8d8 150303 4e2120 300605 (ดวงเศรษฐี168)
+// ไม่ใช่ fb141b ff5f63 ffa0a2 (GT66B — ⚠️ ห่างจากค่าของรอบนี้หนึ่งก้าว **เจอแล้ว
+// แปลว่าพิมพ์ผิด**) ไม่ใช่ eb0305 c20305 9b0a0c ff4446 b44c06 f0b46a (โปรดี168 /
+// NavbarStyle4) ไม่ใช่ fa0513 ff5a5f ffadaf (สมหวัง168) ไม่ใช่ b3121b f2bba5
+// (ขวัญใจ168) ไม่ใช่ fb1b32 ff8f9c 5c0410 (มีเฮ168) ไม่ใช่ e4021b (รวยเทพ168)
+// ไม่ใช่ d30304 a00203 (รับตัง168) ไม่ใช่ dc0203 f5282a (หวย365) ไม่ใช่ ff3b14
+// 6d0804 2b0000 (FLASH877) ไม่ใช่ fa539c c2185b 8e0f41 fb8cc0 f7bcd9 ffe5ff fff0f8
+// ffeef7 3b0b26 (หมูบิน168) และไม่ใช่ 18a5e2 0d6b9b a9d7f2 16294a (ร่ำรวย168)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม
-// ไม่มีชมพู/ฟูเชีย ไม่มีครีม/เบจ/พีช ไม่มีน้ำตาล และไม่มีแรมป์เทาเงินเย็น**
+// ⚠️ **รอบนี้ไม่มีฟ้า/น้ำเงิน/ไซแอน ไม่มีม่วง ไม่มีชมพู/ฟูเชีย ไม่มีแรมป์เทาเงิน
+// และไฟล์นี้ยังไม่มีทอง/เขียวด้วย** (ทอง #f2a033 กับเขียว #117a41 อยู่กล่องอื่น)
 ---
 
 <section aria-label={sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[950px] px-4 font-sans">
   {
     title && (
       <header class="mb-8">
-        <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wide text-[#fb2e33] md:text-3xl">{title}</HeadingTag>
-        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#fb2e33] to-transparent" />
+        <HeadingTag class="text-center text-2xl leading-normal font-black tracking-wide text-[#a81410] md:text-3xl">{title}</HeadingTag>
+        <div aria-hidden="true" class="mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#de2b1e] to-transparent" />
       </header>
     )
   }
@@ -98,18 +110,18 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
       faqs.map((faq) => (
         <details
           name="faq-accordion"
-          class="faq-item rounded-3xl border border-[#551c1e] bg-[#1c0607] p-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all hover:border-[#fb2e33] hover:bg-[#2a0c0d]">
-          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#fb2e33]">
-            <p class="text-left text-base leading-relaxed font-bold">{faq.q}</p>
+          class="faq-item rounded-3xl border border-[#f6c4a4] bg-white p-2 shadow-[0_10px_30px_rgba(63,19,13,0.1)] transition-all hover:border-[#de2b1e] hover:bg-[#fff3ea]">
+          <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-4 text-left text-[#a81410]">
+            <span class="block text-left text-base leading-relaxed font-bold">{faq.q}</span>
             <span
               aria-hidden="true"
-              class="faq-icon ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#551c1e] bg-[#0b0000] text-xl leading-none text-[#fb2e33] transition-all duration-300 ease-in-out">
+              class="faq-icon ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#f6c4a4] bg-[#fff3ea] text-xl leading-none text-[#a81410] transition-all duration-300 ease-in-out">
               +
             </span>
           </summary>
 
           <div class="faq-answer overflow-hidden">
-            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#f0e6e4]">{faq.a}</p>
+            <p class="px-4 pb-4 text-left text-base leading-relaxed text-[#3f130d]">{faq.a}</p>
           </div>
         </details>
       ))
@@ -126,9 +138,9 @@ const sectionLabel = title ?? "คำถามที่พบบ่อย";
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    border-color: #fb2e33;
-    background-color: #fb2e33;
-    color: #0a0a0a;
+    border-color: #c81e12;
+    background-color: #c81e12;
+    color: #ffffff;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

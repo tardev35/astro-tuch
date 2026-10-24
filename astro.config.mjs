@@ -55,12 +55,12 @@ export default defineConfig({
   // โดน [^a-z0-9] กินอะไรเลย **แต่ที่มาของสองค่ายังคนละทางกันเสมอ** —
   // name มาจาก SITE.hostname.split(".")[0] ส่วน iconSlug มาจาก BRAND_NAME
   // (รอบก่อน โบ๊ะบ๊ะ168 สองค่านี้ต่างกันสิ้นเชิง: "168" vs "xn---168-phoa7mb2n5cc")
-  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** กลับทิศจากรอบก่อนที่
-  // เป็น IDN ภาษาไทย — และ **TLD เป็น .net** ไม่ใช่ .com ของรอบก่อน
+  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** เหมือนรอบก่อน
+  // — แต่ **TLD เป็น .cc** ไม่ใช่ .net ของรอบก่อน (name ไม่รวม TLD อยู่แล้ว)
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://okkub88.net",
+  site: "https://mexicanoslot.cc",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

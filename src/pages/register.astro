@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement5.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
@@ -11,6 +11,14 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // interstitial into a real indexable page whose only content is one button to
 // the same destination. One <h1> from the ContentBox title plus one button:
 // h1x1, h2x0, h3x0. Never write an article here and never add a second heading.
+//
+// ⚠️ This page is NOT one of the "full custom HTML + own <style> block"
+// standalone pages SKILL.md Phase 4.5 warns about — it renders through
+// MainLayout + ContentBox like every other sub-page, so it has no
+// .brand-identity string and no raw-hex <style> block of its own. The only
+// brand colours here are the Tailwind arbitrary values on the button below.
+// Do not "restore" a <style> block; the font link and the <html> colour come
+// from MainLayout.
 //
 // targetUrl is this brand's affiliate link, carried over from the interstitial
 // it replaced. **Do not edit it**, and keep rel="nofollow sponsored" plus
@@ -22,74 +30,85 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // The copy is rewritten every round rather than patched: the page used to be a
 // noindex interstitial, so any inherited title/description still promises an
 // automatic forward that no longer happens — the visitor has to press the
-// button now. It is an indexed page, which means verify-build holds its
-// description to the same 150–160 character window as every other page.
+// button now. It is an indexed page (no `robots` prop = indexable), which means
+// verify-build holds its description to the same 150–160 character window as
+// every other page.
 //
 // บรีฟรอบนี้ (src/assets/content.txt) **ไม่มีส่วน SUB-PAGES** → title/description
-// ของหน้านี้เขียนเอง และพูดได้แค่สิ่งที่บรีฟมีจริง (บรรทัด 6: ควรตรวจสอบเงื่อนไข
-// ของแต่ละโปรโมชั่นก่อนรับโบนัส โดยเฉพาะข้อกำหนดการถอนเงิน · บรรทัด 8: ควรตรวจสอบ
-// ที่อยู่เว็บไซต์ให้ถูกต้องและอ่านเงื่อนไขการใช้บริการก่อนดำเนินการ · บรรทัด 12:
-// ไม่ควรเปิดเผยรหัส OTP ให้ใครทราบ)
+// ของหน้านี้เขียนเอง และพูดได้แค่สิ่งที่บรีฟมีจริง (บรรทัด 14: ควรตรวจสอบคุณสมบัติ
+// ผู้สมัคร ข้อกำหนดด้านอายุ กฎหมายที่เกี่ยวข้อง และนโยบายความเป็นส่วนตัวให้ครบถ้วน ·
+// บรรทัด 16: ตรวจสอบที่อยู่เว็บไซต์ให้ถูกต้องและอ่านข้อกำหนดการเปิดบัญชี ·
+// บรรทัด 18: ไม่ควรเปิดเผยรหัสผ่านและรหัส OTP ให้ใครทราบ)
 // ⚠️ บรีฟรอบนี้ **มีหัวข้อขั้นตอนสมัครสมาชิก 3 ขั้นตอนจริง แต่เป็นของ index.astro**
-// (หัวข้อ H3 ที่ 3 ในเช็กลิสต์ brand-spec §4) **ไม่ใช่ของหน้านี้** — หน้านี้มีโควตา
+// (หัวข้อ H2 ที่ 6 ในเช็กลิสต์ brand-spec §4) **ไม่ใช่ของหน้านี้** — หน้านี้มีโควตา
 // เป็น **ปุ่มเดียว** ห้ามแตกเป็นหัวข้อหรือรายการขั้นตอนบนหน้า
 //
 // ⚠️ น้ำเสียงของบรีฟรอบนี้คือ "ข้อมูล + เตือนให้ตรวจสอบ" ไม่ใช่โฆษณาการันตี
-// คลังคำที่ใช้ได้รอบนี้อยู่ใน .claude/brand-spec-okkub88.md §5 (ไม่พิมพ์ซ้ำที่นี่
-// และ **ไม่พิมพ์คำของแบรนด์เก่าซ้ำที่นี่** เพื่อไม่ให้ sweep ของรอบถัดไปเจอ
-// false positive ในคอมเมนต์ของไฟล์นี้เอง)
+// คลังคำที่ใช้ได้รอบนี้อยู่ใน .claude/brand-spec-mexicanoslot.md §5 (ไม่พิมพ์ซ้ำ
+// ที่นี่ และ **ไม่พิมพ์คำของแบรนด์เก่าซ้ำที่นี่** เพื่อไม่ให้ sweep ของรอบถัดไป
+// เจอ false positive ในคอมเมนต์ของไฟล์นี้เอง)
 // ตัวเลขที่อ้างได้รอบนี้มีแค่ 0.3% · 0.8% · 3 ขั้นตอน · 24ชม. — ห้ามแต่งใบอนุญาต
 // จำนวนเกม จำนวนค่าย ค่า RTP ปีก่อตั้ง จำนวนสมาชิก หรือค่าร้อยละเต็มจำนวน
-// ⚠️ บรีฟรอบนี้เขียน **ทรูวอลเลท** (ไม่ใช่คำของรอบก่อน) — ห้ามสลับคำ
+// 🚨🚨 **บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว** —
+// ห้ามเขียนถึงรายการฝากถอนหรือชื่อวอลเล็ตใดๆ บนหน้านี้ (ชื่อวอลเล็ตของแบรนด์
+// ขาออกคือคำที่พลาดง่ายที่สุดของรอบนี้ — รายการเต็มใน brand-spec §5)
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พาเลตรอบนี้อยู่ใน .claude/brand-spec-okkub88.md §2 — ธีมสว่าง "บับเบิลกัม"
-// bg.json = {"mode":"color","color":"#ffd6fa"} = **ชมพูบับเบิลกัมพาสเทล**
-// (รอบก่อนเป็นฟ้าสกาย — ค่ามาจากไฟล์ ห้ามเดาว่าเท่าเดิม และห้าม "แก้" การ์ดให้มืด)
-// การ์ด ContentBox จึงเป็นผิว #ffffff บนหมึก #6a0f3c (= BRAND_TEXT, 12.1:1)
-// ปุ่มนี้เป็น **หลัก (primary)** ของพาเลต: ไล่เฉดชมพูเบอร์รี
-// #d91a73 -> #b01160 -> #85094a ขอบ #85094a บนหมึก **ขาว #ffffff**
-// (4.8 / 6.8 / 9.8:1 ต่อ stop — ค่าที่ตรวจคอนทราสต์มาแล้ว ห้ามแก้เอง)
-// ส่วน /login เป็น **รอง (secondary)**: ไล่เฉดขาว #ffffff -> #ffe3f5 บนหมึก
-// เบอร์รีเข้ม #6a0f3c จึงไม่ซ้ำกัน
-// 🚨🚨 **ห้ามใช้ #fb439b หรือ #ffd6fa เป็น stop ของปุ่มนี้** — ขาวบน #fb439b ได้
-// แค่ 3.3:1 และบน #ffd6fa ได้ 1.2:1 ตกเกณฑ์ทั้งคู่ สองค่านั้นสงวนไว้เป็นขอบ/ออรา/
-// พื้นถมบนผิวสว่าง · แผ่นไฮไลต์ด้านบนปุ่มจึงจำกัดที่ white/10 (stop บนยังผ่าน AA)
-// **ห้ามเพิ่มความทึบของแผ่นนี้**
-// 🚨🚨 **#ffd6fa #fb439b #fc74b5 #ffc2e2 #f9b2d9 #f479b9 #f4a7cf ห้ามถือตัวอักษร
-// บนผิวสว่างเอง** เป็นพื้นถม/ขอบ/ออราเท่านั้น · ที่ถือตัวอักษรได้บนผิวสว่างชุดนี้
-// คือ #6a0f3c (12.1:1) · #9c0f55 (8.1:1) · #95486b (6.2:1) · #d91a73 (คู่กับขาว
-// 4.8:1)
-// ⚠️⚠️ **วัสดุของรอบนี้คือเจลลี่ชมพูบับเบิลกัมตัดขอบขาวหนา** อ่านจากอาร์ตเวิร์ก
-// ตรงๆ: โลโก้เป็นเวิร์ดมาร์กละตินทรงเจลลี่สามมิติ ตัวแรกเป็นหน้าการ์ตูนกลมชมพู
-// ขยิบตา ยิ้มอ้าปาก แก้มแดง มือสวมถุงมือขาวชูสองนิ้ว มีหัวใจชมพูลอยประดับ
-// ⚠️⚠️ **หมูการ์ตูนชมพู เหรียญทอง กล่องของขวัญชมพู ฉากสตูดิโอขาว และสีผิวนักแสดง
-// เป็นวัตถุในภาพ ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json เท่านั้น
-// ⚠️ ปุ่มของ Navfoot อยู่บนแถบโครมคนละโซนกับปุ่มบนการ์ดนี้
+// พาเลตรอบนี้อยู่ใน .claude/brand-spec-mexicanoslot.md §2 — **เนื้อหาสว่าง
+// โครมเข้ม** (กลับทิศครึ่งหนึ่งจากรอบก่อนที่สว่างทั้งหน้ารวมโครม)
+// bg.json = {"mode":"color","color":"#fef6fb"} = **ขาวอมชมพูจาง**
+// (รอบก่อนเป็น ffd6fa ที่อิ่มกว่ามาก — ค่ามาจากไฟล์ ห้ามเดาว่าเท่าเดิม และห้าม
+// "แก้" การ์ดให้มืดตามโครม)
+// การ์ด ContentBox จึงเป็นผิว #ffffff บนหมึก #3f130d (= BRAND_TEXT, 14.9:1)
+// ปุ่มนี้เป็น **หลัก (primary)** ของพาเลต: ไล่เฉดแดงเม็กซิกัน
+// #c81e12 -> #9d140c -> #6f0e08 ขอบ #6f0e08 บนหมึก **ขาว #ffffff**
+// (5.7 / 8.3 / 11.4:1 ต่อ stop — ค่าที่ตรวจคอนทราสต์มาแล้ว ห้ามแก้เอง)
+// ส่วน /login เป็น **รอง (secondary)**: ไล่เฉดขาว #ffffff -> #fde4d3 บนหมึก
+// เอสเพรสโซ #3f130d จึงไม่ซ้ำกัน
+// 🚨🚨 **ห้ามใช้ #de2b1e หรือ #f2a033 เป็น stop ของปุ่มนี้** — ขาวบน #de2b1e ได้
+// แค่ 4.7:1 (เฉียดเกินไปสำหรับปุ่มจริง) และบนทองยิ่งไม่ผ่าน สองค่านั้นสงวนไว้เป็น
+// ขอบ/ออรา/พื้นถมบนผิวสว่าง · แผ่นไฮไลต์ด้านบนปุ่มจึงจำกัดที่ white/10 (stop บน
+// ยังผ่าน AA) **ห้ามเพิ่มความทึบของแผ่นนี้**
+// 🚨🚨 **#fef6fb #de2b1e #f2a033 #fed7b5 #fec28d #f6c4a4 #e2855c #fde4d3 #fff3ea
+// ห้ามถือตัวอักษรบนผิวสว่างเอง** เป็นพื้นถม/ขอบ/ออราเท่านั้น · ที่ถือตัวอักษรได้
+// บนผิวสว่างชุดนี้คือ #3f130d (14.9:1) · #a81410 (7.6:1) · #80453a (6.6:1) ·
+// #117a41 (5.4:1) · #c81e12 (คู่กับขาว 5.7:1)
+// ⚠️⚠️ **#f2543f (3.5:1) และ #2bb061 (2.9:1) เป็นสีของผิวโครมเข้มเท่านั้น
+// ห้ามหลุดเข้ามาในไฟล์นี้**
+// ⚠️⚠️ **วัสดุของรอบนี้คือโปสเตอร์ fiesta แดง-ทอง-เขียว ตัดขอบขาวหนา** อ่านจาก
+// อาร์ตเวิร์กตรงๆ: โลโก้เป็นเวิร์ดมาร์กสามมิติ "MEXICANO" แดงสด + "SLOT" น้ำเงิน
+// ไล่ฟ้า ตัดขอบขาวหนา คู่กับชายการ์ตูนไว้หนวดสวมซอมเบรโรฟางยกนิ้วโป้ง
+// 🚨🚨 **"SLOT" สีน้ำเงินไล่ฟ้าในเวิร์ดมาร์กเป็นอาร์ตเวิร์ก ไม่ใช่สี UI** —
+// ฟ้าคือฮิวนำของแบรนด์เมื่อสองรอบก่อน ดึงมันเข้ามา = หลงเหลือข้ามแบรนด์
+// ⚠️⚠️ **ซอมเบรโรฟาง ปอนโช กีตาร์ เหรียญทอง มาราคัส ฉากสตูดิโอขาว และสีผิว
+// นักแสดงเป็นวัตถุในภาพ ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json เท่านั้น
+// ⚠️ ปุ่มของ Navfoot อยู่บนแถบโครม **ผิวเข้ม** คนละโซนกับปุ่มบนการ์ดสว่างนี้
 // **ห้ามลอกคลาสของ Navfoot มาวางบนการ์ด**
-// ออราในไฟล์นี้ใช้ rgba(156,15,85,α) · rgba(251,67,155,α) เท่านั้น
+// ออราในไฟล์นี้ใช้ rgba(168,20,16,α) · rgba(222,43,30,α) เท่านั้น
 //
-// ⚠️⚠️ กับดักรอบนี้คือ **รอบนี้เป็นแบรนด์ชมพูจริง** "มีชมพูอยู่แล้ว" จึงไม่พิสูจน์
-// ว่าเป็นค่าของรอบนี้ — รีโปนี้เคยมีแบรนด์ชมพู/แมเจนต้ามาแล้วหลายเจ้า (ตัวที่ใกล้
-// ที่สุดคือสองรอบก่อน) ให้เทียบเป็น **"ค่า" ทีละหลัก** กับตารางใน brand-spec §2
-// ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
-// **ชมพูของรอบนี้คือ #ffd6fa / #fff4fb / #ffe3f5 / #ffc2e2 / #f9b2d9 / #f479b9 /
-// #fc74b5 / #fb439b / #d91a73 / #b01160 / #9c0f55 / #85094a / #95486b / #6a0f3c
-// เท่านั้น**
-// รอบนี้ **ไม่มีฟ้า/ไซแอน/น้ำเงิน (ฮิวของแบรนด์ขาออกทันที) ไม่มีทอง ไม่มีเหลือง
-// ไม่มีส้ม ไม่มีเขียว (ยกเว้น LINE green ที่หน้าอื่น) ไม่มีม่วง ไม่มีน้ำตาล
-// ไม่มีครีม ไม่มีเทาเงิน และไม่มีโรสโกลด์**
+// ⚠️⚠️ กับดักรอบนี้คือ **แดง** — รีโปนี้เคยมีแบรนด์แดงมาแล้วอย่างน้อยหกเจ้า
+// "มีแดงอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็นค่าของรอบนี้ ให้เทียบเป็น **"ค่า" ทีละหลัก**
+// กับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์
+// เก่าเจอ false positive
+// **ผิว/หมึกของรอบนี้คือ #fef6fb / #ffffff / #fff3ea / #fde4d3 / #f6c4a4 /
+// #e2855c / #fed7b5 / #fec28d / #de2b1e / #c81e12 / #9d140c / #6f0e08 /
+// #a81410 / #80453a / #3f130d / #f2a033 / #117a41 เท่านั้น** (และโครมเข้ม
+// #2b100a / #431a10 / #1d0a06 / #8c3a22 / #fdeee2 / #e8c6ae / #f2543f / #2bb061
+// ซึ่งอยู่ในไฟล์โครม ไม่ใช่ไฟล์นี้)
+// รอบนี้ **ไม่มีชมพู/แมเจนต้า (ฮิวของแบรนด์ขาออกทันที) ไม่มีฟ้า/ไซแอน/น้ำเงิน
+// ไม่มีม่วง ไม่มีโรสโกลด์ ไม่มีเทาเงิน** — ปล่อยชมพูไว้ = ทั้งผิดพาเลตและหลงเหลือ
+// ข้ามแบรนด์พร้อมกัน · ปุ่ม LINE (#00B900) อยู่บน /about-us กับ /contact-us
 //
-// Announcement หมุนมาเป็น `Announcement3.astro` ทั้งเว็บรอบนี้ (brand-spec §3 —
-// รอบก่อนใช้ตัวฐานจึงหมุนออก) orchestrator ตั้ง default message ของไฟล์นั้นเป็น
-// คอปปี้ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare — **ห้ามส่ง prop message**
+// Announcement หมุนมาเป็น `Announcement5.astro` ทั้งเว็บรอบนี้ (brand-spec §3 —
+// รอบก่อนใช้ ticker ตัวเลข 3 ของตระกูล (เขียนชื่อไฟล์แบบไม่มี .astro ใน backtick โดยตั้งใจ — tools/gen-tw-sources.mjs นับ literal ที่มีเครื่องหมายคำพูดว่าเป็นการ import จริง คอมเมนต์จึงทำให้ variant เก่าหลุดเข้า Tailwind scan แล้วสีของแบรนด์ก่อนขึ้น stylesheet) จึงหมุนออก) orchestrator ตั้ง default message
+// ของไฟล์นั้นเป็นคอปปี้ของแบรนด์นี้ไว้แล้ว จึงเรียกแบบ bare — **ห้ามส่ง prop message**
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
-// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) สตริงนี้ยาว 153
-// ด้วยชื่อแบรนด์ 7 อักขระของรอบนี้ ส่วนที่ไม่ใช่ชื่อแบรนด์ยาว 146 → รับชื่อแบรนด์
-// ได้ 4–14 อักขระ ถ้ารอบหน้าชื่อยาวกว่านั้นต้องตัดข้อความ ไม่ใช่ปล่อยผ่าน
+// wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) สตริงนี้ยาว 152
+// ด้วยชื่อแบรนด์ 12 อักขระของรอบนี้ ส่วนที่ไม่ใช่ชื่อแบรนด์ยาว 140 → รับชื่อแบรนด์
+// ได้ 10–20 อักขระ ถ้ารอบหน้าชื่อสั้นหรือยาวกว่านั้นต้องแก้ข้อความ ไม่ใช่ปล่อยผ่าน
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} เว็บสล็อตเงินดี ยูสใหม่แตกไว กดปุ่มเดียวไปยังขั้นตอนลงทะเบียน ควรตรวจสอบเงื่อนไขรับโปรไม่อั้นและข้อกำหนดการถอนเงินจากประกาศล่าสุด`;
+const pageDescription = `หน้าสมัครสมาชิก ${BRAND_NAME} สล็อตเมกซิกัน กดปุ่มเดียวไปยังขั้นตอนลงทะเบียน ควรตรวจสอบข้อกำหนดการเปิดบัญชีและนโยบายข้อมูลส่วนบุคคลก่อนกรอกข้อมูลทุกครั้ง`;
 
 const graph = pageGraph(Astro, {
   name: `สมัครสมาชิก ${BRAND_NAME}`,
@@ -103,7 +122,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/hx8w";
 ---
 
-<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} เว็บสล็อตเงินดี ยูสใหม่แตกไว รับโปรไม่อั้น`} description={pageDescription}>
+<MainLayout title={`สมัครสมาชิก ${BRAND_NAME} สล็อตเมกซิกัน เว็บแท้ที่นี่ที่เดียว`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -115,7 +134,7 @@ const targetUrl = "https://yoalink.com/hx8w";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#85094a] bg-gradient-to-b from-[#d91a73] via-[#b01160] to-[#85094a] px-6 py-4 text-2xl font-black tracking-wide text-white shadow-[0_10px_30px_rgba(156,15,85,0.35)] transition-all duration-300 hover:scale-105 hover:border-[#fb439b] hover:shadow-[0_15px_40px_rgba(251,67,155,0.45)]">
+        class="group relative isolate mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 overflow-hidden rounded-xl border border-[#6f0e08] bg-gradient-to-b from-[#c81e12] via-[#9d140c] to-[#6f0e08] px-6 py-4 text-2xl font-black tracking-wide text-white shadow-[0_10px_30px_rgba(168,20,16,0.35)] transition-all duration-300 hover:scale-105 hover:border-[#de2b1e] hover:shadow-[0_15px_40px_rgba(222,43,30,0.45)]">
         <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-white/10 to-transparent"></span>
         สมัครสมาชิก
       </a>
