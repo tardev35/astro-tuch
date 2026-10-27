@@ -11,11 +11,14 @@ const currentPath = Astro.url.pathname;
 
 const isActive = (path: string) => isActivePath(currentPath, path);
 
-// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-22 จริง (เปิดอ่านด้วย Read ก่อนเขียน)
-// — หน้ายิ้มการ์ตูนบนกองเหรียญ กับตัวอักษรขาวมุก/แดงชาดของ มีเฮ168 ที่เคยอยู่ใน
-// ตัวแปรนี้ ไม่มีอยู่ในรูปรอบนี้เลยสักอย่าง รอบนี้เป็นลูกฟุตบอลกับตัวอักษรสองวัสดุ
-// ทอง/โครเมียม
-const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส ทางซ้ายเป็นลูกฟุตบอลลายขาว-ดำขอบทอง มีหางวงโคจรสีทองโค้งพาดอยู่ด้านหลัง ทางขวาเป็นคำว่า ยูฟ้า ตัวอักษรไทยหนาสามมิติผิวมันวาวสีทองอร่าม ต่อด้วยเลข 168 ตัวหนาสามมิติผิวโครเมียมเงินเป็นประกาย`;
+// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-25 จริง (เปิดอ่านด้วย Read ก่อนเขียน)
+// — ลูกฟุตบอลลายขาว-ดำขอบทอง กับหางวงโคจรทองของ ยูฟ้า168 ที่เคยอยู่ในตัวแปรนี้
+// ไม่มีอยู่ในรูปรอบนี้เลยสักอย่าง รอบนี้เป็นเวิร์ดมาร์กล้วน ไม่มีมาสคอตและไม่มีลูกบอล
+// ⚠️ **อาร์ตเวิร์กพิมพ์ชื่อแบรนด์อีกชื่อไว้บนรูปจริง** (บรีฟรอบนี้ใช้โทเค็นคนละตัว
+// กับชื่อที่ operator สั่ง) — alt จึงบรรยาย **รูปทรงของเวิร์ดมาร์ก** แล้วอ้างชื่อ
+// ด้วย ${BRAND_NAME} เท่านั้น **ห้ามพิมพ์ตัวอักษรที่เห็นบนรูปลงใน alt**
+// ไม่งั้นชื่อแบรนด์อื่นจะหลุดขึ้น dist/ ทุกหน้า
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส เป็นเวิร์ดมาร์กสามมิติวางเฉียงเล็กน้อย ตัดขอบสีขาวหนา ครึ่งแรกเป็นตัวอักษรละตินผิวโครเมียมเงินขัดเงาสะท้อนแสง ครึ่งหลังเป็นตัวเลขผิวทองหลอมเหลวไล่เฉดไปทางส้มเพลิง ด้านหลังตัวอักษรมีริ้ววงโค้งสีทองอำพันพาดเป็นฉาก และมีประกายแสงสีขาวกระจายอยู่ตามขอบตัวอักษร`;
 
 // สมัครสมาชิก/เข้าสู่ระบบ อยู่ถัดจากโปรโมชั่นทันที เพราะเป็นปุ่ม conversion
 // ไม่ใช่หน้าให้อ่าน — ที่เหลือเป็นหน้าเนื้อหาเรียงต่อท้าย
@@ -24,100 +27,115 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
 // จึงกลายเป็นลิงก์ที่สามไปยังปลายทางเดียวกัน (ยังถูก route และ index อยู่
 // และมีลิงก์จาก footer)
 //
-// ไม่มี /ตรวจหวย กับ /แนวทาง รอบนี้: ยูฟ้า168 เป็น **เว็บพนันออนไลน์แทงบอล/สล็อต/
-// บาคาร่า** ไม่ใช่เว็บหวย สองหน้านั้นจอดอยู่ใน src/pages-disabled/ ลิงก์ทั้งคู่จึง
-// ไม่มีในเมนู ถ้าเติมเข้ามา verify-build.mjs จะทำให้ build แดงเพราะ href ชี้ไป
-// route ที่ไม่มีจริง
+// ไม่มี /ตรวจหวย กับ /แนวทาง รอบนี้: ZNOVA168 เป็น **เว็บสล็อตออนไลน์** ไม่ใช่
+// เว็บหวย สองหน้านั้นจอดอยู่ใน src/pages-disabled/ ลิงก์ทั้งคู่จึงไม่มีในเมนู
+// ถ้าเติมเข้ามา verify-build.mjs จะทำให้ build แดงเพราะ href ชี้ไป route ที่ไม่มีจริง
 //
 // เมนูชุดนี้ถูกประกาศครั้งเดียวตรงนี้ แล้ว render ทั้งแถบ desktop และม่านมือถือ
 // จากตัวเดียวกัน — ถ้าแยกสองชุดเมื่อไหร่ มันจะเพี้ยนกันเองรอบถัดไป
 //
-// ไอคอนเลือกให้ตรงหมวดของรอบนี้ (บอล + คาสิโน + สล็อต) และทุกตัวอยู่ใน
-// <span aria-hidden="true"> แยกจาก label เสมอ ไม่เคยฝังอยู่ในข้อความของ label
-// ⚠️ 🐰 ของรอบก่อน (โปรดี168) ออกไปแล้ว — ไอคอนต้องเป็นของรอบนี้เหมือนสี
+// ไอคอนเลือกให้ตรงหมวดของรอบนี้ (สล็อตล้วน + โปรโมชั่น + ความน่าเชื่อถือ/ลิขสิทธิ์)
+// และทุกตัวอยู่ใน <span aria-hidden="true"> แยกจาก label เสมอ ไม่เคยฝังอยู่ในข้อความ
+// ⚠️ ⚽ ของรอบก่อน (ยูฟ้า168 — เว็บแทงบอล) ออกไปแล้ว รอบนี้ไม่มีกีฬาเลยสักหมวด
+// ไอคอนต้องเป็นของรอบนี้เหมือนสี
 const links = [
   { name: "หน้าแรก", path: "/", icon: "🏠" },
   { name: "โปรโมชั่น", path: "/promotion", icon: "🎁" },
   { name: "สมัครสมาชิก", path: "/register", icon: "📝" },
   { name: "เข้าสู่ระบบ", path: "/login", icon: "🔑" },
   { name: "ทดลองเล่น", path: "/ทดลองเล่น", icon: "🎰" },
-  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "⚽" },
+  { name: "เกี่ยวกับเรา", path: "/about-us", icon: "🛡️" },
   { name: "ติดต่อเรา", path: "/contact-us", icon: "💬" },
 ];
 
-// ยูฟ้า168 (รอบทองคานารีนำ-โครเมียมเงินรอง บนดำสนิท 2026-10-22): ไฟล์นี้ถูกเลื่อน
-// ขึ้นมาเป็น navbar ที่ใช้งานจริงรอบนี้ แทน NavbarStyle4 ของ โปรดี168 — หนึ่งไฟล์
-// ต่อรอบ
+// ZNOVA168 (รอบทองหลอมเหลวนำ-โครเมียมเงินรอง บนเอสเพรสโซเข้ม 2026-10-25): ไฟล์นี้
+// ถูกเลื่อนขึ้นมาเป็น navbar ที่ใช้งานจริงรอบนี้ แทน NavbarStyle6 ของ ZANE96 —
+// หนึ่งไฟล์ต่อรอบ
 // ทรงของไฟล์นี้คือ **แถบ sticky สูง 70px (lg 85px) + ม่านมือถือที่เปิดด้วย
 // clip-path วงกลมจากปุ่มแฮมเบอร์เกอร์ แล้วไล่รายการขึ้นทีละตัว** ซึ่งคนละแกนกับ
-// NavbarStyle4 รอบก่อนทั้งบนเดสก์ท็อปและมือถือ
+// NavbarStyle6 รอบก่อน (รางแนวตั้งลอยริมซ้าย + drawer เลื่อนเข้าจากซ้าย)
+// ทั้งบนเดสก์ท็อปและมือถือ
 //
-// พาเลตต์ตาม .claude/brand-spec-ufabet168.md §2: **ทองคานารีเป็นฮิวนำ**
-// (#fee45d คือคำว่า ยูฟ้า บนโลโก้ ข้อความสามมิติบนแบนเนอร์ ลูกฟุตบอลทองคำ
-// และกองเหรียญ) **โครเมียมเงินเป็นฮิวที่สอง** (#e8ecf1 คือเลข 168 บนโลโก้)
-// ⚠️ นี่คือการ **สลับฮิวทั้งชุด** จากรอบก่อนที่แดงเชอร์รี่นำทองแดงไหม้รอง
-// และ **กลับมาเป็นธีมมืด** หลังสามรอบติดที่เป็นธีมสว่าง
+// พาเลตต์ตาม .claude/brand-spec-znova168.md §2: **ทองหลอมเหลวเป็นฮิวนำ**
+// (#e8a000 / #fde90b คือตัวเลขบนโลโก้ ข้อความสามมิติบนแบนเนอร์ และเหรียญทอง
+// ที่ลอยอยู่ในภาพ) **โครเมียมเงินเป็นฮิวที่สอง** (#d8dde6 คือตัวอักษรละตินบนโลโก้
+// ดาบ และชุดเกราะของนักรบหญิงในแบนเนอร์) และ **ส้มเพลิง #fa4903 เป็นออรา**
+// ⚠️ นี่คือการ **สลับฮิวทั้งชุด** จากรอบก่อนที่ไวโอเลตนีออนนำ ฟ้า/แมเจนต้ารอง
 //
-// แถบนี้ "สว่างกว่า" พื้นเพจเล็กน้อย: bg.json ของดรอปนี้เป็น
-// {"mode":"color","color":"#000000"} = ดำสนิท แถบจึงไล่ #0a0908 → #1e1a13 →
-// #0a0908 ซึ่งลอยอยู่เหนือพื้นเพจ ทำให้ยังอ่านออกว่าแยกชั้นจากเนื้อหาที่เลื่อน
-// ผ่านใต้มัน ส่วนม่านมือถือใช้ #0a0908 ซึ่งเป็นชั้นจมสุด
-// ขอบและเส้นคั่นเป็นทองกลาง #e6a416 อัลฟาต่ำ ข้อความ active เป็นทองนำ #fee45d
-// (≈14.8:1 บนสต็อปสว่างสุดของแถบ) ข้อความปกติเป็นครีมอุ่น #eae3d4
-// ขีดใต้เมนู active ไล่ โครเมียม #e8ecf1 → ทองนำ #fee45d → ทองลึก #b8780d
-// ซึ่งคือสามวัสดุของโลโก้เรียงตามลำดับที่ตาอ่านจริง (เลข 168 โครเมียม →
-// ตัวอักษร ยูฟ้า ทองอร่าม → เงาลึกของลูกฟุตบอลทอง)
-// ออร่ากลมหลังโลโก้เป็นทอง #fee45d เรืองแสงใต้โลโก้เป็น rgba(254,228,93,α)
+// แถบนี้ "สว่างกว่า" พื้นเพจมาก: bg.json ของดรอปนี้เป็น
+// {"mode":"color","color":"#fffbf0"} = **ครีมอมงาช้างอุ่น (สว่างมาก)** ส่วนแถบนี้
+// ไล่ #0e0602 → #2b1608 → #0e0602 ซึ่งเป็นผิวโครมเข้ม
+// ⚠️⚠️ **โครมกับเนื้อหาอยู่คนละทิศโดยตั้งใจ (โครมเข้ม เนื้อหาสว่าง)** — อาร์ตเวิร์ก
+// รอบนี้เป็นฉากสตูดิโอสว่างที่มีเงาเข้มจัดและประกายทอง แถบเข้มจึงทำหน้าที่เป็น
+// "กรอบโปสเตอร์" **ห้าม "แก้" ให้แถบสว่างตามพื้นเพจ** ถ้าทำ ตัวอักษร #fff3e0
+// จะเหลือ ~1:1 และหายไปทั้งแถบ
+// ขอบและเส้นคั่นเป็นทอง #e8a000 อัลฟาต่ำ ข้อความ active เป็นทองสว่าง #fde90b
+// (13.8:1 บนสต็อปสว่างสุดของแถบ) ข้อความปกติเป็นครีมอุ่น #fff3e0 (17.4:1 เต็มค่า)
+// ขีดใต้เมนู active ไล่ โครเมียม #d8dde6 → ทองสว่าง #fde90b → ส้มลึก #b8300a
+// ซึ่งคือสามวัสดุของโลโก้เรียงตามลำดับที่ตาอ่านจริง (ตัวอักษรละตินโครเมียม →
+// ตัวเลขทองหลอมเหลว → เงาส้มเพลิงใต้เวิร์ดมาร์ก)
+// ออร่ากลมหลังโลโก้เป็นส้มเพลิง #fa4903 เรืองแสงใต้โลโก้เป็น rgba(232,160,0,α)
 //
-// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้น **ทองทึบ** (#fee45d → #e6a416)
+// ปุ่ม "สมัครสมาชิก" เป็นอันเดียวในแถบที่เป็นพื้น **ทองทึบ** (#fde90b → #e8a000)
 // ให้ปุ่ม conversion เด่นออกจากพื้นเกือบดำทั้งแถบ ส่วน "เข้าสู่ระบบ" เป็นปุ่มโครง
 // **โครเมียม** ไม่ทึบ จะได้ไม่แย่งสายตากันเอง และคู่ปุ่มต่างกันที่ "พื้นทองตัน
 // vs กรอบเงิน" ซึ่งคือสองวัสดุของโลโก้จริง ไม่ใช่ความสว่างสองระดับของสีเดียว
 // — และการให้ทองเป็นตัวทึบคือสิ่งที่ทำให้ฮิวนำของรอบนี้อยู่บนปุ่มที่คนกดจริง
-// หมึกบนปุ่มทองเป็น #140e02 (น้ำตาลเกือบดำ) — ตรวจแล้วทั้งสองสต็อป:
-// บน #fee45d ≈ 15.1:1 · บนสต็อปเข้มสุด #e6a416 ≈ 8.9:1
-// ⚠️ ห้ามลากสต็อปเข้มลงไปถึง #7a4e05 ใต้ตัวอักษร — ค่านั้นเป็นทองมืดสำหรับเส้น/
-// ออรา/พื้นถมเท่านั้น เอามารองหมึก #140e02 จะเหลือ ~2.3:1
+// หมึกบนปุ่มทองเป็น #2a1206 (= BRAND_TEXT) — ตรวจแล้วทั้งสองสต็อป:
+// บน #fde90b 14.2:1 · บนสต็อปเข้มสุด #e8a000 8.0:1
+// ⚠️⚠️ **ปุ่มทอง+หมึกเข้มของแถบนี้ ต่างจาก CTA หลักในเนื้อหา** ซึ่งเป็นพื้นไล่
+// #9a2a00 → #b8300a → #d13800 + หมึกขาว ทั้งสองแบบถูกต้องคนละบริบท: ปุ่มทองอยู่บน
+// ผิวโครมเข้ม ส่วน CTA ส้มอยู่บนการ์ดขาว **ห้ามสลับกัน** — ทองบนการ์ดขาวได้
+// แค่ 2.2:1 และส้ม #d13800 บนโครมเข้มก็จมหายไปเช่นกัน
+// ⚠️ ห้ามลากสต็อปเข้มลงไปถึง #7a3a0c ใต้ตัวอักษร — ค่านั้นเป็นเส้น/ออรา/พื้นถม
+// เท่านั้น เอามารองหมึก #2a1206 จะเหลือ ~2.1:1
 //
-// ⚠️ **กับดักรอบนี้คือทอง และไฟล์นี้ค้างสีของแบรนด์อื่นมาแล้วหลายชั้น**
-// ชุดแดงชาด-ทองเนยของ มีเฮ168 ที่เพิ่งอยู่ในไฟล์นี้ (fb1b32 ff8f9c 5c0410 fcd45c
-// 6b4a08 2b0711 1b0308 0c0205 ffe3e6 ffeec0 rgba(251,27,50,α) rgba(252,212,92,α))
-// ชุดฟ้าบับเบิล-ทองของ สบายเบท168 ก่อนหน้านั้น (2f9ff5 a8dcff e8f4ff ffc82e
-// 5c4a16 0b3f78 0e2238 04121f 040d16) ชุดทองไทยนำ-แดงมังกรรองของ รับตัง168
+// ⚠️⚠️ **กับดักรอบนี้คือทอง และไฟล์นี้ค้างสีของแบรนด์อื่นมาแล้วหลายชั้น**
+// ชุดทองคานารี-โครเมียมเงินของ ยูฟ้า168 ที่เพิ่งอยู่ในไฟล์นี้ (fee45d e6a416 b8780d
+// eae3d4 e8ecf1 a8b2bf 78828f 5a6472 0a0908 1e1a13 7a4e05 140e02 rgba(254,228,93,α))
+// ชุดแดงชาด-ทองเนยของ มีเฮ168 (fb1b32 ff8f9c 5c0410 fcd45c 6b4a08 2b0711 1b0308
+// 0c0205 ffe3e6 ffeec0) ชุดฟ้าบับเบิล-ทองของ สบายเบท168 (2f9ff5 a8dcff e8f4ff
+// ffc82e 5c4a16 0b3f78 0e2238 04121f 040d16) ชุดทองไทยนำ-แดงมังกรรองของ รับตัง168
 // (f0b429 ffdc8c d30304 ff6b6e a00203 4a0202 9a6c0c cfd9e6 f5ece0 2b100f 140505)
 // ชุดแดงเลือดนก-เงินโครเมียมของ TKB55 (fb131b ff8a8f ff4d55 e9eef4 f2e4e5 2a0d0f)
 // และชุดชมพูฮอตพิงก์-ทองของ PUNPRO168 (f41571 ff5ca8 fce343 ffc554 fde7f2 8a0a45)
 // ออกครบทุกจุดแล้ว
-// การเจอ "ทอง" ตรงนี้จึงไม่พิสูจน์ว่าเป็นของรอบนี้ — ทองรอบนี้คือ
-// #fee45d (R=254 G=228 B=93) ซึ่ง **ไม่ใช่** fcd45c ของ มีเฮ168 (ใกล้มาก ต้อง
-// เทียบเป็นค่า) ไม่ใช่ ffc82e ของ สบายเบท168 ไม่ใช่ f0b429 ของ รับตัง168 ไม่ใช่
-// ffd84d ของ ถอนชัวร์168 ไม่ใช่ fcd434 ของ มีโชค168 ไม่ใช่ f7c92b ของ ขวัญใจ168
-// ไม่ใช่ fce343 ของ PUNPRO168 ไม่ใช่ fef54b ของ นินจา168 ไม่ใช่ e5a81b ของ UFA324
-// และไม่ใช่ d39c45 ของ ufalion168 — อย่าปล่อยของเก่าไว้เพราะ "ดูคล้ายกัน"
-// ให้เทียบเป็นค่าทีละตัวกับตารางใน brand-spec §2
-// ส่วนโครเมียมรอบนี้คือ #e8ecf1 / #a8b2bf / #78828f / #5a6472 ซึ่ง **ไม่ใช่**
-// 8792a0 b9c2cc 464f5a ของ UFA324 (แบรนด์ที่ชื่อใกล้ที่สุด) ไม่ใช่ cfd9e6 ของ
-// รับตัง168 และไม่ใช่ e9eef4 ของ TKB55
-// รอบนี้ไม่มีแดง ไม่มีชมพู ไม่มีฟ้า/น้ำเงิน ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม
-// ไม่มีโรสโกลด์ และไม่มีทองแดงไหม้ (b44c06/f0b46a เป็นของ โปรดี168 รอบก่อน)
+// 🚨🚨 การเจอ "ทอง" ตรงนี้จึงไม่พิสูจน์ว่าเป็นของรอบนี้ — ทองรอบนี้คือ
+// **#e8a000 (R232 G160 B0)** กับ **#fde90b (R253 G233 B11)** ซึ่ง **ไม่ใช่**
+// fee45d ของ ยูฟ้า168 (เพิ่งอยู่ในไฟล์นี้เอง ใกล้ #fde90b มาก ต้องเทียบเป็นค่า)
+// ไม่ใช่ e6a416 ของ ยูฟ้า168 (ห่างจาก #e8a000 แค่ R2/G0/B22 — **ใกล้ที่สุดในลิสต์
+// ทั้งหมด ถ้า grep เจอแปลว่าพิมพ์ผิด**) ไม่ใช่ f2a033 ของ MEXICANOSLOT
+// ไม่ใช่ fcd45c ของ มีเฮ168 ไม่ใช่ ffc82e ของ สบายเบท168 ไม่ใช่ f0b429 ของ
+// รับตัง168 ไม่ใช่ ffd84d ของ ถอนชัวร์168 ไม่ใช่ fcd434 ของ มีโชค168 ไม่ใช่
+// f7c92b ของ ขวัญใจ168 ไม่ใช่ fce343 ของ PUNPRO168 ไม่ใช่ fef54b ของ นินจา168
+// ไม่ใช่ e5a81b ของ UFA324 และไม่ใช่ d39c45 ของ ufalion168 — อย่าปล่อยของเก่าไว้
+// เพราะ "ดูคล้ายกัน" ให้เทียบเป็นค่าทีละตัวกับตารางใน brand-spec §2
+// ส่วนโครเมียมรอบนี้คือ #d8dde6 / #8f9aa8 ซึ่ง **ไม่ใช่** e8ecf1 a8b2bf 78828f
+// ของ ยูฟ้า168 (เพิ่งอยู่ในไฟล์นี้) ไม่ใช่ 8792a0 b9c2cc ของ UFA324 ไม่ใช่
+// cfd9e6 ของ รับตัง168 และไม่ใช่ e9eef4 ของ TKB55
+// ส่วนม่วง/ฟ้า/แมเจนต้าของ **ZANE96 รอบก่อนทันที** (7a1bd6 2b3fd9 c2178b f23bb4
+// bb6dff 7aa7ff 5411c4 241046 190b3d 271257 100626 5b2f9e f3e8ff c0a6e8 8e14b8)
+// **ห้ามเหลือแม้แต่ค่าเดียว**
+// รอบนี้ไม่มีม่วง ไม่มีฟ้า/น้ำเงิน ไม่มีชมพู/แมเจนต้า ไม่มีเขียว และไม่มีแดงชาด
+// (แดงที่เห็นในแบนเนอร์เป็น **ริบบิ้นผ้าในภาพ** ไม่ใช่สี UI)
 //
 // โลโก้คง loading="eager" ไว้ (อยู่เหนือ fold บน header ที่ sticky) แต่ไม่มี
 // fetchpriority="high" — LCP คือ hero banner ใน MainLayout มีภาพเดียวที่ได้ high
 ---
 
 <header class="sticky top-0 z-50 w-full font-sans">
-  <nav class="relative z-50 w-full border-b border-[#e6a416]/45 bg-gradient-to-r from-[#0a0908] via-[#1e1a13] to-[#0a0908] shadow-[0_4px_25px_rgba(0,0,0,0.92)]">
+  <nav class="relative z-50 w-full border-b border-[#e8a000]/45 bg-gradient-to-r from-[#0e0602] via-[#2b1608] to-[#0e0602] shadow-[0_4px_25px_rgba(0,0,0,0.92)]">
     <div class="mx-auto flex h-[70px] w-full max-w-[1600px] items-center justify-between px-4 lg:h-[85px] lg:px-8">
       <div class="flex items-center">
         <a href="/" class="relative flex-shrink-0 transition-transform hover:scale-105">
-          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#fee45d]/30 blur-xl"></div>
+          <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[#fa4903]/30 blur-xl"></div>
           <Picture
             src={mainLogo!}
             alt={logoAlt}
             loading="eager"
             widths={[110, 220, 330]}
             sizes="110px"
-            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(254,228,93,0.55)] lg:h-[50px]"
+            class="relative h-[40px] w-auto drop-shadow-[0_0_8px_rgba(232,160,0,0.55)] lg:h-[50px]"
             formats={["avif", "webp"]}
             fallbackFormat="webp"
           />
@@ -129,17 +147,17 @@ const links = [
           links.map((link) => (
             <a
               href={link.path}
-              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#fee45d]" : "text-[#eae3d4]/80 hover:text-[#fee45d]"}`}>
+              class={`group relative flex h-full items-center gap-1.5 px-2 text-sm font-bold transition-all duration-300 xl:px-3 ${isActive(link.path) ? "text-[#fde90b]" : "text-[#fff3e0]/80 hover:text-[#fde90b]"}`}>
               <div
                 aria-hidden="true"
-                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#7a4e05]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                class={`absolute inset-0 bg-gradient-to-b from-transparent to-[#7a3a0c]/85 transition-opacity duration-300 ${isActive(link.path) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
               />
               <span aria-hidden="true" class="relative z-10 text-base">
                 {link.icon}
               </span>
               <span class="relative z-10">{link.name}</span>
               <div
-                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#e8ecf1] via-[#fee45d] to-[#b8780d] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
+                class={`absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 bg-gradient-to-r from-[#d8dde6] via-[#fde90b] to-[#b8300a] transition-all duration-300 ${isActive(link.path) ? "w-full" : "w-0 group-hover:w-full"}`}
               />
             </a>
           ))
@@ -149,28 +167,28 @@ const links = [
       <div class="flex items-center gap-3 md:gap-4">
         <a
           href="/login"
-          class="hidden items-center justify-center rounded-full border border-[#a8b2bf]/80 px-6 py-2.5 text-sm font-bold text-[#e8ecf1] shadow-[0_0_10px_rgba(168,178,191,0.25)] transition-all hover:border-[#e8ecf1] hover:bg-[#5a6472]/40 hover:text-[#ffffff] xl:flex">
+          class="hidden items-center justify-center rounded-full border border-[#8f9aa8]/80 px-6 py-2.5 text-sm font-bold text-[#d8dde6] shadow-[0_0_10px_rgba(143,154,168,0.25)] transition-all hover:border-[#d8dde6] hover:bg-[#8f9aa8]/30 hover:text-[#ffffff] xl:flex">
           เข้าสู่ระบบ
         </a>
         <a
           href="/register"
-          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#fee45d] to-[#e6a416] px-6 py-2.5 text-sm font-extrabold text-[#140e02] shadow-[0_0_20px_rgba(254,228,93,0.5)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
+          class="hidden items-center justify-center rounded-full bg-gradient-to-r from-[#fde90b] to-[#e8a000] px-6 py-2.5 text-sm font-extrabold text-[#2a1206] shadow-[0_0_20px_rgba(232,160,0,0.5)] transition-all hover:scale-105 hover:brightness-110 xl:flex">
           สมัครสมาชิก
         </a>
 
         <button
           id="hamburger-btn"
-          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#e6a416] bg-gradient-to-tr from-[#1e1a13] to-[#7a4e05] shadow-[0_0_15px_rgba(254,228,93,0.5)] lg:hidden"
+          class="relative z-[60] flex h-10 w-10 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-[#e8a000] bg-gradient-to-tr from-[#2b1608] to-[#7a3a0c] shadow-[0_0_15px_rgba(232,160,0,0.5)] lg:hidden"
           aria-label="เปิดเมนู">
-          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#fee45d] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#fee45d] transition-all duration-300"></span>
-          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#fee45d] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 -translate-y-1.5 transform rounded-full bg-[#fde90b] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 rounded-full bg-[#fde90b] transition-all duration-300"></span>
+          <span class="hamburger-line absolute h-[2px] w-5 translate-y-1.5 transform rounded-full bg-[#fde90b] transition-all duration-300"></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#0a0908]/98 backdrop-blur-2xl lg:hidden">
+  <div id="mobile-circular-menu" class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center overflow-y-auto bg-[#0e0602]/98 backdrop-blur-2xl lg:hidden">
     <div class="flex w-full flex-col items-center space-y-3 px-6 py-8">
       <Picture
         src={mainLogo!}
@@ -178,7 +196,7 @@ const links = [
         aria-hidden="true"
         widths={[110, 220, 330]}
         sizes="110px"
-        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(254,228,93,0.6)]"
+        class="menu-item mb-2 h-[50px] w-auto opacity-0 drop-shadow-[0_0_15px_rgba(232,160,0,0.6)]"
         formats={["avif", "webp"]}
         fallbackFormat="webp"
       />
@@ -187,7 +205,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.path}
-            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#fee45d] drop-shadow-[0_0_8px_rgba(254,228,93,0.8)]" : "text-[#eae3d4]/80 hover:text-[#fee45d]"}`}>
+            class={`menu-item flex items-center gap-3 text-lg font-black tracking-wider uppercase opacity-0 transition-all duration-300 ${isActive(link.path) ? "text-[#fde90b] drop-shadow-[0_0_8px_rgba(232,160,0,0.8)]" : "text-[#fff3e0]/80 hover:text-[#fde90b]"}`}>
             <span aria-hidden="true" class="text-2xl">
               {link.icon}
             </span>
@@ -196,14 +214,14 @@ const links = [
         ))
       }
 
-      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#e6a416]/50 pt-6 opacity-0">
+      <div class="menu-item mt-3 flex w-full max-w-[280px] flex-col gap-4 border-t border-[#e8a000]/50 pt-6 opacity-0">
         <a
           href="/register"
-          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#fee45d] to-[#e6a416] py-3.5 text-lg font-extrabold text-[#140e02] shadow-[0_0_20px_rgba(254,228,93,0.5)]">
+          class="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#fde90b] to-[#e8a000] py-3.5 text-lg font-extrabold text-[#2a1206] shadow-[0_0_20px_rgba(232,160,0,0.5)]">
           <span aria-hidden="true">📝</span>
           <span>สมัครสมาชิก</span>
         </a>
-        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#a8b2bf]/80 py-3.5 text-lg font-bold text-[#e8ecf1] hover:bg-[#5a6472]/40">เข้าสู่ระบบ</a>
+        <a href="/login" class="flex w-full items-center justify-center rounded-full border border-[#8f9aa8]/80 py-3.5 text-lg font-bold text-[#d8dde6] hover:bg-[#8f9aa8]/30">เข้าสู่ระบบ</a>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ export interface FAQ {
 }
 export interface Props {
   title?: string;
-  /** The docx level of "คำถามที่พบบ่อย" on the page rendering this. */
+  /** The brief's heading level for "คำถามที่พบบ่อย" on the page rendering this. */
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   faqs?: FAQ[];
 }
@@ -18,73 +18,76 @@ export interface Props {
 // คำถามเป็น <p> ใน <summary> ไม่ใช่ heading: รายการ h2/h3 ถูก diff กับ checklist ของ
 // บรีฟทุกรอบ และไม่มีหัวข้อไหนในบรีฟที่เป็นประโยคคำถาม accordion ยังทำงานได้
 // เพราะตัวควบคุมคือ <summary> ไม่ใช่แท็กข้างใน ส่วน `title` มาจาก prop (คือมาจาก
-// บรีฟ) จึงเป็น heading ที่ถูกต้องตามกฎ
+// บรีฟ) จึงเป็น heading ที่ถูกต้องตามกฎ และต้องเคารพ prop `as` เสมอ
 //
 // ไม่มี <script> ในไฟล์นี้โดยตั้งใจ ตัวที่เคยมี query `.icon` `.faq-content`
 // `.faq-item` ทั้งเอกสาร ไม่ใช่แค่ใน component ตัวเอง accordion ตัวที่สองบนหน้า
 // เดียวกันจึงถูกปิดและรีเซ็ตไอคอนไปด้วย — `name` บน <details> ให้พฤติกรรม
 // เปิดได้ทีละอันจากเบราว์เซอร์เอง และ scope อยู่แค่กลุ่มนี้
+// 🚨 **ห้าม reintroduce accordion แบบ button + max-height + <script>**
 //
-// รอบนี้ (รวย168) ไฟล์นี้เป็น **FAQ หลักของทั้งเว็บ** ตามการหมุน variant
-// (Faq2 -> FaqHuay): หน้าแรก · /ตรวจหวย · /แนวทาง เรียกไฟล์นี้ทั้งหมด
-// ⚠️ ต่างจากรอบก่อนที่ไฟล์นี้ถูก render จากสองหน้าหวยเท่านั้น — รอบนี้แบรนด์เอง
-// เป็นเว็บหวย ชุด *Huay จึงขึ้นมาเป็นธีมหลัก ไม่ใช่ซับธีมอีกต่อไป
+// รอบนี้ (ดรอป 2026-10-27) ไฟล์นี้ถูก render จาก **/ตรวจหวย กับ /แนวทาง** ซึ่ง
+// ถูกย้ายกลับเข้า src/pages/ เพราะแบรนด์รอบนี้เป็นเว็บหวย (หน้าแรกหมุนไปใช้ FAQ
+// variant ตัวอื่น) — **ห้ามลบ variant ที่ไม่ได้ใช้** มันคือ inventory ของแบรนด์ถัดไป
 //
-// 🚨🚨 **ไฟล์นี้เคยเป็น "การ์ดสว่างหมึกเข้ม" ของแบรนด์ธีมสว่างรอบก่อนๆ —
-// รอบนี้เป็นธีมมืด จึงพลิกเป็น "การ์ดมืดหมึกสว่าง" ทั้งไฟล์**
-// พื้นเพจรอบนี้คือ **ดำสนิท #000000** (จาก bg.json) การ์ดสว่างบนพื้นดำจะเป็น
-// แผ่นขาวโพลนกลางหน้า ไม่เข้ากับทั้งเว็บ **ห้าม "แก้" กลับไปเป็นพื้นขาว**
+// ⚠️ ห้ามพิมพ์ชื่อคลาสสีเต็มรูปในคอมเมนต์ (Tailwind สแกนคอมเมนต์ด้วย) และ
+// **ห้ามเขียน "คลังเฮกซ์ของแบรนด์เก่า" ลงในคอมเมนต์ของไฟล์นี้** — การ sweep ไล่หา
+// สีของแบรนด์เก่าใน src/ จะสะดุดที่คอมเมนต์ของตัวเองทุกครั้ง
+// **ลิสต์ค่าต้องห้ามทั้งหมดอยู่ที่ `.claude/brand-spec-lotto189.md` §2 ที่เดียว**
 //
-// พาเลตรอบนี้ (brand-spec §2 — ทองนำ โครเมียมเงินเป็นวัสดุที่สอง **ธีมมืด**):
-//   แถวคำถามพื้นผิวการ์ด #121110 ในกรอบทอง #e3a712/35 คำตอบตกลงไปที่ชั้นยก
-//   #1c1a16 หมึกคำตอบ #f3ece0 (14.8:1 บน #1c1a16) คำถามทอง #ffd94a (13.8:1)
-//   ปุ่ม + เป็น #ffd94a บนพื้น #1c1a16 แล้วกลับเป็นพื้นถมทอง #e3a712 กับ
-//   **หมึกดำ #0a0a0a** (9.2:1) ตอนเปิด
-//   หัวข้อไล่เฉด #e8eaee → #ffd94a → #e8eaee (ทุกสต็อปอ่านได้บนพื้นเพจ #000000:
-//   16.6 / 15.4 / 16.6) ซึ่งอ่านเป็นเวิร์ดมาร์กจริง — "รวย" โครเมียมเงิน
-//   ต่อด้วย "168" ทอง
-//   glow เป็น rgba(227,167,18,*) กับ rgba(0,0,0,*)
-// ⚠️⚠️ **ขาวบนพื้นทองได้แค่ ~1.2–2.2:1 — ปุ่ม + ตอนเปิดจึงเป็นหมึกดำบนทองเสมอ
-// ห้ามกลับด้านเป็นหมึกขาว** และ **ห้ามใช้ #9d6f06 / #6b7079 / #b4b9c2 / #3d3425
+// 🚨🚨 **รอบก่อนไฟล์นี้เป็น "การ์ดมืดหมึกสว่าง" (ผิวเข้ม + ทอง) — รอบนี้พลิกกลับ
+// เป็น "การ์ดสว่างหมึกเข้ม" ทั้งไฟล์**
+// พื้นเพจรอบนี้คือ **ขาวอมชมพูจาง #fff0f0** (จาก bg.json ซึ่งเป็นแหล่งเดียวของ
+// พื้นเพจ — เปิดอ่านทุกรอบ ห้ามสืบทอดค่าข้ามรอบ) การ์ดมืดบนพื้นนั้นจะเป็นแผ่นดำ
+// กลางหน้า ไม่เข้ากับทั้งเว็บ **ห้าม "แก้" กลับไปเป็นพื้นมืด**
+//
+// พาเลตรอบนี้ (`.claude/brand-spec-lotto189.md` §2 — แดงเลือดนกนำ ทองเข้มคู่รอง
+// **เนื้อหาเป็นผิวสว่าง**):
+//   แถวคำถามพื้นผิวการ์ด #ffffff ในกรอบ #f5b9bd คำตอบตกลงไปที่ชั้นยก #ffe4e6
+//   หมึกคำตอบ #25090f (16.4:1 บน #ffe4e6 · 18.7:1 บนขาว) คำถามแดงเลือดนก
+//   #b00718 (7.3:1 บนขาว) และเข้มขึ้นเป็นแดงลึก #8a0412 (10.4:1) ตอน hover
+//   ปุ่ม + เป็น #b00718 บนพื้น #ffe4e6 แล้วกลับเป็นพื้นถม #b00718 กับ
+//   **หมึกขาว #ffffff** (7.3:1) ตอนเปิด
+//   หัวข้อไล่เฉด #8a0412 → #b00718 → #8a0412 (ทุกสต็อปอ่านได้บนพื้นเพจ #fff0f0:
+//   10.0 / 7.0 / 10.0) ซึ่งอ่านเป็นเวิร์ดมาร์กจริง — ตัวอักษรละตินผิวโครเมียม
+//   ตัดขอบแดง ต่อด้วยตัวเลขผิวแดงเลือดนก
+//   glow เป็น rgba(176,7,24,*) กับ rgba(138,4,18,*)
+// ⚠️⚠️ **ขาวบนพื้นเพจ #fff0f0 ได้แค่ 1.07:1** — ตัวอักษรที่วางบนพื้นเพจตรง ๆ
+// ต้องเป็นหมึกเข้มเท่านั้น หัวข้อของไฟล์นี้จึงเป็นแดงลึก/แดงเลือดนกล้วน
+// ⚠️ **ห้ามใช้ #ff2436 (3.9:1) #e9b53c (2.0:1) #f5b9bd #ffd4d7 #c3ccd6 #a8333f
 // ถือตัวอักษร** ในไฟล์นี้ — เป็นพื้น/ขอบเท่านั้น
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ทอง/เหลืองผ่านรีโปนี้มามากกว่าฮิวอื่น**
-// ชุดแดงสด-ขาวของ รวยแท้168 ซึ่งเป็นเจ้าของไฟล์นี้รอบล่าสุด (c30303 8f0505 e81313
-// 4a0f0f ffdbdb fff1ef ffeee8 rgba 195/3/3 a · rgba 74/15/15 a) ออกครบทุกจุด ·
-// ชุดเขียวมรกต-ทองสัมฤทธิ์ของ สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63
-// aeb04a 9ba03c d8ffc7 e9fbdd) · ชุดทอง-ดำของ หวยคิง เจ้าของเดิมของไฟล์ชุด Huay
-// (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b) · ชุดแดง-ทอง
-// ของ หวย365 (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0
-// 1a0303) · ชุดแดงเข้มของ รับตัง168 (d30304 a00203 4a0202 2b100f 200a09 140505
-// ffdc8c f0b429) · และชุดแดงคริมสัน-น้ำเงินอะซัวร์ของ **มาดาม168 รอบก่อนทันที**
-// (ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70
-// f4eef1 b3bdd6 d9dfe9) ก็ไม่เหลือค่าไหน
-// ⚠️⚠️ ffd84d ของ ถอนชัวร์168 ห่างจาก #ffd94a ของรอบนี้แค่ G1 — เจอที่ไหนแปลว่า
-// พิมพ์ผิด ไม่ใช่ค่าของรอบนี้
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
+// rgba() ที่อนุญาตรอบนี้: rgba(176,7,24,α) · rgba(193,7,27,α) · rgba(138,4,18,α) ·
+// rgba(214,16,35,α) · rgba(37,9,15,α) · rgba(245,185,189,α)
+//
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **แดง/ทอง/ครีมผ่านรีโปนี้มามากกว่า
+// ฮิวอื่น** และไฟล์ชุด Huay ก็เคยเป็นของแบรนด์หวยเจ้าก่อน ๆ หลายเจ้าที่ใช้
+// แดง/ทองใกล้กันมาก → **"เจอแดง/ทอง ≠ เป็นของรอบนี้"** ทุกค่าในไฟล์นี้ต้องตรงกับ
+// ตารางใน §2 ของ brand-spec ทีละหกหลัก **ห้ามตัดสินด้วยสายตา** และถ้าเจอค่าที่
+// ต่างจาก §2 แค่ไบต์เดียว ให้ถือว่า **พิมพ์ผิด** ก่อนเสมอ ไม่ใช่ "มันก็แดงเหมือนกัน"
+// ⚠️ รอบนี้ไม่มีม่วง ไม่มีฟ้า/ไซแอน ไม่มีชมพูบับเบิลกัม ไม่มีเขียวแบรนด์ และ
+// ไม่มีส้มเพลิงเลยสักเฉด (เขียว #00B900 ของปุ่ม LINE และเขียว success ของฟีด
+// ถอนเงินอยู่ไฟล์อื่น คงไว้ ห้ามเปลี่ยน)
 const { title = "คำถามที่พบบ่อย", as: HeadingTag = "h2", faqs = [] } = Astro.props;
 ---
 
 <section class="mx-auto mb-12 w-full max-w-4xl px-4 font-sans">
-  <HeadingTag
-    class="mb-6 bg-gradient-to-r from-[#e8eaee] via-[#ffd94a] to-[#e8eaee] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent uppercase"
-    >{title}</HeadingTag
-  >
+  <HeadingTag class="mb-6 bg-gradient-to-r from-[#8a0412] via-[#b00718] to-[#8a0412] bg-clip-text text-center text-2xl leading-normal font-black tracking-widest text-transparent">{title}</HeadingTag>
 
   <div class="flex flex-col gap-3">
     {
       faqs.map((faq) => (
         <details
           name="faq-huay"
-          class="faq-item group overflow-hidden rounded-xl border border-[#e3a712]/35 bg-[#121110] shadow-[0_4px_14px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-[#ffd94a]/75 hover:shadow-[0_10px_25px_rgba(227,167,18,0.2)]">
+          class="faq-item group overflow-hidden rounded-xl border border-[#f5b9bd] bg-[#ffffff] shadow-[0_4px_14px_rgba(176,7,24,0.1)] transition-all duration-300 hover:border-[#b00718]/70 hover:shadow-[0_10px_25px_rgba(176,7,24,0.18)]">
           <summary class="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left">
-            <p class="text-base leading-normal font-bold text-[#ffd94a] transition-colors group-hover:text-[#e8eaee]">{faq.q}</p>
+            <p class="text-base leading-normal font-bold text-[#b00718] transition-colors group-hover:text-[#8a0412]">{faq.q}</p>
             <span
               aria-hidden="true"
-              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#e3a712]/55 bg-[#1c1a16] text-sm font-bold text-[#ffd94a] transition-all duration-300 group-hover:bg-[#e3a712] group-hover:text-[#0a0a0a]">
+              class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#b00718]/45 bg-[#ffe4e6] text-sm font-bold text-[#b00718] transition-all duration-300 group-hover:bg-[#b00718] group-hover:text-[#ffffff]">
               +
             </span>
           </summary>
-          <p class="faq-answer border-t border-[#e3a712]/25 bg-[#1c1a16] p-5 text-left text-base leading-relaxed text-[#f3ece0]">{faq.a}</p>
+          <p class="faq-answer border-t border-[#f5b9bd] bg-[#ffe4e6] p-5 text-left text-base leading-relaxed text-[#25090f]">{faq.a}</p>
         </details>
       ))
     }
@@ -99,12 +102,12 @@ const { title = "คำถามที่พบบ่อย", as: HeadingTag = "
     display: none;
   }
   .faq-item[open] {
-    border-color: rgba(255, 217, 74, 0.75);
+    border-color: rgba(176, 7, 24, 0.7);
   }
   .faq-item[open] .faq-icon {
     transform: rotate(45deg);
-    background-color: #e3a712;
-    color: #0a0a0a;
+    background-color: #b00718;
+    color: #ffffff;
   }
   .faq-item[open] .faq-answer {
     animation: faq-reveal 0.25s ease-out;

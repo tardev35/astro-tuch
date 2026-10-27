@@ -13,112 +13,100 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // หัวข้อมาจาก prop `title` + `as` เท่านั้น — ห้าม hardcode ข้อความไทยเป็น heading
 // ในไฟล์นี้ คำว่า Huay ในชื่อไฟล์เป็น **ป้ายสไตล์ ไม่ใช่เนื้อหา**
 //
-// รวย168 (ดรอป 2026-10-23, .claude/brand-spec-ruay168.md §2–§4): ไฟล์นี้เป็นกล่อง
-// คอลัมน์เดียวที่หน้าแรกเรียก **สองครั้ง** — §1 ถือ docx **H1** (แทงหวยเว็บรวย
-// รับแทงเลขออนไลน์ทุกประเภท) และ §3 ถือ docx **H3** (อัตราจ่าย 2 ตัว 100) พร้อม
-// **banner3.png** เป็นรูปประกอบในสล็อตเดียวกัน หน้าอื่นไม่ได้ import ตัวนี้รอบนี้
-// (หน้าถาวร terms/privacy/404 เดินผ่าน ContentBox.astro ซึ่งเป็น shared chrome)
-// ⚠️ §3 ส่ง **<div> ใบเดียว** ที่ห่อ <p> + <Picture> ไว้ด้วยกัน ตามกฎ
-// one-element-per-slot ของ playbook — ไฟล์นี้ไม่ได้ห่อให้ และต้องไม่ห่อให้
-//
-// ความกว้างจริงที่รูปใน slot ถูกวาด (หน้าแรกคิด `sizes` จากชุดนี้) ถ้าแก้ padding
-// หรือ border ของการ์ดต้องไปแก้ `sizes` ใน src/pages/index.astro ด้วย
-// (Tailwind เป็น border-box ทั้งโปรเจกต์ max-w/padding จึงนับรวมกัน · รูปแคปตัวเอง
-//  ไว้ที่ max-w-2xl = 672px ตามกฎ banner2/3 ของ playbook):
-//   section max-w-[1400px] + px-4 (16x2=32) · การ์ด border-2 (2x2=4)
-//   มือถือ px-7 (28x2=56) · md ขึ้นไป md:px-12 (48x2=96)
-//   >= 804px  : min(100vw,1400) - 132 >= 672 -> ติดเพดานรูป      = 672px
-//   768..803  : md padding แล้วแต่ยังไม่ถึง 672                   = calc(100vw - 132px)
-//   764..767  : ยังเป็น padding มือถือ 100vw - 92 >= 672          = 672px
-//   < 764     : padding มือถือ                                    = calc(100vw - 92px)
-// ⚠️ ช่วง 768..803 **แคบกว่า** ช่วงที่อยู่ใต้มันเพราะ md เพิ่ม padding ขึ้น 40px
-// ต่อข้าง — ไม่ใช่ความผิดพลาดในการคิด แต่เป็นผลของ padding ที่ไม่เท่ากันสองชุด
+// LOTTO189 (ดรอป 2026-10-27, .claude/brand-spec-lotto189.md §2–§4): ไฟล์นี้เป็น
+// กล่องคอลัมน์เดียวที่หน้าแรกเรียก **สามครั้ง** — §1 ถือ docx **H1** (แนะนำเว็บหวย
+// ลอตโต้ แทงหวยออนไลน์ ทุกประเภท) · §4 ถือ docx **H3** (อัตราจ่าย 2 ตัว ถูกรับ 100)
+// · §5 ถือ docx **H3** (อัตราจ่าย 3 ตัว ถูกรับ 1,000) **ไม่มีรูปในสล็อตรอบนี้**
+// (ดรอปนี้มี slide1 ใบเดียวและ playbook ตรึง slide* ไว้กับตระกูล SevenThree ·
+// banner2/banner3 เป็นอาร์ตเวิร์กของแบรนด์อื่น ห้าม import) หน้าอื่นไม่ได้ import
+// ตัวนี้รอบนี้ — หน้าถาวร terms/privacy/404 เดินผ่าน ContentBox.astro ซึ่งเป็น
+// shared chrome
+// ⚠️ ทั้งสามครั้งส่ง **<p> ใบเดียว** ตามกฎ one-element-per-slot ของ playbook —
+// ไฟล์นี้ไม่ได้ห่อให้ และต้องไม่ห่อให้
 //
 // รูปทรงคือ "ใบสลาก": กรอบหนา + วงในเส้นประ + รอยปรุครึ่งวงกลมสองข้างกลางการ์ด
 // + แถบหัวตั๋วไล่เฉดบนสุด + เส้นประใต้หัวข้อ — ตรงกับแกนของแบรนด์รอบนี้ที่เป็น
-// **เว็บหวย** และอาร์ตเวิร์กที่เป็นตารางอัตราจ่ายหวยสี่ประเภทบนแผ่นป้ายขอบทอง
+// **เว็บหวย/ลอตโต้** และอาร์ตเวิร์กที่มีโพยหวย ใบสลาก และลูกบอลหวยพิมพ์เลข
 // ไอคอนหัวข้อเป็น 🎟️ อยู่ใน <span aria-hidden="true"> และเป็น **พี่น้อง** ของหัวข้อ
 // ไม่ได้อยู่ในข้อความ
 //
-// ⚠️ **ธีมมืดสนิท** — bg.json ของดรอปนี้คือ {"mode":"color","color":"#000000"}
-// **ห้าม "แก้" การ์ดให้เป็นพื้นสว่าง** (รอบก่อนของไฟล์นี้เป็นธีมสว่างการ์ดขาว
-// จึงเป็นการกลับทิศ 180 องศา ไม่ใช่การปรับเฉดสี)
-// ลำดับผิว: #1c1a16 ยก/ชิป · #121110 การ์ด (ใบนี้) · #070707 จม · #000000 พื้นเพจ
+// 🚨🚨 **ธีมเนื้อหาสว่าง** — bg.json ของดรอปนี้คือ
+// {"mode":"color","color":"#fff0f0"} = ขาวอมชมพูจาง (รอบก่อนของไฟล์นี้เป็น
+// **ธีมมืดสนิทพื้นดำ #000000 ของ รวย168** จึงเป็นการ **กลับทิศ 180 องศา**
+// ไม่ใช่การปรับเฉดสี) **ห้าม "แก้" การ์ดใบนี้กลับไปเป็นพื้นมืด** เพราะหมึก
+// #25090f บนพื้นมืดจะหายไปเลย ไม่ใช่แค่จางลง
+// ⚠️ โครมเข้ม (navbar/footer/ticker/แถบล่างมือถือ) เป็นอีกโซนหนึ่ง **ไม่ใช่ไฟล์นี้**
+// ลำดับผิว: #ffffff การ์ด (ใบนี้) · #ffe4e6 ชั้นยก/ชิป · #ffd4d7 wash ·
+// #fff0f0 พื้นเพจ (= สีของรอยปรุ เพื่อให้ดูเหมือนเจาะทะลุการ์ด)
 // บทบาทสีในไฟล์นี้:
-//   ทอง #ffd94a = หัวข้อ (13.8:1 บนผิวการ์ด) · ออรา · ขอบ hover · สต็อปกลางแถบหัวตั๋ว
-//   โครเมียมเงิน #e8eaee = **วัสดุที่สอง** (16.0:1) อยู่ที่สต็อปกลางของหัวข้อและ
-//     ออรามุมขวาล่าง — มาจากเวิร์ดมาร์ก "รวย" และคำว่า "2 ตัว" บน banner3 โดยตรง
-//   ทองลึก #9d6f06 = ขอบการ์ด · ปลายแถบหัวตั๋ว · วงในรอยปรุ **ห้ามถือตัวอักษร**
-//   เส้น #3d3425 = วงในเส้นประ + เส้นประใต้หัวข้อ **ห้ามถือตัวอักษร**
-//   หมึก #f3ece0 = เนื้อความ (= BRAND_TEXT, 16.0:1 บนผิวการ์ดนี้)
+//   แดงเลือดนก #b00718 = หัวข้อ (7.3:1 บนการ์ดขาว) · ขอบ hover
+//   แดงลึก #8a0412 = สต็อปปลายของหัวข้อ (10.4:1) · ปลายแถบหัวตั๋ว
+//   แดงแบรนด์ #c1071b = สต็อปกลางของหัวข้อ (6.6:1) · สต็อปกลางแถบหัวตั๋ว
+//   เส้น #f5b9bd = กรอบการ์ด · วงในเส้นประ · เส้นประใต้หัวข้อ · ขอบชิปไอคอน
+//     **ห้ามถือตัวอักษร** · เส้นเข้ม #a8333f = วงในรอยปรุ **เส้นเท่านั้น**
+//   หมึก #25090f = เนื้อความ (= BRAND_TEXT, 18.7:1 บนการ์ดขาว)
 // ⚠️ หัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือตัวอักษรได้:
-// #ffd94a 13.8:1 และ #e8eaee 16.0:1 ผ่านทั้งคู่ — **ห้ามเอา #9d6f06 (4.7:1) หรือ
-// #6b7079 (4.2:1) มาเป็นสต็อปของหัวข้อ** สองค่านั้นเป็นขอบ/ออรา/พื้นถมเท่านั้น
-// ⚠️⚠️ **ขาวบนทองได้แค่ ~1.2–2.2:1** — ในไฟล์นี้ไม่มีพื้นถมทองที่ถือตัวอักษรเลย
-// สักจุด ถ้าจะเพิ่มในอนาคต หมึกต้องเป็น #0a0a0a เท่านั้น
-// rgba() ที่อนุญาตรอบนี้: rgba(255,217,74,α) · rgba(227,167,18,α) ·
-// rgba(176,125,8,α) · rgba(157,111,6,α) · rgba(232,234,238,α) · rgba(0,0,0,α)
+// #8a0412 10.4:1 · #c1071b 6.6:1 · #b00718 7.3:1 ผ่านทั้งสาม — **ห้ามเอา #ff2436
+// (3.9:1) #e9b53c (2.0:1) #a8333f หรือ #f5b9bd มาเป็นสต็อปของหัวข้อ**
+// ⚠️⚠️ ไฟล์นี้ **ไม่มีพื้นถมที่ถือตัวอักษรเลยสักจุด** ถ้าจะเพิ่มในอนาคต ต้องเป็น
+// สูตรปุ่มของ §2 (ไล่ #8a0412 -> #b00718 -> #d61023 + หมึกขาว) เท่านั้น
+// rgba() ที่อนุญาตรอบนี้: rgba(176,7,24,α) · rgba(193,7,27,α) · rgba(138,4,18,α) ·
+// rgba(168,51,63,α) · rgba(37,9,15,α)
 //
-// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ทอง/เหลืองเคยนำมาแล้วเกือบทุกแบรนด์
-// ในรีโปนี้** การเจอ "ทอง" ในไฟล์จึงไม่พิสูจน์อะไรเลย ทองรอบนี้คือ #ffd94a /
-// #e3a712 / #9d6f06 เท่านั้น
-// ⚠️⚠️ **มาดาม168 เป็นแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด** (แดงคริมสัน+น้ำเงิน
-// อะซัวร์บนกรมท่า): ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733
-// 16234a 2a3c70 f4eef1 b3bdd6 d9dfe9
-// ชุดที่เพิ่งอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้วคือ **เขียวมรกต-ธีมสว่างของ
-// สาธุ168**: 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd
-// ก่อนนั้นเป็นชุดทองโลหะ-ครีมอมพีชของ **หวยคิง** ซึ่งเป็นเจ้าของเดิมของตระกูล
-// *Huay (cd9a2c fdeb7c ab7314 fcd4c3 fce2d4 1c140b 0c0b0a f5e7c8 5c3f12 120a02)
-// และชุดชมพูบานเย็นของ **มีทรัพย์168** (dd1b74 a4186b 4a0d35 2d0720 f7dcf6 f0ccf5)
-// กับชุดแดง-ทองของ **หวย365** (140203 dc0203 f5282a ffc93c ffeab0 8c0402 c08a07)
-// ⚠️ ทองของแบรนด์อื่นที่ต้อง grep ทีละค่า ห้ามกะด้วยตา: fbc134 ffe87a cf9a18 96690a
-// (NAZA168 ตัวละติน) · f5ba14 fcee52 b37c0b (เงินทอง168) · eeae12 fded41 9f600d
-// e29f0f fdf051 (พักยก168) · f7c92b ffe6a3 (ขวัญใจ168) · d4922c fdfc71 d39c45
-// (ufalion168) · e5a81b ffe08a bb8410 7d5a07 (UFA324) · fee45d e6a416 b8780d 7a4e05
-// (ยูฟ้า168) · fef54b 6b5c10 (นินจา168) · fdcb0c fefb6b 8a6504 (สบาย168) · f9a826
-// 704504 (รวยแทร่168) · ffc82e 5c4a16 (สบายเบท168) · e3b23c ffe5a8 8a6210
-// (สมหวัง168) · dcb95f b8862b 96681f (รวยแท้168) · fcd434 ffeaa0 (มีโชค168) ·
-// f0bb4e ffeccb (รวยเทพ168) · fcd45c 6b4a08 (มีเฮ168) · ffdc8c f0b429 (รับตัง168) ·
-// f0c878 (ดวงเศรษฐี168) · f0b46a d9803a (โปรดี168) · f5b61d b07a06 (PIGPG)
-// ⚠️⚠️ **ffd84d ของ ถอนชัวร์168 ห่างจาก #ffd94a ของรอบนี้แค่ G1** — เจอที่ไหน
-// แปลว่าพิมพ์ผิด ไม่ใช่ค่าของรอบนี้
-// ⚠️ แรมป์เทาเงินของแบรนด์อื่น (รอบนี้โครเมียมเป็นวัสดุที่สองจริง แต่เป็นคนละค่า):
-// e0e0df c0c0bf a1a09e (พักยก168) · e8ecf1 a8b2bf 78828f 5a6472 (ยูฟ้า168) ·
-// 8792a0 b9c2cc f0e8d4 464f5a (UFA324) · cfd9e6 (รับตัง168) · fdfcfd b4bcc2 eceaea
-// (GT66B) · d9c9a6 cfd6e3 (NAZA168 ตัวละติน) · cfdcec 9db4d4 dde8f7 (TSDET911) ·
-// c3c7d1 eef0f4 8d93a1 edeaf0 (หวยดีใจ)
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **แดง/ทอง/ครีมผ่านรีโปนี้มาแล้ว
+// สิบกว่าเจ้า** การเจอ "แดง" ในไฟล์จึงไม่พิสูจน์อะไรเลย แดงรอบนี้คือ #b00718 /
+// #c1071b / #8a0412 / #d61023 / #ff2436 เท่านั้น
+// ⚠️⚠️ **ชุดที่เพิ่งอยู่ทั้งใบนี้คือทอง-โครเมียมบนดำสนิทของ รวย168** ต้องกวาดก่อนใคร:
+// ffd94a e3a712 9d6f06 e8eaee b4b9c2 6b7079 f3ece0 121110 1c1a16 070707 3d3425
+// 000000 ffd84d + rgba(255,217,74,α) rgba(227,167,18,α) rgba(0,0,0,α)
+// ⚠️⚠️ **ZNOVA168 เป็นแบรนด์ขาออกทันที = เสี่ยงหลงเหลือสูงสุด** (ส้มเพลิง/ทอง/ครีม
+// ซึ่งเป็น **ตระกูลเดียวกับรอบนี้**): 2a1206 1a0c04 2b1608 0e0602 7a3a0c fff3e0
+// e0b784 fffbf0 fff4e0 ffe9c7 f3d9a8 c98a24 c23400 b8300a 9a5b00 9a2a00 d13800
+// fa4903 fde90b e8a000 ff8a2b d8dde6 8f9aa8 6a4a30
+// 🚨 **คู่ที่ต้องสงสัยว่าพิมพ์ผิดก่อนเสมอ**: b8300a / c23400 / 9a2a00 ↔ #b00718 /
+// #c1071b / #8a0412 · 2a1206 ↔ #25090f · fffbf0 / fff4e0 / ffe9c7 ↔ #fff0f0 /
+// #ffe4e6 / #ffd4d7 · f3d9a8 ↔ #f5b9bd · a81410 / c81e12 / 9d140c (MEXICANOSLOT)
+// ↔ #b00718 / #c1071b / #8a0412 · de2b1e ↔ #d61023 · 3f130d ↔ #25090f ·
+// fde4d3 / fff3ea / fdeee2 ↔ #ffe4e6 / #fff0f0 / #ffd4d7 · e8c6ae / f6c4a4 ↔ #f5b9bd
+// ⚠️ แดง/ทองของแบรนด์เก่ากว่าที่ต้อง grep ทีละค่า ห้ามกะด้วยตา: cf1111 e01f26
+// 1a0709 2a0b0e 120406 (แบรนด์หวยเก่า) · dc0203 f5282a ffc93c ffeab0 8c0402 c08a07
+// (หวย365) · dc0409 f5363d 8e0206 f3c54e (หวยดีใจ) · cd9a2c fdeb7c ab7314 fcd4c3
+// fce2d4 f5e7c8 (หวยคิง เจ้าของเดิมของตระกูล *Huay) · ff2e52 e01238 c9102f
+// (มาดาม168) · c30303 8f0505 e81313 (รวยแท้168) · fb2e33 cb0b0d d81115 b00d11
+// 8a0608 (สล็อต168) · f2a033 d4922c f0b429 e0b03a fcdc2b fff6ae a87d0c fadc64
+// fdf3b4 (ทองของแบรนด์เก่า) · f3f6fa e8eaee cfd6e3 d8dde6 (เทาเงินของแบรนด์เก่า)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️⚠️ **รอบนี้ไม่มีแดงเลยสักเฉด** — แดงคือสีนำของแบรนด์ขาออก และตระกูล *Huay
-// เคยเป็นแดง/ทองมาก่อน การปล่อยแดงไว้ = ผิดพาเลตและหลงเหลือข้ามแบรนด์พร้อมกัน
-// **ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีม่วง ไม่มีส้ม ไม่มีเขียว ไม่มีครีม
-// ไม่มีพีช ไม่มีน้ำตาลกาแฟ** — ลิปสติกแดง ผมขาวเงิน และสีผิวนักแสดงในอาร์ตเวิร์ก
-// เป็น **วัตถุในภาพ ไม่ใช่สี UI** (ค่าพีชใน palette.json คือสีผิวนักแสดง)
+// ⚠️⚠️ **รอบนี้ไม่มีทอง/เหลืองบนผิวสว่างเลย** (#e9b53c เป็นไฮไลต์ของโครมเข้ม
+// เท่านั้น) **ไม่มีเขียว ไม่มีม่วง ไม่มีฟ้า/ไซยาน ไม่มีชมพูบับเบิลกัม ไม่มีส้ม
+// ไม่มีครีม/งาช้าง และไม่มีแรมป์เทาเงิน** — สีผิวนักแสดง สูทขาว และมงกุฎทองใน
+// อาร์ตเวิร์กเป็น **วัตถุในภาพ ไม่ใช่สี UI**
 //
-// การ์ดถือ `text-left` ไว้เอง อย่าเผลอใส่ `text-center` บนการ์ดหรือ <section>
-// เพราะมันจะ inherit ลงไปจัดกึ่งกลางย่อหน้าทั้งหน้า ถ้าต้องการหัวข้อกึ่งกลาง
-// ให้ใส่บน HeadingTag เอง
+// การ์ดถือ `text-left` ไว้เอง **ห้ามใส่ `text-center` บนการ์ดหรือบน <section>**
+// เพราะมันจะ inherit ลงไปจัดกึ่งกลางย่อหน้าในสล็อตทั้งหมด (บั๊กที่เคยเกิดกับ
+// ตระกูลนี้) ถ้าต้องการหัวข้อกึ่งกลาง ให้ใส่คลาสจัดตำแหน่งบน HeadingTag เอง —
+// ซึ่งรอบนี้หัวข้อชิดซ้ายตามย่อหน้า
 ---
 
 <section class="relative z-10 my-8 flex w-full justify-center px-4 font-sans">
   <div
-    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-[2rem] border-2 border-[#9d6f06]/70 bg-[#121110] px-7 py-9 text-left text-base leading-relaxed text-[#f3ece0] shadow-[0_12px_34px_rgba(0,0,0,0.65)] transition-all duration-500 hover:border-[#ffd94a]/80 hover:shadow-[0_16px_44px_rgba(227,167,18,0.26)] md:px-12 md:py-11">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1.5 bg-gradient-to-r from-[#9d6f06] via-[#ffd94a] to-[#9d6f06]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-2.5 -z-10 rounded-[1.5rem] border border-dashed border-[#3d3425]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -left-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#070707] shadow-[inset_0_0_0_1px_rgba(157,111,6,0.75)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -right-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#070707] shadow-[inset_0_0_0_1px_rgba(157,111,6,0.75)]"></div>
+    class="group relative isolate w-full max-w-[1400px] overflow-hidden rounded-[2rem] border-2 border-[#f5b9bd] bg-white px-7 py-9 text-left text-base leading-relaxed text-[#25090f] shadow-[0_12px_34px_rgba(138,4,18,0.14)] transition-all duration-500 hover:border-[#b00718] hover:shadow-[0_16px_44px_rgba(176,7,24,0.22)] md:px-12 md:py-11">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1.5 bg-gradient-to-r from-[#8a0412] via-[#c1071b] to-[#8a0412]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-2.5 -z-10 rounded-[1.5rem] border border-dashed border-[#f5b9bd]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -left-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#fff0f0] shadow-[inset_0_0_0_1px_rgba(168,51,63,0.7)]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute top-1/2 -right-5 -z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-[#fff0f0] shadow-[inset_0_0_0_1px_rgba(168,51,63,0.7)]"></div>
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-44 w-72 -translate-x-1/2 rounded-full bg-[#ffd94a]/18 blur-[70px] transition-all duration-500 group-hover:bg-[#ffd94a]/28">
+      class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-44 w-72 -translate-x-1/2 rounded-full bg-[#ffd4d7]/80 blur-[70px] transition-all duration-500 group-hover:bg-[#ffd4d7]">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute right-8 -bottom-20 -z-10 h-36 w-36 rounded-full bg-[#e8eaee]/12 blur-[60px] transition-all duration-500 group-hover:bg-[#e8eaee]/20"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute right-8 -bottom-20 -z-10 h-36 w-36 rounded-full bg-[#ffe4e6] blur-[60px] transition-all duration-500 group-hover:bg-[#ffd4d7]"></div>
 
     {
       title && (
-        <header class="mb-6 flex items-center gap-4 border-b border-dashed border-[#3d3425] pb-5">
-          <span aria-hidden="true" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#9d6f06]/70 bg-[#1c1a16] text-xl shadow-[0_0_14px_rgba(227,167,18,0.3)]">
+        <header class="mb-6 flex items-center gap-4 border-b border-dashed border-[#f5b9bd] pb-5">
+          <span aria-hidden="true" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#f5b9bd] bg-[#ffe4e6] text-xl shadow-[0_0_14px_rgba(176,7,24,0.14)]">
             🎟️
           </span>
-          <HeadingTag class={`bg-gradient-to-r from-[#ffd94a] via-[#e8eaee] to-[#ffd94a] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+          <HeadingTag class={`bg-gradient-to-r from-[#8a0412] via-[#c1071b] to-[#8a0412] bg-clip-text text-left ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>

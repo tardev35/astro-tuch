@@ -22,86 +22,85 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 // column headings, which put two tags on one brief section. One section header
 // above the grid carries it now, and the per-card labels dropped to <p>.
 //
-// รวย168 (ดรอป 2026-10-23, .claude/brand-spec-ruay168.md §2–§4): กล่องนี้ถือ
-// **docx H2 §2** ของหน้าแรก (รัฐบาลไทย ลาว ฮานอย ออมสิน บาทละ1,000 —
-// content.txt บรรทัด 6) บรีฟเขียนหัวข้อนั้นเป็นย่อหน้าเดียวยาว หน้าแรกจึงผ่าครึ่ง
-// ลงคอลัมน์ละครึ่ง: ซีกซ้าย = ประเภทหวยกับวันประกาศผล · ซีกขวา = อัตราจ่ายบาทละ
-// 1,000 ฐานเงินเดิมพัน และวงเงินจ่ายสูงสุด และ **ไม่ส่ง titleleft/titleright**
-// เพราะบรีฟไม่ได้ตั้งชื่อย่อยให้สองครึ่งนั้น การคิดป้ายขึ้นมาเองจะเป็นถ้อยคำของหน้า
-// ไม่ใช่ของบรีฟ (คลาสของป้ายสองใบยัง retheme ไว้ครบในฐานะ inventory ของแบรนด์ถัดไป)
+// LOTTO189 (ดรอป 2026-10-27, .claude/brand-spec-lotto189.md §2–§4): กล่องนี้ถูก
+// เรียก **สองครั้ง** จากหน้าแรก — **docx H2 §2** (ลาว ฮานอย รัฐบาลไทย หุ้น
+// จ่ายเต็ม รับทุกเลข ไม่มีอั้นเลข — content.txt บรรทัด 6) และ **docx H2 §7**
+// (เว็บแทงหวย <แบรนด์> มีแอดมินออนไลน์ตลอด 24ชม. — บรรทัด 22) บรีฟเขียนทั้งสอง
+// หัวข้อเป็นย่อหน้าเดียวยาว หน้าแรกจึงผ่าครึ่งลงคอลัมน์ละครึ่งโดยไม่ตกประโยคไหน
+// และ **ไม่ส่ง titleleft/titleright ทั้งสองครั้ง** เพราะบรีฟไม่ได้ตั้งชื่อย่อยให้
+// สองครึ่งนั้น การคิดป้ายขึ้นมาเองจะเป็นถ้อยคำของหน้า ไม่ใช่ของบรีฟ (คลาสของป้าย
+// สองใบยัง retheme ไว้ครบในฐานะ inventory ของแบรนด์ถัดไป)
 // หัวข้อมาจาก prop เท่านั้น — ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้
 //
-// ⚠️ **ธีมมืดสนิท** — bg.json = {"mode":"color","color":"#000000"} ลำดับผิว:
-// #1c1a16 ยก (ใบขวา) · #121110 การ์ด (ใบซ้าย) · #070707 จม · #000000 พื้นเพจ
-// หมึก **#f3ece0** (= BRAND_TEXT, 16.0:1 บนใบซ้าย · 14.5:1 บนใบขวา)
-// **ห้ามแก้การ์ดกลับไปเป็นพื้นสว่าง** — รอบก่อนของไฟล์นี้เป็นธีมสว่างการ์ดขาว
+// 🚨🚨 **ธีมเนื้อหาสว่าง** — bg.json = {"mode":"color","color":"#fff0f0"} ลำดับผิว:
+// #ffffff การ์ด (ใบซ้าย) · #ffe4e6 ชั้นยก (ใบขวา) · #ffd4d7 wash · #fff0f0 พื้นเพจ
+// หมึก **#25090f** (= BRAND_TEXT, 18.7:1 บนใบซ้าย · 16.4:1 บนใบขวา)
+// **ห้ามแก้การ์ดกลับไปเป็นพื้นมืด** — รอบก่อนของไฟล์นี้เป็น **ธีมมืดสนิทพื้นดำของ
+// รวย168** จึงเป็นการกลับทิศ 180 องศา ไม่ใช่การปรับเฉดสี
 //
-// สองใบในกล่องนี้แยกกันด้วย **วัสดุ** ตรงตามอาร์ตเวิร์กที่เป็นคู่ ทอง×โครเมียมเงิน:
-// ใบซ้ายเป็น **ใบทอง** (ผิวการ์ด #121110 ในกรอบทองลึก #9d6f06 ป้ายไอคอนเป็นแผ่นถม
-// ทองไล่ #ffd94a → #e3a712 บนหมึกดำ #0a0a0a) ส่วนใบขวาเป็น **ใบโครเมียม** (ผิวยก
-// #1c1a16 ในกรอบเทาเงิน #6b7079 ป้ายไอคอนเป็นแผ่นจม #070707 ขอบเงินบนหมึกแพลทินัม
-// #dde1e7) — ทองลอยอยู่ซ้าย เงินจมอยู่ขวา อ่านออกทันทีโดยไม่ต้องใช้ฮิวที่สาม
-// ⚠️⚠️ **ขาวบนทองได้แค่ ~1.2–2.2:1** — แผ่นถมทองใบซ้ายจึงถือหมึก **#0a0a0a**
-// (14.6:1 ใต้ #ffd94a · 9.2:1 ใต้ #e3a712) **ห้ามพลิกไปใช้หมึกขาวเด็ดขาด**
-// หัวข้อ docx เป็น **ทอง #ffd94a ทึบสีเดียว** (15.4:1 บนพื้นเพจ) ไม่ใช่ไล่เฉด —
-// ต่างจาก §1 (ContentBoxHuay) ที่ไล่ ทอง→เงิน→ทอง และ §5 ที่ไล่สามสต็อปคนละชุด
-// จึงไม่อ่านเป็นการ์ดใบเดิมซ้ำบนหน้าเดียวกัน ขีดใต้หัวข้อเป็น **พื้นถม** จึงไล่
-// #ffd94a → #e3a712 → #e8eaee ได้
-// ⚠️ ค่าที่ **ห้ามถือตัวอักษร** รอบนี้: #9d6f06 (4.7:1) · #6b7079 (4.2:1) ·
-// #b4b9c2 · #3d3425 · ทุกผิว — เป็นขอบ/ออรา/พื้นถมเท่านั้น
-// ⚠️ **ไฮไลต์ <strong> ในเนื้อความมีสีเดียวคือ #ffd94a** และเป็นงานของหน้าเพจ
+// สองใบในกล่องนี้แยกกันด้วย **ระดับผิว** ไม่ใช่ด้วยฮิวที่สาม (รอบนี้มีฮิวเดียว):
+// ใบซ้ายเป็น **ใบขาวลอย** (ผิวการ์ด #ffffff ในกรอบแดงจาง #f5b9bd ป้ายไอคอนเป็น
+// แผ่นถมแดงไล่ #8a0412 → #c1071b บนหมึกขาว) ส่วนใบขวาเป็น **ใบชมพูจม** (ผิวยก
+// #ffe4e6 ในกรอบเส้นเข้ม #a8333f/45 ป้ายไอคอนเป็นแผ่นขาวขอบแดงจางบนหมึก #b00718)
+// — ขาวลอยอยู่ซ้าย ชมพูจมอยู่ขวา อ่านออกทันทีโดยไม่ต้องเพิ่มสี
+// ⚠️⚠️ **ขาวบนแดงอ่อนตกทุกเกณฑ์** — แผ่นถมใบซ้ายจึงจบไล่เฉดที่ #c1071b (ขาวได้
+// 6.6:1) **ห้ามลากขึ้นไปถึง #ff2436 (3.9:1) หรือ #e9b53c (2.0:1) แล้ววางหมึกขาว**
+// หัวข้อ docx เป็น **แดงเลือดนก #b00718 ทึบสีเดียว** (7.0:1 บนพื้นเพจ) ไม่ใช่
+// ไล่เฉด — ต่างจาก §1/§4/§5 (ContentBoxHuay) ที่ไล่ แดงลึก→แดงแบรนด์→แดงลึก และ
+// §8 (Faq2) ที่ไล่สองสต็อปคนละชุด จึงไม่อ่านเป็นการ์ดใบเดิมซ้ำบนหน้าเดียวกัน
+// ขีดใต้หัวข้อเป็น **พื้นถม** จึงไล่ #b00718 → #c1071b → #e9b53c ได้
+// ⚠️ ค่าที่ **ห้ามถือตัวอักษร** รอบนี้: #ff2436 (3.9:1) · #e9b53c (2.0:1) ·
+// #a8333f (เส้นเท่านั้น) · #f5b9bd · #ffd4d7 · #ffe4e6 · #fff0f0 · #c3ccd6
+// ⚠️ **ไฮไลต์ <strong> ในเนื้อความมีสีเดียวคือ #b00718** และเป็นงานของหน้าเพจ
 // ไม่ใช่ของไฟล์นี้
-// rgba() ที่อนุญาตรอบนี้: rgba(255,217,74,α) · rgba(227,167,18,α) ·
-// rgba(176,125,8,α) · rgba(157,111,6,α) · rgba(232,234,238,α) · rgba(0,0,0,α)
+// rgba() ที่อนุญาตรอบนี้: rgba(176,7,24,α) · rgba(193,7,27,α) · rgba(138,4,18,α) ·
+// rgba(168,51,63,α) · rgba(37,9,15,α)
 //
-// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ทอง/เหลืองเคยนำมาแล้วเกือบทุกแบรนด์
-// ในรีโปนี้** ทองรอบนี้คือ #ffd94a / #e3a712 / #9d6f06 เท่านั้น
-// ⚠️⚠️ **มาดาม168 เป็นแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด**: ff2e52 e01238 c9102f
-// 1177e8 0e68cc 0a4ea8 00091f 050e26 0b1733 16234a 2a3c70 f4eef1 b3bdd6 d9dfe9
-// ชุดที่เพิ่งอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: **สาธุ168** เขียวมรกตธีมสว่าง
-// (0b7d28 0a5f1c 0f9b35 0c3a16 061f0c c9cb63 aeb04a 9ba03c d8ffc7 e9fbdd) ·
-// **หวยดีใจ** แดงแบรนด์-เงินโครเมียม (dc0409 f5363d 8e0206 17080c 0d0407 c3c7d1
-// eef0f4 8d93a1 edeaf0 f3c54e 4b0205) · **หวยคิง** ทองโลหะ-ครีมอมพีช ซึ่งเป็น
-// เจ้าของเดิมของตระกูล *Huay (cd9a2c fdeb7c ab7314 fcd4c3 fce2d4 1c140b 0c0b0a
-// 5c3f12 120a02 f5e7c8) · **มีทรัพย์168** ชมพูบานเย็น (dd1b74 a4186b 4a0d35 2d0720
-// f7dcf6 f0ccf5)
-// ⚠️ ทองของแบรนด์อื่นที่ต้อง grep ทีละค่า: fbc134 ffe87a cf9a18 96690a (NAZA168
-// ตัวละติน) · f5ba14 fcee52 b37c0b (เงินทอง168) · eeae12 fded41 9f600d (พักยก168) ·
-// f7c92b ffe6a3 (ขวัญใจ168) · d4922c fdfc71 (ufalion168) · e5a81b ffe08a bb8410
-// 7d5a07 (UFA324) · fee45d e6a416 b8780d (ยูฟ้า168) · fef54b (นินจา168) · fdcb0c
-// fefb6b 8a6504 (สบาย168) · f9a826 (รวยแทร่168) · ffc82e (สบายเบท168) · e3b23c
-// (สมหวัง168) · dcb95f b8862b 96681f (รวยแท้168) · fcd434 (มีโชค168) · f0bb4e
-// (รวยเทพ168) · fcd45c (มีเฮ168) · f0b429 ffdc8c (รับตัง168) · f0c878
-// (ดวงเศรษฐี168) · ffc93c ffeab0 (หวย365) · f5b61d (PIGPG)
-// ⚠️⚠️ **ffd84d ของ ถอนชัวร์168 ห่างจาก #ffd94a แค่ G1** — เจอที่ไหนคือพิมพ์ผิด
-// ⚠️ แรมป์เทาเงินของแบรนด์อื่น: e0e0df c0c0bf a1a09e (พักยก168) · e8ecf1 a8b2bf
-// 78828f 5a6472 (ยูฟ้า168) · 8792a0 b9c2cc 464f5a (UFA324) · cfd9e6 (รับตัง168) ·
-// fdfcfd b4bcc2 eceaea (GT66B) · d9c9a6 cfd6e3 (NAZA168 ตัวละติน) · cfdcec 9db4d4
-// dde8f7 (TSDET911)
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **แดง/ทอง/ครีมเคยนำมาแล้วสิบกว่า
+// แบรนด์ในรีโปนี้** แดงรอบนี้คือ #b00718 / #c1071b / #8a0412 / #d61023 / #ff2436
+// ⚠️⚠️ **ชุดที่เพิ่งอยู่ทั้งใบนี้คือทอง-โครเมียมบนดำสนิทของ รวย168** กวาดก่อนใคร:
+// ffd94a e3a712 9d6f06 e8eaee b4b9c2 6b7079 f3ece0 121110 1c1a16 070707 3d3425
+// dde1e7 0a0a0a 000000 ffd84d
+// ⚠️⚠️ **ZNOVA168 เป็นแบรนด์ขาออกทันที = เสี่ยงหลงเหลือสูงสุด** และเป็น **ตระกูล
+// เดียวกับรอบนี้** (ส้ม/ทอง/ครีม): 2a1206 1a0c04 2b1608 0e0602 7a3a0c fff3e0
+// e0b784 fffbf0 fff4e0 ffe9c7 f3d9a8 c98a24 c23400 b8300a 9a5b00 9a2a00 d13800
+// fa4903 fde90b e8a000 ff8a2b d8dde6 8f9aa8 6a4a30
+// 🚨 คู่ที่ต้องสงสัยว่าพิมพ์ผิดก่อนเสมอ: b8300a / c23400 / 9a2a00 ↔ #b00718 /
+// #c1071b / #8a0412 · a81410 / c81e12 / 9d140c (MEXICANOSLOT) ↔ ชุดเดียวกัน ·
+// de2b1e ↔ #d61023 · 2a1206 / 3f130d ↔ #25090f · fffbf0 / fde4d3 / fff3ea ↔
+// #fff0f0 / #ffe4e6 / #ffd4d7 · f3d9a8 / e8c6ae / f6c4a4 ↔ #f5b9bd
+// ⚠️ แดง/ทองของแบรนด์เก่าที่ต้อง grep ทีละค่า: cf1111 e01f26 (แบรนด์หวยเก่า) ·
+// dc0203 f5282a ffc93c ffeab0 (หวย365) · dc0409 f5363d 8e0206 c3c7d1 eef0f4 f3c54e
+// (หวยดีใจ) · cd9a2c fdeb7c ab7314 fcd4c3 fce2d4 f5e7c8 (หวยคิง เจ้าของเดิมของ
+// ตระกูล *Huay) · dd1b74 a4186b 4a0d35 2d0720 (มีทรัพย์168) · ff2e52 e01238 c9102f
+// (มาดาม168) · f2a033 d4922c f0b429 e0b03a fcdc2b fff6ae a87d0c (ทองของแบรนด์เก่า)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️⚠️ **รอบนี้ไม่มีแดงเลยสักเฉด** (แดงคือสีของแบรนด์ขาออก และตระกูล *Huay เคย
-// ship เป็นแดง/ทอง) **ไม่มีชมพู ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีม่วง ไม่มีส้ม
-// ไม่มีเขียว ไม่มีครีม ไม่มีพีช ไม่มีน้ำตาล**
+// ⚠️⚠️ **รอบนี้ไม่มีทอง/เหลืองบนผิวสว่าง ไม่มีเขียว ไม่มีม่วง ไม่มีน้ำเงิน/ฟ้า/
+// ไซยาน ไม่มีชมพูบับเบิลกัม ไม่มีส้ม ไม่มีครีม/งาช้าง ไม่มีน้ำตาลกาแฟ และไม่มี
+// แรมป์เทาเงิน**
+//
+// **ห้ามใส่ `text-center` บน <section> หรือบนการ์ด** — มันตกทอดเข้าไปจัดกึ่งกลาง
+// ย่อหน้าในสล็อต ถ้าต้องการจัดกึ่งกลางให้ใส่บน HeadingTag เอง
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   {
     title && (
-      <header class="mb-6 flex flex-col gap-3 border-b border-[#3d3425] pb-4">
-        <HeadingTag class={`${headingSize} leading-normal font-black tracking-widest text-[#ffd94a] uppercase`}>{title}</HeadingTag>
-        <div aria-hidden="true" class="h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ffd94a] via-[#e3a712] to-[#e8eaee] shadow-[0_0_10px_rgba(227,167,18,0.45)]" />
+      <header class="mb-6 flex flex-col gap-3 border-b border-[#f5b9bd] pb-4">
+        <HeadingTag class={`text-left ${headingSize} leading-normal font-black tracking-widest text-[#b00718] uppercase`}>{title}</HeadingTag>
+        <div aria-hidden="true" class="h-[3px] w-24 rounded-full bg-gradient-to-r from-[#b00718] via-[#c1071b] to-[#e9b53c] shadow-[0_0_10px_rgba(176,7,24,0.35)]" />
       </header>
     )
   }
 
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-    <article class="flex flex-col gap-4 rounded-2xl border border-[#9d6f06]/65 bg-[#121110] p-6 text-left text-base leading-relaxed text-[#f3ece0] shadow-[0_10px_30px_rgba(0,0,0,0.55)] md:p-7">
+    <article class="flex flex-col gap-4 rounded-2xl border border-[#f5b9bd] bg-white p-6 text-left text-base leading-relaxed text-[#25090f] shadow-[0_10px_30px_rgba(138,4,18,0.12)] md:p-7">
       {
         titleleft && (
-          <p class="flex items-center gap-3 border-b border-[#3d3425] pb-3 text-xl leading-normal font-black tracking-widest text-[#ffd94a] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#f5b9bd] pb-3 text-xl leading-normal font-black tracking-widest text-[#b00718] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#9d6f06] bg-gradient-to-br from-[#ffd94a] to-[#e3a712] text-sm text-[#0a0a0a] shadow-[0_0_10px_rgba(227,167,18,0.4)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#8a0412] bg-gradient-to-br from-[#8a0412] to-[#c1071b] text-sm text-white shadow-[0_0_10px_rgba(176,7,24,0.35)]">
               {iconleft}
             </span>
             {titleleft}
@@ -111,13 +110,13 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
       <slot name="left" />
     </article>
 
-    <article class="flex flex-col gap-4 rounded-2xl border border-[#6b7079]/55 bg-[#1c1a16] p-6 text-left text-base leading-relaxed text-[#f3ece0] shadow-[0_10px_30px_rgba(0,0,0,0.5)] md:p-7">
+    <article class="flex flex-col gap-4 rounded-2xl border border-[#a8333f]/45 bg-[#ffe4e6] p-6 text-left text-base leading-relaxed text-[#25090f] shadow-[0_10px_30px_rgba(168,51,63,0.14)] md:p-7">
       {
         titleright && (
-          <p class="flex items-center gap-3 border-b border-[#6b7079]/40 pb-3 text-xl leading-normal font-black tracking-widest text-[#dde1e7] uppercase">
+          <p class="flex items-center gap-3 border-b border-[#a8333f]/35 pb-3 text-xl leading-normal font-black tracking-widest text-[#8a0412] uppercase">
             <span
               aria-hidden="true"
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#6b7079] bg-[#070707] text-sm text-[#dde1e7] shadow-[0_0_10px_rgba(232,234,238,0.18)]">
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#f5b9bd] bg-white text-sm text-[#b00718] shadow-[0_0_10px_rgba(168,51,63,0.18)]">
               {iconright}
             </span>
             {titleright}
