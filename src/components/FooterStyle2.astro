@@ -1,47 +1,65 @@
 ---
 import { Picture } from "astro:assets";
-import BankStrip from "./BankStrip.astro";
 import { BRAND_ADDRESS, BRAND_NAME } from "../lib/brandProfile";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/logo.{png,webp,jpg}", { eager: true });
 const imagePaths = Object.keys(images);
 const mainLogo = imagePaths.length > 0 ? images[imagePaths[0]].default : null;
 
-// โบ๊ะบ๊ะ168 (รอบฟ้าสกาย-ขาวบับเบิล 2026-10-24): footer ที่ใช้งานจริงรอบนี้ —
-// รอบก่อน หมูบิน168 ใช้ FooterStyle3 ซึ่งเป็นการ์ด CTA ลอยคร่อมขอบบน (-top-14)
-// แล้วแผ่นเว้น pt-64 ไว้รับ ส่วนไฟล์นี้เป็นคนละทรง: **แผ่นแบน ขอบบนเป็นเส้นหนา
-// 3px ไม่มีการ์ดลอย** เนื้อในเป็น **กริด 4 คอลัมน์เท่ากัน** และ BankStrip อยู่
-// ท้ายคอลัมน์ที่สี่ ไม่ได้พาดเต็มความกว้าง
+// TEVA69 (รอบเขียวมรกตนำ-เงินโครเมียมรอง บนโครมเขียวป่า 2026-10-28): footer ที่ใช้
+// งานจริงรอบนี้ — รอบก่อน LOTTO189 ใช้ FooterHuay ซึ่งเป็นแผ่น rounded-t-[3rem]
+// ที่มีออราเบลอคร่อมขอบบนและกริด 12 คอลัมน์แบบ 5/3/4 ส่วนไฟล์นี้เป็นคนละทรง:
+// **แผ่นแบน ขอบบนเป็นเส้นหนา 3px ไม่มีการ์ดลอยและไม่มีมุมมน** เนื้อในเป็น
+// **กริด 4 คอลัมน์เท่ากัน**
 //
-// 🚨🚨 **ไฟล์นี้ค้างชุด "ทองแกน-ครีมอุ่นบนน้ำตาลโอลีฟ" ของ เงินทอง168 ไว้ทั้งไฟล์**
-// (f5ba14 fcee52 b37c0b 1b1407 4d3c15 2e2512 ecd5c4 d2b9a4) และของเก่ากว่านั้น
-// ก็เป็นทองอำพันของ ufalion168 — **รอบนี้ไม่มีทองและไม่มีครีมสักเฉด**
-// ย้ายทั้งไฟล์มาเป็น **พื้นน้ำเงินมหาสมุทร #06283f + ฟ้าสกายแกน #12b4ef +
-// ฟ้าพาสเทล #b6e3f0 + ฟ้าเข้ม #0b4a73 (เส้น/ขอบ/ออรา) + ผิวยก #0b4a73 +
-// หมึก #eaf7ff** ตาม .claude/brand-spec-bohba168.md §2
-// ⚠️⚠️ **และชมพู/พลัมของ หมูบิน168 รอบก่อนทันที (fa539c c2185b 3b0b26 54123a
-// ffe9f5) ก็ต้องไม่มีหลุดเข้ามาเช่นกัน** — เจอชมพูที่ไหนในไฟล์นี้คือหลงเหลือ
-// ข้ามแบรนด์ ไม่ใช่สีของรอบนี้
-// ⚠️ #0b4a73 กับ #2a87c4 ห้ามถือตัวอักษรในไฟล์นี้ (เป็นเส้น/ขอบ/ไล่เฉดเท่านั้น)
-// ตัวที่ถือตัวอักษรได้บนพื้น #06283f: #eaf7ff (12.4:1) #b6e3f0 (≈11.0:1)
-// #12b4ef (6.4:1) และ #7fcbe8 (≈8.5:1)
+// ⚠️⚠️ **เหตุผลที่เลือกไฟล์นี้แทน FooterPremium ซึ่งเป็นตัวเดียวที่ไม่เคยใช้ใน 7
+// รอบหลัง**: FooterPremium กับ Footer ตัวฐาน **มีทรงเหมือน FooterHuay ขาออกเป๊ะ**
+// (rounded-t-[3rem] + ออราเบลอคร่อมขอบบน + กริด 12 คอลัมน์ 5/3/4) การหมุนไปหามัน
+// จะได้แค่ "เปลี่ยนสี" ซึ่งเป็นสิ่งที่กฎการหมุน variant มีไว้ป้องกันโดยตรง
+// ไฟล์นี้ใช้ครั้งล่าสุด 4 รอบก่อน (โบ๊ะบ๊ะ168) และเป็นทรงที่ต่างจากขาออกจริง
 //
-// โบ๊ะบ๊ะ168 เป็น **เว็บสล็อตออนไลน์** ไม่ใช่เว็บบอลและไม่ใช่เว็บหวย — คำที่รอบก่อน
-// เขียนไว้ในไฟล์นี้ (สล็อตเงินดี / อัตราจ่ายสูง / ค่ายเกมลิขสิทธิ์แท้100% /
-// รวมเกมกว่า 1,000 เกม / ค่า RTP เป็นตัวเลข / สมัคร 3 ขั้นตอน) **ไม่มีอยู่ในบรีฟ
-// รอบนี้สักคำ** จึงถูกถอดออกทั้งหมด ไม่ใช่แก้คำทับประโยคเดิม บรีฟรอบนี้เรียกตัวเองว่า
-// เกมสล็อตสนุกสุดมันส์ เว็บตรงแตกง่าย เบทต่ำ ไม่ทำเทิร์น และพูดถึงเกมสล็อตคลาสสิก ·
-// เกมโบนัส · เบทเริ่มต้น 1 บาท · โปรโมชั่นฝากรับโบนัสได้ทั้งวัน · คืนยอดเสีย 0.3% ·
-// แนะนำเพื่อน 0.8% · ฝากถอนทุกธนาคารและทรูมันนี่ · แอดมิน 24ชม.
-// คอลัมน์ที่สามจึงเป็น "บริการที่สอบถามได้" ซึ่งเป็นสิ่งที่บรีฟรอบนี้มีจริง
-// (content.txt บรรทัด 4 + 14 + 16)
-// ⚠️ **คำของ หมูบิน168 รอบก่อนทันที ห้ามหลุดเข้ามา**: เกมสล็อตแท้ ·
-// เว็บตรงถูกลิขสิทธิ์ · เชื่อถือได้ · ฝากถอนไม่มีขั้นต่ำ · ไม่จำกัดยอด ·
-// ขั้นตอนที่ 1/2/3
+// 🚨🚨 **ไฟล์นี้ค้างชุด "ฟ้าสกาย-น้ำเงินมหาสมุทร" ของ โบ๊ะบ๊ะ168 ไว้ทั้งไฟล์**
+// (12b4ef b6e3f0 06283f 0b4a73 2a87c4 eaf7ff + rgba 18/180/239 α) และก่อนหน้านั้น
+// เป็นชุดทองแกน-ครีมอุ่นของ เงินทอง168 (f5ba14 fcee52 b37c0b 1b1407 4d3c15 2e2512
+// ecd5c4 d2b9a4) — **ออกครบทุกจุดแล้ว ไม่เหลือฟ้า น้ำเงิน ทอง หรือครีม**
+// ⚠️⚠️ **และแดง/ขาวชมพูของ LOTTO189 รอบก่อนทันที (b00718 c1071b 8a0412 ff2436
+// e9b53c 24060c 3d0d16 120307 fff0f0 ffe4e6 ffd4d7 f5b9bd 25090f c3ccd6) ก็ต้องไม่มี
+// หลุดเข้ามาเช่นกัน** — เจอแดงที่ไหนในไฟล์นี้คือหลงเหลือข้ามแบรนด์ ไม่ใช่สีของรอบนี้
+// 🚨🚨 **กับดักรอบนี้คือเขียว** เพราะเขียวเคยเป็นฮิวนำของ KINGKONG555 (8ce023 e9f7d6
+// bde397 1a5c04 2f8c07 051400 0f2e05 06220a) · สาธุ168 (0b7d28 0a5f1c 0f9b35 0c3a16
+// 061f0c) · 888PARUAY (1fae1c 0d2312 143a1c 07130a) · MEXICANOSLOT (117a41 2bb061)
+// มาแล้ว **"เจอเขียว" ไม่พิสูจน์ว่าเป็นของรอบนี้ ต้องเทียบเป็นค่าทีละตัว**
+// กับ .claude/brand-spec-teva69.md §2
+// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
 //
-// — /ตรวจหวย และ /แนวทาง จอดอยู่ใน src/pages-disabled/ รอบนี้ จึงไม่มี route และ
-// ไม่มีสองบรรทัดนั้นใน quickLinks ถ้ารอบหน้าเป็นแบรนด์หวย ต้องย้ายไฟล์กลับมาที่
-// src/pages/ พร้อมใส่ลิงก์คืน ไม่งั้นลิงก์จะเป็น 404 และทำให้ build แดง
+// ย้ายทั้งไฟล์มาเป็น **พื้นโครมเขียวป่า #0b2a12 (ฐาน) / #051409 (จม) / #15401d (ยก)
+// + เขียวสด #28c437 เป็นแกน (ขอบบน หัวคอลัมน์ ลูกศร ออรา) + เงินโครเมียม #c6cfd2
+// เป็นออราใบที่สองและเส้น (ลายเซ็นของเวิร์ดมาร์ก) + ทองอำพัน #e3bb45 เป็นกรอบชิป
+// ใบที่สอง + หมึก #e8fbe4 (14.3:1) และหมึกรอง #b4d6ad (9.7:1)**
+// ⚠️ #15401d #2d6b2f #1a7d24 ห้ามถือตัวอักษรในไฟล์นี้ (เป็นพื้น/เส้น/ขอบเท่านั้น)
+// ตัวที่ถือตัวอักษรได้บนพื้น #0b2a12: #e8fbe4 (14.3:1) · #b4d6ad (9.7:1) ·
+// #c6cfd2 (9.8:1) · #e3bb45 (8.5:1) · #28c437 (6.7:1)
+//
+// 🚨 TEVA69 เป็น **เว็บเกมพนัน/คาสิโนออนไลน์** ไม่ใช่เว็บหวย ไม่ใช่เว็บบอล —
+// คำที่รอบก่อน (LOTTO189) เขียนไว้ในไฟล์นี้ไม่ได้ (แนะนำเว็บหวยลอตโต้ / แทงหวย
+// จ่ายสด / รับทุกเลข ไม่มีอั้น / หวยรัฐบาลไทย ลาว ฮานอย หุ้น / อัตราจ่าย 2 ตัว 100 /
+// 3 ตัว 1,000 / รอบปิดรับ / บิลหวย) **ไม่มีอยู่ในบรีฟรอบนี้สักคำ** จึงถูกถอดออก
+// ทั้งหมด ไม่ใช่แก้คำทับประโยคเดิม บรีฟรอบนี้เรียกตัวเองว่า เกมพนันเบอร์ต้นๆของไทย
+// สมัครเล่นไม่มีขั้นต่ำ และพูดถึง เกมเดิมพันออนไลน์หลากหลายประเภท · ค่ายแท้
+// ถูกลิขสิทธิ์ · เซิร์ฟนอก ปลอดภัยในไทย · โปรโมชั่นอัปเดตใหม่ตลอดสัปดาห์ ·
+// คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · สมัคร 3 ขั้นตอน · แอดมิน 24ชม.
+//
+// 🚨🚨 **รอบนี้ถอด BankStrip ออกจาก footer โดยตั้งใจ** — บรีฟรอบนี้ (content.txt)
+// **ไม่มีหมวดฝากถอน ธนาคาร หรือวอลเลทเลยแม้แต่คำเดียว** การคง BankStrip ไว้คือการ
+// อ้างบริการที่บรีฟไม่ได้พูดถึง และป้าย "ช่องทางฝากถอนที่รองรับ" ที่คู่กับมันก็เป็น
+// คำของแบรนด์ก่อน **BankStrip.astro ยังอยู่ครบในฐานะ inventory ของแบรนด์ถัดไป
+// ห้ามลบไฟล์** คอลัมน์ที่สี่จึงเหลือ ปุ่ม LINE + บล็อก <address> ซึ่งเป็นช่องทาง
+// ติดต่อจริงที่บรีฟรองรับ (content.txt บรรทัด 21-22)
+//
+// 🚨 — /ตรวจหวย และ /แนวทาง **ถูกย้ายกลับไปจอดที่ src/pages-disabled/ รอบนี้**
+// (กลับทิศจากรอบก่อนที่เปิดไว้) จึงไม่มี route และไม่มีสองบรรทัดนั้นใน quickLinks
+// ถ้ารอบหน้าเป็นแบรนด์หวย ต้องย้ายไฟล์กลับมาที่ src/pages/ พร้อมใส่ลิงก์คืน
+// ไม่งั้นลิงก์จะเป็น 404 และทำให้ build แดง
 //
 // /ทางเข้า ยังลิงก์จากตรงนี้: หน้านั้นยัง route และ index อยู่ แค่ไม่มีในเมนู
 // navbar เพราะ toggle register/login เปิดอยู่ ทำให้มันกลายเป็นลิงก์ที่สามไปที่เดิม
@@ -58,28 +76,31 @@ const quickLinks = [
 
 // ทุกบรรทัดมาจาก content.txt รอบนี้เท่านั้น — อะไรที่เจาะจงกว่านี้ (เลขใบอนุญาต
 // ปีที่ก่อตั้ง จำนวนสมาชิก ยอดฝากขั้นต่ำ ชื่อค่ายเกม ชื่อธนาคาร) คือการแต่งขึ้นเอง
-// ตัวเลขที่อ้างได้รอบนี้มี: เบทต่ำ 1 บาท · คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · 24ชม.
-const supportTopics = ["รายชื่อเกมสล็อตและยอดเดิมพันขั้นต่ำ", "ขั้นตอนสมัครสมาชิกและการเข้าสู่ระบบ", "รายการฝากถอนและหมายเลขรายการ", "เงื่อนไขโบนัสไม่ต้องทำเทิร์นและวิธีรับเครดิตคืนยอดเสีย", "ข้อกำหนดการใช้บริการและนโยบายข้อมูลส่วนบุคคล"];
+// ตัวเลขที่อ้างได้รอบนี้มี: คืนยอดเสีย 0.3% · แนะนำเพื่อน 0.8% · 3 ขั้นตอน · 24ชม.
+const supportTopics = ["ประเภทเกมเดิมพันที่เปิดให้บริการและกติกาการเล่น", "ขั้นตอนสมัครสมาชิกและการยืนยันบัญชี", "เงื่อนไขโปรโมชั่นคืนยอดเสียและแนะนำเพื่อน", "ข้อมูลค่ายเกมและหลักฐานการได้รับอนุญาต", "ข้อกำหนดการใช้บริการและนโยบายข้อมูลส่วนบุคคล"];
 
-// แถบคำโปรยล่างสุด: คำหน้าเป็นสีเนื้อความ คำหลังเป็นฟ้าสกาย ทุกคู่เป็นคำที่บรีฟ
-// พูดไว้เอง (content.txt บรรทัด 1-2, 5, 7-12, 15) ไม่มีคำโฆษณาที่บรีฟไม่ได้เขียน
+// แถบคำโปรยล่างสุด: คำหน้าเป็นสีเนื้อความ คำหลังเป็นเขียวสด ทุกคู่เป็นคำที่บรีฟ
+// พูดไว้เอง (content.txt บรรทัด 1-2, 5, 7-12, 21) ไม่มีคำโฆษณาที่บรีฟไม่ได้เขียน
 const claimChips = [
-  { lead: "เกมสล็อต", tail: "สนุกสุดมันส์" },
-  { lead: "เบทต่ำ", tail: "1 บาท" },
+  { lead: "เกมพนัน", tail: "เบอร์ต้นๆของไทย" },
+  { lead: "ค่ายแท้", tail: "ถูกลิขสิทธิ์" },
+  { lead: "สมัครเล่น", tail: "ไม่มีขั้นต่ำ" },
   { lead: "คืนยอดเสีย", tail: "0.3%" },
   { lead: "แนะนำเพื่อน", tail: "0.8%" },
   { lead: "แอดมิน", tail: "24ชม." },
 ];
 
-// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-24 จริง — ตราชั่งทองกับเหรียญทองของ
-// เงินทอง168 ที่เคยอยู่ในตัวแปรนี้ไม่มีในรูปรอบนี้เลย และลูกหมูมีปีกนางฟ้าของ
-// หมูบิน168 รอบก่อนก็ไม่มีเช่นกัน
-const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส ด้านซ้ายเป็นหัวการ์ตูนผู้หญิงผมสีน้ำตาลเข้มรวบเป็นมวยสูงผูกโบว์สีขาว ทำหน้าตกใจ ตาเบิกโต ปากอ้า และยกสองมือขึ้นแตะแก้มทั้งสองข้าง ถัดมาทางขวาเป็นคำว่า ${BRAND_NAME} ตัวอักษรไทยผสมตัวเลขทรงบับเบิลสามมิติผิวมันวาว ไล่เฉดจากฟ้าสกายเข้มด้านบนลงมาหาฟ้าอ่อนเกือบขาวด้านล่าง ตัดขอบสีขาวหนา และมีขีดประกายสีฟ้าสั้น ๆ กระจายอยู่รอบตัวอักษร`;
+// เขียนจากไฟล์ logo.webp ของดรอป 2026-10-28 จริง — เวิร์ดมาร์กแดงเลือดนกคู่โครเมียม
+// ของ LOTTO189 ที่เคยอยู่ในตัวแปรนี้ไม่มีในรูปรอบนี้เลย และหัวการ์ตูนผู้หญิงหน้าตกใจ
+// ของ โบ๊ะบ๊ะ168 (เจ้าของธีมเดิมของไฟล์นี้) ก็ไม่มีเช่นกัน
+// ⚠️ โลโก้รอบนี้ **ไม่มีคน ไม่มีสัตว์ ไม่มีมงกุฎ ไม่มีชิป** มีแค่เวิร์ดมาร์กกับ
+// แสงเรืองใต้ตัวอักษร
+const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่งใส เป็นเวิร์ดมาร์กสามมิติตัวหนาวางเรียงเป็นแถวเดียว ครึ่งแรกเป็นตัวอักษรละตินผิวโครเมียมเงินขัดเงา ไล่จากเงินสว่างด้านบนลงมาหาเทาเข้มด้านล่าง และครึ่งหลังเป็นตัวเลขผิวเขียวมรกตเคลือบเงา ไล่จากเขียวสดด้านบนลงมาหาเขียวเข้มด้านล่าง ทั้งชุดตัดขอบสีดำหนาและมีเส้นไฮไลต์สีขาวพาดอยู่ที่ขอบบนของตัวอักษร ใต้เวิร์ดมาร์กมีแถบแสงเรืองสีเขียวมรกตทอดยาวเป็นเงาสะท้อน`;
 ---
 
-<footer class="relative w-full overflow-hidden border-t-[3px] border-[#12b4ef] bg-[#06283f] pt-16 pb-8 font-sans text-[#eaf7ff] shadow-[0_-10px_30px_rgba(18,180,239,0.22)]">
-  <div aria-hidden="true" class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#12b4ef]/12 blur-[100px]"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#b6e3f0]/10 blur-[100px]"></div>
+<footer class="relative w-full overflow-hidden border-t-[3px] border-[#28c437] bg-[#0b2a12] pt-16 pb-8 font-sans text-[#e8fbe4] shadow-[0_-10px_30px_rgba(40,196,55,0.22)]">
+  <div aria-hidden="true" class="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-[#28c437]/12 blur-[100px]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-[#c6cfd2]/10 blur-[100px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1200px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -92,40 +113,40 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
                 alt={logoAlt}
                 widths={[150, 300, 450]}
                 sizes="150px"
-                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(18,180,239,0.5)]"
+                class="h-[50px] w-auto drop-shadow-[0_0_15px_rgba(40,196,55,0.5)]"
                 formats={["avif", "webp"]}
                 fallbackFormat="webp"
               />
             ) : (
-              <span class="bg-gradient-to-b from-[#b6e3f0] to-[#12b4ef] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(18,180,239,0.45)]">{BRAND_NAME}</span>
+              <span class="bg-gradient-to-b from-[#c6cfd2] to-[#28c437] bg-clip-text text-4xl font-black text-transparent drop-shadow-[0_0_10px_rgba(40,196,55,0.45)]">{BRAND_NAME}</span>
             )
           }
         </a>
-        <p class="text-base leading-relaxed text-[#eaf7ff]">
-          {BRAND_NAME} นำเสนอเกมสล็อตออนไลน์หลากหลายรูปแบบ ทั้งเกมคลาสสิก เกมโบนัส และเกมจากค่ายต่าง ๆ พร้อมข้อมูลการเดิมพันเริ่มต้นระดับต่ำสำหรับผู้ที่ต้องการศึกษารูปแบบเกมด้วยงบประมาณจำกัด
-          ภายในเว็บไซต์มีรายละเอียดโปรโมชั่น ระบบฝากถอน และช่องทางติดต่อเจ้าหน้าที่ ส่วนคำกล่าวอ้างว่าแตกง่ายหรือถอนได้ไม่จำกัด ควรพิจารณาจากข้อมูลและเงื่อนไขจริง
-          เพราะเกมสล็อตไม่สามารถรับประกันผลรางวัล
+        <p class="text-base leading-relaxed text-[#e8fbe4]">
+          {BRAND_NAME} นำเสนอข้อมูลเกมเดิมพันออนไลน์หลากหลายประเภท พร้อมรายละเอียดระบบสมาชิก โปรโมชั่น และช่องทางติดต่อเจ้าหน้าที่ ภายในเว็บไซต์มีข้อมูลเกมจากค่ายต่าง ๆ ให้ผู้ใช้งานศึกษากติกา รูปแบบการเดิมพัน และเงื่อนไขการใช้บริการ
+          โดยระบุว่าสามารถสมัครสมาชิกได้โดยไม่มีขั้นต่ำ ทั้งนี้ ควรตรวจสอบข้อกำหนดเกี่ยวกับยอดฝากและยอดเดิมพันของแต่ละเกม รวมถึงความน่าเชื่อถือของผู้ให้บริการก่อนใช้งาน เนื่องจากคำกล่าวอ้างว่าเป็นเกมถูกลิขสิทธิ์หรือมีความปลอดภัยในไทย
+          ไม่สามารถยืนยันได้จากข้อความโฆษณาเพียงอย่างเดียว
         </p>
         <div class="mt-2 flex flex-wrap items-center gap-3">
-          <div class="flex items-center gap-1.5 rounded border border-[#12b4ef]/50 bg-[#12b4ef]/10 px-3 py-1.5 text-xs font-bold text-[#b6e3f0] shadow-[0_0_10px_rgba(18,180,239,0.25)]">
-            <span aria-hidden="true" class="text-base">🎰</span> เบทเริ่มต้น 1 บาท
+          <div class="flex items-center gap-1.5 rounded border border-[#28c437]/50 bg-[#28c437]/10 px-3 py-1.5 text-xs font-bold text-[#b4d6ad] shadow-[0_0_10px_rgba(40,196,55,0.25)]">
+            <span aria-hidden="true" class="text-base">🎮</span> เกมเดิมพันหลายประเภท
           </div>
-          <div class="flex items-center gap-1.5 rounded border border-[#2a87c4] bg-[#0b4a73]/80 px-3 py-1.5 text-xs font-bold text-[#eaf7ff]">
+          <div class="flex items-center gap-1.5 rounded border border-[#e3bb45] bg-[#15401d]/80 px-3 py-1.5 text-xs font-bold text-[#e8fbe4]">
             <span aria-hidden="true" class="text-base">⏰</span> เจ้าหน้าที่ 24ชม.
           </div>
         </div>
       </div>
 
       <nav aria-label="Quick Links" class="flex flex-col gap-4 lg:pl-8">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#b6e3f0]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#12b4ef] to-[#0b4a73]"></span> เมนูหลัก
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#28c437]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#c6cfd2] to-[#28c437]"></span> เมนูหลัก
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.path} class="group flex items-center text-[#eaf7ff] transition-all hover:text-[#b6e3f0]">
-                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#12b4ef] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
+                <a href={link.path} class="group flex items-center text-[#e8fbe4] transition-all hover:text-[#28c437]">
+                  <span aria-hidden="true" class="mr-2 -ml-4 text-[#28c437] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100">
                     ➤
                   </span>
                   {link.name}
@@ -137,15 +158,15 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
       </nav>
 
       <nav aria-label="เรื่องที่ติดต่อสอบถามเจ้าหน้าที่ได้" class="flex flex-col gap-4">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#b6e3f0]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#12b4ef] to-[#0b4a73]"></span> บริการที่สอบถามได้
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#28c437]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#c6cfd2] to-[#28c437]"></span> บริการที่สอบถามได้
         </p>
         <ul class="flex flex-col gap-3 text-sm">
           {
             supportTopics.map((item) => (
               <li>
-                <a href="/contact-us" class="group flex items-start text-[#eaf7ff] transition-all hover:text-[#b6e3f0]">
-                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#12b4ef] transition-colors group-hover:bg-[#b6e3f0] group-hover:shadow-[0_0_8px_rgba(182,227,240,0.85)]" />
+                <a href="/contact-us" class="group flex items-start text-[#e8fbe4] transition-all hover:text-[#28c437]">
+                  <span aria-hidden="true" class="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#28c437] transition-colors group-hover:bg-[#c6cfd2] group-hover:shadow-[0_0_8px_rgba(198,207,210,0.85)]" />
                   {item}
                 </a>
               </li>
@@ -155,8 +176,8 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
       </nav>
 
       <div class="flex flex-col gap-5">
-        <p class="flex items-center gap-2 text-lg font-extrabold text-[#b6e3f0]">
-          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#12b4ef] to-[#0b4a73]"></span> บริการลูกค้า
+        <p class="flex items-center gap-2 text-lg font-extrabold text-[#28c437]">
+          <span aria-hidden="true" class="h-6 w-1.5 rounded-full bg-gradient-to-b from-[#c6cfd2] to-[#28c437]"></span> บริการลูกค้า
         </p>
 
         <a
@@ -184,34 +205,30 @@ const logoAlt = `โลโก้ ${BRAND_NAME} บนพื้นโปร่ง
             </address>
           )
         }
-
-        <div class="mt-2">
-          <p class="mb-3 text-xs font-bold tracking-wider text-[#12b4ef]/90 uppercase">ช่องทางฝากถอนที่รองรับ</p>
-          <BankStrip size={26} />
-        </div>
       </div>
     </div>
 
-    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#12b4ef]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
+    <div class="mb-6 flex flex-wrap justify-center gap-4 border-y border-[#28c437]/25 py-6 opacity-70 transition-all duration-500 hover:opacity-100 md:gap-8">
       {
         claimChips.map((chip) => (
-          <span class="text-lg font-black text-[#eaf7ff] italic md:text-2xl">
+          <span class="text-lg font-black text-[#e8fbe4] italic md:text-2xl">
             {chip.lead}
-            <span class="text-[#12b4ef]">{chip.tail}</span>
+            <span class="text-[#28c437]">{chip.tail}</span>
           </span>
         ))
       }
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#b6e3f0] md:flex-row">
+    <div class="flex flex-col items-center justify-between gap-4 text-xs text-[#b4d6ad] md:flex-row">
       <p>
-        &copy; {new Date().getFullYear()} <span class="font-bold text-[#eaf7ff]">{BRAND_NAME}</span>. All rights reserved. เว็บไซต์ที่รวบรวมข้อมูลเกมสล็อตออนไลน์ ค่ายเกม โปรโมชั่น และระบบฝากถอนไว้ในที่เดียว
-        ก่อนใช้งานควรตรวจสอบรายชื่อเกมที่เปิดให้บริการจริง ยอดเดิมพันขั้นต่ำ และเงื่อนไขของแต่ละรายการให้ครบถ้วน โดยการไม่ต้องทำเทิร์นไม่ได้หมายความว่าไม่มีข้อจำกัดทุกประเภท
-        และเกมสล็อตไม่สามารถรับประกันผลรางวัล รวมถึงพิจารณาข้อมูลผู้ให้บริการจากหลักฐานที่ตรวจสอบได้ และไม่เปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่นไม่ว่ากรณีใด
+        &copy; {new Date().getFullYear()} <span class="font-bold text-[#e8fbe4]">{BRAND_NAME}</span>. All rights reserved. เว็บไซต์ที่รวบรวมข้อมูลเกมเดิมพันออนไลน์ ค่ายเกม โปรโมชั่น และช่องทางติดต่อเจ้าหน้าที่ไว้ในที่เดียว
+        ก่อนใช้งานควรตรวจสอบรายชื่อค่ายเกม ข้อมูลบริษัทผู้ให้บริการ และหลักฐานการได้รับอนุญาตอย่างชัดเจน รวมถึงตรวจสอบว่าข้อความไม่มีขั้นต่ำครอบคลุมเฉพาะการสมัครสมาชิกหรือรวมถึงการฝากเงินและการเดิมพันด้วย
+        โดยโปรโมชั่นคืนยอดเสียไม่ได้หมายความว่าจะได้รับเงินคืนจากทุกการเดิมพันหรือเพิ่มโอกาสชนะในครั้งถัดไป และควรตรวจสอบนโยบายคุ้มครองข้อมูลส่วนบุคคลกับข้อกำหนดทางกฎหมายที่เกี่ยวข้องก่อนใช้งาน
+        ทั้งนี้ไม่ควรเปิดเผยรหัสผ่านหรือรหัส OTP ให้บุคคลอื่นไม่ว่ากรณีใด
       </p>
       <div class="flex gap-4">
-        <a href="/terms/" class="transition-colors hover:text-[#eaf7ff]">เงื่อนไขการให้บริการ</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#eaf7ff]">นโยบายความเป็นส่วนตัว</a>
+        <a href="/terms/" class="transition-colors hover:text-[#e8fbe4]">เงื่อนไขการให้บริการ</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#e8fbe4]">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </div>

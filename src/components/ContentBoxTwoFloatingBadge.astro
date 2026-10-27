@@ -19,21 +19,25 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // hairlines, so 100% of the badge's inner width belongs to the title and the
 // card's top padding is sized against that full width.
 //
-// ⚠️ This round the page passes NO `titleleft`/`titleright`: the brief gives §7
+// ⚠️ This round the page passes NO `titleleft`/`titleright`: the brief gives §2
 // one running paragraph with no sub-labels, so inventing a pair here would be
 // the page's own wording rather than the docx's. The two <p> branches below stay
 // for the next brand and are simply not exercised.
 //
-// BADGE CLEARANCE RE-DERIVED FOR โปรดี168 (2026-10-22) — recomputed from this
-// round's own sentence, never inherited. This box carries docx H2 §7
-// (content.txt line 21):
-//   "ช่องทางติดต่อแอดมิน โปรดี168 ตลอด 24ชม."
-// Its FOUR space-delimited chunks advance 15 / 7 / 4 / 5 cells of glyph. Thai
-// zero-width marks do NOT advance: ่ ิ ่ ิ in ช่องทางติดต่อแอดมิน are 4 and
-// ี in โปรดี168 is 1. 31 cells of glyph plus 3 spaces = 34 cells. The worst
-// case assumed is that the line breaker only breaks at those 3 spaces (no Thai
-// dictionary breaking). The widest chunk is 15 cells, narrower than one line in
-// every band, so nothing can overflow sideways.
+// BADGE CLEARANCE RE-DERIVED FOR TEVA69 (2026-10-28) — recomputed from this
+// round's own sentence, never inherited. This box carries docx H2 §2
+// (content.txt line 5):
+//   "<แบรนด์> ค่ายแท้ ถูกลิขสิทธิ์ เซิร์ฟนอก ปลอดภัยในไทย"
+// Its FIVE space-delimited chunks advance 6 / 5 / 7 / 7 / 11 cells of glyph.
+// Thai zero-width marks do NOT advance and are excluded: ค่ายแท้ drops ่ ้
+// (5 of 7) · ถูกลิขสิทธิ์ drops ู ิ ิ ิ ์ (7 of 12) · เซิร์ฟนอก drops ิ ์
+// (7 of 9) · ปลอดภัยในไทย drops ั (11 of 12). 36 cells of glyph plus 4 spaces
+// = 40 cells. The worst case assumed is that the line breaker only breaks at
+// those 4 spaces (no Thai dictionary breaking); dictionary breaking only ever
+// ADDS break opportunities, which can never increase a greedy breaker's line
+// count.
+// ⚠️ The widest single chunk is 11 cells, narrower than one line in every band,
+// so nothing in this title can overflow SIDEWAYS.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
 // with `leading-normal` (1.5) on the heading, and its bottom edge sits at that
@@ -41,88 +45,101 @@ const { title, as: HeadingTag = "h2", titleleft, titleright } = Astro.props;
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-base 16px -> ~9.3px/cell = 24 cells/line, 24px/line.
-//               Greedy at the 3 spaces: 15+1+7 = 23 (adding 1+4 -> 28
-//               overflows), then 4+1+5 = 10                     -> 2 lines.
-//               2x24 + 24 = 72, edge 48 vs pt-36/144px          -> 96px clear
-//               Budget 3 = 3x24 + 24 = 96, edge 72 vs 144       -> 72px clear
+//               Greedy at the 4 spaces: 6+1+5+1+7 = 20 (adding 1+7 -> 28
+//               overflows 24), then 7+1+11 = 19             -> 2 lines.
+//               2x24 + 24 = 72, edge 48 vs pt-36/144px      -> 96px clear
+//               Budget 4 = 4x24 + 24 = 120, edge 96 vs 144  -> 48px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
-//               text-xl 20px -> ~11.6px/cell = 42 cells/line. 34 -> 1 line.
-//               Budget 2 = 2x30 + 24 = 84, edge 60 vs 144       -> 84px clear
+//               text-xl 20px -> ~11.6px/cell = 42 cells/line. 40 -> 1 line.
+//               Budget 2 = 2x30 + 24 = 84, edge 60 vs 144   -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
-//               text-2xl 24px -> ~13.9px/cell = 43 cells/line. 34 -> 1 line.
-//               Budget 2 = 2x36 + 24 = 96, edge 72 vs 144       -> 72px clear
+//               text-2xl 24px -> ~13.9px/cell = 43 cells/line. 40 -> 1 line.
+//               Budget 2 = 2x36 + 24 = 96, edge 72 vs 144   -> 72px clear
 // Every band clears with daylight to spare, so pt-36 stands unchanged and NO
 // *FloatingBadge padding moved this round. The flat pt-36 is held across all
 // four files (this one, ContentBoxFloatingBadge,
 // ContentBoxSevenThreeFloatingBadge and ContentBox3ThreeFloatingBadge) so the
 // next brand cannot inherit a padding that was only ever sized for a short
-// title — an older round shipped pt-36 / pt-28 / pt-32 / pt-32-sm:pt-24 and the
-// short ones went down to 4px of clearance the moment they got a real docx
-// sentence. Do not push it either way without redoing the arithmetic against the
+// title. Do not push it either way without redoing the arithmetic against the
 // real sentence the next brand puts in here.
 //
-// โปรดี168 (รอบ **แดงเชอร์รี่นำ · ทองแดงไหม้รอง · ธีมสว่าง** 2026-10-22,
-// brand-spec §2): ⚠️ **ธีมสว่าง** — bg.json = #ffd1d1 ชมพูพาสเทล ลำดับความลึก
-// #ffffff ผิวยก / #fff4ea อินเซ็ต / #ffd1d1 พื้นเพจ หมึก **น้ำตาลแดง #401107**
-// (= BRAND_TEXT, 14.9:1 บนผิวอินเซ็ต)
+// ───────────────────────────────────────────────────────────────────────────
+// TEVA69 (ดรอป 2026-10-28) — พาเลตตาม .claude/brand-spec-teva69.md §2
+// **เขียวป่านำ · เขียวสด/ทองอำพันเป็นเครื่องประดับ · เนื้อหาบนธีมสว่าง**
+// ⚠️ **ธีมสว่าง** — bg.json = {"mode":"color","color":"#f0ffeb"} ขาวอมมิ้นต์จาง
+// ลำดับความลึก #ffffff การ์ด / **#e6f7df ผิวยก (การ์ดใบนี้)** / #d7f0cd wash /
+// #f0ffeb พื้นเพจ หมึก **#10280f** (= BRAND_TEXT, 14.1:1 บนผิวยกของใบนี้)
+// **ห้ามแก้การ์ดใบนี้ให้เป็นพื้นมืดตามโครม** — หมึกนี้บนพื้นมืดคือตัวอักษรหายไปเลย
 //
-// หน้าแรกรอบนี้มีป้ายลอยสองใบ (§1 กับ §7) จึงถูกแยกออกจากกันสี่ทาง พร้อมกัน:
-//   **สีของแผ่นป้าย** — ใบนี้เป็น **แผ่นถมทองแดงไหม้** ไล่ #b44c06 → #7a2f03
-//     ส่วน §1 เป็นแผ่นถมแดงเชอร์รี่ #9b0a0c → #eb0305 → #9b0a0c
-//   **รูปทรงของป้าย** — ใบนี้เป็น **แคปซูลมุมมน (rounded-full)** · §1 เป็น
-//     rounded-xl
-//   **เครื่องประดับของป้าย** — ใบนี้เป็นเส้นตั้งคู่ซ้าย-ขวา · §1 เป็นเส้นนอน
-//     บน-ล่าง
-//   **ผิวและเงาของการ์ด** — ใบนี้เป็น **ผิวอินเซ็ตทึบ #fff4ea** พร้อมเส้นคาดบน
-//     และออราใต้กลางใบเดียว · §1 เป็นผิวไล่ #ffffff → #fff4ea พร้อมออราสองมุม
-// ⚠️ **ขาวบนแผ่นทองแดงไหม้อยู่ที่ 5.3:1 (#b44c06) และ 9.4:1 (#7a2f03)** ผ่าน AA
-// ทั้งคู่ — §2 ระบุชัดว่า #b44c06 คือสีที่สองที่ "ถือตัวอักษรได้จริง" ต่างจากทอง
-// โบราณของรอบก่อนที่ถือไม่ได้ **ห้ามพลิกแผ่นนี้ไปใช้หมึกเข้ม** และห้ามลากปลายสว่าง
-// ของไล่เฉดขึ้นไปหา **ทองสาลี่ #f0b46a** เพราะทองสาลี่เป็นสีของโครมเท่านั้น
-// (1.8:1 บนขาว) และไม่มีอยู่ในไฟล์นี้เลยสักจุด
-// ⚠️ **แดงสด #ff4446 ห้ามถือตัวอักษรและห้ามเป็นพื้นของตัวอักษร** ในไฟล์นี้จึงอยู่
-// แค่ในออราเบลอใต้การ์ดกับเส้นตั้งขวาของป้าย ซึ่งเป็นชั้นที่ไม่มีตัวอักษรวางทับ
-// ⚠️ **#9b0a0c สงวนไว้ให้ <strong> ในย่อหน้า** ตาม §2 จึงไม่โผล่ในไฟล์นี้
+// หน้าแรกรอบนี้มีป้ายลอยสามใบ (§2 ใบนี้ · §4 · §6) จึงถูกแยกออกจากกันสี่ทางพร้อมกัน:
+//   **สีของแผ่นป้าย** — ใบนี้เป็น **แผ่นถมเขียวแบรนด์** ไล่ #1a7d24 → #0b4a12
+//     ส่วน §4 เป็น **แผ่นถมโครมเข้มทึบ #0b2a12 หมึก #e8fbe4** และ §6 เป็นแผ่นถม
+//     เขียวป่าสมมาตร #116018 → #0b4a12 → #116018
+//   **รูปทรงของป้าย** — ใบนี้เป็น **แคปซูลมุมมน (rounded-full)** · §4 เป็น
+//     rounded-lg · §6 เป็น rounded-xl
+//   **เครื่องประดับของป้าย** — ใบนี้เป็นเส้นตั้งคู่ซ้าย-ขวา · §4 ไม่มีเครื่องประดับ ·
+//     §6 เป็นเส้นนอนบน-ล่าง
+//   **ผิวและเงาของการ์ด** — ใบนี้เป็น **ผิวยกทึบ #e6f7df** พร้อมเส้นคาดบนและออรา
+//     ใต้กลางใบเดียว · §4 เป็นผิวไล่ #ffffff → #d7f0cd พร้อมออราสองมุม ·
+//     §6 เป็นผิวไล่ #ffffff → #e6f7df พร้อมออราสองมุมคนละคู่สี
+// ⚠️ **ขาวบนแผ่นเขียวอยู่ที่ 5.3:1 (#1a7d24) และ 10.5:1 (#0b4a12)** ผ่าน AA ทั้งคู่
+// ตามสูตร "CTA หลัก" ของ §2 ตรง ๆ **ห้ามพลิกแผ่นนี้ไปใช้หมึกเข้ม** และ
+// **ห้ามลากปลายสว่างของไล่เฉดขึ้นไปถึง #28c437** (ขาวบนนั้นได้ 2.3:1 — §2 ระบุตรงตัว)
+// ⚠️ **เขียวสด #28c437 และทองอำพัน #e3bb45 ห้ามถือตัวอักษรและห้ามเป็นพื้นของ
+// ตัวอักษร** ในไฟล์นี้จึงอยู่แค่ในออราเบลอใต้การ์ดกับเส้นตั้งขวาของป้าย ซึ่งเป็น
+// ชั้นที่ไม่มีตัวอักษรวางทับ · **#b2dba3 และ #3f7a2e เป็นเส้น/ขอบเท่านั้น**
+// ⚠️ **#116018 สงวนไว้ให้หัวข้อและ <strong> ในย่อหน้า** ตาม §2 ซึ่งเป็นงานของหน้าเพจ
+// rgba() ที่อนุญาตรอบนี้: rgba(17,96,24,α) · rgba(11,74,18,α) · rgba(26,125,36,α) ·
+// rgba(40,196,55,α) · rgba(16,40,15,α) · rgba(227,187,69,α) · rgba(11,42,18,α)
 //
-// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือแดง+ทอง ซึ่งเป็นฮิวที่
-// แน่นที่สุดในรีโปนี้ และรอบก่อนก็เป็นแดง+ทอง+ธีมสว่างชมพูเหมือนกัน** ทองแดงไหม้
-// #b44c06 รอบนี้วัดมาจาก banner1.png ไม่ใช่ทองโบราณ dcb95f/b8862b/96681f ของรอบ
-// ก่อน และไม่ใช่ทองอำพัน d4922c a25b24 8c4312 d39c45 5a3310 ของ ufalion168 ที่
-// เพิ่งค้างอยู่ทั้งไฟล์นี้ (fdfc71 33200a 1f1304 0a0601 1a1000 f6e3b4 fbf6e3 กับ
-// rgba 212/146/44, rgba 253/252/113 และ rgba 162/91/36) — ออกครบทุกค่าแล้ว
-// เช่นเดียวกับชุดแดงคริมสันของรอบขาออก **รวยแท้168** (c30303 8f0505 e81313 4a0f0f
-// 461212 280b0b ffeee8 fff1ef ffdbdb) ชุดทองอิมพีเรียล-แดงชาดของ **รวยเทพ168**
-// (f0bb4e ffeccb e4021b d9701a 3b1b0e 260d04 0d0501 5c2a06 fff8ec 2b1400) และชุด
-// แดงมังกร-ทองไทยของ **สมหวัง168** (fa0513 ffadaf ff5a5f e3b23c ffe5a8 8a6210
-// b90203 8c0204 5b0203 3c0303 170504 f4ecea 2c1413 1f0d0c 290f0f)
+// ⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **กับดักรอบนี้คือเขียว ซึ่งเคยเป็นฮิวนำ
+// ของแบรนด์เก่ามาแล้วหลายเจ้า และเขียวคือสีที่ตาแยกค่าได้ยากที่สุด** เขียวรอบนี้
+// วัดจาก logo.webp/banner1/slide1 ของดรอปนี้ ไม่ใช่:
+//   8ce023 e9f7d6 bde397 1a5c04 2f8c07 051400 0f2e05 06220a a87a08 f2c230 ffe066
+//     (**KINGKONG555** — ⚠️⚠️ **e9f7d6 ↔ e6f7df · bde397 ↔ b2dba3 · 1a5c04 ↔ 1a7d24**) ·
+//   0b7d28 0a5f1c 0f9b35 0c3a16 061f0c (**สาธุ168** — **0b7d28 ↔ 0b4a12**) ·
+//   1fae1c 0d2312 143a1c 07130a e8e4c6 (888PARUAY) ·
+//   117a41 2bb061 2fbf6a (MEXICANOSLOT/KOON234 — **2bb061 ↔ 28c437**)
+// ชุดที่เพิ่งอยู่ทั้งใบนี้ (**โปรดี168** ทองแดงไหม้-แดงเชอร์รี่) ออกครบแล้ว: b44c06
+//   7a2f03 eb0305 e40303 c20305 9b0a0c ff4446 401107 fff4ea ffd1d1 f0b46a d9803a
+// 🚨 **LOTTO189 แบรนด์ขาออกทันที = เสี่ยงหลงเหลือสูงสุด**: fff0f0 ffe4e6 ffd4d7
+//   f5b9bd a8333f 25090f 6e3b44 b00718 c1071b 8a0412 8f6310 d61023 ff2436 e9b53c
+//   24060c 3d0d16 120307 7e1221 ffeaea f0bcbc c3ccd6
+//   ⚠️⚠️ **e9b53c ↔ e3bb45 · c3ccd6 ↔ c6cfd2 · 8f6310 ↔ 8a6a0e**
+// อื่น ๆ ที่ห้ามกลับเข้ามา: **ZNOVA168** 2a1206 1a0c04 2b1608 0e0602 7a3a0c fff3e0
+//   e0b784 fffbf0 fff4e0 ffe9c7 f3d9a8 c98a24 c23400 b8300a 9a5b00 9a2a00 d13800
+//   fa4903 fde90b e8a000 ff8a2b d8dde6 8f9aa8 6a4a30 · **ZANE96** 7a1bd6 2b3fd9
+//   c2178b f23bb4 bb6dff 7aa7ff 5411c4 241046 6b4a86 f8e6f9 f6edfe ece0fb dcc6f4 ·
+//   **MEXICANOSLOT** de2b1e f2a033 a81410 c81e12 9d140c 6f0e08 3f130d fdeee2 fff3ea
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีเขียว ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง
-// ไม่มีเงิน/โครเมียม ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว**
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีส้ม/ทองแดงไหม้ ไม่มีชมพู/ฟูเชีย ไม่มีฟ้า/น้ำเงิน/ไซยาน
+// ไม่มีม่วง ไม่มีโรสโกลด์ และไม่มีเหลืองมะนาว** — ทองอำพัน #e3bb45 เป็นเครื่องประดับ
+// (มงกุฎทองดวงเล็กบนอาร์ตเวิร์ก) ไม่ใช่ฮิวนำ และ **ถือตัวอักษรไม่ได้**
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
-  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#b44c06]/60 bg-[#fff4ea] p-8 pt-36 shadow-[0_10px_30px_rgba(64,17,7,0.18)]">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-12 top-0 -z-10 h-[3px] rounded-full bg-gradient-to-r from-transparent via-[#b44c06]/70 to-transparent"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-12 left-1/2 -z-10 h-40 w-64 -translate-x-1/2 rounded-full bg-[#ff4446]/15 blur-[60px]"></div>
+  <div class="relative isolate w-full max-w-7xl rounded-2xl border-2 border-[#b2dba3] bg-[#e6f7df] p-8 pt-36 shadow-[0_10px_30px_rgba(16,40,15,0.16)]">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-12 top-0 -z-10 h-[3px] rounded-full bg-gradient-to-r from-transparent via-[#1a7d24]/70 to-transparent"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-12 left-1/2 -z-10 h-40 w-64 -translate-x-1/2 rounded-full bg-[#28c437]/15 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-2 border-[#7a2f03] bg-gradient-to-r from-[#b44c06] to-[#7a2f03] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(64,17,7,0.35)] sm:px-8">
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-2 border-[#0b4a12] bg-gradient-to-r from-[#1a7d24] to-[#0b4a12] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(11,74,18,0.35)] sm:px-8">
           <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 left-3 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#ffffff] to-transparent" />
-          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 right-3 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#ff4446] to-transparent" />
-          <HeadingTag class="text-base leading-normal font-black tracking-tight text-[#ffffff] uppercase sm:text-xl md:text-2xl">{title}</HeadingTag>
+          <span aria-hidden="true" class="pointer-events-none absolute inset-y-2 right-3 -z-10 w-[3px] rounded-full bg-gradient-to-b from-transparent via-[#28c437] to-transparent" />
+          <HeadingTag class="text-base leading-normal font-black tracking-tight text-[#ffffff] sm:text-xl md:text-2xl">{title}</HeadingTag>
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#401107]">
-        {titleleft && <p class="text-2xl leading-normal font-bold text-[#b44c06]">{titleleft}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#10280f]">
+        {titleleft && <p class="text-2xl leading-normal font-bold text-[#116018]">{titleleft}</p>}
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#401107] md:border-l md:border-[#b44c06]/45 md:pl-10">
-        {titleright && <p class="text-2xl leading-normal font-bold text-[#7a2f03]">{titleright}</p>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#10280f] md:border-l md:border-[#b2dba3] md:pl-10">
+        {titleright && <p class="text-2xl leading-normal font-bold text-[#0b4a12]">{titleright}</p>}
         <slot name="right" />
       </article>
     </div>

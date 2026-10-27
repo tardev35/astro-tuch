@@ -1,64 +1,126 @@
 ---
 import { BRAND_NAME } from "../lib/brandProfile";
 
-// 365LOTTO's brief names its categories outright — "มีให้เลือกตั้งแต่หวย บาคาร่า
-// ไพ่ สล็อต ไปจนถึงเกมรูปแบบอื่นอีกหลายประเภท" — so these five tiles are exactly
-// that list, in the brief's own order, and nothing else. The brief names no
-// provider brand, no game count, no RTP figure and no licence number, so no tile
-// states one. The only payout figures in the whole brief are 2 ตัวจ่าย 100 and
-// 3 ตัวจ่าย 1,000, which belong to the H3 sections, not to a category tile.
+// วิดเจ็ตนี้ถูกวาง **ต่อท้าย docx H2 §2 ทันที** ("<แบรนด์> ค่ายแท้ ถูกลิขสิทธิ์
+// เซิร์ฟนอก ปลอดภัยในไทย" — content.txt บรรทัด 5-6) เพราะหัวข้อนั้นคือหัวข้อเดียว
+// ของบรีฟที่พูดถึง **ค่ายเกม ผู้พัฒนา เซิร์ฟเวอร์ และหลักฐานการได้รับอนุญาต**
 //
-// This grid sits under the docx's "โปรเล่นสล็อต 365LOTTO ที่ดีที่สุด" section and
-// names the หมวดเกม a member reaches from the same account. The section title is
-// a <p>: these tiles are chrome, not a docx heading, so the <section> takes its
-// accessible name from aria-label.
+// 🚨🚨 **ทุกไทล์เขียนจากคลังคำของบรีฟรอบนี้ล้วน** (src/assets/content.txt) และ
+// **บรีฟรอบนี้ไม่ได้ระบุชื่อค่ายเกมรายใดเลย ไม่ได้ระบุจำนวนค่าย จำนวนเกม ค่า RTP
+// เลขใบอนุญาต หรือยอดขั้นต่ำเป็นตัวเลข** → **ไม่มีไทล์ไหนอ้างสิ่งเหล่านั้น**
+// ตัวเลขที่ใช้ได้รอบนี้มีแค่ **0.3% · 0.8% · 3 ขั้นตอน · 24ชม.** และหมวดนี้ไม่มี
+// ตัวเลขไหนเลยสักตัว
+// 🚨 **บรีฟรอบนี้ไม่มีหมวดฝากถอน/ธนาคาร/วอลเลท** → ไม่มีไทล์ไหนพูดถึง
+// 🚨 **แบรนด์ขาออก LOTTO189 เป็นเว็บหวย ส่วนรอบนี้เป็นเว็บเกมพนัน/สล็อต** → คำว่า
+// หวย · สลาก · งวด · เลขเด็ด · ลอตโต้ · แทงหวย · อัตราจ่าย 2 ตัว 100 · 3 ตัว 1,000 ·
+// โพยหวย · รอบปิดรับ **ไม่มีอยู่ในบรีฟรอบนี้แม้แต่คำเดียวและห้ามเติมกลับ**
+// (ไฟล์นี้เพิ่งถือไทล์หมวด "หวย / บาคาร่า / ไพ่ / สล็อต" ของแบรนด์เก่ามาทั้งใบ —
+// ออกครบแล้ว และ **ห้ามเขียนชื่อหมวดเกมที่บรีฟไม่ได้ระบุกลับเข้ามา**)
+//
+// ⚠️ **บรีฟรอบนี้โฆษณาและกำกับในย่อหน้าเดียวกัน (brand-spec §5) และต้อง ship
+// ทั้งสองครึ่ง** ไทล์จึงบอกทั้ง "สิ่งที่เว็บไซต์ระบุ" และ "สิ่งที่ผู้ใช้งานควร
+// ตรวจสอบ" ตามที่บรีฟเขียนไว้เอง — **ห้ามตัดครึ่งกำกับทิ้งเพราะฟังดูไม่ขายของ และ
+// ห้ามขยายคำโฆษณาเป็นคำกล่าวอ้างใหม่**
+//
+// ⚠️ ป้ายหัวแผงเป็น **<p>** และ <section> รับชื่อที่เข้าถึงได้จาก **aria-label** —
+// วิดเจ็ตนี้เป็น chrome ไม่ใช่หัวข้อของบทความ จึง **ไม่ปล่อย heading tag ระดับไหน
+// เลย** (h1 ถึง h6 = ศูนย์แท็ก) **ห้ามเลื่อน <p> ใบนี้ขึ้นเป็น h2 เพื่อ "แก้ชื่อ
+// ที่ขาด"** — inventory ของหน้าแรกรอบนี้ถูกตรึงไว้ที่ h1x1 / h2x5 / h3x2 ตาม
+// brand-spec §4
+// ⚠️ อีโมจิทุกตัวอยู่ใน <div aria-hidden="true"> ที่เป็น **พี่น้อง** ของชื่อหมวด
+// ไม่ใช่อักขระในข้อความ · ชื่อแบรนด์ interpolate จาก BRAND_NAME ทุกจุดรวมถึงใน
+// aria-label **ไม่พิมพ์ตรง ๆ ที่ไหนเลย** และไม่มีโดเมนในไฟล์นี้
+// ⚠️ ลิงก์ทุกใบชี้ /register ซึ่งเป็น route ที่มีอยู่จริงรอบนี้ — **ห้าม href="#"**
 const providers = [
   {
-    name: "หวย",
-    desc: "รัฐบาลไทย ฮานอย และลาวพัฒนา แยกรอบเปิดรับของแต่ละประเภทไว้ชัดเจน",
-    tag: "บริการหลัก",
-    icon: "🎫",
-  },
-  {
-    name: "บาคาร่า",
-    desc: "อยู่ในระบบเดียวกับหวย เลือกหมวดที่สนใจผ่านบัญชีเดียวได้ทันที",
-    tag: "บัญชีเดียว",
-    icon: "🃏",
-  },
-  {
-    name: "ไพ่",
-    desc: "อีกหนึ่งหมวดที่เปิดให้เลือกจากเมนูเดียวกัน เมนูจัดหมวดชัดเจนจึงหาเจอเร็ว",
-    tag: "เมนูจัดหมวดชัดเจน",
-    icon: "🎴",
-  },
-  {
-    name: "สล็อต",
-    desc: "หมวดที่มีโปรโมชั่นสำหรับสมาชิกหลายรูปแบบ ตรวจสอบเงื่อนไขได้ก่อนกดรับ",
-    tag: "มีโปรโมชั่น",
-    icon: "🎰",
-  },
-  {
-    name: "เกมรูปแบบอื่น",
-    desc: "ตามรายการที่เปิดให้บริการ รองรับทั้งมือถือและคอมพิวเตอร์จากบัญชีเดิม",
-    tag: "ตามรายการที่เปิด",
+    name: "เกมเดิมพันออนไลน์",
+    desc: "เว็บไซต์รวบรวมข้อมูลเกมเดิมพันออนไลน์หลากหลายประเภทไว้ในที่เดียว",
+    tag: "หลากหลายประเภท",
     icon: "🎲",
+  },
+  {
+    name: "ค่ายผู้พัฒนาเกม",
+    desc: "มีข้อมูลเกมจากผู้พัฒนาหลายค่าย ควรตรวจสอบรายชื่อค่ายเกมและข้อมูลบริษัทผู้ให้บริการ",
+    tag: "ตรวจรายชื่อค่าย",
+    icon: "🧩",
+  },
+  {
+    name: "เซิร์ฟนอก",
+    desc: "ระบุการใช้งานระบบเซิร์ฟเวอร์ต่างประเทศ และการเชื่อมต่อเกมผ่านแพลตฟอร์มออนไลน์",
+    tag: "เซิร์ฟเวอร์ต่างประเทศ",
+    icon: "🌐",
+  },
+  {
+    name: "ลิขสิทธิ์และความปลอดภัย",
+    desc: "คำกล่าวอ้างเรื่องลิขสิทธิ์ยืนยันจากข้อความโฆษณาอย่างเดียวไม่ได้ ควรดูหลักฐานการได้รับอนุญาต",
+    tag: "ตรวจหลักฐาน",
+    icon: "🛡️",
+  },
+  {
+    name: "ระบบสมาชิก",
+    desc: "ระบุว่าสมัครสมาชิกได้โดยไม่มีขั้นต่ำ ควรตรวจข้อกำหนดยอดฝากและยอดเดิมพันของแต่ละเกม",
+    tag: "ศึกษากติกาก่อนใช้งาน",
+    icon: "🧾",
   },
 ];
 
-// 365LOTTO palette (แดง-ทอง-เงินโครเมียม): แผ่นกระเบื้องเป็นพื้นการ์ด #1a0709 ใน
-// เส้นทองลึก #9c6a12 บนพื้นเพจ #120406 ป้ายมุมขวากับปุ่มตอน hover ไล่จากทองสว่าง
-// #fdf3b4 ลงทองหลัก #fadc64 ไปจบที่แดงสด #e01f26 ซึ่งเป็นลำดับสีเดียวกับโลโก้ที่
-// เลข 365 เป็นทองแล้วคำว่า LOTTO มีวง O สีแดงสองวง กรอบตอน hover ยกขึ้นเป็นทองหลัก
-// ชื่อหมวดเป็นทองสว่าง คำอธิบายเป็น BRAND_TEXT #f0ddc4 — ทอง-เงินโครเมียมของ
-// SAGAME66 (#e8b93f #ffe9a3 #96671a #171006 #0d0903 #e3d8c0 #eef3f8) ออกทั้งหมด
+// ───────────────────────────────────────────────────────────────────────────
+// TEVA69 (ดรอป 2026-10-28) — พาเลตตาม .claude/brand-spec-teva69.md §2
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ไทล์พื้นมืดแดง-ทองของแบรนด์หวยเก่า** ทั้งใบ จึง
+// รีเธมทั้งไฟล์ **และพลิกเป็นผิวสว่าง** — แผงนี้นั่งคั่นกลางระหว่างการ์ด docx
+// §2 กับ §3 ซึ่งเป็น **ผิวเนื้อหา** ทั้งคู่ ไทล์พื้นมืดตรงนี้จะอ่านเป็นแถบแปลกปลอม
+// กลางบทความ ส่วนผิวโครมเข้มของรอบนี้สงวนไว้ให้ navbar/footer/ticker/ฟีด
+// ลำดับผิว: **#ffffff ไทล์** · #e6f7df ยก (ชิปป้ายมุม) · #d7f0cd wash ·
+// #f0ffeb พื้นเพจ (หัวแผงนั่งบนพื้นเพจตรง ๆ)
+// ⚠️⚠️ **หัวแผงไม่มีการ์ดครอบ มันนั่งบนพื้นเพจ #f0ffeb ตรง ๆ** ซึ่ง §2 สั่งว่าตรงนั้น
+// **ต้องเป็นหมึกเข้มเท่านั้น** (ขาวบนพื้นเพจได้แค่ 1.07:1) จึงใช้ **#10280f
+// (15.2:1)** ส่วนชื่อแบรนด์ในหัวแผงเป็น **#116018 (7.5:1 บนพื้นเพจ)**
+// ชื่อหมวดเป็น #116018 (7.8:1 บนไทล์ขาว) · คำอธิบายเป็นหมึกรอง #3c5b36 (7.7:1) ·
+// ป้ายมุมเป็นชิปผิวยก #e6f7df หมึก #10280f (14.1:1) · ปุ่มท้ายไทล์เป็นสูตร
+// **"CTA หลัก" ของ §2** คือพื้นไล่ #0b4a12 → #116018 → #1a7d24 + หมึกขาว
+// (10.5 / 7.8 / 5.3:1 — ผ่าน AA ทุก stop)
+// ⚠️⚠️ **ห้ามลากปลายเฉดของปุ่มขึ้นไปถึง #28c437 (ขาวบนนั้น 2.3:1) หรือ #e3bb45
+// (2.0:1)** — §2 ระบุไว้ตรง ๆ และ **#28c437 / #e3bb45 / #b2dba3 / #c6cfd2 /
+// #d7f0cd / #e6f7df / #f0ffeb ห้ามถือตัวอักษรบนผิวสว่างทุกกรณี** ในไฟล์นี้มันอยู่ที่
+// ขอบ เส้นคาดใต้หัวแผง และแผ่นเรืองตอน hover ซึ่งเป็นพื้นถมล้วน · **#3f7a2e เป็น
+// เส้น/ขอบเท่านั้น**
+// rgba() ที่อนุญาตรอบนี้: rgba(17,96,24,α) · rgba(11,74,18,α) · rgba(26,125,36,α) ·
+// rgba(40,196,55,α) · rgba(16,40,15,α) · rgba(227,187,69,α) · rgba(11,42,18,α)
+//
+// ⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — เขียวรอบนี้คือ **#116018 / #0b4a12 /
+// #1a7d24 / #28c437 / #3f7a2e / #b2dba3** เท่านั้น ค่าที่กวาดออกจากไฟล์นี้แล้วและ
+// ห้ามกลับเข้ามา (เขียนแบบไม่มี # โดยตั้งใจ):
+//   **แบรนด์หวยเก่าที่เพิ่งอยู่ทั้งใบนี้** — 1a0709 2a0b0e 120406 9c6a12 fadc64
+//     fdf3b4 e01f26 f0ddc4 f3f6fa · และ **SAGAME66** e8b93f ffe9a3 96671a 171006
+//     0d0903 e3d8c0 eef3f8
+//   **LOTTO189 (แบรนด์ขาออกทันที)** — fff0f0 ffe4e6 ffd4d7 f5b9bd a8333f 25090f
+//     6e3b44 b00718 c1071b 8a0412 8f6310 d61023 ff2436 e9b53c 24060c 3d0d16 120307
+//     7e1221 ffeaea f0bcbc c3ccd6 (**e9b53c ↔ e3bb45 · c3ccd6 ↔ c6cfd2 ·
+//     8f6310 ↔ 8a6a0e**)
+//   **เขียวของแบรนด์อื่น (ตระกูลเดียวกับฮิวนำรอบนี้)** — 8ce023 e9f7d6 bde397
+//     1a5c04 2f8c07 051400 0f2e05 06220a a87a08 f2c230 ffe066 (KINGKONG555) ·
+//     0b7d28 0a5f1c 0f9b35 0c3a16 061f0c (สาธุ168) · 1fae1c 0d2312 143a1c 07130a
+//     (888PARUAY) · 117a41 2bb061 2fbf6a (MEXICANOSLOT/KOON234)
+//     ⚠️⚠️ **e9f7d6 ↔ e6f7df · bde397 ↔ b2dba3 · 1a5c04 ↔ 1a7d24 · 0b7d28 ↔ 0b4a12 ·
+//     2bb061 ↔ 28c437**
+//   **ZNOVA168 / ZANE96 / MEXICANOSLOT** — 2a1206 7a3a0c fff3e0 e0b784 c98a24
+//     c23400 d13800 fa4903 fde90b e8a000 ff8a2b d8dde6 · 7a1bd6 2b3fd9 c2178b
+//     f23bb4 bb6dff 7aa7ff 5411c4 241046 f8e6f9 f6edfe ece0fb dcc6f4 190b3d ·
+//     de2b1e f2a033 a81410 c81e12 9d140c 6f0e08 3f130d fdeee2 fff3ea fed7b5 fec28d
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีส้ม ไม่มีชมพู/แมเจนต้า ไม่มีม่วง ไม่มีฟ้า/ไซแอน
+// และไม่มีพื้นมืดในไฟล์นี้** — ทองอำพัน #e3bb45 เป็นเครื่องประดับ (มงกุฎทองดวงเล็ก
+// บนอาร์ตเวิร์ก) และ **ถือตัวอักษรไม่ได้** ส่วนเงินโครเมียม #c6cfd2 เป็นลายเซ็นของ
+// เวิร์ดมาร์กและอยู่บนโครมเข้มเท่านั้น จึงไม่อยู่ในไฟล์นี้เลยสักจุด
 ---
 
-<section aria-label={`หมวดเกมที่ ${BRAND_NAME} เปิดให้เลือกเล่นในระบบเดียว`} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
+<section
+  aria-label={`สิ่งที่ ${BRAND_NAME} ระบุไว้เกี่ยวกับเกม ค่ายผู้พัฒนา และระบบสมาชิก`}
+  class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2">
-    <p class="text-center text-3xl font-black tracking-widest text-[#f3f6fa] uppercase">
-      หมวดเกมที่เลือกเล่นได้ใน <span class="text-[#fadc64]">{BRAND_NAME}</span>
+    <p class="text-center text-2xl font-black tracking-wide text-[#10280f] sm:text-3xl">
+      ข้อมูลเกมและค่ายผู้พัฒนาที่ <span class="text-[#116018]">{BRAND_NAME}</span> ระบุไว้
     </p>
-    <div aria-hidden="true" class="mt-2 h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#e01f26] to-transparent"></div>
+    <div aria-hidden="true" class="mt-2 h-[4px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#28c437] to-transparent"></div>
   </div>
 
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5">
@@ -66,20 +128,20 @@ const providers = [
       providers.map((provider) => (
         <a
           href="/register"
-          class="group relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#9c6a12] bg-[#1a0709]/92 p-5 shadow-[0_10px_30px_rgba(18,4,6,0.7)] backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-[#fadc64]/80 hover:bg-[#2a0b0e] hover:shadow-[0_15px_40px_rgba(250,220,100,0.4)]">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[#e01f26]/14 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          class="group relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#b2dba3] bg-white p-5 shadow-[0_10px_30px_rgba(17,96,24,0.12)] transition-all duration-300 hover:-translate-y-2 hover:border-[#3f7a2e] hover:shadow-[0_15px_40px_rgba(26,125,36,0.26)]">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[#28c437]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-          <div class="absolute top-2 right-2 z-10 rounded-full bg-gradient-to-r from-[#fdf3b4] via-[#fadc64] to-[#e01f26] px-2 py-0.5 text-[9px] font-black tracking-wide whitespace-nowrap text-[#120406] shadow-sm transition-transform duration-300 group-hover:scale-110">
+          <div class="absolute top-2 right-2 z-10 rounded-full border border-[#b2dba3] bg-[#e6f7df] px-2 py-0.5 text-[9px] font-black tracking-wide whitespace-nowrap text-[#10280f] transition-transform duration-300 group-hover:scale-110">
             {provider.tag}
           </div>
 
-          <div aria-hidden="true" class="mb-3 text-4xl transition-transform duration-300 group-hover:scale-125 group-hover:rotate-3">
+          <div aria-hidden="true" class="mt-4 mb-3 text-4xl transition-transform duration-300 group-hover:scale-125 group-hover:rotate-3">
             {provider.icon}
           </div>
-          <p class="text-center text-sm font-black text-[#fdf3b4] transition-colors group-hover:text-[#f3f6fa]">{provider.name}</p>
-          <p class="mt-1 text-center text-[10px] text-[#f0ddc4]/75">{provider.desc}</p>
+          <p class="text-center text-sm font-black text-[#116018]">{provider.name}</p>
+          <p class="mt-1 text-center text-[10px] leading-relaxed text-[#3c5b36]">{provider.desc}</p>
 
-          <span class="relative z-10 mt-4 block w-full rounded-full border border-[#9c6a12] bg-[#120406] py-1.5 text-center text-[11px] font-bold text-[#fadc64] shadow-inner transition-colors duration-300 group-hover:border-[#fadc64]/70 group-hover:bg-gradient-to-r group-hover:from-[#fdf3b4] group-hover:via-[#fadc64] group-hover:to-[#e01f26] group-hover:text-[#120406]">
+          <span class="relative z-10 mt-4 block w-full rounded-full border border-[#0b4a12] bg-gradient-to-r from-[#0b4a12] via-[#116018] to-[#1a7d24] py-1.5 text-center text-[11px] font-bold text-white transition-colors duration-300 group-hover:border-[#116018]">
             สมัครสมาชิก
           </span>
         </a>
