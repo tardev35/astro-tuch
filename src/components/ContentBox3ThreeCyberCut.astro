@@ -22,104 +22,97 @@ const headingSize = HeadingTag === "h1" ? "text-2xl md:text-3xl" : "text-xl md:t
 
 // `heading` defaults to FALSE: a three-column split on this template is almost
 // always one docx paragraph broken into three readable columns, so the safe
-// default keeps chrome out of the heading inventory. รอบนี้หน้าแรก **ไม่ส่ง
-// ป้ายคอลัมน์เลยสักใบ และไม่ส่ง heading** — บรีฟให้ §3 มาเป็นย่อหน้าเดียวไม่มี
-// หัวข้อย่อย สามคอลัมน์จึงเป็นการหั่นให้อ่านง่ายล้วน ๆ และกล่องนี้ปล่อยหัวข้อออกมา
-// ใบเดียวคือ docx H2 ของตัวเอง ("โปรโมชั่นเล่น <แบรนด์> จ่ายสูง โบนัสเพียบ" —
-// content.txt บรรทัด 7, ย่อหน้าเต็มอยู่บรรทัด 8)
-// หัวข้อมาจาก prop เท่านั้น — ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้
+// default keeps chrome out of the heading inventory.
+// 🚨 รอบนี้ (WIN8S) หน้าแรกส่ง **titleleft/titlecenter/titleright มาครบสามใบ แต่
+// ไม่ส่ง `heading`** โดยตั้งใจ — บรรทัด 15/17/19 ของ content.txt ("ขั้นตอนที่ 1/2/3")
+// **ไม่มี prefix H ในบรีฟ** จึงต้อง render เป็น <p> ถ้าใครเผลอส่ง heading={true}
+// จะได้ h2 เกินเป้าของ brand-spec §4 ทันทีสามใบ
+// กล่องนี้จึงปล่อยหัวข้อออกมาใบเดียวคือ docx H2 §6 ของตัวเอง ("สมัครเล่น <แบรนด์>
+// บาคาร่า สล็อต ครบ" — content.txt บรรทัด 13, ย่อหน้านำอยู่บรรทัด 14)
+// หัวข้อมาจาก prop เท่านั้น — **ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้**
 
 // Optional intro slot — the docx paragraph that sits under the section heading
 // and above the three columns. Its wrapper carries a real `mb-8` and sits beside
 // the grid, so it is a layout wrapper rather than a hoistable text wrapper; it
-// renders only when the page actually passes default children. This round the
-// page passes named slots only, so it stays unrendered.
+// renders only when the page actually passes default children. **รอบนี้หน้าแรก
+// ส่งย่อหน้าบรรทัด 14 เข้ามาทาง default slot จริง** จึง render
 const intro = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
 
 // ───────────────────────────────────────────────────────────────────────────
-// สล็อต168 (ดรอป 2026-10-23) — พาเลตตาม .claude/brand-spec-slot168.md §2
-// **แดงเจลมันวาวนำ · ขาว/มุกอุ่น (R>G>B) เป็นวัสดุที่สอง · บนดำอมแดงเข้ม**
-// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ฟ้าไซยาน-อุลตรามารีนบนถ่านอมน้ำเงินของ
-// นาซ่า168** ทั้งใบ จึงรีเธมทั้งไฟล์ **รอบนี้ยังเป็นธีมมืด แต่คนละฮิวสิ้นเชิง**
-// พื้นเพจ #140000 (bg.json) = ดำอมแดงเข้มมาก **ห้าม "แก้" การ์ดให้เป็นพื้นสว่าง
-// และห้ามเหลือฟ้า/ไซยาน/น้ำเงินไว้เลยสักค่า**
-// ลำดับผิว: #2a0c0d ยก · #1c0607 การ์ด · **#0b0000 จม (การ์ดใบนี้)** · #140000 พื้นเพจ
-// หมึกเนื้อความ **#f0e6e4** (= BRAND_TEXT, 16.9:1 บนผิวจม)
+// WIN8S (ดรอป 2026-10-28) — พาเลตตาม .claude/brand-spec-win8s.md §2
+// **ส้มเพลิง f27a1a นำ · ทองอำพัน e5a92b กับเงินโครเมียม c9d2dc เป็นวัสดุรอง ·
+// บนดำอมเลือดหมู 1e0101**
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **แดงเจล/มุกอุ่นบนดำอมแดงของ สล็อต168** ทั้งใบ
+// จึงรีเธมทั้งไฟล์ **รอบนี้ยังเป็นธีมมืด แต่คนละฮิว** พื้นเพจ 1e0101 (bg.json)
+// **ห้าม "แก้" การ์ดให้เป็นพื้นสว่าง และห้ามเหลือแดงชาดไว้เลยสักค่า**
+// ลำดับผิว: 3b130b ยก · 2a0a04 การ์ด · **140302 จม (การ์ดใบนี้)** · 1e0101 พื้นเพจ
+// หมึกเนื้อความ **fdf0e6** (= BRAND_TEXT, ≈18:1 บนผิวจม)
 //
-// จังหวะรูปทรงของใบนี้ (หน้าแรกมีแปดกล่อง ไม่มีใบไหนอ่านซ้ำกัน): เป็น **การ์ด
-// มุมตัด 30px ที่มุมขวาบน-ซ้ายล่าง นั่งบนผิวจมทึบ หัวข้อไล่เฉดสามสต็อปชิดซ้าย
-// พร้อมแถบตั้งนำหน้า** · §1 แผ่นถมทึบหมึกขาว + เส้นใต้เต็มความกว้าง · §2 ไล่เฉด
-// สองสต็อปจัดกึ่งกลางบนเส้นคาด · §4 ทึบแดงชิดซ้าย + ขีดสั้น · §5 ชิปถมคู่กลีฟ
-// บนการ์ดมุมตัด 36px · §6 หัวข้อคร่อมเส้นคู่บน-ล่าง · §7 สันซ้ายสี่พิกเซล บนการ์ด
-// มุมตัด 40px · §8 ทึบจัดกึ่งกลาง + ขีดใต้จางสองข้าง
-// ⚠️ ใบนี้กับ §5/§7 เป็นมุมตัดสามใบบนหน้าเดียวกัน จึงถูกแยกสามทาง: **ทิศของมุมตัด**
-// (ใบนี้ตัดขวาบน-ซ้ายล่าง · §5 และ §7 ตัดซ้ายบน-ขวาล่าง) · **ขนาดมุม** (30 / 36 / 40px)
-// · **เส้นรูดสี่มุม** (ใบนี้ไขว้ "แดง vs มุก" · §5 แดงล้วนสามเฉด · §7 ไขว้แดง/มุก
-// คนละแกนกับใบนี้)
+// จังหวะรูปทรงของใบนี้ (หน้าแรกรอบนี้มีกล่อง docx เจ็ดใบ ไม่มีใบไหนอ่านซ้ำกัน):
+// เป็น **การ์ดมุมตัด 30px ที่มุมขวาบน-ซ้ายล่าง นั่งบนผิวจมทึบ หัวข้อไล่เฉดสามสต็อป
+// ชิดซ้ายพร้อมแถบตั้งนำหน้า** · §1 แผ่นถมส้มชิดซ้าย w-fit + ขีดใต้เต็มความกว้าง ·
+// §2 แผ่นนูนไม่มีกรอบ หัวข้อไล่สองสต็อปแบบ clip-text · §3 ป้ายลอยแคปซูลดำขอบทอง ·
+// §4 ทองอำพันทึบชิดซ้าย + เส้นใต้สามสต็อป · §5 ส้มทึบ + แถบตั้ง · §7 มุมตัด **กลับ
+// ทิศ** (ซ้ายบน-ขวาล่าง) หัวข้อเงินทึบจัดกึ่งกลางใต้แถบสั้น · §8 FAQ ไม่มีการ์ดครอบ
+// ⚠️ ใบนี้กับ §7 เป็นมุมตัดสองใบบนหน้าเดียวกัน จึงถูกแยกด้วย **ทิศของมุมตัด** และ
+// **สีกับทิศของเส้นรูดสี่มุม** (ใบนี้ไขว้ "ส้ม vs เงิน" · §7 ไขว้ "ส้ม/ทอง vs เงิน"
+// คนละแกน)
 //
 // ⚠️ ไล่เฉดหัวข้อถูก bg-clip-text จึง **คือพิกเซลของตัวอักษร** ทุกสต็อปต้องถือ
-// ตัวอักษรได้ตาม §2 บนผิวจม #0b0000: #fb2e33 5.5:1 · #e3d6d4 14.9:1 · #c9b9b7 11.0:1
-// **ห้ามเอา #cb0b0d #8a0608 #7d6f6e #551c1e หรือค่าผิวใดมาเป็นสต็อปของไล่เฉดนี้**
-// แถบตั้งนำหน้า เส้นรูดสี่มุม และออราเป็น **พื้นถมล้วน** §2 จึงอนุญาต #cb0b0d /
-// #8a0608 / #551c1e ตรงนั้นได้ แต่ **ห้ามให้มันถือตัวอักษร**
+// ตัวอักษรได้ตาม §2 บนผิวจม 140302: f27a1a ≈7.3:1 · fdf0e6 ≈18:1 · c9d2dc ≈13.3:1
+// **ห้ามเอา 5a2410 8a3a12 e8620e หรือค่าผิวใดมาเป็นสต็อปของไล่เฉดนี้**
+// แถบตั้งนำหน้า เส้นรูดสี่มุม และจุดนำหน้าป้ายคอลัมน์เป็น **พื้นถมล้วน** §2 จึง
+// อนุญาต 8a3a12 / 5a2410 / e5a92b ตรงนั้นได้ แต่ **ห้ามให้มันถือตัวอักษร**
 // แถบตั้งเป็น **พี่น้อง** ของหัวข้อ ไม่ใช่ลูก (bg-clip-text จะชนกับพื้นของแถบถ้าซ้อนกัน)
-// ⚠️ **#fb2e33 ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้
-// rgba() ที่อนุญาตรอบนี้: rgba(251,46,51,α) · rgba(203,11,13,α) · rgba(138,6,8,α) ·
-// rgba(227,214,212,α) · rgba(20,0,0,α) · rgba(0,0,0,α)
+// ป้ายคอลัมน์เป็น **เงินโครเมียม c9d2dc** (≈13.3:1 บนผิวจม) ซึ่งไม่ซ้ำกับสีหัวข้อ
+// ⚠️ **f27a1a ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้
+// rgba() ที่อนุญาตรอบนี้: rgba(242,122,26,α) · rgba(229,169,43,α) ·
+// rgba(138,58,18,α) · rgba(30,1,1,α) · rgba(20,3,2,α)
 //
-// ⚠️⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **รอบนี้เป็นแบรนด์แดงจริง และ
-// รีโปนี้มีแดงของแบรนด์อื่นอยู่สิบกว่าชุด** "มีแดงอยู่แล้ว" จึงไม่พิสูจน์อะไรเลย
-// แดงรอบนี้คือ **#fb2e33 (R251 G46 B51) / #cb0b0d / #8a0608 / #d81115 / #b00d11**
-// เท่านั้น ค่าที่ต้องไม่เหลือในไฟล์นี้:
-//   1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0 e6edf8 9fb2cb 273449 1b2434 121722 33455f
-//   0d1017 (**นาซ่า168 — ชุดที่เพิ่งอยู่ทั้งใบนี้**) ·
-//   ffd94a e3a712 9d6f06 e8eaee b4b9c2 6b7079 dde1e7 070707 121110 1c1a16 3d3425
-//   f3ece0 bfb8aa (**รวย168 — แบรนด์ขาออกรอบนี้ เสี่ยงหลงเหลือสูงสุด** ⚠️ 1c1a16
-//   ห่างจากผิวการ์ดรอบนี้ 1c0607 แค่ G/B — grep ทีละค่า) ·
-//   ff2e52 e01238 c9102f 1177e8 0e68cc 0a4ea8 2a3c70 16234a 0b1733 050e26 00091f
-//   f4eef1 d9dfe9 b3bdd6 (มาดาม168) ·
-//   fb141b ff5f63 ffa0a2 db040b 8a0609 (GT66B — ⚠️ fb141b ห่าง #fb2e33 หนึ่งก้าว
-//   และ 8a0609 ห่าง #8a0608 หนึ่งก้าว **เจอค่าพวกนี้แปลว่าพิมพ์ผิด**) ·
-//   b3121b 5a0a0e f2bba5 c98a74 (ขวัญใจ168) · c30303 8f0505 e81313 4a0f0f ffdbdb
-//   fff1ef ffeee8 (รวยแท้168) · eb0305 e40303 c20305 9b0a0c ff4446 (โปรดี168) ·
-//   fa0513 ff5a5f ffadaf (สมหวัง168) · d9212a 8e1a16 (ดวงเศรษฐี168) · fb1b32
-//   ff8f9c 5c0410 (มีเฮ168) · e4021b (รวยเทพ168) · d30304 a00203 ff6b6e (รับตัง168) ·
-//   dc0203 f5282a (หวย365) · ff3b14 6d0804 2b0000 (FLASH877)
+// ⚠️⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **ZNOVA168 เป็นน้ำตาลเข้ม/อำพัน
+// ตระกูลเดียวกับรอบนี้เป๊ะ** และ MEXICANOSLOT เป็นแดง/ทอง/ครีม "เจอส้มหรือทอง"
+// จึงไม่พิสูจน์อะไรเลย **ลิสต์เฮกซ์เต็มของทุกแบรนด์อยู่ที่
+// .claude/brand-spec-win8s.md §2 — ไม่ซ้ำลงที่นี่โดยตั้งใจ**
+// ค่าที่เพิ่งอยู่ทั้งใบนี้และกวาดออกครบแล้ว (สล็อต168): fb2e33 cb0b0d 8a0608 551c1e
+//   1c0607 0b0000 140000 f0e6e4 c9b9b7 e3d6d4 7d6f6e 2a0c0d d81115 b00d11
+//   + rgba(251,46,51) rgba(203,11,13) rgba(138,6,8) rgba(227,214,212) rgba(20,0,0)
+// ⚠️⚠️ **140000 ของแบรนด์ก่อน ต่างจาก 140302 ของรอบนี้แค่สองไบต์ท้าย — เจอค่าซ้าย
+// ให้ถือว่าพิมพ์ผิดเสมอ**
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep ที่ไล่หาสีเก่า
 // สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
-// ⚠️ **รอบนี้ไม่มีทอง/เหลือง ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเขียว ไม่มีส้ม
-// ไม่มีชมพู/ฟูเชีย ไม่มีครีม/เบจ/พีช ไม่มีน้ำตาล และไม่มีแรมป์เทาเงินเย็น**
-// (มงกุฎทองเล็กในโลโก้เป็นรายละเอียด ~2% ของอาร์ตเวิร์ก และทองคือฮิวนำของแบรนด์
-// ขาออกพอดี — **ห้ามดึงเข้ามาเป็นสี UI** · วัสดุที่สองรอบนี้คือ **มุกอุ่น R>G>B**
-// ไม่ใช่เงินเย็น)
-const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#e3d6d4] uppercase";
-const columnDot = "block h-2 w-2 shrink-0 bg-[#fb2e33] shadow-[0_0_6px_rgba(251,46,51,0.8)]";
+// ⚠️ **รอบนี้ไม่มีแดงชาด ไม่มีฟ้า/น้ำเงิน/ไซยาน ไม่มีม่วง ไม่มีเขียว ไม่มีชมพู
+// และไม่มีผิวสว่างเลยสักเฉด** (เขียว 00B900 ของปุ่ม LINE และเขียว success ของฟีด
+// ถอนเงินอยู่ไฟล์อื่น คงไว้ ห้ามกลืนเข้าพาเลตส้มของรอบนี้)
+// ⚠️ **ซากุระชมพู-ขาว กิโมโนแดง-ดำปักทอง แถบทองสาด และห้องสีขาวงาช้างในอาร์ตเวิร์ก
+// เป็นวัตถุในภาพ ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json เท่านั้น
+const columnLabel = "flex items-center gap-2 text-lg leading-normal font-black tracking-widest text-[#c9d2dc] uppercase";
+const columnDot = "block h-2 w-2 shrink-0 bg-[#f27a1a] shadow-[0_0_6px_rgba(242,122,26,0.8)]";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="mx-auto mb-6 w-full max-w-7xl px-4 font-sans">
   <div
-    class="relative isolate w-full border border-[#551c1e] bg-[#0b0000] p-8 text-[#f0e6e4] shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-[#fb2e33]/70 hover:shadow-[0_15px_40px_rgba(251,46,51,0.22)]"
+    class="relative isolate w-full border border-[#5a2410] bg-[#140302] p-8 text-[#fdf0e6] shadow-[0_10px_30px_rgba(20,3,2,0.65)] transition-all duration-300 hover:border-[#f27a1a]/70 hover:shadow-[0_15px_40px_rgba(242,122,26,0.22)]"
     style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));">
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#fb2e33] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#cb0b0d] to-transparent"></div>
-    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#e3d6d4] to-transparent"></div>
-    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#8a0608] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-[2px] w-24 bg-gradient-to-l from-[#f27a1a] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-[2px] w-24 bg-gradient-to-r from-[#e5a92b] to-transparent"></div>
+    <div aria-hidden="true" class="absolute top-0 right-0 -z-10 h-16 w-[2px] bg-gradient-to-b from-[#c9d2dc] to-transparent"></div>
+    <div aria-hidden="true" class="absolute bottom-0 left-0 -z-10 h-16 w-[2px] bg-gradient-to-t from-[#8a3a12] to-transparent"></div>
 
     {
       title && (
-        <header class="mb-8 flex items-center gap-4 border-b border-[#551c1e] pb-4">
-          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#fb2e33] via-[#cb0b0d] to-[#8a0608] shadow-[0_0_10px_rgba(251,46,51,0.4)]" />
-          <HeadingTag class={`bg-gradient-to-r from-[#fb2e33] via-[#e3d6d4] to-[#c9b9b7] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
+        <header class="mb-8 flex items-center gap-4 border-b border-[#5a2410] pb-4">
+          <div aria-hidden="true" class="h-8 w-1.5 shrink-0 bg-gradient-to-b from-[#f27a1a] via-[#e5a92b] to-[#8a3a12] shadow-[0_0_10px_rgba(242,122,26,0.4)]" />
+          <HeadingTag class={`bg-gradient-to-r from-[#f27a1a] via-[#fdf0e6] to-[#c9d2dc] bg-clip-text ${headingSize} leading-normal font-black tracking-widest text-transparent uppercase`}>
             {title}
           </HeadingTag>
         </header>
       )
     }
 
-    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#f0e6e4]" set:html={intro} />}
+    {intro && <div class="mb-8 text-left text-base leading-relaxed text-[#fdf0e6]" set:html={intro} />}
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      <article class="flex flex-col gap-4 border-b border-[#551c1e]/70 pb-6 text-left text-base leading-relaxed text-[#f0e6e4] md:border-r md:border-b-0 md:pr-6 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#5a2410]/70 pb-6 text-left text-base leading-relaxed text-[#fdf0e6] md:border-r md:border-b-0 md:pr-6 md:pb-0">
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -130,7 +123,7 @@ const columnDot = "block h-2 w-2 shrink-0 bg-[#fb2e33] shadow-[0_0_6px_rgba(251,
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 border-b border-[#551c1e]/70 pb-6 text-left text-base leading-relaxed text-[#f0e6e4] md:border-r md:border-b-0 md:px-4 md:pb-0">
+      <article class="flex flex-col gap-4 border-b border-[#5a2410]/70 pb-6 text-left text-base leading-relaxed text-[#fdf0e6] md:border-r md:border-b-0 md:px-4 md:pb-0">
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -141,7 +134,7 @@ const columnDot = "block h-2 w-2 shrink-0 bg-[#fb2e33] shadow-[0_0_6px_rgba(251,
         <slot name="center" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#f0e6e4] md:pl-6">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e6] md:pl-6">
         {
           titleright && (
             <LabelTag class={columnLabel}>

@@ -7,8 +7,9 @@ import { BRAND_NAME, brandPick, brandFlag } from "../lib/brandProfile";
 
 // Real bank brand colours — never remapped to the site palette. `name` below is
 // never rendered: src/lib/winnersFeed.ts only reads `color` and `icon`, so the
-// badges are decorative avatars (alt="") and no payment provider is NAMED
-// anywhere in this component's text. That matters this round — see below.
+// badges are decorative avatars (alt="" inside an aria-hidden wrapper) and no
+// payment provider is NAMED anywhere in this component's text. That matters
+// this round — see below.
 const bankPool = [
   { name: "KBank", color: "bg-[#1155cc]", icon: kbankLogo.src },
   { name: "SCB", color: "bg-[#4e1c80]", icon: scbLogo.src },
@@ -16,34 +17,35 @@ const bankPool = [
   { name: "KTB", color: "bg-[#0ea5e9]", icon: ktbLogo.src },
 ];
 
-// Only what this drop's brief actually names (src/assets/content.txt, vocabulary
-// listed in brand-spec §5). This brand is **เว็บสล็อตออนไลน์ธีมเม็กซิกัน** and
-// nothing else — the brief names no second game category at all.
-// 🚨🚨 **บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว** —
-// ชิปทุกใบและข้อความสถานะจึงถูกเขียนใหม่ให้อยู่ในคลังคำของบรีฟเท่านั้น และคำว่า
-// **ฝากถอน / ธนาคาร / ทรูวอลเลท / ออโต้** ไม่ปรากฏในไฟล์นี้สักคำ (รอบก่อน okkub88
-// มีครบทุกคำ — **"ทรูวอลเลท" คือคำที่พลาดง่ายที่สุดของรอบนี้**) · คำของแบรนด์เก่า
-// ที่ห้ามกลับเข้ามาเช่นกัน: เว็บสล็อตเงินดี · ยูสใหม่แตกไว · โบนัสแจกทั้งวันไม่จำกัด
-// (okkub88) · เบทต่ำ · ไม่ทำเทิร์น · รวมค่ายดัง (โบ๊ะบ๊ะ168) · เกมยิงปลา · ไฮโล ·
-// หวยออนไลน์ · เดิมพันฟุตบอล · เกมคาสิโน · เกมไพ่ (แบรนด์หลายหมวดรุ่นก่อน ๆ)
-// ไม่มีค่ายเกม ธนาคาร หรือวอลเล็ตไหนถูกเอ่ยชื่อเป็นผู้ให้บริการ — **บรีฟรอบนี้
-// ไม่ได้ระบุสักราย** และการแต่งชื่อขึ้นมาบนหน้าพนันคือการกล่าวอ้างจริง
+// คลังคำของชิปหมวดบริการมาจากบรีฟรอบนี้เท่านั้น (src/assets/content.txt +
+// .claude/brand-spec-win8s.md §5)
+// 🚨 **บรีฟรอบนี้ระบุสามหมวดเกมเท่านั้น: บาคาร่าออนไลน์ · คาสิโนสด · สล็อต**
+// รอบก่อนมีเจ็ดหมวด — **ห้ามสืบทอดลิสต์ข้ามรอบ** คำว่า ไฮโล · รูเล็ต · ยิงปลา ·
+// เดิมพันฟุตบอล/บอล · หวย/หวยออนไลน์ ไม่มีในบรีฟนี้เลยสักคำ จึงไม่มีในไฟล์นี้
+// 🚨 **บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว** —
+// คำว่า ฝากถอน / ออโต้ / ทรูวอลเลท / ทรูมันนี่ / ทุกธนาคาร / ไม่มีขั้นต่ำ
+// ไม่ปรากฏในไฟล์นี้ และไม่มีค่ายเกม ธนาคาร หรือวอลเล็ตไหนถูกเอ่ยชื่อเป็นผู้ให้บริการ
+// (การแต่งชื่อขึ้นมาบนหน้าพนันคือการกล่าวอ้างจริง และบรีฟไม่ได้ระบุสักราย)
+// ❌ คำของแบรนด์ก่อน ๆ ที่ห้ามกลับเข้ามา: เว็บตรง · ถูกลิขสิทธิ์ · เซิร์ฟแท้ ·
+// ปลอดภัยในไทย · ครบทุกค่าย · อัปเดตใหม่ตลอดสัปดาห์ (แบรนด์ขาออก) · ฟรีสปิน ·
+// ค่า RTP · เกมโบนัส · ยูสใหม่แตกไว · เบทต่ำ · ไม่ทำเทิร์น · แตกง่าย
 // ตัวเลขในข้อความที่นี่มีแค่ของบรีฟเอง (0.3% · 0.8% · 24ชม.)
 // The module picks one chip per row through data-winners-markets /
 // data-winner-market.
 const marketPool = [
-  "เข้าเล่นเกมสล็อตออนไลน์",
-  "สล็อตคลาสสิก",
-  "เกมโบนัส",
-  "เกมที่มีฟีเจอร์พิเศษ",
+  "บาคาร่าออนไลน์",
+  "คาสิโนสด",
+  "สล็อต",
+  "เกมเดิมพันสด",
+  "ทางเข้าเล่น",
+  "กติกาบาคาร่าสด",
+  "อัตราจ่าย",
   "สมัครสมาชิก",
   "เข้าสู่ระบบ",
   "ยืนยันบัญชี",
-  "กติกาเกม",
-  "อัตราการจ่ายรางวัล",
-  "รับโปรโมชั่น",
   "คืนยอดเสีย 0.3%",
   "แนะนำเพื่อน 0.8%",
+  "โบนัสไม่อั้น",
   "รอบสรุปยอด",
   "รอบจ่ายเครดิต",
   "ติดต่อแอดมิน",
@@ -63,24 +65,24 @@ const flag = (salt: string) => brandFlag(Astro.site, salt);
 // server-rendered state has to agree with one of them. `pending` below picks
 // which one this row shipped in. The wording is this brief's own: it tells users
 // to เก็บหมายเลขรายการและหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ when something
-// stalls (content.txt บรรทัด 22), so the two states read อยู่ระหว่างตรวจสอบ /
-// ทำรายการสำเร็จ — **ไม่ใช่ "ฝากถอนสำเร็จ" ของรอบก่อน**
+// stalls (content.txt บรรทัด 22) → สองสถานะจึงเป็น อยู่ระหว่างตรวจสอบ /
+// ทำรายการสำเร็จ **ไม่ใช่ "ฝากถอนสำเร็จ" ของรอบก่อน ๆ**
 const PENDING_TEXT = "อยู่ระหว่างตรวจสอบ";
 const DONE_TEXT = "ทำรายการสำเร็จ";
-const PENDING_CLASS = "border-[#e8c6ae]/70 text-[#e8c6ae]";
+const PENDING_CLASS = "border-[#e0bda4]/60 text-[#e0bda4]";
 const DONE_CLASS = "border-[#4ade80]/55 text-[#4ade80]";
-const AMOUNT_CLASS = "text-[#fdeee2]";
-const BIG_AMOUNT_CLASS = "text-[#f2a033]";
+const AMOUNT_CLASS = "text-[#fdf0e6]";
+const BIG_AMOUNT_CLASS = "text-[#e5a92b]";
 
 const initialRows = Array.from({ length: 8 }, (_, i) => {
-  const amount = 15000 + pick(`pill-amount-${i}`, 80001);
+  const amount = 15000 + pick(`slip-amount-${i}`, 80001);
   return {
-    bank: bankPool[pick(`pill-bank-${i}`, bankPool.length)],
-    market: marketPool[pick(`pill-market-${i}`, marketPool.length)],
-    user: `${LETTERS.charAt(pick(`pill-a-${i}`, 26))}${LETTERS.charAt(pick(`pill-b-${i}`, 26))}***`,
+    bank: bankPool[pick(`slip-bank-${i}`, bankPool.length)],
+    market: marketPool[pick(`slip-market-${i}`, marketPool.length)],
+    user: `${LETTERS.charAt(pick(`slip-a-${i}`, 26))}${LETTERS.charAt(pick(`slip-b-${i}`, 26))}***`,
     amount: amount.toLocaleString("en-US"),
     big: amount > 70000,
-    pending: flag(`pill-pending-${i}`),
+    pending: flag(`slip-pending-${i}`),
   };
 });
 
@@ -88,113 +90,103 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 // rotation, reading its configuration from the data-* attributes below. No
 // define:vars, no empty container filled by JS, no unguarded setInterval. The
 // feed's title is a <p> and the <section> carries an aria-label — this panel is
-// chrome and never emits a heading tag at any level. The 🪙 is a real sibling of
-// that <p>, not a glyph inside its text, so it can carry its own aria-hidden.
+// chrome and **never emits a heading tag at any level**; ห้ามอัปเป็น h2/h3 เพื่อ
+// "ตั้งชื่อให้ section" เพราะจะทำให้การนับหัวข้อเทียบบรีฟของทุกรอบถัดไปพัง
+// ไม่มี HTML comment สักตัวในส่วนที่ render (Astro ship ลง dist ตรง ๆ) ·
+// ไม่มี href="#" / onclick= / define:vars · ชื่อแบรนด์ interpolate จาก BRAND_NAME
 //
-// ───────────────────────────────────────────────────────────────────────────
-// MEXICANOSLOT (ดรอป 2026-10-24, .claude/brand-spec-mexicanoslot.md §2): รอบนี้เป็น
-// **แดงเม็กซิกันนำ · ทอง/พีชฟางรอง · เนื้อหาธีมสว่าง แต่ "โครมเป็นผิวเข้ม"**
-// ⚠️⚠️ **พื้นเพจรอบนี้สว่างมาก #fef6fb (bg.json) ขาวอมชมพูจาง** แต่ฟีดรายการเป็น
-// **"โครม" เหมือนแถบประกาศกับเมนู ไม่ใช่การ์ดเนื้อหา** ตามที่ §2 จัดกลุ่มไว้ แผงนี้
-// จึงเป็น **ผิวเอสเพรสโซเข้มขอบน้ำตาลอิฐ ตัวอักษรครีมอุ่น** คร่อมอยู่ใต้ตัวหน้าที่
-// สว่าง — **ห้าม "แก้" ให้แผงนี้สว่างตามพื้นเพจ** หัว-ท้าย-ticker-ฟีดที่เข้มคือ
-// กรอบโปสเตอร์ที่คร่อมเนื้อหาสว่างเอาไว้ ซึ่งเป็นทิศของธีมทั้งรอบ ไม่ใช่ความ
-// ไม่สม่ำเสมอ (⚠️ รอบก่อน okkub88 สว่างทั้งหน้ารวมโครม — **รอบนี้กลับทิศครึ่งหนึ่ง**)
-// แผงนี้ตั้งสีตัวอักษรเองทั้งใบ จึงไม่ inherit BRAND_TEXT #3f130d (ซึ่งเป็นหมึกเข้ม
-// สำหรับการ์ดสว่าง และอ่านไม่ออกบนผิวโครม)
-// ลำดับผิวโครม: **#2b100a ฐาน (ตัวแผง) · #431a10 ยก (เม็ดยา) · #8c3a22 เส้น**
-// เม็ดยาแต่ละเม็ดอยู่ในกรอบเส้นไรผม #8c3a22 ที่สว่างขึ้นเป็นแดงไฮไลต์ #f2543f ตอน hover
-// ชิปหมวดบริการเป็นเส้นแดงไฮไลต์ #f2543f กับตัวอักษรครีมรอง #e8c6ae (10.9:1 บน #431a10)
-// ⚠️ #f2543f อยู่ที่ **เส้นขอบ ไม่ใช่ตัวอักษรขนาดเล็ก** — §2 ให้ #f2543f ถือตัวอักษร
-// บนโครมได้ (5.2:1 บน #2b100a) แต่ชิปนี้เป็น text-[10px] จึงเลือกค่าที่สูงกว่าไว้ก่อน
-// 🚨🚨 **#f2543f และ #2bb061 ใช้ได้เฉพาะบนผิวโครมเข้มเท่านั้น ห้ามหลุดไปอยู่บน
-// การ์ดสว่างของหน้าเดียวกัน** (บนขาวได้ 3.5:1 และ 2.9:1)
-// ยอดเริ่มที่หมึกโครม #fdeee2 (17.6:1 บนฐาน) แล้วกระโดดไปทองไฮไลต์ #f2a033 เมื่อเกิน
-// data-big-win-above ซึ่งเป็น **การสลับฮิว ครีม → ทอง ไม่ใช่สลับน้ำหนักภายในฮิวเดียว**
-// และตรงกับอาร์ตเวิร์กจริงที่โปรยเหรียญทองอยู่ทั่วทั้งสองสไลด์
-// ชื่อผู้ทำรายการเป็น #fdeee2 · หัวแถบเป็น #fdeee2 โดยมีชื่อแบรนด์เป็นทอง #f2a033
-// (8.3:1 บน #2b100a) — **ตัวอักษรทึบสองค่า ไม่ใช่ bg-clip-text ไล่เฉด**
-// ไอคอน 🪙 คือ **เหรียญทอง** ซึ่งอยู่ในภาษาภาพของดรอปนี้ตรงๆ (brand-spec §6:
-// เหรียญทองโปรยอยู่ทั้งบนแบนเนอร์และสไลด์ทั้งสองใบ) — รอบเก่ากว่าของไฟล์นี้ใช้ 🧾
-// และก่อนหน้านั้น 🎰 ซึ่ง §6 ระบุว่า **ตู้สล็อต 777 เป็นของ โบ๊ะบ๊ะ168 ห้ามใช้**
-// เขียว #4ade80 ของสถานะ "ทำรายการสำเร็จ" เป็นสีเชิงความหมาย และสีโลโก้ธนาคารทั้งสี่
-// เป็นสีจริงของธนาคาร **ทั้งสองชุดไม่ถูกรีแมปทุกรอบ** (และไม่ใช่ #117a41 / #2bb061
-// ของแบรนด์)
+// ── รูปทรงรอบนี้ (เปลี่ยนโครง ไม่ใช่แค่เปลี่ยนสี) ──────────────────────────
+// เดิม: เม็ดยา rounded-full บรรทัดเดียว ลอยเป็นก้อนเมฆ flex-wrap กลางแผง
+//       แทรกแถวใหม่แบบ scatter
+// รอบนี้: **กริดสลิปสองคอลัมน์** แต่ละใบเป็นการ์ดสี่เหลี่ยมมุมมน มีแถบไล่เฉดส้ม
+//       คาดขอบซ้าย ข้อมูลแบ่งเป็นสองบรรทัด (บน: อวาตาร์ + ชื่อผู้ทำรายการ + ยอด /
+//       ล่าง: ชิปหมวด + ชิปสถานะ คั่นด้วยเส้นไรผม) และแทรกแถวใหม่จากด้านบน
 //
-// ⚠️ เทียบเป็นค่า ไม่ใช่ตระกูลสี — **แดงนำมาแล้วหกแบรนด์ขึ้นไปในรีโปนี้**
-// แดงรอบนี้คือ **#de2b1e (R222 G43 B30) / #a81410 / #c81e12** และบนโครมคือ **#f2543f**
-// ชุด **ฟ้าไซยาน-ครีมของ ร่ำรวย168** ที่เพิ่งค้างอยู่ทั้งไฟล์นี้ (18a5e2 0d6b9b
-// 0a5176 a9d7f2 16294a 111a3f 202a66 31408a e9f1ff adc0e4 f4e4d3 e4cbb3) ออกครบ
-// ทุกจุดแล้ว เช่นเดียวกับชุดของแบรนด์ขาออก **okkub88** (ffd6fa fff4fb ffe3f5
-// f9b2d9 f479b9 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2 d91a73 b01160 85094a)
-// **โบ๊ะบ๊ะ168** (00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0f5684 1a6ea8 355f7d)
-// **สบาย168** (2cc3fc 6bdcfb 0a7fbd 063a57 9ae0fa fdcb0c fefb6b) **สบายเบท168**
-// (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e) **นินจา168** (32bcfb a9e9ff fef54b 07335f)
-// **รวยแทร่168** (039cfa 0494f5 c3ebfc f9a826) **TSDET911** (0360f3 0292fb 6ec8ff
-// cfdcec 9db4d4) **เงินทอง168** (f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f)
-// **ยูฟ้า168** (fee45d e6a416 b8780d e8ecf1 a8b2bf 78828f) **รับตัง168** (f0b429
-// ffdc8c cfd9e6 d30304) **UFA324** (e5a81b ffe08a b9c2cc) **สมหวัง168** (fa0513
-// ffadaf ff5a5f e3b23c) **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f)
-// 🚨 แดง/น้ำตาลเข้มของแบรนด์อื่นที่ต้องเทียบทีละค่า: fb2e33 cb0b0d d81115 b00d11
-// 8a0608 1c0607 2a0c0d 551c1e 140000 f0e6e4 c9b9b7 (สล็อต168 — ⚠️⚠️ **1c0607 /
-// 2a0c0d ↔ #2b100a ฐานโครมรอบนี้ · f0e6e4 ↔ #fdeee2 หมึกโครมรอบนี้ ใกล้มาก**) ·
-// ff2e52 e01238 c9102f (มาดาม168) · d9212a 8e1a16 150303 4e2120 300605
-// (ดวงเศรษฐี168 — ⚠️ **4e2120 ↔ #431a10 ผิวยกโครมรอบนี้**) · fb141b ff5f63 (GT66B) ·
-// eb0305 2c1004 4d1c0a b44c06 f0b46a (NavbarStyle4 — ⚠️ **2c1004 ↔ #2b100a และ
-// 4d1c0a ↔ #431a10 ต่างไม่กี่หน่วย · f0b46a ↔ #f2a033**)
+// ── พาเลตของแบรนด์รอบนี้ (.claude/brand-spec-win8s.md §2) ──────────────────
+// 🚨 **รอบนี้มืดทั้งเว็บ** bg.json = {"mode":"color","color":"#1e0101"} แผงนี้เป็น
+// "โครม" เหมือน navbar/footer/ticker จึงนั่งบนผิวโครม **#250604 (ฐาน)** มีแถว
+// เป็นชั้นยก **#3b130b** เส้นไรผม **#5a2410** และขอบตกแต่ง/ออรา **#8a3a12**
+// 🚨 **#5a2410 กับ #8a3a12 เป็นเส้น/ออรา/พื้นถมเท่านั้น ห้ามถือตัวอักษร** — ในไฟล์นี้
+// ทั้งสองค่าอยู่ที่ border / blur aura / เส้นคั่น ไม่มีจุดไหนเป็น glyph เลย
+// ตัวอักษร: หมึกหลัก **#fdf0e6** · หมึกรอง **#e0bda4** · ส้มเพลิง **#f27a1a**
+// (ชื่อแบรนด์ + ขอบตอน hover) · ทองอำพัน **#e5a92b** (ยอดใหญ่ + ป้าย 24ชม.)
+// ยอดเริ่มที่หมึกครีม #fdf0e6 แล้วกระโดดไปทองอำพัน #e5a92b เมื่อเกิน
+// data-big-win-above = **การสลับฮิว ครีม → ทอง** ตรงกับอาร์ตเวิร์กที่เป็นทองคาดดำ
+// ⚠️ เทียบเป็นค่าหกหลัก ไม่ใช่ตระกูลสี — ส้ม/ทอง/น้ำตาลเป็นฮิวนำของหลายแบรนด์ใน
+// รีโปนี้มาแล้ว ค่าที่ไฟล์นี้เคยถือไว้ทั้งใบ (ผิวเอสเพรสโซ + แดงไฮไลต์ + ครีม
+// fdeee2 e8c6ae f2a033 f2543f 2b100a 431a10 8c3a22) ออกครบทุกจุดแล้ว
+// ✅ **เขียว #4ade80 ของสถานะ "ทำรายการสำเร็จ" เป็นสีเชิงความหมาย ไม่ใช่สีแบรนด์**
+// รอบนี้แบรนด์เป็นส้ม-ทอง จึงไม่มีเหตุผลใดที่จะเปลี่ยนมันเป็นส้ม — และ **ห้าม
+// สับสนกับเขียวป่าของ *FloatingBadge ซึ่งเป็นสีแบรนด์เก่าที่ต้องกวาดออก**
+// สีโลโก้ธนาคารทั้งสี่ (1155cc 4e1c80 fcd34d 0ea5e9) เป็นสีจริงของโลโก้ **ห้ามแตะ**
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีฟ้า/ไซแอน/น้ำเงิน ไม่มีชมพู/มาเจนตา ไม่มีม่วง และไม่มีแรมป์
-// เทาเงินเป็นสี UI** (0ea5e9 กับ 1155cc 4e1c80 fcd34d ด้านบนเป็นสีจริงของโลโก้
-// ธนาคาร **ห้ามแตะ**) เขียวมีได้ตัวเดียวคือ #4ade80 ของสถานะ ซึ่งไม่ใช่สีแบรนด์
 ---
 
-<div class="mx-auto w-full max-w-[1000px] p-4 font-sans">
+<div class="mx-auto w-full max-w-[1100px] px-4 py-6 font-sans">
   <section
     aria-label={`รายการล่าสุดของสมาชิก ${BRAND_NAME}`}
-    class="relative overflow-hidden rounded-[30px] border-2 border-[#8c3a22]/60 bg-[#2b100a]/95 px-4 py-8 shadow-[0_15px_40px_rgba(43,16,10,0.35)] backdrop-blur-md">
-    <div class="mb-6 flex items-center justify-center gap-2">
-      <span aria-hidden="true" class="text-xl md:text-2xl">🪙</span>
-      <p class="text-xl font-black text-[#fdeee2] md:text-2xl">
-        <span class="text-[#f2a033]">{BRAND_NAME}</span> รายการล่าสุดของสมาชิก
-      </p>
+    class="relative overflow-hidden rounded-2xl border border-[#5a2410] bg-[#250604] p-5 shadow-[0_18px_44px_rgba(20,3,2,0.55)] md:p-6">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-10 h-44 w-44 rounded-full bg-[#8a3a12]/30 blur-[70px]"></div>
+
+    <div class="relative z-10 mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-[#5a2410] pb-4">
+      <div class="flex items-center gap-2.5">
+        <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rounded-full bg-[#f27a1a] shadow-[0_0_10px_rgba(242,122,26,0.85)]"></span>
+        <p class="text-lg font-black tracking-wide text-[#fdf0e6] md:text-xl">
+          <span class="text-[#f27a1a]">{BRAND_NAME}</span> รายการล่าสุดของสมาชิก
+        </p>
+      </div>
+      <span class="rounded-md border border-[#8a3a12] bg-[#140302] px-2.5 py-1 text-[11px] font-bold tracking-wider text-[#e5a92b]"> บริการ 24ชม. </span>
     </div>
 
     <div
       data-winners-feed
       data-interval="3000"
-      data-max-rows="12"
+      data-max-rows="10"
       data-amount-min="15000"
       data-amount-max="95000"
       data-pending-chance="0.35"
       data-user-style="letters"
       data-user-digits="0"
-      data-insert="scatter"
+      data-insert="prepend"
       data-big-win-above="70000"
-      class="relative z-10 flex flex-wrap justify-center gap-3">
+      class="relative z-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
       {
         initialRows.map((row) => (
-          <div data-winner-row class="winner-pill transition-all duration-500 ease-out">
-            <div class="flex items-center gap-3 rounded-full border border-[#8c3a22] bg-[#431a10] py-1.5 pr-4 pl-1.5 shadow-[0_0_10px_rgba(242,84,63,0.16)] hover:border-[#f2543f]">
-              <div data-winner-bank class={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${row.bank.color}`}>
-                <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
+          <div data-winner-row class="winner-slip transition-all duration-500 ease-out">
+            <div class="relative overflow-hidden rounded-xl border border-[#5a2410] bg-[#3b130b] py-3 pr-3 pl-4 transition-colors duration-300 hover:border-[#f27a1a]">
+              <span aria-hidden="true" class="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-[#f0a21e] to-[#e8620e]" />
+
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex min-w-0 items-center gap-2.5">
+                  <div aria-hidden="true" data-winner-bank class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${row.bank.color}`}>
+                    <img data-winner-icon src={row.bank.icon} alt="" width="16" height="16" loading="lazy" decoding="async" class="h-4 w-4 object-contain" />
+                  </div>
+                  <span data-winner-user class="truncate text-sm font-bold tracking-wide text-[#fdf0e6]">
+                    {row.user}
+                  </span>
+                </div>
+                <div
+                  data-winner-big
+                  data-normal-class={AMOUNT_CLASS}
+                  data-big-class={BIG_AMOUNT_CLASS}
+                  class={`shrink-0 text-base font-black tabular-nums ${row.big ? BIG_AMOUNT_CLASS : AMOUNT_CLASS}`}>
+                  +<span data-winner-amount>{row.amount}</span> ฿
+                </div>
               </div>
-              <div data-winner-user class="text-sm font-bold text-[#fdeee2]">
-                {row.user}
-              </div>
-              <span data-winner-market class="rounded-full border border-[#f2543f]/70 px-2 py-0.5 text-[10px] font-bold text-[#e8c6ae]">
-                {row.market}
-              </span>
-              <span
-                data-winner-status
-                data-pending-text={PENDING_TEXT}
-                data-done-text={DONE_TEXT}
-                data-pending-class={PENDING_CLASS}
-                data-done-class={DONE_CLASS}
-                class={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
-                {row.pending ? PENDING_TEXT : DONE_TEXT}
-              </span>
-              <div data-winner-big data-normal-class={AMOUNT_CLASS} data-big-class={BIG_AMOUNT_CLASS} class={`text-sm font-black drop-shadow-sm ${row.big ? BIG_AMOUNT_CLASS : AMOUNT_CLASS}`}>
-                +<span data-winner-amount>{row.amount}</span> ฿
+
+              <div class="mt-2.5 flex items-center justify-between gap-2 border-t border-[#5a2410] pt-2.5">
+                <span data-winner-market class="truncate rounded-sm bg-[#250604] px-2 py-0.5 text-[10px] font-bold text-[#e0bda4]">
+                  {row.market}
+                </span>
+                <span
+                  data-winner-status
+                  data-pending-text={PENDING_TEXT}
+                  data-done-text={DONE_TEXT}
+                  data-pending-class={PENDING_CLASS}
+                  data-done-class={DONE_CLASS}
+                  class={`shrink-0 rounded-sm border px-2 py-0.5 text-[10px] font-bold ${row.pending ? PENDING_CLASS : DONE_CLASS}`}>
+                  {row.pending ? PENDING_TEXT : DONE_TEXT}
+                </span>
               </div>
             </div>
           </div>
@@ -214,13 +206,13 @@ const initialRows = Array.from({ length: 8 }, (_, i) => {
 </script>
 
 <style>
-  .winner-pill.is-entering {
-    transform: scale(0.9);
+  .winner-slip.is-entering {
+    transform: translateY(-8px);
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .winner-pill {
+    .winner-slip {
       transition: none;
     }
   }

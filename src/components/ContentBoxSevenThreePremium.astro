@@ -23,13 +23,14 @@ const leftHeading = titleleft ?? title;
 // never `absolute`, so there is no badge-clearance arithmetic in this file.
 //
 // ความกว้างจริงของคอลัมน์รูป (3fr ฝั่งขวา) ที่หน้าแรกคิด `widths`/`sizes` จาก —
-// **คำนวณใหม่ทั้งชุดสำหรับดรอป 2026-10-28** ถ้าแก้ค่าใดต่อไปนี้ต้องไปแก้
-// src/pages/index.astro ด้วย (Tailwind ตั้ง box-sizing: border-box ทั้งเว็บ ทุก
-// max-w-* จึงคุมกล่องรวม padding และ border):
+// **คำนวณใหม่ทั้งชุดจากคลาสในไฟล์นี้สำหรับดรอป 2026-10-28** ถ้าแก้ค่าใดต่อไปนี้
+// ต้องไปแก้ src/pages/index.astro ด้วย (Tailwind ตั้ง box-sizing: border-box
+// ทั้งเว็บ ทุก max-w-* จึงคุมกล่องรวม padding และ border):
 //   section max-w-7xl(1280) + px-4(16x2=32) · card border(1x2=2) · md:p-10(40x2=80)
 //   · grid gap-10(40) · คอลัมน์รูปมี md:border-l(1) + md:pl-10(40) = 41 อยู่ในกล่องของมันเอง
 //   >=1280px  : (1280 - 32 - 2 - 80 - 40) x 0.3 - 41 = 1126 x 0.3 - 41 = 297px
 //   768..1279 : (100vw - 154) x 0.3 - 41             = calc(30vw - 87px)
+//               ปลายล่างของแบนด์ (ที่ 768px) = 143px
 //   473..767  : ยุบเหลือคอลัมน์เดียวที่ p-8 -> 100vw - 98 ซึ่งเกิน 375 จึงติดเพดาน
 //               max-w-[375px] ของบิตแมป                          = 375px
 //   <473      : คอลัมน์เดียวที่ p-8                                = calc(100vw - 98px)
@@ -37,121 +38,84 @@ const leftHeading = titleleft ?? title;
 // ของ **ContentBoxSevenThreeNeumorphism** ที่ถือ §5 บนหน้าเดียวกันรอบนี้ ซึ่งแคปที่
 // max-w-[1400px] จ่าย gap-8 และคอลัมน์รูปจ่าย md:pl-8 แล้วออกมา **343px /
 // calc(30vw - 77px)** — ต่างกัน 46px ที่ 1x **ห้ามลอกตัวเลขข้ามไฟล์ และห้ามลอกจาก
-// รอบก่อน** (รอบก่อนคิดจาก ContentBoxSevenThreeFloatingBadge ซึ่งเป็นอีกไฟล์)
+// รอบก่อน** (รอบก่อนคิดจาก ContentBoxSevenThree ตัวฐาน ซึ่งเป็นอีกไฟล์)
 // ⚠️⚠️ **สไลด์ของดรอปนี้วัดได้ 375x600 ทั้งสองใบ** เพดานกว้างสุดจึงเป็น **375**
 // (1x ของใบนี้คือ 297px ซึ่ง 2x = 594 เกินบิตแมป จึงตกลงมาที่ 375)
-// **ห้ามมี candidate สูงกว่านั้น** เพราะไม่ใช่พิกเซลจริง และ **alt ห้ามระบุ
-// ทิศทาง/ขนาดของภาพ** ให้บรรยายสิ่งที่วาดอยู่แทน
+// **ห้ามมี candidate สูงกว่านั้น** เพราะไม่ใช่พิกเซลจริง
 //
 // ───────────────────────────────────────────────────────────────────────────
-// ZORO365 (ดรอป 2026-10-28, .claude/brand-spec-zoro365.md §1–§6):
+// WIN8S (ดรอป 2026-10-28, .claude/brand-spec-win8s.md §1–§6):
 // บนหน้าแรกกล่องนี้ถือ **docx H3 §4** ("โปรโมชั่น คืนยอดเสีย 0.3% เข้ายูสได้ทุกวัน"
 // — content.txt บรรทัด 9, ย่อหน้าเต็มอยู่บรรทัด 10) คู่กับ **slide1.png** ซึ่ง
-// พิมพ์คำว่า โปรโมชั่น / คืนยอดเสีย / 0.3% ตัวอักษรเขียวมรกตตัดขอบทอง และแคปซูล
-// พื้นดำขอบทอง สมัครสมาชิก ไว้บนตัวภาพเอง
+// พิมพ์คำว่า โปรโมชั่น / คืนยอดเสีย / 0.3% ไว้บนตัวภาพเอง และมี **ร่มกระดาษญี่ปุ่น
+// แดง-ขาว** อยู่ในฉาก
 // ⚠️ **ข้อความที่พิมพ์อยู่บนงานอาร์ตเป็นตัวตัดสินการจับคู่ ไม่ใช่เลขไฟล์** uploader
 // เขียนทับ slide1/slide2 ทุกดรอป การจับคู่จึงสลับไปมาระหว่างแบรนด์ — รอบนี้
-// **สลับทิศจากรอบก่อน**: slide1 = คืนยอดเสีย 0.3% (ใบนี้ · โลโก้อยู่มุมบนขวา) ·
-// slide2 = แนะนำเพื่อน 0.8% (§5 · โลโก้อยู่มุมบนซ้าย + มงกุฎทอง)
+// **สลับทิศจากรอบก่อน (123BET ใช้ slide1 = แนะนำเพื่อน)**:
+// slide1 = คืนยอดเสีย 0.3% (ใบนี้ · มีร่ม) · slide2 = แนะนำเพื่อน 0.8% (§5 · มีพัด)
 // ⛔ slide3/slide4 (09-29) และ banner2/banner3 (10-23) เป็นอาร์ตของแบรนด์อื่น
 // **ห้าม import** เพราะ eager import = emit ขึ้น dist ทุก build แม้ไม่มีหน้าไหน
 // render · banner1 / banner1-mobile / og.png เป็นของ MainLayout
 // นี่คือบล็อกรูป+ข้อความบล็อกแรกจากสองบล็อก (เพดานของ playbook คือ 2 และสไลด์ที่
 // ใช้ได้รอบนี้ก็มีสองใบพอดี)
 //
-// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **แดงเม็กซิกัน/พีชฟางบนธีมสว่างของ MEXICANOSLOT**
-// ทั้งใบ จึงรีเธมทั้งไฟล์ **และรอบนี้กลับทิศ 180° เป็นผิวเข้ม** พื้นเพจ #002908
-// (bg.json) = เขียวป่าจมเกือบดำ **ห้ามเหลือแดง/ส้ม/พีชไว้เลยสักค่า และห้าม "แก้"
-// การ์ดกลับไปเป็นพื้นขาว** — หมึก #eef7f0 บนพื้นขาวจะหายไปเลย ไม่ใช่แค่จางลง
-// ลำดับผิว: #010d04 หมึกดำ · #031b09 โครม · #073c1a ผิวการ์ด · #0e5424 ชั้นยก ·
-// #002908 พื้นเพจ — การ์ดใบนี้ไล่จาก **ผิวการ์ดลงชั้นยก (#073c1a → #0e5424)**
-// ในกรอบ #1e7033 ที่อิ่มเป็น #35a043 ตอน hover ซึ่งเป็นผิวที่ **ยกกว่า §5** ที่นั่ง
-// อยู่บนผิวการ์ดทึบ #073c1a
-// ออรามุมซ้ายบนเป็นเขียวมรกต #3ddc4a จาง มุมขวาล่างเป็น **ทองอำพัน #e8c86a** จาง
+// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **เขียวมรกต/ทองอำพันบนธีมมืดของ ZORO365** ทั้งใบ
+// จึงรีเธมทั้งไฟล์ **รอบนี้ยังมืดเหมือนเดิม แต่คนละฮิวสิ้นเชิง** พื้นเพจ 1e0101
+// (bg.json) = ดำอมเลือดหมู **ห้ามเหลือเขียวไว้เลยสักค่า และห้าม "แก้" การ์ดกลับไป
+// เป็นพื้นขาว** — หมึก fdf0e6 บนพื้นขาวจะหายไปเลย ไม่ใช่แค่จางลง
+// ลำดับผิว: 140302 หมึกดำ · 250604 โครม · 2a0a04 ผิวการ์ด · 3b130b ชั้นยก ·
+// 1e0101 พื้นเพจ — การ์ดใบนี้ไล่จาก **ผิวการ์ดลงชั้นยก (2a0a04 -> 3b130b)**
+// ในกรอบ 5a2410 ที่อิ่มเป็น 8a3a12 ตอน hover ซึ่งเป็นผิวที่ **ยกกว่า §5** ที่นั่ง
+// อยู่บนผิวการ์ดทึบ 2a0a04
+// ออรามุมซ้ายบนเป็นส้มเพลิง f27a1a จาง มุมขวาล่างเป็น **ทองอำพัน e5a92b** จาง
 // ⚠️ ออราเป็น **พื้นถม ไม่ใช่ตัวอักษร**
-// หัวข้อเป็น **ทองอำพัน #e8c86a ทึบสีเดียว ชิดซ้าย พร้อมเส้นใต้สามสต็อปเต็มความกว้าง
-// ของคอลัมน์ข้อความ** ไม่ใช่ bg-clip-text และไม่มีแผ่นถม (8.0:1 บนปลายการ์ด #073c1a
-// · 6.4:1 บนปลายชั้นยก #0e5424) ซึ่งเป็นทรีตเมนต์คนละชุดกับ §3/§6 (แผ่นถมทึบ +
-// หมึกขาว + ขีดใต้เต็มความกว้าง) และคนละชุดกับ §5 (แถบตั้งคู่หัวข้อเขียวทึบ)
-// เส้นคั่นคอลัมน์และเส้นใต้หัวข้อเป็น **#1e7033 / #dfe6e3 / #3ddc4a / #e8c86a**
-// ซึ่ง §2 อนุญาตให้เป็นขอบ/พื้นถมได้ · เนื้อความ #eef7f0 (= BRAND_TEXT, 12.0:1
-// บนปลายการ์ด · 9.5:1 บนปลายชั้นยก) · หมึกรอง #9dc2a5 (6.3:1)
-// 🚨🚨 **#35a043 (3.8:1) และ #1e7033 (2.1:1) ห้ามถือตัวอักษรเด็ดขาด**
-// ⚠️ **ไฮไลต์ <strong> ในเนื้อความมีสีเดียวคือ #3ddc4a** และเป็นงานของหน้าเพจ
-// rgba() ที่อนุญาตรอบนี้: rgba(61,220,74,α) · rgba(53,160,67,α) ·
-// rgba(30,112,51,α) · rgba(232,200,106,α) · rgba(223,230,227,α) · rgba(1,13,4,α)
+// หัวข้อเป็น **ทองอำพัน e5a92b ทึบสีเดียว ชิดซ้าย พร้อมเส้นใต้สามสต็อปเต็มความกว้าง
+// ของคอลัมน์ข้อความ** ไม่ใช่ bg-clip-text และไม่มีแผ่นถม (8.8:1 บนปลายการ์ด 2a0a04
+// · 7.9:1 บนปลายชั้นยก 3b130b) ซึ่งเป็นทรีตเมนต์คนละชุดกับทุกกล่องอื่นบนหน้า
+// เส้นคั่นคอลัมน์และเส้นใต้หัวข้อเป็น **5a2410 / c9d2dc / f27a1a / e5a92b**
+// ซึ่ง §2 อนุญาตให้เป็นขอบ/พื้นถมได้ · เนื้อความ fdf0e6 (= BRAND_TEXT, 16.4:1
+// บนปลายการ์ด) · หมึกรอง e0bda4 (10.5:1)
+// 🚨🚨 **5a2410 และ 8a3a12 ห้ามถือตัวอักษรเด็ดขาด**
+// ⚠️ **ไฮไลต์ <strong> ในเนื้อความมีสีเดียวคือ f27a1a** และเป็นงานของหน้าเพจ
+// rgba() ที่อนุญาตรอบนี้: rgba(242,122,26,α) · rgba(229,169,43,α) ·
+// rgba(138,58,18,α) · rgba(30,1,1,α) · rgba(20,3,2,α)
 //
-// ⚠️⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **รอบนี้เป็นแบรนด์เขียว/เงิน/ทอง และ
-// แบรนด์ขาออกทันที (TEVA69) ก็เป็นเขียว/เงิน/ทองเหมือนกันเป๊ะ ต่างกันแค่กลับทิศ
-// สว่าง-มืด** "มีเขียวอยู่แล้ว" จึงไม่พิสูจน์อะไรเลย เขียวรอบนี้คือ **#3ddc4a
-// (R61 G220 B74) / #35a043 / #1e7033 / #0e5424 / #073c1a / #031b09 / #002908**
-// เงินคือ **#dfe6e3** ทองคือ **#e8c86a** ค่าที่ต้องไม่เหลือ:
-//   de2b1e f2a033 a81410 c81e12 9d140c 6f0e08 3f130d 80453a 2b100a 431a10 1d0a06
-//   8c3a22 fdeee2 e8c6ae fed7b5 fec28d f6c4a4 e2855c fde4d3 fff3ea fef6fb 117a41
-//   2bb061 f2543f (**MEXICANOSLOT — ชุดที่เพิ่งอยู่ทั้งใบนี้** ⚠️⚠️ **e8c6ae ↔
-//   #e8c86a ขึ้นต้น e8c เหมือนกัน · 2bb061 ↔ #3ddc4a**)
-//   f0ffeb ffffff e6f7df d7f0cd b2dba3 3f7a2e 10280f 3c5b36 116018 0b4a12 1a7d24
-//   8a6a0e 28c437 e3bb45 c6cfd2 0b2a12 15401d 051409 2d6b2f e8fbe4 b4d6ad
-//   (**TEVA69 — แบรนด์ขาออกทันที เสี่ยงหลงเหลือสูงสุด** ⚠️⚠️ **28c437 ↔ #3ddc4a ·
-//   e3bb45 ↔ #e8c86a · c6cfd2 ↔ #dfe6e3 · e8fbe4 ↔ #eef7f0 · b4d6ad ↔ #9dc2a5 ·
-//   15401d ↔ #0e5424**)
-//   0c3a16 0a5f1c 0b7d28 0f9b35 061f0c (**สาธุ168 — 0c3a16 ↔ #073c1a ต่างหลักเดียว**)
-//   · 8ce023 e9f7d6 bde397 1a5c04 2f8c07 051400 0f2e05 06220a (**KINGKONG555**) ·
-//   1fae1c 0d2312 143a1c 07130a e8e4c6 (**888PARUAY — 143a1c ↔ #073c1a**) · 2fbf6a
-//   (**KOON234**)
-//   fff0f0 ffe4e6 ffd4d7 f5b9bd a8333f 25090f 6e3b44 b00718 c1071b 8a0412 8f6310
-//   d61023 ff2436 e9b53c c3ccd6 (**LOTTO189**)
-//   7a1bd6 2b3fd9 c2178b f23bb4 bb6dff 7aa7ff 5411c4 241046 f8e6f9 f6edfe ece0fb
-//   dcc6f4 9a6fd0 190b3d 271257 100626 5b2f9e f3e8ff c0a6e8 (**ZANE96**)
-//   2a1206 7a3a0c fff3e0 e0b784 fffbf0 fff4e0 ffe9c7 f3d9a8 c98a24 c23400 b8300a
-//   9a5b00 d13800 fa4903 e8a000 ff8a2b d8dde6 (**ZNOVA168**)
-//   00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0b4a73 2a87c4 eaf7ff f0faff e4f6fb
-//   355f7d 0f5684 1a6ea8 (โบ๊ะบ๊ะ168) · ffd6fa fff4fb ffe3f5 f9b2d9 f479b9 6a0f3c
-//   95486b 9c0f55 fb439b fc74b5 ffc2e2 d91a73 b01160 85094a (okkub88) · fb2e33
-//   cb0b0d d81115 b00d11 8a0608 1c0607 · ff2e52 e01238 c9102f · c30303 8f0505 e81313
-//   · d9212a 8e1a16 · fb141b ff5f63 · eb0305 2c1004 4d1c0a b44c06 · fa539c c2185b
-//   8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9 ef8dbd ffe5ff fff0f8 ffeef7 3b0b26 54123a
-//   7a2350 · 1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0 273449 121722 · 18a5e2 0d6b9b
-//   a9d7f2 16294a
-// ⚠️ ทอง/เหลือง/ครีม/เทาเงินของแบรนด์เก่า (**ทองรอบนี้คือ #e8c86a เงินคือ #dfe6e3
-//   ค่าเดียวทั้งคู่ และทั้งสองเป็นวัสดุรองจริงของรอบนี้ จึงต้องเทียบแน่นเท่าเขียว**):
-//   ffd84d f5ba14 fcee52 b37c0b ffd94a e3a712 9d6f06 eeae12 fded41 9f600d fcd434
-//   fdcb0c fefb6b fee45d e6a416 fef54b f7c92b d4922c fdfc71 e5a81b ffe08a f9a826
-//   ffdc8c f0b429 ffc82e e0bd72 f6e4b4 d4af5a dcb95f f0c878 f0b46a fbc134 ffe87a
-//   cf9a18 e3b23c eab308 f5c53d · f4e4d3 e4cbb3 ecd5c4 d2b9a4 f3ece0 bfb8aa e8eaee
-//   b4b9c2 6b7079 cfd6e3 (⚠️ **f0c878 / f0b46a / e3b23c ↔ #e8c86a · cfd6e3 / e8eaee
-//   ↔ #dfe6e3**)
+// ⚠️⚠️ เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี" — **ZNOVA168 เป็นน้ำตาลเข้ม/อำพัน =
+// ตระกูลเดียวกับรอบนี้เป๊ะ** รองลงมาคือ MEXICANOSLOT (แดง/ทอง/ครีม) และ TEVA69
+// **ลิสต์เฮกซ์เต็มของทุกแบรนด์อยู่ที่ .claude/brand-spec-win8s.md §2 — ไม่ซ้ำลง
+// ที่นี่โดยตั้งใจ** ค่าที่เพิ่งอยู่ทั้งใบนี้และกวาดออกครบแล้ว (ZORO365):
+//   3ddc4a 35a043 1e7033 0e5424 073c1a 031b09 010d04 002908 eef7f0 dfe6e3 e8c86a
+//   9dc2a5 + rgba(61,220,74) rgba(1,13,4) rgba(232,200,106) rgba(223,230,227)
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep ที่ไล่หาสีเก่า
 // สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
-// ⚠️ **รอบนี้ไม่มีแดง ไม่มีส้ม/พีช ไม่มีฟ้า/ไซแอน/น้ำเงิน ไม่มีชมพู/แมเจนต้า
-// ไม่มีม่วง และไม่มีผิวสว่างเลยสักเฉด** — กิโมโนลายดอกไม้ กอไผ่ ดอกไม้ขาว ชิป
-// คาสิโนเขียว-ขาว มงกุฎทองดวงเล็ก และสีผิวนักแสดงเป็น **วัตถุในภาพ ไม่ใช่สี UI**
-// (เขียว #00B900 ของปุ่ม LINE และเขียว success ของฟีดอยู่ไฟล์อื่น คงไว้)
+// ⚠️ **ซากุระชมพู-ขาว ร่มกระดาษแดง-ขาว กิโมโนแดง-ดำปักทอง ผนังห้องสีขาวงาช้าง
+// และสีผิวนักแสดงเป็นวัตถุในภาพ ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json เท่านั้น
+// (เขียว 00B900 ของปุ่ม LINE และเขียว success ของฟีดอยู่ไฟล์อื่น คงไว้)
 ---
 
 <section class="relative z-10 mx-auto mb-8 w-full max-w-7xl px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#1e7033] bg-gradient-to-br from-[#073c1a] to-[#0e5424] p-8 text-[#eef7f0] shadow-[0_10px_30px_rgba(1,13,4,0.5)] transition-all duration-500 hover:border-[#35a043] hover:shadow-[0_15px_40px_rgba(61,220,74,0.22)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#3ddc4a]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#3ddc4a]/32">
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#5a2410] bg-gradient-to-br from-[#2a0a04] to-[#3b130b] p-8 text-[#fdf0e6] shadow-[0_10px_30px_rgba(20,3,2,0.55)] transition-all duration-500 hover:border-[#8a3a12] hover:shadow-[0_15px_40px_rgba(242,122,26,0.22)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 -z-10 h-48 w-48 rounded-full bg-[#f27a1a]/20 blur-[60px] transition-all duration-500 group-hover:bg-[#f27a1a]/32">
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#e8c86a]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#e8c86a]/30">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 -z-10 h-48 w-48 rounded-full bg-[#e5a92b]/18 blur-[60px] transition-all duration-500 group-hover:bg-[#e5a92b]/30">
     </div>
 
     <div class="grid grid-cols-1 gap-10 md:grid-cols-[7fr_3fr] md:items-center">
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eef7f0]">
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e6]">
         {
           leftHeading && (
             <header class="flex flex-col gap-3">
-              <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#e8c86a]">{leftHeading}</HeadingTag>
-              <div aria-hidden="true" class="h-[3px] w-full rounded-full bg-gradient-to-r from-[#dfe6e3] via-[#3ddc4a] to-[#e8c86a]" />
+              <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#e5a92b]">{leftHeading}</HeadingTag>
+              <div aria-hidden="true" class="h-[3px] w-full rounded-full bg-gradient-to-r from-[#c9d2dc] via-[#f27a1a] to-[#e5a92b]" />
             </header>
           )
         }
         <slot name="left" />
       </article>
 
-      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#eef7f0] md:border-l md:border-[#1e7033] md:pl-10">
-        {titleright && <HeadingTag class="text-center text-xl leading-normal font-black tracking-wide text-[#e8c86a] md:text-left">{titleright}</HeadingTag>}
+      <article class="flex flex-col gap-4 text-left text-base leading-relaxed text-[#fdf0e6] md:border-l md:border-[#5a2410] md:pl-10">
+        {titleright && <HeadingTag class="text-center text-xl leading-normal font-black tracking-wide text-[#e5a92b] md:text-left">{titleright}</HeadingTag>}
         <slot name="right" />
       </article>
     </div>

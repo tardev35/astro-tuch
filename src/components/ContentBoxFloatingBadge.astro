@@ -9,7 +9,7 @@ const { title, as: HeadingTag = "h2" } = Astro.props;
 // sentence, inside a floating badge, and every extra pixel of font size there
 // turns into another wrapped line and another ~27px of card padding. It catches
 // up at md, where the badge is wide enough to afford it.
-// THIS round the box carries the docx **H2 §6**, so the h2 branch is the one
+// THIS round the box carries the docx **H2 §3**, so the h2 branch is the one
 // exercised and the clearance below is derived from that exact sentence.
 const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:text-xl md:text-2xl";
 
@@ -26,20 +26,20 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // `absolute` hairlines, so 100% of the badge's inner width belongs to the title.
 // **Do not reintroduce `whitespace-nowrap` and do not remove the width cap.**
 //
-// BUG 2 OF 2 — **vertical overlap**. BADGE CLEARANCE RE-DERIVED FOR TEVA69
+// BUG 2 OF 2 — **vertical overlap**. BADGE CLEARANCE RE-DERIVED FOR WIN8S
 // (2026-10-28) — **recomputed from this round's own sentence, not inherited.**
-// The title this box carries is docx H2 §6 (content.txt line 13):
-//   "สมัครเล่น <แบรนด์> ไม่มีขั้นต่ำ 3 ขั้นตอน"
-// Its FIVE space-delimited chunks advance 7 / 6 / 7 / 1 / 5 cells of glyph. Thai
-// zero-width marks do NOT advance and are excluded: สมัครเล่น drops ั ่
-// (7 of 9) · ไม่มีขั้นต่ำ drops ่ ี ั ้ ่ (7 of 12) · ขั้นตอน drops ั ้
-// (5 of 7). 26 cells of glyph plus 4 spaces = 30 cells. The worst case assumed
-// below is that the line breaker only breaks at those 4 spaces; Thai dictionary
-// breaking adds break opportunities, and a greedy breaker with MORE
+// The title this box carries is docx H2 §3 (content.txt line 7):
+//   "โปรโมชั่นคาสิโนเว็บ <แบรนด์> โบนัสไม่อั้น"
+// Its THREE space-delimited chunks advance 15 / 5 / 8 cells of glyph. Thai
+// zero-width marks do NOT advance and are excluded: โปรโมชั่นคาสิโนเว็บ drops
+// ั ่ ิ ็ (15 of 19) · the brand token is 5 latin cells · โบนัสไม่อั้น drops
+// ั ่ ั ้ (8 of 12). 28 cells of glyph plus 2 spaces = 30 cells. The worst case
+// assumed below is that the line breaker only breaks at those 2 spaces; Thai
+// dictionary breaking adds break opportunities, and a greedy breaker with MORE
 // opportunities can only ever pack the same text into the same or fewer lines.
-// ⚠️ The widest single chunk is 7 cells, and that is the number that decides
+// ⚠️ The widest single chunk is 15 cells, and that is the number that decides
 // whether anything can overflow SIDEWAYS. The narrowest band fits 22 at
-// text-lg, so there are 15 cells of margin even before dictionary breaking —
+// text-lg, so there are 7 cells of margin even before dictionary breaking —
 // nothing in this title can break out of the badge.
 //
 // Badge height = (line-height x wrapped lines) + py-2.5 (20px) + border-2 (4px),
@@ -48,124 +48,79 @@ const headingSize = HeadingTag === "h1" ? "text-lg sm:text-2xl" : "text-lg sm:te
 // - horizontal padding - border:
 //   base 320px  card 288, badge 92% = 265, -px-4 32 -border 4 -> 229px.
 //               text-lg 18px -> ~10.4px/cell = 22 cells/line, 27px/line.
-//               Greedy at the 4 spaces: 7+1+6+1+7 = 22 fits exactly (adding
-//               1+1 -> 24 overflows), then 1+1+5 = 7       -> 2 lines.
-//               2x27 + 24 = 78, edge 54 vs pt-36/144px     -> 90px clear
+//               Greedy at the 2 spaces: 15+1+5 = 21 fits (adding 1+8 -> 30
+//               overflows), then 8                           -> 2 lines.
+//               2x27 + 24 = 78, edge 54 vs pt-36/144px       -> 90px clear
 //               Budgeting a PESSIMISTIC 4 lines in case a font metric lands a
-//               cell over: 4x27 + 24 = 132, edge 108 vs 144 -> 36px clear
+//               cell over: 4x27 + 24 = 132, edge 108 vs 144  -> 36px clear
 //   sm  640px   badge 92% of 608 = 559, -px-8 64 -border 4 -> 491px.
 //               text-xl 20px -> ~11.6px/cell = 42 cells/line, 30px/line.
-//               Greedy: all 30 cells fit                    -> 1 line.
-//               1x30 + 24 = 54, edge 30 vs 144              -> 114px clear
-//               Budget 2 = 2x30 + 24 = 84, edge 60 vs 144   -> 84px clear
+//               Greedy: all 30 cells fit                     -> 1 line.
+//               1x30 + 24 = 54, edge 30 vs 144               -> 114px clear
+//               Budget 2 = 2x30 + 24 = 84, edge 60 vs 144    -> 84px clear
 //   md  768px+  badge hits max-w-2xl/672, text 672 - 64 - 4 = 604px.
 //               text-2xl 24px -> ~13.9px/cell = 43 cells/line, 36px/line.
-//               Greedy: 30 of 43                            -> 1 line.
-//               1x36 + 24 = 60, edge 36 vs 144              -> 108px clear
-//               Budget 2 = 2x36 + 24 = 96, edge 72 vs 144   -> 72px clear
+//               Greedy: 30 of 43                             -> 1 line.
+//               1x36 + 24 = 60, edge 36 vs 144               -> 108px clear
+//               Budget 2 = 2x36 + 24 = 96, edge 72 vs 144    -> 72px clear
 // The base band is the binding one: the realistic 2-line case clears by 90px
 // and even the pessimistic 4-line budget clears by 36px, so **pt-36 stays**.
 // Do NOT shrink it because THIS round's title happens to need only one line at
 // md; redo the arithmetic with the next brand's real docx sentence.
 //
-// รอบนี้หน้าแรกส่ง **docx H2 §6** มาให้ใบนี้ พร้อมย่อหน้านำของมัน (บรรทัด 14) และ
-// **สามขั้นตอนจากบรรทัด 15-20** ⚠️ บรรทัด 15/17/19 ของบรีฟ **ไม่มี prefix H**
-// หน้าเพจจึง render เป็น `<p class="font-bold">` **ไม่ใช่ heading** — ถ้าทำเป็น
-// heading จะได้ h3 เกินเป้าของ brand-spec §4 ทันที
-// กฎบ้าน "หนึ่งสล็อตรับ element เดียว" ยังเป็นจริง: หน้าเพจห่อทั้งก้อนไว้ใน
-// <div class="flex flex-col gap-4"> ใบเดียวก่อนส่งเข้าสล็อต
+// รอบนี้หน้าแรกส่ง **docx H2 §3** มาให้ใบนี้ พร้อมย่อหน้าเดียวของมัน (บรรทัด 8)
+// เข้า default slot ใบเดียว ตามกฎบ้าน "หนึ่งสล็อตรับ element เดียว"
+// หัวข้อมาจาก prop เท่านั้น — **ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้**
 //
 // ───────────────────────────────────────────────────────────────────────────
-// TEVA69 (ดรอป 2026-10-28, .claude/brand-spec-teva69.md §2) —
-// **เขียวป่านำ · หมึกเขียวจมเป็นเนื้อความ · บนพื้นขาวอมมิ้นต์จางสว่าง**
-// กล่องนี้ถือ **docx H2 §6** จึงเดินสาขา h2 ด้านบน หัวข้อมาจาก prop เท่านั้น —
-// **ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้**
+// พาเลตรอบนี้ตาม .claude/brand-spec-win8s.md §2 — **ส้มเพลิงนำ · ทองอำพัน/เงิน
+// โครเมียมเป็นวัสดุรอง · มืดทั้งเว็บ**
+// 🚨🚨 ไฟล์นี้มาถึงรอบนี้ยังเป็น **เขียวป่าบนการ์ดขาวของ TEVA69** ทั้งใบ
+// (28c437 116018 0b4a12 1a7d24 b2dba3 e3bb45 ffffff e6f7df 10280f f0ffeb 3f7a2e)
+// จึงรีเธมทั้งไฟล์ และ **กลับทิศ 180° เป็นผิวเข้ม** พื้นเพจรอบนี้คือ 1e0101 จาก
+// bg.json **ห้ามแก้การ์ดใบนี้กลับไปเป็นพื้นขาวเด็ดขาด** — หมึก fdf0e6 บนพื้นขาว
+// คือตัวอักษรหายไปเลย ไม่ใช่แค่จางลง และขาวเป็นพื้นถมใหญ่บนธีมมืด = จอสว่างแปลบ
 //
-// 🚨🚨 **ธีมสว่าง** — bg.json = {"mode":"color","color":"#f0ffeb"} **ขาวอมมิ้นต์จาง**
-// (รอบก่อนทันที LOTTO189 เป็น fff0f0 ขาวอมชมพูจาง — **คนละค่า เปิด bg.json ทุกรอบ**)
-// ลำดับความลึก: #ffffff การ์ด / #e6f7df ยก / #d7f0cd wash / #f0ffeb พื้นเพจ ·
-// หมึกเนื้อความ **#10280f** (= BRAND_TEXT, 15.8:1 บนปลายขาวของการ์ดใบนี้ ·
-// 14.1:1 บนปลายผิวยก) **ห้าม "แก้" การ์ดไปเป็นพื้นมืด** — หมึกนี้บนพื้นมืด
-// คือตัวอักษรหายไปเลย
+// จุดต่างของใบนี้บนหน้าเดียวกันคือ **ป้ายลอย -top-6 เป็นแคปซูลพื้นดำลึกไล่สมมาตร
+// ขอบทอง หมึกทองอำพัน พร้อมเส้นไรผมนอนบน-ล่าง** ซึ่งอ่านมาจากอาร์ตเวิร์กจริงที่มี
+// **แถบแคปซูลพื้นดำขอบทองพิมพ์อยู่บนโปสเตอร์ทั้งสองใบ** และไม่มีกล่องอื่นบนหน้านี้
+// ทำแบบนี้ (§1 แผ่นถมส้มชิดซ้าย w-fit · §2 แผ่นนูนไม่มีกรอบ clip-text · §4 ทองทึบ
+// ชิดซ้าย + เส้นใต้สามสต็อป · §5 ส้มทึบ + แถบตั้ง · §6 มุมตัด 30px clip-text ·
+// §7 มุมตัดกลับทิศ เงินทึบจัดกึ่งกลาง · §8 FAQ)
+// และเป็นใบเดียวที่ผิวการ์ดเป็น **ไล่เฉด 2a0a04 -> 3b130b**
 //
-// จุดต่างของใบนี้บนหน้าเดียวกันคือ **ป้ายลอย -top-6 เป็นแผ่นถมเขียวป่าสมมาตร
-// มุม rounded-xl หมึกขาว พร้อมเส้นไรผมนอนบน-ล่าง** ซึ่งไม่มีกล่องอื่นบนหน้านี้ทำ
-// (§1 เป็นมุมตัดเฉียงหัวข้อบนสันซ้าย · §2 เป็นแคปซูล rounded-full เส้นตั้งคู่ ·
-// §3 เป็น ContentBox ฐานหัวข้อในสายปกติ · §4 เป็นแผ่นถมโครมเข้ม rounded-lg ·
-// §5 เป็นหัวข้อบนเส้นคาดเต็มคอลัมน์ · §7 เป็นหัวข้อคร่อม border-y · §8 เป็น FAQ
-// ที่ไม่มีการ์ดครอบ) และเป็นใบเดียวที่ผิวการ์ดเป็น **ไล่เฉด #ffffff → #e6f7df**
-// ไล่เฉดของแผ่นป้ายเดินเป็นคู่สมมาตร **เขียวป่า #116018 → เขียวลึก #0b4a12 →
-// #116018** ซึ่งกลับทิศจาก §2 ที่ไล่ทางเดียว #1a7d24 → #0b4a12
-// 🚨🚨 **หมึกบนแผ่นถมเขียวคือ #ffffff เสมอ (7.8:1 ใต้ #116018 · 10.5:1 ใต้
-// #0b4a12) และนั่นคือเหตุผลที่สต็อปสว่างสุดของป้ายเป็น #116018 ไม่ใช่ #28c437** —
-// §2 ระบุชัดว่าขาวบน #28c437 ได้แค่ 2.3:1 ซึ่งตกเกณฑ์ **ห้ามเลื่อนสต็อปให้สว่าง
-// กว่านี้เด็ดขาด**
-// ⚠️ **เขียวสด #28c437 (2.3:1 บนผิวสว่าง) และทองอำพัน #e3bb45 (2.0:1) เป็นขอบ/
-// พื้นถม/ออราเท่านั้น ห้ามถือตัวอักษรเด็ดขาด** ที่นี่มันอยู่ที่ขอบของแผ่นป้าย
-// ออรามุมขวาบน/ซ้ายล่าง และเส้นไรผมบนป้าย ซึ่งเป็นเส้น/พื้นล้วน
-// ⚠️ **#b2dba3 #d7f0cd #e6f7df #f0ffeb #c6cfd2 ห้ามถือตัวอักษรบนผิวสว่าง** และ
-// **#3f7a2e เป็นเส้น/ขอบเท่านั้น**
-// ⚠️ **#116018 ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้ และป้าย
-// "ขั้นตอนที่ 1/2/3" ของหน้าเพจก็เป็น #116018 เช่นกัน โดยเป็น `<p class="font-bold">`
-// ไม่ใช่ heading
-// rgba() ที่อนุญาตรอบนี้: rgba(17,96,24,α) · rgba(11,74,18,α) · rgba(26,125,36,α) ·
-// rgba(40,196,55,α) · rgba(16,40,15,α) · rgba(227,187,69,α) · rgba(11,42,18,α)
+// บทบาทสีในไฟล์นี้:
+//   ผิวการ์ด ไล่ 2a0a04 -> 3b130b · กรอบการ์ด 5a2410
+//   แคปซูลป้าย ไล่สมมาตร **140302 -> 250604 -> 140302** ขอบ 8a3a12
+//   🚨🚨 **หมึกบนแคปซูลคือทองอำพัน e5a92b เสมอ** (≈9.5:1 บนทั้งสองสต็อป) —
+//     **ห้ามวางหมึกขาวบนไล่เฉด CTA ส้ม (2.8:1)** และที่นี่ไม่มีพื้นส้มถมเลย
+//   ออรามุมขวาบน f27a1a จาง มุมซ้ายล่าง e5a92b จาง — **พื้นถม ไม่ใช่ตัวอักษร**
+//   หมึกเนื้อความ fdf0e6 (= BRAND_TEXT) 16.4:1 บนปลายสว่างของการ์ด
+// 🚨🚨 **5a2410 และ 8a3a12 ห้ามถือตัวอักษรทุกบริบท** — เส้น/ขอบ/ออรา/พื้นถมเท่านั้น
+// ⚠️ **f27a1a ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้
+// rgba() ที่อนุญาตรอบนี้: rgba(242,122,26,α) · rgba(229,169,43,α) ·
+// rgba(138,58,18,α) · rgba(30,1,1,α) · rgba(20,3,2,α)
 //
-// ⚠️⚠️ เทียบสีเป็น **"ค่า"** ไม่ใช่ "ตระกูลสี" — **เขียวเคยนำมาแล้วหลายแบรนด์ใน
-// รีโปนี้ และเขียวคือสีที่ตาแยกค่าได้ยากที่สุด** การเจอ "เขียว" ในไฟล์นี้จึงไม่พิสูจน์
-// อะไรเลย เขียวรอบนี้คือ **#116018 (R17 G96 B24)** · **#0b4a12** · **#1a7d24** ·
-// **#28c437** · **#3f7a2e** · **#b2dba3** วัดตรงจาก logo.webp/banner1/slide1 ของดรอปนี้
-// ⚠️⚠️ **LOTTO189 คือแบรนด์ขาออก = เสี่ยงหลงเหลือสูงสุด** (แดงเลือดนก + ทองอำพัน
-// บนขาวชมพู): fff0f0 ffe4e6 ffd4d7 f5b9bd a8333f 25090f 6e3b44 b00718 c1071b 8a0412
-// 8f6310 d61023 ff2436 e9b53c 24060c 3d0d16 120307 7e1221 ffeaea f0bcbc c3ccd6
-// **e9b53c ↔ e3bb45 · c3ccd6 ↔ c6cfd2 · 8f6310 ↔ 8a6a0e — สามคู่ที่ใกล้ที่สุด**
-// ชุดที่เคยอยู่ในไฟล์นี้ทั้งใบและถอดออกครบแล้ว: **หมูบิน168** ชมพูแคนดี้-พลัม
-// (fa539c c2185b 8e0f41 fb8cc0 fdc6c3 ffd1cd f7bcd9 ef8dbd ffe5ff fff0f8 ffeef7
-// 3b0b26 54123a 7a2350 + rgba 250/83/156, rgba 194/24/91, rgba 59/11/38,
-// rgba 253/198/195) · **สล็อต168** (fb2e33 cb0b0d d81115 b00d11 8a0608 f0e6e4 c9b9b7
-// e3d6d4 7d6f6e 140000 0b0000 1c0607 2a0c0d 551c1e) · **รวย168** (ffd94a e3a712
-// 9d6f06 e8eaee b4b9c2 6b7079 f3ece0 121110 1c1a16 070707 3d3425) · **นาซ่า168**
-// (1fd8f0 0bb6d4 8fd9ec 1d4fd8 143aa0 e6edf8 9fb2cb 273449 1b2434 121722 0d1017) ·
-// **เงินทอง168** (f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f 3d3016 332810 201906)
-// ⚠️⚠️ **เขียวของแบรนด์อื่น — ตระกูลเดียวกับรอบนี้ ต้อง grep ทีละตัวอักษร**:
-// 8ce023 e9f7d6 bde397 1a5c04 2f8c07 051400 0f2e05 06220a a87a08 f2c230 ffe066
-// (**KINGKONG555** — **e9f7d6 ↔ e6f7df ต่างแค่สลับสองหลักท้าย · bde397 ↔ b2dba3 ·
-// 1a5c04 ↔ 1a7d24 ขึ้นต้น 1a เหมือนกันเป๊ะ**) · 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c
-// (**สาธุ168** — **0b7d28 ↔ 0b4a12 ขึ้นต้น 0b เหมือนกันเป๊ะ**) · 1fae1c 0d2312
-// 143a1c 07130a e8e4c6 (**888PARUAY**) · 117a41 2bb061 2fbf6a
-// (**MEXICANOSLOT/KOON234** — **2bb061 ↔ 28c437**)
-// ⚠️ ม่วง/ฟ้าของแบรนด์อื่น — **รอบนี้ไม่มีเลยสักเฉด**: 7a1bd6 2b3fd9 c2178b f23bb4
-// bb6dff 7aa7ff 5411c4 241046 f8e6f9 f6edfe ece0fb dcc6f4 190b3d (ZANE96) ·
-// 00bfff 12b4ef b6e3f0 06283f 0b4a73 2a87c4 eaf7ff (โบ๊ะบ๊ะ168) · 18a5e2 0d6b9b
-// a9d7f2 111a3f (ร่ำรวย168) · 1177e8 0e68cc 0a4ea8 00091f 0b1733 16234a (มาดาม168)
-// ⚠️ ทอง/ส้ม/ครีมของแบรนด์อื่น — **รอบนี้มีแต่ทองอำพัน #e3bb45 ที่เป็นเครื่องประดับ
-// และทองเข้ม #8a6a0e ที่ถือตัวอักษรได้ ไม่มีค่าอื่น**: 2a1206 7a3a0c fff3e0 e0b784
-// fffbf0 fff4e0 ffe9c7 f3d9a8 c98a24 c23400 b8300a d13800 fa4903 fde90b e8a000
-// ff8a2b (ZNOVA168) · de2b1e f2a033 a81410 c81e12 9d140c 3f130d fdeee2 fff3ea
-// fed7b5 fec28d (MEXICANOSLOT) · ffd84d f5ba14 fcee52 b37c0b eeae12 fded41 fcd434
-// fdcb0c fee45d e5a81b e3b23c f9a826 ffc82e dcb95f f0c878 f0b46a fbc134 cf9a18
-// ⚠️ แรมป์เทาเงิน/ครีมของแบรนด์อื่น — **รอบนี้มีแต่ #c6cfd2 ซึ่งอยู่บนโครมเข้ม
-// เท่านั้นและไม่อยู่ในไฟล์นี้เลย**: e0e0df c0c0bf a1a09e e8ecf1 a8b2bf 78828f
-// 8792a0 b9c2cc cfd9e6 fdfcfd b4bcc2 eceaea cfdcec 9db4d4 f4ead6 d6c6a8 f3ece0
-// bfb8aa ecd5c4 d2b9a4 d9dfe9 b3bdd6 f4eef1 f3f6fa d8bda6
-// (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️⚠️ **รอบนี้ไม่มีแดง ไม่มีม่วง/ไวโอเลต ไม่มีน้ำเงิน/ฟ้า/ไซยาน ไม่มีส้ม ไม่มีชมพู
-// ไม่มีครีม และไม่มีน้ำตาล** — หญิงสาวสวมสูทขาว ห้องสีขาวครีม ชิปคาสิโนเขียวเข้ม
-// มงกุฎทองดวงเล็ก และต้นไม้ในกระถางในอาร์ตเวิร์กเป็น **วัตถุในภาพ ไม่ใช่สี UI**
+// ⚠️⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — ZNOVA168 (น้ำตาลเข้ม/อำพัน) อยู่
+// ตระกูลเดียวกับรอบนี้เป๊ะ **ลิสต์เฮกซ์เต็มของทุกแบรนด์อยู่ที่
+// .claude/brand-spec-win8s.md §2 — ไม่ซ้ำลงที่นี่โดยตั้งใจ**
+// ⚠️⚠️ **ห้ามสับสนเขียวป่าที่กวาดออกจากไฟล์นี้กับเขียว success ของฟีดถอนเงินและ
+// เขียว 00B900 ของปุ่ม LINE** — สองตัวหลังเป็นสีเชิงความหมาย อยู่ไฟล์อื่น และคงไว้
+// (เขียนเฮกซ์เก่าแบบไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep สะดุดที่คอมเมนต์ของไฟล์นี้เอง)
 ---
 
 <section class="my-10 flex w-full justify-center px-4 font-sans">
   <div
-    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#b2dba3] bg-gradient-to-b from-[#ffffff] to-[#e6f7df] p-8 pt-36 text-left text-base leading-relaxed text-[#10280f] shadow-[0_10px_30px_rgba(17,96,24,0.14)]">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#28c437]/18 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e3bb45]/45 blur-[60px]"></div>
+    class="relative isolate w-full max-w-[1400px] rounded-2xl border-2 border-[#5a2410] bg-gradient-to-b from-[#2a0a04] to-[#3b130b] p-8 pt-36 text-left text-base leading-relaxed text-[#fdf0e6] shadow-[0_10px_30px_rgba(20,3,2,0.55)]">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-10 -z-10 h-40 w-40 rounded-full bg-[#f27a1a]/18 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-16 -left-10 -z-10 h-40 w-40 rounded-full bg-[#e5a92b]/25 blur-[60px]"></div>
 
     {
       title && (
-        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#28c437] bg-gradient-to-r from-[#116018] via-[#0b4a12] to-[#116018] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(17,96,24,0.35)] sm:px-8">
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#28c437] to-transparent" />
-          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#0b4a12] to-transparent" />
-          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-white`}>{title}</HeadingTag>
+        <div class="absolute -top-6 left-1/2 isolate flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl border-2 border-[#8a3a12] bg-gradient-to-r from-[#140302] via-[#250604] to-[#140302] px-4 py-2.5 text-center shadow-[0_10px_30px_rgba(20,3,2,0.6)] sm:px-8">
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#e5a92b] to-transparent" />
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[3px] bg-gradient-to-r from-transparent via-[#8a3a12] to-transparent" />
+          <HeadingTag class={`${headingSize} leading-normal font-black tracking-tight text-[#e5a92b]`}>{title}</HeadingTag>
         </div>
       )
     }
