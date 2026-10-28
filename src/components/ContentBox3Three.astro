@@ -40,97 +40,115 @@ const hasIntro = Astro.slots.has("default");
 // flattened (each <article> carries the text classes and the slot is a direct
 // child) — do not re-add a wrapper <div> inside a column.
 //
-// รอบนี้หน้าแรกให้ใบนี้ถือ **docx H2 §7** ("<แบรนด์> มีแอดมินออนไลน์ตลอด 24ชม." —
-// content.txt บรรทัด 21) โดยแบ่งย่อหน้าเดียวของบรีฟ (บรรทัด 22) เป็นสามช่วงประโยค
-// ลงสามคอลัมน์ ⚠️ บรีฟรอบนี้ **ไม่มี sub-list ใต้หัวข้อไหนเลยนอกจาก §6** หน้าเพจ
-// จึงไม่ส่ง titleleft/titlecenter/titleright และไม่ส่ง intro มา — `heading` คงค่า
-// false และกล่องนี้ปล่อยหัวข้อออกมาใบเดียว ไอคอนสามใบจึงไม่ถูก render รอบนี้
-// (มันอยู่ในป้ายคอลัมน์) โค้ดคงไว้ให้แบรนด์ถัดไป
+// LOTTOPLUS (ดรอป 2026-10-28, .claude/brand-spec-lottoplus.md §2–§4): รอบนี้หน้าแรก
+// ให้ใบนี้ถือ **docx H2 §6** ("สมัครแทงหวย <แบรนด์> ครบทุกประเภท" — content.txt
+// บรรทัด 13) โดย intro (บรรทัด 14) เข้า default slot และ **สามขั้นตอน (บรรทัด
+// 15–20)** เข้า left/center/right
+// 🚨 บรรทัด 15/17/19 ของบรีฟ (`ขั้นตอนที่ 1/2/3`) **ไม่มี prefix H ในบรีฟ** หน้าแรก
+// จึงส่งเข้า titleleft/titlecenter/titleright โดย **ไม่ส่ง `heading`** → `heading`
+// คงค่า false → LabelTag เป็น `p` และกล่องนี้ปล่อยหัวข้อออกมา **ใบเดียว**
+// **ห้ามเลื่อนป้ายสามใบขึ้นเป็น heading** ไม่ว่าจะด้วยเหตุผลใด
 // หัวข้อมาจาก prop เท่านั้น — ห้าม hardcode ข้อความไทยเป็น heading ในไฟล์นี้
 //
 // ───────────────────────────────────────────────────────────────────────────
-// MEXICANOSLOT (ดรอป 2026-10-24) — พาเลตตาม .claude/brand-spec-mexicanoslot.md §2
-// **แดงเม็กซิกันนำ · ทอง/พีชฟางเป็นวัสดุที่สอง · เขียวเม็กซิกันแอคเซนต์ · ธีมสว่าง**
-// ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **ฟ้าไซยาน-ครีมบนธีมสว่างของ ร่ำรวย168** ทั้งใบ
-// จึงรีเธมทั้งไฟล์ **รอบนี้ยังเป็นธีมสว่างเหมือนกัน แต่คนละค่าทุกตัว** พื้นเพจ
-// #fef6fb (bg.json) = ขาวอมชมพูจาง **ห้ามเหลือฟ้า/ไซแอน/น้ำเงิน และครีมเย็นไว้
-// เลยสักค่า** และ **ห้ามแก้การ์ดให้มืดตามโครม** (navbar/footer รอบนี้เป็นผิวเข้ม
-// #2b100a แต่ไฟล์นี้เป็นการ์ดเนื้อหา — หมึก #3f130d บนพื้นมืดจะหายไปเลย)
-// ลำดับผิว: **#ffffff การ์ด (ใบนี้)** · **#fff3ea ผิวยก (สามคอลัมน์อินเซ็ต)** ·
-// #fde4d3 wash · #fef6fb พื้นเพจ
+// 🚨🚨 **ธีมเนื้อหาสว่าง และรอบนี้กลับทิศ 180° จากรอบก่อน** — bg.json ของดรอปนี้คือ
+// {"mode":"color","color":"#e1fef3"} = เขียวมินต์จางเกือบขาว (รอบก่อน WIN8S เป็น
+// 1e0101 ดำอมเลือดหมู = มืดทั้งเว็บ) ⚠️⚠️ ไฟล์นี้มาถึงรอบนี้ยังเป็น **แดง/ส้ม
+// เม็กซิกันบนธีมสว่างของ MEXICANOSLOT** ทั้งใบ จึงรีเธมทั้งไฟล์ **รอบนี้ยังเป็นธีม
+// สว่างเหมือนกัน แต่คนละค่าทุกตัว** **ห้ามเหลือแดง/ส้ม/พีช/ครีมไว้เลยสักค่า** และ
+// **ห้ามแก้การ์ดให้มืดตามโครม** (navbar/footer รอบนี้เป็นผิวเข้ม #052e22 ก็จริง
+// แต่ไฟล์นี้เป็นการ์ดเนื้อหา — หมึก #0d3326 บนพื้นมืดจะหายไปเลย)
+// ลำดับผิว: **#ffffff การ์ด (ใบนี้)** · **#f0fdf7 ผิวสำรอง (สามคอลัมน์อินเซ็ต)** ·
+// #d2f3e4 ชั้นยก/พื้นถมอ่อน · #a3ddc3 เส้นบาง · #e1fef3 พื้นเพจ
 //
 // จังหวะรูปทรงของใบนี้: เป็นใบเดียวของหน้าที่ **หัวข้อคร่อมด้วยเส้นคาดเต็มความกว้าง
 // ทั้งบนและล่าง** (border-y) โดยไม่มีขีดสั้นใต้ตัวอักษร และเป็นใบเดียวของหน้าที่
-// **คอลัมน์เป็นการ์ดอินเซ็ต #fff3ea ซ้อนอยู่ในการ์ดขาว** ⚠️ §3 (ContentBox ตัวฐาน)
-// ใช้หัวข้อชิดซ้าย + ขีดสั้น w-20 และ §4 ใช้เส้นใต้สามสต็อปเต็มคอลัมน์ — สามใบนี้
-// จึงไม่อ่านซ้ำกัน
-// หัวข้อเป็น **แดงลึก #a81410 ทึบสีเดียว ไม่ไล่เฉด** (7.6:1 บนผิวขาว)
+// **คอลัมน์เป็นการ์ดอินเซ็ต #f0fdf7 ซ้อนอยู่ในการ์ดขาว** ⚠️ §3 ใช้มุมตัดเฉียงกับ
+// สันซ้ายหนา · §5 ใช้เส้นคาดใต้หัวข้อเต็มคอลัมน์ · §7 ใช้เส้นคู่บน-ล่างเหมือนกัน
+// **แต่เป็นการ์ดซ้อนการ์ดบนผิวยก #d2f3e4 และมีแค่สองคอลัมน์** — สามใบนี้จึงไม่
+// อ่านซ้ำกัน
+// หัวข้อเป็น **เขียวมรกต #046c4e ทึบสีเดียว ไม่ไล่เฉด** (6.70:1 บนผิวขาว)
 // ⚠️ ไม่ใช้ bg-clip-text ที่นี่โดยตั้งใจ: ไล่เฉดบนพื้นสว่างจะลากค่าที่ §2 ห้ามถือ
-// ตัวอักษร (#de2b1e ที่ 4.0:1 บนขาว) เข้ามาเป็นพิกเซลของตัวอักษรได้ง่ายเกินไป
-// เส้นคาดบน-ล่างเป็น **พื้นถม ไม่ใช่ตัวอักษร** #f6c4a4 จึงใช้ได้
-// ป้ายสามคอลัมน์ (ถ้าแบรนด์ถัดไปส่งมา) เป็น #a81410 — 7.2:1 บนผิวอินเซ็ต #fff3ea
-// และเลขลำดับ/ไอคอนอยู่บน **แผ่นถมทอง** ไล่ #fed7b5 → #f2a033 บนหมึก **#3f130d**
-// ซึ่งเป็นสูตร "ปุ่มรอง/ปุ่มเน้นบนผิวสว่าง" ของ §2 (11.1:1 บน #fed7b5 · 6.9:1 บน
-// #f2a033) **ห้ามพลิกแผ่นนี้ไปใช้หมึกขาว** (§2 ห้ามขาวบนทองไว้ชัด)
-// ออรามุมขวาบนเป็นแดงเม็กซิกัน #de2b1e มุมซ้ายล่างเป็นพีชฟาง #fed7b5 — ทั้งสองชั้น
-// เป็น **ออราเบลอใต้ -z-10 ไม่มีตัวอักษรวางทับ** ซึ่งเป็นงานเดียวที่ §2 ยอมให้
-// #de2b1e ทำบนพื้นสว่าง เนื้อความ #3f130d (= BRAND_TEXT) — 14.9:1 บนผิวขาว ·
-// 14.0:1 บนผิวอินเซ็ต #fff3ea
-// ⚠️ §2 ห้าม #fff3ea/#fde4d3/#fef6fb/#f6c4a4/#e2855c/#fed7b5/#fec28d/#f2a033/
-// #de2b1e ถือตัวอักษร · **#a81410 ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ**
-// ไม่ใช่ของไฟล์นี้ · **#f2543f และ #2bb061 เป็นสีของโครมเข้มเท่านั้น**
+// ตัวอักษร (#19a97c ที่ 3.0:1 บนขาว) เข้ามาเป็นพิกเซลของตัวอักษรได้ง่ายเกินไป
+// เส้นคาดบน-ล่างเป็น **พื้นถม ไม่ใช่ตัวอักษร** #a3ddc3 จึงใช้ได้
+// ป้ายสามคอลัมน์เป็น #046c4e — ~6.5:1 บนผิวอินเซ็ต #f0fdf7
+// และเลขลำดับ/ไอคอนอยู่บน **แผ่นถมทอง** ไล่ #d2f3e4 → #e2b32a บนหมึก **#0d3326**
+// ซึ่งเป็นสูตร "ปุ่มทอง" ของ §2 (ทองเป็น **พื้น** ไม่ใช่หมึก — ~12:1 บน #d2f3e4 ·
+// 8.4:1 บน #e2b32a) **ห้ามพลิกแผ่นนี้ไปใช้หมึกขาว** (ขาวบน #e2b32a ได้ 2.0:1)
+// ออรามุมขวาบนเป็นเขียวสด #19a97c มุมซ้ายล่างเป็นออราสว่าง #2fd49b — ทั้งสองชั้น
+// เป็น **ออราเบลอใต้ -z-10 ไม่มีตัวอักษรวางทับ** ซึ่งเป็นงานเดียวที่ §2 ยอมให้สอง
+// ค่านั้นทำบนพื้นสว่าง เนื้อความ #0d3326 (= BRAND_TEXT) — 13.82:1 บนผิวขาว ·
+// ~13.3:1 บนผิวอินเซ็ต #f0fdf7
+// ⚠️ §2 ห้าม #f0fdf7/#d2f3e4/#e1fef3/#a3ddc3/#19a97c/#2fd49b/#e2b32a ถือตัวอักษร ·
+// **#046c4e ในเนื้อความเป็นงานของ <strong> บนหน้าเพจ** ไม่ใช่ของไฟล์นี้ ·
+// **#052e22 / #03201a / #0a4433 / #c8d4d0 เป็นสีของโครมเข้มเท่านั้น** ·
+// ทองที่ถือตัวอักษรบนผิวสว่างได้คือ **#8a6508** เท่านั้น
+// ⚠️ **เงาบนการ์ดสว่างต้องเบา**: rgba(13,51,38,0.10) · hover rgba(4,108,78,0.18)
+// rgba() ที่อนุญาตรอบนี้: rgba(4,108,78,α) · rgba(25,169,124,α) · rgba(47,212,155,α) ·
+// rgba(226,179,42,α) · rgba(13,51,38,α) · rgba(5,46,34,α) · rgba(3,32,26,α)
 //
-// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — แดง/ชมพูเคยนำมาแล้วหลายแบรนด์ในรีโปนี้
-// การเจอแดงในไฟล์นี้จึงไม่พิสูจน์อะไรเลย แดงรอบนี้คือ **#de2b1e (R222 G43 B30)**
-// กับ **#a81410 / #c81e12 / #9d140c / #6f0e08**
-// ไฟล์นี้เพิ่งค้างชุด **ฟ้าไซยาน-ครีมธีมสว่างของ ร่ำรวย168** ไว้ทั้งใบ
-// (18a5e2 0d6b9b 0a5176 a9d7f2 16294a 111a3f dbe6ff eef4ff dce9fb f4e4d3 e4cbb3)
-// ออกครบแล้ว เช่นเดียวกับ **okkub88 (แบรนด์ขาออก เสี่ยงหลงเหลือสูงสุด)** (ffd6fa
-// fff4fb ffe3f5 f9b2d9 f479b9 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2 d91a73
-// b01160 85094a) **โบ๊ะบ๊ะ168** (00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0f5684
-// 1a6ea8 e4f6fb f0faff) **สบาย168** (2cc3fc 6bdcfb 0a7fbd 063a57 9ae0fa fdcb0c
-// fefb6b) **สบายเบท168** (2f9ff5 a8dcff d6ecff 0b3f78 ffc82e) **นินจา168** (32bcfb
-// a9e9ff fef54b 07335f) **รวยแทร่168** (039cfa 0494f5 c3ebfc f9a826) **TSDET911**
-// (0360f3 0292fb 6ec8ff cfdcec 9db4d4) **เงินทอง168** (f5ba14 fcee52 b37c0b ecd5c4
-// d2b9a4 29210f) **พักยก168** (eeae12 fded41 9f600d e0e0df c0c0bf a1a09e f4ead6)
-// **รวยแท้168** (c30303 8f0505 e81313 dcb95f b8862b 96681f)
-// 🚨 แดงของแบรนด์อื่นที่ต้องเทียบทีละค่า: fb2e33 cb0b0d d81115 b00d11 8a0608 1c0607
-// (สล็อต168 — ⚠️⚠️ **fb2e33 ↔ #de2b1e · cb0b0d / b00d11 ↔ #c81e12 / #a81410**) ·
-// ff2e52 e01238 c9102f (มาดาม168) · d9212a 8e1a16 f0c878 (ดวงเศรษฐี168) ·
-// fb141b ff5f63 (GT66B) · eb0305 b44c06 f0b46a (NavbarStyle4) ·
-// fa539c c2185b 8e0f41 fb8cc0 f7bcd9 ffe5ff fff0f8 ffeef7 3b0b26 (หมูบิน168)
+// ⚠️ **เทียบสีเป็น "ค่า" ไม่ใช่ "ตระกูลสี"** — เขียวเคยนำมาแล้วหลายแบรนด์ในรีโปนี้
+// การเจอเขียวในไฟล์นี้จึงไม่พิสูจน์อะไรเลย เขียวรอบนี้คือ **046c4e (R4 G108 B78)**
+// กับ **0c7c58 / 03543c / 19a97c / 2fd49b / a3ddc3 / d2f3e4 / f0fdf7 / e1fef3**
+// ไฟล์นี้เพิ่งค้างชุด **แดง/ส้มเม็กซิกันธีมสว่างของ MEXICANOSLOT** ไว้ทั้งใบ
+// (de2b1e f2a033 a81410 c81e12 9d140c 6f0e08 3f130d 2b100a f6c4a4 fed7b5 fec28d
+// e2855c fde4d3 fff3ea fef6fb f2543f 117a41 2bb061) ออกครบแล้ว เช่นเดียวกับ
+// **WIN8S (แบรนด์ขาออกทันที เสี่ยงหลงเหลือสูงสุด)** (1e0101 2a0a04 3b130b 5a2410
+// 8a3a12 250604 140302 fdf0e6 e0bda4 f27a1a e5a92b c9d2dc) **123BET** (a30d1a 8a1420
+// c21325 36080f 6b2b33 7a4a0c dca53a d2d7dd fdf5f6 f7dfe4 eec3cc d98fa0 f7e4e9)
+// **LOTTO189** (fff0f0 ffe4e6 ffd4d7 f5b9bd a8333f 25090f 6e3b44 b00718 c1071b
+// 8a0412 d61023 ff2436 e9b53c c3ccd6) **ร่ำรวย168** (18a5e2 0d6b9b 0a5176 a9d7f2
+// 16294a 111a3f dbe6ff eef4ff dce9fb f4e4d3 e4cbb3) **okkub88** (ffd6fa fff4fb
+// ffe3f5 f9b2d9 f479b9 6a0f3c 95486b 9c0f55 fb439b fc74b5 ffc2e2 d91a73 b01160
+// 85094a) **โบ๊ะบ๊ะ168** (00bfff 12b4ef b6e3f0 7fcbe8 4fb8ea 06283f 0f5684 1a6ea8
+// e4f6fb f0faff) **เงินทอง168** (f5ba14 fcee52 b37c0b ecd5c4 d2b9a4 29210f)
+// **พักยก168** (eeae12 fded41 9f600d e0e0df c0c0bf a1a09e f4ead6)
+// 🚨 **เขียวของแบรนด์อื่นที่ต้องเทียบทีละค่า — ใกล้ที่สุดในลิสต์ทั้งหมด**:
+// 002908 010d04 031b09 073c1a 0e5424 1e7033 35a043 3ddc4a 23823a dfe6e3 e8c86a
+// eef7f0 9dc2a5 (ZORO365) · f0ffeb e6f7df d7f0cd b2dba3 3f7a2e 10280f 3c5b36 116018
+// 0b4a12 1a7d24 8a6a0e 28c437 e3bb45 c6cfd2 0b2a12 15401d 051409 2d6b2f e8fbe4
+// b4d6ad (TEVA69) · 0b7d28 0a5f1c 0f9b35 0c3a16 061f0c (สาธุ168) · 143a1c 1fae1c
+// 07130a 0d2312 (888PARUAY) · 1a5c04 2f8c07 8ce023 e9f7d6 bde397 (KINGKONG555) ·
+// 2fbf6a (KOON234) — ⚠️⚠️ **0e5424 / 116018 / 0b7d28 ↔ 046c4e · 1e7033 / 1a7d24 ↔
+// 0c7c58 · 35a043 / 28c437 / 2bb061 ↔ 19a97c · 3ddc4a ↔ 2fd49b · eef7f0 / e8fbe4 ↔
+// f0fdf7 / e1fef3**
+// 🚨 ทองของแบรนด์อื่น: f2a033 d4922c f0b429 e0b03a fcdc2b fff6ae a87d0c fadc64 fdf3b4
+// e5a92b e9b53c e3bb45 e8c86a ffd94a e3a712 — ⚠️ **e5a92b / e9b53c / e3bb45 ↔ e2b32a**
 // (เขียนเฮกซ์ของแบรนด์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีเก่าสะดุดที่คอมเมนต์)
-// ⚠️ **รอบนี้ไม่มีฟ้า/ไซแอน/น้ำเงิน ไม่มีชมพู/มาเจนตา ไม่มีม่วง ไม่มีครีม/เบจเย็น
-// และไม่มีแรมป์เทาเงิน** — ทองรอบนี้คือ **#f2a033 ค่าเดียว** และเขียวคือ **#117a41**
-const columnLabel = "flex items-center gap-3 text-lg leading-normal font-black tracking-wide text-[#a81410]";
-const stepBadge = "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#e2855c] bg-gradient-to-br from-[#fed7b5] to-[#f2a033] text-base text-[#3f130d] shadow-[0_5px_15px_rgba(242,160,51,0.35)]";
-const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#3f130d] transition-all hover:-translate-y-1";
+// ⚠️ **รอบนี้ไม่มีแดง ไม่มีส้ม/พีช ไม่มีฟ้า/ไซแอน/น้ำเงิน ไม่มีชมพู/มาเจนตา
+// ไม่มีม่วง ไม่มีครีม/เบจ และไม่มีแรมป์เทาเงิน** — ทองรอบนี้คือ **#e2b32a (พื้นถม)
+// กับ #8a6508 (หมึก)** สองค่าเท่านั้น
+// ✅ LINE green 00B900 กับเขียว success ของฟีดอยู่ไฟล์อื่น **คงไว้ ห้ามกลืนเข้า
+// เขียวมรกตของรอบนี้**
+const columnLabel = "flex items-center gap-3 text-lg leading-normal font-black tracking-wide text-[#046c4e]";
+const stepBadge = "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#19a97c] bg-gradient-to-br from-[#d2f3e4] to-[#e2b32a] text-base text-[#0d3326] shadow-[0_5px_15px_rgba(226,179,42,0.35)]";
+const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#0d3326] transition-all hover:-translate-y-1";
 ---
 
 <section aria-label={title ? undefined : sectionLabel} class="relative z-10 mx-auto mb-10 w-full max-w-[1400px] px-4 font-sans">
   <div
-    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#f6c4a4] bg-white p-8 text-[#3f130d] shadow-[0_10px_30px_rgba(63,19,13,0.12)] transition-all duration-500 hover:border-[#de2b1e] hover:shadow-[0_15px_40px_rgba(222,43,30,0.22)] md:p-10">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#de2b1e]/22 blur-[60px]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-20 -left-20 -z-10 h-44 w-44 rounded-full bg-[#fed7b5]/70 blur-[60px]"></div>
+    class="group relative isolate w-full overflow-hidden rounded-3xl border border-[#a3ddc3] bg-white p-8 text-[#0d3326] shadow-[0_10px_30px_rgba(13,51,38,0.10)] transition-all duration-500 hover:border-[#19a97c] hover:shadow-[0_15px_40px_rgba(4,108,78,0.18)] md:p-10">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-20 -right-20 -z-10 h-44 w-44 rounded-full bg-[#19a97c]/22 blur-[60px]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-20 -left-20 -z-10 h-44 w-44 rounded-full bg-[#2fd49b]/35 blur-[60px]"></div>
 
     {
       title && (
-        <header class="mb-6 border-y-2 border-[#f6c4a4] py-4">
-          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#a81410]">{title}</HeadingTag>
+        <header class="mb-6 border-y-2 border-[#a3ddc3] py-4">
+          <HeadingTag class="text-2xl leading-normal font-black tracking-wide text-[#046c4e]">{title}</HeadingTag>
         </header>
       )
     }
 
     {
       hasIntro && (
-        <div class="mb-8 text-left text-base leading-relaxed text-[#3f130d]">
+        <div class="mb-8 text-left text-base leading-relaxed text-[#0d3326]">
           <slot />
         </div>
       )
     }
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <article class={`${column} rounded-2xl border border-[#f6c4a4] bg-[#fff3ea] p-6 hover:border-[#de2b1e]`}>
+      <article class={`${column} rounded-2xl border border-[#a3ddc3] bg-[#f0fdf7] p-6 hover:border-[#19a97c]`}>
         {
           titleleft && (
             <LabelTag class={columnLabel}>
@@ -144,7 +162,7 @@ const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#3
         <slot name="left" />
       </article>
 
-      <article class={`${column} rounded-2xl border border-[#f6c4a4] bg-[#fff3ea] p-6 hover:border-[#de2b1e]`}>
+      <article class={`${column} rounded-2xl border border-[#a3ddc3] bg-[#f0fdf7] p-6 hover:border-[#19a97c]`}>
         {
           titlecenter && (
             <LabelTag class={columnLabel}>
@@ -158,7 +176,7 @@ const column = "flex flex-col gap-3 text-left text-base leading-relaxed text-[#3
         <slot name="center" />
       </article>
 
-      <article class={`${column} rounded-2xl border border-[#f6c4a4] bg-[#fff3ea] p-6 hover:border-[#de2b1e]`}>
+      <article class={`${column} rounded-2xl border border-[#a3ddc3] bg-[#f0fdf7] p-6 hover:border-[#19a97c]`}>
         {
           titleright && (
             <LabelTag class={columnLabel}>

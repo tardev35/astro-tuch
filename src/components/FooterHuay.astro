@@ -7,62 +7,70 @@ const imagePaths = Object.keys(images);
 const targetPath = imagePaths.find((path) => path.endsWith(".png")) || imagePaths.find((path) => path.endsWith(".webp")) || (imagePaths.length > 0 ? imagePaths[0] : null);
 const mainLogo = targetPath ? images[targetPath].default : null;
 
-// alt บรรยายอาร์ตเวิร์กจริงของดรอป 2026-10-27 (เปิดไฟล์ด้วย Read แล้ว ไม่ได้คัดลอก
-// ของรอบก่อน): เวิร์ดมาร์กสามมิติ ครึ่งแรกเป็นตัวอักษรละตินผิวโครเมียมเงินตัดขอบแดง
-// ครึ่งหลังเป็นตัวเลขผิวแดงเลือดนกเคลือบเงา
+// alt บรรยายอาร์ตเวิร์กจริงของดรอป 2026-10-28 (เปิดไฟล์ด้วย Read แล้ว ไม่ได้คัดลอก
+// ของรอบก่อน): เวิร์ดมาร์กสามมิติสองบรรทัดในวงรี บรรทัดบนผิวโครเมียมเงินที่มี
+// ใบโคลเวอร์สี่แฉกแทนตัว O ตัวที่สอง บรรทัดล่างผิวเขียวมรกต
+// 🚨 ของรอบก่อน (LOTTO189) ที่ **ไม่มี** ในรูปนี้: ครึ่งหลังที่เป็น "ตัวเลข" ผิวแดง
+// เลือดนก · แถบแสงสะท้อนขาวพาดกลางตัวเลข · เส้นตัดขอบแดง · ทรงเซอริฟแถวเดียว
 // (เขียนเป็นคำบรรยายรูปแบบ ไม่พิมพ์ชื่อแบรนด์ซ้ำ — ชื่อมาจาก BRAND_NAME)
-const logoAlt = `โลโก้ ${BRAND_NAME} เวิร์ดมาร์กสามมิติแบบเซอริฟตัวหนา ครึ่งแรกเป็นตัวอักษรละตินผิวโครเมียมเงินขัดเงาตัดขอบเส้นสีแดงเลือดนก ครึ่งหลังเป็นตัวเลขผิวแดงเลือดนกเคลือบเงาที่มีแถบแสงสะท้อนสีขาวพาดกลาง ตัดขอบขาว`;
+const logoAlt = `โลโก้ ${BRAND_NAME} เวิร์ดมาร์กสามมิติตัวหนาสองบรรทัดวางอยู่ในวงรี บรรทัดบนเป็นตัวอักษรละตินผิวโครเมียมเงินขัดเงาตัดขอบเขียวเข้ม โดยตัวอักษร O ตัวที่สองถูกแทนที่ด้วยใบโคลเวอร์สี่แฉกสีเขียวมรกต บรรทัดล่างเป็นตัวอักษรผิวเขียวมรกตไล่เงา รอบนอกมีแถบโค้งผิวโครเมียมเงินสลับเขียวมรกตพันเป็นวงโคจรพร้อมจุดประกายแสงสีขาว`;
 
 // ───────────────────────────────────────────────────────────────────────────
-// รอบ 2026-10-27 — พาเลตตาม .claude/brand-spec-lotto189.md §2
-// **ธีมรอบนี้คือ "เนื้อหาสว่าง โครมเข้ม"** พื้นเพจเป็น #fff0f0 (จาก bg.json)
+// รอบ 2026-10-28 — พาเลตตาม .claude/brand-spec-lottoplus.md §2
+// **ธีมรอบนี้คือ "เนื้อหาสว่าง โครมเข้ม"** พื้นเพจเป็น #e1fef3 (จาก bg.json)
 // แต่ footer คือ "โครม" = พื้นเข้มตัวอักษรสว่าง ทำหน้าที่เป็นกรอบโปสเตอร์ปิดท้ายหน้า
 // **ห้าม "แก้" ให้ footer สว่างตามพื้นเพจ** และบล็อก <address> ด้านล่าง paste
 // verbatim ตาม playbook ซึ่งออกแบบมาสำหรับ footer เข้มพอดี — **ห้ามทาสีทับมัน**
+// ⚠️⚠️ **หมึกของ footer ประกาศไว้ในไฟล์นี้เอง (#e9fbf3) ห้ามถอดออกโดยคิดว่าจะ
+// inherit จาก BRAND_TEXT ได้** — BRAND_TEXT รอบนี้เป็น **หมึกเข้ม #0d3326**
+// สำหรับการ์ดสว่าง ถ้าถอดคลาสสีออก ตัวอักษรทั้ง footer จะหายไปบนพื้นเขียวจม
 //
 // ค่าที่ใช้ในไฟล์นี้ (ห้ามใช้ค่าอื่น):
-//   พื้นชั้นลึก #120307 (พื้นของ footer) · พื้นชั้นยก #3d0d16 (การ์ด/ชิป)
-//   ตัวอักษรหลัก #ffeaea (17.9:1 บน #120307 · 12.0:1 บน #3d0d16) · ขาว #ffffff
-//   ทองอำพัน #e9b53c (10.7:1 หัวคอลัมน์/ลิงก์ hover) · เส้น #7e1221
-//   ไล่เฉดปุ่ม #8a0412 -> #b00718 -> #d61023 คู่หมึกขาว (10.4 / 7.3 / 5.3:1)
-//   rgba ที่อนุญาต: rgba(233,181,60,α) rgba(176,7,24,α) rgba(18,3,7,α) rgba(0,0,0,α)
+//   พื้นชั้นลึก #03201a (พื้นของ footer) · พื้นชั้นยก #0a4433 (การ์ด/ชิป)
+//   ตัวอักษรหลัก #e9fbf3 (16.4:1 บน #03201a · 11.2:1 บน #0a4433) · ขาว #ffffff
+//   ทองอำพัน #e2b32a (8.7:1 หัวคอลัมน์/ลิงก์ hover) · เส้น #19a97c
+//   ไล่เฉดปุ่ม #03543c -> #046c4e -> #0c7c58 คู่หมึกขาว (9.2 / 6.7 / 5.2:1)
+//   rgba ที่อนุญาต: rgba(226,179,42,α) rgba(4,108,78,α) rgba(3,32,26,α) rgba(0,0,0,α)
 //
-// ⚠️⚠️ ธีมเดิมของไฟล์นี้คือ **รวย168 ดำ/ทอง** (070707 1c1a16 f3ece0 ffd94a e3a712
-// b07d08 0a0a0a) และก่อนหน้านั้น **สาธุ168 เขียวมรกต/ทองสัมฤทธิ์** (061f0c 0c3a16
-// c9cb63 aeb04a 9ba03c e9fbdd 0b7d28) · เจ้าของชุด *Huay เดิม (cd9a2c fdeb7c ab7314
-// f5e7c8 fcd4c3 fce2d4 0c0b0a 120a02 1c140b 5c3f12) · หวย365 (140203 dc0203 f5282a
-// ffc93c ffeab0 8c0402 3a0a0c c08a07 f6e7e0 1a0303) · มีทรัพย์168 (dd1b74 a4186b
-// 4a0d35 2d0720 f7dcf6 f0ccf5) — ไม่มีค่าใดเหลืออยู่แล้ว
-// 🚨🚨 **รอบนี้เป็นแบรนด์แดงจริง ซึ่งกลับทิศจากคำเตือนของรอบก่อนที่ห้ามแดงทุกเฉด**
-// แต่แดงของรอบนี้ต้องเป็น **#b00718 / #c1071b / #8a0412 / #d61023 เท่านั้น**
-// ห้ามเป็นแดงคริมสันของ มาดาม168 (ff2e52 e01238 c9102f) หรือแดงอิฐของ MEXICANOSLOT
-// (de2b1e a81410 c81e12 9d140c) หรือแดงของ หวย365 (dc0203 f5282a) —
+// ⚠️⚠️ ธีมเดิมของไฟล์นี้คือ **LOTTO189 แดงเลือดนก/ทองอำพัน** (120307 3d0d16 7e1221
+// 8a0412 b00718 c1071b d61023 e9b53c ffeaea c3ccd6) และก่อนหน้านั้น
+// **รวย168 ดำ/ทอง** (070707 1c1a16 f3ece0 ffd94a e3a712 b07d08 0a0a0a) ·
+// **สาธุ168 เขียวมรกต/ทองสัมฤทธิ์** (061f0c 0c3a16 c9cb63 aeb04a 9ba03c e9fbdd 0b7d28) ·
+// เจ้าของชุด *Huay เดิม (cd9a2c fdeb7c ab7314 f5e7c8 fcd4c3 0c0b0a 120a02 1c140b) ·
+// หวย365 (140203 dc0203 f5282a ffc93c ffeab0 8c0402 3a0a0c) · มีทรัพย์168 (dd1b74
+// a4186b 4a0d35 2d0720 f7dcf6) — ไม่มีค่าใดเหลืออยู่แล้ว
+// 🚨🚨 **รอบนี้เป็นแบรนด์เขียวจริง ซึ่งกลับทิศจากคำเตือนของรอบก่อนที่ห้ามเขียนทุกเฉด**
+// แต่เขียวของรอบนี้ต้องเป็น **#046c4e / #0c7c58 / #03543c / #19a97c / #052e22 /
+// #03201a / #0a4433 เท่านั้น** ห้ามเป็นเขียวมรกตของ สาธุ168 (0b7d28 0a5f1c 0f9b35
+// 0c3a16 061f0c) หรือเขียวของ TEVA69 / ZORO365 —
 // **เทียบให้ตรงหกหลักกับ brand-spec §2 ห้ามตัดสินด้วยสายตา**
 // (เขียนเฮกซ์เก่าแบบไม่มี # เพื่อไม่ให้ sweep ที่ไล่หาสีแบรนด์เก่าสะดุดที่คอมเมนต์นี้)
 //
-// ⚠️ เขียว #00B900 -> #009900 บนปุ่ม LINE เป็น **สีของแบรนด์ LINE** ไม่ใช่สีของ
-// แบรนด์นี้ ห้ามเปลี่ยนเป็นแดง
+// ⚠️⚠️ เขียว #00B900 -> #009900 บนปุ่ม LINE เป็น **สีของแบรนด์ LINE** ไม่ใช่สีของ
+// แบรนด์นี้ — **รอบนี้ต้องระวังเป็นพิเศษเพราะแบรนด์ก็เป็นเขียว** ห้ามกลืนสองค่านั้น
+// เข้าพาเลตแบรนด์ และกลับกันก็ห้ามเอา #00B900 มาใช้เป็นสีแบรนด์
 //
-// 🚨🚨 **รอบนี้ถอด BankStrip ออกจาก footer โดยตั้งใจ** — บรีฟรอบนี้
-// (src/assets/content.txt) **ไม่มีหมวดฝากถอน ธนาคาร หรือวอลเลทเลยแม้แต่คำเดียว**
-// ต่างจากเจ้าของไฟล์เดิม (รวย168) ที่บรีฟมีหมวดนั้น การคง BankStrip ไว้จะเป็นการ
+// 🚨🚨 **รอบนี้ไม่มี BankStrip ใน footer** — บรีฟรอบนี้ (src/assets/content.txt)
+// **ไม่มีหมวดฝากถอน ธนาคาร หรือวอลเลทเลยแม้แต่คำเดียว** การใส่ BankStrip จะเป็นการ
 // ประกาศบริการที่บรีฟไม่ได้พูดถึง และคำว่า "ทรูมันนี่" ที่เคยอยู่ใต้แถบนั้นเป็น
 // **คำของแบรนด์ก่อนๆ (okkub88 / โบ๊ะบ๊ะ168)** ซึ่งห้ามเขียนกลับเข้ามา
 // ที่มาแทนคือชิปสี่ตลาดหวย ซึ่งเป็นสี่รายการที่บรีฟรอบนี้ระบุไว้ตรงตัว
 // ⚠️ BankStrip.astro ยังอยู่ครบในฐานะ inventory ของแบรนด์ถัดไป **ห้ามลบไฟล์**
 //
 // เนื้อความเขียนใหม่จากคลังคำของบรีฟรอบนี้เท่านั้น:
-// แนะนำเว็บหวยลอตโต้ · แทงหวยออนไลน์ · แทงหวยจ่ายสด · หวยรัฐบาลไทย · หวยลาว ·
-// หวยฮานอย · หวยหุ้นต่างประเทศ · จ่ายเต็ม · จ่ายสด · รับทุกเลข · ไม่มีอั้นเลข ·
+// หวยพลัสลอตโต้ · ทางเข้าเว็บแม่ · แทงหวยออนไลน์ · หวยรัฐบาลไทย · หวยลาว ·
+// หวยฮานอย · หวยหุ้นต่างประเทศ · อัตราจ่ายสูง · จ่ายเต็ม · โอนไว ·
 // อัตราจ่าย 2 ตัว 100 · 3 ตัว 1,000 · รอบประกาศผล · รอบปิดรับ · ฐานเงินเดิมพัน ·
-// วงเงินจ่ายสูงสุด · ยืนยันบิล · บิลหวย · หมายเลขรายการ · บัญชีแอบอ้าง ·
+// วงเงินจ่ายสูงสุด · เลขอั้น · ยืนยันบิล · บิลหวย · หมายเลขรายการ · บัญชีแอบอ้าง ·
 // เจ้าหน้าที่ · แอดมิน · 24ชม.
+// ⚠️⚠️ **"แนะนำเว็บหวยลอตโต้" / "จ่ายเต็ม จ่ายสด" / "รับทุกเลข ไม่มีอั้นเลข"
+// เป็นคำของ LOTTO189 เจ้าของไฟล์นี้รอบล่าสุด ซึ่งเป็นเว็บหวยเหมือนกัน** — ถอดออกแล้ว
+// **อ่านให้ครบวลี อย่าผ่านเพราะเห็นคำว่าหวย** (บรีฟรอบนี้เขียน "จ่ายเต็ม โอนไว"
+// ไม่ใช่ "จ่ายเต็ม จ่ายสด" — ต่างกันคำท้าย)
 // ⚠️⚠️ **หวยออมสิน / สลากกินแบ่งรัฐบาล / บาทละ 1,000 ไม่มีในบรีฟรอบนี้**
-// (เจ้าของไฟล์เดิมมี) — บรีฟรอบนี้ระบุสี่ประเภทเท่านั้น:
-// **รัฐบาลไทย · ลาว · ฮานอย · หุ้นต่างประเทศ**
-// ⚠️⚠️ **คืนยอดเสีย 0.3% / แนะนำเพื่อน 0.8% เป็นคอปปี้ของ ZNOVA168 รอบก่อน**
-// ถอดออกจากแถวชิปแล้ว — สองตัวเลขนั้นพิมพ์อยู่บนสไลด์จริง จึงเขียนได้เฉพาะใน alt
-// ของสไลด์เท่านั้น **ห้ามเป็นคำกล่าวอ้างในคอปปี้ที่ไหนทั้งสิ้น**
+// — บรีฟรอบนี้ระบุสี่ประเภทเท่านั้น: **รัฐบาลไทย · ลาว · ฮานอย · หุ้นต่างประเทศ**
+// ⚠️⚠️ **คืนยอดเสีย 0.3% / แนะนำเพื่อน 0.8% เป็นคอปปี้ของ WIN8S รอบก่อน**
+// และบรีฟรอบนี้ไม่มีหมวดโปรโมชั่นเลย **ห้ามเป็นคำกล่าวอ้างที่ไหนทั้งสิ้น**
 // ⚠️ ตัวเลขที่ขึ้นเว็บได้รอบนี้มีแค่ **2 ตัว 100 · 3 ตัว 1,000 · 3 ขั้นตอน · 24ชม.**
 // ห้ามแต่งอัตราจ่าย/ชื่อตลาดหวย/ปีก่อตั้ง/จำนวนสมาชิกขึ้นเอง และ **ห้ามเขียน 100%**
 //
@@ -91,43 +99,49 @@ const shortcuts = [
 // สี่ตลาดนี้คือสี่รายการที่บรีฟรอบนี้ระบุไว้ตรงตัว (content.txt บรรทัด 4 และ 6)
 // ไม่ใช่รายการที่แต่งขึ้นเอง และไม่มีรายการที่ห้าที่บรีฟไม่ได้เอ่ยถึง
 const markets = ["หวยรัฐบาลไทย", "หวยลาว", "หวยฮานอย", "หวยหุ้นต่างประเทศ"];
+
+// โลโก้ของดรอปนี้เป็นบิตแมป **จัตุรัส** จึงถูกวาดกว้างเท่ากับความสูง 50px ที่ตั้งไว้
+// candidate จึงเป็น 50 / 100 / 150 (1x 2x 3x) — **ห้ามลอกตัวเลขของรอบก่อน**
+// (140/280/420 คิดจากเวิร์ดมาร์กแนวนอน ซึ่งผิดรูปทรงสำหรับโลโก้จัตุรัส)
+const logoWidths = [50, 100, 150];
 ---
 
-<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#e9b53c]/55 bg-[#120307] pt-16 pb-8 font-sans text-[#ffeaea] shadow-[0_-10px_30px_rgba(18,3,7,0.85)]">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#b00718]/25 blur-[80px]"></div>
+<footer class="relative mt-12 w-full overflow-hidden rounded-t-[3rem] border-t border-[#e2b32a]/55 bg-[#03201a] pt-16 pb-8 font-sans text-[#e9fbf3] shadow-[0_-10px_30px_rgba(3,32,26,0.85)]">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-[200px] w-full max-w-4xl rounded-full bg-[#046c4e]/25 blur-[80px]"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[1400px] px-6">
     <div class="mb-12 grid grid-cols-1 gap-12 md:grid-cols-12">
       <div class="flex flex-col gap-4 md:col-span-5">
-        <a href="/" class="inline-block max-w-max rounded-xl border border-[#e9b53c]/30 bg-[#3d0d16] p-2 transition-transform duration-300 hover:scale-105">
+        <a href="/" class="inline-block max-w-max rounded-xl border border-[#e2b32a]/30 bg-[#0a4433] p-2 transition-transform duration-300 hover:scale-105">
           {
             mainLogo ? (
-              <Picture src={mainLogo} alt={logoAlt} widths={[140, 280, 420]} sizes="140px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
+              <Picture src={mainLogo} alt={logoAlt} widths={logoWidths} sizes="50px" class="h-[50px] w-auto drop-shadow-md" formats={["avif", "webp"]} fallbackFormat="webp" />
             ) : (
-              <p class="rounded-md bg-gradient-to-r from-[#8a0412] via-[#b00718] to-[#d61023] px-3 py-1 text-2xl font-black tracking-widest text-[#ffffff]">{BRAND_NAME}</p>
+              <p class="rounded-md bg-gradient-to-r from-[#03543c] via-[#046c4e] to-[#0c7c58] px-3 py-1 text-2xl font-black tracking-widest text-[#ffffff]">{BRAND_NAME}</p>
             )
           }
         </a>
-        <p class="mt-2 border-l-2 border-[#e9b53c]/60 pl-4 text-sm leading-relaxed text-[#ffeaea]">
+        <p class="mt-2 border-l-2 border-[#e2b32a]/60 pl-4 text-sm leading-relaxed text-[#e9fbf3]">
           {BRAND_NAME} นำเสนอข้อมูลหวยออนไลน์หลายประเภทไว้ในช่องทางเดียว ทั้งหวยรัฐบาลไทย หวยลาว หวยฮานอย และหวยหุ้นต่างประเทศ โดยแต่ละรายการมีรอบปิดรับและรอบประกาศผลแตกต่างกัน
-          สำหรับอัตราจ่ายที่ระบุไว้ว่า 2 ตัว 100 และ 3 ตัว 1,000 ควรตรวจสอบว่าคำนวณจากฐานเงินเดิมพันจำนวนเท่าใด ใช้กับหวยประเภทใดบ้าง และมีวงเงินจ่ายสูงสุดเท่าใด ก่อนยืนยันบิลทุกครั้ง
+          สำหรับอัตราจ่ายที่ระบุไว้ว่า 2 ตัว 100 และ 3 ตัว 1,000 ควรตรวจสอบว่าคำนวณจากฐานเงินเดิมพันจำนวนเท่าใด ใช้กับหวยประเภทใดบ้าง มีเลขอั้นหรือไม่ และมีวงเงินจ่ายสูงสุดเท่าใด ก่อนยืนยันบิลทุกครั้ง
+          ส่วนข้อความที่ระบุว่าโอนไวนั้น ความรวดเร็วอาจขึ้นอยู่กับสถานะระบบและผู้ให้บริการชำระเงินในแต่ละช่วงเวลา
           หากพบปัญหาเกี่ยวกับบิลหวยหรือธุรกรรม ควรเก็บหมายเลขรายการและหลักฐานที่เกี่ยวข้องไว้สำหรับตรวจสอบ และติดต่อเจ้าหน้าที่ผ่านช่องทางทางการเพื่อหลีกเลี่ยงบัญชีแอบอ้าง โดยไม่เปิดเผยรหัสผ่านหรือรหัส OTP
-          ทั้งนี้ ผลการออกรางวัลมีความไม่แน่นอนและไม่สามารถคาดการณ์ได้อย่างแม่นยำ
+          ทั้งนี้ ผลการออกรางวัลมีความไม่แน่นอนและไม่สามารถรับประกันได้จากสถิติหรือเลขย้อนหลัง
         </p>
         <div class="mt-2 flex flex-wrap gap-3">
-          <span class="rounded-full border border-[#e9b53c]/40 bg-[#3d0d16] px-4 py-1 text-xs font-bold text-[#ffeaea] shadow-sm">จ่ายเต็ม จ่ายสด</span>
-          <span class="rounded-full border border-[#e9b53c]/40 bg-[#b00718]/25 px-4 py-1 text-xs font-bold text-[#e9b53c] shadow-sm">รับทุกเลข ไม่มีอั้นเลข</span>
-          <span class="rounded-full border border-[#e9b53c]/40 bg-[#3d0d16] px-4 py-1 text-xs font-bold text-[#ffeaea] shadow-sm">2 ตัว 100 · 3 ตัว 1,000</span>
+          <span class="rounded-full border border-[#e2b32a]/40 bg-[#0a4433] px-4 py-1 text-xs font-bold text-[#e9fbf3] shadow-sm">จ่ายเต็ม โอนไว</span>
+          <span class="rounded-full border border-[#e2b32a]/40 bg-[#046c4e]/25 px-4 py-1 text-xs font-bold text-[#e2b32a] shadow-sm">ทางเข้าเว็บแม่</span>
+          <span class="rounded-full border border-[#e2b32a]/40 bg-[#0a4433] px-4 py-1 text-xs font-bold text-[#e9fbf3] shadow-sm">2 ตัว 100 · 3 ตัว 1,000</span>
         </div>
       </div>
 
       <nav class="flex flex-col gap-4 md:col-span-3 lg:pl-12" aria-label="ทางลัดหน้าเว็บ">
-        <p class="border-b border-[#e9b53c]/35 pb-2 text-lg font-black tracking-widest text-[#e9b53c] uppercase">ทางลัดหน้าเว็บ</p>
-        <ul class="flex flex-col gap-3 text-sm font-medium text-[#ffeaea]">
+        <p class="border-b border-[#e2b32a]/35 pb-2 text-lg font-black tracking-widest text-[#e2b32a] uppercase">ทางลัดหน้าเว็บ</p>
+        <ul class="flex flex-col gap-3 text-sm font-medium text-[#e9fbf3]">
           {
             shortcuts.map((item) => (
               <li>
-                <a href={item.path} class="transition-colors hover:text-[#e9b53c]">
+                <a href={item.path} class="transition-colors hover:text-[#e2b32a]">
                   {item.name}
                 </a>
               </li>
@@ -137,7 +151,7 @@ const markets = ["หวยรัฐบาลไทย", "หวยลาว", "
       </nav>
 
       <div class="flex flex-col gap-4 md:col-span-4">
-        <p class="border-b border-[#e9b53c]/35 pb-2 text-lg font-black tracking-widest text-[#e9b53c] uppercase">บริการลูกค้า</p>
+        <p class="border-b border-[#e2b32a]/35 pb-2 text-lg font-black tracking-widest text-[#e2b32a] uppercase">บริการลูกค้า</p>
 
         <a
           href="/line"
@@ -165,23 +179,23 @@ const markets = ["หวยรัฐบาลไทย", "หวยลาว", "
           )
         }
 
-        <div class="mt-2 text-xs font-medium text-[#ffeaea]">ประเภทหวยที่ระบบเปิดรับ:</div>
-        <ul class="flex flex-wrap gap-2 rounded-xl border border-[#e9b53c]/25 bg-[#3d0d16] p-3">
+        <div class="mt-2 text-xs font-medium text-[#e9fbf3]">ประเภทหวยที่ระบบเปิดรับ:</div>
+        <ul class="flex flex-wrap gap-2 rounded-xl border border-[#e2b32a]/25 bg-[#0a4433] p-3">
           {
             markets.map((market) => (
-              <li class="rounded-lg border border-[#7e1221] bg-[#120307] px-3 py-1.5 text-xs font-bold text-[#ffeaea]">{market}</li>
+              <li class="rounded-lg border border-[#19a97c] bg-[#03201a] px-3 py-1.5 text-xs font-bold text-[#e9fbf3]">{market}</li>
             ))
           }
         </ul>
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between border-t border-[#e9b53c]/35 pt-8 text-xs font-medium text-[#ffeaea] md:flex-row">
+    <div class="flex flex-col items-center justify-between border-t border-[#e2b32a]/35 pt-8 text-xs font-medium text-[#e9fbf3] md:flex-row">
       <p>COPYRIGHT &copy; {new Date().getFullYear()} {BRAND_NAME} ALL RIGHTS RESERVED.</p>
       <div class="mt-4 flex gap-4 md:mt-0">
-        <a href="/terms/" class="transition-colors hover:text-[#e9b53c]">เงื่อนไขและข้อตกลง</a>
-        <a href="/privacy/" class="transition-colors hover:text-[#e9b53c]">นโยบายความเป็นส่วนตัว</a>
-        <a href="#top" class="transition-colors hover:text-[#e9b53c]">กลับขึ้นบน</a>
+        <a href="/terms/" class="transition-colors hover:text-[#e2b32a]">เงื่อนไขและข้อตกลง</a>
+        <a href="/privacy/" class="transition-colors hover:text-[#e2b32a]">นโยบายความเป็นส่วนตัว</a>
+        <a href="#top" class="transition-colors hover:text-[#e2b32a]">กลับขึ้นบน</a>
       </div>
     </div>
   </div>

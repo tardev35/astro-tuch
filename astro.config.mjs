@@ -37,7 +37,7 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  // โดเมนจริงรอบนี้คือ https://win8s.cc — operator ระบุมาตรงๆ ในคำสั่ง
+  // โดเมนจริงรอบนี้คือ https://huay-lottoplus.co — operator ระบุมาตรงๆ ในคำสั่ง
   // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** (เหมือนหกรอบก่อน
   // 123bet-play.net / zoro365-slot.com / teva-69.com / lotto189.com /
   // znova168.autos / zane96.autos — ส่วน โบ๊ะบ๊ะ168 / นาซ่า168 / สบาย168
@@ -57,7 +57,7 @@ export default defineConfig({
   // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://win8s.cc",
+  site: "https://huay-lottoplus.co",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short
