@@ -2,15 +2,21 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/Announcement3.astro";
+import Announcement from "../components/Announcement5.astro";
 import { pageGraph } from "../lib/schema";
 import { BRAND_NAME } from "../lib/brandProfile";
 import CtaRedirect from "../components/CtaRedirect.astro";
 
 // Button page, not an article — the cta toggle turned the old noindex
 // interstitial into a real indexable page whose only content is one button to
-// the same destination. One <h1> from the ContentBox title plus one button:
-// h1x1, h2x0, h3x0. Never write an article here and never add a second heading.
+// the same destination. The page carries exactly ONE heading, and it is the
+// level-one heading that ContentBox renders from its own `as` prop; there is no
+// level-two and no level-three heading anywhere on it. Never write an article
+// here and never add a second heading — verify-build fails the build the moment
+// a second top-level heading appears on an indexable page.
+// (The heading token is deliberately not spelled out in this comment: a source
+// grep for it used to match the prose here as well as the real prop below, and
+// every round someone had to re-derive which of the two matches was real.)
 //
 // ⚠️ This page is NOT one of the "full custom HTML + own <style> block"
 // standalone pages SKILL.md Phase 4.5 warns about — it renders through
@@ -18,6 +24,8 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // string and no raw-hex <style> block of its own. The only brand colours here
 // are the Tailwind arbitrary values on the button below. Do not "restore" a
 // <style> block; the font link and <html> colour come from MainLayout.
+// ⚠️ **ห้ามใช้ define:vars บนหน้านี้** — เดิมหน้านี้เป็น interstitial แบบ noindex
+// จึงเคยได้รับการยกเว้น แต่ตอนนี้มันเป็นหน้าที่ index ได้ ข้อยกเว้นนั้นหมดไปแล้ว
 //
 // targetUrl is this brand's affiliate link, carried over from the interstitial
 // it replaced. **Do not edit it**, and keep rel="nofollow sponsored" plus
@@ -33,58 +41,63 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 // every other page.
 //
 // บรีฟรอบนี้ (src/assets/content.txt) **ไม่มีส่วน SUB-PAGES** → title/description
-// ของหน้านี้เขียนเอง และพูดได้แค่สิ่งที่บรีฟมีจริง (บรรทัด 4: เกมเดิมพันออนไลน์
-// หลากหลายประเภท พร้อมรายละเอียดระบบสมาชิก · บรรทัด 16: ตรวจสอบที่อยู่เว็บไซต์
+// ของหน้านี้เขียนเอง และพูดได้แค่สิ่งที่บรีฟมีจริง (บรรทัด 1-2: เว็บตรง ·
+// ถูกลิขสิทธิ์ · เซิร์ฟแท้ · ปลอดภัยในไทย · บรรทัด 16: ตรวจสอบที่อยู่เว็บไซต์
 // ให้ถูกต้อง · บรรทัด 18 และ 22: ไม่เปิดเผยรหัสผ่านและรหัส OTP ให้ใครทราบ)
 // ห้ามแตกเป็นหัวข้อหรือรายการบนหน้า — หน้านี้มีโควตาเป็น **ปุ่มเดียว**
 //
-// 🚨 แกนของแบรนด์รอบนี้คือ **เว็บเกมคาสิโน/เดิมพันออนไลน์** (บาคาร่า สล็อต หวย
-// บอล ไฮโล) — "หวย" เป็นชื่อหมวดเกมหนึ่งในห้าเท่านั้น ห้ามเขียนเนื้อหาเฉพาะทางหวย
+// 🚨 แกนของแบรนด์รอบนี้คือ **เว็บเกมคาสิโน/เดิมพันออนไลน์** บรีฟระบุ **เจ็ดหมวดเกม**
+// (บาคาร่า · สล็อตออนไลน์ · ไฮโล · รูเล็ต · ยิงปลา · เดิมพันฟุตบอล · หวยออนไลน์)
+// — "หวย" เป็นชื่อหมวดเกมหนึ่งในเจ็ดเท่านั้น ห้ามเขียนเนื้อหาเฉพาะทางหวย
 // ⚠️ น้ำเสียงของบรีฟรอบนี้คือ "โฆษณาและกำกับในประโยคเดียวกัน" ไม่ใช่การันตี
-// คลังคำที่ใช้ได้รอบนี้อยู่ใน .claude/brand-spec-zoro365.md §5 (ไม่พิมพ์ซ้ำที่นี่
+// คลังคำที่ใช้ได้รอบนี้อยู่ใน .claude/brand-spec-123bet.md §5 (ไม่พิมพ์ซ้ำที่นี่
 // และ **ไม่พิมพ์คำของแบรนด์เก่าซ้ำที่นี่** เพื่อไม่ให้ sweep ของรอบถัดไปเจอ
 // false positive ในคอมเมนต์ของไฟล์นี้เอง)
-// ตัวเลขที่อ้างได้รอบนี้มีแค่ 0.3% · 0.8% · 3 ขั้นตอน · 24ชม. — ห้ามแต่ง
+// 🚨 สามคำที่ **กลับทิศจากรอบก่อน** และเป็นถ้อยคำของบรีฟรอบนี้เอง:
+// **เว็บตรง · ถูกลิขสิทธิ์ · ปลอดภัยในไทย** — ห้ามลบออกเพราะอ่านคอมเมนต์เก่า
+// ในไฟล์ inventory แล้วเข้าใจผิดว่าเป็นคำของแบรนด์เก่า
+// ตัวเลขที่อ้างได้รอบนี้มีแค่ 0.3% · 0.8% · 3 ขั้นตอน · 24 ชั่วโมง — ห้ามแต่ง
 // ใบอนุญาต จำนวนสมาชิก ปีก่อตั้ง จำนวนค่าย/เกม หรือค่าร้อยละอื่นใด
-// 🚨🚨 **บรีฟรอบนี้ไม่พูดถึงธนาคาร วอลเลท หรือการฝากถอนเลยแม้แต่คำเดียว** —
-// ห้ามเขียนถึงรายการฝากถอน ชื่อวอลเล็ต หรือชื่อค่ายเกมบนหน้านี้
+// 🚨🚨 **บรีฟรอบนี้ไม่มีหมวดธุรกรรมการเงิน/สถาบันการเงิน/กระเป๋าเงินอิเล็กทรอนิกส์เลยสักคำ** —
+// ห้ามเขียนถึงรายการเหล่านั้น ชื่อผู้ให้บริการกระเป๋าเงิน หรือชื่อค่ายเกมบนหน้านี้
 // (ค่าร้อยละสองค่าของโปรโมชั่นเป็นเนื้อหาของ index กับ /promotion ไม่ใช่ของหน้านี้)
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พาเลตรอบนี้อยู่ใน .claude/brand-spec-zoro365.md §2
-// 🚨🚨 **กลับทิศ 180° จากรอบก่อน: รอบนี้มืดทั้งเว็บ ทั้งเนื้อหาและโครม**
-// bg.json = {"mode":"color","color":"#002908"} = เขียวป่าจมเกือบดำ
-// การ์ด ContentBox จึงเป็นผิวเข้ม #073c1a บนหมึกสว่าง #eef7f0 (= BRAND_TEXT,
-// 12.0:1) — **ห้ามคืนการ์ดขาวของรอบก่อนกลับมาแม้แต่ใบเดียว**
-// ปุ่มนี้เป็นคู่ **รอง (secondary)** ของพาเลต: ไล่เฉด #0e5424 -> #073c1a
-// ขอบ #35a043 หมึก #eef7f0 (10.2 / 12.0:1 — ผ่าน AA ทั้งสอง stop)
-// ส่วน /register เป็น **หลัก (primary)** ไล่เฉด #0e5424 -> #1e7033 -> #23823a
-// บนหมึกขาว จึงไม่ซ้ำกัน
-// 🚨🚨 **#35a043 (3.8:1 บนการ์ด) กับ #1e7033 (2.1:1) ห้ามถือตัวอักษรเด็ดขาด**
-// เป็นเส้น/ขอบ/ออรา/พื้นถมเท่านั้น · ที่ถือตัวอักษรบนผิวเข้มได้คือ #eef7f0
-// (12.0:1) · #dfe6e3 (9.9:1) · #e8c86a (8.0:1) · #3ddc4a (6.9:1) · #9dc2a5 (6.3:1)
-// 🚨🚨 **ห้ามลากปลายเฉดของปุ่มขึ้นไปถึง #35a043 หรือ #3ddc4a** — ขาวบนสองค่านั้น
-// ตกต่ำกว่า 4.5:1 สองค่านั้นสงวนไว้เป็นขอบ/ออรา
-// ⚠️ ปุ่มนี้อยู่บนการ์ดผิวเข้ม **ขอบ #35a043 คือสิ่งที่แยกปุ่มออกจากการ์ด
-// ห้ามถอดออก**
-// ⚠️⚠️ **ภาษาภาพของรอบนี้คือซามูไร/คาทานะ/วงพู่กันหมึก/กิโมโน** โลโก้เป็น
-// เวิร์ดมาร์กสามมิติ ครึ่งแรกตัวอักษรละตินผิวโครเมียมเงินขัดเงา ครึ่งหลังตัวเลข
-// ผิวเขียวมรกตเคลือบเงาเรืองแสง — **ผิวเงินโครเมียม กอไผ่ และฉากห้องสว่าง
-// เป็นวัตถุในภาพ ไม่ใช่สี UI** พื้นเพจมาจาก bg.json เท่านั้น
-// ออราในไฟล์นี้ใช้ rgba(1,13,4,α) · rgba(61,220,74,α) เท่านั้น
+// พาเลตรอบนี้อยู่ใน .claude/brand-spec-123bet.md §2
+// 🚨🚨 **กลับทิศ 180° จากรอบก่อน: รอบนี้ "เนื้อหาสว่าง + โครมเข้ม"**
+// bg.json = {"mode":"color","color":"#f7e4e9"} = ชมพูบลัชจาง
+// การ์ด ContentBox จึงเป็น **ผิวสว่าง fdf5f6 บนหมึกเข้ม 36080f** (= BRAND_TEXT,
+// 16.3:1) — **ห้ามคืนการ์ดเข้มของรอบก่อนกลับมาแม้แต่ใบเดียว**
+// ปุ่มนี้อยู่ในชุด **CTA หลัก** ของพาเลต (แดงเลือดหมู→แดงชาด) แต่ไล่เฉด **สว่างลงเข้ม**
+// from a30d1a → to 8a1420 บนหมึก **ขาว ffffff** (8.0 / 9.5:1 ผ่าน AA ทั้งสอง stop)
+// ส่วน /register ใช้สามสต็อปเต็มและไล่ **เข้มลงสว่าง** จึงไม่ซ้ำกัน
+// 🚨🚨 **ห้ามลากปลายเฉดสว่างกว่า c21325** — ขาวบนค่าที่สว่างกว่านั้นตกต่ำกว่า 4.5:1
+// 🚨🚨 **eec3cc (1.5:1) · d98fa0 (2.3:1) · ef4a5e ห้ามถือตัวอักษรทุกบริบท** —
+// เป็นเส้น/ขอบ/ออรา/พื้นถมเท่านั้น (ขอบของปุ่มนี้คือ d98fa0 ซึ่งเป็น "ขอบ" จึงใช้ได้)
+// ⚠️ ปุ่มนี้อยู่บนการ์ด **ผิวสว่าง** ขอบ d98fa0 กับเงาคือสิ่งที่แยกปุ่มออกจากการ์ด
+// ห้ามถอดออก
+// ⚠️⚠️ **ภาษาภาพของรอบนี้คือราชสำนัก/โถงวังหินอ่อนงาช้าง/มงกุฎอัญมณีแดง/
+// ชิปคาสิโนแดง-ขาว/ไพ่เอซ** โลโก้เป็นเวิร์ดมาร์กสามมิติ ครึ่งแรกเป็นตัวเลขผิว
+// แดงชาดเคลือบเงาตัดขอบทอง ครึ่งหลังเป็นตัวอักษรละตินผิวโครเมียมเงินขัดเงา —
+// **ผนังหินอ่อนงาช้างและสีผิวนางแบบเป็นวัตถุในภาพ ไม่ใช่สี UI**
+// พื้นเพจมาจาก bg.json เท่านั้น
+// ออราในไฟล์นี้ใช้ rgba(54,8,15,α) · rgba(163,13,26,α) เท่านั้น
 //
-// ⚠️⚠️ กับดักรอบนี้คือ **รอบก่อนก็เป็นแบรนด์เขียว + เงินโครเมียม + ทองอำพัน
-// เหมือนกันเป๊ะ ต่างกันแค่กลับทิศสว่าง-มืด** "มีเขียวอยู่แล้ว" จึงไม่พิสูจน์ว่าเป็น
-// ค่าของรอบนี้ ให้เทียบ **ทีละหลัก** กับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่
-// เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
-// **ผิว/หมึกของรอบนี้คือ #002908 / #010d04 / #031b09 / #073c1a / #0e5424 /
-// #1e7033 / #35a043 / #3ddc4a / #eef7f0 / #dfe6e3 / #e8c86a / #9dc2a5 เท่านั้น**
-// รอบนี้ **ไม่มีม่วง ไม่มีฟ้า/ไซแอน ไม่มีแมเจนต้า/ชมพู ไม่มีส้มเพลิง และไม่มีแดง
-// เป็นสี UI** เลยสักเฉด · ปุ่ม LINE (#00B900) อยู่บน /about-us กับ /contact-us
-// ไม่ใช่หน้านี้
+// ⚠️⚠️ กับดักรอบนี้คือ **สเปกของสามรอบก่อนเขียนไว้ว่า "รอบนี้ไม่มีแดงเป็นสี UI
+// เลยสักเฉด" — รอบนี้กลับทิศเต็มๆ แดงชาดคือฮิวนำของแบรนด์** และ **LOTTO189
+// ก็เป็นแบรนด์ แดง/ทอง/ขาวชมพู ตระกูลเดียวกันเป๊ะ** → "เจอแดงอยู่แล้ว" จึงไม่
+// พิสูจน์ว่าเป็นค่าของรอบนี้ ต้องเทียบ **ทีละหลัก** กับตารางใน brand-spec §2
+// ซึ่งไม่พิมพ์ซ้ำที่นี่เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive
+// **ผิว/หมึกของรอบนี้คือ f7e4e9 / fdf5f6 / f7dfe4 / eec3cc / d98fa0 / 330710 /
+// 1c050b / 4d0c18 / 36080f / 6b2b33 / a30d1a / 7a4a0c / 8a1420 / c21325 /
+// dca53a / d2d7dd / ef4a5e เท่านั้น**
+// รอบนี้ **ไม่มีม่วง ไม่มีฟ้า/ไซแอน ไม่มีแมเจนต้า/ชมพูจัด และไม่มีเขียวเป็นสี UI**
+// เลยสักเฉด · ปุ่ม LINE (00B900) อยู่บน /about-us กับ /contact-us ไม่ใช่หน้านี้
+// (เขียนเฮกซ์แบบถอด # และถอดวงเล็บโดยตั้งใจ — tools/gen-tw-sources.mjs สแกนไฟล์นี้
+// แบบ plain text รวมคอมเมนต์ คลาสสีเต็มรูปในคอมเมนต์จะถูก generate ลง stylesheet จริง)
 //
-// Announcement รอบนี้หมุนมาเป็นตัวท้ายชื่อเลข 3 ของตระกูล ทั้งเว็บ (brand-spec §3 —
-// รอบก่อนใช้ตัวท้ายชื่อ Premium จึงหมุนออก · เขียนชื่อไฟล์แบบไม่มีเครื่องหมายคำพูด
+// Announcement รอบนี้หมุนมาเป็นตัวท้ายชื่อเลข 5 ของตระกูล ทั้งเว็บ (brand-spec §3 —
+// รอบก่อนใช้ตัวท้ายชื่อเลข 3 จึงหมุนออก · เขียนชื่อไฟล์แบบไม่มีเครื่องหมายคำพูด
 // โดยตั้งใจ เพราะ tools/gen-tw-sources.mjs นับ literal ที่มีเครื่องหมายคำพูดว่าเป็น
 // การ import จริง คอมเมนต์จึงทำให้ variant เก่าหลุดเข้า Tailwind scan แล้วสีของ
 // แบรนด์ก่อนขึ้น stylesheet) orchestrator เป็นเจ้าของ default message ของไฟล์นั้น
@@ -92,10 +105,10 @@ import CtaRedirect from "../components/CtaRedirect.astro";
 //
 // 150–160 CODE POINTS (นับด้วย [...s].length เหมือน verify-build.mjs ห้ามใช้
 // wc -m — git-bash กล่องนี้นับเป็นไบต์ = เกินจริงราว 3 เท่า) สตริงนี้ยาว 156
-// ด้วยชื่อแบรนด์ 7 อักขระของรอบนี้ ส่วนที่ไม่ใช่ชื่อแบรนด์ยาว 149 → รับชื่อแบรนด์
-// ได้ 1–11 อักขระ ถ้ารอบหน้าชื่อยาวกว่านั้นต้องแก้ข้อความ ไม่ใช่ปล่อยผ่าน
+// ด้วยชื่อแบรนด์ 6 อักขระของรอบนี้ ส่วนที่ไม่ใช่ชื่อแบรนด์ยาว 150 → รับชื่อแบรนด์
+// ได้ 1–10 อักขระ ถ้ารอบหน้าชื่อยาวกว่านั้นต้องแก้ข้อความ ไม่ใช่ปล่อยผ่าน
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ตัวนับจะเห็นเป็น 5 อักขระ
-const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} เว็บเกมคาสิโนสายตรง กดปุ่มเดียวไปยังหน้าเข้าบัญชีสมาชิก ควรตรวจสอบที่อยู่เว็บไซต์ทางการ และไม่เปิดเผยรหัสผ่านหรือรหัส OTP ให้ผู้อื่น`;
+const pageDescription = `หน้าเข้าสู่ระบบ ${BRAND_NAME} เว็บตรง ถูกลิขสิทธิ์ เซิร์ฟแท้ กดปุ่มเดียวไปยังหน้าเข้าบัญชีสมาชิก ควรตรวจสอบที่อยู่เว็บไซต์ให้ถูกต้อง ไม่เปิดเผยรหัสผ่านหรือรหัส OTP`;
 
 const graph = pageGraph(Astro, {
   name: `เข้าสู่ระบบ ${BRAND_NAME}`,
@@ -109,7 +122,7 @@ const graph = pageGraph(Astro, {
 const targetUrl = "https://yoalink.com/hx8w";
 ---
 
-<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บเกมคาสิโนสายตรง กดปุ่มเดียวเข้าบัญชีสมาชิก`} description={pageDescription}>
+<MainLayout title={`เข้าสู่ระบบ ${BRAND_NAME} เว็บตรง ถูกลิขสิทธิ์ กดปุ่มเดียวเข้าบัญชีสมาชิก`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -121,7 +134,7 @@ const targetUrl = "https://yoalink.com/hx8w";
         rel="nofollow sponsored"
         data-cta-redirect
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="group mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 rounded-xl border-2 border-[#35a043] bg-gradient-to-b from-[#0e5424] to-[#073c1a] px-6 py-4 text-2xl font-bold tracking-wide text-[#eef7f0] shadow-[0_10px_30px_rgba(1,13,4,0.45)] transition-all duration-300 hover:scale-105 hover:border-[#3ddc4a] hover:shadow-[0_15px_40px_rgba(61,220,74,0.3)]">
+        class="group mx-auto flex w-full max-w-[320px] items-center justify-center gap-3 rounded-xl border-2 border-[#d98fa0] bg-gradient-to-b from-[#a30d1a] to-[#8a1420] px-6 py-4 text-2xl font-bold tracking-wide text-white shadow-[0_10px_30px_rgba(54,8,15,0.22)] transition-all duration-300 hover:scale-105 hover:border-[#dca53a] hover:shadow-[0_15px_40px_rgba(163,13,26,0.32)]">
         เข้าสู่ระบบ
       </a>
     </div>
