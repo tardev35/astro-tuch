@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import { BRAND_NAME } from "../lib/brandProfile";
 import img1 from "../assets/providers/game1.avif";
 import img2 from "../assets/providers/game2.avif";
 import img3 from "../assets/providers/game3.avif";
@@ -7,64 +8,63 @@ import img4 from "../assets/providers/game4.avif";
 import img5 from "../assets/providers/game5.avif";
 import img6 from "../assets/providers/game6.avif";
 
-// `alt` is each tile's real logo, so the names stay as the artwork prints them —
-// they are not copy to be swapped for the brief's wording. The brief names no
-// individual provider, only "เกมจากหลายค่ายให้เลือก", so the label says that and
-// the tiles say which ones.
+// `alt` names the provider whose wordmark the tile shows — these are real
+// third-party logos, so the names are not copy to be swapped for the brief's
+// wording, and the artwork itself is never tinted or filtered by a palette
+// sweep. The same six files carry the same six names in PopularGamesStrip.
 //
 // The block title is a <p> and the <section> carries an aria-label: a provider
-// grid is chrome and never emits a heading tag at any level.
+// grid is chrome and never emits a heading tag at any level. Each tile's own
+// name badge is a card label, so it is a <p> too.
 //
-// The tile's corner badge repeats the provider's own name (a caption for the
-// logo) instead of the invented "N players online" figure this file used to
-// carry — the brief states no member or player counts, and a fabricated one is
-// a claim with nothing behind it.
+// The corner badge states which of the brief's game categories the provider
+// supplies (บาคาร่า / สล็อต) instead of the "HOT" hype chip it used to carry,
+// and nothing on the tile states a provider count, a game count or a payout
+// figure — the only numbers this brief allows are the two promotion percentages.
 //
-// HENG35 (ดำ-ทอง 2026-09-21): ไทล์วางบนพื้นการ์ด #12100b หลังเส้นขอบทองหลัก
-// #ecc55c ที่สว่างขึ้นเป็นทองสว่าง #fefac4 ตอน hover ป้าย HOT ไล่จากบรอนซ์
-// #a3732c ไปหาทองหลัก และตัวอักษรบนป้ายเป็นสีบนทอง #0d0b0a — ชุดทองของแบรนด์
-// ก่อนหน้า (#e8c25a #f7e7a8 #140f06) หายไปทั้งหมด
+// ธีมรอบนี้: การ์ดไทล์เป็นเขียวป่า #073c1a บนพื้นเพจเขียวจม ขอบตกแต่ง #35a043
+// สว่างขึ้นเป็นมรกตนีออน #3ddc4a ตอน hover · ชื่อค่ายเป็นเงินโครเมียม #dfe6e3
+// · ป้ายหมวดเป็นทองอำพัน #e8c86a บนชั้นยก #0e5424 — ชุดทอง/ครีมของแบรนด์ก่อน
+// หน้าหายไปทั้งหมด
 const providers = [
-  { alt: "PG Soft", isHot: true, img: img1 },
-  { alt: "Joker Gaming", isHot: true, img: img2 },
-  { alt: "JILI", isHot: true, img: img3 },
-  { alt: "Evolution", isHot: true, img: img4 },
-  { alt: "SA Gaming", isHot: false, img: img5 },
-  { alt: "Sexy Baccarat", isHot: true, img: img6 },
+  { name: "PG Soft", category: "สล็อต", img: img1 },
+  { name: "Joker Gaming", category: "สล็อต", img: img2 },
+  { name: "JILI", category: "สล็อต", img: img3 },
+  { name: "Evolution", category: "บาคาร่า", img: img4 },
+  { name: "SA Gaming", category: "บาคาร่า", img: img5 },
+  { name: "Sexy Baccarat", category: "บาคาร่า", img: img6 },
 ];
 ---
 
-<section aria-label="ค่ายเกมสล็อตที่ HENG35 เปิดให้สมาชิกเลือกเล่นแบบไม่ล็อคยูส" class="mx-auto w-full max-w-[1300px] px-4 py-8 font-sans sm:px-6 lg:px-8">
+<section
+  aria-label={`ค่ายเกมบาคาร่าและสล็อตที่ ${BRAND_NAME} รวบรวมข้อมูลไว้`}
+  class="mx-auto w-full max-w-[1300px] px-4 py-8 font-sans sm:px-6 lg:px-8"
+>
   <div class="mb-8 flex w-full flex-col items-center justify-center gap-2 text-center">
-    <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_10px_rgba(236,197,92,0.6)]">🎰</span>
-    <p class="bg-gradient-to-r from-[#fefac4] via-[#ffdf8a] to-[#ecc55c] bg-clip-text text-3xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
-      เกมสล็อตจากหลายค่าย เลือกได้จากหน้าเดียวของ HENG35
+    <span aria-hidden="true" class="text-2xl drop-shadow-[0_0_10px_rgba(61,220,74,0.6)]">⚔️</span>
+    <p class="bg-gradient-to-r from-[#dfe6e3] via-[#e8c86a] to-[#3ddc4a] bg-clip-text text-3xl font-black tracking-widest text-transparent uppercase drop-shadow-sm">
+      รวมเกมเดิมพันออนไลน์ บาคาร่าและสล็อต จากค่ายเกมของ {BRAND_NAME}
     </p>
-    <div class="mt-2 h-[2px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#ecc55c] to-transparent"></div>
+    <div class="mt-2 h-[2px] w-24 rounded-full bg-gradient-to-r from-transparent via-[#35a043] to-transparent"></div>
   </div>
 
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6">
     {
       providers.map((p) => (
-        <div class="group relative flex flex-col overflow-hidden rounded-2xl bg-[#12100b] shadow-[0_5px_15px_rgba(7,6,5,0.65)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(236,197,92,0.32)]">
-          <div class="pointer-events-none absolute inset-0 z-20 rounded-2xl border border-[#ecc55c]/45 transition-all duration-500 group-hover:border-[#fefac4]/65 group-hover:shadow-[inset_0_0_20px_rgba(236,197,92,0.18)]" />
+        <div class="group relative flex flex-col overflow-hidden rounded-2xl bg-[#073c1a] shadow-[0_5px_15px_rgba(1,13,4,0.65)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(61,220,74,0.32)]">
+          <div class="pointer-events-none absolute inset-0 z-20 rounded-2xl border border-[#35a043]/45 transition-all duration-500 group-hover:border-[#3ddc4a]/65 group-hover:shadow-[inset_0_0_20px_rgba(61,220,74,0.18)]" />
 
-          <div class="absolute top-0 left-0 z-10 max-w-[80%] truncate rounded-br-xl border-r border-b border-[#a3732c]/55 bg-[#070605]/80 px-3 py-1.5 text-[10px] font-medium text-[#ece1cb]/80 backdrop-blur-md transition-colors group-hover:text-[#fefac4]">
-            {p.alt}
-          </div>
+          <p class="absolute top-0 left-0 z-10 max-w-[80%] truncate rounded-br-xl border-r border-b border-[#1e7033]/70 bg-[#010d04]/80 px-3 py-1.5 text-[10px] font-medium text-[#dfe6e3] backdrop-blur-md transition-colors group-hover:text-[#eef7f0]">
+            {p.name}
+          </p>
 
-          {p.isHot && (
-            <div class="absolute top-0 right-0 z-10 flex items-center gap-1 rounded-bl-xl border-b border-l border-[#fefac4]/60 bg-gradient-to-r from-[#a3732c] to-[#ecc55c] px-3 py-1.5 text-[10px] font-black tracking-wide text-[#0d0b0a] shadow-md">
-              <span aria-hidden="true" class="animate-pulse">
-                🔥
-              </span>{" "}
-              HOT
-            </div>
-          )}
+          <p class="absolute top-0 right-0 z-10 flex items-center gap-1 rounded-bl-xl border-b border-l border-[#e8c86a]/60 bg-gradient-to-r from-[#0e5424] to-[#1e7033] px-3 py-1.5 text-[10px] font-black tracking-wide text-[#e8c86a] shadow-md">
+            {p.category}
+          </p>
 
           <Picture
             src={p.img}
-            alt={p.alt}
+            alt={`โลโก้ค่ายเกม ${p.name}`}
             formats={["avif", "webp"]}
             fallbackFormat="webp"
             loading="lazy"
@@ -77,7 +77,7 @@ const providers = [
 
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute -bottom-10 left-0 h-20 w-full bg-gradient-to-t from-[#a3732c]/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            class="pointer-events-none absolute -bottom-10 left-0 h-20 w-full bg-gradient-to-t from-[#35a043]/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
         </div>
       ))
