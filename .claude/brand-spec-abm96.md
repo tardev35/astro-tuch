@@ -11,7 +11,7 @@
 |---|---|
 | ชื่อแบรนด์ (`BRAND_NAME`) | **`ABM96`** — ละตินพิมพ์ใหญ่ `ABM` ติดเลข `96` เป็นคำเดียว **5 เคอแรกเตอร์ ไม่มีเว้นวรรค ไม่มีขีด** |
 | ชื่อไทยในเนื้อหา | **"เว็บเอเอ็มบีคาสิโน"** — เป็น **ถ้อยคำของบรีฟ** ไม่ใช่ค่า `BRAND_NAME` ห้ามเอาไปใส่ใน `brandProfile.ts` |
-| โดเมน | 🚨 **operator ไม่ได้ระบุ URL มาในคำสั่ง** → **ห้ามแตะ `astro.config.mjs` `site:`** · **ห้ามแตะ `wrangler.toml` `name`/`account_id`** · ไม่มี URL literal ที่ไหนให้แก้ (ทุกหน้าใช้ `pageGraph()`) ค่าที่ค้างเป็น `huay-lottoplus.co` คือ **drift ที่คาดไว้แล้ว ไม่ใช่บั๊ก** |
+| โดเมน | ✅ **operator ระบุ URL มาในคำสั่งรอบที่สอง** (`real url is "https://abm96-plays.com"`) → แก้แล้ว: `astro.config.mjs` `site:` = `https://abm96-plays.com` · `wrangler.toml` `name` = `abm96-plays` (label เต็มของ host) · **`account_id` ไม่แตะ** · ไม่มี URL literal ที่ไหนให้แก้ (ทุกหน้าใช้ `pageGraph()`) · `BRAND_ADDRESS.email` เลื่อนตามเป็น `contact@abm96-plays.com` เอง |
 | ขอบเขต | **หยุดที่ build + verify** ห้าม deploy ห้าม `git push` ห้าม `git commit` |
 | แกนธุรกิจ | 🚨🚨 **คาสิโนออนไลน์** (บาคาร่า · สล็อต · รูเล็ต · ไฮโล · คาสิโนสด) — **ไม่ใช่เว็บหวย** |
 | หน้าหวย | 🚨 **`ตรวจหวย.astro` / `แนวทาง.astro` ต้องย้ายออกไป `src/pages-disabled/`** (รอบก่อน LOTTOPLUS เปิดไว้) และ **ห้ามมีลิงก์สองหน้านั้นใน navbar/footer ที่ใช้งานอยู่** — ลิงก์ที่ค้าง = href ชี้ route ที่ไม่มีจริง = `verify-build` แดง |

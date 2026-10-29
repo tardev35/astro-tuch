@@ -37,27 +37,22 @@ export default defineConfig({
     "/line": "https://tinyurl.com/linetddy",
   },
 
-  // โดเมนจริงรอบนี้คือ https://huay-lottoplus.co — operator ระบุมาตรงๆ ในคำสั่ง
-  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** (เหมือนหกรอบก่อน
-  // 123bet-play.net / zoro365-slot.com / teva-69.com / lotto189.com /
-  // znova168.autos / zane96.autos — ส่วน โบ๊ะบ๊ะ168 / นาซ่า168 / สบาย168
-  // ก่อนหน้านั้นเป็น IDN ที่ต้องแปลง
-  // ตรวจด้วย `node -e "console.log(new URL(...).hostname)"` เสมอ
-  // ถ้ารอบไหนโดเมนเป็นภาษาไทย ห้ามพิมพ์เอาเองจากความจำ)
-  // ⚠️⚠️ **รอบนี้ TLD เป็น `.cc` ไม่ใช่ `.com`/`.net`** — host ที่ถูกคือ
-  // `win8s.cc` เท่านั้น อย่าเผลอเติม `.com` ตามความเคยชินของรอบก่อนๆ
-  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@win8s.cc ซึ่ง **ถูกต้องแล้ว**
+  // โดเมนจริงรอบนี้คือ https://abm96-plays.com — operator ระบุมาตรงๆ ในคำสั่ง
+  // ("real url is ...") รอบรีแบรนด์ ABM96 นี้จึงแตะโดเมนได้
+  // ⚠️ รอบนี้โดเมนเป็น **ASCII ล้วน ไม่ต้องแปลง punycode** (เหมือนรอบก่อนๆ
+  // huay-lottoplus.co / win8s.cc / 123bet-play.net / zoro365-slot.com /
+  // teva-69.com — ส่วน โบ๊ะบ๊ะ168 / นาซ่า168 / สบาย168 เป็น IDN ที่ต้องแปลง)
+  // ตรวจด้วย `node -e "console.log(new URL(...).hostname)"` เสมอ — รอบนี้ตรวจแล้ว
+  // ได้ `abm96-plays.com` ถ้ารอบไหนโดเมนเป็นภาษาไทย ห้ามพิมพ์เอาเองจากความจำ
+  // ⚠️ BRAND_ADDRESS.email จะออกมาเป็น <mailbox>@abm96-plays.com ซึ่ง **ถูกต้องแล้ว**
   // verify-build.mjs เทียบโฮสต์ของอีเมลกับค่านี้ตรงๆ — ห้ามเขียนอีเมลด้วยมือ
-  // ⚠️⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — **รอบนี้สองค่า
-  // ดันตรงกันพอดี** (name = "win8s" จาก SITE.hostname.split(".")[0] และ
-  // iconSlug = "win8s" จาก BRAND_NAME ผ่าน [^a-z0-9]) แต่นั่นเป็น **เรื่องบังเอิญ
-  // ของรอบนี้เท่านั้น** รอบก่อนๆ ไม่ตรงกันเลยสักรอบ (123bet-play / 123bet ·
-  // zoro365-slot / zoro365 · teva-69 / teva69) — **ที่มาของสองค่าคนละทางกันเสมอ
-  // อย่าสรุปจากรอบนี้ว่ามันผูกกัน**
-  // ถ้า operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
+  // ⚠️⚠️ name ใน wrangler.toml มาจาก **โดเมน** ไม่ใช่ชื่อแบรนด์ — รอบนี้
+  // name = "abm96-plays" (จาก label ของ host) ขณะที่ iconSlug = "abm96"
+  // (จาก BRAND_NAME ผ่าน [^a-z0-9]) **สองค่านี้มาคนละทางกันเสมอ ไม่ต้องทำให้ตรงกัน**
+  // ถ้ารอบไหน operator ไม่ได้ระบุโดเมนมาในคำสั่ง ห้ามเดาจากชื่อแบรนด์เด็ดขาด
   // canonical, sitemap, robots.txt, อีเมลใน BRAND_ADDRESS และ JSON-LD ทุกตัว
   // อนุมานจากค่านี้ค่าเดียว ไม่มีไฟล์ไหนพิมพ์โดเมนซ้ำอีก
-  site: "https://huay-lottoplus.co",
+  site: "https://abm96-plays.com",
   integrations: [
     sitemap({
       // /line is a redirect declared above — it resolves to an external short

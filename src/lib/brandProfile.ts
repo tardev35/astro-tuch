@@ -101,16 +101,16 @@ export const BRAND_FONT: BrandFont = "google-sans";
 // ⚠️ บรีฟเขียนชื่อไทยคู่กันว่า **เว็บเอเอ็มบีคาสิโน** — นั่นเป็นคำในเนื้อหา ไม่ใช่
 // ค่าของ BRAND_NAME ห้ามเอามาใส่ตรงนี้
 //
-// 🚨🚨 **รอบนี้ operator ไม่ได้ระบุโดเมนมาในคำสั่ง** (คำสั่งมีแค่ชื่อแบรนด์)
-// → **ห้ามแตะ site: ใน astro.config.mjs · ห้ามแตะ name/account_id ใน
-// wrangler.toml** ค่าที่ค้างเป็นของ LOTTOPLUS (huay-lottoplus.co) คือ
-// **drift ที่คาดไว้แล้วของงานรีแบรนด์เชิงเนื้อหา ไม่ใช่บั๊กให้ "แก้" เงียบๆ**
-// **ห้ามเดาโดเมนจากชื่อแบรนด์เด็ดขาด** — deploy ด้วยชื่อที่เดาเอาจะทับ Worker
-// ของแบรนด์อื่นโดยไม่มี error
+// 🚨 **โดเมนรอบนี้ operator ระบุมาตรงๆ** ("real url is https://abm96-plays.com")
+// → จึงแก้ครบทั้งสามจุดแล้ว: `site:` ใน astro.config.mjs · `name` ใน
+// wrangler.toml (= "abm96-plays") · ไม่มี URL literal ในหน้าไหนเลยเพราะทุกหน้า
+// ใช้ `pageGraph()` · **`account_id` ไม่แตะ** (ผูกกับบัญชี Cloudflare ไม่ใช่แบรนด์)
+// ⚠️ ถ้ารอบไหน operator **ไม่** ระบุโดเมนมา ห้ามเดาจากชื่อแบรนด์เด็ดขาด —
+// deploy ด้วยชื่อที่เดาเอาจะทับ Worker ของแบรนด์อื่นโดยไม่มี error
 // ผลที่ตามมาและ **ถูกต้องแล้ว**: iconSlug = "abm96" (จาก BRAND_NAME) ขณะที่
-// worker name ยังเป็น "huay-lottoplus" (จาก SITE.hostname) และ
-// BRAND_ADDRESS.email ยังออกมาเป็น <mailbox>@huay-lottoplus.co ซึ่ง
-// verify-build เทียบกับ site: ตรงๆ จึงผ่าน — **ห้ามเขียนอีเมลด้วยมือเพื่อ "แก้"**
+// worker name = "abm96-plays" (จาก SITE.hostname) — **สองค่านี้มาคนละทางเสมอ
+// ไม่ต้องทำให้ตรงกัน** · BRAND_ADDRESS.email ออกมาเป็น <mailbox>@abm96-plays.com
+// ซึ่ง verify-build เทียบกับ site: ตรงๆ จึงผ่าน — **ห้ามเขียนอีเมลด้วยมือ**
 //
 // ⚠️⚠️ **อาร์ตเวิร์กทุกใบพิมพ์คำว่า ABM96 อยู่บนรูปจริง** (โลโก้ แบนเนอร์
 // สไลด์ทั้งสอง og) นั่นคือข้อเท็จจริงของรูป แต่เวลาเขียน alt ให้บรรยาย
