@@ -2,7 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ContentBox from "../components/ContentBox.astro";
 import Navfoot from "../components/Navfoot.astro";
-import Announcement from "../components/AnnouncementHuay.astro";
+import Announcement from "../components/Announcement5.astro";
 
 import { Picture } from "astro:assets";
 import { pageGraph } from "../lib/schema";
@@ -28,106 +28,100 @@ import lineImage from "../assets/contact-line.webp";
 // ลิงก์แผนที่ และห้ามส่งที่อยู่/อีเมลเข้า structured data (address/PostalAddress/
 // email ใน JSON-LD ทำให้เกทของ verify-build แดง)
 // verify-build เทียบโฮสต์ของอีเมลกับ site: — **ห้ามแก้สตริงนี้ด้วยมือ และห้าม
-// พิมพ์โดเมนลงในไฟล์นี้**
+// พิมพ์โดเมนลงในไฟล์นี้** 🚨 รอบนี้ operator ไม่ได้ให้ URL มา site: จึงยังเป็นค่า
+// ของรอบก่อน และอีเมลที่ออกมาก็โฮสต์ตามนั้น — **ถูกต้องแล้ว ห้าม "แก้" ให้ตรงชื่อแบรนด์**
 // · กล่องจดหมายนี้ตั้งใจไม่ route ไปไหน เป็นการตัดสินใจของเจ้าของ
 // ห้ามยกขึ้นมาถามทุกรอบ ห้ามตั้ง mail routing และห้ามลบบรรทัดนี้ออก
 //
-// Announcement รอบนี้หมุนมาเป็นตัวที่ลงท้ายด้วยคำว่าหวย ทั้งเว็บ
-// (brand-spec §3 — รอบก่อนใช้ตัวท้ายชื่อพรีเมียมจึงหมุนออก · เขียนชื่อ variant แบบ
-// ไม่มีเครื่องหมายคำพูดโดยตั้งใจ เพราะ tools/gen-tw-sources.mjs นับ literal
-// ที่มีเครื่องหมายคำพูดว่าเป็นการ import จริง) orchestrator ตั้ง default message
-// ของไฟล์นั้นเป็นคอปปี้ของแบรนด์ปัจจุบันไว้แล้ว ทุกหน้าเรียกแบบ bare จึงห้ามส่ง
-// prop message จากหน้านี้ ไม่งั้นตัววิ่งจะพูดคนละเรื่องกับหน้าอื่น
+// Announcement รอบนี้หมุนมาเป็นตัวเลขห้า ทั้งเว็บ (brand-spec §3 — รอบก่อนใช้
+// ตัวท้ายชื่อหวยจึงหมุนออก · เขียนชื่อ variant แบบไม่มีเครื่องหมายคำพูดโดยตั้งใจ
+// เพราะ tools/gen-tw-sources.mjs นับ literal ที่มีเครื่องหมายคำพูดว่าเป็นการ
+// import จริง) orchestrator ตั้ง default message ของไฟล์นั้นเป็นคอปปี้ของแบรนด์
+// ปัจจุบันไว้แล้ว ทุกหน้าเรียกแบบ bare จึงห้ามส่ง prop message จากหน้านี้
+// ไม่งั้นตัววิ่งจะพูดคนละเรื่องกับหน้าอื่น
 //
 // ───────────────────────────────────────────────────────────────────────────
-// พาเลตต์รอบนี้อยู่ใน .claude/brand-spec-lottoplus.md §2
-// 🚨🚨 **กลับทิศ 180° จากรอบก่อนอีกครั้ง: รอบนี้ "เนื้อหาสว่าง โครมเข้ม"**
-// (รอบก่อน WIN8S มืดทั้งเว็บ — คนละปลายของสเกล)
-// bg.json = {"mode":"color","color":"#e1fef3"} = **เขียวมินต์จางเกือบขาว**
-// การ์ด ContentBox จึงเป็นผิวขาว #ffffff บนหมึกเข้ม #0d3326 (= BRAND_TEXT, 13.8:1)
-// **ห้าม "แก้" การ์ดกลับไปเป็นผิวเข้มตามรอบก่อน** — ผิวเข้มบนหมึกนี้ = ตัวอักษรหายไปเลย
+// พาเลตรอบนี้อยู่ใน .claude/brand-spec-abm96.md §2
+// **ทิศความสว่างเหมือนรอบก่อน (เนื้อหาสว่าง โครมเข้ม) แต่คนละตระกูลสีทั้งชุด**
+// bg.json = {"mode":"color","color":"#f8b9f0"} = **ชมพูพาสเทลอิ่มตัว**
+// (รอบก่อน LOTTOPLUS เป็น e1fef3 เขียวมินต์จาง — เปิด bg.json อ่านทุกรอบ ห้ามสืบทอด)
+// การ์ด ContentBox จึงเป็นผิวขาว #ffffff บนหมึกเข้ม #3d0a2c (= BRAND_TEXT, 16.4:1)
+// **ห้าม "แก้" การ์ดกลับไปเป็นผิวเข้ม** — ผิวเข้มบนหมึกนี้ = ตัวอักษรหายไปเลย
 //
 // บทบาทสีในไฟล์นี้:
-//   ปุ่ม PRIMARY (สมัครสมาชิก) = ไล่เฉดเขียวมรกต #0c7c58 -> #046c4e -> #03543c
-//     บนหมึก **ขาว #ffffff** (5.2 / 6.7 / 9.2:1 — ผ่าน AA ทุก stop)
-//     🚨🚨 **หมึกเข้ม #0d3326 บนเฉดนี้ตกทุก stop — ห้ามใช้เด็ดขาด** (รอบก่อนปุ่มหลัก
-//     เป็นส้ม-ทองจึงรองหมึกดำได้ รอบนี้กลับทิศ)
-//     ⚠️⚠️ **ห้ามดันปลายอ่อนขึ้นไปถึง #19a97c** — ขาวบนค่านั้นเหลือ 3.0:1
-//   ปุ่ม SECONDARY (เข้าสู่ระบบ) = ผิวพื้นถมอ่อน #d2f3e4 บนหมึก #046c4e (5.4:1)
-//     ขอบ #19a97c เป็นตัวแยกปุ่มออกจากผิวการ์ดขาว — ห้ามถอดขอบออก
-//   หมึกเนื้อความ #0d3326 มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
+//   ปุ่ม PRIMARY (สมัครสมาชิก) = ไล่เฉดชมพูบานเย็น #d11a7e -> #a30d63 -> #7a0449
+//     บนหมึก **ขาว #ffffff** (5.0 / 7.5 / 10.8:1 — ผ่าน AA ทุก stop)
+//     🚨🚨 **หมึกเข้ม #3d0a2c บนเฉดนี้ตก — ห้ามใช้เด็ดขาด** (บน #7a0449 ได้ 1.5:1)
+//     ⚠️⚠️ **ห้ามลากปลายอ่อนกว่า #d11a7e** — ขาวบน #e0509f เหลือ 3.6:1
+//   ปุ่ม SECONDARY (เข้าสู่ระบบ) = ผิว #ffffff บนหมึก #a30d63 (7.5:1)
+//     ขอบ #e0509f เป็นตัวแยกปุ่มออกจากผิวการ์ดขาว — **ห้ามถอดขอบออก** เพราะ
+//     ปุ่มนี้มีผิวเดียวกับการ์ด ขอบคือสิ่งเดียวที่ทำให้มันเป็นปุ่ม
+//   หมึกเนื้อความ #3d0a2c มาจากการ์ด — ป้ายที่อยู่จึงไม่ประกาศสีตัวอักษรเอง
 //     ⚠️ บล็อก address **ห้ามมีสีแบรนด์เป็นสีตัวอักษรเลยสักค่า** เส้นขอบซ้าย
-//     ใช้ #19a97c ซึ่งเป็น "ขอบตกแต่ง" ของพาเลตรอบนี้ — รอบก่อนใช้ 8a3a12
+//     ใช้ #e0509f ซึ่งเป็น "ขอบตกแต่ง" ของพาเลตรอบนี้ — รอบก่อนใช้ 19a97c
 //     (เขียนไม่มี # โดยตั้งใจ เพื่อไม่ให้ sweep หาสีแบรนด์เก่าสะดุดที่คอมเมนต์
 //     ของไฟล์นี้เอง) ซึ่งรอบนี้หายไปทั้งค่า
 // ขั้วของปุ่มตรงกับ /ทางเข้า /login /register /promotion ซึ่งวางปุ่มคู่นี้บนการ์ด
-// ผิวขาวเหมือนกัน: สมัครสมาชิก = PRIMARY ไล่เฉดเขียวมรกต · เข้าสู่ระบบ = SECONDARY
-// ผิวพื้นถมอ่อนคู่กับขอบเขียวสดและหมึกเขียวมรกต
-// ออราในไฟล์นี้ใช้ rgba(4,108,78,α) · rgba(25,169,124,α) · rgba(47,212,155,α) ·
-// rgba(226,179,42,α) · rgba(13,51,38,α) · rgba(5,46,34,α) เท่านั้น
-// ⚠️⚠️ **#ffffff #f0fdf7 #d2f3e4 #a3ddc3 #19a97c #2fd49b #e1fef3 เป็นผิว/เส้น
-// ห้ามถือตัวอักษรในไฟล์นี้** ที่ถือตัวอักษรได้บนการ์ดขาวคือ #0d3326 · #3f6f5c ·
-// #046c4e · #8a6508
-// 🚨 **#e2b32a (ทองอำพัน) ได้แค่ 2.0:1 บนการ์ดขาว — ห้ามถือตัวอักษรบนหน้านี้**
+// ผิวขาวเหมือนกัน: สมัครสมาชิก = PRIMARY ไล่เฉดชมพูบานเย็น · เข้าสู่ระบบ =
+// SECONDARY ผิวขาวคู่กับขอบชมพูและหมึกชมพูบานเย็น
+// ออราในไฟล์นี้ใช้ rgba(163,13,99,α) · rgba(224,80,159,α) · rgba(255,122,194,α) ·
+// rgba(209,26,126,α) · rgba(61,10,44,α) · rgba(68,13,49,α) เท่านั้น
+// ⚠️⚠️ **#ffffff #fff5fb #fcd9ee #f3a7d3 #e0509f #ff7ac2 #f8b9f0 เป็นผิว/เส้น
+// ห้ามถือตัวอักษรในไฟล์นี้** ที่ถือตัวอักษรได้บนการ์ดขาวคือ #3d0a2c · #7a4263 ·
+// #a30d63 · #6e4705
+// 🚨 **#f2c14e (ทองอำพัน) ได้แค่ 1.7:1 บนการ์ดขาว — ห้ามถือตัวอักษรบนหน้านี้**
 // นอกจากสีเขียวของ LINE — #00B900 เป็นสีประจำแบรนด์ LINE ไม่ใช่สีของเว็บ คงไว้เดิม
-// **ห้ามเปลี่ยนเป็นสีของแบรนด์ และห้ามเอามาใช้เป็นสีแบรนด์** (รอบนี้แบรนด์ก็เป็นเขียว
-// จึงสับสนง่ายที่สุด) ต้องเป็นพื้นถม bg ของค่านั้น + หมึกขาว ไม่ใช่ตัวอักษรสีเขียว
-// บนพื้นโปร่ง
+// **ห้ามเปลี่ยนเป็นสีของแบรนด์ และห้ามเอามาใช้เป็นสีแบรนด์** ต้องเป็นพื้นถม bg
+// ของค่านั้น + หมึกขาว ไม่ใช่ตัวอักษรสีเขียวบนพื้นโปร่ง
 //
-// 🚨🚨 กับดักรอบนี้: **ตระกูล Huay (เจ้าของเดิมของ NavbarHuay/AnnouncementHuay)
-// เป็นแบรนด์หวย แดง/ทอง** และ **LOTTO189 ก็เป็นแบรนด์หวยเหมือนกัน** →
-// **"เจอคำว่าหวย ไม่ได้แปลว่าเป็นของรอบนี้"** และ **"เจอเขียวหรือทอง ก็ไม่ได้แปลว่า
-// เป็นของรอบนี้"** (สาธุ168 / TEVA69 / ZORO365 เป็นเขียวทั้งหมด) ต้องเทียบ
-// **ค่าเฮกซ์ให้ตรงหกหลัก** กับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่
-// เพื่อไม่ให้ grep หาสีของแบรนด์เก่าเจอ false positive (คู่ที่ต้องสงสัยก่อนเสมอ
-// เขียนแบบไม่มี #: e5a92b e3a712 ffd94a e9b53c e0b03a d4922c ↔ e2b32a/8a6508 ·
-// 0b7d28 0a5f1c 0f9b35 ↔ 046c4e/0c7c58 · c9d2dc dde1e7 cfd6e3 ↔ c8d4d0 ·
-// fdf0e6 e0bda4 ↔ **ไม่มีคู่ หมึกรอบนี้เป็นสีเข้ม** · 8a0412 b00718 c1071b a30d1a
-// f27a1a e8620e ↔ **ไม่มีคู่ แดงกับส้มออกจากพาเลตแล้วทั้งสองตระกูล**)
-// ชุดส้มเพลิง-ทองอำพันบนดำของแบรนด์ขาออกรอบก่อนทันที (ทั้งคลาสสีและค่าใน rgba
-// ของเงา/ออรา) ถูกกวาดออกจากไฟล์นี้ครบทุกจุดแล้ว — **ลิสต์ค่าเต็มอยู่ที่
-// brand-spec §2 ไม่พิมพ์ซ้ำที่นี่** ลิสต์เดียวที่อัปเดตที่เดียวย่อมไม่หลุดกันเอง
-// รอบนี้ **ไม่มีแดง/ส้ม/ม่วง/ฟ้า/แมเจนต้า/ชมพูเป็นสี UI เลยสักเฉด** (ยกเว้น
+// 🚨🚨 กับดักรอบนี้: **okkub88 เป็นแบรนด์ชมพูบานเย็นเหมือนกันเป๊ะ** และไฟล์ที่
+// หมุนเข้ามารอบนี้ก็เฉียดชมพูทั้งคู่ (NavbarStyle6 เคยเป็นไวโอเลต-แมเจนต้าของ
+// ZANE96 · Announcement5 เคยเป็นแดงชาด-ชมพูบลัชของ 123BET) →
+// **"เจอชมพู ไม่ได้แปลว่าเป็นของรอบนี้"** ต้องเทียบ **ค่าเฮกซ์ให้ตรงหกหลัก**
+// กับตารางใน brand-spec §2 ซึ่งไม่พิมพ์ซ้ำที่นี่ เพื่อไม่ให้ grep หาสีของแบรนด์
+// เก่าเจอ false positive (คู่ที่ต้องสงสัยก่อนเสมอ เขียนแบบไม่มี #:
+// d91a73 ↔ d11a7e · 9c0f55 b01160 a30d1a c2178b ↔ a30d63 · fb439b fc4da1 fa63b9
+// ↔ e0509f · f9b2d9 ffb3de ↔ f3a7d3 · 6a0f3c 6d0b3f ↔ 440d31/3d0a2c ·
+// ffd84d dca53a e2b32a ↔ f2c14e · 046c4e 0d3326 3f6f5c 19a97c a3ddc3 d2f3e4
+// ↔ **ไม่มีคู่ เขียวออกจากพาเลตทั้งตระกูลแล้ว**)
+// รอบนี้ **ไม่มีเขียว/ส้ม/แดงชาด/ม่วง/ฟ้า/ไซแอนเป็นสี UI เลยสักเฉด** (ยกเว้น
 // เขียว LINE ซึ่งเป็นสีเชิงความหมาย)
-// ⚠️⚠️ **ชุดไทยทอง-เขียวมรกต เครื่องประดับทองฝังพลอยเขียว ยอดปรางค์ทอง
-// ดอกลีลาวดีขาว ลูกบอลหวยเขียว-ขาว และสีผิวนักแสดงในอาร์ตเวิร์กเป็นวัตถุในภาพ
+// ⚠️⚠️ **ผ้าซาตินชมพู ชุดลูกไม้ของนางแบบ ลูกหมูการ์ตูน ไพ่เอซ ลูกเต๋าชมพู
+// ชิปคาสิโน วงล้อรูเล็ตขอบทอง และสีผิวนักแสดงในอาร์ตเวิร์กเป็นวัตถุในภาพ
 // ไม่ใช่สี UI** — พื้นเพจมาจาก bg.json เท่านั้น **ห้ามอนุมานจากรูป**
-// 🚨 **เวิร์ดมาร์กโครเมียมเงิน-เขียวมรกตกับใบโคลเวอร์ก็เป็นอาร์ตเวิร์ก ไม่ใช่สี UI**
 //
 // contact-line.webp เป็นอาร์ตสต็อกกลางของเทมเพลต ไม่ใช่อาร์ตเวิร์กของแบรนด์นี้
 // และไม่มีชื่อแบรนด์ใดพิมพ์อยู่บนรูป — alt จึงบรรยายรูปจริงตามที่เห็น ห้ามเอ่ย
 // ชื่อแบรนด์ในคำบรรยายรูปใบนี้ และห้าม "แก้" คำบรรยายให้เข้ากับธีม นั่นคือ alt ที่
-// โกหกรูป (ชุดเลื่อมในภาพเป็น **สีชมพู** จริง ซึ่งรอบนี้ไม่มีในพาเลตเลย — แต่นั่น
-// ไม่ใช่เหตุผลให้แก้บรรทัดนี้ มันคือ "เนื้อหาของรูป" ไม่ใช่สีของ UI)
+// โกหกรูป (ชุดเลื่อมในภาพเป็นสีชมพูจริง ซึ่งรอบนี้บังเอิญใกล้พาเลต — **แต่นั่น
+// ไม่ใช่เหตุผลให้แก้บรรทัดนี้เช่นกัน** มันคือ "เนื้อหาของรูป" ไม่ใช่สีของ UI)
 //
 // One string, used twice: MainLayout's <meta name="description"> and the
 // WebPage node's description. Keeping it in a const is what stops the meta tag
 // and the structured data from drifting apart. 150–160 CODE POINTS, counted
 // with [...s].length exactly like verify-build.mjs — do NOT use `wc -c` on this
 // box: git-bash has no UTF-8 locale here, so it counts BYTES and reads ~3x too
-// long. This one is 152 with this round's 9-code-point brand name, so the
-// non-brand part is 143 → it accepts a 7–17 character brand name (recount it
-// every rebrand, never inherit the length — last round's name was 5).
+// long. This one is 152 with this round's 5-code-point brand name, so the
+// non-brand part is 147 → recount it every rebrand, never inherit the length
+// (last round's name was 9).
 //
 // คอปปี้ของหน้านี้อนุมานจากบรีฟบรรทัด 21-22 ซึ่งระบุเรื่องที่ติดต่อได้ไว้แค่:
-// การสมัครสมาชิก การเข้าสู่ระบบ ประเภทหวย รอบปิดรับ อัตราจ่าย และการตรวจสอบรายการ
-// ฝากถอน กับเจ้าหน้าที่ตลอด 24ชม. ผ่านเว็บไซต์ทางการ เพื่อหลีกเลี่ยงบัญชีแอบอ้าง —
+// การสมัครสมาชิก การเข้าสู่ระบบ เกมคาสิโน โปรโมชั่น และปัญหาการใช้งานบัญชี
+// กับเจ้าหน้าที่ตลอด 24ชม. ผ่านเว็บไซต์ทางการ เพื่อหลีกเลี่ยงบัญชีแอบอ้าง —
 // ห้ามเขียนเกินนี้ และคำศัพท์ต้องอยู่ใน brand-spec §5 ซึ่งไม่พิมพ์ซ้ำที่นี่
 // เพื่อไม่ให้ grep หาคำของแบรนด์เก่าเจอ false positive
-// ⚠️ แกนของบรีฟรอบนี้คือ **เว็บหวยออนไลน์** และมี **สี่ประเภทเท่านั้น**
-// (หวยรัฐบาลไทย · หวยลาว · หวยฮานอย · หวยหุ้น)
-// 🚨 **รอบก่อนเป็นคาสิโน/บาคาร่า — ห้ามสืบทอดลิสต์ข้ามรอบเด็ดขาด**
-// ศัพท์หมวดธุรกิจของแบรนด์ขาออกทุกคำจึงเป็นของค้างที่ต้องไม่เหลือ
-// รายการเต็มอยู่ใน brand-spec §5
-// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 100 · 1,000 · 2 ตัว · 3 ตัว · 3 ขั้นตอน · 24ชม.
+// ⚠️ แกนของบรีฟรอบนี้คือ **คาสิโนออนไลน์** และมี **ห้าหมวดเท่านั้น**
+// (บาคาร่า · สล็อตออนไลน์ · รูเล็ต · ไฮโล · คาสิโนสด)
+// 🚨 **รอบก่อนเป็นเว็บหวย — ห้ามสืบทอดลิสต์ข้ามรอบเด็ดขาด** ศัพท์หมวดธุรกิจของ
+// แบรนด์ขาออกทุกคำจึงเป็นของค้างที่ต้องไม่เหลือ รายการเต็มอยู่ใน brand-spec §5
+// ⚠️ ตัวเลขที่บรีฟให้และใช้ได้มีแค่ 1 บาท · 0.3% · 0.8% · 3 ขั้นตอน · 24ชม.
 // ห้ามแต่งเลขใบอนุญาต หน่วยงานกำกับ ตัวเลขการเงิน หรือจำนวนสมาชิก
-// 🚨 และตัวเลขอัตราจ่าย แม้รอบนี้จะเขียนได้บนหน้าอื่น **ก็ไม่มีที่ยืนในตัวหน้านี้**
-// หน้านี้มีโควตาเป็นรูป ที่อยู่ และปุ่ม (description อ้างได้เพราะเป็นเรื่องที่
-// ติดต่อสอบถามได้ ตามบรีฟบรรทัด 22 ไม่ใช่การประกาศอัตราจ่าย)
+// 🚨 และตัวเลขโปรโมชั่น แม้รอบนี้จะเขียนได้บนหน้าอื่น **ก็ไม่มีที่ยืนในตัวหน้านี้**
+// หน้านี้มีโควตาเป็นรูป ที่อยู่ และปุ่ม
 //
 // ห้ามใส่ "&" ในสตริงนี้: Astro serialize เป็น &#38; ในแอตทริบิวต์ content ทำให้
 // ตัวนับของ verify-build เห็นเป็น 5 อักขระ ไม่ใช่ 1
-const pageDescription = `ติดต่อทีมงาน ${BRAND_NAME} ผ่าน LINE Official ตลอด 24ชม. สอบถามการสมัครสมาชิก การเข้าสู่ระบบ ประเภทหวย และอัตราจ่าย ผ่านช่องทางทางการเพื่อเลี่ยงบัญชีแอบอ้าง`;
+const pageDescription = `ติดต่อทีมงาน ${BRAND_NAME} ผ่าน LINE Official ตลอด 24ชม. สอบถามการสมัครสมาชิก การเข้าสู่ระบบ เกมคาสิโน และโปรโมชั่น ผ่านช่องทางทางการเพื่อหลีกเลี่ยงบัญชีแอบอ้าง`;
 
 const graph = pageGraph(Astro, {
   type: "ContactPage",
@@ -139,10 +133,11 @@ const graph = pageGraph(Astro, {
   ],
   org: {
     // `alternateName` is only for a genuine alternate NAME — an earlier brand
-    // filled it with its own Thai spelling. The brief gives this brand no second
-    // registered name, so the field stays out rather than being invented here:
-    // this page's Organization node must not disagree with the one every other
-    // page emits, and it is not a slot for marketing copy.
+    // filled it with its own Thai spelling. The brief's Thai phrase for this
+    // round is content copy, not a second registered name, so the field stays
+    // out rather than being invented here: this page's Organization node must
+    // not disagree with the one every other page emits, and it is not a slot
+    // for marketing copy.
     //
     // BRAND_ADDRESS is rendered in the body but never enters the graph —
     // address/PostalAddress/email in JSON-LD fails the build gate.
@@ -167,7 +162,7 @@ const graph = pageGraph(Astro, {
 });
 ---
 
-<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} แอดมินแทงหวยออนไลน์ตลอด 24ชม.`} description={pageDescription}>
+<MainLayout title={`ติดต่อทีมงาน ${BRAND_NAME} แอดมินคาสิโนออนไลน์ตลอด 24ชม.`} description={pageDescription}>
   <script type="application/ld+json" set:html={graph} />
 
   <Announcement />
@@ -188,7 +183,7 @@ const graph = pageGraph(Astro, {
     />
     {
       BRAND_ADDRESS.lines.length > 0 && (
-        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#19a97c] pl-6 text-left text-base leading-relaxed not-italic">
+        <address aria-label={BRAND_ADDRESS.label} class="mt-8 mb-8 border-l-4 border-[#e0509f] pl-6 text-left text-base leading-relaxed not-italic">
           <p class="mb-1 flex items-center gap-2 font-bold opacity-90">
             <span aria-hidden="true">📍</span>
             {BRAND_ADDRESS.label}
@@ -214,7 +209,7 @@ const graph = pageGraph(Astro, {
       <a
         href="/register"
         aria-label={`สมัครสมาชิก ${BRAND_NAME}`}
-        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#19a97c] bg-gradient-to-b from-[#0c7c58] via-[#046c4e] to-[#03543c] px-8 py-3 font-black text-[#ffffff] shadow-[0_8px_22px_rgba(4,108,78,0.30)] transition-transform hover:scale-105">
+        class="relative isolate flex items-center justify-center overflow-hidden rounded-lg border border-[#e0509f] bg-gradient-to-b from-[#d11a7e] via-[#a30d63] to-[#7a0449] px-8 py-3 font-black text-[#ffffff] shadow-[0_8px_22px_rgba(163,13,99,0.30)] transition-transform hover:scale-105">
         <span aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-1/2 bg-gradient-to-b from-white/10 to-transparent"></span>
         สมัครสมาชิก
       </a>
@@ -222,7 +217,7 @@ const graph = pageGraph(Astro, {
       <a
         href="/login"
         aria-label={`เข้าสู่ระบบ ${BRAND_NAME}`}
-        class="flex items-center justify-center rounded-lg border-2 border-[#19a97c] bg-[#d2f3e4] px-8 py-3 font-bold text-[#046c4e] shadow-[0_4px_14px_rgba(13,51,38,0.10)] transition-all hover:scale-105 hover:border-[#046c4e] hover:shadow-[0_8px_22px_rgba(4,108,78,0.18)]">
+        class="flex items-center justify-center rounded-lg border-2 border-[#e0509f] bg-[#ffffff] px-8 py-3 font-bold text-[#a30d63] shadow-[0_4px_14px_rgba(61,10,44,0.10)] transition-all hover:scale-105 hover:bg-[#fff5fb] hover:shadow-[0_8px_22px_rgba(163,13,99,0.18)]">
         เข้าสู่ระบบ
       </a>
 
